@@ -1,0 +1,20 @@
+<%- include("../../partials/header") %>
+
+  <div>
+    <% if(user.isAgent==true){ %>
+      <p>
+        Username: <strong>
+          <%= user.username %>
+        </strong>
+        Status:
+        <% if(user.agentStatus==false){ %>
+          <strong>Pending</strong>
+          <% } else if(user.agentStatus==true){ %>
+            <strong>Approved</strong>
+            <% } %>
+              <a href="/admin-dashboard/agent/<%= user._id %>/edit">Edit</a>
+      </p>
+      <% } %>
+  </div>
+
+  <%- include("../../partials/footer") %>

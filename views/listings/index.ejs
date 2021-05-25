@@ -1,0 +1,49 @@
+<%- include("../partials/header") %>
+
+  <% if(currentUser && currentUser.isAdmin){ %>
+    <h1>You're an admin!</h1>
+    <% } else if (currentUser && currentUser.isAgent && currentUser.agentStatus){ %>
+      <h1>You're an agent!</h1>
+      <% } %>
+
+        <!-- No Match -->
+        <% if(noMatch !==undefined){ %>
+          <form action="/listings" method="GET" class="form-inline">
+            <div class="form-group">
+              <input type="text" class="form-control" name="search" placeholder="listing search...">
+              <input type="submit" value="Search" class="btn btn-info">
+            </div>
+          </form>
+
+          <h3>
+            <%= noMatch %>
+          </h3>
+          <% } %>
+
+            <% if(currentUser && currentUser.isAdmin || currentUser && currentUser.isAgent && currentUser.agentStatus){
+              %>
+              <a href="/listings/new">Add New listing</a>
+              <% } %>
+
+                <div id="map" style="width: 70%; height: 500px;"></div>
+
+                <h1>This is the listings page</h1>
+                <% listings.forEach(function(listing){ %>
+                  <div>
+                    <h4>
+                      <%= listing.name %>
+                    </h4>
+                    <img src="<%= listing.image %>">
+                  </div>
+
+                  <a href="/listings/<%= listing._id %>">More Info</a>
+
+                  <% }); %>
+
+                    <script>
+                      const mapToken = '<%- process.env.MAPBOX_TOKEN %>'
+                      const listings = { features: <%- JSON.stringify(listings) %> }
+                    </script>
+                    <script src="/javascripts/clusterMap.js"></script>
+
+                    <%- include("../partials/footer") %>
