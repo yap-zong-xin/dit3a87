@@ -24,6 +24,7 @@ function seedDB(){
     listing.remove({}, function(err){
     //remove all codes inside here
     //because we are changing how the data prints out, so previous seed data will not reflect the new changes
+    //remove
     }); 
  }
  
