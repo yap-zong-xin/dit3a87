@@ -102,9 +102,107 @@
                 </div>
               </div>
 
-              <p>
-                <a class="btn btn-success" href="/listings/<%= listing._id %>/comments/new">Add new Comment</a>
-              </p>
+              <!-- Collapse Show Comment Section -->
+              <!-- Add/Edit/Delete Collapse Comment -->
+              <div class="container">
+                <!-- Button for collapsing 'add comment' button -->
+                <div class="text-right">
+                  <a class="btn btn-success pull-right" role="button" data-toggle="collapse" href="#collapseComment"
+                    aria-expanded="false" aria-controls="collapseComment">
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>add comment</a>
+                </div>
+                <!-- Comment section title -->
+                <h4><strong>Comments <span class="glyphicon glyphicon glyphicon-comment"
+                      aria-hidden="true"></span></strong></h4>
+
+                <!-- Collapse Add Comment-->
+                <div class="collapse" id="collapseComment">
+                  <div class="well" style="border-left: 5px solid #00C851;">
+                    <% if(!currentUser) { %>
+                      <h5>You need to login before you can comment. <a href="/login">Click here</a> to go to the login
+                        page.</h5>
+                      <% } %>
+
+                        <% if(currentUser) { %>
+                          <h4>Write your comment <span class="glyphicon glyphicon glyphicon-pencil"
+                              aria-hidden="true"></span></h4>
+                          <form id="add-comment-form" action="/listings/<%= listing._id %>/comments" method="POST">
+                            <div class="form-group">
+                              <input class="form-control d-none" type="text" name="comment[author]">
+                            </div>
+                            <div class="form-group">
+                              <textarea class="form-control" name="comment[text]" placeholder="Write your comment"
+                                form="add-comment-form" rows="5" cols="70"></textarea>
+                            </div>
+                            <div class="form-group">
+                              <button class="btn btn-success btn-sm">Comment <span class="glyphicon glyphicon-comment"
+                                  aria-hidden="true"></span></button>
+                            </div>
+                          </form>
+                          <% } %>
+                  </div>
+                </div>
+
+                <hr>
+
+                <% if (listing.comments.length===0) { %>
+                  <em style="color: grey;">No comments yet.</em>
+                  <% } %>
+
+                    <% listing.comments.forEach(function(comment) { %>
+                      <div class="row">
+                        <div class="col-md-12">
+                          <strong>
+                            <%= comment.author %>
+                          </strong>
+                          <span class="pull-right">
+                            <%= moment(comment.createdAt).fromNow() %>
+                          </span>
+                          <p>
+                            <%= comment.text %>
+                          </p>
+
+                          <!-- Edit Button -->
+                          <a class="btn btn-xs btn-warning" role="button" data-toggle="collapse"
+                            href="#collapseEdit<%= comment._id %>" aria-expanded="false"
+                            aria-controls="collapse<%= comment._id %>">Edit</a>
+
+
+                          <!-- Delete Button -->
+                          <form id="delete-form"
+                            action="/listings/<%= listing._id %>/comments/<%= comment._id %>?_method=DELETE"
+                            method="POST" style="display: inline;">
+                            <button class="btn btn-xs btn-danger">Delete</button>
+                          </form>
+
+                          <!-- Edit Form -->
+                          <div class="collapse" id="collapseEdit<%= comment._id %>">
+                            <div class="well" style="border-left: 5px solid #ffbb33; margin-top: 15px;">
+                              <h4>Edit your comment <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                              </h4>
+                              <form id="edit-comment-form<%= comment._id %>"
+                                action="/listings/<%= listing._id %>/comments/<%= comment._id %>?_method=PUT"
+                                method="POST">
+                                <div class="form-group">
+                                  <input class="form-control" type="text" name="comment[author]">
+                                </div>
+                                <div class="form-group">
+                                  <textarea class="form-control" name="comment[text]" placeholder="Your comment text..."
+                                    form="edit-comment-form<%= comment._id %>" rows="5"
+                                    cols="70"><%= comment.text %></textarea>
+                                </div>
+                                <div class="form-group">
+                                  <button class="btn btn-warning btn-sm">Edit comment <span
+                                      class="glyphicon glyphicon-comment" aria-hidden="true"></span></button>
+                                </div>
+                              </form>
+                            </div>
+                          </div>
+                          <hr>
+                        </div>
+                      </div>
+                      <% }) %>
+              </div>
 
               <script>
                 const mapToken = '<%- process.env.MAPBOX_TOKEN %>'
