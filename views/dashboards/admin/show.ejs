@@ -1,0 +1,26 @@
+<%- include("../../partials/header") %>
+
+  <div>
+    <% if(user.isAgent==true){ %>
+      <p>
+        Username: <strong>
+          <%= user.username %>
+        </strong>
+        Status:
+        <% if(user.agentStatus==false){ %>
+          <strong>Pending</strong>
+          <% } else if(user.agentStatus==true){ %>
+            <strong>Approved</strong>
+            <% } %>
+      </p>
+      <% } %>
+        <form action="/admin-dashboard/agent/<%= user._id %>?_method=PUT" method="POST">
+          <input type="text" name="user[username]" value="<%= user.username %>" placeholder="username" required>
+          <input type="text" name="user[agentStatus]" value="<%= user.agentStatus %>" placeholder="status" required>
+          <button>Edit</button>
+        </form>
+
+  </div>
+
+
+  <%- include("../../partials/footer") %>
