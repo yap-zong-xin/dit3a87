@@ -8,6 +8,9 @@ var middleware = require('../middleware');
 router.get("/register", middleware.notLoggedIn, function(req, res){
 	res.render("register.ejs");
 });
+router.get("/register-agent", middleware.notLoggedIn, function(req, res){
+	res.render("registerAgent.ejs");
+});
 router.post("/register", middleware.notLoggedIn, function(req, res){
 	var newUser = new User({username: req.body.username, email: req.body.email});
 	if(req.body.roleCode === 'admin'){
@@ -40,7 +43,7 @@ router.post("/login", middleware.notLoggedIn, function (req, res, next) {
       successRedirect: "/listings",
       failureRedirect: "/login",
       failureFlash: true,
-      successFlash: "Welcome to YelpCamp, " + req.body.username + "!"
+      successFlash: "Welcome to YelpCamp!"
     })(req, res);
 });
 
