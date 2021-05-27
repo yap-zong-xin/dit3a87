@@ -5,6 +5,7 @@ const opts = { toJSON: {virtuals: true}};
 var listingSchema = new mongoose.Schema({
    name: String,
    image: String,
+   imageId: String,
    description: String,
    author: {
 		id: {

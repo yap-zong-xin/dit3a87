@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var middleware = require('../middleware');
+var mongoose = require("mongoose");
 var listing = require("../models/listing");
 var Comment = require("../models/comment");
 var mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
@@ -104,19 +105,23 @@ router.post("/listings", middleware.isLoggedIn, upload.single('image'), async fu
 			newlisting.geometry = geoData.body.features[0].geometry;
 			console.log(newlisting.geometry);
 			
-			cloudinary.uploader.upload(req.file.path, function(result) {
+			cloudinary.v2.uploader.upload(req.file.path, function(err, result) {
 				// add cloudinary url for the image to the listing object under image property
 				req.body.image = result.secure_url;
 				newlisting.image = req.body.image
-			listing.create(newlisting, function(err, newlyCreated){
-				if(err)
-					{
-					console.log(err);
-				} else {
-						res.redirect("/listings");
-				}
+				// add image's public_id to listing object
+				req.body.imageId = result.public_id;
+				newlisting.imageId = req.body.imageId
+				console.log(newlisting)
+				listing.create(newlisting, function(err, newlyCreated){
+					if(err)
+						{
+						console.log(err);
+					} else {
+							res.redirect("/listings");
+					}
+				});
 			});
-		});
 
 		} catch (err){
 			console.log(err.message);
@@ -153,28 +158,61 @@ router.get("/listings/:id/edit", middleware.checklistingOwnership, function(req,
 });
 
 //Update Route
-router.put("/listings/:id", middleware.checklistingOwnership, async (req, res) => {
-	const geoData = await geocodingClient
-		.forwardGeocode({
-			query: req.body.listing.location,
-			autocomplete: false,
-			limit: 1
-		})
-		.send();
-	// console.log(req.body.listing.location)
-	listing.geometry = geoData.body.features[0].geometry;
-	console.log(listing.geometry);
-	
-	listing.findByIdAndUpdate(req.params.id, req.body.listing, function(err, updatedlisting){
-		console.log(req.body.listing);
-		if(err){
-			console.log(err);
-		} else {
-			req.flash("success", "Successfully update a listing");
-			res.redirect(`/listings/` + req.params.id);
-		}
-	});
+router.put('/listings/:id', middleware.checklistingOwnership, function (req,res) {
+	const submittedlisting = req.body.listing;
+	listing.findById(req.params.id, async (err, listing) => {
+		if (err || !listing) return res.redirect('back');
+
+			if (listing.location !== submittedlisting.location) {
+					try {
+							var response = await geocodingClient
+									.forwardGeocode({
+											query: submittedlisting.location,
+											limit: 1,
+									})
+									.send();
+							submittedlisting.geometry = response.body.features[0].geometry;
+							console.log(submittedlisting)
+					} catch (err) {
+							console.log(err.message);
+							res.redirect('back');
+					}
+			}
+			
+			mongoose.model('listing').findByIdAndUpdate(req.params.id, submittedlisting, function (err, updatedlisting) {
+				if (err) {
+					res.redirect('/listings');
+				} else {
+					console.log(submittedlisting.location)
+					console.log(submittedlisting)
+					res.redirect('/listings/' + req.params.id);
+				}
+			});
+		});
 });
+
+// router.put("/listings/:id", middleware.checklistingOwnership, upload.single('image'), async (req, res) => {
+// 	const geoData = await geocodingClient
+// 		.forwardGeocode({
+// 			query: req.body.listing.location,
+// 			autocomplete: false,
+// 			limit: 1
+// 		})
+// 		.send();
+// 	// console.log(req.body.listing.location)
+// 	listing.geometry = geoData.body.features[0].geometry;
+// 	console.log(listing.geometry);
+
+// 	listing.findByIdAndUpdate(req.params.id, req.body.listing, function(err, updatedlisting){
+// 		console.log(req.body.listing);
+// 		if(err){
+// 			console.log(err);
+// 		} else {
+// 			req.flash("success", "Successfully update a listing");
+// 			res.redirect(`/listings/` + req.params.id);
+// 		}
+// 	});
+// });
 
 // router.put("/listings/:id", middleware.checklistingOwnership, async (req, res) => {
 // 	const { id } = req.params;
