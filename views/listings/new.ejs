@@ -1,9 +1,11 @@
 <%- include("../partials/header") %>
 
   <h1>Create a New listing</h1>
-  <form action="/listings" method="POST">
+  <!-- <form action="/listings" method="POST"> -->
+  <form action="/listings" method="POST" enctype="multipart/form-data">
     <input type="text" name="name" placeholder="name">
-    <input type="text" name="image" placeholder="image url">
+    <input type="file" name="image" accept="image/*" required>
+    <!-- <input type="text" name="image" placeholder="image url"> -->
     <input type="text" name="description" placeholder="description">
     <input type="text" name="location" placeholder="location">
     <button>submit</button>

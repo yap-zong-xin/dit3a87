@@ -6,6 +6,27 @@ var Comment = require("../models/comment");
 var mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
 var mapboxToken = process.env.MAPBOX_TOKEN;
 var geocodingClient = mbxGeocoding({accessToken:mapboxToken});
+var multer = require('multer');
+var storage = multer.diskStorage({
+  filename: function(req, file, callback) {
+    callback(null, Date.now() + file.originalname);
+  }
+});
+var imageFilter = function (req, file, cb) {
+    // accept image files only
+    if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/i)) {
+        return cb(new Error('Only image files are allowed!'), false);
+    }
+    cb(null, true);
+};
+var upload = multer({ storage: storage, fileFilter: imageFilter})
+
+var cloudinary = require('cloudinary');
+cloudinary.config({ 
+  cloud_name: 'yappy', 
+  api_key: process.env.CLOUDINARY_API_KEY, 
+  api_secret: process.env.CLOUDINARY_API_SECRET
+});
 
 //Index Route
 router.get("/", function(req,res){
@@ -63,20 +84,19 @@ function escapeRegex(text) {
 };
 
 //Post Route
-router.post("/listings",middleware.isLoggedIn, async function(req,res){
+router.post("/listings", middleware.isLoggedIn, upload.single('image'), async function(req,res){
 	var name = req.body.name;
-	var image = req.body.image;
 	var desc = req.body.description;
 	var location = req.body.location;
   var author = {
 		id: req.user._id,
 		username: req.user.username
 	};
-	var newlisting = {name:name, image:image, description:desc, author:author, location:location}
+	var newlisting = {name:name, description:desc, author:author, location:location}
 	try
 		{
 			var geoData = await geocodingClient.forwardGeocode({
-		    query: location,
+				query: location,
 				autocomplete: false,
 		    limit: 1
 		  })
@@ -84,21 +104,26 @@ router.post("/listings",middleware.isLoggedIn, async function(req,res){
 			newlisting.geometry = geoData.body.features[0].geometry;
 			console.log(newlisting.geometry);
 			
+			cloudinary.uploader.upload(req.file.path, function(result) {
+				// add cloudinary url for the image to the listing object under image property
+				req.body.image = result.secure_url;
+				newlisting.image = req.body.image
 			listing.create(newlisting, function(err, newlyCreated){
 				if(err)
-				{
-				console.log(err);
-			}
-			else
-				{
-					res.redirect("/listings");
+					{
+					console.log(err);
+				} else {
+						res.redirect("/listings");
 				}
+			});
 		});
-	} catch (err){
-		console.log(err.message);
-		res.redirect('back');
-	}
+
+		} catch (err){
+			console.log(err.message);
+			res.redirect('back');
+		}
 });
+
 
 //New Route
 router.get("/listings/new", middleware.isLoggedIn, function(req,res){
