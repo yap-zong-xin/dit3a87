@@ -63,21 +63,4 @@ router.get("/logout", middleware.isLoggedIn, function(req, res){
 	res.redirect("/login");
 });
 
-//Profile
-router.get("/users/:id", function(req, res) {
-  User.findById(req.params.id, function(err, foundUser) {
-    if(err) {
-      req.flash("error", "Something went wrong.");
-      return res.redirect("/");
-    }
-    listing.find().where('author.id').equals(foundUser._id).exec(function(err, listings) {
-      if(err) {
-        req.flash("error", "Something went wrong.");
-        return res.redirect("/");
-      }
-      res.render("profile/show.ejs", {user: foundUser, listings: listings});
-    })
-  });
-});
-
 module.exports = router;

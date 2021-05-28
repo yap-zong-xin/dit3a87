@@ -86,10 +86,16 @@ router.get("/agent/:id", function (req, res) {
 			options: {sort: {createdAt: -1}}
 	}).exec(function (err, foundUser) {
 			if (err) {
-					console.log(err);
+				req.flash("error", "Something went wrong.");
+				console.log(err);
 			} else {
-					//render show template with that user
-					res.render("users/show.ejs", {user: foundUser});
+				listing.find().where('author.id').equals(foundUser._id).exec(function(err, listings) {
+					if(err) {
+						req.flash("error", "Something went wrong.");
+						return res.redirect("/");
+					}
+					res.render("users/show.ejs", {user: foundUser, listings: listings});
+				})
 			}
 	});
 });
