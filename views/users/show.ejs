@@ -8,11 +8,16 @@
         </h1>
         <div class="thumbnail">
           <img src="<%= user.image %>" alt="user profile image">
-          <div class="caption"><a href="mailto:<%= user.email %>">
+          <div class="caption">
+            <a href="mailto:<%= user.email %>">
               <%= user.email %>
-            </a></div>
+            </a>
+          </div>
+          <a href="/agent/<%= user._id %>/edit">Edit</a>
         </div>
       </div>
+
+
       <div class="col-md-8">
         <h3>
           <%= user.username %>'s listings:
@@ -22,7 +27,14 @@
             <li><a href="/listings/<%= listing.id %>">
                 <%= listing.name %>
               </a></li>
-            <% }); %>
+
+            <% if(currentUser && listing.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
+              <a class="btn btn-warning" href="/listings/<%= listing._id %>/edit">Edit</a>
+              <form action="/listings/<%= listing._id %>?_method=DELETE" method="POST">
+                <button class="btn btn-danger">DELETE</button>
+              </form>
+              <% } %>
+                <% }); %>
         </ul>
       </div>
     </div>

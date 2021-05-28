@@ -2,7 +2,7 @@
 
   <h1>Sign Up Form</h1>
 
-  <form action="/register" method="POST">
+  <form action="/register" method="POST" enctype="multipart/form-data">
     <ul class="typeOfRole d-none">
       <li>
         <input type="radio" id="admin" name="roleCode" value="admin" checked />
@@ -16,7 +16,7 @@
     <input type="number" name="phone" placeholder="phone">
     <input type="text" name="firstName" placeholder="first name">
     <input type="text" name="lastName" placeholder="last name">
-    <input type="text" name="avatar" placeholder="avatar url">
+    <input type="file" name="image" accept="image/*">
     <button>Sign Up</button>
   </form>
 
