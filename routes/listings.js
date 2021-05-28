@@ -158,78 +158,104 @@ router.get("/listings/:id/edit", middleware.checklistingOwnership, function(req,
 });
 
 //Update Route
-router.put('/listings/:id', middleware.checklistingOwnership, function (req,res) {
-	const submittedlisting = req.body.listing;
-	listing.findById(req.params.id, async (err, listing) => {
-		if (err || !listing) return res.redirect('back');
-
-			if (listing.location !== submittedlisting.location) {
-					try {
-							var response = await geocodingClient
-									.forwardGeocode({
-											query: submittedlisting.location,
-											limit: 1,
-									})
-									.send();
-							submittedlisting.geometry = response.body.features[0].geometry;
-							console.log(submittedlisting)
-					} catch (err) {
-							console.log(err.message);
-							res.redirect('back');
+//pic works
+router.put("/listings/:id", middleware.checklistingOwnership, upload.single("image"), function(req, res){
+	listing.findById(req.params.id, async function(err, listing){
+		if(err){
+			req.flash("error", err.message);
+			res.redirect("back");
+		} else{
+			console.log(listing)
+			if(req.file){
+					try{
+							await cloudinary.v2.uploader.destroy(listing.imageId);
+							var result = await cloudinary.v2.uploader.upload(req.file.path);
+							listing.image = result.secure_url;
+							listing.imageId = result.public_id;
+					} catch(err){
+							req.flash("error", err.message);
+							return res.redirect("back");
 					}
 			}
-			
-			mongoose.model('listing').findByIdAndUpdate(req.params.id, submittedlisting, function (err, updatedlisting) {
-				if (err) {
-					res.redirect('/listings');
-				} else {
-					console.log(submittedlisting.location)
-					console.log(submittedlisting)
-					res.redirect('/listings/' + req.params.id);
+			if(req.body.listing.location !== listing.location){
+				console.log(req.body.location)
+				console.log(listing.location)
+				try {
+						var response = await geocodingClient
+								.forwardGeocode({
+										query: req.body.listing.location,
+										limit: 1,
+								})
+								.send();
+						listing.geometry = response.body.features[0].geometry;
+						console.log(listing.geometry)
+				} catch (err) {
+						console.log(err.message);
+						res.redirect('back');
 				}
-			});
-		});
+			}
+			listing.name = req.body.listing.name;
+			listing.description = req.body.listing.description;
+			listing.save();
+			console.log(listing)
+			req.flash("success", "Successfully Updated!");
+			res.redirect("/listings/" + listing._id);
+		}
+	});
 });
 
-// router.put("/listings/:id", middleware.checklistingOwnership, upload.single('image'), async (req, res) => {
-// 	const geoData = await geocodingClient
-// 		.forwardGeocode({
-// 			query: req.body.listing.location,
-// 			autocomplete: false,
-// 			limit: 1
-// 		})
-// 		.send();
-// 	// console.log(req.body.listing.location)
-// 	listing.geometry = geoData.body.features[0].geometry;
-// 	console.log(listing.geometry);
+//location work
+// router.put('/listings/:id', middleware.checklistingOwnership, upload.single('image'), function (req,res) {
+// 	const submittedlisting = req.body.listing;
+// 	listing.findById(req.params.id, async (err, listing) => {	
+// 		if (err || !listing) return res.redirect('back');
 
-// 	listing.findByIdAndUpdate(req.params.id, req.body.listing, function(err, updatedlisting){
-// 		console.log(req.body.listing);
-// 		if(err){
-// 			console.log(err);
-// 		} else {
-// 			req.flash("success", "Successfully update a listing");
-// 			res.redirect(`/listings/` + req.params.id);
+// 		if (listing.location !== submittedlisting.location) {
+// 				try {
+// 						var response = await geocodingClient
+// 								.forwardGeocode({
+// 										query: submittedlisting.location,
+// 										limit: 1,
+// 								})
+// 								.send();
+// 						submittedlisting.geometry = response.body.features[0].geometry;
+// 						console.log(submittedlisting)
+// 				} catch (err) {
+// 						console.log(err.message);
+// 						res.redirect('back');
+// 				}
 // 		}
-// 	});
-// });
 
-// router.put("/listings/:id", middleware.checklistingOwnership, async (req, res) => {
-// 	const { id } = req.params;
-// 	const geoData = await geocodingClient
-// 		.forwardGeocode({
-// 			query: req.body.listing.location,
-// 			limit: 1,
-// 		})
-// 		.send();
-// 	const listing = await listing.findByIdAndUpdate(id, {
-// 		...req.body.listing,
+// 		if(req.file){
+// 			cloudinary.v2.uploader.destroy(listing.imageId, function(err){
+// 				console.log(listing.imageId)
+// 				if(err){
+// 					req.flash("error", err.message);
+// 					return res.redirect("back");
+// 				}
+// 				cloudinary.v2.uploader.upload(req.file.path, function(err, result){
+// 					if(err){
+// 						req.flash("error", err.message);
+// 						return res.redirect("back");
+// 					}
+// 					submittedlisting.imageId = result.public_id;
+// 					submittedlisting.image = result.secure_url;
+// 					console.log(submittedlisting.imageId)
+// 					console.log(submittedlisting)
+// 				});
+// 			});
+// 		}
+		
+// 		mongoose.model('listing').findByIdAndUpdate(req.params.id, submittedlisting, function (err, updatedlisting) {
+// 			if (err) {
+// 				res.redirect('/listings');
+// 			} else {
+// 				console.log(submittedlisting.location)
+// 				console.log(submittedlisting)
+// 				res.redirect('/listings/' + req.params.id);
+// 			}
+// 		});
 // 	});
-// 	listing.geometry = geoData.body.features[0].geometry;
-// 	await listing.save();
-// 	console.log(listing);
-// 	req.flash("success", "Successfully update a listing");
-// 	res.redirect(`/listings/${listing._id}`);
 // });
 
 //Delete Route
