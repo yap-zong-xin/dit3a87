@@ -158,7 +158,6 @@ router.get("/listings/:id/edit", middleware.checklistingOwnership, function(req,
 });
 
 //Update Route
-//pic works
 router.put("/listings/:id", middleware.checklistingOwnership, upload.single("image"), function(req, res){
 	listing.findById(req.params.id, async function(err, listing){
 		if(err){
@@ -188,6 +187,7 @@ router.put("/listings/:id", middleware.checklistingOwnership, upload.single("ima
 								})
 								.send();
 						listing.geometry = response.body.features[0].geometry;
+						listing.location = req.body.listing.location;
 						console.log(listing.geometry)
 				} catch (err) {
 						console.log(err.message);
@@ -204,69 +204,25 @@ router.put("/listings/:id", middleware.checklistingOwnership, upload.single("ima
 	});
 });
 
-//location work
-// router.put('/listings/:id', middleware.checklistingOwnership, upload.single('image'), function (req,res) {
-// 	const submittedlisting = req.body.listing;
-// 	listing.findById(req.params.id, async (err, listing) => {	
-// 		if (err || !listing) return res.redirect('back');
-
-// 		if (listing.location !== submittedlisting.location) {
-// 				try {
-// 						var response = await geocodingClient
-// 								.forwardGeocode({
-// 										query: submittedlisting.location,
-// 										limit: 1,
-// 								})
-// 								.send();
-// 						submittedlisting.geometry = response.body.features[0].geometry;
-// 						console.log(submittedlisting)
-// 				} catch (err) {
-// 						console.log(err.message);
-// 						res.redirect('back');
-// 				}
-// 		}
-
-// 		if(req.file){
-// 			cloudinary.v2.uploader.destroy(listing.imageId, function(err){
-// 				console.log(listing.imageId)
-// 				if(err){
-// 					req.flash("error", err.message);
-// 					return res.redirect("back");
-// 				}
-// 				cloudinary.v2.uploader.upload(req.file.path, function(err, result){
-// 					if(err){
-// 						req.flash("error", err.message);
-// 						return res.redirect("back");
-// 					}
-// 					submittedlisting.imageId = result.public_id;
-// 					submittedlisting.image = result.secure_url;
-// 					console.log(submittedlisting.imageId)
-// 					console.log(submittedlisting)
-// 				});
-// 			});
-// 		}
-		
-// 		mongoose.model('listing').findByIdAndUpdate(req.params.id, submittedlisting, function (err, updatedlisting) {
-// 			if (err) {
-// 				res.redirect('/listings');
-// 			} else {
-// 				console.log(submittedlisting.location)
-// 				console.log(submittedlisting)
-// 				res.redirect('/listings/' + req.params.id);
-// 			}
-// 		});
-// 	});
-// });
-
 //Delete Route
 router.delete("/listings/:id", middleware.checklistingOwnership, function(req, res){
-	listing.findByIdAndRemove(req.params.id, function(err){
-		if(err){
-			res.redirect("/listings");
-		} else{
-			res.redirect("/listings");
-		}
-	});
+  listing.findById(req.params.id, async function(err, listing) {
+    if(err) {
+      req.flash("error", err.message);
+      return res.redirect("back");
+    }
+    try {
+        await cloudinary.v2.uploader.destroy(listing.imageId);
+        listing.remove();
+        req.flash('success', 'listing deleted successfully!');
+        res.redirect('/listings');
+    } catch(err) {
+        if(err) {
+          req.flash("error", err.message);
+          return res.redirect("back");
+        }
+    }
+  });
 });
 
 router.post("/listings/:id/like", middleware.isLoggedIn, function (req, res) {
@@ -275,12 +231,10 @@ router.post("/listings/:id/like", middleware.isLoggedIn, function (req, res) {
 					console.log(err);
 					return res.redirect("/listings");
 			}
-
 			// check if req.user._id exists in foundlisting.likes
 			var foundUserLike = foundlisting.likes.some(function (like) {
 					return like.equals(req.user._id);
 			});
-
 			if (foundUserLike) {
 					// user already liked, removing like
 					foundlisting.likes.pull(req.user._id);
@@ -288,7 +242,6 @@ router.post("/listings/:id/like", middleware.isLoggedIn, function (req, res) {
 					// adding the new user like
 					foundlisting.likes.push(req.user);
 			}
-
 			foundlisting.save(function (err) {
 					if (err) {
 							console.log(err);
