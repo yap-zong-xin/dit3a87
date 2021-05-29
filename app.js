@@ -47,27 +47,6 @@ app.use(passport.initialize());
 //run passport session
 app.use(passport.session());
 passport.use(User.createStrategy());
-passport.use(new localStrategy({
-	usernameField: 'email', // this is where you do that
-	passwordField: 'password'
-},
-(email, password, done) => {
-	User.findOne({
-			email: email
-	}, (error, user) => {
-			if (error) {
-					return done(error);
-			}
-			if (!user) {
-					return done(null, false, {
-							message: 'Username or password incorrect'
-					});
-			}
-			// Do other validation/check if any
-			return done(null, user);
-	});
-}
-));
 //responsible for reading the sessions - encoding & uncoding sessions
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());

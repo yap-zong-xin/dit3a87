@@ -38,8 +38,7 @@ var listingSchema = new mongoose.Schema({
          type: [Number],
          requird: true
       }
-   },
-   price: [Number],
+   }
 }, opts);
  
 listingSchema.virtual("properties.popUpMarkup").get(function(){
