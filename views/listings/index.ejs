@@ -16,6 +16,8 @@
               </div>
             </form>
 
+            <a href="/listings/A">Advanced Search</a>
+
             <h3>
               <%= noMatch %>
             </h3>
@@ -34,7 +36,7 @@
                       <h4>
                         <%= listing.name %>
                       </h4>
-                      <img src="<%= listing.image %>">
+                      <img src="<%= listing.image %>" style="width:30%; height:30%;">
                       <div>
                         <span class="badge label-primary"><i class="fas fa-thumbs-up"></i>
                           <%= listing.likes.length %>
@@ -42,6 +44,11 @@
                         <span>
                           <%= moment(listing.createdAt).format('LLLL'); %>
                         </span>
+                      </div>
+                      <div>
+                        <p>
+                          $<%= listing.price %>
+                        </p>
                       </div>
                     </div>
                     <a href="/listings/<%= listing._id %>">More Info</a>

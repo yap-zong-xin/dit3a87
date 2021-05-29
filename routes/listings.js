@@ -68,11 +68,12 @@ router.post("/listings",middleware.isLoggedIn, async function(req,res){
 	var image = req.body.image;
 	var desc = req.body.description;
 	var location = req.body.location;
+	var price = req.body.price;
   var author = {
 		id: req.user._id,
 		username: req.user.username
 	};
-	var newlisting = {name:name, image:image, description:desc, author:author, location:location}
+	var newlisting = {name:name, image:image, description:desc, author:author, location:location, price:price}
 	try
 		{
 			var geoData = await geocodingClient.forwardGeocode({
@@ -103,6 +104,74 @@ router.post("/listings",middleware.isLoggedIn, async function(req,res){
 //New Route
 router.get("/listings/new", middleware.isLoggedIn, function(req,res){
 	res.render("listings/new.ejs");
+});
+
+//test 
+router.get("/listings/A", function(req,res){
+	var perPage = 12;
+	var pageQuery = parseInt(req.query.page);
+	var pageNumber = pageQuery ? pageQuery : 1;
+	var noMatch = null;
+	if(req.query.search) {
+			const regex = new RegExp(escapeRegex(req.query.search), 'gi');
+			listing.find({$or: [{name: regex,}, {description: regex}, {"author.username":regex}]}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, alllistings) {
+					listing.count({name: regex}).exec(function (err, count) {
+							if (err) {
+									console.log(err);
+									res.redirect("back");
+							} else {
+									if(alllistings.length < 1) {
+											noMatch = req.query.search;
+									}
+									res.render("listings/A.ejs", {
+											listings: alllistings,
+											current: pageNumber,
+											pages: Math.ceil(count / perPage),
+											noMatch: noMatch,
+											search: req.query.search
+									});
+							}
+					});
+			});
+	}else if (req.query.Apply) {
+		const minPrice = req.query.minPrice;
+		const maxPrice = req.query.maxPrice;
+		console.log(minPrice);
+		listing.find({price: minPrice}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, alllistings) {
+			listing.count({price: minPrice}).exec(function (err, count) {
+		if (err) {
+			console.log(err);
+			res.redirect("back");
+		}else {
+			res.render("listings/A.ejs", {
+				listings: alllistings,
+				current: pageNumber,
+				pages: Math.ceil(count / perPage),
+				noMatch: noMatch,
+				search: req.query.search
+			});
+		}
+	});
+});
+		// listing.find({price: minPrice})
+	}else {
+			// get all listings from DB
+			listing.find({}).sort({createdAt: -1}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, alllistings) {
+					listing.count().exec(function (err, count) {
+							if (err) {
+									console.log(err);
+							} else {
+									res.render("listings/A.ejs", {
+											listings: alllistings,
+											current: pageNumber,
+											pages: Math.ceil(count / perPage),
+											noMatch: noMatch,
+											search: false
+									});
+							}
+					});
+			});
+	}
 });
 
 //Show Route

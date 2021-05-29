@@ -13,6 +13,11 @@
       <%= listing.description %>
     </p>
   </div>
+  <div>
+    <p>
+      <%= listing.price %>
+    </p>
+  </div>
   <p>
     <em>Submitted by: <%= listing.author.username %>, <%= moment(listing.createdAt).fromNow() %></em>
   </p>
