@@ -1,0 +1,23 @@
+<%- include("partials/header") %>
+
+  <h1>Sign Up Form</h1>
+
+  <form action="/register" method="POST" enctype="multipart/form-data">
+    <ul class="typeOfRole d-none">
+      <li>
+        <input type="radio" id="admin" name="roleCode" value="admin" checked />
+        <label for="admin">Admin</label>
+      </li>
+    </ul>
+
+    <input type="text" name="username" placeholder="username" required>
+    <input type="email" name="email" placeholder="email" required>
+    <input type="password" name="password" placeholder="password" required>
+    <input type="number" name="phone" placeholder="phone">
+    <input type="text" name="firstName" placeholder="first name">
+    <input type="text" name="lastName" placeholder="last name">
+    <input type="file" name="image" accept="image/*">
+    <button>Sign Up</button>
+  </form>
+
+  <%- include("partials/footer") %>

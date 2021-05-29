@@ -1,0 +1,15 @@
+<%- include("../../partials/header") %>
+
+  <% users.forEach(function(user){ %>
+    <% if(user.isAgent==false && user.isAdmin==false){ %>
+      <div>
+        <p>
+          Username: <strong>
+            <%= user.username %>
+          </strong>
+        </p>
+      </div>
+      <% } %>
+        <% }); %>
+
+          <%- include("../../partials/footer") %>
