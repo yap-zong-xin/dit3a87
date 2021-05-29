@@ -5,26 +5,25 @@ Setup Guide
 1. Clone GitHub
 2. Run "npm install"
 3. Create new folder ".gitignore" and ".env"
-4. Add in appropriate codes in the folders
-5. Run "mongod" in powershell and "nodemon" in VSC terminal
-
---------------------------------
-.env
---------------------------------
+4. Add in .env codes:
 MAPBOX_TOKEN=pk.eyJ1IjoieWFwem9uZ3hpbiIsImEiOiJja29ib2J6eXIwMDZ3MnVuMWRyMDRjdTdvIn0.c5c0GkQPnNfqRpNmo-0BsA
 CLOUDINARY_API_KEY=916173537683811
 CLOUDINARY_API_SECRET=DKJJsRIqWQQ-CFlz68p8s5PfEqk
-
---------------------------------
-.gitignore
---------------------------------
+5. Add in .gitignore codes:
 node_modules
 .env
+6. Run "mongod" in powershell and "nodemon" in VSC terminal
+
+--------------------------------
+register url
+--------------------------------
+- Seeker or Agent (/register)
+- Admin (/register-admin)
 
 --------------------------------
 clear mongo
 --------------------------------
-- If there's any error, you probably need to clear your local mongodb data by running "mongo" in powershell and clearing all the database under SAP
+- If there's any error, you probably need to clear your local mongodb data by running "mongo" in another powershell and clear all the data under SAP
 
 --------------------------------
 Important
