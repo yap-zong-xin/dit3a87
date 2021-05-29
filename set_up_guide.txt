@@ -16,6 +16,12 @@ CLOUDINARY_API_KEY=916173537683811
 CLOUDINARY_API_SECRET=DKJJsRIqWQQ-CFlz68p8s5PfEqk
 
 --------------------------------
+.gitignore
+--------------------------------
+node_modules
+.env
+
+--------------------------------
 clear mongo
 --------------------------------
 - If there's any error, you probably need to clear your local mongodb data by running "mongo" in powershell and clearing all the database under SAP

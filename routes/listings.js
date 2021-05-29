@@ -41,7 +41,7 @@ router.get("/listings", function(req, res){
 	var noMatch = null;
 	if(req.query.search) {
 			const regex = new RegExp(escapeRegex(req.query.search), 'gi');
-			listing.find({$or: [{name: regex,}, {description: regex}, {"author.username":regex}]}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, alllistings) {
+			listing.find({$or: [{name: regex,}, {description: regex}, {"author.username":regex}, {zone: regex}]}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, alllistings) {
 					listing.count({name: regex}).exec(function (err, count) {
 							if (err) {
 									console.log(err);
@@ -89,11 +89,12 @@ router.post("/listings", middleware.isLoggedIn, upload.single('image'), async fu
 	var name = req.body.name;
 	var desc = req.body.description;
 	var location = req.body.location;
+	var zone = req.body.zone;
   var author = {
 		id: req.user._id,
 		username: req.user.username
 	};
-	var newlisting = {name:name, description:desc, author:author, location:location}
+	var newlisting = {name:name, description:desc, author:author, location:location, zone:zone}
 	try
 		{
 			var geoData = await geocodingClient.forwardGeocode({
@@ -196,6 +197,7 @@ router.put("/listings/:id", middleware.checklistingOwnership, upload.single("ima
 			}
 			listing.name = req.body.listing.name;
 			listing.description = req.body.listing.description;
+			listing.zone = req.body.listing.zone;
 			listing.save();
 			console.log(listing)
 			req.flash("success", "Successfully Updated!");

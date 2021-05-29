@@ -7,6 +7,7 @@ var listingSchema = new mongoose.Schema({
    image: String,
    imageId: String,
    description: String,
+   zone: String,
    author: {
 		id: {
 			type: mongoose.Schema.Types.ObjectId,
