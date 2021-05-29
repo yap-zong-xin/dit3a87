@@ -86,11 +86,40 @@ router.get("/agent/:id", function (req, res) {
 			options: {sort: {createdAt: -1}}
 	}).exec(function (err, foundUser) {
 			if (err) {
-					console.log(err);
+				req.flash("error", "Something went wrong.");
+				console.log(err);
 			} else {
-					//render show template with that user
-					res.render("users/show.ejs", {user: foundUser});
+				listing.find().where('author.id').equals(foundUser._id).exec(function(err, listings) {
+					if(err) {
+						req.flash("error", "Something went wrong.");
+						return res.redirect("/");
+					}
+					res.render("users/show.ejs", {user: foundUser, listings: listings});
+				})
 			}
+	});
+});
+
+//Edit Route
+router.get("/agent/:id/edit", function(req, res){
+	User.findById(req.params.id, function(err, foundUser){
+		if(err){
+			res.redirect("/agent");
+		} else{
+			res.render("users/edit.ejs", {user: foundUser});
+		}
+	});
+});
+
+//Update Route
+router.put("/agent/:id", function(req, res){
+	//can straight away use req.body.campground without having to define due to "campground[]" in the form name attributes
+	User.findByIdAndUpdate(req.params.id, req.body.user, function(err, updatedUser){
+		if(err){
+			res.redirect("/agent");
+		} else{
+			res.redirect("/agent/" + req.params.id);
+		}
 	});
 });
 

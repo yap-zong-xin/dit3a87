@@ -9,7 +9,7 @@ var mongoose = require("mongoose");
 var methodOverride = require("method-override");
 const moment = require('moment-timezone'); 
 var passport = require("passport");
-var LocalStrategy = require("passport-local");
+var localStrategy = require('passport-local').Strategy;
 var passportLocalMongoose = require("passport-local-mongoose");
 var flash = require("connect-flash");
 
@@ -46,7 +46,28 @@ app.use(require("express-session")({
 app.use(passport.initialize());
 //run passport session
 app.use(passport.session());
-passport.use(new LocalStrategy(User.authenticate()));
+passport.use(User.createStrategy());
+passport.use(new localStrategy({
+	usernameField: 'email', // this is where you do that
+	passwordField: 'password'
+},
+(email, password, done) => {
+	User.findOne({
+			email: email
+	}, (error, user) => {
+			if (error) {
+					return done(error);
+			}
+			if (!user) {
+					return done(null, false, {
+							message: 'Username or password incorrect'
+					});
+			}
+			// Do other validation/check if any
+			return done(null, user);
+	});
+}
+));
 //responsible for reading the sessions - encoding & uncoding sessions
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());

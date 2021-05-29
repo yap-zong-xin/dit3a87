@@ -2,9 +2,9 @@
 
   <h1>Edit <%= listing.name %>
   </h1>
-  <form action="/listings/<%= listing._id %>?_method=PUT" method="POST">
+  <form action="/listings/<%= listing._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
     <input type="text" name="listing[name]" value="<%= listing.name %>" placeholder="name">
-    <input type="text" name="listing[image]" value="<%= listing.image %>" placeholder="image url">
+    <input type="file" name="image" accept="image/*">
     <input type="text" name="listing[description]" value="<%= listing.description %>" placeholder="description">
     <input type="text" name="listing[location]" value="<%= listing.location %>" placeholder="location">
     <button>submit</button>

@@ -47,13 +47,20 @@
               <a class="nav-link" href="#">Signed In As <%= currentUser.username %></a>
             </li>
             <li class="nav-item active">
-              <a class="nav-link" href="/logout">Log Out</a>
+              <% if(currentUser && currentUser.isAgent){ %>
+                <a class="nav-link" href="/agent/<%= currentUser.id %>">Profile</a>
+                <% } else { %>
+                  <a class="nav-link" href="">Profile</a>
+                  <% } %>
             </li>
             <% if(currentUser && currentUser.isAdmin){ %>
               <li class="nav-item active">
                 <a class="nav-link" href="/admin-dashboard">Dashboard</a>
               </li>
               <% } %>
+                <li class="nav-item active">
+                  <a class="nav-link" href="/logout">Log Out</a>
+                </li>
                 <% } %>
       </ul>
 
