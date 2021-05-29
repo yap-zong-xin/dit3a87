@@ -13,7 +13,10 @@
               <%= user.email %>
             </a>
           </div>
-          <a href="/agent/<%= user._id %>/edit">Edit</a>
+          <a class="btn btn-warning" href="/agent/<%= user._id %>/edit">Edit</a>
+          <form action="/agent/<%= user._id %>?_method=DELETE" method="POST">
+            <button class="btn btn-danger">DELETE</button>
+          </form>
         </div>
       </div>
 
