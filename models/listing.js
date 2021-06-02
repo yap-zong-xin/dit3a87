@@ -8,6 +8,9 @@ var listingSchema = new mongoose.Schema({
    imageId: String,
    description: String,
    zone: String,
+   price: Number,
+   size: Number,
+   type: String,
    author: {
 		id: {
 			type: mongoose.Schema.Types.ObjectId,
@@ -39,7 +42,8 @@ var listingSchema = new mongoose.Schema({
          type: [Number],
          requird: true
       }
-   }
+   },
+
 }, opts);
  
 listingSchema.virtual("properties.popUpMarkup").get(function(){

@@ -34,14 +34,14 @@ router.get("/", function(req,res){
 	res.render("listings/landing.ejs"); 
 });
 
-router.get("/listings", function(req, res){
-	var perPage = 6;
+router.get("/listings", function(req,res){
+	var perPage = 12;
 	var pageQuery = parseInt(req.query.page);
 	var pageNumber = pageQuery ? pageQuery : 1;
 	var noMatch = null;
 	if(req.query.search) {
 			const regex = new RegExp(escapeRegex(req.query.search), 'gi');
-			listing.find({$or: [{name: regex,}, {description: regex}, {"author.username":regex}, {zone: regex}]}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, alllistings) {
+			listing.find({$or: [{name: regex,}, {description: regex}, {"author.username":regex}]}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, alllistings) {
 					listing.count({name: regex}).exec(function (err, count) {
 							if (err) {
 									console.log(err);
@@ -60,7 +60,45 @@ router.get("/listings", function(req, res){
 							}
 					});
 			});
-	} else {
+	}else if (req.query.Apply) {
+		const minPrice = Number(req.query.minPrice);
+		const maxPrice = Number(req.query.maxPrice);
+		console.log("minPrice: "+minPrice);
+		console.log("maxPrice: "+maxPrice);
+		var zone = req.query.zone;
+		console.log(zone);
+		if(!zone) {
+			zone = [ 'north', 'south', 'east', 'west' ];
+			console.log(zone);
+		}
+		var propertyType = req.query.propertyType;
+		console.log(propertyType);
+		if(!propertyType) {
+			propertyType = ['HDB', 'Condo', 'Landed'];
+			console.log(propertyType);
+		}
+		const minSize = Number(req.query.minSize);
+		const maxSize = Number(req.query.maxSize);
+		console.log("minSize: "+minSize);
+		console.log("minSize: "+maxSize);
+		listing.find({$and: [ {price: {$gte: minPrice, $lte: maxPrice}}, {zone: {$in : zone}}, {type: {$in: propertyType}}, {size: {$gte: minSize, $lte: maxSize}} ] }).sort({zone:1, price:1, name:1}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, alllistings) {
+			listing.count({price: minPrice}).exec(function (err, count) {
+		if (err) {
+			console.log(err);
+			res.redirect("back");
+		}else {
+			res.render("listings/index.ejs", {
+				listings: alllistings,
+				current: pageNumber,
+				pages: Math.ceil(count / perPage),
+				noMatch: noMatch,
+				search: req.query.search
+			});
+		}
+	});
+});
+		// listing.find({price: minPrice})
+	}else {
 			// get all listings from DB
 			listing.find({}).sort({createdAt: -1}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, alllistings) {
 					listing.count().exec(function (err, count) {
@@ -80,6 +118,52 @@ router.get("/listings", function(req, res){
 	}
 });
 
+// router.get("/listings", function(req, res){
+// 	var perPage = 6;
+// 	var pageQuery = parseInt(req.query.page);
+// 	var pageNumber = pageQuery ? pageQuery : 1;
+// 	var noMatch = null;
+// 	if(req.query.search) {
+// 			const regex = new RegExp(escapeRegex(req.query.search), 'gi');
+// 			listing.find({$or: [{name: regex,}, {description: regex}, {"author.username":regex}, {zone: regex}]}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, alllistings) {
+// 					listing.count({name: regex}).exec(function (err, count) {
+// 							if (err) {
+// 									console.log(err);
+// 									res.redirect("back");
+// 							} else {
+// 									if(alllistings.length < 1) {
+// 											noMatch = req.query.search;
+// 									}
+// 									res.render("listings/index.ejs", {
+// 											listings: alllistings,
+// 											current: pageNumber,
+// 											pages: Math.ceil(count / perPage),
+// 											noMatch: noMatch,
+// 											search: req.query.search
+// 									});
+// 							}
+// 					});
+// 			});
+// 	} else {
+// 			// get all listings from DB
+// 			listing.find({}).sort({createdAt: -1}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, alllistings) {
+// 					listing.count().exec(function (err, count) {
+// 							if (err) {
+// 									console.log(err);
+// 							} else {
+// 									res.render("listings/index.ejs", {
+// 											listings: alllistings,
+// 											current: pageNumber,
+// 											pages: Math.ceil(count / perPage),
+// 											noMatch: noMatch,
+// 											search: false
+// 									});
+// 							}
+// 					});
+// 			});
+// 	}
+// });
+
 function escapeRegex(text) {
   return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
 };
@@ -90,11 +174,15 @@ router.post("/listings", middleware.isLoggedIn, upload.single('image'), async fu
 	var desc = req.body.description;
 	var location = req.body.location;
 	var zone = req.body.zone;
+	var price = req.body.price;
+	var size = req.body.size;
+	var type = req.body.type;
   var author = {
 		id: req.user._id,
 		username: req.user.username
 	};
-	var newlisting = {name:name, description:desc, author:author, location:location, zone:zone}
+	// var newlisting = {name:name, image:image, description:desc, author:author, location:location, price:price, size:sie, zone:zone}
+	var newlisting = {name:name, description:desc, author:author, location:location, zone:zone, price:price, size:size, type:type}
 	try
 		{
 			var geoData = await geocodingClient.forwardGeocode({
