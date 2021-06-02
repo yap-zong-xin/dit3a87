@@ -65,23 +65,35 @@ router.get("/listings", function(req,res){
 		const maxPrice = Number(req.query.maxPrice);
 		console.log("minPrice: "+minPrice);
 		console.log("maxPrice: "+maxPrice);
-		var zone = req.query.zone;
+
+		var zone = new Array();
+		zone.push(req.query.zone);
 		console.log(zone);
+		var regexZone;
 		if(!zone) {
-			zone = [ 'north', 'south', 'east', 'west' ];
+			var allZone = [ 'north', 'south', 'east', 'west' ];
+			regexZone = allZone.map(function(e){return new RegExp(e, "gi");});
 			console.log(zone);
+		}else {
+			regexZone = zone.map(function(e){return new RegExp(e, "gi");});
 		}
-		var type = req.query.type;
+
+		var type = new Array(); 
+		type.push(req.query.type);
 		console.log(type);
+		var regexType;
 		if(!type) {
-			type = ['HDB', 'Condo', 'Landed'];
+			var allType = [ 'HDB', 'Condo', 'Landed' ];
+			regexType = allType.map(function(e){return new RegExp(e, "gi");});
 			console.log(type);
+		}else {
+			var regexType = type.map(function(e){return new RegExp(e, "gi");});
 		}
 		const minSize = Number(req.query.minSize);
 		const maxSize = Number(req.query.maxSize);
 		console.log("minSize: "+minSize);
 		console.log("minSize: "+maxSize);
-		listing.find({$and: [ {price: {$gte: minPrice, $lte: maxPrice}}, {zone: {$in : zone}}, {type: {$in: type}}, {size: {$gte: minSize, $lte: maxSize}} ] }).sort({zone:1, price:1, name:1}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, alllistings) {
+		listing.find({$and: [ {price: {$gte: minPrice, $lte: maxPrice}}, {zone: {$in : regexZone}}, {type: {$in: regexType}}, {size: {$gte: minSize, $lte: maxSize}} ] }).sort({zone:1, price:1, name:1}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, alllistings) {
 			listing.count({price: minPrice}).exec(function (err, count) {
 		if (err) {
 			console.log(err);

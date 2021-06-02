@@ -24,7 +24,7 @@
               <%= noMatch %>
             </h3>
             <% } %>
-            <a href="/listings/new">Add New listing</a>
+
               <% if(currentUser && currentUser.isAdmin || currentUser && currentUser.isAgent &&
                 currentUser.agentStatus){ %>
                 <a href="/listings/new">Add New listing</a>
