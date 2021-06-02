@@ -71,17 +71,17 @@ router.get("/listings", function(req,res){
 			zone = [ 'north', 'south', 'east', 'west' ];
 			console.log(zone);
 		}
-		var propertyType = req.query.propertyType;
-		console.log(propertyType);
-		if(!propertyType) {
-			propertyType = ['HDB', 'Condo', 'Landed'];
-			console.log(propertyType);
+		var type = req.query.type;
+		console.log(type);
+		if(!type) {
+			type = ['HDB', 'Condo', 'Landed'];
+			console.log(type);
 		}
 		const minSize = Number(req.query.minSize);
 		const maxSize = Number(req.query.maxSize);
 		console.log("minSize: "+minSize);
 		console.log("minSize: "+maxSize);
-		listing.find({$and: [ {price: {$gte: minPrice, $lte: maxPrice}}, {zone: {$in : zone}}, {type: {$in: propertyType}}, {size: {$gte: minSize, $lte: maxSize}} ] }).sort({zone:1, price:1, name:1}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, alllistings) {
+		listing.find({$and: [ {price: {$gte: minPrice, $lte: maxPrice}}, {zone: {$in : zone}}, {type: {$in: type}}, {size: {$gte: minSize, $lte: maxSize}} ] }).sort({zone:1, price:1, name:1}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, alllistings) {
 			listing.count({price: minPrice}).exec(function (err, count) {
 		if (err) {
 			console.log(err);
