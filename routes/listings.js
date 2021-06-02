@@ -35,7 +35,7 @@ router.get("/", function(req,res){
 });
 
 router.get("/listings", function(req,res){
-	var perPage = 12;
+	var perPage = 6;
 	var pageQuery = parseInt(req.query.page);
 	var pageNumber = pageQuery ? pageQuery : 1;
 	var noMatch = null;
@@ -129,52 +129,6 @@ router.get("/listings", function(req,res){
 			});
 	}
 });
-
-// router.get("/listings", function(req, res){
-// 	var perPage = 6;
-// 	var pageQuery = parseInt(req.query.page);
-// 	var pageNumber = pageQuery ? pageQuery : 1;
-// 	var noMatch = null;
-// 	if(req.query.search) {
-// 			const regex = new RegExp(escapeRegex(req.query.search), 'gi');
-// 			listing.find({$or: [{name: regex,}, {description: regex}, {"author.username":regex}, {zone: regex}]}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, alllistings) {
-// 					listing.count({name: regex}).exec(function (err, count) {
-// 							if (err) {
-// 									console.log(err);
-// 									res.redirect("back");
-// 							} else {
-// 									if(alllistings.length < 1) {
-// 											noMatch = req.query.search;
-// 									}
-// 									res.render("listings/index.ejs", {
-// 											listings: alllistings,
-// 											current: pageNumber,
-// 											pages: Math.ceil(count / perPage),
-// 											noMatch: noMatch,
-// 											search: req.query.search
-// 									});
-// 							}
-// 					});
-// 			});
-// 	} else {
-// 			// get all listings from DB
-// 			listing.find({}).sort({createdAt: -1}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, alllistings) {
-// 					listing.count().exec(function (err, count) {
-// 							if (err) {
-// 									console.log(err);
-// 							} else {
-// 									res.render("listings/index.ejs", {
-// 											listings: alllistings,
-// 											current: pageNumber,
-// 											pages: Math.ceil(count / perPage),
-// 											noMatch: noMatch,
-// 											search: false
-// 									});
-// 							}
-// 					});
-// 			});
-// 	}
-// });
 
 function escapeRegex(text) {
   return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
@@ -298,6 +252,9 @@ router.put("/listings/:id", middleware.checklistingOwnership, upload.single("ima
 			listing.name = req.body.listing.name;
 			listing.description = req.body.listing.description;
 			listing.zone = req.body.listing.zone;
+			listing.price = req.body.listing.price;
+			listing.size = req.body.listing.size;
+			listing.type = req.body.listing.type;
 			listing.save();
 			console.log(listing)
 			req.flash("success", "Successfully Updated!");

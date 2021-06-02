@@ -96,20 +96,6 @@ input {
   left: 0;
   bottom: 0;
 }
-input[type=number] {
-  border: 1px solid #ddd;
-  text-align: center;
-  font-size: 1.6em;
-  -moz-appearance: textfield;
-}
-input[type=number]::-webkit-outer-spin-button,
-input[type=number]::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-}
-input[type=number]:invalid,
-input[type=number]:out-of-range {
-  border: 2px solid #e60023;
-}
 input[type=range] {
   -webkit-appearance: none;
   width: 100%;
