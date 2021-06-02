@@ -39,19 +39,47 @@
   background: #DDD;
 }
 
-/* MAP */
+/* Map */
 #map {
   width: 50%;
   margin-top: 20px;
   height: 400px;
 }
 
-/* listings */
+/* Listings */
 .checked {
   color: orange;
 }
 
-/*slider*/
+/* Card */
+.form-card{
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  border-radius: 5px; /* 5px rounded corners */
+  display: inline-block;
+}
+.form-card-container {
+  padding: 20px;
+}
+.all-listing-card-container {
+  padding: 20px;
+}
+.indiv-card{
+  border-radius: 5px; /* 5px rounded corners */
+  width:30%;
+  height: 50%;
+  display: inline-flex;
+}
+.indiv-card:hover, .indiv-card:active {
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+}
+.indiv-card-container {
+  padding: 20px;
+}
+
+
+/* Slider */
 input {
   box-shadow: 0;
   outline: 0;
@@ -102,7 +130,6 @@ input[type=range]::-webkit-slider-runnable-track {
   width: 100%;
   height: 5px;
   cursor: pointer;
-  animate: 0.2s;
   background: #5b6266;
   border-radius: 1px;
   box-shadow: none;
@@ -125,7 +152,6 @@ input[type=range]::-moz-range-track {
   width: 100%;
   height: 5px;
   cursor: pointer;
-  animate: 0.2s;
   background: #1da1f2;
   border-radius: 1px;
   box-shadow: none;
@@ -146,7 +172,6 @@ input[type=range]::-ms-track {
   width: 100%;
   height: 5px;
   cursor: pointer;
-  animate: 0.2s;
   background: transparent;
   border-color: transparent;
   color: transparent;
@@ -169,53 +194,6 @@ input[type=range]::-ms-thumb {
   background: #a1d0ff;
   cursor: pointer;
 }
-
-/* card */
-.form-card{
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-  transition: 0.3s;
-  border-radius: 5px; /* 5px rounded corners */
-  display: inline-block;
-}
-.form-card-container {
-  padding: 20px;
-}
-
-.all-listing-card{
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-  transition: 0.3s;
-  border-radius: 5px; /* 5px rounded corners */
-}
-.all-listing-card-container {
-  padding: 20px;
-}
-
-.indiv-card{
-  border-radius: 5px; /* 5px rounded corners */
-  width:30%;
-  height: 50%;
-  display: inline-flex;
-}
-/* .indiv-card:link, .indiv-card:visited{
-  background-color: #f44336;
-  color: white;
-  padding: 14px 25px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-} */
-.indiv-card:hover, .indiv-card:active {
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-  transition: 0.3s;
-}
-
-.indiv-card-container {
-  padding: 20px;
-}
-
-/* .row {
-  justify-content: center;
-} */
 
 .size-slider {
   width: 300px;
