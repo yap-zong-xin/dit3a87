@@ -64,27 +64,31 @@ router.get("/listings", function(req,res){
 		// Property Type
 		var type = new Array(); 
 		type.push(req.query.type);
-		console.log(type);
+		// console.log(type);
 		var regexType;
-		if(!type) {
-			var allType = [ 'HDB', 'Condo', 'Landed' ];
-			regexType = allType.map(function(e){return new RegExp(e, "gi");});
-			console.log(type);
-		}else {
-			var regexType = type.map(function(e){return new RegExp(e, "gi");});
+		for(let i=0; i<type.length; i++){
+			if(typeof type[i] == 'undefined'){
+				var allType = [ 'HDB', 'Condo', 'Landed' ];
+				regexType = allType.map(function(e){return new RegExp(e, "gi");});
+				console.log('inside type: '+regexType);
+			}else {
+				var regexType = type.map(function(e){return new RegExp(e, "gi");});
+			}
 		}
 		// Zone 
 		var zone = new Array();
 		zone.push(req.query.zone);
-		console.log(zone);
+		// console.log(zone);
 		var regexZone;
-		if(!zone) {
-			var allZone = [ 'north', 'south', 'east', 'west' ];
-			regexZone = allZone.map(function(e){return new RegExp(e, "gi");});
-			console.log(zone);
-		}else {
-			regexZone = zone.map(function(e){return new RegExp(e, "gi");});
-		}		
+		for(let i=0; i<zone.length; i++){
+			if(typeof zone[i] == 'undefined') {
+				var allZone = [ 'north', 'south', 'east', 'west' ];
+				regexZone = allZone.map(function(e){return new RegExp(e, "gi");});
+				console.log('inside zone: '+regexZone);
+			}else {
+				regexZone = zone.map(function(e){return new RegExp(e, "gi");});
+			}	
+		}	
 		// Price
 		const minPrice = Number(req.query.minPrice);
 		const maxPrice = Number(req.query.maxPrice);
@@ -106,13 +110,15 @@ router.get("/listings", function(req,res){
 		// Number of rooms slider
 		var NumofRooms = new Array(); 
 		NumofRooms.push(req.query.NumofRooms);
-		console.log(NumofRooms);
+		// console.log(NumofRooms);
 		var newNumofRooms;
-		if(!NumofRooms) {
-			newNumofRooms = [ 1, 2, 3, 4, 5, 6 ];
-			console.log(newNumofRooms);
-		}else {
-			newNumofRooms = NumofRooms;
+		for(let i=0; i<NumofRooms.length; i++){
+			if(typeof NumofRooms[i] == 'undefined') {
+				newNumofRooms = [ 1, 2, 3, 4, 5, 6 ];
+				console.log('inside rooms: '+newNumofRooms);
+			}else {
+				newNumofRooms = NumofRooms;
+			}
 		}
 		// Mongo Query
 		listing.find({$and: [ {price: {$gte: minPrice, $lte: maxPrice}}, {zone: {$in : regexZone}}, {type: {$in: regexType}}, {size: {$gte: minSize, $lte: maxSize}}, {NumofRooms: {$in: newNumofRooms}} ] }).sort({price: priceSort}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, alllistings) {
