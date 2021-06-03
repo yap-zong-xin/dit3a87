@@ -78,7 +78,6 @@
   padding: 20px;
 }
 
-
 /* Slider */
 input {
   box-shadow: 0;
@@ -189,6 +188,19 @@ input[type=range]::-ms-thumb {
 }
 .size-slider svg,
 .size-slider input[type=range] {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+}
+
+.NumofRooms-slider {
+  width: 300px;
+  text-align: center;
+  position: relative;
+  height: 6em;
+}
+.NumofRooms-slider svg,
+.NumofRooms-slider input[type=range] {
   position: absolute;
   left: 0;
   bottom: 0;

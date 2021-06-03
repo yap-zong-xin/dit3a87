@@ -61,23 +61,7 @@ router.get("/listings", function(req,res){
 					});
 			});
 	}else if (req.query.Apply) {
-		const minPrice = Number(req.query.minPrice);
-		const maxPrice = Number(req.query.maxPrice);
-		console.log("minPrice: "+minPrice);
-		console.log("maxPrice: "+maxPrice);
-
-		var zone = new Array();
-		zone.push(req.query.zone);
-		console.log(zone);
-		var regexZone;
-		if(!zone) {
-			var allZone = [ 'north', 'south', 'east', 'west' ];
-			regexZone = allZone.map(function(e){return new RegExp(e, "gi");});
-			console.log(zone);
-		}else {
-			regexZone = zone.map(function(e){return new RegExp(e, "gi");});
-		}
-
+		// Property Type
 		var type = new Array(); 
 		type.push(req.query.type);
 		console.log(type);
@@ -89,27 +73,56 @@ router.get("/listings", function(req,res){
 		}else {
 			var regexType = type.map(function(e){return new RegExp(e, "gi");});
 		}
+		// Zone 
+		var zone = new Array();
+		zone.push(req.query.zone);
+		console.log(zone);
+		var regexZone;
+		if(!zone) {
+			var allZone = [ 'north', 'south', 'east', 'west' ];
+			regexZone = allZone.map(function(e){return new RegExp(e, "gi");});
+			console.log(zone);
+		}else {
+			regexZone = zone.map(function(e){return new RegExp(e, "gi");});
+		}		
+		// Price
+		const minPrice = Number(req.query.minPrice);
+		const maxPrice = Number(req.query.maxPrice);
+		console.log("minPrice: "+minPrice);
+		console.log("maxPrice: "+maxPrice);
+		// Size
 		const minSize = Number(req.query.minSize);
 		const maxSize = Number(req.query.maxSize);
 		console.log("minSize: "+minSize);
 		console.log("minSize: "+maxSize);
-		listing.find({$and: [ {price: {$gte: minPrice, $lte: maxPrice}}, {zone: {$in : regexZone}}, {type: {$in: regexType}}, {size: {$gte: minSize, $lte: maxSize}} ] }).sort({zone:1, price:1, name:1}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, alllistings) {
-			listing.count({price: minPrice}).exec(function (err, count) {
-		if (err) {
-			console.log(err);
-			res.redirect("back");
-		}else {
-			res.render("listings/index.ejs", {
-				listings: alllistings,
-				current: pageNumber,
-				pages: Math.ceil(count / perPage),
-				noMatch: noMatch,
-				search: req.query.search
-			});
+		// Sort by Price
+		var sortType = req.query.sortPrice;
+		var priceSort = -1;
+		console.log('Sort Type: '+sortType);
+		if(sortType == 'LowestPrice') {
+			priceSort = 1;
 		}
-	});
-});
-		// listing.find({price: minPrice})
+		console.log('type of price sort: '+typeof priceSort);
+		// Number of rooms slider
+		const NumofRooms = Number(req.query.NumofRooms);
+		console.log("Number of rooms: "+NumofRooms);
+		// Mongo Query
+		listing.find({$and: [ {price: {$gte: minPrice, $lte: maxPrice}}, {zone: {$in : regexZone}}, {type: {$in: regexType}}, {size: {$gte: minSize, $lte: maxSize}}, {NumofRooms: {$eq: NumofRooms}} ] }).sort({price: priceSort}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, alllistings) {
+			listing.count({price: minPrice}).exec(function (err, count) {
+				if (err) {
+					console.log(err);
+					res.redirect("back");
+				}else {
+					res.render("listings/index.ejs", {
+						listings: alllistings,
+						current: pageNumber,
+						pages: Math.ceil(count / perPage),
+						noMatch: noMatch,
+						search: req.query.search
+					});
+				}
+			});
+		});
 	}else {
 			// get all listings from DB
 			listing.find({}).sort({createdAt: -1}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, alllistings) {
@@ -143,12 +156,13 @@ router.post("/listings", middleware.isLoggedIn, upload.single('image'), async fu
 	var price = req.body.price;
 	var size = req.body.size;
 	var type = req.body.type;
+	var NumofRooms = req.body.NumofRooms;
   var author = {
 		id: req.user._id,
 		username: req.user.username
 	};
 	// var newlisting = {name:name, image:image, description:desc, author:author, location:location, price:price, size:sie, zone:zone}
-	var newlisting = {name:name, description:desc, author:author, location:location, zone:zone, price:price, size:size, type:type}
+	var newlisting = {name:name, description:desc, author:author, location:location, zone:zone, price:price, size:size, type:type, NumofRooms:NumofRooms}
 	try
 		{
 			var geoData = await geocodingClient.forwardGeocode({

@@ -11,6 +11,7 @@ var listingSchema = new mongoose.Schema({
    price: Number,
    size: Number,
    type: String,
+   NumofRooms: Number,
    author: {
 		id: {
 			type: mongoose.Schema.Types.ObjectId,
