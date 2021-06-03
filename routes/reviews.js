@@ -5,7 +5,7 @@ var Review = require("../models/review");
 var middleware = require("../middleware");
 
 // Reviews Index
-router.get("/agent/:id/reviews", function (req, res) {
+router.get("/user/:id/reviews", function (req, res) {
     User.findById(req.params.id).populate({
         path: "reviews",
         options: {sort: {createdAt: -1}} // sorting the populated reviews array to show the latest first
@@ -19,7 +19,7 @@ router.get("/agent/:id/reviews", function (req, res) {
 });
 
 // Reviews New
-router.get("/agent/:id/reviews/new", middleware.isLoggedIn, middleware.checkReviewExistence, function (req, res) {
+router.get("/user/:id/reviews/new", middleware.isLoggedIn, middleware.checkReviewExistence, function (req, res) {
     // middleware.checkReviewExistence checks if a user already reviewed the user, only one review per user is allowed
     User.findById(req.params.id, function (err, user) {
         if (err) {
@@ -32,7 +32,7 @@ router.get("/agent/:id/reviews/new", middleware.isLoggedIn, middleware.checkRevi
 });
 
 // Reviews Create
-router.post("/agent/:id/reviews", middleware.isLoggedIn, middleware.checkReviewExistence, function (req, res) {
+router.post("/user/:id/reviews", middleware.isLoggedIn, middleware.checkReviewExistence, function (req, res) {
     //lookup user using ID
     User.findById(req.params.id).populate("reviews").exec(function (err, user) {
         if (err) {
@@ -56,13 +56,13 @@ router.post("/agent/:id/reviews", middleware.isLoggedIn, middleware.checkReviewE
             //save user
             user.save();
             req.flash("success", "Your review has been successfully added.");
-            res.redirect('/agent/' + user._id);
+            res.redirect('/user/' + user._id);
         });
     });
 });
 
 // Reviews Edit
-router.get("/agent/:id/reviews/:review_id/edit", middleware.checkReviewOwnership, function (req, res) {
+router.get("/user/:id/reviews/:review_id/edit", middleware.checkReviewOwnership, function (req, res) {
     Review.findById(req.params.review_id, function (err, foundReview) {
         if (err) {
             req.flash("error", err.message);
@@ -73,7 +73,7 @@ router.get("/agent/:id/reviews/:review_id/edit", middleware.checkReviewOwnership
 });
 
 // Reviews Update
-router.put("/agent/:id/reviews/:review_id", middleware.checkReviewOwnership, function (req, res) {
+router.put("/user/:id/reviews/:review_id", middleware.checkReviewOwnership, function (req, res) {
     Review.findByIdAndUpdate(req.params.review_id, req.body.review, {new: true}, function (err, updatedReview) {
         if (err) {
             req.flash("error", err.message);
@@ -89,13 +89,13 @@ router.put("/agent/:id/reviews/:review_id", middleware.checkReviewOwnership, fun
             //save changes
             user.save();
             req.flash("success", "Your review was successfully edited.");
-            res.redirect('/agent/' + user._id);
+            res.redirect('/user/' + user._id);
         });
     });
 });
 
 // Reviews Delete
-router.delete("/agent/:id/reviews/:review_id", middleware.checkReviewOwnership, function (req, res) {
+router.delete("/user/:id/reviews/:review_id", middleware.checkReviewOwnership, function (req, res) {
     Review.findByIdAndRemove(req.params.review_id, function (err) {
         if (err) {
             req.flash("error", err.message);
@@ -111,7 +111,7 @@ router.delete("/agent/:id/reviews/:review_id", middleware.checkReviewOwnership, 
             //save changes
             user.save();
             req.flash("success", "Your review was deleted successfully.");
-            res.redirect("/agent/" + req.params.id);
+            res.redirect("/user/" + req.params.id);
         });
     });
 });

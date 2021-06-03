@@ -4,6 +4,7 @@
     <p>AGENT EJS</p>
     <div class="row text-center" style="display:flex; flex-wrap: wrap;">
       <% users.forEach(function(user){ %>
+        <!-- Agent Profile -->
         <% if(user.isAgent==true && user.agentStatus==true){ %>
           <div class="col-md-3 col-sm-6">
             <div class="thumbnail">
@@ -23,7 +24,7 @@
                     <% } %>
               </div>
               <p>
-                <a href="/agent/<%= user._id %>" class="btn btn-primary">More Info</a>
+                <a href="/user/<%= user._id %>" class="btn btn-primary">More Info</a>
               </p>
             </div>
           </div>

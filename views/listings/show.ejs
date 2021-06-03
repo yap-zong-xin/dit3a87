@@ -15,7 +15,7 @@
     </p>
   </div>
   <p>
-    <em>Submitted by: <a href="/agent/<%= listing.author.id %>"><%= listing.author.username %></a>, <%= moment(listing.createdAt).fromNow() %></em>
+    <em>Submitted by: <a href="/user/<%= listing.author.id %>"><%= listing.author.username %></a>, <%= moment(listing.createdAt).fromNow() %></em>
   </p>
   <% if(currentUser && listing.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
     <a class="btn btn-warning" href="/listings/<%= listing._id %>/edit">Edit</a>

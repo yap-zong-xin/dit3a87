@@ -6,7 +6,7 @@
       <h1 style="text-align: center">New Review: <%= user.name %>
       </h1>
       <div style="width: 30%; margin: 25px auto;">
-        <form action="/agent/<%= user._id %>/reviews" method="POST">
+        <form action="/user/<%= user._id %>/reviews" method="POST">
           <div class="form-group">
             <label for="rating">Leave a rating:</label>
             <fieldset class="starability-basic form-group" id="rating">
@@ -51,7 +51,7 @@
             <button class="btn btn-primary btn-block">Submit a Review</button>
           </div>
         </form>
-        <a href="/agent/<%= user._id %>">Go Back</a>
+        <a href="/user/<%= user._id %>">Go Back</a>
       </div>
     </div>
   </div>

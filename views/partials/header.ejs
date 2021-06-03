@@ -16,7 +16,7 @@
 
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="/listings">YelpCamp</a>
-    <a class="navbar-brand" href="/agent">Agent</a>
+    <a class="navbar-brand" href="/user">Agent</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
       aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -36,11 +36,7 @@
               <a class="nav-link" href="#">Signed In As <%= currentUser.username %></a>
             </li>
             <li class="nav-item active">
-              <% if(currentUser && currentUser.isAgent){ %>
-                <a class="nav-link" href="/agent/<%= currentUser.id %>">Profile</a>
-                <% } else { %>
-                  <a class="nav-link" href="">Profile</a>
-                  <% } %>
+              <a class="nav-link" href="/user/<%= currentUser.id %>">Profile</a>
             </li>
             <% if(currentUser && currentUser.isAdmin){ %>
               <li class="nav-item active">

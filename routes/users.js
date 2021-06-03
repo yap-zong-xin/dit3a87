@@ -17,7 +17,6 @@ var imageFilter = function (req, file, cb) {
     cb(null, true);
 };
 var upload = multer({ storage: storage, fileFilter: imageFilter})
-
 var cloudinary = require('cloudinary');
 cloudinary.config({ 
   cloud_name: 'yappy', 
@@ -25,7 +24,7 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
-//ADMIN DASHBOARD
+//Dashboard
 //Get Route
 router.get("/admin-dashboard", function(req,res){
 	res.render("dashboards/admin/index.ejs");
@@ -87,20 +86,20 @@ router.put("/admin-dashboard/agent/:id", function(req, res){
 	});
 });
 
-//AGENTS
+//Profile
 //Get Route
-router.get("/agent", function(req,res){
+router.get("/user", function(req,res){
 	User.find({}, function(err, allUsers){
 		if(err){
 			console.log(err);
 		} else{
-			res.render("users/agent.ejs", {users:allUsers});
+			res.render("users/index.ejs", {users:allUsers});
 		}
 	});
 });
 
 //Show Route
-router.get("/agent/:id", function (req, res) {
+router.get("/user/:id", function (req, res) {
 	//find the user with provided ID
 	User.findById(req.params.id).populate("comments").populate({
 			path: "reviews",
@@ -122,10 +121,10 @@ router.get("/agent/:id", function (req, res) {
 });
 
 //Edit Route
-router.get("/agent/:id/edit", function(req, res){
+router.get("/user/:id/edit", middleware.checkUserOwnership, function(req, res){
 	User.findById(req.params.id, function(err, foundUser){
 		if(err){
-			res.redirect("/agent");
+			res.redirect("/user");
 		} else{
 			res.render("users/edit.ejs", {user: foundUser});
 		}
@@ -133,7 +132,7 @@ router.get("/agent/:id/edit", function(req, res){
 });
 
 //Update Route
-router.put("/agent/:id", upload.single("image"), function(req, res){
+router.put("/user/:id", middleware.checkUserOwnership, upload.single("image"), function(req, res){
 	User.findById(req.params.id, async function(err, user){
 		if(err){
 			req.flash("error", err.message);
@@ -158,11 +157,12 @@ router.put("/agent/:id", upload.single("image"), function(req, res){
 		user.save();
 		console.log(user)
 		req.flash("success", "Successfully Updated!");
-		res.redirect("/agent/" + user._id);
+		res.redirect("/user/" + user._id);
 	});
 });
 
-router.delete("/agent/:id", function(req, res){
+//Destroy Route
+router.delete("/user/:id", middleware.checkUserOwnership, function(req, res){
   User.findById(req.params.id, async function(err, user) {
     if(err) {
       req.flash("error", err.message);
