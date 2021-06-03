@@ -65,7 +65,7 @@ middlewareObj.checkCommentOwnership = function(req, res, next){
 				//if is logged in, does the user own the comment?
 				//check by comparing the comment with user._id
 				//cannot compare using '==' or '===' because one is an object and the other is a string (not same)
-				if(foundComment.author.id.equals(req.user._id)){
+				if(foundComment.author.id.equals(req.user._id) || req.user.isAdmin){
 					//proceed with edit/delete
 					next();
 				} else{
