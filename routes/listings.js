@@ -104,10 +104,18 @@ router.get("/listings", function(req,res){
 		}
 		console.log('type of price sort: '+typeof priceSort);
 		// Number of rooms slider
-		const NumofRooms = Number(req.query.NumofRooms);
-		console.log("Number of rooms: "+NumofRooms);
+		var NumofRooms = new Array(); 
+		NumofRooms.push(req.query.NumofRooms);
+		console.log(NumofRooms);
+		var newNumofRooms;
+		if(!NumofRooms) {
+			newNumofRooms = [ 1, 2, 3, 4, 5, 6 ];
+			console.log(newNumofRooms);
+		}else {
+			newNumofRooms = NumofRooms;
+		}
 		// Mongo Query
-		listing.find({$and: [ {price: {$gte: minPrice, $lte: maxPrice}}, {zone: {$in : regexZone}}, {type: {$in: regexType}}, {size: {$gte: minSize, $lte: maxSize}}, {NumofRooms: {$eq: NumofRooms}} ] }).sort({price: priceSort}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, alllistings) {
+		listing.find({$and: [ {price: {$gte: minPrice, $lte: maxPrice}}, {zone: {$in : regexZone}}, {type: {$in: regexType}}, {size: {$gte: minSize, $lte: maxSize}}, {NumofRooms: {$in: newNumofRooms}} ] }).sort({price: priceSort}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, alllistings) {
 			listing.count({price: minPrice}).exec(function (err, count) {
 				if (err) {
 					console.log(err);
