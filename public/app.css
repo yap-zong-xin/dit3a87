@@ -193,14 +193,14 @@ input[type=range]::-ms-thumb {
   bottom: 0;
 }
 
-.NumofRooms-slider {
+.numofRooms-slider {
   width: 300px;
   text-align: center;
   position: relative;
   height: 6em;
 }
-.NumofRooms-slider svg,
-.NumofRooms-slider input[type=range] {
+.numofRooms-slider svg,
+.numofRooms-slider input[type=range] {
   position: absolute;
   left: 0;
   bottom: 0;

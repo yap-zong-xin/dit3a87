@@ -6,17 +6,27 @@
   <div id='map'></div>
   <div>
     <h4>
-      <%= listing.name %>
+      listing name: <%= listing.name %>
     </h4>
     <img src="<%= listing.image %>">
-    <p>
-      <%= listing.description %>
-      <%= listing.zone %>
-    </p>
+    <p>description: <%= listing.description %></p>
+    <p>zone: <%= listing.zone %></p>
+    <p>price: <%= listing.price %></p>
+    <p>size: <%= listing.size %></p>
+    <p>property type: <%= listing.type %></p>
+    <p>number of rooms: <%= listing.numofRooms %></p>
+    <p>location: <%= listing.location %></p>
     <p>
       <em>Submitted by: <a href="/user/<%= listing.author.id %>"><%= listing.author.username %></a>, <%= moment(listing.createdAt).fromNow() %></em>
     </p>
   </div>
+
+  <% if(currentUser && listing.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
+    <a class="btn btn-warning" href="/listings/<%= listing._id %>/edit">Edit</a>
+    <form action="/listings/<%= listing._id %>?_method=DELETE" method="POST">
+      <button class="btn btn-danger">DELETE</button>
+    </form>
+  <% } %>
  
   <!-- Likes -->
   <div class="pull-right">

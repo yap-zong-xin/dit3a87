@@ -108,20 +108,20 @@ router.get("/listings", function(req,res){
 		}
 		console.log('type of price sort: '+typeof priceSort);
 		// Number of rooms slider
-		var NumofRooms = new Array(); 
-		NumofRooms.push(req.query.NumofRooms);
-		// console.log(NumofRooms);
-		var newNumofRooms;
-		for(let i=0; i<NumofRooms.length; i++){
-			if(typeof NumofRooms[i] == 'undefined') {
-				newNumofRooms = [ 1, 2, 3, 4, 5, 6 ];
-				console.log('inside rooms: '+newNumofRooms);
+		var numofRooms = new Array(); 
+		numofRooms.push(req.query.numofRooms);
+		// console.log(numofRooms);
+		var newnumofRooms;
+		for(let i=0; i<numofRooms.length; i++){
+			if(typeof numofRooms[i] == 'undefined') {
+				newnumofRooms = [ 1, 2, 3, 4, 5, 6 ];
+				console.log('inside rooms: '+newnumofRooms);
 			}else {
-				newNumofRooms = NumofRooms;
+				newnumofRooms = numofRooms;
 			}
 		}
 		// Mongo Query
-		listing.find({$and: [ {price: {$gte: minPrice, $lte: maxPrice}}, {zone: {$in : regexZone}}, {type: {$in: regexType}}, {size: {$gte: minSize, $lte: maxSize}}, {NumofRooms: {$in: newNumofRooms}} ] }).sort({price: priceSort}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, alllistings) {
+		listing.find({$and: [ {price: {$gte: minPrice, $lte: maxPrice}}, {zone: {$in : regexZone}}, {type: {$in: regexType}}, {size: {$gte: minSize, $lte: maxSize}}, {numofRooms: {$in: newnumofRooms}} ] }).sort({price: priceSort}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, alllistings) {
 			listing.count({price: minPrice}).exec(function (err, count) {
 				if (err) {
 					console.log(err);
@@ -137,7 +137,7 @@ router.get("/listings", function(req,res){
 				}
 			});
 		});
-	}else {
+	} else {
 			// get all listings from DB
 			listing.find({}).sort({createdAt: -1}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, alllistings) {
 					listing.count().exec(function (err, count) {
@@ -170,13 +170,13 @@ router.post("/listings", middleware.isLoggedIn, upload.single('image'), async fu
 	var price = req.body.price;
 	var size = req.body.size;
 	var type = req.body.type;
-	var NumofRooms = req.body.NumofRooms;
+	var numofRooms = req.body.numofRooms;
   var author = {
 		id: req.user._id,
 		username: req.user.username
 	};
 	// var newlisting = {name:name, image:image, description:desc, author:author, location:location, price:price, size:sie, zone:zone}
-	var newlisting = {name:name, description:desc, author:author, location:location, zone:zone, price:price, size:size, type:type, NumofRooms:NumofRooms}
+	var newlisting = {name:name, description:desc, author:author, location:location, zone:zone, price:price, size:size, type:type, numofRooms:numofRooms}
 	try
 		{
 			var geoData = await geocodingClient.forwardGeocode({
@@ -283,6 +283,7 @@ router.put("/listings/:id", middleware.checklistingOwnership, upload.single("ima
 			listing.price = req.body.listing.price;
 			listing.size = req.body.listing.size;
 			listing.type = req.body.listing.type;
+			listing.numofRooms = req.body.listing.numofRooms;
 			listing.save();
 			console.log(listing)
 			req.flash("success", "Successfully Updated!");
