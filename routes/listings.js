@@ -62,33 +62,53 @@ router.get("/listings", function(req,res){
 			});
 	} else if (req.query.Apply) {
 		// Property Type
-		var type = new Array(); 
-		type.push(req.query.type);
-		// console.log(type);
+		var type = req.query.type;
+		console.log('inputted type: '+type);
 		var regexType;
-		for(let i=0; i<type.length; i++){
-			if(typeof type[i] == 'undefined'){
-				var allType = [ 'HDB', 'Condo', 'Landed' ];
-				regexType = allType.map(function(e){return new RegExp(e, "gi");});
-				console.log('inside type: '+regexType);
-			}else {
-				var regexType = type.map(function(e){return new RegExp(e, "gi");});
+		if(typeof type == 'undefined'){
+			var allType = [ 'HDB', 'Condo', 'Landed' ];
+			regexType = allType.map(function(e){return new RegExp(e, "gi");});
+			console.log('inside type: '+regexType);
+		}else {
+			regexType = new RegExp(type, "gi");
+			console.log('new regex for type: '+regexType);
+		}
+		
+		// Zone 
+		const northZone = req.query.northZone;
+		const southZone = req.query.southZone;
+		const eastZone = req.query.eastZone;
+		const westZone = req.query.westZone;
+		var allZone = new Array(northZone, southZone, eastZone, westZone);
+		console.log('line 83: '+allZone);
+		var zoneArr=new Array();
+		var regexZone;
+		var count = 0;
+		for(let i=0; i<allZone.length; i++) {
+			if(typeof allZone[i]=='undefined'){
+				console.log('counting')
+				count++;
 			}
 		}
-		// Zone 
-		var zone = new Array();
-		zone.push(req.query.zone);
-		// console.log(zone);
-		var regexZone;
-		for(let i=0; i<zone.length; i++){
-			if(typeof zone[i] == 'undefined') {
-				var allZone = [ 'north', 'south', 'east', 'west' ];
-				regexZone = allZone.map(function(e){return new RegExp(e, "gi");});
-				console.log('inside zone: '+regexZone);
-			}else {
-				regexZone = zone.map(function(e){return new RegExp(e, "gi");});
-			}	
-		}	
+		if(count == 4){
+			allZone = [ 'north', 'south', 'east', 'west' ];
+			regexZone = allZone.map(function(e){return new RegExp(e, "gi");});
+			console.log('inside Zone all empty: '+regexZone);
+		}else {
+			for(let i=0; i<allZone.length; i++) {
+				if(!(typeof allZone[i] == 'undefined')) { //contains value does not contain undefined
+					console.log('line 87: '+allZone[i]);
+					zoneArr[i] = allZone[i];
+					console.log('inside zone: '+zoneArr);
+					var zoneArrRegex = zoneArr.map(function(e){return new RegExp(e, "gi");});
+					regexZone = zoneArrRegex.filter(function(el){
+						return el != null && el != '';
+					})
+					console.log('regexZone: '+regexZone)
+				}
+
+			}
+		}
 		// Price
 		const minPrice = Number(req.query.minPrice);
 		const maxPrice = Number(req.query.maxPrice);
@@ -99,45 +119,65 @@ router.get("/listings", function(req,res){
 		const maxSize = Number(req.query.maxSize);
 		console.log("minSize: "+minSize);
 		console.log("minSize: "+maxSize);
-		// Sort by Price
-		var sortType = req.query.sortPrice;
-		var priceSort = -1;
-		console.log('Sort Type: '+sortType);
-		if(sortType == 'LowestPrice') {
-			priceSort = 1;
-		}
-		console.log('type of price sort: '+typeof priceSort);
-		// Number of rooms slider
-		var numofRooms = new Array(); 
-		numofRooms.push(req.query.numofRooms);
-		// console.log(numofRooms);
-		var newnumofRooms;
-		for(let i=0; i<numofRooms.length; i++){
-			if(typeof numofRooms[i] == 'undefined') {
-				newnumofRooms = [ 1, 2, 3, 4, 5, 6 ];
-				console.log('inside rooms: '+newnumofRooms);
+		// Number of rooms 
+		var NumofRooms = new Array(); 
+		NumofRooms.push(req.query.NumofRooms);
+		// console.log(NumofRooms);
+		var newNumofRooms;
+		for(let i=0; i<NumofRooms.length; i++){
+			if(typeof NumofRooms[i] == 'undefined') {
+				newNumofRooms = [ 1, 2, 3, 4, 5, 6 ];
+				console.log('inside rooms: '+newNumofRooms);
 			}else {
 				newnumofRooms = numofRooms;
 			}
 		}
-		// Mongo Query
-		listing.find({$and: [ {price: {$gte: minPrice, $lte: maxPrice}}, {zone: {$in : regexZone}}, {type: {$in: regexType}}, {size: {$gte: minSize, $lte: maxSize}}, {numofRooms: {$in: newnumofRooms}} ] }).sort({price: priceSort}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, alllistings) {
-			listing.count({price: minPrice}).exec(function (err, count) {
-				if (err) {
-					console.log(err);
-					res.redirect("back");
-				}else {
-					res.render("listings/index.ejs", {
-						listings: alllistings,
-						current: pageNumber,
-						pages: Math.ceil(count / perPage),
-						noMatch: noMatch,
-						search: req.query.search
-					});
-				}
+		// Sort by Price
+		var sortType = req.query.sortPrice;
+		console.log('sort type: '+sortType)
+		var priceSort;
+		console.log('type of price sort: '+typeof priceSort);		
+		if(sortType == null || sortType == '') { //if nothing give => default view
+			listing.find({$and: [ {price: {$gte: minPrice, $lte: maxPrice}}, {zone: {$in : regexZone}}, {type: {$in: regexType}}, {size: {$gte: minSize, $lte: maxSize}}, {NumofRooms: {$in: newNumofRooms}} ] }).sort({createdAt: -1}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, alllistings) {
+				listing.count({price: minPrice}).exec(function (err, count) {
+					if (err) {
+						console.log(err);
+						res.redirect("back");
+					}else {
+						res.render("listings/index.ejs", {
+							listings: alllistings,
+							current: pageNumber,
+							pages: Math.ceil(count / perPage),
+							noMatch: noMatch,
+							search: req.query.search
+						});
+					}
+				});
 			});
-		});
-	} else {
+		}else {
+			if(sortType == 'LowestPrice') {
+				priceSort = 1;
+			}else {
+				priceSort = -1;
+			}
+			listing.find({$and: [ {price: {$gte: minPrice, $lte: maxPrice}}, {zone: {$in : regexZone}}, {type: {$in: regexType}}, {size: {$gte: minSize, $lte: maxSize}}, {NumofRooms: {$in: newNumofRooms}} ] }).sort({price: priceSort}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, alllistings) {
+				listing.count({price: minPrice}).exec(function (err, count) {
+					if (err) {
+						console.log(err);
+						res.redirect("back");
+					}else {
+						res.render("listings/index.ejs", {
+							listings: alllistings,
+							current: pageNumber,
+							pages: Math.ceil(count / perPage),
+							noMatch: noMatch,
+							search: req.query.search
+						});
+					}
+				});
+			});			
+		}
+	}else {
 			// get all listings from DB
 			listing.find({}).sort({createdAt: -1}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, alllistings) {
 					listing.count().exec(function (err, count) {
