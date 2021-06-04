@@ -120,16 +120,16 @@ router.get("/listings", function(req,res){
 		console.log("minSize: "+minSize);
 		console.log("minSize: "+maxSize);
 		// Number of rooms 
-		var NumofRooms = new Array(); 
-		NumofRooms.push(req.query.NumofRooms);
-		// console.log(NumofRooms);
-		var newNumofRooms;
-		for(let i=0; i<NumofRooms.length; i++){
-			if(typeof NumofRooms[i] == 'undefined') {
-				newNumofRooms = [ 1, 2, 3, 4, 5, 6 ];
-				console.log('inside rooms: '+newNumofRooms);
+		var numofRooms = new Array(); 
+		numofRooms.push(req.query.numofRooms);
+		var newnumofRooms;
+		for(let i=0; i<numofRooms.length; i++){
+			if(typeof numofRooms[i] == 'undefined') {
+				newnumofRooms = [ 1, 2, 3, 4, 5, 6 ];
+				// console.log('inside rooms: '+newnumofRooms);
 			}else {
 				newnumofRooms = numofRooms;
+				console.log('totototot: '+newnumofRooms)
 			}
 		}
 		// Sort by Price
@@ -138,7 +138,7 @@ router.get("/listings", function(req,res){
 		var priceSort;
 		console.log('type of price sort: '+typeof priceSort);		
 		if(sortType == null || sortType == '') { //if nothing give => default view
-			listing.find({$and: [ {price: {$gte: minPrice, $lte: maxPrice}}, {zone: {$in : regexZone}}, {type: {$in: regexType}}, {size: {$gte: minSize, $lte: maxSize}}, {NumofRooms: {$in: newNumofRooms}} ] }).sort({createdAt: -1}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, alllistings) {
+			listing.find({$and: [ {price: {$gte: minPrice, $lte: maxPrice}}, {zone: {$in : regexZone}}, {type: {$in: regexType}}, {size: {$gte: minSize, $lte: maxSize}}, {numofRooms: {$in: newnumofRooms}} ] }).sort({createdAt: -1}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, alllistings) {
 				listing.count({price: minPrice}).exec(function (err, count) {
 					if (err) {
 						console.log(err);
@@ -160,7 +160,7 @@ router.get("/listings", function(req,res){
 			}else {
 				priceSort = -1;
 			}
-			listing.find({$and: [ {price: {$gte: minPrice, $lte: maxPrice}}, {zone: {$in : regexZone}}, {type: {$in: regexType}}, {size: {$gte: minSize, $lte: maxSize}}, {NumofRooms: {$in: newNumofRooms}} ] }).sort({price: priceSort}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, alllistings) {
+			listing.find({$and: [ {price: {$gte: minPrice, $lte: maxPrice}}, {zone: {$in : regexZone}}, {type: {$in: regexType}}, {size: {$gte: minSize, $lte: maxSize}}, {numofRooms: {$in: newnumofRooms}} ] }).sort({price: priceSort}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, alllistings) {
 				listing.count({price: minPrice}).exec(function (err, count) {
 					if (err) {
 						console.log(err);
