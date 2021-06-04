@@ -75,11 +75,19 @@ router.put("/listings/:id/comments/:comment_id", middleware.checkCommentOwnershi
 });
 
 //Delete Route
-router.delete("/listings/:id/comments/:comment_id", middleware.checkCommentOwnership, function(req, res){
-  Comment.findByIdAndRemove(req.params.comment_id, function(err){
-    if(err){
+router.delete("/listings/:id/comments/:comment_id", middleware.checkCommentOwnership, function(req,res) {
+  Comment.findByIdAndRemove(req.params.comment_id, function(err) {
+    if (err) {
       res.redirect("back");
-    } else{
+    } else {
+      listing.findByIdAndUpdate(req.params.id,{ $pull: { comments: { $in: [req.params.comment_id] } } },
+        function(err) {
+          if (err) 
+		  {
+            console.log(err);
+          }
+        }
+      );
       req.flash("success", "You successfully deleted a comment!");
       res.redirect("/listings/" + req.params.id);
     }

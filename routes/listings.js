@@ -301,15 +301,22 @@ router.delete("/listings/:id", middleware.checklistingOwnership, function(req, r
       return res.redirect("back");
     }
     try {
-        await cloudinary.v2.uploader.destroy(listing.imageId);
-        listing.remove();
-        req.flash('success', 'listing deleted successfully!');
-        res.redirect('/listings');
+			Comment.remove({"_id": {$in: listing.comments}}, async function (err) {
+				if (err) {
+					console.log(err);
+					return res.redirect("/listings");
+				}
+				//  delete the listing
+				await cloudinary.v2.uploader.destroy(listing.imageId);
+				listing.remove();
+				req.flash("success", "listing deleted successfully!");
+				res.redirect('/listings');
+			});
     } catch(err) {
-        if(err) {
-          req.flash("error", err.message);
-          return res.redirect("back");
-        }
+			if(err) {
+				req.flash("error", err.message);
+				return res.redirect("back");
+			}
     }
   });
 });
