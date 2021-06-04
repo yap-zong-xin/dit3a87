@@ -156,7 +156,7 @@ router.put("/user/:id", middleware.checkUserOwnership, upload.single("image"), f
 		user.lastName = req.body.user.lastName;
 		user.save();
 		console.log(user)
-		req.flash("success", "Successfully Updated!");
+		req.flash("success", "profile info successfully updated!");
 		res.redirect("/user/" + user._id);
 	});
 });

@@ -48,7 +48,7 @@ router.get("/listings", function(req,res){
 									res.redirect("back");
 							} else {
 									if(alllistings.length < 1) {
-											noMatch = req.query.search;
+											noMatch = "result: '" + req.query.search + "' not found";
 									}
 									res.render("listings/index.ejs", {
 											listings: alllistings,
@@ -60,7 +60,7 @@ router.get("/listings", function(req,res){
 							}
 					});
 			});
-	}else if (req.query.Apply) {
+	} else if (req.query.Apply) {
 		// Property Type
 		var type = new Array(); 
 		type.push(req.query.type);
@@ -201,6 +201,7 @@ router.post("/listings", middleware.isLoggedIn, upload.single('image'), async fu
 						{
 						console.log(err);
 					} else {
+							req.flash("success", "listing successfully added!");
 							res.redirect("/listings");
 					}
 				});
@@ -286,7 +287,7 @@ router.put("/listings/:id", middleware.checklistingOwnership, upload.single("ima
 			listing.numofRooms = req.body.listing.numofRooms;
 			listing.save();
 			console.log(listing)
-			req.flash("success", "Successfully Updated!");
+			req.flash("success", "listing successfully updated!");
 			res.redirect("/listings/" + listing._id);
 		}
 	});

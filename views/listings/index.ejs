@@ -12,14 +12,14 @@
 
     <!-- No Match -->
     <div class="container">
-        <% if(noMatch !==undefined){ %>
+        <% if(noMatch !== undefined){ %>
             <form action="/listings" method="GET" class="form-inline">
                 <div class="form-group">
                     <input type="text" class="form-control" name="search" placeholder="listing search...">
                     <input type="submit" value="Search" class="btn btn-info">
                 </div>
             </form>
-            <h3> <%= noMatch %> </h3>
+            <h3><%= noMatch %></h3>
         <% } %>
 
         <% if(currentUser && currentUser.isAdmin || currentUser && currentUser.isAgent && currentUser.agentStatus){ %>

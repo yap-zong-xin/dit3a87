@@ -42,6 +42,7 @@ router.post("/listings/:id/comments", function(req, res){
           //redirect listing show page
           listing.comments.push(comment);
           listing.save();
+					req.flash("success", "You successfully added a comment!");
           res.redirect('/listings/' + listing._id);
         }
       });
@@ -67,6 +68,7 @@ router.put("/listings/:id/comments/:comment_id", middleware.checkCommentOwnershi
     if(err){
       res.redirect("back");
     } else{
+      req.flash("success", "You successfully updated a comment!");
       res.redirect("/listings/" + req.params.id);
     }
   });
@@ -78,6 +80,7 @@ router.delete("/listings/:id/comments/:comment_id", middleware.checkCommentOwner
     if(err){
       res.redirect("back");
     } else{
+      req.flash("success", "You successfully deleted a comment!");
       res.redirect("/listings/" + req.params.id);
     }
   });
