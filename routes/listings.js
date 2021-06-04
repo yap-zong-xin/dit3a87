@@ -134,49 +134,31 @@ router.get("/listings", function(req,res){
 		}
 		// Sort by Price
 		var sortType = req.query.sortPrice;
-		console.log('sort type: '+sortType)
-		var priceSort;
-		console.log('type of price sort: '+typeof priceSort);		
-		if(sortType == null || sortType == '') { //if nothing give => default view
-			listing.find({$and: [ {price: {$gte: minPrice, $lte: maxPrice}}, {zone: {$in : regexZone}}, {type: {$in: regexType}}, {size: {$gte: minSize, $lte: maxSize}}, {numofRooms: {$in: newnumofRooms}} ] }).sort({createdAt: -1}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, alllistings) {
-				listing.count({price: minPrice}).exec(function (err, count) {
-					if (err) {
-						console.log(err);
-						res.redirect("back");
-					}else {
-						res.render("listings/index.ejs", {
-							listings: alllistings,
-							current: pageNumber,
-							pages: Math.ceil(count / perPage),
-							noMatch: noMatch,
-							search: req.query.search
-						});
-					}
-				});
-			});
+		console.log('sort type: '+sortType)	
+		var sortOptions;
+		if(sortType == 'LowestPrice') {
+			sortOptions = { price: 1 };
+		}else if(sortType == 'HighestPrice') {
+			sortOptions = { price: -1 };
 		}else {
-			if(sortType == 'LowestPrice') {
-				priceSort = 1;
-			}else {
-				priceSort = -1;
-			}
-			listing.find({$and: [ {price: {$gte: minPrice, $lte: maxPrice}}, {zone: {$in : regexZone}}, {type: {$in: regexType}}, {size: {$gte: minSize, $lte: maxSize}}, {numofRooms: {$in: newnumofRooms}} ] }).sort({price: priceSort}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, alllistings) {
-				listing.count({price: minPrice}).exec(function (err, count) {
-					if (err) {
-						console.log(err);
-						res.redirect("back");
-					}else {
-						res.render("listings/index.ejs", {
-							listings: alllistings,
-							current: pageNumber,
-							pages: Math.ceil(count / perPage),
-							noMatch: noMatch,
-							search: req.query.search
-						});
-					}
-				});
-			});			
+			sortOptions = { createdAt: -1 };
 		}
+		listing.find({$and: [ {price: {$gte: minPrice, $lte: maxPrice}}, {zone: {$in : regexZone}}, {type: {$in: regexType}}, {size: {$gte: minSize, $lte: maxSize}}, {numofRooms: {$in: newnumofRooms}} ] }).sort(sortOptions).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, alllistings) {
+			listing.count({price: minPrice}).exec(function (err, count) {
+				if (err) {
+					console.log(err);
+					res.redirect("back");
+				}else {
+					res.render("listings/index.ejs", {
+						listings: alllistings,
+						current: pageNumber,
+						pages: Math.ceil(count / perPage),
+						noMatch: noMatch,
+						search: req.query.search
+					});
+				}
+			});
+		});	
 	}else {
 			// get all listings from DB
 			listing.find({}).sort({createdAt: -1}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, alllistings) {
