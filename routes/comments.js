@@ -82,8 +82,7 @@ router.delete("/listings/:id/comments/:comment_id", middleware.checkCommentOwner
     } else {
       listing.findByIdAndUpdate(req.params.id,{ $pull: { comments: { $in: [req.params.comment_id] } } },
         function(err) {
-          if (err) 
-		  {
+          if (err) {
             console.log(err);
           }
         }

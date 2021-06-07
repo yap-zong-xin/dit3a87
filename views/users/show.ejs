@@ -1,13 +1,25 @@
 <%- include("../partials/header") %>
 
   <!-- Manage Credentials for Agents/Seekers/Admins -->
-  <h1>
-    <%= user.firstName + " " + user.lastName %>
-  </h1>
+  <h6>
+    <%= "fisrtName: " + user.firstName %>
+  </h6>
+  <h6>
+    <%= "lastName: " + user.lastName %>
+  </h6>
+  <h6>
+    <%= "username: " + user.username %>
+  </h6>
+  <h6>
+    <%= "phone: " + user.phone %>
+  </h6>
+  <h6>
+    <%= "ceaNumber: " + user.cea %>
+  </h6>
   <div class="thumbnail">
     <img src="<%= user.image %>" alt="user profile image">
     <div class="caption">
-      <a href="mailto:<%= user.email %>">
+      email: <a href="mailto:<%= user.email %>">
         <%= user.email %>
       </a>
     </div>
@@ -22,7 +34,7 @@
   <!-- Manage Credentials for Agents/Seekers/Admins -->
   <% if(user.isAgent==true){ %>
     <h3>
-      <%= user.username %>'s listings:
+      agent <%= user.username %>'s listings:
     </h3>
     <ul>
       <% listings.forEach(function(listing) { %>
@@ -78,7 +90,8 @@
                   <p style="text-align: justify; word-wrap: break-word;">
                     <%= review.text %>
                   </p>
-                  <% if(currentUser && review.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
+                  <% if(currentUser && review.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin){
+                    %>
                     <a class="btn btn-xs btn-warning" href="/user/<%=user._id %>/reviews/<%=review._id %>/edit">Edit</a>
                     <form id="delete-form" action="/user/<%=user._id %>/reviews/<%=review._id %>?_method=DELETE"
                       method="POST">
