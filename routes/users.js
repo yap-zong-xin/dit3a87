@@ -4,6 +4,7 @@ var middleware = require('../middleware');
 var User = require("../models/user");
 var Review = require("../models/review");
 var listing = require("../models/listing");
+var Notification = require("../models/notification");
 var multer = require('multer');
 var storage = multer.diskStorage({
   filename: function(req, file, callback) {
@@ -119,10 +120,20 @@ function escapeRegex(text) {
 	return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
 };
 
+// router.get('/users/:id', async function(req, res) {
+//   try {
+//     let user = await User.findById(req.params.id).populate('followers').exec();
+//     res.render('profile', { user });
+//   } catch(err) {
+//     req.flash('error', err.message);
+//     return res.redirect('back');
+//   }
+// });
+
 //Show Route
 router.get("/user/:id", function (req, res) {
 	//find the user with provided ID
-	User.findById(req.params.id).populate("comments").populate({
+	User.findById(req.params.id).populate("comments followers").populate({
 			path: "reviews",
 			options: {sort: {createdAt: -1}}
 	}).exec(function (err, foundUser) {
@@ -210,6 +221,48 @@ router.delete("/user/:id", middleware.checkUserOwnership, function(req, res){
         }
     }
   });
+});
+
+// follow user
+router.get('/follow/:id', middleware.isLoggedIn, async function(req, res) {
+  try {
+    let user = await User.findById(req.params.id);
+    user.followers.push(req.user._id);
+    user.save();
+    req.flash('success', 'Successfully followed ' + user.username + '!');
+    res.redirect('/user/' + req.params.id);
+  } catch(err) {
+    req.flash('error', err.message);
+    res.redirect('back');
+  }
+});
+
+// view all notifications
+router.get('/notifications', middleware.isLoggedIn, async function(req, res) {
+  try {
+    let user = await User.findById(req.user._id).populate({
+      path: 'notifications',
+      options: { sort: { "_id": -1 } }
+    }).exec();
+    let allNotifications = user.notifications;
+    res.render('notifications/index.ejs', { allNotifications });
+  } catch(err) {
+    req.flash('error', err.message);
+    res.redirect('back');
+  }
+});
+
+// handle notification
+router.get('/notifications/:id', middleware.isLoggedIn, async function(req, res) {
+  try {
+    let notification = await Notification.findById(req.params.id);
+    notification.isRead = true;
+    notification.save();
+    res.redirect(`/listings/${notification.listingId}`);
+  } catch(err) {
+    req.flash('error', err.message);
+    res.redirect('back');
+  }
 });
 
 module.exports = router;

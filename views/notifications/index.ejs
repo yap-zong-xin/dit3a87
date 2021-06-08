@@ -1,0 +1,15 @@
+<%- include("../partials/header") %>
+
+  <h1>Notifications</h1>
+
+  <ul>
+    <% allNotifications.forEach(function(notification) { %>
+      <li>
+        <a href="/listings/<%= notification.listingId %>">
+          <%= notification.username %> created a new listing
+        </a>
+      </li>
+      <% }); %>
+  </ul>
+
+  <%- include("../partials/footer") %>

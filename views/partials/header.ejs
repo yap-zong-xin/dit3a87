@@ -5,7 +5,8 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
     integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
   <link rel="stylesheet" href="/app.css">
-  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+    integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous">
   <script src='https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.js'></script>
   <link href='https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.css' rel='stylesheet' />
 
@@ -32,6 +33,24 @@
             <a class="nav-link" href="/register">Sign Up</a>
           </li>
           <% } else{ %>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                aria-expanded="false">Notifications <span class="badge">
+                  <%= notifications.length %>
+                </span></a>
+              <ul class="dropdown-menu">
+                <li>
+                  <a href="/notifications">View past notifications</a>
+                </li>
+                <% notifications.forEach(function(notification) { %>
+                  <li>
+                    <a href="/notifications/<%= notification.id %>">
+                      <%= notification.username %> created a new campground, <%= notification.id %>
+                    </a>
+                  </li>
+                  <% }); %>
+              </ul>
+            </li>
             <li class="nav-item active">
               <a class="nav-link" href="#">Signed In As <%= currentUser.username %></a>
             </li>

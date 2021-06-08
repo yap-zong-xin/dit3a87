@@ -3,6 +3,8 @@ var router = express.Router();
 var middleware = require('../middleware');
 var mongoose = require("mongoose");
 var listing = require("../models/listing");
+var User = require("../models/user");
+var Notification = require("../models/notification");
 var Comment = require("../models/comment");
 var mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
 var mapboxToken = process.env.MAPBOX_TOKEN;
@@ -201,6 +203,18 @@ router.post("/listings", middleware.isLoggedIn, upload.single('image'), async fu
 	var newlisting = {name:name, description:desc, author:author, location:location, zone:zone, price:price, size:size, type:type, numofRooms:numofRooms}
 	try
 		{
+			// let listing = await listing.create(newlisting);
+      let user = await User.findById(req.user._id).populate('followers').exec();
+      let newNotification = {
+        username: req.user.username,
+        listingId: listing.id
+      }
+      for(const follower of user.followers) {
+        let notification = await Notification.create(newNotification);
+        follower.notifications.push(notification);
+        follower.save();
+      }
+
 			var geoData = await geocodingClient.forwardGeocode({
 				query: location,
 				autocomplete: false,
@@ -224,7 +238,7 @@ router.post("/listings", middleware.isLoggedIn, upload.single('image'), async fu
 						console.log(err);
 					} else {
 							req.flash("success", "listing successfully added!");
-							res.redirect("/listings");
+							res.redirect("/listings/${listing.id}");
 					}
 				});
 			});

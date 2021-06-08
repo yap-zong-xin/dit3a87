@@ -24,6 +24,18 @@ var userSchema = new mongoose.Schema({
 			type: Number,
 			default: 0
 	},
+	notifications: [
+		{
+			 type: mongoose.Schema.Types.ObjectId,
+			 ref: 'Notification'
+		}
+	],
+	followers: [
+		{
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'User'
+		}
+	],
 	createdAt: { type: Date, default: Date.now }
 });
 
