@@ -91,45 +91,26 @@ router.put("/admin-dashboard/agent/:id", function(req, res){
 //Get Route
 router.get("/user", function(req,res){
 	var noMatch = null;
-	var perPage = 4;
-	var pageQuery = parseInt(req.query.page);
-	var pageNumber = pageQuery ? pageQuery : 1;
 	if(req.query.search){
 		const regex = new RegExp(escapeRegex(req.query.search), 'gi');
 		//search the different types (name/time/date)
-		User.find({$or: [{username: regex}, {firstName: regex}, {lastName: regex}]}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, allUsers) {
-			User.count({username: regex}).exec(function (err, count) {
-				if (err) {
-						console.log(err);
-				} else {
-					if(allUsers.length < 1) {
-						noMatch = "No agent match that query, please try again.";
-					}
-					res.render("users/index.ejs", {
-						users: allUsers, 
-						current: pageNumber,
-						pages: Math.ceil(count / perPage),
-						noMatch: noMatch,
-						search: req.query.search
-					});
+		User.find({$or: [{username: regex}, {firstName: regex}, {lastName: regex}]}, function(err, allUsers){
+			if(err){
+				console.log(err);
+			} else {
+				if(allUsers.length < 1) {
+					noMatch = "No agent match that query, please try again.";
 				}
-			});
+				res.render("users/index.ejs", {users: allUsers, noMatch: noMatch});
+			}
 		});	
 	} else {
-		User.find({}).sort({createdAt: -1}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, allUsers) {
-			User.count().exec(function (err, count) {
-				if(err){
-					console.log(err);
-				} else{
-					res.render("users/index.ejs", {
-						users:allUsers, 
-						current: pageNumber,
-						pages: Math.ceil(count / perPage),
-						noMatch: noMatch,
-						search: req.query.search
-					});
-				}
-			});
+		User.find({}, function(err, allUsers){
+			if(err){
+				console.log(err);
+			} else{
+				res.render("users/index.ejs", {users:allUsers, noMatch: noMatch});
+			}
 		});
 	}
 });
