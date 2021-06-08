@@ -35,13 +35,13 @@ router.get("/", function(req,res){
 });
 
 router.get("/listings", function(req,res){
+	var noMatch = null;
 	var perPage = 6;
 	var pageQuery = parseInt(req.query.page);
 	var pageNumber = pageQuery ? pageQuery : 1;
-	var noMatch = null;
 	if(req.query.search) {
 			const regex = new RegExp(escapeRegex(req.query.search), 'gi');
-			listing.find({$or: [{name: regex,}, {description: regex}, {"author.username":regex}]}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, alllistings) {
+			listing.find({$or: [{name: regex}, {description: regex}, {"author.username":regex}]}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, alllistings) {
 					listing.count({name: regex}).exec(function (err, count) {
 							if (err) {
 									console.log(err);
