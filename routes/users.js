@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var middleware = require('../middleware');
 var User = require("../models/user");
+var Review = require("../models/review");
 var listing = require("../models/listing");
 var multer = require('multer');
 var storage = multer.diskStorage({
@@ -134,6 +135,8 @@ router.get("/user/:id/edit", middleware.checkUserOwnership, function(req, res){
 //Update Route
 router.put("/user/:id", middleware.checkUserOwnership, upload.single("image"), function(req, res){
 	User.findById(req.params.id, async function(err, user){
+		console.log(user)
+		console.log(user.reviews)
 		if(err){
 			req.flash("error", err.message);
 			res.redirect("back");
@@ -164,15 +167,22 @@ router.put("/user/:id", middleware.checkUserOwnership, upload.single("image"), f
 //Destroy Route
 router.delete("/user/:id", middleware.checkUserOwnership, function(req, res){
   User.findById(req.params.id, async function(err, user) {
+		console.log(user)
     if(err) {
       req.flash("error", err.message);
       return res.redirect("back");
     }
     try {
+			Review.remove({"_id": {$in: user.reviews}}, async function (err) {
+				if (err) {
+					console.log(err);
+					return res.redirect("/listings");
+				}
         await cloudinary.v2.uploader.destroy(user.imageId);
         user.remove();
         req.flash('success', 'listing deleted successfully!');
         res.redirect('/listings');
+			});
     } catch(err) {
         if(err) {
           req.flash("error", err.message);
