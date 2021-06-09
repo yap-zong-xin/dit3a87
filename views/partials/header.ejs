@@ -10,7 +10,7 @@
   <script src='https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.js'></script>
   <link href='https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.css' rel='stylesheet' />
 
-  <title>YelpCamp</title>
+  <title>3D Property Listing</title>
 </head>
 
 <body>
@@ -45,7 +45,7 @@
                 <% notifications.forEach(function(notification) { %>
                   <li>
                     <a href="/notifications/<%= notification.id %>">
-                      <%= notification.username %> created a new campground, <%= notification.id %>
+                      <%= notification.username %> created a new listing
                     </a>
                   </li>
                   <% }); %>

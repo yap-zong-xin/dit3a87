@@ -120,16 +120,6 @@ function escapeRegex(text) {
 	return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
 };
 
-// router.get('/users/:id', async function(req, res) {
-//   try {
-//     let user = await User.findById(req.params.id).populate('followers').exec();
-//     res.render('profile', { user });
-//   } catch(err) {
-//     req.flash('error', err.message);
-//     return res.redirect('back');
-//   }
-// });
-
 //Show Route
 router.get("/user/:id", function (req, res) {
 	//find the user with provided ID

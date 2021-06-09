@@ -203,18 +203,6 @@ router.post("/listings", middleware.isLoggedIn, upload.single('image'), async fu
 	var newlisting = {name:name, description:desc, author:author, location:location, zone:zone, price:price, size:size, type:type, numofRooms:numofRooms}
 	try
 		{
-			// let listing = await listing.create(newlisting);
-      let user = await User.findById(req.user._id).populate('followers').exec();
-      let newNotification = {
-        username: req.user.username,
-        listingId: listing.id
-      }
-      for(const follower of user.followers) {
-        let notification = await Notification.create(newNotification);
-        follower.notifications.push(notification);
-        follower.save();
-      }
-
 			var geoData = await geocodingClient.forwardGeocode({
 				query: location,
 				autocomplete: false,
@@ -222,8 +210,8 @@ router.post("/listings", middleware.isLoggedIn, upload.single('image'), async fu
 		  })
 		  .send();
 			newlisting.geometry = geoData.body.features[0].geometry;
-			console.log(newlisting.geometry);
-			
+			// console.log(newlisting.geometry);
+
 			cloudinary.v2.uploader.upload(req.file.path, function(err, result) {
 				// add cloudinary url for the image to the listing object under image property
 				req.body.image = result.secure_url;
@@ -231,24 +219,33 @@ router.post("/listings", middleware.isLoggedIn, upload.single('image'), async fu
 				// add image's public_id to listing object
 				req.body.imageId = result.public_id;
 				newlisting.imageId = req.body.imageId
-				console.log(newlisting)
-				listing.create(newlisting, function(err, newlyCreated){
+
+				listing.create(newlisting, async function(err, newlyCreated){
 					if(err)
-						{
+					{
 						console.log(err);
 					} else {
-							req.flash("success", "listing successfully added!");
-							res.redirect("/listings/${listing.id}");
+						let user = await User.findById(req.user._id).populate('followers').exec();
+						console.log(newlyCreated._id)
+						let newNotification = {
+							username: req.user.username,
+							listingId: newlyCreated._id
+						}
+						for(const follower of user.followers) {
+							let notification = await Notification.create(newNotification);
+							follower.notifications.push(notification);
+							follower.save();
+						}
+						req.flash("success", "listing successfully added!");
+						res.redirect(`/listings/${newlyCreated._id}`);
 					}
 				});
 			});
-
 		} catch (err){
 			console.log(err.message);
 			res.redirect('back');
 		}
 });
-
 
 //New Route
 router.get("/listings/new", middleware.isLoggedIn, function(req,res){
