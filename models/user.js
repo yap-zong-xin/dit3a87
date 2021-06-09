@@ -1,5 +1,7 @@
 var mongoose = require("mongoose");
 var passportLocalMongoose = require("passport-local-mongoose");
+const listing = require('./listing');
+const Comment = require('./comment');
 
 var userSchema = new mongoose.Schema({
 	username: String,
@@ -37,6 +39,16 @@ var userSchema = new mongoose.Schema({
 		}
 	],
 	createdAt: { type: Date, default: Date.now }
+});
+
+userSchema.pre('remove', async function(next) {
+  try {
+      await listing.remove({ 'author.id': this._id });
+      await Comment.remove({ 'author.id': this._id });
+      next();
+  } catch (err) {
+      console.log(err);
+  }
 });
 
 userSchema.plugin(passportLocalMongoose, { usernameField: "email" });
