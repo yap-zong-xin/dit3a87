@@ -216,11 +216,19 @@ router.delete("/user/:id", middleware.checkUserOwnership, function(req, res){
 // follow user
 router.get('/follow/:id', middleware.isLoggedIn, async function(req, res) {
   try {
-    let user = await User.findById(req.params.id);
-    user.followers.push(req.user._id);
-    user.save();
-    req.flash('success', 'Successfully followed ' + user.username + '!');
-    res.redirect('/user/' + req.params.id);
+		let user = await User.findById(req.params.id);
+		var foundUserFollower = user.followers.some(function (followers) {
+			return followers.equals(req.user._id);
+		});
+		if(foundUserFollower){
+			req.flash("error","you already follow"+user.username + '!');
+			res.redirect("back");
+		} else{
+			user.followers.push(req.user._id);
+			user.save();
+			req.flash('success', 'Successfully followed ' + user.username + '!');
+			res.redirect('/user/' + req.params.id);
+		}
   } catch(err) {
     req.flash('error', err.message);
     res.redirect('back');

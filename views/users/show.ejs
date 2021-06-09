@@ -30,7 +30,11 @@
             <button class="btn btn-danger">DELETE</button>
           </form>
           <% } %>
-            <a href="/follow/<%= user.id %>"><button class="btn btn-primary">Follow <%= user.username %></button></a>
+            <% if(currentUser && user._id.equals(currentUser._id)){ %>
+              <% } else { %>
+                <a href="/follow/<%= user.id %>"><button class="btn btn-primary">Follow <%= user.username %>
+                  </button></a>
+                <% } %>
       </div>
 
       <% if(user.isAgent==true){ %>
