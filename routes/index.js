@@ -204,24 +204,32 @@ router.post("/login", middleware.notLoggedIn, function (req, res, next) {
 	// Make sure the user has been verified
 	var inputEmail = req.body.email;
 
-	User.find({ email: inputEmail }, {"_id": 0, "isVerified": 1}, function(err, verified) {
-		if(err) {
-			return console.error(err);
+	User.find({ email: inputEmail}, function(err, existUser) {
+		if(existUser.length === 0 || err) {
+			req.flash("error", "Account with email not found. Please sign up.")
+			return res.redirect("/login");
+		}else{
+			User.find({ email: inputEmail }, {"_id": 0, "isVerified": 1}, function(err, verified) {
+				if(err) {
+					return console.error(err);
+				}
+				//console.log(verified[0].isVerified);
+				if(!verified[0].isVerified) { 
+					req.flash("error", "Account not verified! Please verify with link in your email.")
+					res.redirect("/login");
+				}else {
+					passport.authenticate("local",
+					{
+					  successRedirect: "/listings",
+					  failureRedirect: "/login",
+					  failureFlash: true,
+					  successFlash: "Welcome to YelpCamp!"
+					})(req, res);
+				}
+			});
 		}
-		//console.log(verified[0].isVerified);
-		if(!verified[0].isVerified) { 
-			req.flash("error", "Account not verified! Please verify with link in your email.")
-			res.redirect("/login");
-		}else {
-			passport.authenticate("local",
-			{
-			  successRedirect: "/listings",
-			  failureRedirect: "/login",
-			  failureFlash: true,
-			  successFlash: "Welcome to YelpCamp!"
-			})(req, res);
-		}
-	});
+
+	})
 });
 
 //Logout Route
