@@ -1,210 +1,358 @@
 <%- include("../partials/header") %>
 
-<!-- price range slider -->
+    <!-- price range slider -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <!-- price range slider -->
 
-<!-- price range slider -->
-
-  <!-- <% if(currentUser && currentUser.isAdmin){ %>
-    <h1>You're an admin!</h1>
+    <% if(currentUser && currentUser.isAdmin){ %>
+        <h1>You're an admin!</h1>
     <% } else if (currentUser && currentUser.isAgent && currentUser.agentStatus){ %>
-      <h1>You're an agent!</h1>
-      <% } %> -->
+        <h1>You're an agent!</h1>
+    <% } %>
 
-      <div class="container-fluid map-bg">
-        <div class="col-md-12 map-cluster m-0 p-0" id="map" style="height: 650px; width: 100%;"></div>
-    </div>
-
-        <!--Search Bar-->
-        
-        <div class="container search-container">
-            <div class="row col-md-12 search-form">
-                <form action="/listings" method="GET" class="search-home col-md-12 ">
-                    <div class="col-md-12 search-filter" style="display: flex; justify-content: center; align-items: center;">
-                        <input type="text" name="search" placeholder="Search for a property">
-                        <!-- <button type="submit" id="search-btn"><i class="fa fa-search" style="padding-right: 10px;"></i></button> -->
-                    </div>
-                    <div class="row col-md-12 search-filter">
-                            <select name="type" id="type" class="col-md-3 col-sm-6 col-xm-12 search-option">
-                                <option name="type" value="all" disabled selected hidden>Type</option>
-                                <option name="type" value="all">All</option>
-                                <option name="type" value="HDB">HDB</option>
-                                <option name="type" value="Condo">Condominium</option>
-                                <option name="type" value="Landed">Landed Property</option>
-                            </select>
-                            <select name="type" id="type" class="col-md-3 col-sm-6 col-xm-12 search-option">
-                                <option name="zone" value="all" disabled selected hidden>Location</option>
-                                <option name="zone" value="all">All</option>
-                                <option id="north" name="zone" value="north">North</option>
-                                <option id="east" name="zone" value="east">East</option>
-                                <option id="south" name="zone" value="south">South</option>
-                                <option id="west" name="zone" value="west">West</option>
-                            </select>
-                            <select name="type" id="type" class="col-md-3 col-sm-6 col-xm-12 search-option">
-                                <option name="room" value="all" disabled selected hidden>Bedrooms</option>
-                                <option name="room" value="all">All</option>
-                                <option name="room" value="studio">Studio</option>
-                                <option name="room" value="1bdrm">1 Bedroom</option>
-                                <option name="room" value="2bdrm">2 Bedrooms</option>
-                                <option name="room" value="3bdrm">3 Bedrooms</option>
-                                <option name="room" value="4bdrm">4 Bedrooms</option>
-                                <option name="room" value="5bdrm">5+ Bedrooms</option>
-                            </select>
-                            <select name="type" id="type" class="col-md-3 col-sm-6 col-xm-12 search-option">
-                                <option value="all" disabled selected hidden>Price Range</option>
-                                <option value="all">Any</option>
-                                <option min="0" max="120000">$0 - $120000</option>
-                            </select>
-                    </div>
-                </form>
-            </div>
-        </div>
-        <div class="container">
-            <div class="wrapper shadow explore-tab">
-                <div class="col-sm-12 list-head">
-                    <h3>Explore</h3>
+    <!-- No Match -->
+    <div class="container">
+        <% if(noMatch !== undefined){ %>
+            <form action="/listings" method="GET" class="form-inline">
+                <div class="form-group">
+                    <input type="text" class="form-control" name="search" placeholder="listing search...">
+                    <input type="submit" value="Search" class="btn btn-info">
                 </div>
-                <div class="col-md-12 owl-carousel owl-theme">
-                    <div class="item">
-                        <a>3 Room Flats</a>
-                    </div>
-                    <div class="item">
-                        <a>4 Room Flats</a>
-                    </div>
-                    <div class="item">
-                        <a>5 Room Flats</a>
-                    </div>
-                    <div class="item">
-                        <a>Executive Condominiums</a>
-                    </div>
-                    <div class="item">
-                        <a>Private Condominiums</a>
-                    </div>
-                    <div class="item">
-                        <a>Landed Property</a>
-                     </div>
-                </div>
-            </div>
-        </div>
-       
+            </form>
+            <h3><%= noMatch %></h3>
+        <% } %>
 
+        <% if(currentUser && currentUser.isAdmin || currentUser && currentUser.isAgent && currentUser.agentStatus){ %>
+            <a href="/listings/new">Add New listing</a>
+            <% } %>
 
-        <!-- No Match -->
-            <div class="container">
-                <div class="list-section shadow">
-                    <div class="col-sm-12 list-head">
-                        <h3>Recent Listings</h3>
-                    </div>
-                    <div class="col-sm-12 m-0 p-0 listings">
-                        <div class="all-listing-card">
-                            <div class="all-listing-card-container">
-                                <% listings.forEach(function(listing){ %>
-                                    <a href="/listings/<%= listing._id %>" style="text-decoration: none; color:black;">
-                                        <div class="indiv-card">
-                                            <div class="indiv-card-container">
-                                                <div>
-                                                    <img src="<%= listing.image %>" style="width:30%; height:30%;"><br>
-                                                    <h4>
-                                                        <%= listing.name %>
-                                                    </h4><br>
-                                                    <div>
-                                                        <p>
-                                                            $<%= listing.price %>
-                                                        </p>
-                                                        <div class="row">
-                                                            <p style="padding-right: 5px">
-                                                                <%= listing.zone %> sqft
-                                                            </p>
-                                                            <p style="padding-right: 5px">
-                                                                <i class="fas fa-bed"></i> <%= listing.type %>
-                                                            </p>
-                                                            <p>
-                                                                <i class="fas fa-toilet"></i> <%= listing.size %>
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <br>
-                                            </div>
-                                        </div>
-                                    </a>
-                                <% }); %>
-                            </div>
+            <div id="map" style="width: 70%; height: 500px;"></div>
+
+            <div class="d-flex justify-content-around">
+                <div class="col-sm-4">
+                    <div class="form-card">
+                        <div class="form-card-container">
+                            <form action="/listings" method="GET">
+                                <p>Filter</p><br>
+
+                                <!-- 1st Filter: Property Type-->
+                                <label for="type">Choose Property Type:</label>
+                                <select name="type" id="type">
+                                    <option value="" disabled selected hidden>Property Type</option>
+                                    <option value="HDB">HDB</option>
+                                    <option value="Condo">Condo</option>
+                                    <option value="Landed">Landed</option>
+                                </select>
+
+                                <!-- 2nd Filter: Property Zone -->
+                                <br><label for="propertyStatus">Choose a Zone:</label><br>
+                                <input type="checkbox" id="north" name="northZone" value="north">
+                                <label for="north">North</label><br>
+                                <input type="checkbox" id="south" name="southZone" value="south">
+                                <label for="south">South</label><br>
+                                <input type="checkbox" id="east" name="eastZone" value="east">
+                                <label for="east">East</label><br>
+                                <input type="checkbox" id="west" name="westZone" value="west">
+                                <label for="west">West</label><br>
+
+                                <!-- 3rd Filter: Price Slider -->
+                                <div class="price-slider">
+                                    <span>Price: 
+                                        <input type="number" value="0" min="0" max="120000" name="minPrice" /> to
+                                        <input type="number" value="120000" min="0" max="120000" name="maxPrice" />
+                                    </span>
+                                    <input type="range" value="0" min="0" max="120000" step="500" />
+                                    <input type="range" value="120000" min="0" max="120000" step="500" />
+                                    <svg width="100%" height="24">
+                                        <!-- <line x1="4" y1="0" x2="300" y2="0" stroke="#212121" stroke-width="12"
+                                            stroke-dasharray="1 28">
+                                        </line> -->
+                                    </svg>
+                                </div>
+
+                                <!-- 4th Filter: Size Slider -->
+                                <div class="size-slider">
+                                    <span>Size: 
+                                        <input type="number" value="0" min="0" max="120000" name="minSize" /> to
+                                        <input type="number" value="120000" min="0" max="120000" name="maxSize" />
+                                    </span>
+                                    <input type="range" value="0" min="0" max="120000" step="500" />
+                                    <input type="range" value="120000" min="0" max="120000" step="500" />
+                                    <svg width="100%" height="24">
+                                        <!-- <line x1="4" y1="0" x2="300" y2="0" stroke="#212121" stroke-width="12"
+                                            stroke-dasharray="1 28">
+                                        </line> -->
+                                    </svg>
+                                </div>
+
+                                <!-- 5th filter: Sort by highest or lowest price -->
+                                <label for="sortPrice">Filter by:</label>
+                                <select name="sortPrice" id="sortPrice">
+                                    <option value="" disabled selected hidden>Price</option>
+                                    <option value="HighestPrice">Highest Price</option>
+                                    <option value="LowestPrice">Lowest Price</option>
+                                </select>
+
+                                <!-- 6th filter: Number of rooms slider -->
+                                <label for="numofRooms">Number of Rooms:</label>
+                                <select name="numofRooms" id="numofRooms">
+                                    <option value="" disabled selected hidden>Rooms</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                </select>
+
+                                <br><input type="submit" value="Apply" name="Apply">
+                            </form>
                         </div>
                     </div>
                 </div>
+            
+
+            <div class="col-sm-8">
+                <div class="all-listing-card">
+                    <div class="all-listing-card-container">
+                        <% listings.forEach(function(listing){ %>
+                            <a href="/listings/<%= listing._id %>" style="text-decoration: none; color:black;">
+                                <div class="indiv-card">
+                                    <div class="indiv-card-container">
+                                        <div>
+                                            <h4><%= listing.name %></h4><br>
+                                            <img src="<%= listing.image %>" style="width:30%; height:30%;"><br>
+                                            <div>
+                                                <span class="badge label-primary">
+                                                    <i class="fas fa-thumbs-up"></i>
+                                                    <%= listing.likes.length %>
+                                                </span><br>
+                                                <span>
+                                                    <%= moment(listing.createdAt).format('LLLL'); %>
+                                                </span>
+                                                <p>$<%= listing.price %></p>
+                                                <p style="text-transform:capitalize;">Zone: <%= listing.zone %></p>
+                                                <p style="text-transform:capitalize;">Type: <%= listing.type %></p>
+                                                <p style="text-transform:capitalize;">Size: <%= listing.size %></p>
+                                                <p style="text-transform:capitalize;">Number of rooms: <%= listing.numofRooms %></p>
+                                            </div>
+                                        </div>
+                                        <br>
+                                    </div>
+                                </div>
+                            </a>
+                        <% }); %>
+                    </div>
+                </div>
             </div>
-            <nav aria-label="Page navigation" class="pg-nav">
-                <% if (pages && pages > 0) { %>
-                    <ul class="pagination justify-content-center">
-                        <% if (current == 1) { %>
-                            <li class="page-item disabled"><a class="page-link">First</a></li>
-                        <% } else { %>
-                            <li><a class="page-link" href="/listings<%if(search){%>?search=<%=search%><%}%>">First</a>
-                            </li>
-                        <% } %>
+        </div>
         
-                        <% if (current == 1) { %>
-                            <li class="page-item disabled"><a class="page-link">«</a></li>
+        <nav aria-label="Page navigation">
+            <% if (pages && pages> 0) { %>
+                <ul class="pagination justify-content-center">
+                    <% if (current==1) { %>
+                        <li class="page-item disabled"><a class="page-link">First</a></li>
+                    <% } else { %>
+                        <li>
+                            <a class="page-link" href="/listings<%if(search){%>?search=<%=search%><%}%>">First</a>
+                        </li>
+                    <% } %>
+
+                    <% if (current==1) { %>
+                        <li class="page-item disabled">
+                            <a class="page-link">«</a>
+                        </li>
+                    <% } else { %>
+                        <li>
+                            <a class="page-link" href="/listings?page=<%= Number(current) - 1 %><%if(search){%>&search=<%=search%><%}%>">«</a>
+                        </li>
+                    <% } %>
+
+                    <% var i=(Number(current)> 5 ? Number(current) - 4 : 1) %>
+                    <% if (i !==1) { %>
+                        <li class="page-item disabled">
+                            <a class="page-link">...</a>
+                        </li>
+                    <% } %>
+
+                    <% for (; i <=(Number(current) + 4) && i <=pages; i++) { %>
+                        <% if (i==current) { %>
+                            <li class="active">
+                                <a class="page-link">
+                                    <%= i %>
+                                </a>
+                            </li>
                         <% } else { %>
                             <li>
-                                <a class="page-link" href="/listings?page=<%= Number(current) - 1 %><%if(search){%>&search=<%=search%><%}%>">«</a>
+                                <a class="page-link" href="/listings?page=<%= i %><%if(search){%>&search=<%=search%><%}%>">
+                                    <%= i %>
+                                </a>
                             </li>
                         <% } %>
-
-                        <% var i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
-                        <% if (i !==1) { %>
+                        <% if (i==Number(current) + 4 && i < pages) { %>
                             <li class="page-item disabled">
                                 <a class="page-link">...</a>
                             </li>
                         <% } %>
-                        <% for (; i <=(Number(current) + 4) && i <=pages; i++) { %>
-                            <% if (i == current) { %>
-                                <li class="active">
-                                    <a class="page-link"><%= i %></a>
-                                </li>
-                            <% } else { %>
-                                <li>
-                                    <a class="page-link" href="/listings?page=<%= i %><%if(search){%>&search=<%=search%><%}%>"><%= i %></a>
-                                </li>
-                            <% } %>
-                            <% if (i==Number(current) + 4 && i < pages) { %>
-                                <li class="page-item disabled">
-                                    <a class="page-link">...</a>
-                                </li>
-                            <% } %>
-                        <% } %>
+                    <% } %>
 
-                        <% if (current==pages) { %>
-                            <li class="page-item disabled">
-                                <a class="page-link">»</a>
-                            </li>
-                        <% } else { %>
-                            <li>
-                                <a class="page-link" href="/listings?page=<%= Number(current) + 1 %><%if(search){%>&search=<%=search%><%}%>">»</a>
-                            </li>
-                        <% } %>
+                    <% if (current==pages) { %>
+                        <li class="page-item disabled">
+                            <a class="page-link">»</a>
+                        </li>
+                    <% } else { %>
+                        <li>
+                            <a class="page-link" href="/listings?page=<%= Number(current) + 1 %><%if(search){%>&search=<%=search%><%}%>">»</a>
+                        </li>
+                    <% } %>
 
-                        <% if (current==pages) { %>
-                            <li class="page-item disabled">
-                                <a class="page-link">Last</a>
-                            </li>
-                        <% } else { %>
-                            <li>
-                                <a class="page-link" href="/listings?page=<%= pages %><%if(search){%>&search=<%=search%><%}%>">Last</a>
-                            </li>
-                        <% } %>
-                    </ul>
-                <% } %>
-            </nav>
-        </div> 
-
-        <script>
-          const mapToken = '<%- process.env.MAPBOX_TOKEN %>'
-          const listings = { features: <%- JSON.stringify(listings) %> }
-        </script>
-        <script src="/javascripts/clusterMap.js"></script>
-        
-        <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js'></script>
+                    <% if (current==pages) { %>
+                        <li class="page-item disabled">
+                            <a class="page-link">Last</a>
+                        </li>
+                    <% } else { %>
+                        <li>
+                            <a class="page-link" href="/listings?page=<%= pages %><%if(search){%>&search=<%=search%><%}%>">Last</a>
+                        </li>
+                    <% } %>
+                </ul>
+            <% } %>
+        </nav>
+    </div>
 
 
-        <%- include("../partials/footer") %>
+    <script>
+        const mapToken = '<%- process.env.MAPBOX_TOKEN %>'
+        const listings = { features: <%- JSON.stringify(listings) %> }
+    </script>
+    <script src="/javascripts/clusterMap.js"></script>
+
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js'></script>
+    <script>
+            (function () {
+
+                var parent = document.querySelector(".price-slider");
+                if (!parent) return;
+
+                var
+                    rangeS = parent.querySelectorAll("input[type=range]"),
+                    numberS = parent.querySelectorAll("input[type=number]");
+
+                rangeS.forEach(function (el) {
+                    el.oninput = function () {
+                        var slide1 = parseFloat(rangeS[0].value),
+                            slide2 = parseFloat(rangeS[1].value);
+
+                        if (slide1 > slide2) {
+                            [slide1, slide2] = [slide2, slide1];
+                        }
+
+                        numberS[0].value = slide1;
+                        numberS[1].value = slide2;
+                    }
+                });
+
+                numberS.forEach(function (el) {
+                    el.oninput = function () {
+                        var number1 = parseFloat(numberS[0].value),
+                            number2 = parseFloat(numberS[1].value);
+
+                        if (number1 > number2) {
+                            var tmp = number1;
+                            numberS[0].value = number2;
+                            numberS[1].value = tmp;
+                        }
+
+                        rangeS[0].value = number1;
+                        rangeS[1].value = number2;
+
+                    }
+                });
+
+            })();
+    </script>
+    <script>
+        (function () {
+
+            var parent = document.querySelector(".size-slider");
+            if (!parent) return;
+
+            var
+                rangeS = parent.querySelectorAll("input[type=range]"),
+                numberS = parent.querySelectorAll("input[type=number]");
+
+            rangeS.forEach(function (el) {
+                el.oninput = function () {
+                    var slide1 = parseFloat(rangeS[0].value),
+                        slide2 = parseFloat(rangeS[1].value);
+
+                    if (slide1 > slide2) {
+                        [slide1, slide2] = [slide2, slide1];
+                    }
+
+                    numberS[0].value = slide1;
+                    numberS[1].value = slide2;
+                }
+            });
+
+            numberS.forEach(function (el) {
+                el.oninput = function () {
+                    var number1 = parseFloat(numberS[0].value),
+                        number2 = parseFloat(numberS[1].value);
+
+                    if (number1 > number2) {
+                        var tmp = number1;
+                        numberS[0].value = number2;
+                        numberS[1].value = tmp;
+                    }
+
+                    rangeS[0].value = number1;
+                    rangeS[1].value = number2;
+
+                }
+            });
+
+        })();
+    </script>
+    <script>
+        (function () {
+
+            var parent = document.querySelector(".numofRooms-slider");
+            if (!parent) return;
+
+            var
+                rangeS = parent.querySelectorAll("input[type=range]"),
+                numberS = parent.querySelectorAll("input[type=number]");
+
+            rangeS.forEach(function (el) {
+                el.oninput = function () {
+                    var slide1 = parseFloat(rangeS[0].value);
+
+                    numberS[0].value = slide1;
+                }
+            });
+
+            numberS.forEach(function (el) {
+                el.oninput = function () {
+                    var number1 = parseFloat(numberS[0].value);
+
+                    rangeS[0].value = number1;
+
+                }
+            });
+
+        })();
+    </script>
+    <script>
+        function upperCaseFirstLetter(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
+    </script>
+    <script>
+        document.getElementById('sortPriceForm').sortPrice.onchange = function () {
+            var newaction = this.value;
+            document.getElementById('sortPriceForm').action = newaction;
+        };
+    </script>
+    
+<%- include("../partials/footer") %>

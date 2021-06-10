@@ -4,8 +4,7 @@ const map = new mapboxgl.Map({
   style: 'mapbox://styles/mapbox/dark-v10', //color of map
   // Singapore
   center: [103.808052586332, 1.3516161224392],
-  zoom: 10.5,
-  attributionControl: false
+  zoom: 10.5
 });
  
 // Add zoom and rotation controls to the map.
