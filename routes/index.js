@@ -97,7 +97,6 @@ router.get("/register-admin", middleware.notLoggedIn, function(req, res){
 
 router.post("/register", middleware.notLoggedIn, upload.single('image'), function(req, res){
 	var randomStringCode = randomCryptoString();
-
 	var newUser = new User({
 			username: req.body.username, 
 			email: req.body.email, 
@@ -113,15 +112,64 @@ router.post("/register", middleware.notLoggedIn, upload.single('image'), functio
 	} else if(req.body.roleCode === 'agent'){
 		newUser.isAgent = true;
 	}
-
-	cloudinary.v2.uploader.upload(req.file.path, function(err, result) {
-		// add cloudinary url for the image to the listing object under image property
-		req.body.image = result.secure_url;
-		newUser.image = req.body.image
-		// add image's public_id to listing object
-		req.body.imageId = result.public_id;
-		newUser.imageId = req.body.imageId
-		
+	if(req.file){
+		cloudinary.v2.uploader.upload(req.file.path, function(err, result) {
+			// add cloudinary url for the image to the listing object under image property
+			req.body.image = result.secure_url;
+			newUser.image = req.body.image
+			// add image's public_id to listing object
+			req.body.imageId = result.public_id;
+			newUser.imageId = req.body.imageId
+			
+			User.register(newUser, req.body.password, function(err, user){
+				if(err){
+					console.log(err);
+					req.flash('error', err.message);
+					return res.redirect('/register');
+				}
+				async function sendMail() {
+					try {
+						var host = req.get('host');
+						var link = 'http://'+host+"/verify?id="+randomStringCode;
+						console.log(link);
+	
+						const accessToken = await oAuth2Client.getAccessToken()
+	
+						const transport = nodemailer.createTransport({
+							service: 'gmail',
+							auth: {
+								type: 'OAuth2',
+								user: 'jptestingsku@gmail.com',
+								clientId: CLIENT_ID,
+								clientSecret: CLIENT_SECRET,
+								refreshToken: REFRESH_TOKEN,
+								accessToken: accessToken
+							}
+						});
+	
+						const mailOptions = {
+							from: 'Property Company <jptestingsku@gmail.com>',
+							to: newUser.email,
+							subject: 'Email verification',
+							html : "Hello,<br> Please Click on the link to verify your email.<br><a href="+link+">Click here to verify</a>"
+						};
+	
+						const result = await transport.sendMail(mailOptions);
+						return result; 
+					}catch (error) {
+						return error;
+					}
+				}
+				console.log('the randomStringCode: '+randomStringCode);
+				sendMail()
+				.then(result => console.log('Email Sent...', result))
+				.then(req.flash('success','Your account was successfully created, please verify your email'))
+				.then(res.redirect("/login"))
+				.catch(error => console.log(error.message))
+				
+			});
+		});
+	} else if(!req.file && req.body.roleCode != 'agent') {
 		User.register(newUser, req.body.password, function(err, user){
 			if(err){
 				console.log(err);
@@ -149,7 +197,7 @@ router.post("/register", middleware.notLoggedIn, upload.single('image'), functio
 					});
 
 					const mailOptions = {
-						from: 'YELP CAMP <jptestingsku@gmail.com>',
+						from: 'Property Company <jptestingsku@gmail.com>',
 						to: newUser.email,
 						subject: 'Email verification',
 						html : "Hello,<br> Please Click on the link to verify your email.<br><a href="+link+">Click here to verify</a>"
@@ -167,9 +215,11 @@ router.post("/register", middleware.notLoggedIn, upload.single('image'), functio
 			.then(req.flash('success','Your account was successfully created, please verify your email'))
 			.then(res.redirect("/login"))
 			.catch(error => console.log(error.message))
-			
 		});
-	});
+	} else {
+		req.flash('error', 'need to upload image');
+		return res.redirect('/register');
+	}
 });
 
 //Verify account route
