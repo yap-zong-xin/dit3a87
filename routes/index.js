@@ -96,6 +96,8 @@ router.get("/register-admin", middleware.notLoggedIn, function(req, res){
 // });
 
 router.post("/register", middleware.notLoggedIn, upload.single('image'), function(req, res){
+	var randomStringCode = randomCryptoString();
+
 	var newUser = new User({
 			username: req.body.username, 
 			email: req.body.email, 
@@ -104,6 +106,7 @@ router.post("/register", middleware.notLoggedIn, upload.single('image'), functio
 			avatar: req.body.avatar,
 			phone: req.body.phone,
 			cea: req.body.cea,
+			verificationCode: randomStringCode,
 	});
 	if(req.body.roleCode === 'admin'){
 		newUser.isAdmin = true;
@@ -125,11 +128,10 @@ router.post("/register", middleware.notLoggedIn, upload.single('image'), functio
 				req.flash('error', err.message);
 				return res.redirect('/register');
 			}
-			var randomCode = randomCryptoString();
 			async function sendMail() {
 				try {
 					var host = req.get('host');
-					var link = 'http://'+host+"/verify?id="+randomCode;
+					var link = 'http://'+host+"/verify?id="+randomStringCode;
 					console.log(link);
 
 					const accessToken = await oAuth2Client.getAccessToken()
@@ -159,9 +161,8 @@ router.post("/register", middleware.notLoggedIn, upload.single('image'), functio
 					return error;
 				}
 			}
-			console.log('the randomCode: '+randomCode);
+			console.log('the randomStringCode: '+randomStringCode);
 			sendMail()
-			.then(User.updateOne({email: newUser.email}, { $set: {verificationCode: randomCode} }))
 			.then(result => console.log('Email Sent...', result))
 			.then(req.flash('success','Your account was successfully created, please verify your email'))
 			.then(res.redirect("/login"))
@@ -178,10 +179,19 @@ router.get("/verify", middleware.notLoggedIn, function(req, res) {
 	var existUser = User.findOne({ verificationCode: id });
 	console.log('have user: '+existUser)
 	if(existUser) {
-		User.updateOne({ verificationCode: id }, [{ $unset: {verificationCode: 1} }, { $set: {isVerified: true} }]);
-		console.log('updated n removed');
-		req.flash('success','Welcome!');
-		res.redirect("/listings")
+		User.findOneAndUpdate({ verificationCode: id }, {$set: {isVerified: true, verificationCode: ""}}, function(err, updatedUser) {
+			if(err) {
+				req.flash("error", err.message);
+            	return res.redirect("back");
+			}
+			console.log('updated n removed');
+			req.flash('success','Account approved, please log in to your account.');
+			res.redirect("/login")
+			// passport.authenticate("local")(req, res, function(){
+			// 	req.flash('success','Welcome!');
+			// 	res.redirect("/listings");
+			// });
+		} );
 	}
 })
 
@@ -192,17 +202,26 @@ router.get("/login", middleware.notLoggedIn, function(req, res){
 //middleware - passport.authenticate helps us to check if the username & password exist in the database
 router.post("/login", middleware.notLoggedIn, function (req, res, next) {
 	// Make sure the user has been verified
-	if (!User.isVerified) {
-		req.flash("error", "Account not verified! Please verify with link in your email.")
-		res.redirect("/login");
-	};
-  passport.authenticate("local",
-    {
-      successRedirect: "/listings",
-      failureRedirect: "/login",
-      failureFlash: true,
-      successFlash: "Welcome to YelpCamp!"
-    })(req, res);
+	var inputEmail = req.body.email;
+
+	User.find({ email: inputEmail }, {"_id": 0, "isVerified": 1}, function(err, verified) {
+		if(err) {
+			return console.error(err);
+		}
+		//console.log(verified[0].isVerified);
+		if(!verified[0].isVerified) { 
+			req.flash("error", "Account not verified! Please verify with link in your email.")
+			res.redirect("/login");
+		}else {
+			passport.authenticate("local",
+			{
+			  successRedirect: "/listings",
+			  failureRedirect: "/login",
+			  failureFlash: true,
+			  successFlash: "Welcome to YelpCamp!"
+			})(req, res);
+		}
+	});
 });
 
 //Logout Route

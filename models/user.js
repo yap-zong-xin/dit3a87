@@ -17,6 +17,7 @@ var userSchema = new mongoose.Schema({
 	isAgent: {type: Boolean, default: false},
 	agentStatus: {type: Boolean, default: false},
 	isVerified : {type: Boolean, default: false},
+	verificationCode: {type: String, default: ''},
 	reviews: [
 		{
 				type: mongoose.Schema.Types.ObjectId,
