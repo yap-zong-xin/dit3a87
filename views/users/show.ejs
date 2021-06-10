@@ -18,23 +18,29 @@
     </h6>
     <% } %>
       <div class="thumbnail">
-        <img src="<%= user.image %>" alt="user profile image">
-        <div class="caption">
-          email: <a href="mailto:<%= user.email %>">
-            <%= user.email %>
-          </a>
-        </div>
-        <% if(currentUser && user._id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
-          <a class="btn btn-warning" href="/user/<%= user._id %>/edit">Edit</a>
-          <form action="/user/<%= user._id %>?_method=DELETE" method="POST">
-            <button class="btn btn-danger">DELETE</button>
-          </form>
-          <% } %>
-            <% if(currentUser && user._id.equals(currentUser._id)){ %>
-              <% } else { %>
-                <a href="/follow/<%= user.id %>"><button class="btn btn-primary">Follow <%= user.username %>
-                  </button></a>
+        <% if(user.image==null){ %>
+          <img
+            src="https://lh3.googleusercontent.com/proxy/p6H9FrzyLp9c5AZh5Azao4zl01DJw64NSoAch2DImJkWWc6Wb524TSDonUp4rcfMGb9-Y_tlGvlUxYcmNTXVI94kps5G-RvX2YrC1viHNSYYRfXF_KEgdNFE4mLuEDff-TNmmfCg6CQfkQ"
+            alt="user profile image" style="width: 200px;">
+          <% } else { %>
+            <img src="<%= user.image %>" alt="user profile image">
+            <% } %>
+              <div class="caption">
+                email: <a href="mailto:<%= user.email %>">
+                  <%= user.email %>
+                </a>
+              </div>
+              <% if(currentUser && user._id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
+                <a class="btn btn-warning" href="/user/<%= user._id %>/edit">Edit</a>
+                <form action="/user/<%= user._id %>?_method=DELETE" method="POST">
+                  <button class="btn btn-danger">DELETE</button>
+                </form>
                 <% } %>
+                  <% if(currentUser && user._id.equals(currentUser._id)){ %>
+                    <% } else { %>
+                      <a href="/follow/<%= user.id %>"><button class="btn btn-primary">Follow <%= user.username %>
+                        </button></a>
+                      <% } %>
       </div>
 
       <% if(user.isAgent==true){ %>

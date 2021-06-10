@@ -1,6 +1,7 @@
 <%- include("../partials/header") %>
 
-  <h1>Edit <%= user.username %></h1>
+  <h1>Edit <%= user.username %>
+  </h1>
 
   <form action="/user/<%= user._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
     <!-- all users -->
@@ -10,18 +11,18 @@
     lastName: <input type="text" name="user[lastName]" value="<%= user.lastName %>" placeholder="last name">
     phone: <input type="number" name="user[phone]" value="<%= user.phone %>" placeholder="phone">
 
-    <!-- seekers -->
-    <% if(user.isAgent==false && user.isAdmin==false){ %>
+    <!-- seekers and admins -->
+    <% if(user.isAgent==false || currentUser && currentUser.isAdmin){ %>
       <img src="<%= user.image %>">
       <input type="file" name="image" accept="image/*">
-    <% } %>
+      <% } %>
 
-    <!-- agents -->
-    <% if(user.isAgent==true){ %>
-      ceaNumber: <input type="string" name="user[cea]" value="<%= user.cea %>" placeholder="cea number">
-    <% } %>
+        <!-- admins -->
+        <% if(currentUser && currentUser.isAdmin && user.cea!=null){ %>
+          ceaNumber: <input type="string" name="user[cea]" value="<%= user.cea %>" placeholder="cea number">
+          <% } %>
 
-    <button>Edit</button>
+            <button>Edit</button>
   </form>
 
-<%- include("../partials/footer") %>
+  <%- include("../partials/footer") %>

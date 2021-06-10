@@ -164,7 +164,9 @@ router.put("/user/:id", middleware.checkUserOwnership, upload.single("image"), f
 		} else{
 			if(req.file){
 				try{
+					if(user.imageId!=null){
 						await cloudinary.v2.uploader.destroy(user.imageId);
+					}
 						var result = await cloudinary.v2.uploader.upload(req.file.path);
 						user.image = result.secure_url;
 						user.imageId = result.public_id;
@@ -178,6 +180,7 @@ router.put("/user/:id", middleware.checkUserOwnership, upload.single("image"), f
 		user.email = req.body.user.email;
 		user.firstName = req.body.user.firstName;
 		user.lastName = req.body.user.lastName;
+		user.cea = req.body.user.cea;
 		user.save();
 		console.log(user)
 		req.flash("success", "profile info successfully updated!");
