@@ -4,7 +4,8 @@
   </h1>
   <form action="/listings/<%= listing._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
     <input type="text" name="listing[name]" value="<%= listing.name %>" placeholder="name">
-    <input type="file" name="image" accept="image/*">
+    <input type="file" name="thumbnail" accept="image/*">
+    <input type="file" name="image" accept="image/*" multiple>
     <input type="text" name="listing[description]" value="<%= listing.description %>" placeholder="description">
     <input type="text" name="listing[zone]" value="<%= listing.zone %>" placeholder="zone">
     <input type="text" name="listing[type]" value="<%= listing.type %>" placeholder="type">
@@ -12,6 +13,7 @@
     <input type="text" name="listing[size]" value="<%= listing.size %>" placeholder="size">
     <input type="number" name="listing[numofRooms]" value="<%= listing.numofRooms %>" placeholder="number of rooms">
     <input type="text" name="listing[location]" value="<%= listing.location %>" placeholder="location">
+    <input type="file" name="video" accept="video/*" multiple>
     <button>submit</button>
   </form>
   <a href="/listings">Go Back</a>

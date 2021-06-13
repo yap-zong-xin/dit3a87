@@ -8,7 +8,18 @@
     <h4>
       listing name: <%= listing.name %>
     </h4>
-    <img src="<%= listing.image %>">
+    <p>Thumbnail:</p>
+    <img src="<%= listing.thumbnail %>">
+    <% console.log('listing images: '+listing.image); %>
+    <p>Images:</p>
+    <% for(let i=0; i<listing.image.length; i++) { %>
+      <img src="<%= listing.image[i] %>">
+    <% }; %>
+    <% console.log('listing images: '+listing.video); %>
+    <p>Videos:</p>
+    <% for(let i=0; i<listing.video.length; i++) { %>
+      <iframe src="<%= listing.video[i] %>"></iframe>
+    <% }; %>
     <p>description: <%= listing.description %></p>
     <p>zone: <%= listing.zone %></p>
     <p>price: <%= listing.price %></p>

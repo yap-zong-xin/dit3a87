@@ -4,14 +4,18 @@ const opts = { toJSON: {virtuals: true}};
 
 var listingSchema = new mongoose.Schema({
    name: String,
-   image: String,
-   imageId: String,
+   thumbnail: String,
+   thumbnailId: String,
+   image: [{type: String}],
+   imageId: [{type: String}],
    description: String,
    zone: String,
    price: Number,
    size: Number,
    type: String,
    numofRooms: Number,
+   video: [{type: String}],
+   videoId: [{type: String}],
    author: {
 		id: {
 			type: mongoose.Schema.Types.ObjectId,
