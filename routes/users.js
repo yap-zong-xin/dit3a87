@@ -266,4 +266,16 @@ router.get('/notifications/:id', middleware.isLoggedIn, async function(req, res)
   }
 });
 
+
+router.get('/users/:userId', async function(req, res) {
+	const userId = req.params.userId
+	try {
+		const user = await User.findById(userId)
+		res.status(200).json(user);
+		// console.log(user)
+	  } catch (err) {
+		res.status(500).json(err);
+	  }
+});
+
 module.exports = router;
