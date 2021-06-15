@@ -1,4 +1,5 @@
 <!-- 
+
 --------------------------------
 Setup Guide
 --------------------------------
@@ -15,12 +16,6 @@ node_modules
 6. Run "mongod" in powershell and "nodemon" in VSC terminal
 
 --------------------------------
-register url
---------------------------------
-- Seeker or Agent (/register)
-- Admin (/register-admin)
-
- --------------------------------
 Chat Feature Setup
 --------------------------------
 1. In the api folder, create a .env file, and paste this in :
@@ -31,6 +26,12 @@ MONGO_URL = mongodb://localhost/SAP
 5. Run "npm start" in all 3 terminals to start up the chat feature.
 
 --------------------------------
+register url
+--------------------------------
+- Seeker or Agent (/register)
+- Admin (/register-admin)
+
+--------------------------------
 clear mongo
 --------------------------------
 - If there's any error, you probably need to clear your local mongodb data by running "mongo" in another powershell and clear all the data under SAP
@@ -39,4 +40,5 @@ clear mongo
 Important
 --------------------------------
 - Do not save (ctrl+s) index.ejs and show.ejs files under listings folder. Instead, save (ctrl+shift+p) and click on "save file without formatting"
- -->
+ 
+-->

@@ -1,7 +1,6 @@
 <%- include("../partials/header") %>
 
-  <p style="color: red;">Show somewhere ‘agent since…’</p>
-  <p style="color: red;">Allow change 'Profile Banner'</p>
+  <p style="color: red;">Allow change 'Profile Banner'</>
   <h6>
     <%= "fisrtName: " + user.firstName %>
   </h6>
@@ -38,9 +37,10 @@
             <img src="<%= user.image %>" alt="user profile image">
             <% } %>
               <div class="caption">
-                email: <a href="mailto:<%= user.email %>">
-                  <%= user.email %>
-                </a>
+                agent since <%= moment(user.createdAt).fromNow() %>
+                  <br>email: <a href="mailto:<%= user.email %>">
+                    <%= user.email %>
+                  </a>
               </div>
               <% if(currentUser && user._id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
                 <a class="btn btn-warning" href="/user/<%= user._id %>/edit">Edit</a>
@@ -49,13 +49,13 @@
                 </form>
                 <% } %>
                   <% if(currentUser && user._id.equals(currentUser._id)){ %>
+                    <form action="http://localhost:8800/api/conversations/<%= currentUser._id %>/<%= user.id %>"
+                      method="POST">
+                      <button type="submit" class="btn btn-primary">Chat with <%= user.username %></button>
+                    </form>
                     <% } else { %>
                       <a href="/follow/<%= user.id %>"><button class="btn btn-primary">Follow <%= user.username %>
                         </button></a>
-                        <form action="http://localhost:8800/api/conversations/<%= currentUser._id %>/<%= user.id %>" method="POST" >
-                            <button type="submit" class="btn btn-primary">Chat with <%= user.username %></button>
-                        </form>
-
                       <% } %>
                         <p style="color: red;">reset password at new page, not here
                           <br>3 boxes:
@@ -86,9 +86,6 @@
                 <% }); %>
         </ul>
 
-        <p style="color: red;">'Reviews' should be bottom of page
-          <br>• Social Media put somewhere below
-        </p>
         <div class="thumbnail">
           <div class="caption-full">
             <% if (user.rating===0) { %>
