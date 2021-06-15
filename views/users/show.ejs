@@ -1,5 +1,7 @@
 <%- include("../partials/header") %>
 
+  <p style="color: red;">Show somewhere ‘agent since…’</p>
+  <p style="color: red;">Allow change 'Profile Banner'</p>
   <h6>
     <%= "fisrtName: " + user.firstName %>
   </h6>
@@ -10,7 +12,17 @@
     <%= "username: " + user.username %>
   </h6>
   <h6>
+    <%= "gender: " + user.gender %>
+  </h6>
+  <h6>
     <%= "phone: " + user.phone %>
+  </h6>
+  <h6>
+    <%= "street name: " + user.streetName %><br>
+      <%= "unit number: " + user.unitNumber %><br>
+        <%= "country: " + user.country %><br>
+          <%= "state: " + user.state %><br>
+            <%= "postal code: " + user.postalCode %>
   </h6>
   <% if(currentUser && currentUser.isAgent || user.isAgent){ %>
     <h6>
@@ -45,7 +57,12 @@
                         </form>
 
                       <% } %>
-                    
+                        <p style="color: red;">reset password at new page, not here
+                          <br>3 boxes:
+                          <br>▪ Old Password
+                          <br>▪ New Password
+                          <br>▪ Re-Enter New Password
+                        </p>
       </div>
 
       <% if(user.isAgent==true){ %>
@@ -69,6 +86,9 @@
                 <% }); %>
         </ul>
 
+        <p style="color: red;">'Reviews' should be bottom of page
+          <br>• Social Media put somewhere below
+        </p>
         <div class="thumbnail">
           <div class="caption-full">
             <% if (user.rating===0) { %>

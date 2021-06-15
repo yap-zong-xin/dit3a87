@@ -10,6 +10,9 @@
         <h1>You're an agent!</h1>
     <% } %>
 
+    <p style="color: red;">Have virtual background as banner???</p>
+    <p style="color: red;">Mouse-Hover pattern (futuristic)???</p>
+
     <!-- No Match -->
     <div class="container">
         <% if(noMatch !== undefined){ %>
@@ -106,6 +109,14 @@
                                 </select>
 
                                 <br><input type="submit" value="Apply" name="Apply">
+                                
+                <p style="color: red;">
+                    • Active Listings (show number of active listings)
+                    <br>• Add 'filter' function for 'Most Recent', 'Most Seen' & 'Most Clicks'
+                    <br>• Janice wants 'New Listing' Section to be a new page (Joseph thoughts: for laptop view don't need, but can consider for mobile view)
+                    <br>• Past listings
+                    <br>• Add 'filter' function for 'Deleted', 'Sold' & 'Archived'
+                </p>
                             </form>
                         </div>
                     </div>
@@ -115,13 +126,14 @@
             <div class="col-sm-8">
                 <div class="all-listing-card">
                     <div class="all-listing-card-container">
+                    <p style="color: red;">Different categorise (latest/...)</p>
                         <% listings.forEach(function(listing){ %>
                             <a href="/listings/<%= listing._id %>" style="text-decoration: none; color:black;">
                                 <div class="indiv-card">
                                     <div class="indiv-card-container">
                                         <div>
                                             <h4><%= listing.name %></h4><br>
-                                            <img src="<%= listing.image %>" style="width:30%; height:30%;"><br>
+                                            <img src="<%= listing.thumbnail %>" style="width:30%; height:30%;"><br>
                                             <div>
                                                 <span class="badge label-primary">
                                                     <i class="fas fa-thumbs-up"></i>
