@@ -178,9 +178,11 @@ router.put("/user/:id", middleware.checkUserOwnership, upload.single("image"), f
 		}
 		user.username = req.body.user.username;
 		user.email = req.body.user.email;
-		user.firstName = req.body.user.firstName;
-		user.lastName = req.body.user.lastName;
-		user.cea = req.body.user.cea;
+		user.streetName = req.body.user.streetName;
+		user.unitNumber = req.body.user.unitNumber;
+		user.country = req.body.user.country;
+		user.state = req.body.user.state;
+		user.postalCode = req.body.user.postalCode;
 		user.save();
 		console.log(user)
 		req.flash("success", "profile info successfully updated!");

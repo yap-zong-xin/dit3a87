@@ -104,7 +104,13 @@ router.post("/register", middleware.notLoggedIn, upload.single('image'), functio
 			lastName: req.body.lastName,
 			avatar: req.body.avatar,
 			phone: req.body.phone,
+			gender: req.body.gender,
 			cea: req.body.cea,
+			streetName: req.body.streetName,
+			unitNumber: req.body.unitNumber,
+			country: req.body.country,
+			state: req.body.state,
+			postalCode: req.body.postalCode,
 			verificationCode: randomStringCode,
 	});
 	if(req.body.roleCode === 'admin'){

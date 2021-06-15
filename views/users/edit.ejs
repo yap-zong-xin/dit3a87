@@ -7,9 +7,12 @@
     <!-- all users -->
     username: <input type="text" name="user[username]" value="<%= user.username %>" placeholder="username*" required>
     email: <input type="email" name="user[email]" value="<%= user.email %>" placeholder="email*" required>
-    firstName: <input type="text" name="user[firstName]" value="<%= user.firstName %>" placeholder="first name">
-    lastName: <input type="text" name="user[lastName]" value="<%= user.lastName %>" placeholder="last name">
     phone: <input type="number" name="user[phone]" value="<%= user.phone %>" placeholder="phone">
+    address: <input type="text" name="user[streetName]" value="<%= user.streetName %>" placeholder="street name"><br>
+    <input type="text" name="user[unitNumber]" value="<%= user.unitNumber %>" placeholder="unit number"><br>
+    <input type="text" name="user[country]" value="<%= user.country %>" placeholder="country"><br>
+    <input type="text" name="user[state]" value="<%= user.state %>" placeholder="state"><br>
+    <input type="number" name="user[postalCode]" value="<%= user.postalCode %>" placeholder="postal code"><br>
 
     <!-- seekers and admins -->
     <% if(user.isAgent==false || currentUser && currentUser.isAdmin){ %>
