@@ -21,7 +21,7 @@ Chat Feature Setup
 1. In the api folder, create a .env file, and paste this in :
 MONGO_URL = mongodb://localhost/SAP
 2. Make 3 new terminal windows in this folder.
-3. In the 3 terminal windows, change directory to api, client and socket folders.
+3. In the 3 terminal windows, cd to chat/api, chat/client and chat/socket.
 4. Run "npm install" in all 3 folders to install all the node modules.
 5. Run "npm start" in all 3 terminals to start up the chat feature.
 
