@@ -30,14 +30,13 @@
     <% } %>
       <div class="thumbnail">
         <% if(user.image==null){ %>
-          <img
-            src="https://lh3.googleusercontent.com/proxy/p6H9FrzyLp9c5AZh5Azao4zl01DJw64NSoAch2DImJkWWc6Wb524TSDonUp4rcfMGb9-Y_tlGvlUxYcmNTXVI94kps5G-RvX2YrC1viHNSYYRfXF_KEgdNFE4mLuEDff-TNmmfCg6CQfkQ"
+          <img src="https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png"
             alt="user profile image" style="width: 200px;">
           <% } else { %>
             <img src="<%= user.image %>" alt="user profile image">
             <% } %>
               <div class="caption">
-                agent since <%= moment(user.createdAt).fromNow() %>
+                created since <%= moment(user.createdAt).fromNow() %>
                   <br>email: <a href="mailto:<%= user.email %>">
                     <%= user.email %>
                   </a>
@@ -49,20 +48,23 @@
                 </form>
                 <% } %>
                   <% if(currentUser && user._id.equals(currentUser._id)){ %>
-                    <form action="http://localhost:8800/api/conversations/<%= currentUser._id %>/<%= user.id %>"
-                      method="POST">
-                      <button type="submit" class="btn btn-primary">Chat with <%= user.username %></button>
-                    </form>
                     <% } else { %>
                       <a href="/follow/<%= user.id %>"><button class="btn btn-primary">Follow <%= user.username %>
                         </button></a>
                       <% } %>
-                        <p style="color: red;">reset password at new page, not here
-                          <br>3 boxes:
-                          <br>▪ Old Password
-                          <br>▪ New Password
-                          <br>▪ Re-Enter New Password
-                        </p>
+
+                        <% if(currentUser && user._id.equals(currentUser._id)){ %>
+                          <% } else { %>
+                            <form action="http://localhost:8800/api/conversations/<%= currentUser._id %>/<%= user.id %>"
+                              method="POST">
+                              <button type="submit" class="btn btn-primary">Chat with <%= user.username %></button>
+                              <% } %>
+                                <p style="color: red;">reset password at new page, not here
+                                  <br>3 boxes:
+                                  <br>▪ Old Password
+                                  <br>▪ New Password
+                                  <br>▪ Re-Enter New Password
+                                </p>
       </div>
 
       <% if(user.isAgent==true){ %>
