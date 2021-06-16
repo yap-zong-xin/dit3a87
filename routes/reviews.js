@@ -72,11 +72,11 @@ router.get("/user/:id/reviews/:review_id/edit", middleware.checkReviewOwnership,
         }
         var reviewDate; 
         if(foundReview.updatedAt) {
-        reviewDate = foundReview.updatedAt;
-        console.log('have been updated: '+ reviewDate);
+            reviewDate = foundReview.updatedAt;
+            console.log('have been updated: '+ reviewDate);
         }else {
-        reviewDate = foundReview.createdAt;
-        console.log('original not updated: '+reviewDate);
+            reviewDate = foundReview.createdAt;
+            console.log('original not updated: '+reviewDate);
         }
         var latestReview = moment(reviewDate);
         var expireReview = latestReview.clone().add(1, 'weeks');  //.add(10, 'seconds');
@@ -86,10 +86,10 @@ router.get("/user/:id/reviews/:review_id/edit", middleware.checkReviewOwnership,
         var currentDate = moment();
         console.log('current date now: '+currentDate);
         if (currentDate >= expireReview){
-        console.log('edit button should be expired')
-        // clearInterval(intervalCheck);
-        req.flash("error", 'Unable to edit review: 1 week passed.');
-        return res.redirect("back"); 
+            console.log('edit button should be expired')
+            // clearInterval(intervalCheck);
+            req.flash("error", 'Unable to edit review: 1 week passed.');
+            return res.redirect("back"); 
         }   
         res.render("reviews/edit.ejs", {user_id: req.params.id, review: foundReview});
     });
