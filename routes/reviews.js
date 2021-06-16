@@ -4,6 +4,8 @@ var User = require("../models/user");
 var Review = require("../models/review");
 var middleware = require("../middleware");
 
+var moment = require('moment');
+
 // Reviews Index
 router.get("/user/:id/reviews", function (req, res) {
     User.findById(req.params.id).populate({
@@ -68,6 +70,27 @@ router.get("/user/:id/reviews/:review_id/edit", middleware.checkReviewOwnership,
             req.flash("error", err.message);
             return res.redirect("back");
         }
+        var reviewDate; 
+        if(foundReview.updatedAt) {
+        reviewDate = foundReview.updatedAt;
+        console.log('have been updated: '+ reviewDate);
+        }else {
+        reviewDate = foundReview.createdAt;
+        console.log('original not updated: '+reviewDate);
+        }
+        var latestReview = moment(reviewDate);
+        var expireReview = latestReview.clone().add(1, 'weeks');  //.add(10, 'seconds');
+        console.log('latest foundReview: '+latestReview);
+        console.log('expire Reivew: '+expireReview);
+
+        var currentDate = moment();
+        console.log('current date now: '+currentDate);
+        if (currentDate >= expireReview){
+        console.log('edit button should be expired')
+        // clearInterval(intervalCheck);
+        req.flash("error", 'Unable to edit review: 1 week passed.');
+        return res.redirect("back"); 
+        }   
         res.render("reviews/edit.ejs", {user_id: req.params.id, review: foundReview});
     });
 });
