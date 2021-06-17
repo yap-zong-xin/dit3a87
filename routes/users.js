@@ -190,6 +190,35 @@ router.put("/user/:id", middleware.checkUserOwnership, upload.single("image"), f
 	});
 });
 
+router.put("/user/:id/banner", middleware.checkUserOwnership, upload.single("banner"), function(req, res){
+	User.findById(req.params.id, async function(err, user){
+		console.log(user)
+		if(err){
+			req.flash("error", err.message);
+			res.redirect("back");
+		} else{
+			if(req.file){
+				try{
+					if(user.bannerId!=null){
+						await cloudinary.v2.uploader.destroy(user.bannerId);
+					}
+						var result = await cloudinary.v2.uploader.upload(req.file.path);
+						user.banner = result.secure_url;
+						user.bannerId = result.public_id;
+				} catch(err){
+						req.flash("error", err.message);
+						return res.redirect("back");
+				}
+			}
+		}
+		user.save();
+		console.log(user)
+		req.flash("success", "profile info successfully updated!");
+		res.redirect("/user/" + user._id);
+	});
+});
+
+
 //Destroy Route
 router.delete("/user/:id", middleware.checkUserOwnership, function(req, res){
   User.findById(req.params.id, async function(err, user) {
@@ -267,7 +296,6 @@ router.get('/notifications/:id', middleware.isLoggedIn, async function(req, res)
     res.redirect('back');
   }
 });
-
 
 router.get('/users/:userId', async function(req, res) {
 	const userId = req.params.userId

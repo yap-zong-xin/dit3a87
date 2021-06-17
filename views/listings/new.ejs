@@ -4,8 +4,6 @@
   <!-- <form action="/listings" method="POST"> -->
   <form action="/listings" method="POST" enctype="multipart/form-data">
     <input type="text" name="name" placeholder="name">
-    <input type="file" name="thumbnail" accept="image/*" required>
-    <input type="file" name="image" accept="image/*" multiple required>
     <!-- <input type="text" name="image" placeholder="image url"> -->
     <input type="text" name="description" placeholder="description">
     <input type="text" name="zone" placeholder="zone">
@@ -14,7 +12,9 @@
     <input type="number" name="size" placeholder="size">
     <input type="text" name="type" placeholder="type">
     <input type="number" name="numofRooms" placeholder="number of rooms">
-    <input type="file" name="video" accept="video/*" multiple required> <!-- required -->
+    <br>(thumbnail image)<input type="file" name="thumbnail" accept="image/*" required>
+    <br>(all propetty image)<input type="file" name="image" accept="image/*" multiple required>
+    <br>(video)<input type="file" name="video" accept="video/*" multiple required> <!-- required -->
     <button>submit</button>
   </form>
   <a href="/listings">Go Back</a>

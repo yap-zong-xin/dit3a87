@@ -11,6 +11,8 @@ var userSchema = new mongoose.Schema({
 	cea: String,
 	image: String,
 	imageId: String,
+	banner: String,
+	bannerId: String,
 	firstName: String,
 	lastName: String,
 	gender: String,

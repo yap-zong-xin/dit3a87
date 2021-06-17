@@ -176,12 +176,14 @@ router.post("/register", middleware.notLoggedIn, upload.single('image'), functio
 			});
 		});
 	} else if(!req.file && req.body.roleCode != 'agent') {
+		newUser.image = "https://villagesonmacarthur.com/wp-content/uploads/2020/12/Blank-Avatar.png";
 		User.register(newUser, req.body.password, function(err, user){
 			if(err){
 				console.log(err);
 				req.flash('error', err.message);
 				return res.redirect('/register');
 			}
+			console.log(newUser.image)
 			async function sendMail() {
 				try {
 					var host = req.get('host');
