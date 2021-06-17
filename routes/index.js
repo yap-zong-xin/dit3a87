@@ -42,9 +42,9 @@ var nodemailer = require("nodemailer");
 //npm install googleapis
 var { google } = require('googleapis');
 const CLIENT_ID = '476773105287-ojgudstsf7bv4rvb572b7pequt1ng6r2.apps.googleusercontent.com';
-const CLIENT_SECRET = '7tvnoTSjDIcBwgmYs5oUvE1R';
+const CLIENT_SECRET = 'l7vmthxIvR0r4cAdCAl3oC_R';
 const REDIRECT_URI = 'https://developers.google.com/oauthplayground';
-const REFRESH_TOKEN = '1//04Yr2cfowKOLQCgYIARAAGAQSNwF-L9IrIzQy0gn9q08Z_1VPYS_V_fGGJxx4wnX7sPzgw3WaX2MdrZGC_iXP58P1eNx0jXBiCq4';
+const REFRESH_TOKEN = '1//04cfP4D4yBv7hCgYIARAAGAQSNwF-L9IrXQZe6ioFhiEfJOjHq34eHsvkK7I1TgqugbVazQXNy84LuKVToaMZqInSToGwk7P8YTg';
 
 const oAuth2Client = new google.auth.OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI);
 oAuth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
@@ -171,7 +171,7 @@ router.post("/register", middleware.notLoggedIn, upload.single('image'), functio
 				.then(result => console.log('Email Sent...', result))
 				.then(req.flash('success','Your account was successfully created, please verify your email'))
 				.then(res.redirect("/login"))
-				.catch(error => console.log(error.message))
+				.catch(error => console.log('email error: ',error.message))
 				
 			});
 		});
