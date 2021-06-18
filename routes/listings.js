@@ -78,16 +78,50 @@ router.get("/listings", function(req,res){
 			});
 	} else if (req.query.Apply) {
 		// Property Type
-		var type = req.query.type;
-		console.log('inputted type: '+type);
+		// var type = req.query.type;
+		// console.log('inputted type: '+type);
+		// var regexType;
+		// if(typeof type == 'undefined'){
+		// 	var allType = [ 'HDB', 'Condo', 'Landed' ];
+		// 	regexType = allType.map(function(e){return new RegExp(e, "gi");});
+		// 	console.log('inside type: '+regexType);
+		// }else {
+		// 	regexType = new RegExp(type, "gi");
+		// 	console.log('new regex for type: '+regexType);
+		// }
+		const hdbType = req.query.hdbType;
+		const condoType = req.query.condoType;
+		const landedType = req.query.landedType;
+		var allType = []
+		allType.push(hdbType, condoType, landedType);
+		console.log('line 83: '+allType);
+		var typeArr=[];
 		var regexType;
-		if(typeof type == 'undefined'){
-			var allType = [ 'HDB', 'Condo', 'Landed' ];
+		var typeCount = 0;
+		for(let i=0; i<allType.length; i++) {
+			if(typeof allType[i]=='undefined'){
+				console.log('counting type')
+				typeCount++;
+			}
+		}
+		if(typeCount == 3){
+			allType = [ 'hdb', 'condo', 'landed' ];
 			regexType = allType.map(function(e){return new RegExp(e, "gi");});
-			console.log('inside type: '+regexType);
+			console.log('inside type all empty: '+regexType);
 		}else {
-			regexType = new RegExp(type, "gi");
-			console.log('new regex for type: '+regexType);
+			for(let i=0; i<allType.length; i++) {
+				if(!(typeof allType[i] == 'undefined')) { //contains value does not contain undefined
+					console.log('line 87: '+allType[i]);
+					typeArr[i] = allType[i];
+					console.log('inside type: '+typeArr);
+					var typeArrRegex = typeArr.map(function(e){return new RegExp(e, "gi");});
+					regexType = typeArrRegex.filter(function(eli){
+						return eli != null && eli != '';
+					})
+					console.log('regexType: '+regexType)
+				}
+
+			}
 		}
 		
 		// Zone 
@@ -95,9 +129,10 @@ router.get("/listings", function(req,res){
 		const southZone = req.query.southZone;
 		const eastZone = req.query.eastZone;
 		const westZone = req.query.westZone;
-		var allZone = new Array(northZone, southZone, eastZone, westZone);
+		var allZone = [];
+		allZone.push(northZone, southZone, eastZone, westZone);
 		console.log('line 83: '+allZone);
-		var zoneArr=new Array();
+		var zoneArr=[];
 		var regexZone;
 		var count = 0;
 		for(let i=0; i<allZone.length; i++) {
@@ -136,30 +171,76 @@ router.get("/listings", function(req,res){
 		console.log("minSize: "+minSize);
 		console.log("minSize: "+maxSize);
 		// Number of rooms 
-		var numofRooms = new Array(); 
-		numofRooms.push(req.query.numofRooms);
-		var newnumofRooms;
-		for(let i=0; i<numofRooms.length; i++){
-			if(typeof numofRooms[i] == 'undefined') {
-				newnumofRooms = [ 1, 2, 3, 4, 5, 6 ];
-				// console.log('inside rooms: '+newnumofRooms);
-			}else {
-				newnumofRooms = numofRooms;
-				console.log('totototot: '+newnumofRooms)
+		// var numofRooms = new Array(); 
+		// numofRooms.push(req.query.numofRooms);
+		// var newnumofRooms;
+		// for(let i=0; i<numofRooms.length; i++){
+		// 	if(typeof numofRooms[i] == 'undefined') {
+		// 		newnumofRooms = [ 1, 2, 3, 4, 5, 6 ];
+		// 		// console.log('inside rooms: '+newnumofRooms);
+		// 	}else {
+		// 		newnumofRooms = numofRooms;
+		// 		console.log('totototot: '+newnumofRooms)
+		// 	}
+		// }
+		const onerooms = req.query.onerooms;
+		const tworooms = req.query.tworooms;
+		const threerooms = req.query.threerooms;
+		const fourrooms = req.query.fourrooms;
+		const fiverooms = req.query.fiverooms;
+		const sixrooms = req.query.sixrooms;
+		var allRooms = [];
+		allRooms.push(onerooms, tworooms, threerooms, fourrooms, fiverooms, sixrooms);
+		console.log('line 83: '+allRooms);
+		var roomsArr=[];
+		var regexRooms;
+		var roomCount = 0;
+		for(let i=0; i<allRooms.length; i++) {
+			if(typeof allRooms[i]=='undefined'){
+				console.log('counting')
+				roomCount++;
 			}
 		}
-		// Sort by Price
-		var sortType = req.query.sortPrice;
-		console.log('sort type: '+sortType)	
-		var sortOptions;
-		if(sortType == 'LowestPrice') {
-			sortOptions = { price: 1 };
-		}else if(sortType == 'HighestPrice') {
-			sortOptions = { price: -1 };
+		if(roomCount == 6){
+			allRooms = [ 1, 2, 3, 4, 5, 6 ];
+			// regexRooms = allRooms.map(function(e){return new RegExp(e, "gi");});
+			console.log('inside room all empty: '+allRooms);
 		}else {
-			sortOptions = { createdAt: -1 };
+			for(let i=0; i<allRooms.length; i++) {
+				if(!(typeof allRooms[i] == 'undefined')) { //contains value does not contain undefined
+					console.log('line 87: '+allRooms[i]);
+					roomsArr[i] = allRooms[i];
+					console.log('inside rooms: '+roomsArr);
+					// var roomsArrRegex = roomsArr.map(function(e){return new RegExp(e, "gi");});
+					regexRooms = roomsArr.filter(function(elt){
+						return elt != null && elt != '';
+					})
+					console.log('regexRooms: '+regexRooms)
+				}
+
+			}
 		}
-		listing.find({$and: [ {price: {$gte: minPrice, $lte: maxPrice}}, {zone: {$in : regexZone}}, {type: {$in: regexType}}, {size: {$gte: minSize, $lte: maxSize}}, {numofRooms: {$in: newnumofRooms}} ] }).sort(sortOptions).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, alllistings) {
+		// Sort object (to be passed into .sort)
+		var sortOptions = { createdAt: -1};
+		// Sort by Price
+		var sortPrice = req.query.sortPrice;
+		console.log('sort price type: '+sortPrice)	
+		if(sortPrice == 'LowestPrice') {
+			sortOptions.price = 1;
+		}else if(sortPrice == 'HighestPrice') {
+			sortOptions.price = -1 ;
+		}
+		// Sort by date added
+		var sortDate = req.query.sortDate;
+		console.log('sort date type: '+sortDate)	
+		if(sortDate == 'Recent') {
+			sortOptions.createdAt = -1;
+		}else if(sortDate == 'Oldest') {
+			sortOptions.createdAt = 1;
+		}
+		console.log('final sort option object: ',sortOptions);
+
+		listing.find({$and: [ {price: {$gte: minPrice, $lte: maxPrice}}, {zone: {$in : regexZone}}, {type: {$in: regexType}}, {size: {$gte: minSize, $lte: maxSize}}, {numofRooms: {$in: regexRooms}} ] }).sort(sortOptions).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, alllistings) {
 			listing.count({price: minPrice}).exec(function (err, count) {
 				if (err) {
 					console.log(err);

@@ -39,13 +39,20 @@
                                 <p>Filter</p><br>
 
                                 <!-- 1st Filter: Property Type-->
-                                <label for="type">Choose Property Type:</label>
+                                <!-- <label for="type">Choose Property Type:</label>
                                 <select name="type" id="type">
                                     <option value="" disabled selected hidden>Property Type</option>
                                     <option value="HDB">HDB</option>
                                     <option value="Condo">Condo</option>
                                     <option value="Landed">Landed</option>
-                                </select>
+                                </select> -->
+                                <label for="propertyType">Choose a property type:</label><br>
+                                <input type="checkbox" id="hdb" name="hdbType" value="hdb">
+                                <label for="hdb">HDB</label><br>
+                                <input type="checkbox" id="condo" name="condoType" value="condo">
+                                <label for="condo">Condo</label><br>
+                                <input type="checkbox" id="landed" name="landedType" value="landed">
+                                <label for="landed">Landed</label><br>
 
                                 <!-- 2nd Filter: Property Zone -->
                                 <br><label for="propertyStatus">Choose a Zone:</label><br>
@@ -58,14 +65,27 @@
                                 <input type="checkbox" id="west" name="westZone" value="west">
                                 <label for="west">West</label><br>
 
+                                <!-- testing -->
+                                <%var maxPriceAmt = 0;%>
+                                <% listings.forEach(function(listing){ %>
+                                    <%
+                                    console.log(listing.price)
+                                    if(maxPriceAmt < listing.price) {
+                                        maxPriceAmt = listing.price;
+                                    }
+                                    
+                                    console.log('the max one: '+ maxPriceAmt);
+                                    %>
+                                <% }) %>
+
                                 <!-- 3rd Filter: Price Slider -->
                                 <div class="price-slider">
                                     <span>Price: 
-                                        <input type="number" value="0" min="0" max="120000" name="minPrice" /> to
-                                        <input type="number" value="120000" min="0" max="120000" name="maxPrice" />
+                                        <input type="number" value="0" min="0" max="<%= maxPriceAmt %>" name="minPrice" /> to
+                                        <input type="number" value="<%= maxPriceAmt %>" min="0" max="<%= maxPriceAmt %>" name="maxPrice" />
                                     </span>
-                                    <input type="range" value="0" min="0" max="120000" step="500" />
-                                    <input type="range" value="120000" min="0" max="120000" step="500" />
+                                    <input type="range" value="0" min="0" max="<%= maxPriceAmt %>" step="500" />
+                                    <input type="range" value="<%= maxPriceAmt %>" min="0" max="<%= maxPriceAmt %>" step="500" />
                                     <svg width="100%" height="24">
                                         <!-- <line x1="4" y1="0" x2="300" y2="0" stroke="#212121" stroke-width="12"
                                             stroke-dasharray="1 28">
@@ -73,14 +93,27 @@
                                     </svg>
                                 </div>
 
+                                <!-- testing -->
+                                <%var maxSizeAmt = 0;%>
+                                <% listings.forEach(function(listing){ %>
+                                    <%
+                                    console.log(listing.size)
+                                    if(maxSizeAmt < listing.size) {
+                                        maxSizeAmt = listing.size;
+                                    }
+                                    
+                                    console.log('the max one: '+ maxSizeAmt);
+                                    %>
+                                <% }) %>
+
                                 <!-- 4th Filter: Size Slider -->
                                 <div class="size-slider">
                                     <span>Size: 
-                                        <input type="number" value="0" min="0" max="120000" name="minSize" /> to
-                                        <input type="number" value="120000" min="0" max="120000" name="maxSize" />
+                                        <input type="number" value="0" min="0" max="<%= maxSizeAmt %>" name="minSize" /> to
+                                        <input type="number" value="<%= maxSizeAmt %>" min="0" max="<%= maxSizeAmt %>" name="maxSize" />
                                     </span>
-                                    <input type="range" value="0" min="0" max="120000" step="500" />
-                                    <input type="range" value="120000" min="0" max="120000" step="500" />
+                                    <input type="range" value="0" min="0" max="<%= maxSizeAmt %>" step="500" />
+                                    <input type="range" value="<%= maxSizeAmt %>" min="0" max="<%= maxSizeAmt %>" step="500" />
                                     <svg width="100%" height="24">
                                         <!-- <line x1="4" y1="0" x2="300" y2="0" stroke="#212121" stroke-width="12"
                                             stroke-dasharray="1 28">
@@ -97,7 +130,7 @@
                                 </select>
 
                                 <!-- 6th filter: Number of rooms slider -->
-                                <label for="numofRooms">Number of Rooms:</label>
+                                <!-- <label for="numofRooms">Number of Rooms:</label>
                                 <select name="numofRooms" id="numofRooms">
                                     <option value="" disabled selected hidden>Rooms</option>
                                     <option value="1">1</option>
@@ -106,7 +139,29 @@
                                     <option value="4">4</option>
                                     <option value="5">5</option>
                                     <option value="6">6</option>
+                                </select> -->
+                                <br><label for="numofRooms">Number of rooms:</label><br>
+                                <input type="checkbox" id="1" name="onerooms" value="1">
+                                <label for="1">1</label><br>
+                                <input type="checkbox" id="2" name="tworooms" value="2">
+                                <label for="2">2</label><br>
+                                <input type="checkbox" id="3" name="threerooms" value="3">
+                                <label for="3">3</label><br>
+                                <input type="checkbox" id="4" name="fourrooms" value="4">
+                                <label for="4">4</label><br>
+                                <input type="checkbox" id="5" name="fiverooms" value="5">
+                                <label for="5">5</label><br>
+                                <input type="checkbox" id="6" name="sixrooms" value="6">
+                                <label for="6">6</label><br>
+
+                                <!-- 7th filter: Sort by recent/oldest -->
+                                <br><label for="sortDate">Filter by:</label>
+                                <select name="sortDate" id="sortDate">
+                                    <option value="" disabled selected hidden>Date</option>
+                                    <option value="Recent">Recent</option>
+                                    <option value="Oldest">Oldest</option>
                                 </select>
+
 
                                 <br><input type="submit" value="Apply" name="Apply">
                                 
@@ -115,7 +170,6 @@
                     </div>
                 </div>
             
-
             <div class="col-sm-8">
                 <div class="all-listing-card">
                     <div class="all-listing-card-container">
