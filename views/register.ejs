@@ -1,35 +1,375 @@
 <%- include("partials/header") %>
+<div class="container container-login shadow">
+  <div class="forms-container">
+    <div class="signin-signup">
 
-  <h1>Sign Up Form</h1>
+      <!--Seeker-->
+      <form action="/register" method="POST" enctype="multipart/form-data" class="sign-in-form">
+        <h2 class="title">Property Seeker</h2>
 
-  <form action="/register" method="POST" enctype="multipart/form-data">
-    <ul class="typeOfRole">
-      <li>
-        <input type="radio" id="public" name="roleCode" value="public" />
-        <label for="public">Seeker</label>
-      </li>
-      <li>
-        <input type="radio" id="agent" name="roleCode" value="agent" />
-        <label for="agent">Agent</label>
-      </li>
-    </ul>
+        <ul class="typeOfRole d-none">
+          <li>
+            <input type="radio" id="admin" name="roleCode" value="public" checked />
+            <label for="admin">Admin</label>
+          </li>
+        </ul>
 
-    <input type="text" name="username" placeholder="username*" required>
-    <input type="email" name="email" placeholder="email*" required>
-    <input type="password" name="password" placeholder="password*" required>
-    <input type="text" name="firstName" placeholder="first name">
-    <input type="text" name="lastName" placeholder="last name">
-    <input type="text" name="gender" placeholder="gender">
-    <input type="text" name="cea" placeholder="cea number">
-    <span style="color: red;">add phone country code</span><input type="number" name="phone" placeholder="phone">
-    <input type="text" name="streetName" placeholder="street name">
-    <input type="text" name="unitNumber" placeholder="unit number">
-    <input type="text" name="country" placeholder="country">
-    <input type="text" name="state" placeholder="state">
-    <input type="number" name="postalCode" placeholder="postal code">
-    <br>(agent profile is compulsory / seeker profile is optional)<input type="file" name="image" accept="image/*">
+        <!--Basic Details-->
+        <div class="tab">
+          <div class="input-field">
+            <i class="fas fa-user"></i>
+            <input type="text" placeholder="First Name" id="f-name" name="f-name" required/>
+          </div>
+          <div class="input-field">
+            <i class="fas fa-user"></i>
+            <input type="text" placeholder="Last Name" id="l-name" name="l-name" required/>
+          </div>
+          <div class="input-field-select">
+                <i class="fas fa-venus-mars"></i>
+                <select name="gender" id="gender" id="gender" name="gender" required>
+                  <option value="unselected" hidden selected>Select Gender</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                  <option value="others">Others</option>
+                </select>
+          </div>
+          <div class="input-field">
+            <i class="fas fa-envelope"></i>
+            <input type="text" placeholder="Email" id="email" name="email" required/>
+          </div>
+          <div class="input-field">
+            <i class="fas fa-phone"></i>
+            <input type="text" placeholder="Phone Number" id="phone" name="phone" required/>
+          </div>
+        </div>
 
-    <button>Sign Up</button>
-  </form>
+        <!--Address-->
+        <div class="tab">
+          <div class="input-field">
+            <i class="fas fa-map"></i>
+            <input type="text" placeholder="Address Line 1" id="address-ln1" name="address-ln1" required/>
+          </div>
+          <div class="input-field">
+            <i class="fas fa-map"></i>
+            <input type="text" placeholder="Address Line 2" id="address-ln2" name="address-ln2"/>
+          </div>
+          <div class="input-field">
+            <i class="fas fa-city"></i>
+            <input type="text" placeholder="State/City" id="city" name="city" required/>
+          </div>
+          <div class="input-field-select">
+            <i class="fas fa-globe-asia"></i>
+            <select name="country" id="country" name="country" required>
+              <option value="unselected" hidden selected>Select Country</option>
+              <option value="Singapore">Singapore</option>
+              <option value="Malaysia">Malaysia</option>
+              <option value="Indonesia">Indonesia</option>
+            </select>
+          </div>
+          <div class="input-field">
+            <i class="fas fa-map-marker-alt"></i>
+            <input type="text" placeholder="Postal" id="postal" name="postal" required />
+          </div>
+        </div>
 
+        <!--User Details-->
+        <div class="tab">
+          <div class="input-field">
+            <i class="fas fa-user"></i>
+            <input type="text" placeholder="Username" id="username" name="username" required/>
+          </div>
+          <div class="input-field">
+            <i class="fas fa-lock"></i>
+            <input type="password" placeholder="Password" id="pwd" name="pwd" required/>
+          </div>
+          <div class="input-field" id="upload">
+            <a><b>Upload Profile Picture:</b></a>
+            <input type="file" name="image" accept="image/*" required />
+          </div>
+        </div>
+
+        <div style="text-align:center;margin-top:40px;">
+          <span class="step"></span>
+          <span class="step"></span>
+          <span class="step"></span>
+        </div>
+        <div style="overflow:auto;">
+          <div class="np-btn">
+            <button type="button" class="btn" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
+            <button type="button" class="btn" id="nextBtn" onclick="nextPrev(1)">Next</button>
+          </div>
+        </div>
+      </form>
+
+      <!--Agent-->
+      <form action="/register" method="POST" enctype="multipart/form-data" class="sign-up-form" >
+        <h2 class="title">Property Agent</h2>
+        <ul class="typeOfRole d-none">
+          <li>
+            <input type="radio" id="agent" name="roleCode" value="agent" checked />
+            <label for="admin">Admin</label>
+          </li>
+        </ul>
+
+        <!--Basic Details-->
+        <div class="tab-agent">
+          <div class="input-field">
+            <i class="fas fa-user"></i>
+            <input type="text" placeholder="First Name" id="f-name" name="f-name" required/>
+          </div>
+          <div class="input-field">
+            <i class="fas fa-user"></i>
+            <input type="text" placeholder="Last Name" id="l-name" name="l-name" required/>
+          </div>
+          <div class="input-field-select">
+                <i class="fas fa-venus-mars"></i>
+                <select name="gender" id="gender" id="gender" name="gender" required>
+                  <option value="unselected" hidden selected>Select Gender</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                  <option value="others">Others</option>
+                </select>
+          </div>
+          <div class="input-field">
+            <i class="fas fa-envelope"></i>
+            <input type="text" placeholder="Email" id="email" name="email" required/>
+          </div>
+          <div class="input-field">
+            <i class="fas fa-phone"></i>
+            <input type="text" placeholder="Phone Number" id="phone" name="phone" required/>
+          </div>
+        </div>
+
+        <!--Address-->
+        <div class="tab-agent">
+          <div class="input-field">
+            <i class="fas fa-map"></i>
+            <input type="text" placeholder="Address Line 1" id="address-ln1" name="address-ln1" required/>
+          </div>
+          <div class="input-field">
+            <i class="fas fa-map"></i>
+            <input type="text" placeholder="Address Line 2" id="address-ln2" name="address-ln2"/>
+          </div>
+          <div class="input-field">
+            <i class="fas fa-city"></i>
+            <input type="text" placeholder="State/City" id="city" name="city" required/>
+          </div>
+          <div class="input-field-select">
+            <i class="fas fa-globe-asia"></i>
+            <select name="country" id="country" name="country" required>
+              <option value="unselected" hidden selected>Select Country</option>
+              <option value="Singapore">Singapore</option>
+              <option value="Malaysia">Malaysia</option>
+              <option value="Indonesia">Indonesia</option>
+            </select>
+          </div>
+          <div class="input-field">
+            <i class="fas fa-map-marker-alt"></i>
+            <input type="text" placeholder="Postal" id="postal" name="postal" required />
+          </div>
+        </div>
+
+        <!--User Details-->
+        <div class="tab-agent">
+          <div class="input-field">
+            <i class="fas fa-user"></i>
+            <input type="text" placeholder="Username" id="username" name="username" required/>
+          </div>
+          <div class="input-field">
+            <i class="fas fa-lock"></i>
+            <input type="password" placeholder="Password" id="pwd" name="pwd" required/>
+          </div>
+          <div class="input-field">
+            <i class="fas fa-id-card-alt"></i>
+            <input type="string" name="cea" placeholder="CEA Number" id="cea" required />
+          </div>
+          <div class="input-field" id="upload">
+            <a><b>Upload Profile Picture:</b></a>
+            <input type="file" name="image" accept="image/*" required />
+          </div>
+        </div>
+
+        <div style="text-align:center;margin-top:40px;">
+          <span class="step-agent"></span>
+          <span class="step-agent"></span>
+          <span class="step-agent"></span>
+        </div>
+
+        <div style="overflow:auto;">
+          <div class="np-btn">
+            <button type="button" class="btn" id="prevBtnAgent" onclick="nextPrevAgent(-1)">Previous</button>
+            <button type="button" class="btn" id="nextBtnAgent" onclick="nextPrevAgent(1)">Next</button>
+          </div>
+        </div>
+      </form>
+    </div>
+    
+  </div>
+
+  <div class="panels-container">
+    <div class="panel left-panel">
+      <div class="content">
+        <h3>Selling Properties?</h3>
+        <p>
+          Sign up as a Property Agent to start listing!
+        </p>
+        <button class="btn transparent" id="sign-up-btn">
+          Sign up
+        </button>
+      </div>
+    </div>
+    <div class="panel right-panel">
+      <div class="content">
+        <h3>Searching for Properties?</h3>
+        <p>
+          Sign up now to start browsing!
+        </p>
+        <button class="btn transparent" id="sign-in-btn">
+          Sign Up
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  var currentTab = 0, currentTabAgent = 0; // Current tab is set to be the first tab (0)
+  showTab(currentTab); // Display the current tab
+  showTabAgent(currentTabAgent); // Display the current tab
+
+  function showTab(n) {
+    // This function will display the specified tab of the form ...
+    var x = document.getElementsByClassName("tab");
+    x[n].style.display = "block";
+    // ... and fix the Previous/Next buttons:
+    if (n == 0) {
+      document.getElementById("prevBtn").style.display = "none";
+    } else {
+      document.getElementById("prevBtn").style.display = "inline";
+    }
+    if (n == (x.length - 1)) {
+      document.getElementById("nextBtn").innerHTML = "Submit";
+    } else {
+      document.getElementById("nextBtn").innerHTML = "Next";
+    }
+    // ... and run a function that displays the correct step indicator:
+    fixStepIndicator(n)
+  }
+
+  function showTabAgent(n) {
+    // This function will display the specified tab of the form ...
+    var x = document.getElementsByClassName("tab-agent");
+    x[n].style.display = "block";
+    // ... and fix the Previous/Next buttons:
+    if (n == 0) {
+      document.getElementById("prevBtnAgent").style.display = "none";
+    } else {
+      document.getElementById("prevBtnAgent").style.display = "inline";
+    }
+    if (n == (x.length - 1)) {
+      document.getElementById("nextBtnAgent").innerHTML = "Submit";
+    } else {
+      document.getElementById("nextBtnAgent").innerHTML = "Next";
+    }
+    // ... and run a function that displays the correct step indicator:
+    fixStepIndicatorAgent(n)
+  }
+
+  function nextPrev(n) {
+    var x = document.getElementsByClassName("tab");
+    if (n == 1 && !validateForm()) return false;
+    // Hide the current tab:
+    x[currentTab].style.transition = "transform 1s ease-in-out"
+    x[currentTab].style.display = "none";
+    currentTab = currentTab + n;
+    if (currentTab >= x.length) {
+      document.getElementById("regForm").submit();
+      return false;
+    }
+    showTab(currentTab);
+  }
+
+  function nextPrevAgent(n) {
+    var x = document.getElementsByClassName("tab-agent");
+    if (n == 1 && !validateFormAgent()) return false;
+    // Hide the current tab:
+    x[currentTabAgent].style.display = "none";
+    currentTabAgent = currentTabAgent + n;
+
+    if (currentTabAgent >= x.length) {
+      document.getElementById("regForm").submit();
+      return false;
+    }
+    showTabAgent(currentTabAgent);
+  }
+
+  function validateForm() {
+    var x, y, i, z, e, valid = true;
+    x = document.getElementsByClassName("tab");
+    z = x[currentTab].getElementsByClassName("input-field");
+    a = x[currentTab].getElementsByClassName("input-field-select")
+    y = x[currentTab].getElementsByTagName("input")
+    w = x[currentTab].getElementsByTagName("select")
+    for (e = 0; e < w.length; e++) {
+      if (w[e].value == "unselected") {
+        a[e].className += " invalid";
+        valid = false;
+      }
+    }
+    for (i = 0; i < y.length; i++) {
+      if (y[i].value == "") {
+        z[i].className += " invalid";
+        valid = false;
+      }
+    }
+    if (valid) {
+      document.getElementsByClassName("step")[currentTab].className += " finish";
+    }
+    return valid;
+  }
+
+  function validateFormAgent() {
+    var x, y, i, z, e, valid = true;
+    x = document.getElementsByClassName("tab-agent");
+    z = x[currentTabAgent].getElementsByClassName("input-field");
+    a = x[currentTabAgent].getElementsByClassName("input-field-select")
+    y = x[currentTabAgent].getElementsByTagName("input")
+    w = x[currentTabAgent].getElementsByTagName("select")
+    for (e = 0; e < w.length; e++) {
+      if (w[e].value == "unselected") {
+        a[e].className += " invalid";
+        valid = false;
+      }
+    }
+    for (i = 0; i < y.length; i++) {
+      if (y[i].value == "") {
+        z[i].className += " invalid";
+        valid = false;
+      }
+    }
+    if (valid) {
+      document.getElementsByClassName("step-agent")[currentTabAgent].className += " finish";
+    }
+    return valid;
+  }
+
+  function fixStepIndicator(n) {
+    // This function removes the "active" class of all steps...
+    var i, x = document.getElementsByClassName("step");
+    for (i = 0; i < x.length; i++) {
+      x[i].className = x[i].className.replace(" active", "");
+    }
+    //... and adds the "active" class to the current step:
+    x[n].className += " active";
+  }
+
+  function fixStepIndicatorAgent(n) {
+    // This function removes the "active" class of all steps...
+    var i, x = document.getElementsByClassName("step-agent");
+    for (i = 0; i < x.length; i++) {
+      x[i].className = x[i].className.replace(" active", "");
+    }
+    //... and adds the "active" class to the current step:
+    x[n].className += " active";
+  }
+</script>
   <%- include("partials/footer") %>

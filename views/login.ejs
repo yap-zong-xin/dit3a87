@@ -1,13 +1,69 @@
 <%- include("partials/header") %>
+<div class="container">
+  <div class="row col-md-12 p-0 login-card shadow">
+    <!--Left Panel for Picture-->
+    <div class="col-md-5 m-0 p-0 login-img">
+      <img class="img-fluid"src="/img/log.svg" alt="Login Image">
+    </div>
+    <!--Right Panel for Login Form-->
+    <div class="col-md-7 login-form">
+        <div class="inputs-login" id="inputs-login">
+          <form action="/login" method="POST">
+          <h2>Member Login</h2>
+          <div class="input-field">
+            <i class="fas fa-user"></i>
+            <input type="text" name="username" placeholder="Username" required />
+          </div>
+          
+          <div class="input-field">
+            <i class="fas fa-lock"></i>
+            <input type="password" name="password" placeholder="Password" required />
+          </div>
 
-  <h1>Login Form</h1>
+          <div class="login-check d-flex justify-content-end align-items-center">
+            <label class="m-0 p-0 d-flex justify-content-between align-items-center">Remember Me
+              <input type="checkbox">
+              <span class="checkmark"></span>
+            </label>
+          </div>
 
-  <form action="/login" method="POST">
-    <input type="email" name="email" placeholder="email" required>
-    <!-- <input type="text" name="username" placeholder="username" required> -->
-    <input type="password" name="password" placeholder="password" required>
-    <p style="color: red;">Have the 'Remember Me' toggle below 'Password' box</p>
-    <button>Login</button>
-  </form>
+          <div class="login-submit d-flex flex-column">
+            <div>
+              <button type="button" class="fgt-pwd" onClick="showReset()">Forgot Password?</button>
+            </div>
+            <div>
+              <input type="submit" value="login" class="btn solid btn-reg" />
+            </div>
+          </div>
+        </form>
+      </div>
+      
+      <div class="inputs-login" id="input-forgetpwd">
+        <h2>Forgot Password?</h2>
+        <a>You can reset your password here.</a>
 
+        <!--Forget pwd-->
+        <form action="#" method="POST">
+          <div class="input-field">
+            <i class="fas fa-envelope"></i>
+            <input type="text" placeholder="Email" id="email" name="email" required/>
+          </div>
+          <input type="submit" value="Reset" class="btn solid btn-reg" />
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  function showReset() {
+    console.log("hi");
+    var x = document.getElementById("inputs-login");
+    x.style.display = "none";
+
+    var y = document.getElementById("input-forgetpwd");
+    y.style.display = "block";
+  }
+</script>
   <%- include("partials/footer") %>
