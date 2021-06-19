@@ -94,7 +94,7 @@ router.get("/listings", function(req,res){
 		const landedType = req.query.landedType;
 		var allType = []
 		allType.push(hdbType, condoType, landedType);
-		console.log('line 83: '+allType);
+		console.log('all type: '+allType);
 		var typeArr=[];
 		var regexType;
 		var typeCount = 0;
@@ -111,7 +111,7 @@ router.get("/listings", function(req,res){
 		}else {
 			for(let i=0; i<allType.length; i++) {
 				if(!(typeof allType[i] == 'undefined')) { //contains value does not contain undefined
-					console.log('line 87: '+allType[i]);
+					console.log('all type at i: '+allType[i]);
 					typeArr[i] = allType[i];
 					console.log('inside type: '+typeArr);
 					var typeArrRegex = typeArr.map(function(e){return new RegExp(e, "gi");});
@@ -131,13 +131,13 @@ router.get("/listings", function(req,res){
 		const westZone = req.query.westZone;
 		var allZone = [];
 		allZone.push(northZone, southZone, eastZone, westZone);
-		console.log('line 83: '+allZone);
+		console.log('all zone: '+allZone);
 		var zoneArr=[];
 		var regexZone;
 		var count = 0;
 		for(let i=0; i<allZone.length; i++) {
 			if(typeof allZone[i]=='undefined'){
-				console.log('counting')
+				console.log('counting rooms')
 				count++;
 			}
 		}
@@ -191,20 +191,20 @@ router.get("/listings", function(req,res){
 		const sixrooms = req.query.sixrooms;
 		var allRooms = [];
 		allRooms.push(onerooms, tworooms, threerooms, fourrooms, fiverooms, sixrooms);
-		console.log('line 83: '+allRooms);
+		console.log('all rooms: '+allRooms);
 		var roomsArr=[];
 		var regexRooms;
 		var roomCount = 0;
 		for(let i=0; i<allRooms.length; i++) {
 			if(typeof allRooms[i]=='undefined'){
-				console.log('counting')
+				console.log('counting rooms')
 				roomCount++;
 			}
 		}
 		if(roomCount == 6){
-			allRooms = [ 1, 2, 3, 4, 5, 6 ];
+			regexRooms = [ 1, 2, 3, 4, 5, 6 ];
 			// regexRooms = allRooms.map(function(e){return new RegExp(e, "gi");});
-			console.log('inside room all empty: '+allRooms);
+			console.log('inside room all empty: '+typeof regexRooms[1]);
 		}else {
 			for(let i=0; i<allRooms.length; i++) {
 				if(!(typeof allRooms[i] == 'undefined')) { //contains value does not contain undefined
@@ -239,6 +239,7 @@ router.get("/listings", function(req,res){
 			sortOptions.createdAt = 1;
 		}
 		console.log('final sort option object: ',sortOptions);
+		console.log('all parameters passed to mongo: '+minPrice+', '+maxPrice+', '+regexZone+', '+regexType+', '+minSize+', '+maxSize+', '+regexRooms);
 
 		listing.find({$and: [ {price: {$gte: minPrice, $lte: maxPrice}}, {zone: {$in : regexZone}}, {type: {$in: regexType}}, {size: {$gte: minSize, $lte: maxSize}}, {numofRooms: {$in: regexRooms}} ] }).sort(sortOptions).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, alllistings) {
 			listing.count({price: minPrice}).exec(function (err, count) {
