@@ -177,6 +177,7 @@ router.post("/register", middleware.notLoggedIn, upload.single('image'), functio
 		});
 	} else if(!req.file && req.body.roleCode != 'agent') {
 		newUser.image = "https://villagesonmacarthur.com/wp-content/uploads/2020/12/Blank-Avatar.png";
+		newUser.banner = "https://www.leoharper.com/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBbGFWIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--48c45fd738da4a611c5e48fe765f9337f828d60a/banner-default-old.jpg";
 		User.register(newUser, req.body.password, function(err, user){
 			if(err){
 				console.log(err);

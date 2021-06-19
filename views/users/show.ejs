@@ -6,7 +6,7 @@
     <button>Edit</button>
   </form>
 
-  <img src="<%= user.banner %>" alt="user banner image">
+  <img src="<%= user.banner %>" alt="user banner image" style="width: 40%;">
 
   <p style="color: red;">Allow change 'Profile Banner'</img>
   <h6>
@@ -37,7 +37,7 @@
     </h6>
     <% } %>
       <div class="thumbnail">
-        <img src="<%= user.image %>" alt="user profile image">
+        <img src="<%= user.image %>" alt="user profile image" style="width: 20%;">
         <div class="caption">
           created since <%= moment(user.createdAt).fromNow() %>
             <br>email: <a href="mailto:<%= user.email %>">

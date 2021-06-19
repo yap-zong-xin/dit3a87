@@ -1,384 +1,384 @@
 <%- include("partials/header") %>
-<div class="container container-login shadow">
-  <div class="forms-container">
-    <div class="signin-signup">
+  <div class="container container-login shadow">
+    <div class="forms-container">
+      <div class="signin-signup">
 
-      <!--Seeker-->
-      <form action="/register" method="POST" enctype="multipart/form-data" class="sign-in-form" id="regForm-seeker">
-        <h2 class="title">Property Seeker</h2>
+        <!--Seeker-->
+        <form action="/register" method="POST" enctype="multipart/form-data" class="sign-in-form" id="regForm-seeker">
+          <h2 class="title">Property Seeker</h2>
 
-        <ul class="typeOfRole d-none">
-          <li>
-            <input type="radio" id="admin" name="roleCode" value="public" checked />
-            <label for="admin">Admin</label>
-          </li>
-        </ul>
+          <ul class="typeOfRole d-none">
+            <li>
+              <input type="radio" id="admin" name="roleCode" value="public" checked />
+              <label for="admin">Admin</label>
+            </li>
+          </ul>
 
-        <div class="loader-seeker" id="loader-seeker"></div>
+          <div class="loader-seeker" id="loader-seeker"></div>
 
-        <!--Basic Details-->
-        <div class="tab">
-          <div class="input-field">
-            <i class="fas fa-user"></i>
-            <input type="text" placeholder="First Name" id="firstName" name="firstName" required/>
+          <!--Basic Details-->
+          <div class="tab">
+            <div class="input-field">
+              <i class="fas fa-user"></i>
+              <input type="text" placeholder="First Name" id="firstName" name="firstName" required />
+            </div>
+            <div class="input-field">
+              <i class="fas fa-user"></i>
+              <input type="text" placeholder="Last Name" id="lastName" name="lastName" required />
+            </div>
+            <div class="input-field-select">
+              <i class="fas fa-venus-mars"></i>
+              <select name="gender" id="gender" id="gender" name="gender" required>
+                <option value="unselected" hidden selected>Select Gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="others">Others</option>
+              </select>
+            </div>
+            <div class="input-field">
+              <i class="fas fa-envelope"></i>
+              <input type="text" placeholder="Email" id="email" name="email" required />
+            </div>
+            <div class="input-field">
+              <i class="fas fa-phone"></i>
+              <input type="text" placeholder="Phone Number" id="phone" name="phone" required />
+            </div>
           </div>
-          <div class="input-field">
-            <i class="fas fa-user"></i>
-            <input type="text" placeholder="Last Name" id="lastName" name="lastName" required/>
-          </div>
-          <div class="input-field-select">
-                <i class="fas fa-venus-mars"></i>
-                <select name="gender" id="gender" id="gender" name="gender" required>
-                  <option value="unselected" hidden selected>Select Gender</option>
-                  <option value="male">Male</option>
-                  <option value="female">Female</option>
-                  <option value="others">Others</option>
-                </select>
-          </div>
-          <div class="input-field">
-            <i class="fas fa-envelope"></i>
-            <input type="text" placeholder="Email" id="email" name="email" required/>
-          </div>
-          <div class="input-field">
-            <i class="fas fa-phone"></i>
-            <input type="text" placeholder="Phone Number" id="phone" name="phone" required/>
-          </div>
-        </div>
 
-        <!--Address-->
-        <div class="tab">
-          <div class="input-field">
-            <i class="fas fa-map"></i>
-            <input type="text" placeholder="Address Line 1" id="address-ln1" name="streetName" required/>
+          <!--Address-->
+          <div class="tab">
+            <div class="input-field">
+              <i class="fas fa-map"></i>
+              <input type="text" placeholder="Address Line 1" id="address-ln1" name="streetName" required />
+            </div>
+            <div class="input-field">
+              <i class="fas fa-map"></i>
+              <input type="text" placeholder="Address Line 2" id="address-ln2" name="streetName2" />
+            </div>
+            <div class="input-field">
+              <i class="fas fa-city"></i>
+              <input type="text" placeholder="State/City" id="city" name="state" required />
+            </div>
+            <div class="input-field-select">
+              <i class="fas fa-globe-asia"></i>
+              <select name="country" id="country" name="country" required>
+                <option value="unselected" hidden selected>Select Country</option>
+                <option value="Singapore">Singapore</option>
+                <option value="Malaysia">Malaysia</option>
+                <option value="Indonesia">Indonesia</option>
+              </select>
+            </div>
+            <div class="input-field">
+              <i class="fas fa-map-marker-alt"></i>
+              <input type="text" placeholder="Postal" id="postal" name="postalCode" required />
+            </div>
           </div>
-          <div class="input-field">
-            <i class="fas fa-map"></i>
-            <input type="text" placeholder="Address Line 2" id="address-ln2" name="streetName2" />
-          </div>
-          <div class="input-field">
-            <i class="fas fa-city"></i>
-            <input type="text" placeholder="State/City" id="city" name="state" required/>
-          </div>
-          <div class="input-field-select">
-            <i class="fas fa-globe-asia"></i>
-            <select name="country" id="country" name="country" required>
-              <option value="unselected" hidden selected>Select Country</option>
-              <option value="Singapore">Singapore</option>
-              <option value="Malaysia">Malaysia</option>
-              <option value="Indonesia">Indonesia</option>
-            </select>
-          </div>
-          <div class="input-field">
-            <i class="fas fa-map-marker-alt"></i>
-            <input type="text" placeholder="Postal" id="postal" name="postalCode" required />
-          </div>
-        </div>
 
-        <!--User Details-->
-        <div class="tab">
-          <div class="input-field">
-            <i class="fas fa-user"></i>
-            <input type="text" placeholder="Username" id="username" name="username" required/>
+          <!--User Details-->
+          <div class="tab">
+            <div class="input-field">
+              <i class="fas fa-user"></i>
+              <input type="text" placeholder="Username" id="username" name="username" required />
+            </div>
+            <div class="input-field">
+              <i class="fas fa-lock"></i>
+              <input type="password" placeholder="Password" name="password" name="pwd" required />
+            </div>
+            <div class="input-field" id="upload">
+              <a><b>Upload Profile Picture:</b></a>
+              <input type="file" name="image" accept="image/*" />
+            </div>
           </div>
-          <div class="input-field">
-            <i class="fas fa-lock"></i>
-            <input type="password" placeholder="Password" name="password" name="pwd" required/>
-          </div>
-          <div class="input-field" id="upload">
-            <a><b>Upload Profile Picture:</b></a>
-            <input type="file" name="image" accept="image/*" required />
-          </div>
-        </div>
 
-        <div style="text-align:center;margin-top:40px;">
-          <span class="step"></span>
-          <span class="step"></span>
-          <span class="step"></span>
-        </div>
-        <div style="overflow:auto;">
-          <div class="np-btn">
-            <button type="button" class="btn" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
-            <button type="button" class="btn" id="nextBtn" onclick="nextPrev(1)">Next</button>
+          <div style="text-align:center;margin-top:40px;">
+            <span class="step"></span>
+            <span class="step"></span>
+            <span class="step"></span>
           </div>
-        </div>
-      </form>
+          <div style="overflow:auto;">
+            <div class="np-btn">
+              <button type="button" class="btn" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
+              <button type="button" class="btn" id="nextBtn" onclick="nextPrev(1)">Next</button>
+            </div>
+          </div>
+        </form>
 
-      <!--Agent-->
-      <form action="/register" method="POST" enctype="multipart/form-data" class="sign-up-form"  id="regForm-agent" >
-        <h2 class="title">Property Agent</h2>
-        <ul class="typeOfRole d-none">
-          <li>
-            <input type="radio" id="agent" name="roleCode" value="agent" checked />
-            <label for="admin">Admin</label>
-          </li>
-        </ul>
+        <!--Agent-->
+        <form action="/register" method="POST" enctype="multipart/form-data" class="sign-up-form" id="regForm-agent">
+          <h2 class="title">Property Agent</h2>
+          <ul class="typeOfRole d-none">
+            <li>
+              <input type="radio" id="agent" name="roleCode" value="agent" checked />
+              <label for="admin">Admin</label>
+            </li>
+          </ul>
 
-        <div class="loader-agent" id="loader-agent"></div>
+          <div class="loader-agent" id="loader-agent"></div>
 
-        <!--Basic Details-->
-        <div class="tab-agent">
-          <div class="input-field">
-            <i class="fas fa-user"></i>
-            <input type="text" placeholder="First Name" id="f-name" name="firstName" required/>
+          <!--Basic Details-->
+          <div class="tab-agent">
+            <div class="input-field">
+              <i class="fas fa-user"></i>
+              <input type="text" placeholder="First Name" id="f-name" name="firstName" required />
+            </div>
+            <div class="input-field">
+              <i class="fas fa-user"></i>
+              <input type="text" placeholder="Last Name" id="l-name" name="lastName" required />
+            </div>
+            <div class="input-field-select">
+              <i class="fas fa-venus-mars"></i>
+              <select name="gender" id="gender" id="gender" name="gender" required>
+                <option value="unselected" hidden selected>Select Gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="others">Others</option>
+              </select>
+            </div>
+            <div class="input-field">
+              <i class="fas fa-envelope"></i>
+              <input type="text" placeholder="Email" id="email" name="email" required />
+            </div>
+            <div class="input-field">
+              <i class="fas fa-phone"></i>
+              <input type="text" placeholder="Phone Number" id="phone" name="phone" required />
+            </div>
           </div>
-          <div class="input-field">
-            <i class="fas fa-user"></i>
-            <input type="text" placeholder="Last Name" id="l-name" name="lastName" required/>
-          </div>
-          <div class="input-field-select">
-                <i class="fas fa-venus-mars"></i>
-                <select name="gender" id="gender" id="gender" name="gender" required>
-                  <option value="unselected" hidden selected>Select Gender</option>
-                  <option value="male">Male</option>
-                  <option value="female">Female</option>
-                  <option value="others">Others</option>
-                </select>
-          </div>
-          <div class="input-field">
-            <i class="fas fa-envelope"></i>
-            <input type="text" placeholder="Email" id="email" name="email" required/>
-          </div>
-          <div class="input-field">
-            <i class="fas fa-phone"></i>
-            <input type="text" placeholder="Phone Number" id="phone" name="phone" required/>
-          </div>
-        </div>
 
-        <!--Address-->
-        <div class="tab-agent">
-          <div class="input-field">
-            <i class="fas fa-map"></i>
-            <input type="text" placeholder="Address Line 1" id="address-ln1" name="streetName" required/>
+          <!--Address-->
+          <div class="tab-agent">
+            <div class="input-field">
+              <i class="fas fa-map"></i>
+              <input type="text" placeholder="Address Line 1" id="address-ln1" name="streetName" required />
+            </div>
+            <div class="input-field">
+              <i class="fas fa-map"></i>
+              <input type="text" placeholder="Address Line 2" id="address-ln2" name="streetName2" />
+            </div>
+            <div class="input-field">
+              <i class="fas fa-city"></i>
+              <input type="text" placeholder="State/City" id="city" name="state" required />
+            </div>
+            <div class="input-field-select">
+              <i class="fas fa-globe-asia"></i>
+              <select name="country" id="country" name="country" required>
+                <option value="unselected" hidden selected>Select Country</option>
+                <option value="Singapore">Singapore</option>
+                <option value="Malaysia">Malaysia</option>
+                <option value="Indonesia">Indonesia</option>
+              </select>
+            </div>
+            <div class="input-field">
+              <i class="fas fa-map-marker-alt"></i>
+              <input type="text" placeholder="Postal" id="postal" name="postalCode" required />
+            </div>
           </div>
-          <div class="input-field">
-            <i class="fas fa-map"></i>
-            <input type="text" placeholder="Address Line 2" id="address-ln2" name="streetName2"/>
-          </div>
-          <div class="input-field">
-            <i class="fas fa-city"></i>
-            <input type="text" placeholder="State/City" id="city" name="state" required/>
-          </div>
-          <div class="input-field-select">
-            <i class="fas fa-globe-asia"></i>
-            <select name="country" id="country" name="country" required>
-              <option value="unselected" hidden selected>Select Country</option>
-              <option value="Singapore">Singapore</option>
-              <option value="Malaysia">Malaysia</option>
-              <option value="Indonesia">Indonesia</option>
-            </select>
-          </div>
-          <div class="input-field">
-            <i class="fas fa-map-marker-alt"></i>
-            <input type="text" placeholder="Postal" id="postal" name="postalCode" required />
-          </div>
-        </div>
 
-        <!--User Details-->
-        <div class="tab-agent">
-          <div class="input-field">
-            <i class="fas fa-user"></i>
-            <input type="text" placeholder="Username" id="username" name="username" required/>
+          <!--User Details-->
+          <div class="tab-agent">
+            <div class="input-field">
+              <i class="fas fa-user"></i>
+              <input type="text" placeholder="Username" id="username" name="username" required />
+            </div>
+            <div class="input-field">
+              <i class="fas fa-lock"></i>
+              <input type="password" placeholder="Password" id="pwd" name="password" required />
+            </div>
+            <div class="input-field">
+              <i class="fas fa-id-card-alt"></i>
+              <input type="string" name="cea" placeholder="CEA Number" id="cea" required />
+            </div>
+            <div class="input-field" id="upload">
+              <a><b>Upload Profile Picture:</b></a>
+              <input type="file" name="image" accept="image/*" required />
+            </div>
           </div>
-          <div class="input-field">
-            <i class="fas fa-lock"></i>
-            <input type="password" placeholder="Password" id="pwd" name="password" required/>
-          </div>
-          <div class="input-field">
-            <i class="fas fa-id-card-alt"></i>
-            <input type="string" name="cea" placeholder="CEA Number" id="cea" required />
-          </div>
-          <div class="input-field" id="upload">
-            <a><b>Upload Profile Picture:</b></a>
-            <input type="file" name="image" accept="image/*" required />
-          </div>
-        </div>
 
-        <div style="text-align:center;margin-top:40px;">
-          <span class="step-agent"></span>
-          <span class="step-agent"></span>
-          <span class="step-agent"></span>
-        </div>
-
-        <div style="overflow:auto;">
-          <div class="np-btn">
-            <button type="button" class="btn" id="prevBtnAgent" onclick="nextPrevAgent(-1)">Previous</button>
-            <button type="button" class="btn" id="nextBtnAgent" onclick="nextPrevAgent(1)">Next</button>
+          <div style="text-align:center;margin-top:40px;">
+            <span class="step-agent"></span>
+            <span class="step-agent"></span>
+            <span class="step-agent"></span>
           </div>
-        </div>
-      </form>
+
+          <div style="overflow:auto;">
+            <div class="np-btn">
+              <button type="button" class="btn" id="prevBtnAgent" onclick="nextPrevAgent(-1)">Previous</button>
+              <button type="button" class="btn" id="nextBtnAgent" onclick="nextPrevAgent(1)">Next</button>
+            </div>
+          </div>
+        </form>
+      </div>
+
     </div>
-    
-  </div>
 
-  <div class="panels-container">
-    <div class="panel left-panel">
-      <div class="content">
-        <h3>Selling Properties?</h3>
-        <p>
-          Sign up as a Property Agent to start listing!
-        </p>
-        <button class="btn transparent" id="sign-up-btn">
-          Sign up
-        </button>
+    <div class="panels-container">
+      <div class="panel left-panel">
+        <div class="content">
+          <h3>Selling Properties?</h3>
+          <p>
+            Sign up as a Property Agent to start listing!
+          </p>
+          <button class="btn transparent" id="sign-up-btn">
+            Sign up
+          </button>
+        </div>
+      </div>
+      <div class="panel right-panel">
+        <div class="content">
+          <h3>Searching for Properties?</h3>
+          <p>
+            Sign up now to start browsing!
+          </p>
+          <button class="btn transparent" id="sign-in-btn">
+            Sign Up
+          </button>
+        </div>
       </div>
     </div>
-    <div class="panel right-panel">
-      <div class="content">
-        <h3>Searching for Properties?</h3>
-        <p>
-          Sign up now to start browsing!
-        </p>
-        <button class="btn transparent" id="sign-in-btn">
-          Sign Up
-        </button>
-      </div>
-    </div>
   </div>
-</div>
-<script>
-  var currentTab = 0, currentTabAgent = 0; // Current tab is set to be the first tab (0)
-  showTab(currentTab); // Display the current tab
-  showTabAgent(currentTabAgent); // Display the current tab
+  <script>
+    var currentTab = 0, currentTabAgent = 0; // Current tab is set to be the first tab (0)
+    showTab(currentTab); // Display the current tab
+    showTabAgent(currentTabAgent); // Display the current tab
 
-  function showTab(n) {
-    // This function will display the specified tab of the form ...
-    var x = document.getElementsByClassName("tab");
-    x[n].style.display = "block";
-    // ... and fix the Previous/Next buttons:
-    if (n == 0) {
-      document.getElementById("prevBtn").style.display = "none";
-    } else {
-      document.getElementById("prevBtn").style.display = "inline";
-    }
-    if (n == (x.length - 1)) {
-      document.getElementById("nextBtn").innerHTML = "Submit";
-    } else {
-      document.getElementById("nextBtn").innerHTML = "Next";
-    }
-    // ... and run a function that displays the correct step indicator:
-    fixStepIndicator(n)
-  }
-
-  function showTabAgent(n) {
-    // This function will display the specified tab of the form ...
-    var x = document.getElementsByClassName("tab-agent");
-    x[n].style.display = "block";
-    // ... and fix the Previous/Next buttons:
-    if (n == 0) {
-      document.getElementById("prevBtnAgent").style.display = "none";
-    } else {
-      document.getElementById("prevBtnAgent").style.display = "inline";
-    }
-    if (n == (x.length - 1)) {
-      document.getElementById("nextBtnAgent").innerHTML = "Submit";
-    } else {
-      document.getElementById("nextBtnAgent").innerHTML = "Next";
-    }
-    // ... and run a function that displays the correct step indicator:
-    fixStepIndicatorAgent(n)
-  }
-
-  function nextPrev(n) {
-    var x = document.getElementsByClassName("tab");
-    if (n == 1 && !validateForm()) return false;
-    // Hide the current tab:
-    x[currentTab].style.transition = "transform 1s ease-in-out"
-    x[currentTab].style.display = "none";
-    currentTab = currentTab + n;
-    if (currentTab >= x.length) {
-      document.getElementById("loader-seeker").style.display = "block";
-      document.getElementById("regForm-seeker").submit();
-      return false;
-    }
-    showTab(currentTab);
-  }
-
-  function nextPrevAgent(n) {
-    var x = document.getElementsByClassName("tab-agent");
-    if (n == 1 && !validateFormAgent()) return false;
-    // Hide the current tab:
-    x[currentTabAgent].style.display = "none";
-    currentTabAgent = currentTabAgent + n;
-
-    if (currentTabAgent >= x.length) {
-      document.getElementById("loader-agent").style.display = "block";
-      document.getElementById("regForm-agent").submit();
-      return false;
-    }
-    showTabAgent(currentTabAgent);
-  }
-
-  function validateForm() {
-    var x, y, i, z, e, valid = true;
-    x = document.getElementsByClassName("tab");
-    z = x[currentTab].getElementsByClassName("input-field");
-    a = x[currentTab].getElementsByClassName("input-field-select")
-    y = x[currentTab].getElementsByTagName("input")
-    w = x[currentTab].getElementsByTagName("select")
-    for (e = 0; e < w.length; e++) {
-      if (w[e].value == "unselected") {
-        a[e].className += " invalid";
-        valid = false;
+    function showTab(n) {
+      // This function will display the specified tab of the form ...
+      var x = document.getElementsByClassName("tab");
+      x[n].style.display = "block";
+      // ... and fix the Previous/Next buttons:
+      if (n == 0) {
+        document.getElementById("prevBtn").style.display = "none";
+      } else {
+        document.getElementById("prevBtn").style.display = "inline";
       }
-    }
-
-    console.log(y)
-
-    for (i = 0; i < y.length; i++) {
-      if (y[i].value == "") {
-        z[i].className += " invalid";
-        valid = false;
+      if (n == (x.length - 1)) {
+        document.getElementById("nextBtn").innerHTML = "Submit";
+      } else {
+        document.getElementById("nextBtn").innerHTML = "Next";
       }
+      // ... and run a function that displays the correct step indicator:
+      fixStepIndicator(n)
     }
-    if (valid) {
-      document.getElementsByClassName("step")[currentTab].className += " finish";
-    }
-    return valid;
-  }
 
-  function validateFormAgent() {
-    var x, y, i, z, e, valid = true;
-    x = document.getElementsByClassName("tab-agent");
-    z = x[currentTabAgent].getElementsByClassName("input-field");
-    a = x[currentTabAgent].getElementsByClassName("input-field-select")
-    y = x[currentTabAgent].getElementsByTagName("input")
-    w = x[currentTabAgent].getElementsByTagName("select")
-    for (e = 0; e < w.length; e++) {
-      if (w[e].value == "unselected") {
-        a[e].className += " invalid";
-        valid = false;
+    function showTabAgent(n) {
+      // This function will display the specified tab of the form ...
+      var x = document.getElementsByClassName("tab-agent");
+      x[n].style.display = "block";
+      // ... and fix the Previous/Next buttons:
+      if (n == 0) {
+        document.getElementById("prevBtnAgent").style.display = "none";
+      } else {
+        document.getElementById("prevBtnAgent").style.display = "inline";
       }
-    }
-    for (i = 0; i < y.length; i++) {
-      if (y[i].value == "") {
-        z[i].className += " invalid";
-        valid = false;
+      if (n == (x.length - 1)) {
+        document.getElementById("nextBtnAgent").innerHTML = "Submit";
+      } else {
+        document.getElementById("nextBtnAgent").innerHTML = "Next";
       }
+      // ... and run a function that displays the correct step indicator:
+      fixStepIndicatorAgent(n)
     }
-    if (valid) {
-      document.getElementsByClassName("step-agent")[currentTabAgent].className += " finish";
-    }
-    return valid;
-  }
 
-  function fixStepIndicator(n) {
-    // This function removes the "active" class of all steps...
-    var i, x = document.getElementsByClassName("step");
-    for (i = 0; i < x.length; i++) {
-      x[i].className = x[i].className.replace(" active", "");
+    function nextPrev(n) {
+      var x = document.getElementsByClassName("tab");
+      if (n == 1 && !validateForm()) return false;
+      // Hide the current tab:
+      x[currentTab].style.transition = "transform 1s ease-in-out"
+      x[currentTab].style.display = "none";
+      currentTab = currentTab + n;
+      if (currentTab >= x.length) {
+        document.getElementById("loader-seeker").style.display = "block";
+        document.getElementById("regForm-seeker").submit();
+        return false;
+      }
+      showTab(currentTab);
     }
-    //... and adds the "active" class to the current step:
-    x[n].className += " active";
-  }
 
-  function fixStepIndicatorAgent(n) {
-    // This function removes the "active" class of all steps...
-    var i, x = document.getElementsByClassName("step-agent");
-    for (i = 0; i < x.length; i++) {
-      x[i].className = x[i].className.replace(" active", "");
+    function nextPrevAgent(n) {
+      var x = document.getElementsByClassName("tab-agent");
+      if (n == 1 && !validateFormAgent()) return false;
+      // Hide the current tab:
+      x[currentTabAgent].style.display = "none";
+      currentTabAgent = currentTabAgent + n;
+
+      if (currentTabAgent >= x.length) {
+        document.getElementById("loader-agent").style.display = "block";
+        document.getElementById("regForm-agent").submit();
+        return false;
+      }
+      showTabAgent(currentTabAgent);
     }
-    //... and adds the "active" class to the current step:
-    x[n].className += " active";
-  }
-</script>
+
+    function validateForm() {
+      var x, y, i, z, e, valid = true;
+      x = document.getElementsByClassName("tab");
+      z = x[currentTab].getElementsByClassName("input-field");
+      a = x[currentTab].getElementsByClassName("input-field-select")
+      y = x[currentTab].getElementsByTagName("input")
+      w = x[currentTab].getElementsByTagName("select")
+      for (e = 0; e < w.length; e++) {
+        if (w[e].value == "unselected") {
+          a[e].className += " invalid";
+          valid = false;
+        }
+      }
+
+      console.log(y)
+
+      for (i = 0; i < y.length; i++) {
+        if (y[i].value == "") {
+          z[i].className += " invalid";
+          valid = false;
+        }
+      }
+      if (valid) {
+        document.getElementsByClassName("step")[currentTab].className += " finish";
+      }
+      return valid;
+    }
+
+    function validateFormAgent() {
+      var x, y, i, z, e, valid = true;
+      x = document.getElementsByClassName("tab-agent");
+      z = x[currentTabAgent].getElementsByClassName("input-field");
+      a = x[currentTabAgent].getElementsByClassName("input-field-select")
+      y = x[currentTabAgent].getElementsByTagName("input")
+      w = x[currentTabAgent].getElementsByTagName("select")
+      for (e = 0; e < w.length; e++) {
+        if (w[e].value == "unselected") {
+          a[e].className += " invalid";
+          valid = false;
+        }
+      }
+      for (i = 0; i < y.length; i++) {
+        if (y[i].value == "") {
+          z[i].className += " invalid";
+          valid = false;
+        }
+      }
+      if (valid) {
+        document.getElementsByClassName("step-agent")[currentTabAgent].className += " finish";
+      }
+      return valid;
+    }
+
+    function fixStepIndicator(n) {
+      // This function removes the "active" class of all steps...
+      var i, x = document.getElementsByClassName("step");
+      for (i = 0; i < x.length; i++) {
+        x[i].className = x[i].className.replace(" active", "");
+      }
+      //... and adds the "active" class to the current step:
+      x[n].className += " active";
+    }
+
+    function fixStepIndicatorAgent(n) {
+      // This function removes the "active" class of all steps...
+      var i, x = document.getElementsByClassName("step-agent");
+      for (i = 0; i < x.length; i++) {
+        x[i].className = x[i].className.replace(" active", "");
+      }
+      //... and adds the "active" class to the current step:
+      x[n].className += " active";
+    }
+  </script>
   <%- include("partials/footer") %>
