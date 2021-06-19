@@ -237,7 +237,7 @@ body {
 }
 
 .title {
-  font-size: 2.2rem;
+  font-size: 1.8rem;
   color: #444;
   margin-bottom: 10px;
 }
@@ -260,7 +260,7 @@ body {
   line-height: 55px;
   color: #acacac;
   transition: 0.5s;
-  font-size: 1.1rem;
+  font-size: 0.8rem;
 }
 
 .input-field input, .input-field-select select {
@@ -278,6 +278,21 @@ body {
   font-weight: 500;
 }
 
+/* @media screen and (max-height: 992px) {
+  .title {
+    font-size: 1rem;
+  }
+  .input-field {
+    height: 35px;
+  }
+  .input-field input, .input-field-select select {
+    font-weight: 300;
+    font-size: 0.8rem;
+  }
+  
+
+} */
+
 .btn {
   width: 150px;
   background-color: #5995fd;
@@ -291,6 +306,10 @@ body {
   margin: 10px 0;
   cursor: pointer;
   transition: 0.5s;
+}
+
+.btn:focus {
+  outline: none;
 }
 
 .btn:hover {
@@ -424,6 +443,110 @@ body {
 .right-panel .image,
 .right-panel .content {
   transform: translateX(800px);
+}
+
+.loader-seeker, .loader-agent {
+  display: none;
+  border: 16px solid #f3f3f3; /* Light grey */
+  border-top: 16px solid #186aff; /* Blue */
+  border-radius: 50%;
+  width: 90px;
+  height: 90px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@media only screen and (max-height: 750px) {
+  .title {
+    font-size: 1rem;
+  }
+
+  .input-field {
+    height: 35px;
+    border-radius: 35px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .input-field-select {
+    height: 35px;
+    border-radius: 35px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .input-field i, .input-field-select i {
+    padding-left: 5px;
+    font-size: 0.5rem;
+  }
+  
+  .input-field input, .input-field-select select, .input-field-select option {
+    height: 25px;
+    line-height: 1;
+    font-weight: 600;
+    font-size: 0.8rem;
+    color: #333;
+    padding: 0 5px 0 5px;
+    width: 100%;
+  }
+  
+  .input-field input::placeholder {
+    color: #aaa;
+    font-weight: 500;
+  }
+
+  .btn, .btn.transparent{
+    height: 30px;
+    text-align: center;
+    font-size: 12px;
+  }
+
+  .btn.transparent {
+    padding: 0 0 1px;
+  }
+
+  .step, .step-agent {
+    height: 7px;
+    width: 7px;
+  }
+
+  .content h3 {
+    font-size: 16px;
+  }
+
+  .content p {
+    font-size: 12px;
+  }
+
+  #upload {
+    display: flex;
+    flex-direction: column;
+    font-size: 12px;
+    color: #333;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+  }
+  
+  .input-field input[type=file] {
+    padding: 0 15px 0 15px;
+    font-size: 9px;
+    width: 203px;
+  }
+
+  .loader-seeker, .loader-agent {
+    width: 45px;
+    height: 45px;
+  }
+
 }
 
 /* ANIMATION */

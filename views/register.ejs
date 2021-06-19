@@ -4,7 +4,7 @@
     <div class="signin-signup">
 
       <!--Seeker-->
-      <form action="/register" method="POST" enctype="multipart/form-data" class="sign-in-form">
+      <form action="/register" method="POST" enctype="multipart/form-data" class="sign-in-form" id="regForm-seeker">
         <h2 class="title">Property Seeker</h2>
 
         <ul class="typeOfRole d-none">
@@ -14,15 +14,17 @@
           </li>
         </ul>
 
+        <div class="loader-seeker" id="loader-seeker"></div>
+
         <!--Basic Details-->
         <div class="tab">
           <div class="input-field">
             <i class="fas fa-user"></i>
-            <input type="text" placeholder="First Name" id="f-name" name="f-name" required/>
+            <input type="text" placeholder="First Name" id="firstName" name="firstName" required/>
           </div>
           <div class="input-field">
             <i class="fas fa-user"></i>
-            <input type="text" placeholder="Last Name" id="l-name" name="l-name" required/>
+            <input type="text" placeholder="Last Name" id="lastName" name="lastName" required/>
           </div>
           <div class="input-field-select">
                 <i class="fas fa-venus-mars"></i>
@@ -47,15 +49,15 @@
         <div class="tab">
           <div class="input-field">
             <i class="fas fa-map"></i>
-            <input type="text" placeholder="Address Line 1" id="address-ln1" name="address-ln1" required/>
+            <input type="text" placeholder="Address Line 1" id="address-ln1" name="streetName" required/>
           </div>
           <div class="input-field">
             <i class="fas fa-map"></i>
-            <input type="text" placeholder="Address Line 2" id="address-ln2" name="address-ln2"/>
+            <input type="text" placeholder="Address Line 2" id="address-ln2" name="streetName2" />
           </div>
           <div class="input-field">
             <i class="fas fa-city"></i>
-            <input type="text" placeholder="State/City" id="city" name="city" required/>
+            <input type="text" placeholder="State/City" id="city" name="state" required/>
           </div>
           <div class="input-field-select">
             <i class="fas fa-globe-asia"></i>
@@ -68,7 +70,7 @@
           </div>
           <div class="input-field">
             <i class="fas fa-map-marker-alt"></i>
-            <input type="text" placeholder="Postal" id="postal" name="postal" required />
+            <input type="text" placeholder="Postal" id="postal" name="postalCode" required />
           </div>
         </div>
 
@@ -80,7 +82,7 @@
           </div>
           <div class="input-field">
             <i class="fas fa-lock"></i>
-            <input type="password" placeholder="Password" id="pwd" name="pwd" required/>
+            <input type="password" placeholder="Password" name="password" name="pwd" required/>
           </div>
           <div class="input-field" id="upload">
             <a><b>Upload Profile Picture:</b></a>
@@ -102,7 +104,7 @@
       </form>
 
       <!--Agent-->
-      <form action="/register" method="POST" enctype="multipart/form-data" class="sign-up-form" >
+      <form action="/register" method="POST" enctype="multipart/form-data" class="sign-up-form"  id="regForm-agent" >
         <h2 class="title">Property Agent</h2>
         <ul class="typeOfRole d-none">
           <li>
@@ -111,15 +113,17 @@
           </li>
         </ul>
 
+        <div class="loader-agent" id="loader-agent"></div>
+
         <!--Basic Details-->
         <div class="tab-agent">
           <div class="input-field">
             <i class="fas fa-user"></i>
-            <input type="text" placeholder="First Name" id="f-name" name="f-name" required/>
+            <input type="text" placeholder="First Name" id="f-name" name="firstName" required/>
           </div>
           <div class="input-field">
             <i class="fas fa-user"></i>
-            <input type="text" placeholder="Last Name" id="l-name" name="l-name" required/>
+            <input type="text" placeholder="Last Name" id="l-name" name="lastName" required/>
           </div>
           <div class="input-field-select">
                 <i class="fas fa-venus-mars"></i>
@@ -144,15 +148,15 @@
         <div class="tab-agent">
           <div class="input-field">
             <i class="fas fa-map"></i>
-            <input type="text" placeholder="Address Line 1" id="address-ln1" name="address-ln1" required/>
+            <input type="text" placeholder="Address Line 1" id="address-ln1" name="streetName" required/>
           </div>
           <div class="input-field">
             <i class="fas fa-map"></i>
-            <input type="text" placeholder="Address Line 2" id="address-ln2" name="address-ln2"/>
+            <input type="text" placeholder="Address Line 2" id="address-ln2" name="streetName2"/>
           </div>
           <div class="input-field">
             <i class="fas fa-city"></i>
-            <input type="text" placeholder="State/City" id="city" name="city" required/>
+            <input type="text" placeholder="State/City" id="city" name="state" required/>
           </div>
           <div class="input-field-select">
             <i class="fas fa-globe-asia"></i>
@@ -165,7 +169,7 @@
           </div>
           <div class="input-field">
             <i class="fas fa-map-marker-alt"></i>
-            <input type="text" placeholder="Postal" id="postal" name="postal" required />
+            <input type="text" placeholder="Postal" id="postal" name="postalCode" required />
           </div>
         </div>
 
@@ -177,7 +181,7 @@
           </div>
           <div class="input-field">
             <i class="fas fa-lock"></i>
-            <input type="password" placeholder="Password" id="pwd" name="pwd" required/>
+            <input type="password" placeholder="Password" id="pwd" name="password" required/>
           </div>
           <div class="input-field">
             <i class="fas fa-id-card-alt"></i>
@@ -282,7 +286,8 @@
     x[currentTab].style.display = "none";
     currentTab = currentTab + n;
     if (currentTab >= x.length) {
-      document.getElementById("regForm").submit();
+      document.getElementById("loader-seeker").style.display = "block";
+      document.getElementById("regForm-seeker").submit();
       return false;
     }
     showTab(currentTab);
@@ -296,7 +301,8 @@
     currentTabAgent = currentTabAgent + n;
 
     if (currentTabAgent >= x.length) {
-      document.getElementById("regForm").submit();
+      document.getElementById("loader-agent").style.display = "block";
+      document.getElementById("regForm-agent").submit();
       return false;
     }
     showTabAgent(currentTabAgent);
@@ -315,6 +321,9 @@
         valid = false;
       }
     }
+
+    console.log(y)
+
     for (i = 0; i < y.length; i++) {
       if (y[i].value == "") {
         z[i].className += " invalid";
