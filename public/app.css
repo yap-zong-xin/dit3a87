@@ -1,6 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800&display=swap");
-body, nav {
+body {
   font-family: "Poppins", sans-serif;
+  font-size: 0.9em;
 }
 
 .shadow {
@@ -8,28 +9,12 @@ body, nav {
 }
 
 
-/* Listing Card */
-.list-card {
-  /* border: 1px solid red; */
-  /* padding-top: 10px;
-  padding-bottom: 10px; */
-}
-
-.list-wrapper {
-
-}
-
 /* Inside listing card Styling */
 .list-card img {
   width: 150px;
   height: 150px;
   border-radius: 5px;
 }
-
-.prop-desc {
-  /* border: 1px solid red; */
-}
-
 
 /* Page Navigation */
 .pg-nav {
@@ -80,10 +65,6 @@ body, nav {
   margin-bottom: 30px;
 }
 
-.login-check, .login-submit a {
-  font-size: 14px;
-}
-
 .login-form .input-field {
   display: flex;
   justify-content: flex-start;
@@ -102,7 +83,6 @@ body, nav {
   line-height: 55px;
   color: #acacac;
   transition: 0.5s;
-  font-size: 1.1rem;
 }
 
 .login-form .input-field input, .split select {
@@ -111,7 +91,6 @@ body, nav {
   border: none;
   line-height: 1;
   font-weight: 600;
-  font-size: 14px; 
   color: #333;
   background-color: transparent;
   width: 100%;
@@ -134,7 +113,6 @@ body, nav {
   outline: none;
   line-height: 1;
   font-weight: 600;
-  font-size: 14px;
 }
 
 .login-form .input-field input::placeholder {
@@ -233,7 +211,6 @@ body, nav {
 }
 
 .title {
-  font-size: 1.8rem;
   color: #444;
   margin-bottom: 10px;
 }
@@ -256,7 +233,6 @@ body, nav {
   line-height: 55px;
   color: #acacac;
   transition: 0.5s;
-  font-size: 0.8rem;
 }
 
 .input-field input, .input-field-select select {
@@ -265,7 +241,6 @@ body, nav {
   border: none;
   line-height: 1;
   font-weight: 600;
-  font-size: 1.1rem;
   color: #333;
 }
 
@@ -291,7 +266,7 @@ body, nav {
 
 .btn {
   width: 150px;
-  /* background-color: #5995fd; */
+  background-color: #5995fd;
   border: none;
   outline: none;
   height: 49px;
@@ -330,7 +305,6 @@ body, nav {
 #upload {
   display: flex;
   flex-direction: column;
-  font-size: 14px;
   color: #333;
   justify-content: center;
   align-items: center;
@@ -418,11 +392,9 @@ body, nav {
 .panel h3 {
   font-weight: 600;
   line-height: 1;
-  font-size: 1.5rem;
 }
 
 .panel p {
-  font-size: 0.95rem;
   padding: 0.7rem 0;
 }
 
@@ -433,7 +405,6 @@ body, nav {
   width: 130px;
   height: 41px;
   font-weight: 600;
-  font-size: 0.8rem;
 }
 
 .right-panel .image,
@@ -457,10 +428,6 @@ body, nav {
 }
 
 @media only screen and (max-height: 750px) {
-  .title {
-    font-size: 1rem;
-  }
-
   .input-field {
     height: 35px;
     border-radius: 35px;
@@ -481,14 +448,12 @@ body, nav {
   
   .input-field i, .input-field-select i {
     padding-left: 5px;
-    font-size: 0.5rem;
   }
   
   .input-field input, .input-field-select select, .input-field-select option {
     height: 25px;
     line-height: 1;
     font-weight: 600;
-    font-size: 0.8rem;
     color: #333;
     padding: 0 5px 0 5px;
     width: 100%;
@@ -502,7 +467,6 @@ body, nav {
   .btn, .btn.transparent{
     height: 30px;
     text-align: center;
-    font-size: 12px;
   }
 
   .btn.transparent {
@@ -514,18 +478,9 @@ body, nav {
     width: 7px;
   }
 
-  .content h3 {
-    font-size: 16px;
-  }
-
-  .content p {
-    font-size: 12px;
-  }
-
   #upload {
     display: flex;
     flex-direction: column;
-    font-size: 12px;
     color: #333;
     justify-content: center;
     align-items: center;
@@ -534,7 +489,6 @@ body, nav {
   
   .input-field input[type=file] {
     padding: 0 15px 0 15px;
-    font-size: 9px;
     width: 203px;
   }
 
@@ -628,19 +582,14 @@ body, nav {
     transition-delay: 0.8s;
   }
 
-  .panel h3 {
-    font-size: 1.2rem;
-  }
 
   .panel p {
-    font-size: 0.7rem;
     padding: 0.5rem 0;
   }
 
   .btn.transparent {
     width: 110px;
     height: 35px;
-    font-size: 0.7rem;
   }
 
   .container-login:before {
@@ -724,10 +673,6 @@ body, nav {
 .footer-left, .f-link {
   display: flex;
   flex-direction: column;
-}
-
-.footer-social {
-  font-size: 24px;
 }
 
 .footer-social i {
@@ -879,4 +824,44 @@ input[type=range]::-ms-thumb {
   position: absolute;
   left: 0;
   bottom: 0;
+}
+
+
+
+
+/* banner image */
+.banner{
+  width:100%;
+  height: 300px;
+  object-fit: cover;
+}
+.customBannerUpload {
+  border-radius: 35px;
+  background: rgba(255,255,255,1);
+  display: inline-block;
+  padding: 6px 12px;
+  cursor: pointer;
+  position: absolute;
+  top: 300px;
+  right: 20px;
+}
+.banner input[type="file"] {
+  display: none;
+}
+
+.profileImage{
+  position: absolute;
+  left: 510px;
+  top: 200px;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.flashMessage{
+  position: fixed;
+  left: 5%;
+  top: 5%;
+  z-index:1;
 }

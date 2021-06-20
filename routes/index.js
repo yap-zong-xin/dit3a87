@@ -126,7 +126,7 @@ router.post("/register", middleware.notLoggedIn, upload.single('image'), functio
 			// add image's public_id to listing object
 			req.body.imageId = result.public_id;
 			
-			newUser.banner = "https://www.leoharper.com/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBbGFWIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--48c45fd738da4a611c5e48fe765f9337f828d60a/banner-default-old.jpg";
+			newUser.banner = "https://pbs.twimg.com/profile_images/1233576201870086144/Pgxiu0Wx_400x400.png";
 			
 			User.register(newUser, req.body.password, function(err, user){
 				if(err){
@@ -177,7 +177,7 @@ router.post("/register", middleware.notLoggedIn, upload.single('image'), functio
 			});
 		});
 	} else if(!req.file && req.body.roleCode != 'agent') {
-		newUser.image = "https://villagesonmacarthur.com/wp-content/uploads/2020/12/Blank-Avatar.png";
+		newUser.image = "https://pbs.twimg.com/profile_images/1233576201870086144/Pgxiu0Wx_400x400.png";
 		newUser.banner = "https://www.leoharper.com/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBbGFWIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--48c45fd738da4a611c5e48fe765f9337f828d60a/banner-default-old.jpg";
 		User.register(newUser, req.body.password, function(err, user){
 			if(err){

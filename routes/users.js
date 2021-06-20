@@ -183,7 +183,7 @@ router.put("/user/:id", middleware.checkUserOwnership, upload.single("image"), f
 		user.postalCode = req.body.user.postalCode;
 		user.save();
 		console.log(user)
-		req.flash("success", "profile info successfully updated!");
+		req.flash("success", "Your profile has been successfully updated.");
 		res.redirect("/user/" + user._id);
 	});
 });
@@ -211,7 +211,7 @@ router.put("/user/:id/banner", middleware.checkUserOwnership, upload.single("ban
 		}
 		user.save();
 		console.log(user)
-		req.flash("success", "profile info successfully updated!");
+		req.flash("success", "Your profile has been successfully updated.");
 		res.redirect("/user/" + user._id);
 	});
 });

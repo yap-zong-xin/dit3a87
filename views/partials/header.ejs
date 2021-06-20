@@ -80,19 +80,26 @@
                 </li>
                 <% } %>
       </ul>
-
     </div>
   </nav>
 
-  <div class="container py-3">
+  <div class="container flashMessage">
     <% if(error && error.length> 0){ %>
-      <div class="alert alert-danger" role="alert">
+      <div class="alert alert-danger alert-dismissible fade show" role="alert">
         <%= error %>
       </div>
       <% } %>
         <% if(success && success.length> 0){ %>
-          <div class="alert alert-success" role="alert">
+          <div class="alert alert-success alert-dismissible fade show" role="alert">
             <%= success %>
           </div>
           <% } %>
   </div>
+
+  <script>
+    window.setTimeout(function () {
+      $(".alert").fadeTo(500, 0).slideUp(500, function () {
+        $(this).remove();
+      });
+    }, 2000);
+  </script>

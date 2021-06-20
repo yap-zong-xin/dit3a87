@@ -1,5 +1,21 @@
 <%- include("../partials/header") %>
 
+  <!-- banner -->
+  <img src="<%= user.banner %>" class="banner" alt="user banner image">
+
+  <!-- upload image button -->
+  <form action=" /user/<%=user._id %>/banner?_method=PUT" method="POST" enctype="multipart/form-data">
+    <label for="file-upload" class="customBannerUpload py-2 px-4">
+      <i class="fas fa-camera"></i><span class="pl-2">Upload Banner</span>
+    </label>
+    <input type="file" id="file-upload" name="banner" onchange="this.form.submit()" id="bannerUpload" accept="image/*">
+  </form>
+
+  <!-- profile image -->
+  <img src="<%= user.image %>" alt="user profile image" class="profileImage">
+
+
+
   <% if(user.isAgent && currentUser && currentUser.isAdmin){ %>
     <% if(user.agentStatus==false){ %>
       <strong>Pending</strong>
@@ -22,13 +38,7 @@
               </form>
               <% } %>
 
-                <form action="/user/<%= user._id %>/banner?_method=PUT" method="POST" enctype="multipart/form-data">
-                  <input type="file" name="banner" accept="image/*">
-                  <!-- all users -->
-                  <button>Edit</button>
-                </form>
 
-                <img src="<%= user.banner %>" alt="user banner image" style="width: 40%;">
 
                 <h6>
                   <%= "firstName: " + user.firstName %>
@@ -58,7 +68,7 @@
                   </h6>
                   <% } %>
                     <div class="thumbnail">
-                      <img src="<%= user.image %>" alt="user profile image" style="width: 20%;">
+
                       <div class="caption">
                         created since <%= moment(user.createdAt).fromNow() %>
                           <br>email: <a href="mailto:<%= user.email %>">
