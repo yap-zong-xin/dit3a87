@@ -1,7 +1,7 @@
 <%- include("../../../partials/header") %>
 
   <!-- pending -->
-  <p style="font-weight: bold; color: blue;">PENDING</p>
+  <p style="font-weight: bold; color: blue;">PENDING AGENTS</p>
   <% if(users.agentStatus==false){ %>
     nth here
     <% } %>
@@ -14,7 +14,7 @@
             Status:
             <strong>Pending</strong>
           </p>
-          <form action="/dashboard/agentApplication/<%= user._id %>?_method=PUT" method="POST">
+          <form action="/dashboard/agents/<%= user._id %>?_method=PUT" method="POST">
             <% if(user.agentStatus==false){ %>
               <button type="submit" name="user[agentStatus]" value="true">tick</button>
               <% } else{ %>
@@ -28,7 +28,7 @@
 
               <!-- approved -->
               <br>
-              <p style="font-weight: bold; color: blue;">Approved</p>
+              <p style="font-weight: bold; color: blue;">APPROVED AGENTS</p>
               <% users.forEach(function(user){ %>
                 <% if(user.isAgent==true && user.agentStatus==true){ %>
                   <p>
@@ -38,7 +38,7 @@
                     Status:
                     <strong>Approved</strong>
                   </p>
-                  <form action="/dashboard/agentApplication/<%= user._id %>?_method=PUT" method="POST">
+                  <form action="/dashboard/agents/<%= user._id %>?_method=PUT" method="POST">
                     <% if(user.agentStatus==false){ %>
                       <button type="submit" name="user[agentStatus]" value="true">tick</button>
                       <% } else{ %>

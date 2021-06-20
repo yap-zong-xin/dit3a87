@@ -6,12 +6,14 @@
       <% } else if(user.agentStatus==true){ %>
         <strong>Approved</strong>
         <% } %>
-          <form action="/dashboard/agentApplication/<%= user._id %>?_method=PUT" method="POST">
-            <button type="submit" name="user[agentStatus]" value="true">tick</button>
-            <button type="submit" name="user[agentStatus]" value="false">cross</button>
+          <form action="/dashboard/agents/<%= user._id %>?_method=PUT" method="POST">
+            <% if(user.agentStatus==false){ %>
+              <button type="submit" name="user[agentStatus]" value="true">tick</button>
+              <% } else{ %>
+                <button type="submit" name="user[agentStatus]" value="false">cross</button>
+                <% } %>
           </form>
           <% } %>
-
 
             <% if(currentUser && user._id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
               <a class="btn btn-warning" href="/user/<%= user._id %>/edit">Edit</a>

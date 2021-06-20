@@ -26,14 +26,13 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
-//Dashboard
-//Get Route
+//Dashboard Main Get Route
 router.get("/dashboard", function(req,res){
 	res.render("dashboards/admin/index.ejs");
 });
 
-//Get Route
-router.get("/dashboard/agentApplication", function(req,res){
+//Dashboard Agent Get Route
+router.get("/dashboard/agents", function(req,res){
 	User.find({}, function(err, allUsers){
 		if(err){
 			console.log(err);
@@ -43,8 +42,8 @@ router.get("/dashboard/agentApplication", function(req,res){
 	});
 });
 
-//Get Route
-router.get("/dashboard/public", function(req,res){
+//Dashboard Accounts Get Route
+router.get("/dashboard/accounts", function(req,res){
 	User.find({}, function(err, allUsers){
 		if(err){
 			console.log(err);
@@ -54,14 +53,35 @@ router.get("/dashboard/public", function(req,res){
 	});
 });
 
+// router.get("/dashboard/listings", function(req,res){
+// 	listing.find({}, function(err, alllistings){
+// 		if(err){
+// 			console.log(err);
+// 		} else{
+// 			res.render("dashboards/admin/manageListings.ejs", {listings:alllistings});
+// 		}
+// 	});
+// });
+//Dashboard Listings Get Route
+router.get("/dashboard/listings", function(req,res){
+	listing.find({}).populate("comments likes").exec(function(err, foundlisting){
+		if(err){
+			console.log(err);
+		} else{
+			res.render("dashboards/admin/manageListings.ejs", {listings:foundlisting});
+		}
+	});
+});
+
 //Update Route
-router.put("/dashboard/agentApplication/:id", function(req, res){
+router.put("/dashboard/agents/:id", function(req, res){
 //can straight away use req.body.listing without having to define due to "listing[]" in the form name attributes
 	User.findByIdAndUpdate(req.params.id, req.body.user, function(err, updatedUser){
 		if(err){
 			res.redirect("/listings");
 		} else{
-			res.redirect("/dashboard/agentApplication");
+			req.flash("success", "succesfully updated")
+			res.redirect("/user/" + req.params.id);
 		}
 	});
 });

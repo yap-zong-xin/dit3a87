@@ -283,7 +283,7 @@ router.post("/login", middleware.notLoggedIn, function (req, res, next) {
 						successRedirect: "/listings",
 						failureRedirect: "/login",
 						failureFlash: true,
-						successFlash: "Welcome to YelpCamp!"
+						successFlash: "Welcome to 3D property website!"
 					})(req, res);
 				}
 			});
