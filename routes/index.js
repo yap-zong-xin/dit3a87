@@ -125,7 +125,8 @@ router.post("/register", middleware.notLoggedIn, upload.single('image'), functio
 			newUser.image = req.body.image
 			// add image's public_id to listing object
 			req.body.imageId = result.public_id;
-			newUser.imageId = req.body.imageId
+			
+			newUser.banner = "https://www.leoharper.com/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBbGFWIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--48c45fd738da4a611c5e48fe765f9337f828d60a/banner-default-old.jpg";
 			
 			User.register(newUser, req.body.password, function(err, user){
 				if(err){

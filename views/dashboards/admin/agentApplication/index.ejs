@@ -1,0 +1,39 @@
+<%- include("../../../partials/header") %>
+
+  <!-- pending -->
+  <p style="font-weight: bold;">PENDING</p>
+  <% users.forEach(function(user){ %>
+    <% if(user.isAgent==true){ %>
+      <% if(user.agentStatus==false){ %>
+        <p>
+          Username: <strong>
+            <%= user.username %>
+          </strong>
+          Status:
+          <strong>Pending</strong>
+        </p>
+        <a href="/user/<%= user._id %>" class="btn btn-primary">View Profile</a>
+        <% } %>
+          <% } %>
+            <% }); %>
+
+              <!-- approved -->
+              <br>
+              <p style="font-weight: bold;">APPROVED</p>
+              <% users.forEach(function(user){ %>
+                <% if(user.isAgent==true){ %>
+                  <% if(user.agentStatus==true){ %>
+                    <p>
+                      Username: <strong>
+                        <%= user.username %>
+                      </strong>
+                      Status:
+                      <strong>Approved</strong>
+                    </p>
+
+                    <a href="/user/<%= user._id %>" class="btn btn-primary">View Profile</a>
+                    <% } %>
+                      <% } %>
+                        <% }); %>
+
+                          <%- include("../../../partials/footer") %>
