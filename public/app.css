@@ -829,6 +829,16 @@ input[type=range]::-ms-thumb {
 
 
 
+
+
+/* flash message */
+.flashMessage{
+  position: fixed;
+  left: 5%;
+  top: 5%;
+  z-index:1;
+}
+
 /* banner image */
 .banner{
   width:100%;
@@ -845,23 +855,28 @@ input[type=range]::-ms-thumb {
   top: 300px;
   right: 20px;
 }
-.banner input[type="file"] {
+#bannerForm input[type="file"] {
   display: none;
 }
 
 .profileImage{
   position: absolute;
-  left: 510px;
-  top: 200px;
-  width: 220px;
-  height: 220px;
+  /* left: 525px; */
+  left: 80px;
+  top: 220px;
+  width: 185px;
+  height: 185px;
+  border: 6px solid white;
   border-radius: 50%;
   object-fit: cover;
 }
 
-.flashMessage{
-  position: fixed;
-  left: 5%;
-  top: 5%;
-  z-index:1;
+#profileUsername{
+  font-weight: bold;
+  font-size: 1.4em;
+  position: relative;
+  left: 280px;
+  top: 8px;
 }
+
+
