@@ -1,5 +1,6 @@
 <%- include("../../../partials/header") %>
 
+  <span style="font-weight: bold;">seeker</span>
   <% users.forEach(function(user){ %>
     <% if(user.isAgent==false && user.isAdmin==false){ %>
       <div>
@@ -8,8 +9,55 @@
             <%= user.username %>
           </strong>
         </p>
+        <% if(currentUser && user._id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
+          <a class="btn btn-warning" href="/user/<%= user._id %>/edit">Edit</a>
+          <form action="/user/<%= user._id %>?_method=DELETE" method="POST">
+            <button class="btn btn-danger">DELETE</button>
+          </form>
+          <a href="/user/<%= user._id %>" class="btn btn-primary">View Profile</a>
+          <% } %>
       </div>
       <% } %>
         <% }); %>
 
-          <%- include("../../../partials/footer") %>
+          <br><span style="font-weight: bold;">agent</span>
+          <% users.forEach(function(user){ %>
+            <% if(user.isAgent==true){ %>
+              <div>
+                <p>
+                  Username: <strong>
+                    <%= user.username %>
+                  </strong>
+                </p>
+                <% if(currentUser && user._id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
+                  <a class="btn btn-warning" href="/user/<%= user._id %>/edit">Edit</a>
+                  <form action="/user/<%= user._id %>?_method=DELETE" method="POST">
+                    <button class="btn btn-danger">DELETE</button>
+                  </form>
+                  <a href="/user/<%= user._id %>" class="btn btn-primary">View Profile</a>
+                  <% } %>
+              </div>
+              <% } %>
+                <% }); %>
+
+                  <span style="font-weight: bold;">admin</span>
+                  <% users.forEach(function(user){ %>
+                    <% if(user.isAdmin==true){ %>
+                      <div>
+                        <p>
+                          Username: <strong>
+                            <%= user.username %>
+                          </strong>
+                        </p>
+                        <% if(currentUser && user._id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
+                          <a class="btn btn-warning" href="/user/<%= user._id %>/edit">Edit</a>
+                          <form action="/user/<%= user._id %>?_method=DELETE" method="POST">
+                            <button class="btn btn-danger">DELETE</button>
+                          </form>
+                          <a href="/user/<%= user._id %>" class="btn btn-primary">View Profile</a>
+                          <% } %>
+                      </div>
+                      <% } %>
+                        <% }); %>
+
+                          <%- include("../../../partials/footer") %>

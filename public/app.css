@@ -291,7 +291,7 @@ body, nav {
 
 .btn {
   width: 150px;
-  background-color: #5995fd;
+  /* background-color: #5995fd; */
   border: none;
   outline: none;
   height: 49px;
