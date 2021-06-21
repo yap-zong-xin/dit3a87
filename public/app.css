@@ -835,37 +835,45 @@ input[type=range]::-ms-thumb {
 .flashMessage{
   position: fixed;
   left: 5%;
-  top: 5%;
+  top: 9%;
   z-index:1;
+}
+.flashMessage .alert{
+  border-radius: 25px;
 }
 
 /* banner image */
-.banner{
-  width:100%;
-  height: 300px;
-  object-fit: cover;
-}
 .customBannerUpload {
-  border-radius: 35px;
+  position: relative;
+  top: 10px;
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
   background: rgba(255,255,255,1);
   display: inline-block;
   padding: 6px 12px;
   cursor: pointer;
-  position: absolute;
-  top: 300px;
-  right: 20px;
 }
-#bannerForm input[type="file"] {
+
+.customBannerUpload .fa-camera{
+  font-size: 1.2em;
+}
+.customImageUpload .fa-camera{
+  position: relative;
+  top: 80px;
+  left: 600px;
+  font-size: 1.7em;
+  cursor: pointer;
+}
+
+#bannerForm input[type="file"], #imageForm input[type="file"] {
   display: none;
 }
 
 .profileImage{
-  position: absolute;
-  /* left: 525px; */
-  left: 80px;
-  top: 220px;
-  width: 185px;
-  height: 185px;
+  position: relative;
+  top: 115px;
+  width: 165px;
+  height: 165px;
   border: 6px solid white;
   border-radius: 50%;
   object-fit: cover;
@@ -874,9 +882,9 @@ input[type=range]::-ms-thumb {
 #profileUsername{
   font-weight: bold;
   font-size: 1.6em;
-  position: relative;
-  left: 270px;
-  top: 2px;
 }
 
+#profileDetails p{
+  font-weight: bold;
+}
 

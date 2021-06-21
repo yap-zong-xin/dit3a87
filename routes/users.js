@@ -217,6 +217,33 @@ router.put("/user/:id/banner", middleware.checkUserOwnership, upload.single("ban
 	});
 });
 
+router.put("/user/:id/image", middleware.checkUserOwnership, upload.single("image"), function(req, res){
+	User.findById(req.params.id, async function(err, user){
+		console.log(user)
+		if(err){
+			req.flash("error", err.message);
+			res.redirect("back");
+		} else{
+			if(req.file){
+				try{
+					if(user.imageId!=null){
+						await cloudinary.v2.uploader.destroy(user.imageId);
+					}
+						var result = await cloudinary.v2.uploader.upload(req.file.path);
+						user.image = result.secure_url;
+						user.imageId = result.public_id;
+				} catch(err){
+						req.flash("error", err.message);
+						return res.redirect("back");
+				}
+			}
+		}
+		user.save();
+		console.log(user)
+		req.flash("success", "You have successfully updated the profile image.");
+		res.redirect("/user/" + user._id);
+	});
+});
 
 //Destroy Route
 router.delete("/user/:id", middleware.checkUserOwnership, function(req, res){

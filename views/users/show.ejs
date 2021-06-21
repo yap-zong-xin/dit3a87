@@ -1,34 +1,66 @@
 <%- include("../partials/header") %>
 
   <!-- banner -->
-  <img src="<%= user.banner %>" class="banner" alt="user banner image">
+  <div class="container px-0"
+    style="background: url('<%= user.banner %>'); height: 270px; width: 100%; background-size: cover; object-fit: cover; background-position: center center; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">
+    <!-- upload banner button -->
+    <form action="/user/<%=user._id %>/banner?_method=PUT" method="POST" enctype="multipart/form-data" id="bannerForm">
+      <span class="justify-content-end d-flex">
+        <label for="file-upload" class="customBannerUpload px-3">
+          <i class="fas fa-camera"></i>
+        </label>
+        <input type="file" id="file-upload" name="banner" onchange="this.form.submit()" id="bannerUpload"
+          accept="image/*">
+      </span>
+    </form>
 
-  <!-- upload image button -->
-  <form action=" /user/<%=user._id %>/banner?_method=PUT" method="POST" enctype="multipart/form-data" id="bannerForm">
-    <label for="file-upload" class="customBannerUpload py-2 px-4">
-      <i class="fas fa-camera"></i><span class="pl-2">Upload Banner</span>
-    </label>
-    <input type="file" id="file-upload" name="banner" onchange="this.form.submit()" id="bannerUpload" accept="image/*">
-  </form>
+    <!-- profile image -->
+    <span class="justify-content-center d-flex">
+      <img src="<%= user.image %>" alt="user profile image" class="profileImage">
+    </span>
+    <!-- upload profile image button -->
+    <form action="/user/<%=user._id %>/image?_method=PUT" method="POST" enctype="multipart/form-data" id="imageForm">
+      <label for="file-upload-image" class="customImageUpload px-3">
+        <i class="fas fa-camera"></i>
+      </label>
+      <input type="file" id="file-upload-image" name="image" onchange="this.form.submit()" id="imageUpload"
+        accept="image/*">
+    </form>
+  </div>
 
-  <!-- profile image -->
-  <img src="<%= user.image %>" alt="user profile image" class="profileImage">
-  <p id="profileUsername">
-    <%= user.username %>
-  </p>
+  <div class="container justify-content-between d-flex">
+    <div>
+      <p>testing 1 test 2 testing 3 test 2 testing 3</p>
+    </div>
+    <div>
+      <% if(currentUser && user._id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
+        <a class="btn btn-warning" href="/user/<%= user._id %>/edit">
+          <i class="fas fa-pen-alt"></i>
+          <span>Edit Profile</span>
+        </a>
+        <% } %>
+    </div>
+  </div>
 
-  <div class="pt-5 mt-5"></div>
-
-  <div class="container">
+  <!-- user details -->
+  <div class="container" id="profileDetails">
+    <p id="profileUsername" class="text-center">
+      <%= user.username %>
+    </p>
     <div class="row">
       <div class="col-6">
+        <div class="row">
+          <div class="col-4">
+            <span>First Name:</span>
+          </div>
+          <div class="col-8">
+            <p>
+              <%= user.firstName %>
+            </p>
+          </div>
 
+        </div>
 
-
-
-        <p>
-          <%= "firstName: " + user.firstName %>
-        </p>
         <p>
           <%= "lastName: " + user.lastName %>
         </p>
@@ -68,7 +100,8 @@
                   <% } else { %>
                     <form action="http://localhost:8800/api/conversations/<%= currentUser._id %>/<%= user.id %>"
                       method="POST">
-                      <button type="submit" class="btn btn-primary">Chat with <%= user.username %></button>
+                      <button type="submit" class="btn btn-primary">Chat with <%= user.username %>
+                      </button>
                     </form>
                     <% } %>
                       <% } %>
@@ -100,9 +133,6 @@
 
             <% if(currentUser && user._id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
               <a class="btn btn-warning" href="/user/<%= user._id %>/edit">Edit</a>
-              <form action="/user/<%= user._id %>?_method=DELETE" method="POST">
-                <button class="btn btn-danger">DELETE</button>
-              </form>
               <% } %>
 
                 <div class="thumbnail">
