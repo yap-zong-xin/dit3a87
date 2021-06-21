@@ -8,7 +8,7 @@ middlewareObj.isLoggedIn = function(req, res, next){
 	if(req.isAuthenticated()){
 		return next();
 	}
-	req.flash("error", "Please Login First!");
+	req.flash("error", "Please login first.");
 	res.redirect("/login");
 }
 
@@ -16,7 +16,7 @@ middlewareObj.notLoggedIn = function(req, res, next){
 	if(!req.isAuthenticated()){
 		return next();
 	}
-	req.flash("error", "You are already login");
+	req.flash("error", "You are already login.");
 	res.redirect("/");
 }
 
@@ -24,7 +24,7 @@ middlewareObj.isAdmin = function(req, res, next){
 	if(req.isAuthenticated() && req.user.isAdmin){
 		return next();
 	} else {
-		req.flash("error", "You are not an admin!");
+		req.flash("error", "You are not an admin.");
 		res.redirect("/");
 	}
 }
@@ -89,13 +89,13 @@ middlewareObj.checkReviewOwnership = function(req, res, next) {
 							if(foundReview.author.id.equals(req.user._id) || req.user.isAdmin) {
 									next();
 							} else {
-									req.flash("error", "You don't have permission to do that");
+									req.flash("error", "You do not have permission to do that.");
 									res.redirect("back");
 							}
 					}
 			});
 	} else {
-			req.flash("error", "You need to be logged in to do that");
+			req.flash("error", "You need to be logged in to do that.");
 			res.redirect("back");
 	}
 };
@@ -104,7 +104,7 @@ middlewareObj.checkReviewExistence = function (req, res, next) {
 	if (req.isAuthenticated()) {
 			User.findById(req.params.id).populate("reviews").exec(function (err, foundUser) {
 					if (err || !foundUser) {
-							req.flash("error", "User not found.");
+							req.flash("error", "The user is not found.");
 							res.redirect("back");
 					} else {
 							// check if req.user._id exists in foundUser.reviews
@@ -112,7 +112,7 @@ middlewareObj.checkReviewExistence = function (req, res, next) {
 									return review.author.id.equals(req.user._id);
 							});
 							if (foundUserReview) {
-									req.flash("error", "You already wrote a review.");
+									req.flash("error", "You already wrote a review for this agent.");
 									return res.redirect("/user/" + foundUser._id);
 							}
 							// if the review was not found, go to the next middleware
@@ -120,7 +120,7 @@ middlewareObj.checkReviewExistence = function (req, res, next) {
 					}
 			});
 	} else {
-			req.flash("error", "You need to login first.");
+			req.flash("error", "You need to be logged in to do that.");
 			res.redirect("back");
 	}
 };
@@ -129,23 +129,23 @@ middlewareObj.checkUserOwnership = function(req, res, next) {
 	if(req.isAuthenticated()){
 				 User.findById(req.params.id, function(err, foundUser){
 						if(err){
-								req.flash("error", "User not found");
+								req.flash("error", "The user is not found.");
 								res.redirect("back");
 						}  else {
 								if (!foundUser) {
-										 req.flash("error", "Item not found.");
+										 req.flash("error", "The item is not found.");
 										 return res.redirect("back");
 								 }
 						 if(foundUser._id.equals(req.user._id) || req.user.isAdmin) {
 								 next();
 						 } else {
-								 req.flash("error", "You don't have permission to do that");
+								 req.flash("error", "You do not have permission to do that.");
 								 res.redirect("back");
 						 }
 						}
 				 });
 		 } else {
-				 req.flash("error", "You need to be logged in to do that");
+				 req.flash("error", "You need to be logged in to do that.");
 				 res.redirect("back");
 		 }
  }

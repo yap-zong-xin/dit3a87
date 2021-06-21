@@ -14,7 +14,7 @@ var storage = multer.diskStorage({
 var imageFilter = function (req, file, cb) {
     // accept image files only
     if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/i)) {
-        return cb(new Error('Only image files are allowed!'), false);
+        return cb(new Error('Only image files are allowed.'), false);
     }
     cb(null, true);
 };
@@ -26,12 +26,12 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
-//Dashboard Main Get Route
+//Dashboard for Main Get Route
 router.get("/dashboard", function(req,res){
 	res.render("dashboards/admin/index.ejs");
 });
 
-//Dashboard Agent Get Route
+//Dashboard for Agent Application Get Route
 router.get("/dashboard/agents", function(req,res){
 	User.find({}, function(err, allUsers){
 		if(err){
@@ -42,7 +42,20 @@ router.get("/dashboard/agents", function(req,res){
 	});
 });
 
-//Dashboard Accounts Get Route
+//Dashboard for Agent Application Update Route
+router.put("/dashboard/agents/:id", function(req, res){
+	//can straight away use req.body.listing without having to define due to "listing[]" in the form name attributes
+		User.findByIdAndUpdate(req.params.id, req.body.user, function(err, updatedUser){
+			if(err){
+				res.redirect("/listings");
+			} else{
+				req.flash("success", "You have succesfully updated the agent status.")
+				res.redirect("/user/" + req.params.id);
+			}
+		});
+	});
+
+//Dashboard for Manage Accounts Get Route
 router.get("/dashboard/accounts", function(req,res){
 	User.find({}, function(err, allUsers){
 		if(err){
@@ -62,26 +75,14 @@ router.get("/dashboard/accounts", function(req,res){
 // 		}
 // 	});
 // });
-//Dashboard Listings Get Route
+
+//Dashboard for Manage Listings Get Route
 router.get("/dashboard/listings", function(req,res){
 	listing.find({}).populate("comments likes").exec(function(err, foundlisting){
 		if(err){
 			console.log(err);
 		} else{
 			res.render("dashboards/admin/manageListings.ejs", {listings:foundlisting});
-		}
-	});
-});
-
-//Update Route
-router.put("/dashboard/agents/:id", function(req, res){
-//can straight away use req.body.listing without having to define due to "listing[]" in the form name attributes
-	User.findByIdAndUpdate(req.params.id, req.body.user, function(err, updatedUser){
-		if(err){
-			res.redirect("/listings");
-		} else{
-			req.flash("success", "succesfully updated")
-			res.redirect("/user/" + req.params.id);
 		}
 	});
 });
@@ -126,12 +127,12 @@ router.get("/user/:id", function (req, res) {
 			options: {sort: {createdAt: -1}}
 	}).exec(function (err, foundUser) {
 			if (err) {
-				req.flash("error", "Something went wrong.");
+				req.flash("error", "Something went wrong. Please try again.");
 				console.log(err);
 			} else {
 				listing.find().where('author.id').equals(foundUser._id).exec(function(err, listings) {
 					if(err) {
-						req.flash("error", "Something went wrong.");
+						req.flash("error", "Something went wrong. Please try again.");
 						return res.redirect("/");
 					}
 					res.render("users/show.ejs", {user: foundUser, listings: listings});
@@ -183,7 +184,7 @@ router.put("/user/:id", middleware.checkUserOwnership, upload.single("image"), f
 		user.postalCode = req.body.user.postalCode;
 		user.save();
 		console.log(user)
-		req.flash("success", "Your profile has been successfully updated.");
+		req.flash("success", "You have successfully updated the profile.");
 		res.redirect("/user/" + user._id);
 	});
 });
@@ -211,7 +212,7 @@ router.put("/user/:id/banner", middleware.checkUserOwnership, upload.single("ban
 		}
 		user.save();
 		console.log(user)
-		req.flash("success", "Your profile has been successfully updated.");
+		req.flash("success", "You have successfully updated the banner.");
 		res.redirect("/user/" + user._id);
 	});
 });
@@ -233,7 +234,7 @@ router.delete("/user/:id", middleware.checkUserOwnership, function(req, res){
 				}
         await cloudinary.v2.uploader.destroy(user.imageId);
         user.remove();
-        req.flash('success', 'listing deleted successfully!');
+        req.flash('success', 'You have successfully deleted the user.');
         res.redirect('/listings');
 			});
     } catch(err) {
@@ -253,12 +254,12 @@ router.get('/follow/:id', middleware.isLoggedIn, async function(req, res) {
 			return followers.equals(req.user._id);
 		});
 		if(foundUserFollower){
-			req.flash("error","you already follow"+user.username + '!');
+			req.flash("error","You are already following " + user.username + '.');
 			res.redirect("back");
 		} else{
 			user.followers.push(req.user._id);
 			user.save();
-			req.flash('success', 'Successfully followed ' + user.username + '!');
+			req.flash('success', 'You are now following ' + user.username + '.');
 			res.redirect('/user/' + req.params.id);
 		}
   } catch(err) {

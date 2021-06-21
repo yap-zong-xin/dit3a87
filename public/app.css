@@ -873,10 +873,10 @@ input[type=range]::-ms-thumb {
 
 #profileUsername{
   font-weight: bold;
-  font-size: 1.4em;
+  font-size: 1.6em;
   position: relative;
-  left: 280px;
-  top: 8px;
+  left: 270px;
+  top: 2px;
 }
 
 

@@ -452,7 +452,7 @@ router.post("/listings", middleware.isLoggedIn, uploadMultiple, async function(r
 									follower.notifications.push(notification);
 									follower.save();
 								}
-								req.flash("success", "listing successfully added!");
+								req.flash("success", "You have successfully added a listing.");
 								res.redirect(`/listings/${newlyCreated._id}`);
 							}
 						});
@@ -656,7 +656,7 @@ router.put("/listings/:id", middleware.checklistingOwnership, uploadMultiple, fu
 			listing.numofRooms = req.body.listing.numofRooms;
 			listing.save();
 			console.log(listing)
-			req.flash("success", "listing successfully updated!");
+			req.flash("success", "You have successfully updated a listing.");
 			res.redirect("/listings/" + listing._id);
 		}
 	});
@@ -678,7 +678,7 @@ router.delete("/listings/:id", middleware.checklistingOwnership, function(req, r
 				//  delete the listing
 				await cloudinary.v2.uploader.destroy(listing.imageId);
 				listing.remove();
-				req.flash("success", "listing deleted successfully!");
+				req.flash("success", "You have successfully deleted a listing.");
 				res.redirect('/listings');
 			});
     } catch(err) {

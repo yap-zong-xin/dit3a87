@@ -170,7 +170,7 @@ router.post("/register", middleware.notLoggedIn, upload.single('image'), functio
 				console.log('the randomStringCode: '+randomStringCode);
 				sendMail()
 				.then(result => console.log('Email Sent...', result))
-				.then(req.flash('success','Your account was successfully created, please verify your email'))
+				.then(req.flash('success','You have successfully created an account. Please verify your email.'))
 				.then(res.redirect("/login"))
 				.catch(error => console.log('email error: ',error.message))
 				
@@ -222,12 +222,12 @@ router.post("/register", middleware.notLoggedIn, upload.single('image'), functio
 			console.log('the randomStringCode: '+randomStringCode);
 			sendMail()
 			.then(result => console.log('Email Sent...', result))
-			.then(req.flash('success','Your account was successfully created, please verify your email'))
+			.then(req.flash('success','You have successfully created an account. Please verify your email.'))
 			.then(res.redirect("/login"))
 			.catch(error => console.log(error.message))
 		});
 	} else {
-		req.flash('error', 'need to upload image');
+		req.flash('error', 'You need to upload an image.');
 		return res.redirect('/register');
 	}
 });
@@ -245,7 +245,7 @@ router.get("/verify", middleware.notLoggedIn, function(req, res) {
             	return res.redirect("back");
 			}
 			console.log('updated n removed');
-			req.flash('success','Account approved, please log in to your account.');
+			req.flash('success','Your account has been successfully approved. You can now login to your account.');
 			res.redirect("/login")
 			// passport.authenticate("local")(req, res, function(){
 			// 	req.flash('success','Welcome!');
@@ -266,7 +266,7 @@ router.post("/login", middleware.notLoggedIn, function (req, res, next) {
 
 	User.find({ email: inputEmail }, function(err, existUser) {
 		if(existUser.length === 0 || err) {
-			req.flash("error", "2. Account with email not found. Please sign up.")
+			req.flash("error", "Account with the email is not found. Please try again.")
 			return res.redirect("/login");
 		}else{
 			User.find({ email: inputEmail }, {"_id": 0, "isVerified": 1}, function(err, verified) {
@@ -275,7 +275,7 @@ router.post("/login", middleware.notLoggedIn, function (req, res, next) {
 				}
 				//console.log(verified[0].isVerified);
 				if(!verified[0].isVerified) { 
-					req.flash("error", "Account not verified! Please verify with link in your email.")
+					req.flash("error", "Account with the email is not verified. Please verify using the link send to your email.")
 					res.redirect("/login");
 				}else {
 					passport.authenticate("local",
@@ -283,7 +283,7 @@ router.post("/login", middleware.notLoggedIn, function (req, res, next) {
 						successRedirect: "/listings",
 						failureRedirect: "/login",
 						failureFlash: true,
-						successFlash: "Welcome to 3D property website!"
+						successFlash: "You are successfully logged in. Welcome to 3D Property Website."
 					})(req, res);
 				}
 			});
@@ -294,7 +294,7 @@ router.post("/login", middleware.notLoggedIn, function (req, res, next) {
 //Logout Route
 router.get("/logout", middleware.isLoggedIn, function(req, res){
 	req.logout();
-	req.flash("success", "You are logged out!");
+	req.flash("success", "You have been successfully logged out.");
 	res.redirect("/login");
 });
 

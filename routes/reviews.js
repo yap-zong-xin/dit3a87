@@ -57,7 +57,7 @@ router.post("/user/:id/reviews", middleware.isLoggedIn, middleware.checkReviewEx
             user.rating = calculateAverage(user.reviews);
             //save user
             user.save();
-            req.flash("success", "Your review has been successfully added.");
+            req.flash("success", "You have successfully added a review.");
             res.redirect('/user/' + user._id);
         });
     });
@@ -88,7 +88,7 @@ router.get("/user/:id/reviews/:review_id/edit", middleware.checkReviewOwnership,
         if (currentDate >= expireReview){
             console.log('edit button should be expired')
             // clearInterval(intervalCheck);
-            req.flash("error", 'Unable to edit review: 1 week passed.');
+            req.flash("error", 'You are no longer allowed to edit the review.');
             return res.redirect("back"); 
         }   
         res.render("reviews/edit.ejs", {user_id: req.params.id, review: foundReview});
@@ -111,7 +111,7 @@ router.put("/user/:id/reviews/:review_id", middleware.checkReviewOwnership, func
             user.rating = calculateAverage(user.reviews);
             //save changes
             user.save();
-            req.flash("success", "Your review was successfully edited.");
+            req.flash("success", "You have successfully edited a review.");
             res.redirect('/user/' + user._id);
         });
     });
@@ -133,7 +133,7 @@ router.delete("/user/:id/reviews/:review_id", middleware.checkReviewOwnership, f
             user.rating = calculateAverage(user.reviews);
             //save changes
             user.save();
-            req.flash("success", "Your review was deleted successfully.");
+            req.flash("success", "You have successfully deleted a review.");
             res.redirect("/user/" + req.params.id);
         });
     });
