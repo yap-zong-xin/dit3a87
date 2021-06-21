@@ -264,7 +264,7 @@ body {
 
 } */
 
-.btn {
+/* .btn {
   width: 150px;
   background-color: #5995fd;
   border: none;
@@ -272,20 +272,18 @@ body {
   height: 49px;
   border-radius: 49px;
   color: #fff;
-  text-transform: uppercase;
-  font-weight: 600;
   margin: 10px 0;
   cursor: pointer;
   transition: 0.5s;
-}
+} */
 
-.btn:focus {
+/* .btn:focus {
   outline: none;
-}
-
+} */
+/* 
 .btn:hover {
   background-color: #4d84e2;
-}
+} */
 
 .tab, .tab-agent {
   display: none;
@@ -398,14 +396,14 @@ body {
   padding: 0.7rem 0;
 }
 
-.btn.transparent {
+/* .btn.transparent {
   margin: 0;
   background: none;
   border: 2px solid #fff;
   width: 130px;
   height: 41px;
   font-weight: 600;
-}
+} */
 
 .right-panel .image,
 .right-panel .content {
@@ -464,14 +462,14 @@ body {
     font-weight: 500;
   }
 
-  .btn, .btn.transparent{
+  /* .btn, .btn.transparent{
     height: 30px;
     text-align: center;
-  }
+  } */
 
-  .btn.transparent {
+  /* .btn.transparent {
     padding: 0 0 1px;
-  }
+  } */
 
   .step, .step-agent {
     height: 7px;
@@ -587,10 +585,10 @@ body {
     padding: 0.5rem 0;
   }
 
-  .btn.transparent {
+  /* .btn.transparent {
     width: 110px;
     height: 35px;
-  }
+  } */
 
   .container-login:before {
     width: 1500px;
@@ -828,14 +826,22 @@ input[type=range]::-ms-thumb {
 
 
 
-
+/* float */
+.left{
+  float: left; 
+  overflow: hidden;
+  margin-right: 10px;
+}
+.right{
+  overflow: hidden;
+}
 
 
 /* flash message */
 .flashMessage{
   position: fixed;
   left: 5%;
-  top: 9%;
+  top: 3%;
   z-index:1;
 }
 .flashMessage .alert{
@@ -855,14 +861,20 @@ input[type=range]::-ms-thumb {
 }
 
 .customBannerUpload .fa-camera{
-  font-size: 1.2em;
+  font-size: 1.3em;
 }
 .customImageUpload .fa-camera{
   position: relative;
   top: 80px;
-  left: 600px;
-  font-size: 1.7em;
+  left: 590px;
+  font-size: 2.5em;
   cursor: pointer;
+  background: #E4E6EB;
+  border-radius: 50%;
+  padding: 8px;
+}
+.customImageUpload .fa-camera:hover{
+  background: lightgray;
 }
 
 #bannerForm input[type="file"], #imageForm input[type="file"] {
@@ -871,9 +883,9 @@ input[type=range]::-ms-thumb {
 
 .profileImage{
   position: relative;
-  top: 115px;
-  width: 165px;
-  height: 165px;
+  top: 130px;
+  width: 175px;
+  height: 175px;
   border: 6px solid white;
   border-radius: 50%;
   object-fit: cover;
@@ -888,3 +900,46 @@ input[type=range]::-ms-thumb {
   font-weight: bold;
 }
 
+.followBtn, .chatBtn, .profileBtn, .approveBtn{
+  width: 130px;
+  border-radius: 50px;
+}
+
+#userRole{
+  font-size: 0.9em;
+  background: pink;
+  border-radius: 50px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
+  border-radius: 80px;
+  font-weight: bold;
+}
+
+#userStatus{
+  font-size: 0.9em;
+  background: lightseagreen;
+  border-radius: 50px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
+  border-radius: 80px;
+  font-weight: bold;
+}
+
+#ceaNum{
+  background: lightblue;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
+  border-radius: 80px;
+  font-weight: bold;
+  font-size: 0.9em;
+}
+
+.borderStyle{
+  border-radius: 25px;
+}

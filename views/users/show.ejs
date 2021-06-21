@@ -2,17 +2,40 @@
 
   <!-- banner -->
   <div class="container px-0"
-    style="background: url('<%= user.banner %>'); height: 270px; width: 100%; background-size: cover; object-fit: cover; background-position: center center; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">
-    <!-- upload banner button -->
-    <form action="/user/<%=user._id %>/banner?_method=PUT" method="POST" enctype="multipart/form-data" id="bannerForm">
-      <span class="justify-content-end d-flex">
-        <label for="file-upload" class="customBannerUpload px-3">
-          <i class="fas fa-camera"></i>
-        </label>
-        <input type="file" id="file-upload" name="banner" onchange="this.form.submit()" id="bannerUpload"
-          accept="image/*">
-      </span>
-    </form>
+    style="background: url('<%= user.banner %>'); height: 300px; width: 100%; background-size: cover; object-fit: cover; background-position: center center; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">
+
+    <div class="justify-content-between d-flex">
+      <div class="px-4 mx-1">
+      </div>
+      <div>
+        <!-- approve/remove agent -->
+        <% if(user.isAgent && currentUser && currentUser.isAdmin){ %>
+          <form action="/dashboard/agents/<%= user._id %>?_method=PUT" method="POST" class="text-center"
+            style="position:relative; top: 10px;">
+            <% if(user.agentStatus==false){ %>
+              <button type="submit" name="user[agentStatus]" value="true" class="btn approveBtn"
+                style="background: #A1FFCE;">Approve</button>
+              <% } else{ %>
+                <button type="submit" name="user[agentStatus]" value="false"
+                  class="btn btn-danger approveBtn">Remove</button>
+                <% } %>
+          </form>
+          <% } %>
+      </div>
+      <div>
+        <!-- upload banner button -->
+        <form action="/user/<%=user._id %>/banner?_method=PUT" method="POST" enctype="multipart/form-data"
+          id="bannerForm">
+          <span class="justify-content-end d-flex">
+            <label for="file-upload" class="customBannerUpload px-3">
+              <i class="fas fa-camera"></i>
+            </label>
+            <input type="file" id="file-upload" name="banner" onchange="this.form.submit()" id="bannerUpload"
+              accept="image/*">
+          </span>
+        </form>
+      </div>
+    </div>
 
     <!-- profile image -->
     <span class="justify-content-center d-flex">
@@ -28,214 +51,266 @@
     </form>
   </div>
 
-  <div class="container justify-content-between d-flex">
+  <!-- follow & chat & edit profile -->
+  <div class="container align-items-center justify-content-between d-flex mt-3">
     <div>
-      <p>testing 1 test 2 testing 3 test 2 testing 3</p>
+      <div class="col-12 text-center">
+        <% if(currentUser && user._id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
+          <a class="btn btn-primary profileBtn" href="/user/<%= user._id %>/edit">
+            <span style="font-size: 0.9em;">Edit Profile</span>
+          </a>
+          <% } %>
+      </div>
     </div>
     <div>
-      <% if(currentUser && user._id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
-        <a class="btn btn-warning" href="/user/<%= user._id %>/edit">
-          <i class="fas fa-pen-alt"></i>
-          <span>Edit Profile</span>
-        </a>
-        <% } %>
+      <% if(!currentUser){ %>
+        <% } else { %>
+          <% if(user._id.equals(currentUser._id)){ %>
+            <% } else { %>
+              <div class="left">
+                <a href="/follow/<%= user.id %>">
+                  <button class="btn btn-primary followBtn">Follow</button>
+                </a>
+              </div>
+              <div class="right">
+                <form action="http://localhost:8800/api/conversations/<%= currentUser._id %>/<%= user.id %>"
+                  method="POST">
+                  <button type="submit" class="btn btn-primary chatBtn">Chat</button>
+                </form>
+              </div>
+              <% } %>
+                <% } %>
     </div>
   </div>
 
   <!-- user details -->
   <div class="container" id="profileDetails">
-    <p id="profileUsername" class="text-center">
+    <div class="justify-content-center d-flex">
+      <% if(currentUser && currentUser.isAgent || user.isAgent){ %>
+        <div class="left">
+          <span id="ceaNum">CEA: <%= user.cea %>
+          </span><br>
+        </div>
+        <% } %>
+          <div class="right left">
+            <span id="userRole">
+              Role:
+              <% if(user.isAgent==true){ %>
+                Agent
+                <% } else if(user.isAdmin==true){ %>
+                  Admin
+                  <% } else { %>
+                    Seeker
+                    <% } %>
+            </span>
+          </div>
+          <div class="right">
+            <span>
+              <% if(user.agentStatus==true){ %>
+                <% } else { %>
+                  <% if(user.isAgent==true){ %>
+                    <span id="userStatus">Status: Pending</span>
+                    <% } else{ %>
+                      <% } %>
+                        <% } %>
+            </span>
+          </div>
+    </div>
+    <p id="profileUsername" class="text-center pt-2">
       <%= user.username %>
     </p>
     <div class="row">
-      <div class="col-6">
+      <div class="col-6 borderStyle">
         <div class="row">
-          <div class="col-4">
-            <span>First Name:</span>
+          <div class="col-3">
+            <span>
+              <% if(user.isAgent==true){ %>
+                Agent
+                <% } else if(user.isAdmin==true){ %>
+                  Admin
+                  <% } else { %>
+                    Seeker
+                    <% } %>
+                      since:
+            </span>
           </div>
-          <div class="col-8">
+          <div class="col-9">
+            <p>
+              <%= moment(user.createdAt).fromNow() %>
+            </p>
+          </div>
+          <div class="col-3">
+            <span>First name:</span>
+          </div>
+          <div class="col-9">
             <p>
               <%= user.firstName %>
             </p>
           </div>
+          <div class="col-3">
+            <span>Last name:</span>
 
+          </div>
+          <div class="col-9">
+            <p>
+              <%= user.lastName %>
+            </p>
+          </div>
+          <div class="col-3">
+            <span>Email:</span>
+          </div>
+          <div class="col-9">
+            <p>
+              <a href="mailto:<%= user.email %>" style="color: black;">
+                <%= user.email %>
+              </a>
+            </p>
+          </div>
+          <div class="col-3">
+            <span>Gender:</span>
+          </div>
+          <div class="col-9">
+            <p>
+              <%= user.gender %>
+            </p>
+          </div>
+          <div class="col-3">
+            <span>Phone:</span>
+          </div>
+          <div class="col-9">
+            <p>
+              <%= user.phone %>
+            </p>
+          </div>
+          <div class="col-3">
+            <span>Address:</span>
+          </div>
+          <div class="col-9">
+            <p>
+              <%= user.streetName %><br>
+                <%= user.unitNumber %><br>
+                  <%= user.country %><br>
+                    <%= user.state %><br>
+                      <%= user.postalCode %>
+            </p>
+          </div>
+          <div class="col-3">
+            <span></span>
+          </div>
+          <div class="col-9">
+            <p></p>
+          </div>
+          <!-- <div class="col-12 text-center">
+            <% if(currentUser && user._id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
+              <a class="btn btn-primary profileBtn" href="/user/<%= user._id %>/edit">
+                <span style="font-size: 0.9em;">Edit Profile</span>
+              </a>
+              <% } %>
+          </div> -->
         </div>
-
-        <p>
-          <%= "lastName: " + user.lastName %>
-        </p>
-        <p>
-          <%= "gender: " + user.gender %>
-        </p>
-        <p>
-          <%= "phone: " + user.phone %>
-        </p>
-        <p>
-          <%= "street name: " + user.streetName %><br>
-            <%= "unit number: " + user.unitNumber %><br>
-              <%= "country: " + user.country %><br>
-                <%= "state: " + user.state %><br>
-                  <%= "postal code: " + user.postalCode %>
-        </p>
-        <% if(currentUser && currentUser.isAgent || user.isAgent){ %>
-          <p>
-            <%= "ceaNumber: " + user.cea %>
-          </p>
-          <% } %>
-
-
-            <div class="caption">
-              created since <%= moment(user.createdAt).fromNow() %>
-                <br>email: <a href="mailto:<%= user.email %>">
-                  <%= user.email %>
-                </a>
-            </div>
-
-            <% if(currentUser && user._id.equals(currentUser._id)){ %>
-              <% } else { %>
-                <a href="/follow/<%= user.id %>">
-                  <button class="btn btn-primary">Follow <%= user.username %></button>
-                </a>
-                <% if(!currentUser){ %>
-                  <% } else { %>
-                    <form action="http://localhost:8800/api/conversations/<%= currentUser._id %>/<%= user.id %>"
-                      method="POST">
-                      <button type="submit" class="btn btn-primary">Chat with <%= user.username %>
-                      </button>
-                    </form>
-                    <% } %>
-                      <% } %>
-
-      </div>
-      <div class="col-6">
-
-      </div>
-      <div class="col-12">
-
       </div>
     </div>
   </div>
 
-  <% if(user.isAgent && currentUser && currentUser.isAdmin){ %>
-    <% if(user.agentStatus==false){ %>
-      <strong>Pending</strong>
-      <% } else if(user.agentStatus==true){ %>
-        <strong>Approved</strong>
-        <% } %>
-          <form action="/dashboard/agents/<%= user._id %>?_method=PUT" method="POST">
-            <% if(user.agentStatus==false){ %>
-              <button type="submit" name="user[agentStatus]" value="true">tick</button>
-              <% } else{ %>
-                <button type="submit" name="user[agentStatus]" value="false">cross</button>
-                <% } %>
+
+  <div class="thumbnail">
+    <p style="color: red;">reset password at new page, not here
+      <br>3 boxes:
+      <br>▪ Old Password
+      <br>▪ New Password
+      <br>▪ Re-Enter New Password
+    </p>
+  </div>
+
+  <!-- Listings -->
+  <% if(user.isAgent==true){ %>
+    <h3>
+      agent <%= user.username %>'s listings:
+    </h3>
+    <ul>
+      <% listings.forEach(function(listing) { %>
+        <li>
+          <a href="/listings/<%= listing.id %>">
+            <%= listing.name %>
+          </a>
+        </li>
+
+        <% if(currentUser && listing.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
+          <a class="btn btn-warning" href="/listings/<%= listing._id %>/edit">Edit</a>
+          <form action="/listings/<%= listing._id %>?_method=DELETE" method="POST">
+            <button class="btn btn-danger">DELETE</button>
           </form>
           <% } %>
+            <% }); %>
+    </ul>
 
-            <% if(currentUser && user._id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
-              <a class="btn btn-warning" href="/user/<%= user._id %>/edit">Edit</a>
-              <% } %>
-
-                <div class="thumbnail">
-                  <p style="color: red;">reset password at new page, not here
-                    <br>3 boxes:
-                    <br>▪ Old Password
-                    <br>▪ New Password
-                    <br>▪ Re-Enter New Password
-                  </p>
+    <div class="thumbnail">
+      <div class="caption-full">
+        <% if (user.rating===0) { %>
+          <h5>
+            <em>No reviews yet.</em>
+          </h5>
+          <% } else { %>
+            <p>
+              <span class="fa fa-star checked"></span>
+              <span class="fa fa-star <% if (user.rating > 1.5) { %> checked <% } %>"></span>
+              <span class="fa fa-star <% if (user.rating > 2.5) { %> checked <% } %>"></span>
+              <span class="fa fa-star <% if (user.rating > 3.5) { %> checked <% } %>"></span>
+              <span class="fa fa-star <% if (user.rating > 4.5) { %> checked <% } %>"></span>
+              <em>(total reviews: <%= user.reviews.length %>)</em>
+            </p>
+            <p>
+              Current user rating: <strong>
+                <%= user.rating.toFixed(2) %>
+              </strong>
+            </p>
+            <h4>Latest reviews for this user:</h4>
+            <hr style="margin-top: 0;">
+            <% user.reviews.slice(0, 5).forEach(function(review){ %>
+              <div class="row">
+                <div class="col-md-3">
+                  <%- '<span class="fa fa-star checked"></span>' .repeat(review.rating) %>
+                    <%- '<span class="fa fa-star"></span>' .repeat(5 - review.rating) %>
+                      <div>review by: <strong>
+                          <%= review.author.username %>
+                        </strong></div>
+                      <span><em>
+                          <%= review.updatedAt.toDateString() %>,
+                            <%= moment(review.createdAt).fromNow() %>
+                        </em></span>
                 </div>
+                <div class="col-md-9">
+                  <p style="text-align: justify; word-wrap: break-word;">
+                    <%= review.text %>
+                  </p>
+                  <% if(currentUser && review.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin){
+                    %>
+                    <a class="btn btn-xs btn-warning" href="/user/<%=user._id %>/reviews/<%=review._id %>/edit">Edit</a>
+                    <form id="delete-form" action="/user/<%=user._id %>/reviews/<%=review._id %>?_method=DELETE"
+                      method="POST">
+                      <input type="submit" class="btn btn-xs btn-danger" value="Delete">
+                    </form>
+                    <% } %>
+                </div>
+              </div>
+              <hr>
+              <% }); %>
+                <div style="margin-bottom: 10px;">
+                  <h4><a href="/user/<%= user._id %>/reviews"><i class="fa fa-search" aria-hidden="true"></i>
+                      See all reviews</a></h4>
+                </div>
+                <% } %>
 
-                <!-- Listings -->
-                <% if(user.isAgent==true){ %>
-                  <h3>
-                    agent <%= user.username %>'s listings:
-                  </h3>
-                  <ul>
-                    <% listings.forEach(function(listing) { %>
-                      <li>
-                        <a href="/listings/<%= listing.id %>">
-                          <%= listing.name %>
-                        </a>
-                      </li>
+                  <% if(currentUser && currentUser.isAgent){ %>
+                    <% } else { %>
+                      <div>
+                        <a class="btn btn-primary btn-lg <% if (currentUser && user.reviews.some(function (review) {return review.author.id.equals(currentUser._id)})) { %> disabled <% } %>"
+                          href="/user/<%= user._id %>/reviews/new">
+                          Write a New review</a>
+                      </div>
+                      <% } %>
+      </div>
+    </div>
+    <% } %>
 
-                      <% if(currentUser && listing.author.id.equals(currentUser._id) || currentUser &&
-                        currentUser.isAdmin){ %>
-                        <a class="btn btn-warning" href="/listings/<%= listing._id %>/edit">Edit</a>
-                        <form action="/listings/<%= listing._id %>?_method=DELETE" method="POST">
-                          <button class="btn btn-danger">DELETE</button>
-                        </form>
-                        <% } %>
-                          <% }); %>
-                  </ul>
-
-                  <div class="thumbnail">
-                    <div class="caption-full">
-                      <% if (user.rating===0) { %>
-                        <h5>
-                          <em>No reviews yet.</em>
-                        </h5>
-                        <% } else { %>
-                          <p>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star <% if (user.rating > 1.5) { %> checked <% } %>"></span>
-                            <span class="fa fa-star <% if (user.rating > 2.5) { %> checked <% } %>"></span>
-                            <span class="fa fa-star <% if (user.rating > 3.5) { %> checked <% } %>"></span>
-                            <span class="fa fa-star <% if (user.rating > 4.5) { %> checked <% } %>"></span>
-                            <em>(total reviews: <%= user.reviews.length %>)</em>
-                          </p>
-                          <p>
-                            Current user rating: <strong>
-                              <%= user.rating.toFixed(2) %>
-                            </strong>
-                          </p>
-                          <h4>Latest reviews for this user:</h4>
-                          <hr style="margin-top: 0;">
-                          <% user.reviews.slice(0, 5).forEach(function(review){ %>
-                            <div class="row">
-                              <div class="col-md-3">
-                                <%- '<span class="fa fa-star checked"></span>' .repeat(review.rating) %>
-                                  <%- '<span class="fa fa-star"></span>' .repeat(5 - review.rating) %>
-                                    <div>review by: <strong>
-                                        <%= review.author.username %>
-                                      </strong></div>
-                                    <span><em>
-                                        <%= review.updatedAt.toDateString() %>,
-                                          <%= moment(review.createdAt).fromNow() %>
-                                      </em></span>
-                              </div>
-                              <div class="col-md-9">
-                                <p style="text-align: justify; word-wrap: break-word;">
-                                  <%= review.text %>
-                                </p>
-                                <% if(currentUser && review.author.id.equals(currentUser._id) || currentUser &&
-                                  currentUser.isAdmin){ %>
-                                  <a class="btn btn-xs btn-warning"
-                                    href="/user/<%=user._id %>/reviews/<%=review._id %>/edit">Edit</a>
-                                  <form id="delete-form"
-                                    action="/user/<%=user._id %>/reviews/<%=review._id %>?_method=DELETE" method="POST">
-                                    <input type="submit" class="btn btn-xs btn-danger" value="Delete">
-                                  </form>
-                                  <% } %>
-                              </div>
-                            </div>
-                            <hr>
-                            <% }); %>
-                              <div style="margin-bottom: 10px;">
-                                <h4><a href="/user/<%= user._id %>/reviews"><i class="fa fa-search"
-                                      aria-hidden="true"></i>
-                                    See all reviews</a></h4>
-                              </div>
-                              <% } %>
-
-                                <% if(currentUser && currentUser.isAgent){ %>
-                                  <% } else { %>
-                                    <div>
-                                      <a class="btn btn-primary btn-lg <% if (currentUser && user.reviews.some(function (review) {return review.author.id.equals(currentUser._id)})) { %> disabled <% } %>"
-                                        href="/user/<%= user._id %>/reviews/new">
-                                        Write a New review</a>
-                                    </div>
-                                    <% } %>
-                    </div>
-                  </div>
-                  <% } %>
-
-                    <%- include("../partials/footer") %>
+      <%- include("../partials/footer") %>
