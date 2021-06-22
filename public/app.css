@@ -897,34 +897,47 @@ input[type=range]::-ms-thumb {
 }
 
 #profileDetails p{
-  font-weight: bold;
+  font-weight: 600;
 }
 
-.followBtn, .chatBtn, .profileBtn, .approveBtn{
+.followBtn, .chatBtn, .approveBtn{
   width: 130px;
   border-radius: 50px;
+  font-size: 0.95em;
+}
+
+.profileBtn{
+  width: 80px;
+  border-radius: 50px;
+  font-size: 0.95em;
+}
+
+.reviewBtn{
+  width: 160px;
+  border-radius: 50px;
+  font-size: 0.95em;
 }
 
 #userRole{
   font-size: 0.9em;
-  background: pink;
+  background: lightblue;
   border-radius: 50px;
   padding-top: 10px;
   padding-bottom: 10px;
-  padding-left: 15px;
-  padding-right: 15px;
+  padding-left: 20px;
+  padding-right: 20px;
   border-radius: 80px;
   font-weight: bold;
 }
 
 #userStatus{
   font-size: 0.9em;
-  background: lightseagreen;
+  background: lightblue;
   border-radius: 50px;
   padding-top: 10px;
   padding-bottom: 10px;
-  padding-left: 15px;
-  padding-right: 15px;
+  padding-left: 20px;
+  padding-right: 20px;
   border-radius: 80px;
   font-weight: bold;
 }
@@ -933,13 +946,47 @@ input[type=range]::-ms-thumb {
   background: lightblue;
   padding-top: 10px;
   padding-bottom: 10px;
-  padding-left: 15px;
-  padding-right: 15px;
+  padding-left: 20px;
+  padding-right: 20px;
   border-radius: 80px;
   font-weight: bold;
   font-size: 0.9em;
 }
 
 .borderStyle{
+  padding: 40px;
+}
+
+.profileHeader{
+  font-size: 1.1em;
+}
+
+.profileListingEdit{
+  font-size: 0.9em;
+  border-radius: 50px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  padding-left: 15px;
+  padding-right: 15px;
+  border-radius: 80px;
+  font-weight: bold;
+}
+.profileListingDelete{
+  font-size: 0.9em;
+  border-radius: 50px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  padding-left: 15px;
+  padding-right: 15px;
+  border-radius: 80px;
+  font-weight: bold;
+}
+
+.headerStyle{
+  background: #f5f6f7;
   border-radius: 25px;
+}
+
+.checked{
+  color: orange;
 }
