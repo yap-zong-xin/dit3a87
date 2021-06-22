@@ -126,7 +126,7 @@ router.post("/register", middleware.notLoggedIn, upload.single('image'), functio
 			// add image's public_id to listing object
 			req.body.imageId = result.public_id;
 			
-			newUser.banner = "https://www.manpower.com.au/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBdnBaIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--7a3834c4cf7a3b0dc9e55ecad8a24d057f331f25/img-placeholder.jpg";
+			newUser.banner = "https://www.phdmedia.com/germany/wp-content/uploads/sites/28/2017/06/Banner-2.gif";
 			
 			User.register(newUser, req.body.password, function(err, user){
 				if(err){
@@ -155,11 +155,11 @@ router.post("/register", middleware.notLoggedIn, upload.single('image'), functio
 						});
 	
 						const mailOptions = {
-							from: 'Property Company <jptestingsku@gmail.com>',
+							from: '3D Property Website <jptestingsku@gmail.com>',
 							to: newUser.email,
-							subject: 'Email verification',
-							html : "Hello,<br> Please Click on the link to verify your email.<br><a href="+link+">Click here to verify</a>"
-						};
+							subject: 'Account Verification',
+							html : "Hello <strong>" + newUser.username + "</strong>,<br><br>Please click on the link below to verify your account.<br><br><a href="+link+">Verify Account</a>"
+					};
 	
 						const result = await transport.sendMail(mailOptions);
 						return result; 
@@ -177,8 +177,8 @@ router.post("/register", middleware.notLoggedIn, upload.single('image'), functio
 			});
 		});
 	} else if(!req.file && req.body.roleCode != 'agent') {
-		newUser.image = "https://i.pinimg.com/originals/8b/db/8e/8bdb8e8a536946dbe616ee509b7fb435.jpg";
-		newUser.banner = "https://www.manpower.com.au/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBdnBaIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--7a3834c4cf7a3b0dc9e55ecad8a24d057f331f25/img-placeholder.jpg";
+		newUser.image = "https://www.happitime.co.uk/images/uploads/profile.jpg";
+		newUser.banner = "https://www.phdmedia.com/germany/wp-content/uploads/sites/28/2017/06/Banner-2.gif";
 		User.register(newUser, req.body.password, function(err, user){
 			if(err){
 				console.log(err);
@@ -207,10 +207,10 @@ router.post("/register", middleware.notLoggedIn, upload.single('image'), functio
 					});
 
 					const mailOptions = {
-						from: 'Property Company <jptestingsku@gmail.com>',
+						from: '3D Property Website <jptestingsku@gmail.com>',
 						to: newUser.email,
-						subject: 'Email verification',
-						html : "Hello,<br> Please Click on the link to verify your email.<br><a href="+link+">Click here to verify</a>"
+						subject: 'Account Verification',
+						html : "Hello <strong>" + newUser.username + "</strong>,<br><br>Please click on the link below to verify your account.<br><br><a href="+link+">Verify Account</a>"
 					};
 
 					const result = await transport.sendMail(mailOptions);
