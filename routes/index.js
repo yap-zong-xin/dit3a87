@@ -158,7 +158,7 @@ router.post("/register", middleware.notLoggedIn, upload.single('image'), functio
 							from: '3D Property Website <jptestingsku@gmail.com>',
 							to: newUser.email,
 							subject: 'Account Verification',
-							html : "Hello <strong>" + newUser.username + "</strong>,<br><br>Please click on the link below to verify your account.<br><br><a href="+link+">Verify Account</a>"
+							html : "Hello <strong>" + newUser.username + "</strong>,<br><br>Thank you for registering. Please click on the link below to verify your account.<br><br><a href="+link+">Verify Account</a>"
 					};
 	
 						const result = await transport.sendMail(mailOptions);
@@ -210,7 +210,7 @@ router.post("/register", middleware.notLoggedIn, upload.single('image'), functio
 						from: '3D Property Website <jptestingsku@gmail.com>',
 						to: newUser.email,
 						subject: 'Account Verification',
-						html : "Hello <strong>" + newUser.username + "</strong>,<br><br>Please click on the link below to verify your account.<br><br><a href="+link+">Verify Account</a>"
+						html : "Hello <strong>" + newUser.username + "</strong>,<br><br>Thank you for registering. Please click on the link below to verify your account.<br><br><a href="+link+">Verify Account</a>"
 					};
 
 					const result = await transport.sendMail(mailOptions);

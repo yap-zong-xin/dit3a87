@@ -323,7 +323,6 @@ router.get('/notifications/:id', middleware.isLoggedIn, async function(req, res)
 		let user = await User.findById(req.user._id);
     let notification = await Notification.findById(req.params.id);
     notification.isRead = true;
-		notification.image = user.image;
     notification.save();
     res.redirect(`/listings/${notification.listingId}`);
   } catch(err) {

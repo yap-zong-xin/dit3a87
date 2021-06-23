@@ -445,6 +445,7 @@ router.post("/listings", middleware.isLoggedIn, uploadMultiple, async function(r
 								console.log(newlyCreated._id)
 								let newNotification = {
 									username: req.user.username,
+									image: req.user.image,
 									listingId: newlyCreated._id
 								}
 								for(const follower of user.followers) {

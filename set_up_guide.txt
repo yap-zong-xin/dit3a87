@@ -36,6 +36,6 @@ clear mongo
 --------------------------------
 Important
 --------------------------------
-- Do not save (ctrl+s) index.ejs and show.ejs files under listings folder. Instead, save (ctrl+shift+p) and click on "save file without formatting"
+- Do not save (ctrl+s) index.ejs and show.ejs files under listings folder + show.ejs file under users folder. Instead, save (ctrl+shift+p) and click on "save file without formatting"
  
 -->

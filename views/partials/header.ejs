@@ -49,16 +49,19 @@
                   <%= notifications.length %>
                 </span></a>
               <ul class="dropdown-menu">
-                <li>
-                  <a href="/notifications">View past notifications</a>
-                </li>
-                <% notifications.forEach(function(notification) { %>
+                <% if(notifications==0){ %>
                   <li>
-                    <a href="/notifications/<%= notification.id %>">
-                      <%= notification.username %> created a new listing
-                    </a>
+                    No notifications
                   </li>
-                  <% }); %>
+                  <% } else { %>
+                    <% notifications.forEach(function(notification) { %>
+                      <li>
+                        <a href="/notifications/<%= notification.id %>">
+                          <%= notification.username %> created a new listing
+                        </a>
+                      </li>
+                      <% }); %>
+                        <% } %>
               </ul>
             </li>
             <li class="nav-item active">
