@@ -1029,7 +1029,7 @@ input[type=range]::-ms-thumb {
     overflow-y: initial !important
 }
 .modal-body{
-  height: 400px;
+  height: 380px;
   overflow-y: auto;
 }
 

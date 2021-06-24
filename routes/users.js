@@ -303,19 +303,19 @@ router.get('/follow/:id', middleware.isLoggedIn, async function(req, res) {
 });
 
 // view all notifications
-router.get('/notifications', middleware.isLoggedIn, async function(req, res) {
-  try {
-    let user = await User.findById(req.user._id).populate({
-      path: 'notifications',
-      options: { sort: { "_id": -1 } }
-    }).exec();
-    let allNotifications = user.notifications;
-    res.render('notifications/index.ejs', { allNotifications });
-  } catch(err) {
-    req.flash('error', err.message);
-    res.redirect('back');
-  }
-});
+// router.get('/notifications', middleware.isLoggedIn, async function(req, res) {
+//   try {
+//     let user = await User.findById(req.user._id).populate({
+//       path: 'notifications',
+//       options: { sort: { "_id": -1 } }
+//     }).exec();
+//     let allNotifications = user.notifications;
+//     res.render('notifications/index.ejs', { allNotifications });
+//   } catch(err) {
+//     req.flash('error', err.message);
+//     res.redirect('back');
+//   }
+// });
 
 // handle notification
 router.get('/notifications/:id', middleware.isLoggedIn, async function(req, res) {

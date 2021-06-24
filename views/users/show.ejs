@@ -170,7 +170,7 @@
       </span>
     </a>
 
-    <a href="/notifications">
+    <a href="" data-toggle="modal" data-target="#notificationTarget">
       <span style="border-right: solid lightgray 1px;">
         <%= allNotifications.length %>
           <% if(allNotifications.length<2){ %>
@@ -180,14 +180,16 @@
               <% } %>
       </span>
     </a>
-    <span style="border-top-right-radius: 25px; border-bottom-right-radius: 25px;">
-      <%= allFollowers.length %>
-        <% if(allFollowers.length<2){ %>
-          Follower
-          <% } else { %>
-            Followers
-            <% } %>
-    </span>
+    <a href="" data-toggle="modal" data-target="#followerTarget">
+      <span>
+        <%= allFollowers.length %>
+          <% if(allFollowers.length<2){ %>
+            Follower
+            <% } else { %>
+              Followers
+              <% } %>
+      </span>
+    </a>
   </div>
 
 
@@ -301,19 +303,67 @@
                 <p class="profileHeader my-0">Followers</p>
               </div>
               <div class="right">
-                <a class="btn btn-outline-dark profileBtn" href="#">
-                  <span>View All</span>
-                </a>
+                <button type="button" class="btn btn-outline-dark profileBtn" data-toggle="modal"
+                  data-target="#followerTarget">
+                  View All
+                </button>
               </div>
+              <!-- Modal -->
+              <div class="modal fade" id="followerTarget" tabindex="-1" role="dialog"
+                aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                  <div class="modal-content">
+                    <div class="justify-content-between align-items-center d-flex border-bottom">
+                      <div class="py-4"></div>
+                      <div>
+                        <p class="modal-title pl-5" id="exampleModalLongTitle">Followers</p>
+                      </div>
+                      <div>
+                        <button type="button" class="close pr-2" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="modal-body">
+                      <% if(user.followers=="" ){ %>
+                        <p>
+                          <em>No followers yet.</em>
+                        </p>
+                        <% } else { %>
+                          <% allFollowers.reverse().slice(0, 3).forEach(function(followers, index) { %>
+                            <div>
+                              <div class="row align-items-center d-flex">
+                                <div class="col-2">
+                                  <a href="/user/<%= followers._id %>">
+                                    <img src="<%= followers.image %>"
+                                      style="width:60px; border: 1px solid gray; border-radius: 50%; object-fit: cover;">
+                                  </a>
+                                </div>
+                                <div class="col-7">
+                                  <a href="/user/<%= followers._id %>" style="color: black">
+                                    <%= followers.username %>
+                                  </a>
+                                </div>
+                                <div class="col-3 justify-content-end d-flex">
+                                  <!-- follow button -->
+                                </div>
+                              </div>
+                            </div>
+                            <% }); %>
+                              <% } %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
             </div>
-            <div class="px-4">
+            <div class="px-2">
               <% if(user.followers=="" ){ %>
-                <p class="mt-3">
+                <p class="mt-3 px-3">
                   <em>No followers yet.</em>
                 </p>
                 <% } else { %>
-
-                  <% allFollowers.forEach(function(followers, index) { %>
+                  <% allFollowers.reverse().slice(0, 3).forEach(function(followers, index) { %>
                     <div class="pt-3">
                       <div class="row align-items-center d-flex">
                         <div class="col-3">
@@ -328,9 +378,7 @@
                           </a>
                         </div>
                         <div class="col-3">
-                          <a href="/user/<%= followers._id %>">
-                            <button class="btn btn-outline-dark followersViewBtn">View</button>
-                          </a>
+                          <!-- follow button -->
                         </div>
                       </div>
                     </div>
@@ -348,48 +396,59 @@
                 <!-- Button trigger modal -->
                 <div class="right">
                   <button type="button" class="btn btn-outline-dark profileBtn" data-toggle="modal"
-                    data-target="#exampleModalCenter">
+                    data-target="#notificationTarget">
                     View All
                   </button>
                 </div>
 
                 <!-- Modal -->
-                <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+                <div class="modal fade" id="notificationTarget" tabindex="-1" role="dialog"
                   aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                   <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
-                      <div class="modal-header">
-                        <p class="modal-title" id="exampleModalLongTitle">All Notifications</p>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true">&times;</span>
-                        </button>
+                      <div class="justify-content-between align-items-center d-flex border-bottom">
+                        <div class="py-4"></div>
+                        <div>
+                          <p class="modal-title pl-5" id="exampleModalLongTitle">Notifications</p>
+                        </div>
+                        <div>
+                          <button type="button" class="close pr-2" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
                       </div>
                       <div class="modal-body">
-                        <% allNotifications.reverse().forEach(function(notification) { %>
-                          <div class="row mb-3 align-items-center d-flex">
-                            <div class="col-2">
-                              <a href="/notifications/<%= notification.id %>">
-                                <img src="<%= notification.image %>" alt="listing image"
-                                  style="width:60px; border: 1px solid gray; border-radius: 50%; object-fit: cover;">
-                              </a>
-                            </div>
-                            <div class="col-7 pr-0">
-                              <a href="/notifications/<%= notification.id %>" style="color:black;">
-                                <%= notification.username %> added a new listing
-                              </a><br>
-                              <span style="color: gray; font-size: 0.85em;">
-                                <%= moment(notification.createdAt).fromNow() %>
-                              </span>
-                            </div>
-                            <div class="col-3 justify-content-end d-flex">
-                              <a href="/notifications/<%= notification.id %>">
-                                <!-- <button class="btn btn-outline-dark followersViewBtn">View</button> -->
-                                <img src="<%= notification.listingImage %>"
-                                  style="width:60px; border: 1px solid gray; border-radius: 10px; object-fit: cover;">
-                              </a>
-                            </div>
-                          </div>
-                          <% }); %>
+                        <% if(allNotifications==0 ){ %>
+                          <p>
+                            <em>No new notifications yet.</em>
+                          </p>
+                          <% } else { %>
+                            <% allNotifications.reverse().slice(0, 3).forEach(function(notification) { %>
+                              <div class="row mb-3 align-items-center d-flex">
+                                <div class="col-2">
+                                  <a href="/notifications/<%= notification.id %>">
+                                    <img src="<%= notification.image %>" alt="listing image"
+                                      style="width:60px; border: 1px solid gray; border-radius: 50%; object-fit: cover;">
+                                  </a>
+                                </div>
+                                <div class="col-7 pr-0">
+                                  <a href="/notifications/<%= notification.id %>" style="color:black;">
+                                    <%= notification.username %> added a new listing
+                                  </a><br>
+                                  <span style="color: gray; font-size: 0.9em;">
+                                    <%= moment(notification.createdAt).fromNow() %>
+                                  </span>
+                                </div>
+                                <div class="col-3 justify-content-end d-flex">
+                                  <a href="/notifications/<%= notification.id %>">
+                                    <!-- <button class="btn btn-outline-dark followersViewBtn">View</button> -->
+                                    <img src="<%= notification.listingImage %>"
+                                      style="width:60px; border: 1px solid gray; border-radius: 10px; object-fit: cover;">
+                                  </a>
+                                </div>
+                              </div>
+                              <% }); %>
+                                <% } %>
                       </div>
                     </div>
                   </div>
@@ -397,11 +456,11 @@
               </div>
               <div class="px-2">
                 <% if(notifications==0 ){ %>
-                  <p class="mt-3">
+                  <p class="mt-3 px-3">
                     <em>No new notifications yet.</em>
                   </p>
                   <% } else { %>
-                    <% allNotifications.reverse().forEach(function(notification) { %>
+                    <% allNotifications.reverse().slice(0, 3).forEach(function(notification) { %>
                       <% if(notification.isRead==false){ %>
                         <div class="row mt-3 align-items-center d-flex">
                           <div class="col-3">
@@ -410,11 +469,11 @@
                                 style="width:60px; border: 1px solid gray; border-radius: 50%; object-fit: cover;">
                             </a>
                           </div>
-                          <div class="col-9 pr-0">
+                          <div class="col-9">
                             <a href="/notifications/<%= notification.id %>" style="color:black;">
                               <%= notification.username %> added a new listing
                             </a><br>
-                            <span style="color: gray; font-size: 0.85em;">
+                            <span style="color: gray; font-size: 0.9em;">
                               <%= moment(notification.createdAt).fromNow() %>
                             </span>
                           </div>
@@ -453,25 +512,25 @@
                 <em>No listings yet.</em>
               </p>
               <% } else { %>
-                <% listings.forEach(function(listing) { %>
-                  <div class="row align-items-center d-flex mt-2 px-4">
+                <% listings.reverse().slice(0, 3).forEach(function(listing) { %>
+                  <div class="row align-items-center d-flex mt-2 px-2">
                     <div class="col-2">
                       <a href="/listings/<%= listing.id %>">
                         <img src="<%= listing.thumbnail %>"
-                          style="background-size: cover; width: 85px; height: 85px; object-fit: cover; background-position: center center; border-radius: 50%; border: 1px solid gray;">
+                          style="background-size: cover; width: 85px; height: 85px; object-fit: cover; background-position: center center; border-radius: 25px; border: 1px solid gray;">
                       </a>
                     </div>
-                    <div class="col-7 pl-5">
-                      <div class="mb-3">
-                        <a href="/listings/<%= listing.id %>" style="color: black; font-weight: 600;">
-                          <%= listing.name %>
-                        </a>
-                      </div>
-                      <div class="left">
-                        <a class="btn btn-outline-dark profileListingEdit" href="/listings/<%= listing.id %>">View</a>
-                      </div>
+                    <div class="col-6 pl-5">
+                      <a href="/listings/<%= listing.id %>" style="color: black; font-weight: 600;">
+                        <%= listing.name %><br>
+                      </a>
+                      <span style="color: gray; font-size: 0.9em;">
+                        <%= moment(listing.createdAt).fromNow() %>
+                      </span>
+                    </div>
+                    <div class="col-4 justify-content-end d-flex">
                       <%if(currentUser&&listing.author.id.equals(currentUser._id)||currentUser&&currentUser.isAdmin){%>
-                        <div class="left right">
+                        <div class="left">
                           <a class="btn btn-outline-dark profileListingEdit"
                             href="/listings/<%= listing._id %>/edit">Edit</a>
                         </div>
@@ -481,9 +540,6 @@
                           </form>
                         </div>
                         <% } %>
-                    </div>
-                    <div class="col-3 justify-content-end d-flex">
-                      <%= moment(listing.createdAt).fromNow() %>
                     </div>
                   </div>
                   <% }); %>
@@ -515,30 +571,26 @@
                     </div>
             </div>
           </div>
-          <div class="px-4">
+          <div class="px-2">
             <% if (user.rating===0) { %>
-              <div class="mt-3">
+              <div class="mt-3 px-3">
                 <em>No reviews yet.</em>
               </div>
               <% } else { %>
-                <% user.reviews.slice(0, 3).forEach(function(review){ %>
+                <% user.reviews.reverse().slice(0, 3).forEach(function(review){ %>
                   <div class="row mt-3">
                     <div class="col-12">
-                      <p style="text-align: justify; white-space: pre-wrap;">
-                        <%=review.text%>
-                      </p>
-                    </div>
-                    <div class="col-12">
-                      <div class="row align-items-center d-flex">
+                      <div class="row">
                         <div class="col-2">
                           <a href="/user/<%=user._id %>">
                             <img src="<%= review.author.image %>"
-                              style="width: 100%; border-radius: 50%; border: 1px solid gray;">
+                              style="width: 85px; height: 85px; border-radius: 50%; border: 1px solid gray;">
                           </a>
                         </div>
-                        <div class="col-7">
-                          <div class="row pl-2 ml-2">
-                            <div class="col-12">
+                        <div class="col-10">
+                          <p style="text-align: justify; white-space: pre-wrap;" class="mb-0"><%=review.text%></p>
+                          <div class="row align-items-center d-flex pt-3">
+                            <div class="col-8">
                               <p class="mb-0">
                                 Review by:<a href="/user/<%=user._id %>">
                                   <strong>
@@ -546,39 +598,33 @@
                                   </strong>
                                 </a>
                               </p>
-                            </div>
-                            <div class="col-12">
                               <p class="mb-0">
                                 <%- '<span class="fa fa-star checked"></span>' .repeat(review.rating) %>
                                   <%- '<span class="fa fa-star"></span>' .repeat(5 - review.rating) %>
                               </p>
-                            </div>
-                            <div class="col-12">
                               <p class="m-0">
                                 <em>
-                                  <span>
-                                    <%= moment(review.createdAt).fromNow() %>
-                                  </span>
+                                  <%= moment(review.createdAt).fromNow() %>
                                 </em>
                               </p>
                             </div>
+                            <div class="col-4 justify-content-end d-flex">
+                              <%if(currentUser&&review.author.id.equals(currentUser._id)||currentUser&&currentUser.isAdmin){%>
+                                <div class="left">
+                                  <a class="btn btn-outline-dark editDeleteReviewBtn"
+                                    href="/user/<%=user._id %>/reviews/<%=review._id %>/edit">Edit</a>
+                                </div>
+                                <div class="right">
+                                  <form id="delete-form"
+                                    action="/user/<%=user._id %>/reviews/<%=review._id %>?_method=DELETE" method="POST">
+                                    <input type="submit" class="btn btn-outline-dark editDeleteReviewBtn"
+                                      value="Delete">
+                                  </form>
+                                </div>
+                                <% } %>
+                            </div>
                           </div>
                         </div>
-                        <div class="col-3 px-0 justify-content-center d-flex">
-                          <%if(currentUser&&review.author.id.equals(currentUser._id)||currentUser&&currentUser.isAdmin){%>
-                            <div class="left">
-                              <a class="btn btn-outline-dark editDeleteReviewBtn"
-                                href="/user/<%=user._id %>/reviews/<%=review._id %>/edit">Edit</a>
-                            </div>
-                            <div class="right">
-                              <form id="delete-form"
-                                action="/user/<%=user._id %>/reviews/<%=review._id %>?_method=DELETE" method="POST">
-                                <input type="submit" class="btn btn-outline-dark editDeleteReviewBtn" value="Delete">
-                              </form>
-                            </div>
-                            <% } %>
-                        </div>
-
                       </div>
                     </div>
                   </div>
