@@ -442,11 +442,13 @@ router.post("/listings", middleware.isLoggedIn, uploadMultiple, async function(r
 								console.log(err);
 							} else {
 								let user = await User.findById(req.user._id).populate('followers').exec();
-								console.log(newlyCreated._id)
+								console.log("id" + newlyCreated._id)
+								console.log()
 								let newNotification = {
 									username: req.user.username,
 									image: req.user.image,
-									listingId: newlyCreated._id
+									listingId: newlyCreated._id,
+									listingImage: newlyCreated.thumbnail
 								}
 								for(const follower of user.followers) {
 									let notification = await Notification.create(newNotification);

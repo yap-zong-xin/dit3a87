@@ -151,22 +151,42 @@
   <div class="container overview my-4 text-center">
     <a href="/dashboard/listings">
       <span style="border-right: solid lightgray 1px;">
-        <%= listings.length %> Listings
+        <%= listings.length %>
+          <% if(listings.length<2){ %>
+            Listing
+            <% } else { %>
+              Listings
+              <% } %>
       </span>
     </a>
     <a href="/user/<%= user._id %>/reviews">
       <span style="border-right: solid lightgray 1px;">
-        <%= user.reviews.length %> Reviews
+        <%= user.reviews.length %>
+          <% if(user.reviews.length<2){ %>
+            Review
+            <% } else { %>
+              Reviews
+              <% } %>
       </span>
     </a>
 
     <a href="/notifications">
       <span style="border-right: solid lightgray 1px;">
-        <%= allNotifications.length %> Notifications
+        <%= allNotifications.length %>
+          <% if(allNotifications.length<2){ %>
+            Notification
+            <% } else { %>
+              Notifications
+              <% } %>
       </span>
     </a>
     <span style="border-top-right-radius: 25px; border-bottom-right-radius: 25px;">
-      <%= allFollowers.length %> Followers
+      <%= allFollowers.length %>
+        <% if(allFollowers.length<2){ %>
+          Follower
+          <% } else { %>
+            Followers
+            <% } %>
     </span>
   </div>
 
@@ -321,23 +341,67 @@
           <!-- notifications -->
           <% if(currentUser){ %>
             <div class="col-12 borderStyle">
-              <div class="align-items-center d-flex pl-4 pr-2 py-2 justify-content-between headerStyle">
+              <div class="align-items-center d-flex pl-3 pr-2 py-2 justify-content-between headerStyle">
                 <div class="left">
                   <p class="profileHeader my-0">Notifications</p>
                 </div>
+                <!-- Button trigger modal -->
                 <div class="right">
-                  <a class="btn btn-outline-dark profileBtn" href="/notifications">
-                    <span>View All</span>
-                  </a>
+                  <button type="button" class="btn btn-outline-dark profileBtn" data-toggle="modal"
+                    data-target="#exampleModalCenter">
+                    View All
+                  </button>
+                </div>
+
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+                  aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <p class="modal-title" id="exampleModalLongTitle">All Notifications</p>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <% allNotifications.reverse().forEach(function(notification) { %>
+                          <div class="row mb-3 align-items-center d-flex">
+                            <div class="col-2">
+                              <a href="/notifications/<%= notification.id %>">
+                                <img src="<%= notification.image %>" alt="listing image"
+                                  style="width:60px; border: 1px solid gray; border-radius: 50%; object-fit: cover;">
+                              </a>
+                            </div>
+                            <div class="col-7 pr-0">
+                              <a href="/notifications/<%= notification.id %>" style="color:black;">
+                                <%= notification.username %> added a new listing
+                              </a><br>
+                              <span style="color: gray; font-size: 0.85em;">
+                                <%= moment(notification.createdAt).fromNow() %>
+                              </span>
+                            </div>
+                            <div class="col-3 justify-content-end d-flex">
+                              <a href="/notifications/<%= notification.id %>">
+                                <!-- <button class="btn btn-outline-dark followersViewBtn">View</button> -->
+                                <img src="<%= notification.listingImage %>"
+                                  style="width:60px; border: 1px solid gray; border-radius: 10px; object-fit: cover;">
+                              </a>
+                            </div>
+                          </div>
+                          <% }); %>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div class="px-4">
+              <div class="px-2">
                 <% if(notifications==0 ){ %>
                   <p class="mt-3">
                     <em>No new notifications yet.</em>
                   </p>
                   <% } else { %>
-                    <% allNotifications.forEach(function(notification) { %>
+                    <% allNotifications.reverse().forEach(function(notification) { %>
                       <% if(notification.isRead==false){ %>
                         <div class="row mt-3 align-items-center d-flex">
                           <div class="col-3">
@@ -346,16 +410,19 @@
                                 style="width:60px; border: 1px solid gray; border-radius: 50%; object-fit: cover;">
                             </a>
                           </div>
-                          <div class="col-6 pr-0">
+                          <div class="col-9 pr-0">
                             <a href="/notifications/<%= notification.id %>" style="color:black;">
                               <%= notification.username %> added a new listing
-                            </a>
+                            </a><br>
+                            <span style="color: gray; font-size: 0.85em;">
+                              <%= moment(notification.createdAt).fromNow() %>
+                            </span>
                           </div>
-                          <div class="col-3">
+                          <!-- <div class="col-3">
                             <a href="/notifications/<%= notification.id %>">
                               <button class="btn btn-outline-dark followersViewBtn">View</button>
                             </a>
-                          </div>
+                          </div> -->
                         </div>
                         <% } %>
                           <% }); %>
@@ -457,15 +524,19 @@
                 <% user.reviews.slice(0, 3).forEach(function(review){ %>
                   <div class="row mt-3">
                     <div class="col-12">
-                      <p style="text-align: justify; white-space: pre-wrap;"><%=review.text%></p>
+                      <p style="text-align: justify; white-space: pre-wrap;">
+                        <%=review.text%>
+                      </p>
                     </div>
                     <div class="col-12">
-                      <div class="row">
+                      <div class="row align-items-center d-flex">
                         <div class="col-2">
-                          <img src="<%= review.author.image %>"
-                            style="width: 100%; border-radius: 50%; border: 1px solid gray;">
+                          <a href="/user/<%=user._id %>">
+                            <img src="<%= review.author.image %>"
+                              style="width: 100%; border-radius: 50%; border: 1px solid gray;">
+                          </a>
                         </div>
-                        <div class="col-7 align-items-center d-flex">
+                        <div class="col-7">
                           <div class="row pl-2 ml-2">
                             <div class="col-12">
                               <p class="mb-0">

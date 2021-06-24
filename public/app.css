@@ -1023,3 +1023,16 @@ input[type=range]::-ms-thumb {
   padding-top: 13px;
   color: black;
 }
+
+/* CSS used here will be applied after bootstrap.css */
+.modal-dialog{
+    overflow-y: initial !important
+}
+.modal-body{
+  height: 400px;
+  overflow-y: auto;
+}
+
+.modal{
+  font-size: 0.95em;
+}
