@@ -1,5 +1,15 @@
 <%- include("partials/header") %>
 
+  <style>
+    body {
+      /* background: #396afc; 
+  background: -webkit-linear-gradient(to left, #396afc, #2948ff);
+  background: linear-gradient(to left, #396afc, #2948ff); */
+      background-color: rgb(247, 247, 247);
+    }
+  </style>
+
+  <!-- 
   <h1>Sign Up Form</h1>
 
   <form action="/register" method="POST" enctype="multipart/form-data">
@@ -24,6 +34,219 @@
     <input type="number" name="postalCode" placeholder="postal code">
     <br>(profile image is optional)<input type="file" name="image" accept="image/*">
     <button>Sign Up</button>
-  </form>
+  </form> -->
 
+  <div class="container">
+    <div class="col-md-12 p-0 shadow admin-reg">
+      <div class="col-md-12 admin-reg-overlay" id="admin-reg-overlay">
+        <div class="col-md-12 d-flex flex-column justify-content-center align-items-center text-center"
+          style="height: 600px;">
+          <h3>Administrator Registration</h3>
+          <a>Registrations are subjected to approval.</a>
+          <button class="btn" onClick="continueForm()">Continue</button>
+        </div>
+      </div>
+      <div class="col-md-12 admin-form" id="admin-form">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#186aff" fill-opacity="1" d="M0,224L48,234.7C96,245,192,267,288,245.3C384,224,480,160,576,149.3C672,139,768,181,864,208C960,235,1056,245,1152,250.7C1248,256,1344,256,1392,256L1440,256L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"></path></svg>
+        <form class="col-md-12 d-flex flex-column" action="/register" method="POST" enctype="multipart/form-data">
+          <div class="col-md-12 m-0 text-center header">
+            <a>Registration Form</a>
+          </div>
+          <ul class="typeOfRole d-none">
+            <li>
+              <input type="radio" id="admin" name="roleCode" value="admin" checked />
+              <label for="admin">Admin</label>
+            </li>
+          </ul>
+
+          <div class="tab">
+            <div class="tab-fields">
+              <div class="input-field">
+                <i class="fas fa-user"></i>
+                <input type="text" placeholder="First Name" id="firstName" name="firstName" required />
+              </div>
+              <div class="input-field">
+                <i class="fas fa-user"></i>
+                <input type="text" placeholder="Last Name" id="lastName" name="lastName" required />
+              </div>
+              <div class="input-field-select">
+                <i class="fas fa-venus-mars"></i>
+                <select name="gender" id="gender" id="gender" name="gender" required>
+                  <option value="unselected" hidden selected>Select Gender</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                  <option value="others">Others</option>
+                </select>
+              </div>
+              <div class="input-field">
+                <i class="fas fa-envelope"></i>
+                <input type="text" placeholder="Email" id="email" name="email" required />
+              </div>
+              <div class="input-field">
+                <i class="fas fa-phone"></i>
+                <input type="text" placeholder="Phone Number" id="phone" name="phone" required />
+              </div>
+            </div>
+          </div>
+
+          <!--Address-->
+          <div class="tab">
+            <div class="tab-fields">
+              <div class="input-field">
+                <i class="fas fa-map"></i>
+                <input type="text" placeholder="Address Line 1" id="address-ln1" name="streetName" required />
+              </div>
+              <div class="input-field">
+                <i class="fas fa-map"></i>
+                <input type="text" placeholder="Address Line 2" id="address-ln2" name="unitNumber" />
+              </div>
+              <div class="input-field">
+                <i class="fas fa-city"></i>
+                <input type="text" placeholder="State/City" id="city" name="state" required />
+              </div>
+              <div class="input-field-select">
+                <i class="fas fa-globe-asia"></i>
+                <select name="country" id="country" name="country" required>
+                  <option value="unselected" hidden selected>Select Country</option>
+                  <option value="Singapore">Singapore</option>
+                  <option value="Malaysia">Malaysia</option>
+                  <option value="Indonesia">Indonesia</option>
+                </select>
+              </div>
+              <div class="input-field">
+                <i class="fas fa-map-marker-alt"></i>
+                <input type="text" placeholder="Postal" id="postal" name="postalCode" required />
+              </div>
+            </div>
+          </div>
+
+          <!--User Details-->
+          <div class="tab">
+            <div class="tab-fields">
+              <div class="input-field">
+                <i class="fas fa-user"></i>
+                <input type="text" placeholder="Username" id="username" name="username" required />
+              </div>
+              <div class="input-field">
+                <i class="fas fa-lock"></i>
+                <input type="password" placeholder="Password" name="password" name="pwd" required />
+              </div>
+              <div class="input-field" id="upload">
+                <a><b>Upload Profile Picture:</b></a>
+                <input type="file" name="image" accept="image/*" />
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-12" style="text-align:center;">
+            <span class="step"></span>
+            <span class="step"></span>
+            <span class="step"></span>
+          </div>
+          <div class="col-md-12">
+            <div class="np-btn d-flex justify-content-between" style="width: 100%;">
+              <div class="float-right">
+                <button type="button" class="prevBtn" id="prevBtn" onclick="nextPrev(-1)"><i class="fas fa-arrow-left"></i></button>
+              </div>
+              <div class="float-left">
+                <button type="button" class="prevBtn" id="nextBtn" onclick="nextPrev(1)"></button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+
+    function continueForm() {
+      var form = document.getElementById("admin-form")
+      var overlay = document.getElementById("admin-reg-overlay");
+
+      //hide overlay
+      overlay.style.display = "none"
+      // overlay.style.animation = "mymove 1s"
+
+      // setTimeout(function hideOverlay(overlay) {overlay.style.display = "none"}, 3000)
+
+      //display form
+      form.style.display = "block"
+      // form.style.animation = "my move 1s";
+    }
+
+    var currentTab = 0; // Current tab is set to be the first tab (0)
+    showTab(currentTab); // Display the current tab
+
+    function showTab(n) {
+      // This function will display the specified tab of the form ...
+      var x = document.getElementsByClassName("tab");
+      x[n].style.display = "flex";
+      // ... and fix the Previous/Next buttons:
+      if (n == 0) {
+        document.getElementById("prevBtn").style.display = "none";
+      } else {
+        document.getElementById("prevBtn").style.display = "inline";
+      }
+      if (n == (x.length - 1)) {
+        document.getElementById("nextBtn").innerHTML = `<i class="fas fa-check"></i>`;
+      } else {
+        document.getElementById("nextBtn").innerHTML = `<i class="fas fa-arrow-right"></i>`;
+      }
+      // ... and run a function that displays the correct step indicator:
+      fixStepIndicator(n)
+    }
+
+    function nextPrev(n) {
+      var x = document.getElementsByClassName("tab");
+      if (n == 1 && !validateForm()) return false;
+      // Hide the current tab:
+      x[currentTab].style.display = "none";
+      currentTab = currentTab + n;
+      if (currentTab >= x.length) {
+        document.getElementById("loader-seeker").style.display = "block";
+        document.getElementById("regForm-seeker").submit();
+        return false;
+      }
+      showTab(currentTab);
+    }
+
+    function validateForm() {
+      var x, y, i, z, e, valid = true;
+      x = document.getElementsByClassName("tab");
+      z = x[currentTab].getElementsByClassName("input-field");
+      a = x[currentTab].getElementsByClassName("input-field-select")
+      y = x[currentTab].getElementsByTagName("input")
+      w = x[currentTab].getElementsByTagName("select")
+      for (e = 0; e < w.length; e++) {
+        if (w[e].value == "unselected") {
+          a[e].className += " invalid";
+          valid = false;
+        }
+      }
+
+      for (i = 0; i < y.length; i++) {
+        if (y[i].value == "") {
+          z[i].className += " invalid";
+          valid = false;
+        }
+      }
+      if (valid) {
+        document.getElementsByClassName("step")[currentTab].className += " finish";
+      }
+      return valid;
+    }
+
+    function fixStepIndicator(n) {
+      // This function removes the "active" class of all steps...
+      var i, x = document.getElementsByClassName("step");
+      for (i = 0; i < x.length; i++) {
+        x[i].className = x[i].className.replace(" active", "");
+      }
+      //... and adds the "active" class to the current step:
+      x[n].className += " active";
+    }
+
+
+  </script>
   <%- include("partials/footer") %>

@@ -10,6 +10,7 @@ var mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
 var mapboxToken = process.env.MAPBOX_TOKEN;
 var geocodingClient = mbxGeocoding({accessToken:mapboxToken});
 var multer = require('multer');
+const axios = require('axios').default;
 var storage = multer.diskStorage({
   filename: function(req, file, callback) {
     callback(null, Date.now() + file.originalname);
@@ -45,6 +46,15 @@ cloudinary.config({
   api_key: process.env.CLOUDINARY_API_KEY, 
   api_secret: process.env.CLOUDINARY_API_SECRET
 });
+
+async function countApi(url) {
+	const host = "https://api.countapi.xyz"
+	try {
+		return await axios.get(host + url);
+	} catch (err) {
+		console.log('myRequest error', err)
+	}
+}
 
 //Index Route
 router.get("/", function(req,res){
@@ -293,6 +303,11 @@ router.get("/listings", function(req,res){
 					});
 			}
 		});
+	});
+
+	//counts number of times homepage has been visited
+	countApi("/hit/3dpropertylistingsg/visits").then(success => {
+		console.log(success.data.value);
 	});
 });
 

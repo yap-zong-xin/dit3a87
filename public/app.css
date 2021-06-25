@@ -159,6 +159,122 @@ body {
   display: none;
   margin-bottom: 101px;
 }
+/* Admin Registration */
+.admin-reg {
+  background-color: #fff;
+}
+
+.admin-reg-overlay {
+  background: #396afc; 
+  background: -webkit-linear-gradient(to left, #396afc, #2948ff);
+  background: linear-gradient(to left, #396afc, #2948ff);
+  color: white;
+}
+
+.admin-reg-overlay h3 {
+  color: white;
+  font-weight: 600;
+}
+
+.admin-reg-overlay .btn {
+  color: white;
+  border: 2px solid white;
+  border-radius: 20px;
+  margin: 20px 0 20px;
+}
+
+.admin-form {
+  display: none;
+  height: 600px;
+  padding: 0;
+}
+
+.admin-form form {
+  margin-top: -190px;
+}
+
+.admin-form .header {
+  color: white;
+  font-size: 32px;
+  font-weight: 500;
+}
+
+.admin-form-panel {
+  background: #396afc; 
+  background: -webkit-linear-gradient(to left, #396afc, #2948ff);
+  background: linear-gradient(to left, #396afc, #2948ff);
+  max-height: 600px;
+  left: 15px;
+}
+
+.admin-form .tab{
+  justify-content: center;
+  align-items: center;
+  height: 400px;
+}
+
+.admin-form .input-field [type=text] {
+  width: 280px;
+}
+
+/* .admin-form .input-field, .admin-form .input-field-select {
+  width: 400px;
+} */
+
+.prevBtn {
+  width: 50px;
+  background-color: #5995fd;
+  border: none;
+  outline: none;
+  height: 50px;
+  border-radius: 50px;
+  color: #fff;
+  margin: -10px 0;
+  cursor: pointer;
+  transition: 0.5s;
+}
+
+@media only screen and (max-width: 1199px) {
+  .admin-form form {
+    margin-top: -160px;
+  }
+}
+
+@media only screen and (max-width: 991px) {
+  .admin-form form {
+    margin-top: -130px;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .admin-form form {
+    margin-top: -100px;
+  }
+}
+
+@media only screen and (max-width: 448px) {
+  .admin-form form {
+    padding: 0;
+  }
+  .admin-form .header {
+    background-color: #186aff;
+    padding: 0 0 20px;
+    margin: 0px;
+  }
+  .admin-form form {
+    margin-top: -60px;
+  }
+}
+
+@media only screen and (max-width: 350px) {
+.admin-form .header {
+    padding: 10px 0 20px;
+    font-size: 24px;
+  }
+  .admin-form .input-field-select, .admin-form .input-field {
+    width: 250px;
+  }
+}
 
 /* Registration */
 .container-login {
