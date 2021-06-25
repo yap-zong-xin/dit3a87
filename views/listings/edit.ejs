@@ -16,6 +16,14 @@
     <input type="file" name="video" accept="video/*" multiple>
     <button>submit</button>
   </form>
-  <a href="/listings">Go Back</a>
 
-  <%- include("../partials/footer") %>
+  <% if(currentUser && listing.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
+    <a class="btn btn-warning" href="/listings/<%= listing._id %>/edit">Edit</a>
+    <form action="/listings/<%= listing._id %>?_method=DELETE" method="POST">
+      <button class="btn btn-danger">DELETE</button>
+    </form>
+    <% } %>
+
+      <a href="/listings">Go Back</a>
+
+      <%- include("../partials/footer") %>

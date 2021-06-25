@@ -42,7 +42,7 @@ router.post("/listings/:id/comments", function(req, res){
           //redirect listing show page
           listing.comments.push(comment);
           listing.save();
-					req.flash("success", "You have successfully added a comment.");
+					req.flash("success", "You have successfully posted a comment.");
           res.redirect('/listings/' + listing._id);
         }
       });

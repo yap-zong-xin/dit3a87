@@ -104,7 +104,7 @@ middlewareObj.checkReviewExistence = function (req, res, next) {
 	if (req.isAuthenticated()) {
 			User.findById(req.params.id).populate("reviews").exec(function (err, foundUser) {
 					if (err || !foundUser) {
-							req.flash("error", "The user is not found.");
+							req.flash("error", "The user cannot be found.");
 							res.redirect("back");
 					} else {
 							// check if req.user._id exists in foundUser.reviews
@@ -112,7 +112,7 @@ middlewareObj.checkReviewExistence = function (req, res, next) {
 									return review.author.id.equals(req.user._id);
 							});
 							if (foundUserReview) {
-									req.flash("error", "You already wrote a review for this agent.");
+									req.flash("error", "You have posted a review for this agent already.");
 									return res.redirect("/user/" + foundUser._id);
 							}
 							// if the review was not found, go to the next middleware
@@ -129,11 +129,11 @@ middlewareObj.checkUserOwnership = function(req, res, next) {
 	if(req.isAuthenticated()){
 				 User.findById(req.params.id, function(err, foundUser){
 						if(err){
-								req.flash("error", "The user is not found.");
+								req.flash("error", "The user cannot be found.");
 								res.redirect("back");
 						}  else {
 								if (!foundUser) {
-										 req.flash("error", "The item is not found.");
+										 req.flash("error", "The item cannot be found.");
 										 return res.redirect("back");
 								 }
 						 if(foundUser._id.equals(req.user._id) || req.user.isAdmin) {

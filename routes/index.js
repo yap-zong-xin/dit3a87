@@ -266,7 +266,7 @@ router.post("/login", middleware.notLoggedIn, function (req, res, next) {
 
 	User.find({ email: inputEmail }, function(err, existUser) {
 		if(existUser.length === 0 || err) {
-			req.flash("error", "Account with the email is not found. Please try again.")
+			req.flash("error", "Account cannot be found. Please try again.")
 			return res.redirect("/login");
 		}else{
 			User.find({ email: inputEmail }, {"_id": 0, "isVerified": 1}, function(err, verified) {
@@ -275,7 +275,7 @@ router.post("/login", middleware.notLoggedIn, function (req, res, next) {
 				}
 				//console.log(verified[0].isVerified);
 				if(!verified[0].isVerified) { 
-					req.flash("error", "Account with the email is not verified. Please verify using the link send to your email.")
+					req.flash("error", "Account is not verified. Please verify using the link sent to your email.")
 					res.redirect("/login");
 				}else {
 					passport.authenticate("local",
@@ -283,7 +283,7 @@ router.post("/login", middleware.notLoggedIn, function (req, res, next) {
 						successRedirect: "/listings",
 						failureRedirect: "/login",
 						failureFlash: true,
-						successFlash: "You are successfully logged in. Welcome to 3D Property Website."
+						successFlash: "You have logged in successfully. Welcome to 3D Property Website."
 					})(req, res);
 				}
 			});
@@ -294,7 +294,7 @@ router.post("/login", middleware.notLoggedIn, function (req, res, next) {
 //Logout Route
 router.get("/logout", middleware.isLoggedIn, function(req, res){
 	req.logout();
-	req.flash("success", "You have been successfully logged out.");
+	req.flash("success", "You have logged out successfully.");
 	res.redirect("/login");
 });
 
