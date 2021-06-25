@@ -932,7 +932,7 @@ input[type=range]::-ms-thumb {
   font-size: 0.95em;
 }
 .notificationBtn{
-  width: 100px;
+  width: 80px;
   border-radius: 50px;
   font-size: 0.95em;
 }
@@ -1010,7 +1010,7 @@ input[type=range]::-ms-thumb {
 }
 
 .headerStyle{
-  border: 1.5px solid lightgray;
+  border: 1.5px solid rgb(156, 146, 146);
   border-radius: 25px;
 }
 
@@ -1044,4 +1044,8 @@ input[type=range]::-ms-thumb {
 .modal-title{
   font-size: 1.1em;
   font-weight: 600;
+}
+
+.modal-content  {
+  border-radius: 15px !important; 
 }
