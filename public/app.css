@@ -931,6 +931,11 @@ input[type=range]::-ms-thumb {
   border-radius: 50px;
   font-size: 0.95em;
 }
+.notificationBtn{
+  width: 100px;
+  border-radius: 50px;
+  font-size: 0.95em;
+}
 
 #userRole{
   font-size: 0.9em;
@@ -1029,10 +1034,14 @@ input[type=range]::-ms-thumb {
     overflow-y: initial !important
 }
 .modal-body{
-  height: 380px;
+  height: 390px;
   overflow-y: auto;
 }
 
 .modal{
   font-size: 0.95em;
+}
+.modal-title{
+  font-size: 1.1em;
+  font-weight: 600;
 }
