@@ -27,6 +27,13 @@
 
             <button>Edit</button>
   </form>
+
+  <form action="/forgot" method="POST">
+      <input type="hidden" value="<%= user.email%>" name="email" autofocus class="form-control">
+      <input type="submit" class="btn btn-primary" value="Reset Password">
+  </form>
+
+
   <% if(currentUser && user._id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
     <form action="/user/<%= user._id %>?_method=DELETE" method="POST">
       <button class="btn btn-danger">DELETE</button>

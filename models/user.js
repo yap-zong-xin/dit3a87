@@ -26,6 +26,8 @@ var userSchema = new mongoose.Schema({
 	agentStatus: {type: Boolean, default: false},
 	isVerified : {type: Boolean, default: false},
 	verificationCode: {type: String, default: ''},
+	resetPasswordToken: String,
+    resetPasswordExpires: Date,
 	reviews: [
 		{
 				type: mongoose.Schema.Types.ObjectId,
