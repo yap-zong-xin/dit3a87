@@ -122,7 +122,7 @@ function escapeRegex(text) {
 //Show Route
 router.get("/user/:id", function (req, res) {
 	//find the user with provided ID
-	User.findById(req.params.id).populate("comments followers").populate({
+	User.findById(req.params.id).populate("comments followers notifications").populate({
 			path: "reviews",
 			options: {sort: {createdAt: -1}}
 	}).exec(function (err, foundUser) {
@@ -130,12 +130,43 @@ router.get("/user/:id", function (req, res) {
 				req.flash("error", "Something went wrong. Please try again.");
 				console.log(err);
 			} else {
+				let allFollowers = foundUser.followers;
+				let allNotifications = foundUser.notifications;
+				console.log("hohohohohoh" + allNotifications)
+				console.log("hohohohohoh1" + foundUser)
 				listing.find().where('author.id').equals(foundUser._id).exec(function(err, listings) {
 					if(err) {
 						req.flash("error", "Something went wrong. Please try again.");
 						return res.redirect("/");
 					}
-					res.render("users/show.ejs", {user: foundUser, listings: listings});
+					// foundUser.notifications.image = foundUser.image
+					res.render("users/show.ejs", {user: foundUser, listings: listings, allNotifications, allFollowers});
+				})
+			}
+	});
+});
+//Show Route
+router.get("/user/:id/reviews", function (req, res) {
+	//find the user with provided ID
+	User.findById(req.params.id).populate("comments followers notifications").populate({
+			path: "reviews",
+			options: {sort: {createdAt: -1}}
+	}).exec(function (err, foundUser) {
+			if (err) {
+				req.flash("error", "Something went wrong. Please try again.");
+				console.log(err);
+			} else {
+				let allFollowers = foundUser.followers;
+				let allNotifications = foundUser.notifications;
+				console.log("hohohohohoh" + allNotifications)
+				console.log("hohohohohoh1" + foundUser)
+				listing.find().where('author.id').equals(foundUser._id).exec(function(err, listings) {
+					if(err) {
+						req.flash("error", "Something went wrong. Please try again.");
+						return res.redirect("/");
+					}
+					// foundUser.notifications.image = foundUser.image
+					res.render("users/show-review.ejs", {user: foundUser, listings: listings, allNotifications, allFollowers});
 				})
 			}
 	});
@@ -214,7 +245,7 @@ router.put("/user/:id/banner", middleware.checkUserOwnership, upload.single("ban
 		}
 		user.save();
 		console.log(user)
-		req.flash("success", "You have successfully updated the banner.");
+		req.flash("success", "You have successfully updated the profile banner.");
 		res.redirect("/user/" + user._id);
 	});
 });
@@ -297,24 +328,10 @@ router.get('/follow/:id', middleware.isLoggedIn, async function(req, res) {
   }
 });
 
-// view all notifications
-router.get('/notifications', middleware.isLoggedIn, async function(req, res) {
-  try {
-    let user = await User.findById(req.user._id).populate({
-      path: 'notifications',
-      options: { sort: { "_id": -1 } }
-    }).exec();
-    let allNotifications = user.notifications;
-    res.render('notifications/index.ejs', { allNotifications });
-  } catch(err) {
-    req.flash('error', err.message);
-    res.redirect('back');
-  }
-});
-
 // handle notification
 router.get('/notifications/:id', middleware.isLoggedIn, async function(req, res) {
   try {
+		let user = await User.findById(req.user._id);
     let notification = await Notification.findById(req.params.id);
     notification.isRead = true;
     notification.save();

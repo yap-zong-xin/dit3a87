@@ -3,8 +3,7 @@
   <!-- banner -->
   <div class="container px-0"
     style="background: url('<%= user.banner %>'); height: 300px; width: 100%; background-size: cover; object-fit: cover; background-position: center center; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">
-
-    <div class="justify-content-between d-flex">
+    <div class="justify-content-between align-items-center d-flex">
       <div class="px-4 mx-1">
       </div>
       <div>
@@ -14,26 +13,30 @@
             style="position:relative; top: 10px;">
             <% if(user.agentStatus==false){ %>
               <button type="submit" name="user[agentStatus]" value="true" class="btn approveBtn"
-                style="background: #41e792; color: white; font-weight: 600; font-size: 0.9em;">Approve</button>
+                style="background: #41e792; color: white; font-weight: 600; font-size: 0.9em;">Approve Agent</button>
               <% } else{ %>
                 <button type="submit" name="user[agentStatus]" value="false" class="btn approveBtn"
-                  style="background: #DC3545; color: white; font-weight: 600; font-size: 0.9em;">Remove</button>
+                  style="background: #DC3545; color: white; font-weight: 600; font-size: 0.9em;">Remove Agent</button>
                 <% } %>
           </form>
           <% } %>
       </div>
       <div>
         <!-- upload banner button -->
-        <form action="/user/<%=user._id %>/banner?_method=PUT" method="POST" enctype="multipart/form-data"
-          id="bannerForm">
-          <span class="justify-content-end d-flex">
-            <label for="file-upload" class="customBannerUpload px-3">
-              <i class="fas fa-camera"></i>
-            </label>
-            <input type="file" id="file-upload" name="banner" onchange="this.form.submit()" id="bannerUpload"
-              accept="image/*">
-          </span>
-        </form>
+        <% if(currentUser && user._id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
+          <form action="/user/<%=user._id %>/banner?_method=PUT" method="POST" enctype="multipart/form-data"
+            id="bannerForm">
+            <span class="justify-content-end d-flex">
+              <label for="file-upload" class="customBannerUpload px-3">
+                <i class="fas fa-camera"></i>
+              </label>
+              <input type="file" id="file-upload" name="banner" onchange="this.form.submit()" id="bannerUpload"
+                accept="image/*">
+            </span>
+          </form>
+          <% } else { %>
+            <div class="py-4"></div>
+            <% } %>
       </div>
     </div>
 
@@ -41,329 +44,518 @@
     <span class="justify-content-center d-flex">
       <img src="<%= user.image %>" alt="user profile image" class="profileImage">
     </span>
-    <!-- upload profile image button -->
-    <form action="/user/<%=user._id %>/image?_method=PUT" method="POST" enctype="multipart/form-data" id="imageForm">
-      <label for="file-upload-image" class="customImageUpload px-3">
-        <i class="fas fa-camera"></i>
-      </label>
-      <input type="file" id="file-upload-image" name="image" onchange="this.form.submit()" id="imageUpload"
-        accept="image/*">
-    </form>
+    <% if(currentUser && user._id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
+      <!-- upload profile image button -->
+      <form action="/user/<%=user._id %>/image?_method=PUT" method="POST" enctype="multipart/form-data" id="imageForm"
+        class="text-center">
+        <label for="file-upload-image" class="customImageUpload px-3">
+          <i class="fas fa-camera"></i>
+        </label>
+        <input type="file" id="file-upload-image" name="image" onchange="this.form.submit()" id="imageUpload"
+          accept="image/*">
+      </form>
+      <% } %>
   </div>
 
+
+
   <!-- follow & chat & edit profile -->
-  <div class="container align-items-center justify-content-between d-flex mt-3">
-    <div>
-      <div class="col-12 text-center">
-        <% if(currentUser && user._id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
-          <a class="btn btn-outline-dark profileBtn" href="#">
-            <span style="font-size: 0.9em;">xxx</span>
-          </a>
-          <% } %>
-      </div>
-    </div>
+  <div class="container align-items-center justify-content-between d-flex mt-3 px-4">
     <div>
       <% if(!currentUser){ %>
+        <a href="/follow/<%= user.id %>">
+          <button class="btn btn-outline-dark followBtn">Follow</button>
+        </a>
         <% } else { %>
           <% if(user._id.equals(currentUser._id)){ %>
+            <a class="btn btn-outline-dark profileOverviewBtn" href="/user/<%= user._id %>/edit">
+              <span>Edit Profile</span>
+            </a>
             <% } else { %>
               <div class="left">
                 <a href="/follow/<%= user.id %>">
                   <button class="btn btn-outline-dark followBtn">Follow</button>
                 </a>
               </div>
-              <div class="right">
+              <div class="left right">
                 <form action="http://localhost:8800/api/conversations/<%= currentUser._id %>/<%= user.id %>"
                   method="POST">
-                  <button type="submit" class="btn btn-outline-dark chatBtn">Chat</button>
+                  <button type="submit" class="btn btn-outline-dark chatBtn">Message</button>
                 </form>
               </div>
               <% } %>
                 <% } %>
     </div>
+    <div class="justify-content-center d-flex py-2">
+      <div class="left">
+        <span id="userRole">
+          <i class="fas fa-user pr-1"></i>
+          <% if(user.isAgent==true){ %>
+            Agent
+            <% } else if(user.isAdmin==true){ %>
+              Admin
+              <% } else { %>
+                Seeker
+                <% } %>
+        </span>
+      </div>
+      <div class="left right">
+        <span>
+          <% if(user.agentStatus==true || user.isAdmin==true){ %>
+            <span id="userStatus"><i class="fas fa-check pr-1"></i>Verified</span>
+            <% } else { %>
+              <% if(user.isAgent==true){ %>
+                <span id="userStatus"><i class="fas fa-clock pr-1"></i>Pending</span>
+                <% } else { %>
+                  <% } %>
+                    <% } %>
+        </span>
+      </div>
+      <% if(user.isAgent==true){ %>
+        <div class="right">
+          <span id="ceaNum">
+            <span class="pr-1" style="letter-spacing: -0.15em;">CEA</span>
+            <%= user.cea %>
+          </span>
+          <br>
+        </div>
+        <% } %>
+    </div>
   </div>
 
   <!-- user details -->
-  <div class="container" id="profileDetails">
-    <div class="justify-content-center d-flex">
-      <% if(currentUser && currentUser.isAgent || user.isAgent){ %>
-        <div class="left">
-          <span id="ceaNum">CEA: <%= user.cea %>
-          </span><br>
-        </div>
-        <% } %>
-          <div class="right left">
-            <span id="userRole">
-              Role:
-              <% if(user.isAgent==true){ %>
-                Agent
-                <% } else if(user.isAdmin==true){ %>
-                  Admin
-                  <% } else { %>
-                    Seeker
-                    <% } %>
-            </span>
-          </div>
-          <div class="right">
-            <span>
-              <% if(user.agentStatus==true){ %>
-                <% } else { %>
-                  <% if(user.isAgent==true){ %>
-                    <span id="userStatus">Status: Pending</span>
-                    <% } else{ %>
-                      <% } %>
-                        <% } %>
-            </span>
-          </div>
-    </div>
+  <div class="container">
+    <p id="profileUsername" class="text-center pt-1 my-0">
+      <%= user.username %>
+    </p>
     <% if (user.rating===0) { %>
-      <span class="justify-content-center d-flex pt-3 mb-0" style="font-size: 0.9em; color: gray;">
+      <span class="justify-content-center d-flex pb-2 my-0" style="font-size: 0.9em; color: gray;">
         <em>No reviews yet.</em>
       </span>
       <% } else { %>
-        <p class="text-center pt-3 mb-0">
-          <span class="fa fa-star checked"></span>
-          <span class="fa fa-star <% if (user.rating > 1.5) { %> checked <% } %>"></span>
-          <span class="fa fa-star <% if (user.rating > 2.5) { %> checked <% } %>"></span>
-          <span class="fa fa-star <% if (user.rating > 3.5) { %> checked <% } %>"></span>
-          <span class="fa fa-star <% if (user.rating > 4.5) { %> checked <% } %>"></span>
-        </p>
+        <div class="justify-content-center d-flex">
+          <div class="mb-3" style="width: 152px;">
+            <a href="/user/<%= user._id %>/reviews" id="mainReview">
+              <p class="m-0">
+                <%= user.rating.toFixed(2) %>
+                  <span class="fa fa-star checked"></span>
+                  <span class="fa fa-star <% if (user.rating > 1.5) { %> checked <% } %>"></span>
+                  <span class="fa fa-star <% if (user.rating > 2.5) { %> checked <% } %>"></span>
+                  <span class="fa fa-star <% if (user.rating > 3.5) { %> checked <% } %>"></span>
+                  <span class="fa fa-star <% if (user.rating > 4.5) { %> checked <% } %>"></span>
+                  (<%= user.reviews.length %>)
+              </p>
+            </a>
+          </div>
+        </div>
         <% } %>
-          <p id="profileUsername" class="text-center pt-1">
-            <%= user.username %>
-          </p>
-          <hr>
-          <div class="container">
-            <div class="row">
-              <!-- show profile details -->
-              <div class="col-5 borderStyle">
-                <div class="align-items-center d-flex pl-4 pr-2 py-2 mb-4 justify-content-between headerStyle">
-                  <div class="left">
-                    <p class="profileHeader my-0">Profile Details</p>
-                  </div>
-                  <div class="right">
-                    <% if(currentUser && user._id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
-                      <a class="btn btn-outline-dark profileBtn" href="/user/<%= user._id %>/edit">
-                        <span style="font-size: 0.9em;">Edit</span>
-                      </a>
-                      <% } %>
-                  </div>
-                </div>
-                <div class="row px-3">
-                  <div class="col-4">
-                    <span>
-                      <% if(user.isAgent==true){ %>
-                        Agent
-                        <% } else if(user.isAdmin==true){ %>
-                          Admin
-                          <% } else { %>
-                            Seeker
-                            <% } %>
-                              since:
-                    </span>
-                  </div>
-                  <div class="col-8">
-                    <p>
-                      <%= moment(user.createdAt).fromNow() %>
-                    </p>
-                  </div>
-                  <div class="col-4">
-                    <span>First name:</span>
-                  </div>
-                  <div class="col-8">
-                    <p>
-                      <%= user.firstName %>
-                    </p>
-                  </div>
-                  <div class="col-4">
-                    <span>Last name:</span>
+  </div>
 
-                  </div>
-                  <div class="col-8">
-                    <p>
-                      <%= user.lastName %>
-                    </p>
-                  </div>
-                  <div class="col-4">
-                    <span>Email:</span>
-                  </div>
-                  <div class="col-8">
-                    <p>
-                      <a href="mailto:<%= user.email %>" style="color: black;">
-                        <%= user.email %>
-                      </a>
-                    </p>
-                  </div>
-                  <div class="col-4">
+  <!-- overview -->
+  <div class="container overview my-4 pb-3 text-center">
+    <a href="/user/<%= user._id %>">
+      <span style="border-right: solid lightgray 1px;">
+        <%= listings.length %>
+          <% if(listings.length<2){ %>
+            Listing
+            <% } else { %>
+              Listings
+              <% } %>
+      </span>
+    </a>
+
+    <a href="/user/<%= user._id %>/reviews">
+      <span style="border-right: solid lightgray 1px;">
+        <%= user.reviews.length %>
+          <% if(user.reviews.length<2){ %>
+            Review
+            <% } else { %>
+              Reviews
+              <% } %>
+      </span>
+    </a>
+
+    <a href="" data-toggle="modal" data-target="#notificationTarget">
+      <span style="border-right: solid lightgray 1px;">
+        <%= allNotifications.length %>
+          <% if(allNotifications.length<2){ %>
+            Notification
+            <% } else { %>
+              Notifications
+              <% } %>
+      </span>
+    </a>
+
+    <a href="" data-toggle="modal" data-target="#followerTarget">
+      <span>
+        <%= allFollowers.length %>
+          <% if(allFollowers.length<2){ %>
+            Follower
+            <% } else { %>
+              Followers
+              <% } %>
+      </span>
+    </a>
+  </div>
+
+
+
+  <div class="container">
+    <div class="row">
+      <!-- profile details & followers & notifictions -->
+      <div class="col-4">
+        <div class="row">
+          <!-- profile details -->
+          <div class="col-12 borderStyle">
+            <div class="align-items-center d-flex pl-4 pr-2 py-2 mb-4 justify-content-between headerStyle">
+              <div class="left">
+                <p class="profileHeader my-0">Profile Details</p>
+              </div>
+              <div class="right">
+                <% if(currentUser && user._id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
+                  <a class="btn btn-outline-dark profileBtn" href="/user/<%= user._id %>/edit">
+                    <span>Edit</span>
+                  </a>
+                  <% } %>
+              </div>
+            </div>
+            <div class="row px-4" id="profileDetails">
+              <div class="col-3">
+                <span>Joined:</span>
+              </div>
+              <div class="col-9">
+                <p>
+                  <%= moment(user.createdAt).format('DD MMMM YYYY, h:mm:ss a'); %>
+                </p>
+              </div>
+              <div class="col-3">
+                <span>Role:</span>
+              </div>
+              <div class="col-9">
+                <p>
+                  <% if(user.isAgent==true){ %>
+                    Agent
+                    <% } else if(user.isAdmin==true){ %>
+                      Admin
+                      <% } else { %>
+                        Seeker
+                        <% } %>
+                </p>
+              </div>
+              <div class="col-3">
+                <span>Name:</span>
+              </div>
+              <div class="col-9">
+                <p>
+                  <%= user.firstName + " " + user.lastName %>
+                </p>
+              </div>
+              <div class="col-3">
+                <span>Email:</span>
+              </div>
+              <div class="col-9">
+                <p>
+                  <a href="mailto:<%= user.email %>" style="color: black;">
+                    <%= user.email %>
+                  </a>
+                </p>
+              </div>
+              <% if(user.isAgent==true){ %>
+                <div class="col-3">
+                  <span>CEA:</span>
+                </div>
+                <div class="col-9">
+                  <p>
+                    <%= user.cea %>
+                  </p>
+                </div>
+                <% } %>
+                  <div class="col-3">
                     <span>Gender:</span>
                   </div>
-                  <div class="col-8">
+                  <div class="col-9">
                     <p>
                       <%= user.gender %>
                     </p>
                   </div>
-                  <div class="col-4">
+                  <div class="col-3">
                     <span>Phone:</span>
                   </div>
-                  <div class="col-8">
+                  <div class="col-9">
                     <p>
                       <%= user.phone %>
                     </p>
                   </div>
-                  <div class="col-4">
-                    <span>Address:</span>
-                  </div>
-                  <div class="col-8">
-                    <p>
-                      <%= user.streetName %><br>
-                        <%= user.unitNumber %><br>
-                          <%= user.country %><br>
-                            <%= user.state %><br>
-                              <%= user.postalCode %>
-                    </p>
-                  </div>
-                  <!-- <div class="col-12 text-center">
-            <% if(currentUser && user._id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
-              <a class="btn btn-primary profileBtn" href="/user/<%= user._id %>/edit">
-                <span style="font-size: 0.9em;">Edit Profile</span>
-              </a>
-              <% } %>
-          </div> -->
-                </div>
+                  <% if(currentUser && user._id.equals(currentUser._id)|| currentUser && currentUser.isAdmin){ %>
+                    <div class="col-3">
+                      <span>Address:</span>
+                    </div>
+                    <div class="col-9">
+                      <p>
+                        <%= user.streetName %><br>
+                          <%= user.unitNumber %><br>
+                            <%= user.country %><br>
+                              <%= user.state %><br>
+                                <%= user.postalCode %>
+                      </p>
+                    </div>
+                    <% } %>
+            </div>
+          </div>
+          <!-- followers -->
+          <div class="col-12 borderStyle mt-4">
+            <div class="align-items-center d-flex pl-2 pr-2 py-2 justify-content-between headerStyle">
+              <div class="left">
+                <p class="profileHeader my-0">Followers</p>
               </div>
-
-              <!-- show listings -->
-              <div class="col-7 borderStyle">
-                <div class="align-items-center d-flex pl-4 pr-2 py-2 mb-4 justify-content-between headerStyle">
-                  <div class="left">
-                    <p class="profileHeader my-0">Listings</p>
-                  </div>
-                  <div class="right">
-                    <a class="btn btn-outline-dark profileBtn" href="#">
-                      <span style="font-size: 0.9em;">xxx</span>
-                    </a>
-                  </div>
-                </div>
-                <% if(user.isAgent==true){ %>
-
-
-                  <% listings.forEach(function(listing) { %>
-                    <div class="row align-items-center d-flex mt-2 px-3">
-                      <div class="col-3">
-                        <a href="/listings/<%= listing.id %>">
-                          <img src="<%= listing.thumbnail %>"
-                            style="background-size: cover; width: 110px; height: 110px; object-fit: cover; background-position: center center; border-radius: 20px;">
-                        </a>
-                      </div>
-                      <div class="col-5">
-                        <div class="mb-3">
-                          <a href="/listings/<%= listing.id %>">
-                            <%= listing.name %>
+              <div class="right">
+                <button type="button" class="btn btn-outline-dark profileBtn" data-toggle="modal"
+                  data-target="#followerTarget">
+                  View All
+                </button>
+              </div>
+            </div>
+            <div class="px-2">
+              <% if(user.followers=="" ){ %>
+                <p class="mt-3 px-3">
+                  <em>No followers yet.</em>
+                </p>
+                <% } else { %>
+                  <% allFollowers.reverse().slice(0, 3).forEach(function(followers, index) { %>
+                    <div class="pt-3">
+                      <div class="row align-items-center d-flex">
+                        <div class="col-3">
+                          <a href="/user/<%= followers._id %>">
+                            <img src="<%= followers.image %>"
+                              style="width:60px; border: 1px solid gray; border-radius: 50%; object-fit: cover;">
                           </a>
                         </div>
-                        <% if(currentUser&&listing.author.id.equals(currentUser._id)||currentUser&&currentUser.isAdmin){
-                          %>
-                          <div class="left">
-                            <a class="btn btn-outline-dark profileListingEdit"
-                              href="/listings/<%= listing._id %>/edit">Edit</a>
-                          </div>
-                          <div class="right">
-                            <form action="/listings/<%= listing._id %>?_method=DELETE" method="POST">
-                              <button class="btn btn-outline-dark profileListingDelete">Delete</button>
-                            </form>
-                          </div>
-                          <% } %>
-                      </div>
-                      <div class="col-4">
-                        <%= moment(listing.createdAt).fromNow() %>
+                        <div class="col-6 pr-0">
+                          <a href="/user/<%= followers._id %>" style="color: black">
+                            <%= followers.username %>
+                          </a>
+                        </div>
+                        <div class="col-3 px-0">
+                          <a href="/follow/<%= followers._id %>">
+                            <button class="btn btn-outline-dark editDeleteReviewBtn">Follow</button>
+                          </a>
+                        </div>
                       </div>
                     </div>
                     <% }); %>
                       <% } %>
-              </div>
-
-              <!-- show reviews -->
-              <% if(user.isAgent==true){ %>
-                <div class="col-12 borderStyle mb-5 pt-0">
-                  <div class="align-items-center d-flex pl-4 pr-2 py-2 mb-4 justify-content-between headerStyle">
-                    <div class="left">
-                      <p class="profileHeader my-0">Reviews</p>
-                    </div>
-                    <% } %>
-                      <div>
-                        <% if(user.isAgent==true & user.rating!=0){ %>
-                          <div class="left">
-                            <a class="btn btn-outline-dark reviewBtn" href="/user/<%= user._id %>/reviews">
-                              See all Reviews
-                            </a>
-                          </div>
-                          <% } %>
-                            <div class="right">
-                              <% if(currentUser && currentUser.isAgent){ %>
-                                <% } else { %>
-                                  <div>
-                                    <a class="btn btn-outlin-dark reviewBtn <% if (currentUser && user.reviews.some(function (review) {return review.author.id.equals(currentUser._id)})) { %> disabled <% } %>"
-                                      href="/user/<%= user._id %>/reviews/new">
-                                      <span font-size: 0.9em;>Write Review</span>
-                                    </a>
-                                  </div>
-                                  <% } %>
-                            </div>
-                      </div>
-                  </div>
-                  <div class="px-3">
-                    <% if (user.rating===0) { %>
-                      <em>No reviews yet.</em>
-                      <% } else { %>
-                        <p>
-                          <span class="fa fa-star checked"></span>
-                          <span class="fa fa-star <% if (user.rating > 1.5) { %> checked <% } %>"></span>
-                          <span class="fa fa-star <% if (user.rating > 2.5) { %> checked <% } %>"></span>
-                          <span class="fa fa-star <% if (user.rating > 3.5) { %> checked <% } %>"></span>
-                          <span class="fa fa-star <% if (user.rating > 4.5) { %> checked <% } %>"></span>
-                          <em>(total reviews: <%= user.reviews.length %>)</em>
-                        </p>
-                        <p>
-                          Current user rating: <strong>
-                            <%= user.rating.toFixed(2) %>
-                          </strong>
-                        </p>
-                        <h4>Latest reviews for this user:</h4>
-                        <hr style="margin-top: 0;">
-                        <% user.reviews.slice(0, 5).forEach(function(review){ %>
-                          <div class="row">
-                            <div class="col-md-3">
-                              <%- '<span class="fa fa-star checked"></span>' .repeat(review.rating) %>
-                                <%- '<span class="fa fa-star"></span>' .repeat(5 - review.rating) %>
-                                  <div>review by: <strong>
-                                      <%= review.author.username %>
-                                    </strong></div>
-                                  <span><em>
-                                      <%= review.updatedAt.toDateString() %>,
-                                        <%= moment(review.createdAt).fromNow() %>
-                                    </em></span>
-                            </div>
-                            <div class="col-md-9">
-                              <p style="text-align: justify; word-wrap: break-word;">
-                                <%= review.text %>
-                              </p>
-                              <%if(currentUser&&review.author.id.equals(currentUser._id)||currentUser&&currentUser.isAdmin){%>
-                                <a class="btn btn-xs btn-warning"
-                                  href="/user/<%=user._id %>/reviews/<%=review._id %>/edit">Edit</a>
-                                <form id="delete-form"
-                                  action="/user/<%=user._id %>/reviews/<%=review._id %>?_method=DELETE" method="POST">
-                                  <input type="submit" class="btn btn-xs btn-danger" value="Delete">
-                                </form>
-                                <% } %>
-                            </div>
-                          </div>
-                          <hr>
-                          <% }); %>
-                  </div>
-                  <% } %>
-                </div>
             </div>
           </div>
+        </div>
+      </div>
+
+      <!-- listings & reviews -->
+      <div class="col-8">
+        <!-- listings -->
+        <div class="col-12 borderStyle">
+          <div class="align-items-center d-flex p-2 mb-0 justify-content-between headerStyle">
+            <div class="left pb-4">
+              <a href="/user/<%= user._id %>" style="color: black; text-decoration: none;">
+                <span class="profileHeader my-0 pb-3"
+                  style="border-bottom: 2px #4632da solid; color: #4632da; font-weight: 600;">Listings</span>
+              </a>
+              <a href="/user/<%= user._id %>/reviews" style="color: black; text-decoration: none;">
+                <span class="profileHeader my-0 pl-3" id="reviewHover">Reviews</span>
+              </a>
+            </div>
+            <div class="right">
+
+            </div>
+          </div>
+          <% if(user.isAgent==true || user.isAdmin==true){ %>
+            <% if(listings==0){ %>
+              <p class="px-2">
+                <em>No listings yet.</em>
+              </p>
+              <% } else { %>
+                <div class="row px-2">
+                  <% listings.forEach(function(listing) { %>
+                    <div class="col-3 p-3 listingHover">
+                      <div class="row">
+                        <div class="col-12">
+                          <a href="/listings/<%= listing.id %>">
+                            <img src="<%= listing.thumbnail %>"
+                              style="background-size: cover; width: 100%; object-fit: cover; background-position: center center;">
+                          </a>
+                        </div>
+                        <div class="col-12 mt-2">
+                          <a href="/listings/<%= listing.id %>" style="color: black; font-weight: 500;">
+                            <% if(listing.name.length<14){ %>
+                              <%= listing.name.substring(0, 14) %>
+                                <% } else { %>
+                                  <%= listing.name.substring(0, 14) + " ..." %>
+                                    <% } %>
+                          </a>
+                        </div>
+                        <div class="col-12">
+                          <span>
+                            <%= "S$" + listing.price %>
+                          </span>
+                        </div>
+                        <div class="col-12">
+                          <span style="font-size: 0.9em;">
+                            Zone: <%= listing.zone %>
+                          </span>
+                        </div>
+                        <div class="col-12">
+                          <span style="font-size: 0.9em;">
+                            Type: <%= listing.type %>
+                          </span>
+                        </div>
+                        <div class="col-12">
+                          <span style="font-size: 0.9em;">
+                            Rooms: <%= listing.numofRooms %>
+                          </span>
+                        </div>
+                        <div class="col-12">
+                          <form action="/listings/<%= listing._id %>/like" method="POST" class="likeBtn">
+                            <div class="btn-group">
+                              <% if (currentUser && listing.likes.some(function (like) { return like.equals(currentUser._id) })) { %>
+                                <button class="px-0">
+                                  <i class="fas fa-heart filledHeart"></i>
+                                  <%= listing.likes.length %>
+                                </button>
+                                <% } else { %>
+                                  <button class="px-0">
+                                    <i class="far fa-heart emptyHeart"></i>
+                                    <%= listing.likes.length %>
+                                  </button>
+                                  <% } %>
+                            </div>
+                          </form>
+                        </div>
+                        <div class="col-12 justify-content-center d-flex mt-2">
+                          <%if(currentUser&&listing.author.id.equals(currentUser._id)||currentUser&&currentUser.isAdmin){%>
+                            <div class="left">
+                              <a class="btn btn-outline-dark profileListingEdit"
+                                href="/listings/<%= listing._id %>/edit">Edit</a>
+                            </div>
+                            <div class="right">
+                              <a class="btn btn-outline-dark profileListingEdit" href="">Archive</a>
+                            </div>
+                            <% } %>
+                        </div>
+                      </div>
+                    </div>
+                    <% }); %>
+                </div>
+                <% } %>
+                  <% } %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Notifications Modal -->
+  <div class="modal fade" id="notificationTarget" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="justify-content-between align-items-center d-flex border-bottom">
+          <div class="py-4"></div>
+          <div>
+            <p class="modal-title pl-5" id="exampleModalLongTitle">Notifications</p>
+          </div>
+          <div>
+            <button type="button" class="close mr-3" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        </div>
+        <div class="modal-body">
+          <% if(allNotifications==0 ){ %>
+            <p>
+              <em>No notifications yet.</em>
+            </p>
+            <% } else { %>
+              <% allNotifications.reverse().forEach(function(notification) { %>
+                <div class="row mb-3 align-items-center d-flex">
+                  <div class="col-2">
+                    <a href="/user/<%= notification.idUser %>">
+                      <img src="<%= notification.image %>" alt="listing image"
+                        style="width:60px; border: 1px solid gray; border-radius: 50%; object-fit: cover;">
+                    </a>
+                  </div>
+                  <div class="col-7 pr-0">
+                    <a href="/notifications/<%= notification.id %>" style="color:black;">
+                      <%= notification.username %> added a new listing
+                    </a><br>
+                    <span style="font-size: 0.9em;">
+                      <em>
+                        <%= moment(notification.createdAt).fromNow() %>
+                      </em>
+                    </span>
+                  </div>
+                  <div class="col-3 justify-content-end d-flex">
+                    <a href="/notifications/<%= notification.id %>">
+                      <!-- <button class="btn btn-outline-dark followersViewBtn">View</button> -->
+                      <img src="<%= notification.listingImage %>"
+                        style="width:60px; border: 1px solid gray; object-fit: cover;">
+                    </a>
+                  </div>
+                </div>
+                <% }); %>
+                  <% } %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Followers Modal -->
+  <div class="modal fade" id="followerTarget" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="justify-content-between align-items-center d-flex border-bottom">
+          <div class="py-4"></div>
+          <div>
+            <p class="modal-title pl-5" id="exampleModalLongTitle">Followers</p>
+          </div>
+          <div>
+            <button type="button" class="close mr-3" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        </div>
+        <div class="modal-body">
+          <% if(user.followers=="" ){ %>
+            <p>
+              <em>No followers yet.</em>
+            </p>
+            <% } else { %>
+              <% allFollowers.reverse().forEach(function(followers, index) { %>
+                <div>
+                  <div class="row align-items-center d-flex mb-3">
+                    <div class="col-2">
+                      <a href="/user/<%= followers._id %>">
+                        <img src="<%= followers.image %>"
+                          style="width:60px; border: 1px solid gray; border-radius: 50%; object-fit: cover;">
+                      </a>
+                    </div>
+                    <div class="col-7">
+                      <a href="/user/<%= followers._id %>" style="color: black">
+                        <%= followers.username %>
+                      </a>
+                    </div>
+                    <!-- follow button -->
+                    <div class="col-3 justify-content-end d-flex">
+                      <a href="/follow/<%= followers._id %>">
+                        <button class="btn btn-outline-dark editDeleteReviewBtn">Follow</button>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <% }); %>
+                  <% } %>
+        </div>
+      </div>
+    </div>
   </div>
 
   <%- include("../partials/footer") %>

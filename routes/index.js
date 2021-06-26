@@ -127,7 +127,7 @@ router.post("/register", middleware.notLoggedIn, upload.single('image'), functio
 			// add image's public_id to listing object
 			req.body.imageId = result.public_id;
 			
-			newUser.banner = "https://www.manpower.com.au/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBdnBaIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--7a3834c4cf7a3b0dc9e55ecad8a24d057f331f25/img-placeholder.jpg";
+			newUser.banner = "https://www.phdmedia.com/germany/wp-content/uploads/sites/28/2017/06/Banner-2.gif";
 			
 			User.register(newUser, req.body.password, function(err, user){
 				if(err){
@@ -156,11 +156,11 @@ router.post("/register", middleware.notLoggedIn, upload.single('image'), functio
 						});
 	
 						const mailOptions = {
-							from: 'Property Company <jptestingsku@gmail.com>',
+							from: '3D Property Website <jptestingsku@gmail.com>',
 							to: newUser.email,
-							subject: 'Email verification',
-							html : "Hello,<br> Please Click on the link to verify your email.<br><a href="+link+">Click here to verify</a>"
-						};
+							subject: 'Account Verification',
+							html : "Hello <strong>" + newUser.username + "</strong>,<br><br>Thank you for registering. Please click on the link below to verify your account.<br><br><a href="+link+">Verify Account</a>"
+					};
 	
 						const result = await transport.sendMail(mailOptions);
 						return result; 
@@ -178,8 +178,8 @@ router.post("/register", middleware.notLoggedIn, upload.single('image'), functio
 			});
 		});
 	} else if(!req.file && req.body.roleCode != 'agent') {
-		newUser.image = "https://i.pinimg.com/originals/8b/db/8e/8bdb8e8a536946dbe616ee509b7fb435.jpg";
-		newUser.banner = "https://www.manpower.com.au/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBdnBaIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--7a3834c4cf7a3b0dc9e55ecad8a24d057f331f25/img-placeholder.jpg";
+		newUser.image = "https://www.happitime.co.uk/images/uploads/profile.jpg";
+		newUser.banner = "https://www.phdmedia.com/germany/wp-content/uploads/sites/28/2017/06/Banner-2.gif";
 		User.register(newUser, req.body.password, function(err, user){
 			if(err){
 				console.log(err);
@@ -208,10 +208,10 @@ router.post("/register", middleware.notLoggedIn, upload.single('image'), functio
 					});
 
 					const mailOptions = {
-						from: 'Property Company <jptestingsku@gmail.com>',
+						from: '3D Property Website <jptestingsku@gmail.com>',
 						to: newUser.email,
-						subject: 'Email verification',
-						html : "Hello,<br> Please Click on the link to verify your email.<br><a href="+link+">Click here to verify</a>"
+						subject: 'Account Verification',
+						html : "Hello <strong>" + newUser.username + "</strong>,<br><br>Thank you for registering. Please click on the link below to verify your account.<br><br><a href="+link+">Verify Account</a>"
 					};
 
 					const result = await transport.sendMail(mailOptions);
@@ -267,7 +267,7 @@ router.post("/login", middleware.notLoggedIn, function (req, res, next) {
 
 	User.find({ email: inputEmail }, function(err, existUser) {
 		if(existUser.length === 0 || err) {
-			req.flash("error", "Account with the email is not found. Please try again.")
+			req.flash("error", "Account cannot be found. Please try again.")
 			return res.redirect("/login");
 		}else{
 			User.find({ email: inputEmail }, {"_id": 0, "isVerified": 1}, function(err, verified) {
@@ -276,7 +276,7 @@ router.post("/login", middleware.notLoggedIn, function (req, res, next) {
 				}
 				//console.log(verified[0].isVerified);
 				if(!verified[0].isVerified) { 
-					req.flash("error", "Account with the email is not verified. Please verify using the link send to your email.")
+					req.flash("error", "Account is not verified. Please verify using the link sent to your email.")
 					res.redirect("/login");
 				}else {
 					passport.authenticate("local",
@@ -284,7 +284,7 @@ router.post("/login", middleware.notLoggedIn, function (req, res, next) {
 						successRedirect: "/listings",
 						failureRedirect: "/login",
 						failureFlash: true,
-						successFlash: "You are successfully logged in. Welcome to 3D Property Website."
+						successFlash: "You have logged in successfully. Welcome to 3D Property Website."
 					})(req, res);
 				}
 			});
@@ -488,7 +488,7 @@ router.get('/forgot', function(req, res) {
 //Logout Route
 router.get("/logout", middleware.isLoggedIn, function(req, res){
 	req.logout();
-	req.flash("success", "You have been successfully logged out.");
+	req.flash("success", "You have logged out successfully.");
 	res.redirect("/login");
 });
 

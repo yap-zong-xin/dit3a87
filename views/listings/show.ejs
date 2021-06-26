@@ -19,12 +19,12 @@
     <% console.log('listing images: '+listing.image); %>
     <p>Images:</p>
     <% for(let i=0; i<listing.image.length; i++) { %>
-      <img src="<%= listing.image[i] %>">
+      <img src="<%= listing.image[i] %>" style="width:30%; height:30%;">
     <% }; %>
-    <% console.log('listing images: '+listing.video); %>
+    <% console.log('listing videos: '+listing.video); %>
     <p>Videos:</p>
     <% for(let i=0; i<listing.video.length; i++) { %>
-      <iframe src="<%= listing.video[i] %>"></iframe>
+      <iframe src="<%= listing.video[i] %>" style="width:30%; height:30%;"></iframe>
     <% }; %>
     <p>description: <%= listing.description %></p>
     <p>zone: <%= listing.zone %></p>

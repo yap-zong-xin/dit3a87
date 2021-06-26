@@ -3,6 +3,7 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 var express = require("express");
+const countapi = require('countapi-js');
 var app= express();
 var bodyParser = require("body-parser");
 var mongoose = require("mongoose");
@@ -14,7 +15,6 @@ var passportLocalMongoose = require("passport-local-mongoose");
 var flash = require("connect-flash");
 var cors = require('cors');
 app.use(cors());
-
 var listing = require("./models/listing");
 var Comment = require("./models/comment");
 var User = require("./models/user");

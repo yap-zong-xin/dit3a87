@@ -5,4 +5,18 @@
   <p><a href="/dashboard/accounts">Manage Account</a></p>
   <p><a href="/dashboard/listings">Manage Listing</a></p>
 
-  <%- include("../../partials/footer") %>
+  <!--Total Seen-->
+  <div class="container">
+    <div class="col-md-12">
+      <canvas id="myChart"></canvas>
+    </div>
+    <div class="col-md-12">
+      <div class="live-counter text-center">
+        <a><b>Total Seen: </b></a>
+        <a id="liveCount"></a>
+      </div>
+    </div>
+  </div>
+
+<script src="/javascripts/viewGraph.js"></script>
+<%- include("../../partials/footer") %>

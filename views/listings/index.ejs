@@ -35,7 +35,7 @@
                 <div class="col-sm-4">
                     <div class="form-card">
                         <div class="form-card-container">
-                            <form action="/listings" method="GET">
+                            <form action="/listings" method="GET" id="filterForm">
                                 <p>Filter</p><br>
 
                                 <!-- 1st Filter: Property Type-->
@@ -47,38 +47,25 @@
                                     <option value="Landed">Landed</option>
                                 </select> -->
                                 <label for="propertyType">Choose a property type:</label><br>
-                                <input type="checkbox" id="hdb" name="hdbType" value="hdb">
+                                <input type="checkbox" id="hdb" name="hdbType" value="hdb" <% if(data.hdbType) {%> checked <%} %>>
                                 <label for="hdb">HDB</label><br>
-                                <input type="checkbox" id="condo" name="condoType" value="condo">
+                                <input type="checkbox" id="condo" name="condoType" value="condo"<% if(data.condoType) {%> checked <%} %>> 
                                 <label for="condo">Condo</label><br>
-                                <input type="checkbox" id="landed" name="landedType" value="landed">
+                                <input type="checkbox" id="landed" name="landedType" value="landed" <% if(data.landedType) {%> checked <%} %>>
                                 <label for="landed">Landed</label><br>
 
                                 <!-- 2nd Filter: Property Zone -->
                                 <br><label for="propertyStatus">Choose a Zone:</label><br>
-                                <input type="checkbox" id="north" name="northZone" value="north">
+                                <input type="checkbox" id="north" name="northZone" value="north" <% if(data.northZone) {%> checked <%} %>>
                                 <label for="north">North</label><br>
-                                <input type="checkbox" id="south" name="southZone" value="south">
+                                <input type="checkbox" id="south" name="southZone" value="south" <% if(data.southZone) {%> checked <%} %>>
                                 <label for="south">South</label><br>
-                                <input type="checkbox" id="east" name="eastZone" value="east">
+                                <input type="checkbox" id="east" name="eastZone" value="east" <% if(data.eastZone) {%> checked <%} %>>
                                 <label for="east">East</label><br>
-                                <input type="checkbox" id="west" name="westZone" value="west">
+                                <input type="checkbox" id="west" name="westZone" value="west" <% if(data.westZone) {%> checked <%} %>>
                                 <label for="west">West</label><br>
 
-                                <!-- testing -->
-                                <%var maxPriceAmt = 0;%>
-                                <% listings.forEach(function(listing){ %>
-                                    <%
-                                    console.log(listing.price)
-                                    if(maxPriceAmt < listing.price) {
-                                        maxPriceAmt = listing.price;
-                                    }
-                                    
-                                    console.log('the max one: '+ maxPriceAmt);
-                                    %>
-                                <% }) %>
-
-                                                                <!-- 6th filter: Number of rooms slider -->
+                                <!-- 6th filter: Number of rooms slider -->
                                 <!-- <label for="numofRooms">Number of Rooms:</label>
                                 <select name="numofRooms" id="numofRooms">
                                     <option value="" disabled selected hidden>Rooms</option>
@@ -90,27 +77,27 @@
                                     <option value="6">6</option>
                                 </select> -->
                                 <br><label for="numofRooms">Number of rooms:</label><br>
-                                <input type="checkbox" id="1" name="onerooms" value="1">
+                                <input type="checkbox" id="1" name="onerooms" value="1" <% if(data.onerooms) {%> checked <%} %>>
                                 <label for="1">1</label><br>
-                                <input type="checkbox" id="2" name="tworooms" value="2">
+                                <input type="checkbox" id="2" name="tworooms" value="2" <% if(data.tworooms) {%> checked <%} %>>
                                 <label for="2">2</label><br>
-                                <input type="checkbox" id="3" name="threerooms" value="3">
+                                <input type="checkbox" id="3" name="threerooms" value="3" <% if(data.threerooms) {%> checked <%} %>>
                                 <label for="3">3</label><br>
-                                <input type="checkbox" id="4" name="fourrooms" value="4">
+                                <input type="checkbox" id="4" name="fourrooms" value="4" <% if(data.fourrooms) {%> checked <%} %>>
                                 <label for="4">4</label><br>
-                                <input type="checkbox" id="5" name="fiverooms" value="5">
+                                <input type="checkbox" id="5" name="fiverooms" value="5" <% if(data.fiverooms) {%> checked <%} %>>
                                 <label for="5">5</label><br>
-                                <input type="checkbox" id="6" name="sixrooms" value="6">
+                                <input type="checkbox" id="6" name="sixrooms" value="6" <% if(data.sixrooms) {%> checked <%} %>>
                                 <label for="6">6</label><br>
 
                                 <!-- 3rd Filter: Price Slider -->
                                 <div class="price-slider">
                                     <span>Price: 
-                                        <input type="number" value="0" min="0" max="<%= maxPriceAmt %>" name="minPrice" /> to
-                                        <input type="number" value="<%= maxPriceAmt %>" min="0" max="<%= maxPriceAmt %>" name="maxPrice" />
+                                        <input type="number" value="0" min="0" max="<%= largestPrice %>" name="minPrice" /> to
+                                        <input type="number" value="<%= largestPrice %>" min="0" max="<%= largestPrice %>" name="maxPrice" />
                                     </span>
-                                    <input type="range" value="0" min="0" max="<%= maxPriceAmt %>" step="500" />
-                                    <input type="range" value="<%= maxPriceAmt %>" min="0" max="<%= maxPriceAmt %>" step="500" />
+                                    <input type="range" value="0" min="0" max="<%= largestPrice %>" step="500" />
+                                    <input type="range" value="<%= largestPrice %>" min="0" max="<%= largestPrice %>" step="500" />
                                     <svg width="100%" height="24">
                                         <!-- <line x1="4" y1="0" x2="300" y2="0" stroke="#212121" stroke-width="12"
                                             stroke-dasharray="1 28">
@@ -118,27 +105,14 @@
                                     </svg>
                                 </div>
 
-                                <!-- testing -->
-                                <%var maxSizeAmt = 0;%>
-                                <% listings.forEach(function(listing){ %>
-                                    <%
-                                    console.log(listing.size)
-                                    if(maxSizeAmt < listing.size) {
-                                        maxSizeAmt = listing.size;
-                                    }
-                                    
-                                    console.log('the max one: '+ maxSizeAmt);
-                                    %>
-                                <% }) %>
-
                                 <!-- 4th Filter: Size Slider -->
                                 <div class="size-slider">
                                     <span>Size: 
-                                        <input type="number" value="0" min="0" max="<%= maxSizeAmt %>" name="minSize" /> to
-                                        <input type="number" value="<%= maxSizeAmt %>" min="0" max="<%= maxSizeAmt %>" name="maxSize" />
+                                        <input type="number" value="0" min="0" max="<%= largestSize %>" name="minSize" /> to
+                                        <input type="number" value="<%= largestSize %>" min="0" max="<%= largestSize %>" name="maxSize" />
                                     </span>
-                                    <input type="range" value="0" min="0" max="<%= maxSizeAmt %>" step="500" />
-                                    <input type="range" value="<%= maxSizeAmt %>" min="0" max="<%= maxSizeAmt %>" step="500" />
+                                    <input type="range" value="0" min="0" max="<%= largestSize %>" step="500" />
+                                    <input type="range" value="<%= largestSize %>" min="0" max="<%= largestSize %>" step="500" />
                                     <svg width="100%" height="24">
                                         <!-- <line x1="4" y1="0" x2="300" y2="0" stroke="#212121" stroke-width="12"
                                             stroke-dasharray="1 28">
@@ -150,20 +124,23 @@
                                 <label for="sortPrice">Sort by:</label>
                                 <select name="sortPrice" id="sortPrice">
                                     <option value="" disabled selected hidden>Price</option>
-                                    <option value="HighestPrice">Highest Price</option>
-                                    <option value="LowestPrice">Lowest Price</option>
+                                    <option value="HighestPrice" <% if(data.sortPrice == 'HighestPrice') {%> selected <%} %>>Highest Price</option>
+                                    <option value="LowestPrice" <% if(data.sortPrice == 'LowestPrice') {%> selected <%} %>>Lowest Price</option>
                                 </select>
 
                                 <!-- 7th filter: Sort by recent/oldest -->
                                 <br><label for="sortDate">Sort by:</label>
                                 <select name="sortDate" id="sortDate">
                                     <option value="" disabled selected hidden>Date</option>
-                                    <option value="Recent">Recent</option>
-                                    <option value="Oldest">Oldest</option>
+                                    <option value="Recent" <% if(data.sortDate == 'Recent') {%> selected <%} %>>Recent</option>
+                                    <option value="Oldest" <% if(data.sortDate == 'Oldest') {%> selected <%} %>>Oldest</option>
                                 </select>
 
+                                <!-- 8th filter: reset form inputs -->
+                                <br><input type="submit" onclick="resetForm()" value="Reset" >
 
-                                <br><input type="submit" value="Apply" name="Apply">
+                                <!-- Apply filters/submit button -->
+                                <br><input type="submit" value="Apply" name="Apply" id="applyFilter">
                                 
                             </form>
                         </div>
@@ -407,11 +384,31 @@
             return string.charAt(0).toUpperCase() + string.slice(1);
         }
     </script>
-    <script>
-        document.getElementById('sortPriceForm').sortPrice.onchange = function () {
-            var newaction = this.value;
-            document.getElementById('sortPriceForm').action = newaction;
-        };
+    <script>                               
+        function resetForm() {
+            //document.getElementById("formFilter").resetForm()
+            //property type
+            document.getElementById("hdb").checked=false;
+            document.getElementById("condo").checked=false;
+            document.getElementById("landed").checked=false;
+            //zone type
+            document.getElementById("north").checked=false;
+            document.getElementById("south").checked=false;
+            document.getElementById("east").checked=false;
+            document.getElementById("west").checked=false;
+            //rooms
+            document.getElementById("1").checked=false;
+            document.getElementById("2").checked=false;
+            document.getElementById("3").checked=false;
+            document.getElementById("4").checked=false;
+            document.getElementById("5").checked=false;
+            document.getElementById("6").checked=false;
+            //sort by price
+            document.getElementById("sortPrice").value="";
+            //sort by date
+            document.getElementById("sortDate").value="";
+        }                
     </script>
+
     
 <%- include("../partials/footer") %>

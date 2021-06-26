@@ -49,6 +49,7 @@ router.post("/user/:id/reviews", middleware.isLoggedIn, middleware.checkReviewEx
             //add author username/id and associated user to the review
             review.author.id = req.user._id;
             review.author.username = req.user.username;
+            review.author.image = req.user.image;
             review.user = user;
             //save review
             review.save();
