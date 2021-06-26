@@ -66,12 +66,20 @@ router.get("/listings", function(req,res){
 	var perPage = 6;
 	var pageQuery = parseInt(req.query.page);
 	var pageNumber = pageQuery ? pageQuery : 1;
-	listing.find().sort({price: -1}).limit(1).exec(function(err, largestPrice) {
-		console.log('first largest price: '+largestPrice[0].price); 
-		var largestPrice = largestPrice[0].price;
-		listing.find().sort({size: -1}).limit(1).exec(function(err, largestSize) {
-			console.log('first largest size: '+largestSize[0].size); 
-			var largestSize = largestSize[0].size;
+	var largestPrice = 0;
+	var largestSize = 0;
+	listing.find().sort({price: -1}).limit(1).exec(function(err, foundLargestPrice) {
+		if(Object.keys(foundLargestPrice).length == 0) {
+			largestPrice = 0;
+		}else {
+			largestPrice = foundLargestPrice[0].price
+		}
+		listing.find().sort({size: -1}).limit(1).exec(function(err, foundLargestSize) {
+			if(Object.keys(foundLargestSize).length == 0) {
+				largestSize = 0;
+			}else {
+				largestSize = foundLargestSize[0].size
+			}
 			if(req.query.search) {
 					const regex = new RegExp(escapeRegex(req.query.search), 'gi');
 					listing.find({$or: [{name: regex}, {description: regex}, {"author.username":regex}]}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, alllistings) {
