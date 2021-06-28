@@ -132,8 +132,8 @@ router.get("/user/:id", function (req, res) {
 			} else {
 				let allFollowers = foundUser.followers;
 				let allNotifications = foundUser.notifications;
-				console.log("hohohohohoh" + allNotifications)
-				console.log("hohohohohoh1" + foundUser)
+				// console.log("1" + allNotifications)
+				// console.log("2" + foundUser)
 				listing.find().where('author.id').equals(foundUser._id).exec(function(err, listings) {
 					if(err) {
 						req.flash("error", "Something went wrong. Please try again.");

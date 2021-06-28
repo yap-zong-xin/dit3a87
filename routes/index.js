@@ -343,11 +343,11 @@ router.get('/forgot', function(req, res) {
 			});
 
 			const mailOptions = {
-				from: 'Property Company <jptestingsku@gmail.com>',
+				from: '3D Property Website <jptestingsku@gmail.com>',
 				to: req.body.email,
 				subject: 'Password Reset',
-				html : "You are receiving this because you (or someone else) have requested the reset of the password for your account. " +
-				 	   "<br><a href="+link+">Click here to proceed</a>"
+				html : "Hello <strong>" + newUser.username + "</strong>,<br><br>You are receiving this email because you (or someone else) have requested the reset of the password for your account. " +
+				 	   "<br><br><a href="+link+">Reset Password.</a>"
 			};
 
 			const result = await transport.sendMail(mailOptions);

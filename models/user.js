@@ -27,7 +27,7 @@ var userSchema = new mongoose.Schema({
 	isVerified : {type: Boolean, default: false},
 	verificationCode: {type: String, default: ''},
 	resetPasswordToken: String,
-    resetPasswordExpires: Date,
+	resetPasswordExpires: Date,
 	reviews: [
 		{
 				type: mongoose.Schema.Types.ObjectId,

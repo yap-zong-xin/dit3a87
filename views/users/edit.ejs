@@ -1,43 +1,90 @@
 <%- include("../partials/header") %>
 
-  <h1>Edit <%= user.username %>
-  </h1>
 
-  <form action="/user/<%= user._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
-    <!-- all users -->
-    username: <input type="text" name="user[username]" value="<%= user.username %>" placeholder="username*" required>
-    email: <input type="email" name="user[email]" value="<%= user.email %>" placeholder="email*" required>
-    phone: <input type="number" name="user[phone]" value="<%= user.phone %>" placeholder="phone">
-    address: <input type="text" name="user[streetName]" value="<%= user.streetName %>" placeholder="street name"><br>
-    <input type="text" name="user[unitNumber]" value="<%= user.unitNumber %>" placeholder="unit number"><br>
-    <input type="text" name="user[country]" value="<%= user.country %>" placeholder="country"><br>
-    <input type="text" name="user[state]" value="<%= user.state %>" placeholder="state"><br>
-    <input type="number" name="user[postalCode]" value="<%= user.postalCode %>" placeholder="postal code"><br>
+  <div class="container d-flex justify-content-center p-5 mt-5" style="border: solid 1px gray;">
+    <div class="row">
 
-    <!-- seekers and admins -->
-    <% if(user.isAgent==false || currentUser && currentUser.isAdmin){ %>
-      <img src="<%= user.image %>">
-      <input type="file" name="image" accept="image/*">
-      <% } %>
+      <div class="col-2 offset-2 mt-3">
+        <div class="col-12">
+          <span class="pl-2" style="border-left: 2px solid black;">Edit Profile</span>
+        </div>
+        <div class="col-12 mt-4">
+          <span class="pl-2" style="border-left: 2px solid black;">Reset Password</span>
+        </div>
+      </div>
+      <div class="col-6">
+        <p style="font-size: 2em; font-weight: 600;">Edit Profile</p>
+        <form action="/user/<%= user._id %>?_method=PUT" method="POST" enctype="multipart/form-data"
+          id="profileEditForm">
+          <div class="row">
+            <p>Profile Image</p>
+            <div class="col-12" style="height: 250px;">
+              <!-- seekers and admins -->
+              <% if(user.isAgent==false || currentUser && currentUser.isAdmin){ %>
+                <div class="row">
+                  <div class="col-4">
+                    <img src="<%= user.image %>" class="profileImageEdit">
+                    <img id="output" class="profileImageEdit" />
+                  </div>
+                  <div class="col-8">
+                    <label for="file-upload-image" class="customImageUpload px-3 py-1">
+                      Upload Photo
+                    </label>
+                    <input type="file" id="file-upload-image" name="image" onchange="loadFile(event)" id="imageUpload"
+                      accept="image/*">
+                  </div>
+                </div>
 
-        <!-- admins -->
-        <% if(currentUser && currentUser.isAdmin && user.cea!=null){ %>
-          ceaNumber: <input type="string" name="user[cea]" value="<%= user.cea %>" placeholder="cea number">
+
+                <% } %>
+            </div>
+          </div>
+          <!-- all users -->
+          username: <input type="text" name="user[username]" value="<%= user.username %>" placeholder="username*"
+            required>
+          email: <input type="email" name="user[email]" value="<%= user.email %>" placeholder="email*" required>
+          phone: <input type="number" name="user[phone]" value="<%= user.phone %>" placeholder="phone">
+          address: <input type="text" name="user[streetName]" value="<%= user.streetName %>"
+            placeholder="street name"><br>
+          <input type="text" name="user[unitNumber]" value="<%= user.unitNumber %>" placeholder="unit number"><br>
+          <input type="text" name="user[country]" value="<%= user.country %>" placeholder="country"><br>
+          <input type="text" name="user[state]" value="<%= user.state %>" placeholder="state"><br>
+          <input type="number" name="user[postalCode]" value="<%= user.postalCode %>" placeholder="postal code"><br>
+
+          <!-- admins -->
+          <% if(currentUser && currentUser.isAdmin && user.cea!=null){ %>
+            ceaNumber: <input type="string" name="user[cea]" value="<%= user.cea %>" placeholder="cea number">
+            <% } %>
+
+              <button>Edit</button>
+        </form>
+
+        <!-- reset password btn -->
+        <form action="/forgot" method="POST">
+          <input type="hidden" value="<%= user.email%>" name="email" autofocus class="form-control">
+          <input type="submit" class="btn btn-primary" value="Reset Password">
+        </form>
+
+        <!-- delete user button -->
+        <% if(currentUser && user._id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
+          <form action="/user/<%= user._id %>?_method=DELETE" method="POST">
+            <button class="btn btn-danger">DELETE</button>
+          </form>
           <% } %>
+      </div>
 
-            <button>Edit</button>
-  </form>
+    </div>
+  </div>
 
-  <form action="/forgot" method="POST">
-      <input type="hidden" value="<%= user.email%>" name="email" autofocus class="form-control">
-      <input type="submit" class="btn btn-primary" value="Reset Password">
-  </form>
+  <!-- profile upload -->
+  <script>
+    var loadFile = function (event) {
+      var output = document.getElementById('output');
+      output.src = URL.createObjectURL(event.target.files[0]);
+      output.onload = function () {
+        URL.revokeObjectURL(output.src) // free memory
+      }
+    };
+  </script>
 
-
-  <% if(currentUser && user._id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
-    <form action="/user/<%= user._id %>?_method=DELETE" method="POST">
-      <button class="btn btn-danger">DELETE</button>
-    </form>
-    <% } %>
-
-      <%- include("../partials/footer") %>
+  <%- include("../partials/footer") %>

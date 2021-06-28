@@ -994,8 +994,12 @@ input[type=range]::-ms-thumb {
   background: white
 }
 
-#bannerForm input[type="file"], #imageForm input[type="file"] {
+#bannerForm input[type="file"], #imageForm input[type="file"], #profileEditForm input[type="file"] {
   display: none;
+}
+
+#profileEditForm .customImageUpload{
+  cursor: pointer;
 }
 
 .profileImage{
@@ -1006,6 +1010,14 @@ input[type=range]::-ms-thumb {
   border: 6px solid white;
   border-radius: 50%;
   object-fit: cover;
+}
+.profileImageEdit{
+  width: 175px;
+  height: 175px;
+  border: 6px solid white;
+  border-radius: 50%;
+  object-fit: cover;
+  position: absolute;
 }
 
 #profileUsername{
@@ -1190,5 +1202,4 @@ input[type=range]::-ms-thumb {
   color: red!important;
 }
 
-.emptyHeart{
-}
+/* input animations */

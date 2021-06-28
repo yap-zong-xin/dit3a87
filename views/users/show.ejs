@@ -321,7 +321,7 @@
                   <em>No followers yet.</em>
                 </p>
                 <% } else { %>
-                  <% allFollowers.reverse().slice(0, 3).forEach(function(followers, index) { %>
+                  <% allFollowers.reverse().slice(0, 2).forEach(function(followers, index) { %>
                     <div class="pt-3">
                       <div class="row align-items-center d-flex">
                         <div class="col-3">
@@ -353,7 +353,7 @@
       <div class="col-8">
         <!-- listings -->
         <div class="col-12 borderStyle">
-          <div class="align-items-center d-flex p-2 mb-0 justify-content-between headerStyle">
+          <div class="d-flex p-2 mb-0 justify-content-between headerStyle">
             <div class="left pb-4">
               <a href="/user/<%= user._id %>" style="color: black; text-decoration: none;">
                 <span class="profileHeader my-0 pb-3"
@@ -364,7 +364,7 @@
               </a>
             </div>
             <div class="right">
-
+             
             </div>
           </div>
           <% if(user.isAgent==true || user.isAdmin==true){ %>
@@ -450,7 +450,6 @@
       </div>
     </div>
   </div>
-
 
   <!-- Notifications Modal -->
   <div class="modal fade" id="notificationTarget" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
@@ -557,5 +556,11 @@
       </div>
     </div>
   </div>
+
+  <script>
+    const mapToken = '<%- process.env.MAPBOX_TOKEN %>'
+    const listings = { features: <%- JSON.stringify(listings) %> }
+  </script>
+  <script src="/javascripts/clusterMap.js"></script>
 
   <%- include("../partials/footer") %>
