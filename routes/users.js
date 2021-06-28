@@ -121,6 +121,50 @@ function escapeRegex(text) {
 
 //Show Route
 router.get("/user/:id", function (req, res) {
+	var noMatch = null;
+	//find the user with provided ID
+	User.findById(req.params.id).populate("comments followers notifications").populate({
+			path: "reviews",
+			options: {sort: {createdAt: -1}}
+	}).exec(function (err, foundUser) {
+			if (err) {
+				req.flash("error", "Something went wrong. Please try again.");
+				console.log(err);
+			} else {
+				let allFollowers = foundUser.followers;
+				let allNotifications = foundUser.notifications;
+				// console.log("1" + allNotifications)
+				// console.log("2" + foundUser)
+				if(req.query.search){
+					const regex = new RegExp(escapeRegex(req.query.search), 'gi');
+					listing.find({$or: [{name:regex}, {zone:regex}, {type:regex}]}).where('author.id').equals(foundUser._id).exec(function(err, alllistings) {
+						if(err) {
+							req.flash("error", "Something went wrong. Please try again.");
+							return res.redirect("/");
+						} else {
+							if(alllistings.length < 1) {
+									// noMatch = "result: '" + req.query.search + "' not found";
+							}
+							// foundUser.notifications.image = foundUser.image
+							res.render("users/show.ejs", {user: foundUser, listings: alllistings, allNotifications, allFollowers, noMatch: noMatch});
+						}
+					});
+				} else {
+					listing.find().where('author.id').equals(foundUser._id).exec(function(err, listings) {
+						if(err) {
+							req.flash("error", "Something went wrong. Please try again.");
+							return res.redirect("/");
+						}
+						// foundUser.notifications.image = foundUser.image
+						res.render("users/show.ejs", {user: foundUser, listings: listings, allNotifications, allFollowers, noMatch: noMatch});
+					});
+				}
+			}
+	});
+});
+
+//Show Route
+router.get("/user/:id/reviews", function (req, res) {
 	//find the user with provided ID
 	User.findById(req.params.id).populate("comments followers notifications").populate({
 			path: "reviews",
@@ -140,32 +184,6 @@ router.get("/user/:id", function (req, res) {
 						return res.redirect("/");
 					}
 					// foundUser.notifications.image = foundUser.image
-					res.render("users/show.ejs", {user: foundUser, listings: listings, allNotifications, allFollowers});
-				})
-			}
-	});
-});
-//Show Route
-router.get("/user/:id/reviews", function (req, res) {
-	//find the user with provided ID
-	User.findById(req.params.id).populate("comments followers notifications").populate({
-			path: "reviews",
-			options: {sort: {createdAt: -1}}
-	}).exec(function (err, foundUser) {
-			if (err) {
-				req.flash("error", "Something went wrong. Please try again.");
-				console.log(err);
-			} else {
-				let allFollowers = foundUser.followers;
-				let allNotifications = foundUser.notifications;
-				console.log("hohohohohoh" + allNotifications)
-				console.log("hohohohohoh1" + foundUser)
-				listing.find().where('author.id').equals(foundUser._id).exec(function(err, listings) {
-					if(err) {
-						req.flash("error", "Something went wrong. Please try again.");
-						return res.redirect("/");
-					}
-					// foundUser.notifications.image = foundUser.image
 					res.render("users/show-review.ejs", {user: foundUser, listings: listings, allNotifications, allFollowers});
 				})
 			}
@@ -179,6 +197,15 @@ router.get("/user/:id/edit", middleware.checkUserOwnership, function(req, res){
 			res.redirect("/user");
 		} else{
 			res.render("users/edit.ejs", {user: foundUser});
+		}
+	});
+});
+router.get("/user/:id/manage", middleware.checkUserOwnership, function(req, res){
+	User.findById(req.params.id, function(err, foundUser){
+		if(err){
+			res.redirect("/user");
+		} else{
+			res.render("users/edit-account.ejs", {user: foundUser});
 		}
 	});
 });

@@ -24,7 +24,7 @@
                       <%= user.username %>
                     </h4>
                     <% if (user.rating===0) { %>
-                      <em>No reviews yet.</em>
+                      <em>No reviews found.</em>
                       <% } else { %>
                         <span class="fa fa-star checked"></span>
                         <span class="fa fa-star <% if (user.rating > 1.5) { %> checked <% } %>"></span>

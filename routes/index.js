@@ -171,7 +171,7 @@ router.post("/register", middleware.notLoggedIn, upload.single('image'), functio
 				console.log('the randomStringCode: '+randomStringCode);
 				sendMail()
 				.then(result => console.log('Email Sent...', result))
-				.then(req.flash('success','You have successfully created an account. Please verify your email.'))
+				.then(req.flash('success','A link has been sent to your email. Please verify your account.'))
 				.then(res.redirect("/login"))
 				.catch(error => console.log('email error: ',error.message))
 				
@@ -223,7 +223,7 @@ router.post("/register", middleware.notLoggedIn, upload.single('image'), functio
 			console.log('the randomStringCode: '+randomStringCode);
 			sendMail()
 			.then(result => console.log('Email Sent...', result))
-			.then(req.flash('success','You have successfully created an account. Please verify your email.'))
+			.then(req.flash('success','A link has been sent to your email. Please verify your account.'))
 			.then(res.redirect("/login"))
 			.catch(error => console.log(error.message))
 		});

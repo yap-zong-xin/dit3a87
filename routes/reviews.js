@@ -59,7 +59,7 @@ router.post("/user/:id/reviews", middleware.isLoggedIn, middleware.checkReviewEx
             //save user
             user.save();
             req.flash("success", "You have successfully added a review.");
-            res.redirect('/user/' + user._id);
+            res.redirect('/user/' + user._id + '/reviews');
         });
     });
 });
@@ -113,7 +113,7 @@ router.put("/user/:id/reviews/:review_id", middleware.checkReviewOwnership, func
             //save changes
             user.save();
             req.flash("success", "You have successfully edited a review.");
-            res.redirect('/user/' + user._id);
+            res.redirect('/user/' + user._id + '/reviews');
         });
     });
 });
@@ -135,7 +135,7 @@ router.delete("/user/:id/reviews/:review_id", middleware.checkReviewOwnership, f
             //save changes
             user.save();
             req.flash("success", "You have successfully deleted a review.");
-            res.redirect("/user/" + req.params.id);
+            res.redirect("/user/" + req.params.id + '/reviews');
         });
     });
 });
