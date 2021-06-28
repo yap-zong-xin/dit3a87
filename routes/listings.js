@@ -249,7 +249,7 @@ router.get("/listings", function(req,res){
 					}
 				}
 				// Sort object (to be passed into .sort)
-				var sortOptions = { createdAt: -1};
+				var sortOptions = {};
 				// Sort by Price
 				var sortPrice = req.query.sortPrice;
 				console.log('sort price type: '+sortPrice)	
@@ -265,6 +265,9 @@ router.get("/listings", function(req,res){
 					sortOptions.createdAt = -1;
 				}else if(sortDate == 'Oldest') {
 					sortOptions.createdAt = 1;
+				}
+				if(Object.keys(sortOptions).length == 0) {
+					sortOptions.createdAt = -1
 				}
 				console.log('final sort option object: ',sortOptions);
 				console.log('all parameters passed to mongo: '+minPrice+', '+maxPrice+', '+regexZone+', '+regexType+', '+minSize+', '+maxSize+', '+regexRooms);
