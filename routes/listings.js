@@ -266,13 +266,97 @@ router.get("/listings", function(req,res){
 				}else if(sortDate == 'Oldest') {
 					sortOptions.createdAt = 1;
 				}
+				// Sort by sold or not
+				var sortSold = req.query.sortSold;
+				console.log('sort sold type: '+sortSold)	
+				if(sortSold == 'Sold') {
+					sortOptions.soldStatus = -1;
+				}else if(sortSold == 'NotSold') {
+					sortOptions.soldStatus = 1;
+				}
+				// Sort by archive or not
+				var sortArchive = req.query.sortArchive;
+				console.log('sort archive type: '+sortArchive)	
+				if(sortArchive == 'Archive') {
+					sortOptions.archiveStatus = -1;
+				}else if(sortArchive == 'NotArchive') {
+					sortOptions.archiveStatus = 1;
+				}
+				//if no sort is selected
 				if(Object.keys(sortOptions).length == 0) {
 					sortOptions.createdAt = -1
 				}
+
+				//sold listing
+				const soldCheck = req.query.soldCheck;
+				const notsoldCheck = req.query.notsoldCheck;
+				console.log('sold check: '+soldCheck);
+				console.log('not sold check: '+notsoldCheck);
+				var allSoldCheck = [];
+				var soldArr = [];
+				var regexSold;
+				if(soldCheck){
+					allSoldCheck.push(true);
+				}
+				if(notsoldCheck){
+					allSoldCheck.push(false);
+				}
+				console.log('check for sold checkds: '+allSoldCheck);
+
+				if(allSoldCheck.length == 0){
+					regexSold = [ true, false ];
+					console.log('inside sold all empty: '+typeof regexSold[1]);
+				}else {
+					for(let i=0; i<allSoldCheck.length; i++) {
+						if(!(typeof allSoldCheck[i] == 'undefined')) { //contains value does not contain undefined
+							console.log('line 295: '+allSoldCheck[i]);
+							soldArr[i] = allSoldCheck[i];
+							console.log('inside sold: '+soldArr);
+							regexSold = soldArr;
+							console.log('regexSold: '+regexSold)
+						}
+
+					}
+				}
+
+				//archived listing
+				const archiveCheck = req.query.archiveCheck;
+				const notarchiveCheck = req.query.notarchiveCheck;
+				console.log('archive check: '+archiveCheck);
+				console.log('not archive check: '+notarchiveCheck);
+				var allArchiveCheck = [];
+				var archiveArr = [];
+				var regexArchive;
+				if(archiveCheck){
+					allArchiveCheck.push(true);
+				}
+				if(notarchiveCheck){
+					allArchiveCheck.push(false);
+				}
+				console.log('check for archive checkds: '+allArchiveCheck);
+
+				if(allArchiveCheck.length == 0){
+					regexArchive = [ true, false ];
+					console.log('inside archive all empty: '+typeof regexArchive[1]);
+				}else {
+					for(let i=0; i<allArchiveCheck.length; i++) {
+						if(!(typeof allArchiveCheck[i] == 'undefined')) { //contains value does not contain undefined
+							console.log('line 339: '+allArchiveCheck[i]);
+							archiveArr[i] = allArchiveCheck[i];
+							console.log('inside archive: '+archiveArr);
+							regexArchive = archiveArr;
+							console.log('regexArchive: '+regexArchive)
+						}
+
+					}
+				}
+
 				console.log('final sort option object: ',sortOptions);
+				console.log('passed in sold check: ',regexSold)
+				console.log('passed in archive check: ',regexArchive)
 				console.log('all parameters passed to mongo: '+minPrice+', '+maxPrice+', '+regexZone+', '+regexType+', '+minSize+', '+maxSize+', '+regexRooms);
 
-				listing.find({$and: [ {price: {$gte: minPrice, $lte: maxPrice}}, {zone: {$in : regexZone}}, {type: {$in: regexType}}, {size: {$gte: minSize, $lte: maxSize}}, {numofRooms: {$in: regexRooms}} ] }).sort(sortOptions).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, alllistings) {
+				listing.find({$and: [ {price: {$gte: minPrice, $lte: maxPrice}}, {zone: {$in : regexZone}}, {type: {$in: regexType}}, {size: {$gte: minSize, $lte: maxSize}}, {numofRooms: {$in: regexRooms}}, {soldStatus: {$in: regexSold}}, {archiveStatus: {$in: regexArchive}} ] }).sort(sortOptions).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, alllistings) {
 					listing.count({price: minPrice}).exec(function (err, count) {
 						if (err) {
 							console.log(err);
@@ -864,6 +948,37 @@ router.post("/listings/:id/like", middleware.isLoggedIn, function (req, res) {
 					}
 					return res.redirect("/listings/" + foundlisting._id);
 			});
+	});
+});
+
+//Mark listing as sold
+router.get("/listings/:id/sold", middleware.checklistingOwnership, function(req, res){
+	listing.findById(req.params.id, function(err, foundlisting){
+		if(err){
+			res.redirect("/listings");
+		} else{
+			console.log('the one we tryna sell: ',foundlisting);
+			console.log('listing sold status: ',foundlisting.soldStatus);
+			foundlisting.soldStatus = true;
+			console.log('check if listing is marked as sold: '+foundlisting.soldStatus);
+			foundlisting.save();
+			res.render("listings/show.ejs", {listing: foundlisting});
+		}
+	});
+});
+
+//Archive Listing
+router.get("/listings/:id/archive", middleware.checklistingOwnership, function(req, res){
+	listing.findById(req.params.id, function(err, foundlisting){
+		if(err){
+			res.redirect("/listings");
+		} else{
+			console.log('the one we tryna archive: ',foundlisting);
+			console.log('listing archive status: ',foundlisting.archiveStatus);
+			foundlisting.archiveStatus = true;
+			console.log('check if listing is marked as archive: '+foundlisting.archiveStatus);
+			foundlisting.save();
+			res.render("listings/show.ejs", {listing: foundlisting});		}
 	});
 });
 

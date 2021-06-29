@@ -37,6 +37,7 @@
     </p>
   </div>
 
+  <!-- Edit/Delete Listing -->
   <% if(currentUser && listing.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
     <a class="btn btn-warning" href="/listings/<%= listing._id %>/edit">Edit</a>
     <form action="/listings/<%= listing._id %>?_method=DELETE" method="POST">
@@ -44,6 +45,16 @@
     </form>
   <% } %>
  
+  <% if(currentUser && listing.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
+    <!-- Mark listing as sold -->
+    <%if(listing.soldStatus == false) {%>
+    <a class="btn btn-primary" href="/listings/<%= listing._id %>/sold">Mark as SOLD</a>
+    <%}%>
+    <!-- Archive Listing -->
+    <%if(listing.archiveStatus == false) {%>
+    <a class="btn btn-primary" href="/listings/<%= listing._id %>/archive">Archive Listing</a>
+    <%}%>
+  <%}%>
   <!-- Likes -->
   <div class="pull-right">
     <button type="button" class="btn btn-xs btn-primary" data-toggle="modal" data-target="#listingLikes">

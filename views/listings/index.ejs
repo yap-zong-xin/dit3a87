@@ -136,6 +136,37 @@
                                     <option value="Oldest" <% if(data.sortDate == 'Oldest') {%> selected <%} %>>Oldest</option>
                                 </select>
 
+                                <!-- 9th filter: for admin/agent to view sold/archived listing -->
+                                <% if(currentUser && currentUser.isAdmin || currentUser && currentUser.isAgent && currentUser.agentStatus){ %>
+                                    <!-- sold -->
+                                    <br><label for="soldStatusCheck">Sold: </label><br>
+                                    <input type="checkbox" id="sold" name="soldCheck" value="sold" <% if(data.soldCheck) {%> checked <%} %>>
+                                    <label for="sold">All Sold Listing</label><br>
+                                    <input type="checkbox" id="notsold" name="notsoldCheck" value="notsold" <% if(data.notsoldCheck) {%> checked <%} %>>
+                                    <label for="notsold">All not Sold listing</label><br>
+                                    <!-- archive -->
+                                    <br><label for="archiveStatusCheck">Archived: </label><br>
+                                    <input type="checkbox" id="archive" name="archiveCheck" value="archive" <% if(data.archiveCheck) {%> checked <%} %>>
+                                    <label for="archive">All Archive listing</label><br>
+                                    <input type="checkbox" id="notarchive" name="notarchiveCheck" value="notarchive" <% if(data.notarchiveCheck) {%> checked <%} %>>
+                                    <label for="notarchive">All not archived listing</label><br>
+                                    
+                                    <!-- sort by sold/not sold -->
+                                    <br><label for="sortSold">Sort by:</label>
+                                    <select name="sortSold" id="sortSold">
+                                        <option value="" disabled selected hidden>selling availability</option>
+                                        <option value="Sold" <% if(data.sortSold == 'Sold') {%> selected <%} %>>Sold</option>
+                                        <option value="NotSold" <% if(data.sortSold == 'NotSold') {%> selected <%} %>>Not Sold</option>
+                                    </select>
+                                    <!-- sort by archive/not archive -->
+                                    <br><label for="sortArchive">Sort by:</label>
+                                    <select name="sortArchive" id="sortArchive">
+                                        <option value="" disabled selected hidden>archive availability</option>
+                                        <option value="Archive" <% if(data.sortArchive == 'Archive') {%> selected <%} %>>Archive</option>
+                                        <option value="NotArchive" <% if(data.sortArchive == 'NotArchive') {%> selected <%} %>>Not Archive</option>
+                                    </select>
+                                <% } %>
+
                                 <!-- 8th filter: reset form inputs -->
                                 <br><input type="button" onclick="resetForm()" value="Reset" >
 
@@ -156,6 +187,8 @@
                                 <div class="indiv-card">
                                     <div class="indiv-card-container">
                                         <div>
+                                            <h5><% if(listing.soldStatus == true) {%>SOLD<%} else {%>Available to buy<%} %></h5>
+                                            <h6><% if(listing.archiveStatus == true) {%>ARCHIVED<%} else {%>Available to public<%} %></h6>
                                             <h4><%= listing.name %></h4><br>
                                             <img src="<%= listing.thumbnail %>" style="width:30%; height:30%;"><br>
                                             <div>
@@ -407,6 +440,15 @@
             document.getElementById("sortPrice").value="";
             //sort by date
             document.getElementById("sortDate").value="";
+            //sold/archive
+            document.getElementById("sold").checked=false;
+            document.getElementById("notsold").checked=false;
+            document.getElementById("archive").checked=false;
+            document.getElementById("notarchive").checked=false;
+            //sort by price
+            document.getElementById("sortSold").value="";
+            //sort by date
+            document.getElementById("sortArchive").value="";
         }                
     </script>
 
