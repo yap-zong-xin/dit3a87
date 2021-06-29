@@ -141,15 +141,9 @@
                                     <!-- sold -->
                                     <br><label for="soldStatusCheck">Sold: </label><br>
                                     <input type="checkbox" id="sold" name="soldCheck" value="sold" <% if(data.soldCheck) {%> checked <%} %>>
-                                    <label for="sold">All Sold Listing</label><br>
-                                    <input type="checkbox" id="notsold" name="notsoldCheck" value="notsold" <% if(data.notsoldCheck) {%> checked <%} %>>
-                                    <label for="notsold">All not Sold listing</label><br>
-                                    <!-- archive -->
-                                    <br><label for="archiveStatusCheck">Archived: </label><br>
+                                    <label for="sold">Sold Listing</label><br>
                                     <input type="checkbox" id="archive" name="archiveCheck" value="archive" <% if(data.archiveCheck) {%> checked <%} %>>
-                                    <label for="archive">All Archive listing</label><br>
-                                    <input type="checkbox" id="notarchive" name="notarchiveCheck" value="notarchive" <% if(data.notarchiveCheck) {%> checked <%} %>>
-                                    <label for="notarchive">All not archived listing</label><br>
+                                    <label for="archive">Archive listing</label><br>
                                     
                                     <!-- sort by sold/not sold -->
                                     <br><label for="sortSold">Sort by:</label>
@@ -162,7 +156,6 @@
                                     <br><label for="sortArchive">Sort by:</label>
                                     <select name="sortArchive" id="sortArchive">
                                         <option value="" disabled selected hidden>archive availability</option>
-                                        <option value="Archive" <% if(data.sortArchive == 'Archive') {%> selected <%} %>>Archive</option>
                                         <option value="NotArchive" <% if(data.sortArchive == 'NotArchive') {%> selected <%} %>>Not Archive</option>
                                     </select>
                                 <% } %>

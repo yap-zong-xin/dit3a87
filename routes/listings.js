@@ -289,67 +289,24 @@ router.get("/listings", function(req,res){
 
 				//sold listing
 				const soldCheck = req.query.soldCheck;
-				const notsoldCheck = req.query.notsoldCheck;
-				console.log('sold check: '+soldCheck);
-				console.log('not sold check: '+notsoldCheck);
-				var allSoldCheck = [];
-				var soldArr = [];
-				var regexSold;
-				if(soldCheck){
-					allSoldCheck.push(true);
-				}
-				if(notsoldCheck){
-					allSoldCheck.push(false);
-				}
-				console.log('check for sold checkds: '+allSoldCheck);
-
-				if(allSoldCheck.length == 0){
-					regexSold = [ true, false ];
-					console.log('inside sold all empty: '+typeof regexSold[1]);
-				}else {
-					for(let i=0; i<allSoldCheck.length; i++) {
-						if(!(typeof allSoldCheck[i] == 'undefined')) { //contains value does not contain undefined
-							console.log('line 295: '+allSoldCheck[i]);
-							soldArr[i] = allSoldCheck[i];
-							console.log('inside sold: '+soldArr);
-							regexSold = soldArr;
-							console.log('regexSold: '+regexSold)
-						}
-
-					}
-				}
-
-				//archived listing
 				const archiveCheck = req.query.archiveCheck;
-				const notarchiveCheck = req.query.notarchiveCheck;
+				console.log('sold check: '+soldCheck);
 				console.log('archive check: '+archiveCheck);
-				console.log('not archive check: '+notarchiveCheck);
-				var allArchiveCheck = [];
-				var archiveArr = [];
-				var regexArchive;
-				if(archiveCheck){
-					allArchiveCheck.push(true);
-				}
-				if(notarchiveCheck){
-					allArchiveCheck.push(false);
-				}
-				console.log('check for archive checkds: '+allArchiveCheck);
-
-				if(allArchiveCheck.length == 0){
-					regexArchive = [ true, false ];
-					console.log('inside archive all empty: '+typeof regexArchive[1]);
+				var regexSold = [];
+				var regexArchive = [];
+				if(soldCheck){ //if sold is check, show sold and not sold only
+					regexSold.push(true);
+					regexSold.push(false);
 				}else {
-					for(let i=0; i<allArchiveCheck.length; i++) {
-						if(!(typeof allArchiveCheck[i] == 'undefined')) { //contains value does not contain undefined
-							console.log('line 339: '+allArchiveCheck[i]);
-							archiveArr[i] = allArchiveCheck[i];
-							console.log('inside archive: '+archiveArr);
-							regexArchive = archiveArr;
-							console.log('regexArchive: '+regexArchive)
-						}
-
-					}
+					regexSold.push(false);
 				}
+				if(archiveCheck){
+					regexArchive.push(true);
+					regexArchive.push(false);
+				}else {
+					regexArchive.push(false);
+				}
+
 
 				console.log('final sort option object: ',sortOptions);
 				console.log('passed in sold check: ',regexSold)
@@ -378,7 +335,7 @@ router.get("/listings", function(req,res){
 				});	
 			}else {
 					// get all listings from DB
-					listing.find({}).sort({createdAt: -1}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, alllistings) {
+					listing.find({$and: [{soldStatus: false}, {archiveStatus: false}] }).sort({createdAt: -1}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, alllistings) {
 							listing.count().exec(function (err, count) {
 									if (err) {
 											console.log(err);
