@@ -346,7 +346,7 @@ router.get('/forgot', function(req, res) {
 				from: '3D Property Website <jptestingsku@gmail.com>',
 				to: req.body.email,
 				subject: 'Password Reset',
-				html : "Hello <strong>" + newUser.username + "</strong>,<br><br>You are receiving this email because you (or someone else) have requested the reset of the password for your account. " +
+				html : "Hello,<br><br>You are receiving this email because you (or someone else) have requested the reset of the password for your account. " +
 				 	   "<br><br><a href="+link+">Reset Password.</a>"
 			};
 
