@@ -134,7 +134,7 @@
       </span>
       <% } else { %>
         <div class="justify-content-center d-flex">
-          <div class="mb-3" style="width: 152px;">
+          <div class="mb-3 text-center" style="width: 400px;">
             <a href="/user/<%= user._id %>/reviews" id="mainReview">
               <p class="m-0">
                 <%= user.rating.toFixed(2) %>
@@ -363,13 +363,14 @@
               </a>
             </div>
             <div class="right">
-              <% if(noMatch !== undefined){ %>
-                <h3><%= noMatch %></h3>
-                <form action="/user/<%= user._id %>" method="GET" class="form-inline">
-                  <input type="text" class="form-control" name="search" placeholder="Search Listings">
-                  <input type="submit" value="Search" class="btn btn-info">
-                </form>
-              <% } %>
+              <div class="box justify-content-end d-flex">
+                <% if(noMatch !== undefined){ %>
+                  <form action="/user/<%= user._id %>" method="GET" class="form-inline">
+                    <input type="text" name="search" placeholder="Search Listings">
+                    <button><i class="fas fa-search"></i></button>
+                  </form>
+                <% } %>
+              </div>
             </div>
           </div>
           <% if(user.isAgent==true || user.isAdmin==true){ %>
@@ -382,45 +383,44 @@
                   <% listings.forEach(function(listing) { %>
                     <div class="col-3 p-3 listingHover">
                       <div class="row">
-                        <div class="col-12">
-                          <a href="/listings/<%= listing.id %>">
-                            <img src="<%= listing.thumbnail %>"
-                              style="background-size: cover; width: 100%; object-fit: cover; background-position: center center;">
-                          </a>
-                        </div>
-                        <div class="col-12 mt-2">
-                          <a href="/listings/<%= listing.id %>" style="color: black; font-weight: 500;">
+                        <a href="/listings/<%= listing.id %>" style="text-decoration: none; color: black;">
+                          <div class="col-12">
+                              <img src="<%= listing.thumbnail %>"
+                                style="background-size: cover; width: 100%; object-fit: cover; background-position: center center;">
+                          </div>
+                          <div class="col-12 my-2" style="font-weight: 600;">
                             <% if(listing.name.length<14){ %>
                               <%= listing.name.substring(0, 14) %>
                                 <% } else { %>
                                   <%= listing.name.substring(0, 14) + " ..." %>
                                     <% } %>
-                          </a>
-                        </div>
-                        <div class="col-12">
-                          <span>
-                            <%= "S$" + listing.price %>
-                          </span>
-                        </div>
-                        <div class="col-12">
-                          <span style="font-size: 0.9em;">
-                            Zone: <%= listing.zone %>
-                          </span>
-                        </div>
-                        <div class="col-12">
-                          <span style="font-size: 0.9em;">
-                            Type: <%= listing.type %>
-                          </span>
-                        </div>
-                        <div class="col-12">
-                          <span style="font-size: 0.9em;">
-                            Rooms: <%= listing.numofRooms %>
-                          </span>
-                        </div>
-                        <div class="col-12">
+                          </div>
+                          <div class="col-12 my-1" style="font-weight: 600;">
+                            <span>
+                              <%= "S$" + listing.price %>
+                            </span>
+                          </div>
+                          <div class="col-12 mt-1" style="font-weight: 400;">
+                            <span style="font-size: 0.9em;">
+                              Zone: <%= listing.zone %>
+                            </span>
+                          </div>
+                          <div class="col-12 my-0" style="font-weight: 400;">
+                            <span style="font-size: 0.9em;">
+                              Type: <%= listing.type %>
+                            </span>
+                          </div>
+                          <div class="col-12 mb-1" style="font-weight: 400;">
+                            <span style="font-size: 0.9em;">
+                              Rooms: <%= listing.numofRooms %>
+                            </span>
+                          </div>
+                        </a>
+                        <div class="col-12 mt-1">
                           <form action="/listings/<%= listing._id %>/like" method="POST" class="likeBtn">
-                            <div class="btn-group">
-                              <% if (currentUser && listing.likes.some(function (like) { return like.equals(currentUser._id) })) { %>
+                            <div class="justify-content-between d-flex">
+                              <div>
+                                <% if (currentUser && listing.likes.some(function (like) { return like.equals(currentUser._id) })) { %>
                                 <button class="px-0">
                                   <i class="fas fa-heart filledHeart"></i>
                                   <%= listing.likes.length %>
@@ -431,19 +431,29 @@
                                     <%= listing.likes.length %>
                                   </button>
                                   <% } %>
+                              </div>
+                              <%if(currentUser&&listing.author.id.equals(currentUser._id)||currentUser&&currentUser.isAdmin){%>
+                                <div>
+                                  <div class="dropdown">
+                                    <button  type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                      <i class="fas fa-ellipsis-v"></i>
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                      <a class="dropdown-item" href="/listings/<%= listing._id %>/edit">
+                                        Edit
+                                      </a>
+                                      <a class="dropdown-item" href="#">
+                                        Archive
+                                      </a>
+                                      <a class="dropdown-item" href="#">
+                                        Mark as Sold
+                                      </a>
+                                    </div>
+                                  </div>
+                                </div>
+                              <% } %>
                             </div>
                           </form>
-                        </div>
-                        <div class="col-12 justify-content-center d-flex mt-2">
-                          <%if(currentUser&&listing.author.id.equals(currentUser._id)||currentUser&&currentUser.isAdmin){%>
-                            <div class="left">
-                              <a class="btn btn-outline-dark profileListingEdit"
-                                href="/listings/<%= listing._id %>/edit">Edit</a>
-                            </div>
-                            <div class="right">
-                              <a class="btn btn-outline-dark profileListingEdit" href="">Archive</a>
-                            </div>
-                            <% } %>
                         </div>
                       </div>
                     </div>

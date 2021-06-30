@@ -15,6 +15,7 @@ var passportLocalMongoose = require("passport-local-mongoose");
 var flash = require("connect-flash");
 var cors = require('cors');
 app.use(cors());
+
 var listing = require("./models/listing");
 var Comment = require("./models/comment");
 var User = require("./models/user");
@@ -25,7 +26,7 @@ var indexRoutes = require('./routes/index');
 var userRoutes = require('./routes/users');
 var reviewRoutes = require("./routes/reviews");
 
-mongoose.connect("mongodb://localhost/SAP", {  
+mongoose.connect(process.env.DB_URL || "mongodb://localhost/SAP", {  
 	useNewUrlParser: true,
 	useCreateIndex: true,
 	useUnifiedTopology: true,
@@ -40,7 +41,7 @@ app.use(flash());
 
 //use & run express session
 app.use(require("express-session")({
-	secret: "thls secret key ls very secret",
+	secret: process.env.SECRET || "thls secret key ls very secret",
 	resave: false,
 	saveUninitialized: false
 }));

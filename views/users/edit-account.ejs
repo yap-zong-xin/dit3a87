@@ -18,7 +18,8 @@
       </div>
       <div class="col-7 px-5 py-4 shadow" style="border-radius: 10px;">
         <p class="mb-1" style="font-size: 1.8em; font-weight: 600;">Reset Password</p>
-        <p style="font-weight: 300; font-size: 0.95em;">Click on the link below and we'll send you a link to get back
+        <p class="mt-1" style="font-weight: 300; font-size: 0.95em;">Click on the link below and we'll send you a link
+          to get back
           into your account.</p>
         <!-- reset password btn -->
         <div class="row">
@@ -29,11 +30,12 @@
             </form>
           </div>
         </div>
-        <p class="mt-4 mb-1" style="font-size: 1.8em; font-weight: 600;">Delete Account</p>
+        <p class="mt-4 pt-2 mb-1" style="font-size: 1.8em; font-weight: 600;">Delete Account</p>
         <div class="px-0 col-12">
           <!-- delete user button -->
           <% if(currentUser && user._id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
-            <p style="font-weight: 300; font-size: 0.95em;">When you delete your account, your profile, photos, videos,
+            <p class="mt-1" style="font-weight: 300; font-size: 0.95em;">When you delete your account, your profile,
+              photos, videos,
               comments, likes and followers will be
               permanently removed. If you'd just like to take a break, you can temporarily disable your account instead.
             </p>

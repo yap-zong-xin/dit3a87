@@ -1316,3 +1316,63 @@ input[type=range]::-ms-thumb {
   width: auto
 }
 
+.box{
+  width: 500px;
+}
+
+/* search bar */
+.box input{
+  position: relative;
+  display: inline;
+  font-size: 0.95em;
+  box-sizing: border-box;
+  transition: .5s;
+}
+
+.box input[type="text"]{
+  background: #fff;
+  width: 200px;
+  height: 35px;
+  border: 1px solid gray;
+  outline: none;
+  padding: 0 15px;
+  border-radius: 25px 0 0 25px;
+}
+
+.box button{
+  position: relative;
+  left: -5px;
+  padding-right: 10px;
+  border-radius: 0 25px 25px 0;
+  width: 70px;
+  height: 35px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  background:#4632da;
+  color: white;
+}
+
+.box button:hover{
+  background:#301eb8;
+}
+
+/* review */
+.reviewPlaceholder ::-webkit-input-placeholder {
+  font-style: italic;
+  font-size: 0.85em;
+}
+.reviewPlaceholder :-moz-placeholder {
+  font-style: italic;
+  font-size: 0.85em; 
+}
+.reviewPlaceholder ::-moz-placeholder {
+  font-style: italic;
+  font-size: 0.85em;  
+}
+.reviewPlaceholder :-ms-input-placeholder {  
+  font-style: italic;
+  font-size: 0.85em; 
+}
+
+/* review */
