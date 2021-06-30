@@ -12,7 +12,7 @@
             <h2>Member Login</h2>
             <div class="input-field">
               <i class="fas fa-user"></i>
-              <input type="email" name="email" placeholder="Email" required />
+              <input type="email" name="email" placeholder="Email" id="email" required />
             </div>
 
             <div class="input-field">
@@ -22,7 +22,7 @@
 
             <div class="login-check d-flex justify-content-end align-items-center">
               <label class="m-0 p-0 d-flex justify-content-between align-items-center">Remember Me
-                <input type="checkbox">
+                <input type="checkbox" value="lsRememberMe" id="rememberMe"> <label for="rememberMe"></label>
                 <span class="checkmark"></span>
               </label>
             </div>
@@ -32,7 +32,7 @@
                 <button type="button" class="fgt-pwd" onClick="showReset()">Forgot Password?</button>
               </div>
               <div>
-                <input type="submit" value="login" class="btn solid btn-reg" />
+                <button type="submit" onClick="lsRememberMe()" class="btn solid btn-reg">Login</button>
               </div>
             </div>
           </form>
@@ -66,4 +66,30 @@
       y.style.display = "block";
     }
   </script>
+
+  <!-- remember me script -->
+  <script>
+    const rmCheck = document.getElementById("rememberMe"),
+    emailInput = document.getElementById("email");
+
+if (localStorage.checkbox && localStorage.checkbox !== "") {
+  rmCheck.setAttribute("checked", "checked");
+  emailInput.value = localStorage.username;
+} else {
+  rmCheck.removeAttribute("checked");
+  emailInput.value = "";
+}
+
+function lsRememberMe() {
+  if (rmCheck.checked && emailInput.value !== "") {
+    localStorage.username = emailInput.value;
+    localStorage.checkbox = rmCheck.value;
+  } else {
+    localStorage.username = "";
+    localStorage.checkbox = "";
+  }
+}
+
+  </script>
+
   <%- include("partials/footer") %>
