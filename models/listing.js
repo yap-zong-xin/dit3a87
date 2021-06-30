@@ -16,6 +16,8 @@ var listingSchema = new mongoose.Schema({
    numofRooms: Number,
    video: [{type: String}],
    videoId: [{type: String}],
+   soldStatus: {type: Boolean, default: false},
+   archiveStatus: {type: Boolean, default: false},
    author: {
 		id: {
 			type: mongoose.Schema.Types.ObjectId,

@@ -266,13 +266,54 @@ router.get("/listings", function(req,res){
 				}else if(sortDate == 'Oldest') {
 					sortOptions.createdAt = 1;
 				}
+				// Sort by sold or not
+				var sortSold = req.query.sortSold;
+				console.log('sort sold type: '+sortSold)	
+				if(sortSold == 'Sold') {
+					sortOptions.soldStatus = -1;
+				}else if(sortSold == 'NotSold') {
+					sortOptions.soldStatus = 1;
+				}
+				// Sort by archive or not
+				var sortArchive = req.query.sortArchive;
+				console.log('sort archive type: '+sortArchive)	
+				if(sortArchive == 'Archive') {
+					sortOptions.archiveStatus = -1;
+				}else if(sortArchive == 'NotArchive') {
+					sortOptions.archiveStatus = 1;
+				}
+				//if no sort is selected
 				if(Object.keys(sortOptions).length == 0) {
 					sortOptions.createdAt = -1
 				}
+
+				//sold listing
+				const soldCheck = req.query.soldCheck;
+				const archiveCheck = req.query.archiveCheck;
+				console.log('sold check: '+soldCheck);
+				console.log('archive check: '+archiveCheck);
+				var regexSold = [];
+				var regexArchive = [];
+				if(soldCheck){ //if sold is check, show sold and not sold only
+					regexSold.push(true);
+					regexSold.push(false);
+				}else {
+					regexSold.push(false);
+				}
+				if(archiveCheck){
+					regexArchive.push(true);
+					regexArchive.push(false);
+				}else {
+					regexArchive.push(false);
+				}
+
+
 				console.log('final sort option object: ',sortOptions);
+				console.log('passed in sold check: ',regexSold)
+				console.log('passed in archive check: ',regexArchive)
 				console.log('all parameters passed to mongo: '+minPrice+', '+maxPrice+', '+regexZone+', '+regexType+', '+minSize+', '+maxSize+', '+regexRooms);
 
-				listing.find({$and: [ {price: {$gte: minPrice, $lte: maxPrice}}, {zone: {$in : regexZone}}, {type: {$in: regexType}}, {size: {$gte: minSize, $lte: maxSize}}, {numofRooms: {$in: regexRooms}} ] }).sort(sortOptions).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, alllistings) {
+				listing.find({$and: [ {price: {$gte: minPrice, $lte: maxPrice}}, {zone: {$in : regexZone}}, {type: {$in: regexType}}, {size: {$gte: minSize, $lte: maxSize}}, {numofRooms: {$in: regexRooms}}, {soldStatus: {$in: regexSold}}, {archiveStatus: {$in: regexArchive}} ] }).sort(sortOptions).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, alllistings) {
 					listing.count({price: minPrice}).exec(function (err, count) {
 						if (err) {
 							console.log(err);
@@ -294,7 +335,7 @@ router.get("/listings", function(req,res){
 				});	
 			}else {
 					// get all listings from DB
-					listing.find({}).sort({createdAt: -1}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, alllistings) {
+					listing.find({$and: [{soldStatus: false}, {archiveStatus: false}] }).sort({createdAt: -1}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, alllistings) {
 							listing.count().exec(function (err, count) {
 									if (err) {
 											console.log(err);
@@ -864,6 +905,37 @@ router.post("/listings/:id/like", middleware.isLoggedIn, function (req, res) {
 					}
 					return res.redirect("/listings/" + foundlisting._id);
 			});
+	});
+});
+
+//Mark listing as sold
+router.get("/listings/:id/sold", middleware.checklistingOwnership, function(req, res){
+	listing.findById(req.params.id, function(err, foundlisting){
+		if(err){
+			res.redirect("/listings");
+		} else{
+			console.log('the one we tryna sell: ',foundlisting);
+			console.log('listing sold status: ',foundlisting.soldStatus);
+			foundlisting.soldStatus = true;
+			console.log('check if listing is marked as sold: '+foundlisting.soldStatus);
+			foundlisting.save();
+			res.render("listings/show.ejs", {listing: foundlisting});
+		}
+	});
+});
+
+//Archive Listing
+router.get("/listings/:id/archive", middleware.checklistingOwnership, function(req, res){
+	listing.findById(req.params.id, function(err, foundlisting){
+		if(err){
+			res.redirect("/listings");
+		} else{
+			console.log('the one we tryna archive: ',foundlisting);
+			console.log('listing archive status: ',foundlisting.archiveStatus);
+			foundlisting.archiveStatus = true;
+			console.log('check if listing is marked as archive: '+foundlisting.archiveStatus);
+			foundlisting.save();
+			res.render("listings/show.ejs", {listing: foundlisting});		}
 	});
 });
 
