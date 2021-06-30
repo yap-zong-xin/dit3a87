@@ -26,7 +26,8 @@ var indexRoutes = require('./routes/index');
 var userRoutes = require('./routes/users');
 var reviewRoutes = require("./routes/reviews");
 
-mongoose.connect(process.env.DB_URL || "mongodb://localhost/SAP", {  
+// mongoose.connect(process.env.DB_URL || "mongodb://localhost/SAP", {  
+mongoose.connect("mongodb://localhost/SAP", {  
 	useNewUrlParser: true,
 	useCreateIndex: true,
 	useUnifiedTopology: true,
