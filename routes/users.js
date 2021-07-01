@@ -94,69 +94,69 @@ router.get("/dashboard/listings", function(req,res){
 			console.log(err);
 		} else{
 		
-			var obj = {listings:foundlisting}
-			var lengthObj = {listings:foundlisting.length}
-			var max = Object.values(lengthObj)[0];
-			var arrStr = [];
-			var idArr = [];
+			// var obj = {listings:foundlisting}
+			// var lengthObj = {listings:foundlisting.length}
+			// var max = Object.values(lengthObj)[0];
+			// var arrStr = [];
+			// var idArr = [];
 
-			//create array and loop through all listings to get ID
-			for (var i = 0; i < max ; i++) {
-				var idObj = {listings:foundlisting[i]._id}
-				var id = Object.values(idObj)[0];
-				idArr[i] = id;
-			}
+			// //create array and loop through all listings to get ID
+			// for (var i = 0; i < max ; i++) {
+			// 	var idObj = {listings:foundlisting[i]._id}
+			// 	var id = Object.values(idObj)[0];
+			// 	idArr[i] = id;
+			// }
 
-			async function getShow(url) {
-				var result;
-				result = await countApi("/get/3dpropertylistingsg/" + url)
-				.then(success => {
-					return success.data.value;
-				})
-				return result;
-			}
+			// async function getShow(url) {
+			// 	var result;
+			// 	result = await countApi("/get/3dpropertylistingsg/" + url)
+			// 	.then(success => {
+			// 		return success.data.value;
+			// 	})
+			// 	return result;
+			// }
 			
-			async function getShow2(url) {
-				var result;
-				result = await countApi("/get/3dpropertylistingsg/" + url + "-click")
-				.then(success => {
-					return success.data.value;
-				})
-				return result;
-			}
+			// async function getShow2(url) {
+			// 	var result;
+			// 	result = await countApi("/get/3dpropertylistingsg/" + url + "-click")
+			// 	.then(success => {
+			// 		return success.data.value;
+			// 	})
+			// 	return result;
+			// }
 
-			async function clickRateCalc() {
-				idArr.forEach(async function(url, i) {
-					var e = await getShow(url)
-					var f = await getShow2(url)
-					var rateArr = [url,e,f];
-					arrStr.push(rateArr);
-					if(arrStr.length == idArr.length) {
-						//calculate clickrate
-						arrStr.forEach(function(item, i) {
-							var id = arrStr[i][0];
-							var clickCount = arrStr[i][1];
-							var shownCount = arrStr[i][2]
-							var clickRateStr = Math.round((clickCount/shownCount) * 100) + "%";
+			// async function clickRateCalc() {
+			// 	idArr.forEach(async function(url, i) {
+			// 		var e = await getShow(url)
+			// 		var f = await getShow2(url)
+			// 		var rateArr = [url,e,f];
+			// 		arrStr.push(rateArr);
+			// 		if(arrStr.length == idArr.length) {
+			// 			//calculate clickrate
+			// 			arrStr.forEach(function(item, i) {
+			// 				var id = arrStr[i][0];
+			// 				var clickCount = arrStr[i][1];
+			// 				var shownCount = arrStr[i][2]
+			// 				var clickRateStr = Math.round((clickCount/shownCount) * 100) + "%";
 
-							var obj = {
-								"id" : id,
-								"click" : clickCount,
-								"shown" : shownCount,
-								"clickRate" : clickRateStr
-							}
+			// 				var obj = {
+			// 					"id" : id,
+			// 					"click" : clickCount,
+			// 					"shown" : shownCount,
+			// 					"clickRate" : clickRateStr
+			// 				}
 
-							console.log(obj)
-						})
-						console.log("done")
-					}
-				});
-			}
+			// 				console.log(obj)
+			// 			})
+			// 			console.log("done")
+			// 		}
+			// 	});
+			// }
 
 			// clickRateCalc();
 				
-			//res.render("dashboards/admin/manageListings.ejs", obj);
 			res.render("dashboards/admin/manageListings.ejs", {listings:foundlisting});
+			// res.render("dashboards/admin/manageListings.ejs", {listings:foundlisting, getClickRate:getClickRate});
 		}
 	});
 });

@@ -1,15 +1,19 @@
-<%- include("../../../partials/header") %> 
-  <%listings.forEach(function(listing){ 
+<%- include("../../../partials/header") %>
+<script src="/javascripts/clickRate.js"></script>
+  <%
+  var idArr = [];
+  
+  listings.forEach(function(listing){ 
     var id = listing._id
-    
+    idArr.push(id);
     %>
     <a>id: <%= id%></a>
     <br>
     <br>
     <p>
       name:<%= listing.name%>
-    </p>
-    <a id="clickrate"></a>
+    </p><br><br>
+    <a id="<%=id%>"></a><br><br>
     <p>
       <em>Submitted by: <a href="/user/<%= listing.author.id %>"><%= listing.author.username %></a>, <%= moment(listing.createdAt).fromNow() %></em>
     </p>
@@ -85,6 +89,18 @@
           </div>
         <% }) %>
       <% }); %>
- 
-<script src="../../../../public/javascripts/clickRate.js"></script>
+
+
+<% 
+
+idArr.forEach((id, index)=> {
+ %>
+ <script>getClickRate("<%=id%>")</script>
+ <% 
+})
+
+%>
+
+
+
 <%- include("../../../partials/footer") %>
