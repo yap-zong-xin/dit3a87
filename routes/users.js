@@ -6,6 +6,17 @@ var Review = require("../models/review");
 var listing = require("../models/listing");
 var Notification = require("../models/notification");
 var multer = require('multer');
+var getClickRate = require("../public/javascripts/clickRate");
+const axios = require('axios');
+async function countApi(url) {
+	const host = "https://api.countapi.xyz"
+	try {
+	  return await axios.get(host + url);
+	} catch (err) {
+	  console.log('myRequest error', err)
+	}
+}
+
 var storage = multer.diskStorage({
   filename: function(req, file, callback) {
     callback(null, Date.now() + file.originalname);
@@ -82,6 +93,48 @@ router.get("/dashboard/listings", function(req,res){
 		if(err){
 			console.log(err);
 		} else{
+		
+			var obj = {listings:foundlisting}
+			var lengthObj = {listings:foundlisting.length}
+			var max = Object.values(lengthObj)[0];
+			var arrStr = [0,0]
+			var idArr = [];
+			var wait = false;
+
+			//create array and loop through all listings to get ID
+			for (var i = 0; i < max ; i++) {
+				
+				// console.log(i)
+				//get values
+				var idObj = {listings:foundlisting[i]._id}
+				var id = Object.values(idObj)[0];
+				// console.log(id);
+				idArr[i] = id;
+			}
+
+			// console.log(idArr);
+
+			//take count api based on id
+			for (var e = 0; e < idArr.length; e++) {
+				countApi("/get/3dpropertylistingsg/" + idArr[e]).then(success=> {
+					arrStr[0] = success.data.value;
+				}).then(countApi("/get/3dpropertylistingsg/" + idArr[e] + "-click").then(success=> {
+					arrStr[1] =  success.data.value;
+				})).finally(() => {
+					clickCount = arrStr[0]
+					shownCount = arrStr[1];
+					clickRate = (clickCount/shownCount) * 100;
+					clickRateStr = Math.round(clickRate) + "%";
+					console.log(arrStr)
+					// console.log(clickRateStr);
+					// console.log("hi")
+					//push
+					// console.log(obj.listings[i])
+					// obj.foundlisting.push({"clickRate" : clickRateStr}) 
+
+				});
+			}
+			//res.render("dashboards/admin/manageListings.ejs", obj);
 			res.render("dashboards/admin/manageListings.ejs", {listings:foundlisting});
 		}
 	});

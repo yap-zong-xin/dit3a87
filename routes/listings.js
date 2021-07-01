@@ -52,7 +52,7 @@ async function countApi(url) {
 	try {
 		return await axios.get(host + url);
 	} catch (err) {
-		console.log('myRequest error', err)
+		console.log('getapi error', err)
 	}
 }
 
@@ -320,6 +320,23 @@ router.get("/listings", function(req,res){
 							res.redirect("back");
 						}else {
 							console.log('form data sthuff: ',req.query);
+							//retrieve id 
+							//CALCULATING CLICK
+							// get all listings id that has been displayed from DB
+							for (var i = 0; i < alllistings.length; i++) {
+								//id
+								var id = alllistings[i]._id;
+								console.log(alllistings[i]._id);
+
+								async function postCountSearch (id) {
+									await countApi("/hit/3dpropertylistingsg/" +  id + "-click").then(success => {
+									console.log("https://api.countapi.xyz/hit/3dpropertylistingsg/" + id + "-click");
+									console.log(success.data.value);
+								});
+								}
+								postCountSearch(id)
+							}
+
 							res.render("listings/index.ejs", {
 								listings: alllistings,
 								current: pageNumber,
@@ -668,6 +685,13 @@ router.get("/listings/:id", function(req, res){
 			res.redirect("/listings");
 		} else{
 			console.log('show route: '+foundlisting);
+			//countapi
+			var id = req.params.id;
+			console.log(id);
+			countApi("/hit/3dpropertylistingsg/" + id).then(success => {
+				console.log("https://api.countapi.xyz/hit/3dpropertylistingsg/" + id);
+				console.log(success.data.value);
+			});
 			res.render("listings/show.ejs", {listing: foundlisting});
 		}
 	});

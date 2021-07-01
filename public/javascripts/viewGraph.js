@@ -36,7 +36,6 @@ var massPopChart = new Chart(myChart, {
 	}
 });
 
-
 var updateChart = function updateChart(counter) {
 	countApi("/get/3dpropertylistingsg/visits").then(success=> {
 		//get data

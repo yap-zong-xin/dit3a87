@@ -1,11 +1,15 @@
-<%- include("../../../partials/header") %>
-
-  <% listings.forEach(function(listing){ %>
+<%- include("../../../partials/header") %> 
+  <%listings.forEach(function(listing){ 
+    var id = listing._id
+    
+    %>
+    <a>id: <%= id%></a>
+    <br>
+    <br>
     <p>
-      name: <strong>
-        <%= listing.name %>
-      </strong>
+      name:<%= listing.name%>
     </p>
+    <a id="clickrate"></a>
     <p>
       <em>Submitted by: <a href="/user/<%= listing.author.id %>"><%= listing.author.username %></a>, <%= moment(listing.createdAt).fromNow() %></em>
     </p>
@@ -81,5 +85,6 @@
           </div>
         <% }) %>
       <% }); %>
-
-          <%- include("../../../partials/footer") %>
+ 
+<script src="../../../../public/javascripts/clickRate.js"></script>
+<%- include("../../../partials/footer") %>
