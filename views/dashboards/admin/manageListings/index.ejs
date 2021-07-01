@@ -14,6 +14,7 @@
     <p>
       name:<%= listing.name%>
     </p><br><br>
+    <div class="loader" id="loader-<%=id%>"></div>
     <a id="<%=id%>"></a><br><br>
     <p>
       <em>Submitted by: <a href="/user/<%= listing.author.id %>"><%= listing.author.username %></a>, <%= moment(listing.createdAt).fromNow() %></em>
