@@ -52,7 +52,7 @@ async function countApi(url) {
 	try {
 		return await axios.get(host + url);
 	} catch (err) {
-		console.log('getapi error', err)
+		console.log('myRequest error', err)
 	}
 }
 
@@ -313,30 +313,13 @@ router.get("/listings", function(req,res){
 				console.log('passed in archive check: ',regexArchive)
 				console.log('all parameters passed to mongo: '+minPrice+', '+maxPrice+', '+regexZone+', '+regexType+', '+minSize+', '+maxSize+', '+regexRooms);
 
-				listing.find({$and: [ {price: {$gte: minPrice, $lte: maxPrice}}, {zone: {$in : regexZone}}, {type: {$in: regexType}}, {size: {$gte: minSize, $lte: maxSize}}, {numofRooms: {$in: regexRooms}}, {soldStatus: {$in: regexSold}}, {archiveStatus: {$in: regexArchive}} ] }).sort(sortOptions).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, alllistings) {
+				listing.find({$and: [ {price: {$gte: minPrice, $lte: maxPrice}}, {zone: {$in : regexZone}}, {type: {$in: regexType}}, {size: {$gte: minSize, $lte: maxSize}}, {bedrooms: {$in: regexRooms}}, {soldStatus: {$in: regexSold}}, {archiveStatus: {$in: regexArchive}} ] }).sort(sortOptions).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, alllistings) {
 					listing.count({price: minPrice}).exec(function (err, count) {
 						if (err) {
 							console.log(err);
 							res.redirect("back");
 						}else {
 							console.log('form data sthuff: ',req.query);
-							//retrieve id 
-							//CALCULATING CLICK
-							// get all listings id that has been displayed from DB
-							for (var i = 0; i < alllistings.length; i++) {
-								//id
-								var id = alllistings[i]._id;
-								console.log(alllistings[i]._id);
-
-								async function postCountSearch (id) {
-									await countApi("/hit/3dpropertylistingsg/" +  id + "-click").then(success => {
-									console.log("https://api.countapi.xyz/hit/3dpropertylistingsg/" + id + "-click");
-									console.log(success.data.value);
-								});
-								}
-								postCountSearch(id)
-							}
-
 							res.render("listings/index.ejs", {
 								listings: alllistings,
 								current: pageNumber,
@@ -357,6 +340,19 @@ router.get("/listings", function(req,res){
 									if (err) {
 											console.log(err);
 									} else {
+										for (var i = 0; i < alllistings.length; i++) {
+											//id
+											var id = alllistings[i]._id;
+											console.log(alllistings[i]._id);
+
+											async function postCount (id) {
+												await countApi("/hit/3dpropertylistingsg/" +  id + "-click").then(success => {
+												console.log("https://api.countapi.xyz/hit/3dpropertylistingsg/" + id + "-click");
+												console.log(success.data.value);
+											});
+											}
+											postCount(id)
+										}
 										res.render("listings/index.ejs", {
 											listings: alllistings,
 											current: pageNumber,
@@ -474,12 +470,13 @@ router.post("/listings", middleware.isLoggedIn, uploadMultiple, async function(r
 	var price = req.body.price;
 	var size = req.body.size;
 	var type = req.body.type;
-	var numofRooms = req.body.numofRooms;
+	var bedrooms = req.body.bedrooms;
+	var bathrooms = req.body.bathrooms;
   	var author = {
 		id: req.user._id,
 		username: req.user.username
 	};
-	var newlisting = {name:name, description:desc, author:author, location:location, zone:zone, price:price, size:size, type:type, numofRooms:numofRooms}
+	var newlisting = {name:name, description:desc, author:author, location:location, zone:zone, price:price, size:size, type:type, bedrooms:bedrooms, bathrooms:bathrooms}
 	try {
 			var geoData = await geocodingClient.forwardGeocode({
 				query: location,
@@ -675,6 +672,7 @@ router.post("/listings", middleware.isLoggedIn, uploadMultiple, async function(r
 
 //New Route
 router.get("/listings/new", middleware.isLoggedIn, function(req,res){
+
 	res.render("listings/new.ejs");
 });
 
@@ -684,14 +682,13 @@ router.get("/listings/:id", function(req, res){
 		if(err){
 			res.redirect("/listings");
 		} else{
-			console.log('show route: '+foundlisting);
-			//countapi
 			var id = req.params.id;
-			console.log(id);
-			countApi("/hit/3dpropertylistingsg/" + id).then(success => {
-				console.log("https://api.countapi.xyz/hit/3dpropertylistingsg/" + id);
+			countApi("/hit/3dpropertylistingsg/" +  id + "-click").then(success => {
+				console.log("https://api.countapi.xyz/hit/3dpropertylistingsg/" + id + "-click");
 				console.log(success.data.value);
 			});
+
+			console.log('show route: '+foundlisting);
 			res.render("listings/show.ejs", {listing: foundlisting});
 		}
 	});
@@ -703,6 +700,7 @@ router.get("/listings/:id/edit", middleware.checklistingOwnership, function(req,
 		if(err){
 			res.redirect("/listings");
 		} else{
+
 			res.render("listings/edit.ejs", {listing: foundlisting});
 		}
 	});
@@ -868,7 +866,7 @@ router.put("/listings/:id", middleware.checklistingOwnership, uploadMultiple, fu
 			listing.price = req.body.listing.price;
 			listing.size = req.body.listing.size;
 			listing.type = req.body.listing.type;
-			listing.numofRooms = req.body.listing.numofRooms;
+			listing.bedrooms = req.body.listing.bedrooms;
 			listing.save();
 			console.log(listing)
 			req.flash("success", "You have successfully updated a listing.");
