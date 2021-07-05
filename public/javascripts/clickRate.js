@@ -11,7 +11,7 @@ async function countApi(url) {
 }
 
 async function getClickRate(url) {
-  console.log(url);
+  // console.log(url);
   var arrStr = [];
 
   async function getShow(url) {
