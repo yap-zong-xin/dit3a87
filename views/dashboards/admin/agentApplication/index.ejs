@@ -1,52 +1,5 @@
 <%- include("../../../partials/header") %>
 
-  <!-- pending -->
-  <p style="font-weight: bold; color: blue;">PENDING AGENTS</p>
-  <% if(users.agentStatus==false){ %>
-    nth here
-    <% } %>
-      <% users.forEach(function(user){ %>
-        <% if(user.isAgent==true && user.agentStatus==false){ %>
-          <p>
-            Username: <strong>
-              <%= user.username %>
-            </strong>
-            Status:
-            <strong>Pending</strong>
-          </p>
-          <form action="/dashboard/agents/<%= user._id %>?_method=PUT" method="POST">
-            <% if(user.agentStatus==false){ %>
-              <button type="submit" name="user[agentStatus]" value="true">tick</button>
-              <% } else{ %>
-                <button type="submit" name="user[agentStatus]" value="false">cross</button>
-                <% } %>
-          </form>
-          <a href="/user/<%= user._id %>" class="btn btn-primary">View Profile</a>
-          <% } %>
-            <% }); %>
 
 
-              <!-- approved -->
-              <br>
-              <p style="font-weight: bold; color: blue;">APPROVED AGENTS</p>
-              <% users.forEach(function(user){ %>
-                <% if(user.isAgent==true && user.agentStatus==true){ %>
-                  <p>
-                    Username: <strong>
-                      <%= user.username %>
-                    </strong>
-                    Status:
-                    <strong>Approved</strong>
-                  </p>
-                  <form action="/dashboard/agents/<%= user._id %>?_method=PUT" method="POST">
-                    <% if(user.agentStatus==false){ %>
-                      <button type="submit" name="user[agentStatus]" value="true">tick</button>
-                      <% } else{ %>
-                        <button type="submit" name="user[agentStatus]" value="false">cross</button>
-                        <% } %>
-                  </form>
-                  <a href="/user/<%= user._id %>" class="btn btn-primary">View Profile</a>
-                  <% } %>
-                    <% }); %>
-
-                      <%- include("../../../partials/footer") %>
+  <%- include("../../../partials/footer") %>

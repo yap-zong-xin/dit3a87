@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var middleware = require('../middleware');
 var User = require("../models/user");
+var Comment = require("../models/comment");
 var Review = require("../models/review");
 var listing = require("../models/listing");
 var Notification = require("../models/notification");
@@ -37,23 +38,47 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
-//Dashboard for Main Get Route
+//Dashboard
+//Get Route - Overview Dashboard
 router.get("/dashboard", function(req,res){
-	res.render("dashboards/admin/index.ejs");
-});
-
-//Dashboard for Agent Application Get Route
-router.get("/dashboard/agents", function(req,res){
 	User.find({}, function(err, allUsers){
 		if(err){
 			console.log(err);
-		} else{
-			res.render("dashboards/admin/agentApplication/index.ejs", {users:allUsers});
+		} else {
+			listing.find({}, function(err, alllistings){
+				if(err){
+					console.log(err);
+				} else{
+						Review.find({}, function(err, allReviews){
+							if(err){
+								console.log(err);
+							} else{
+								Comment.find({}, function(err, allComments){
+									if(err){
+										console.log(err);
+									} else{
+										res.render("dashboards/admin/index.ejs", {users:allUsers, listings:alllistings, reviews:allReviews, comments:allComments});
+									}
+								});
+							}
+						});
+					}
+			});
 		}
 	});
 });
 
-//Dashboard for Agent Application Update Route
+//Get Route - Manage Accounts Dashboard
+router.get("/dashboard/accounts", function(req,res){
+	User.find({}, function(err, allUsers){
+		if(err){
+			console.log(err);
+		} else{
+			res.render("dashboards/admin/accounts/index.ejs", {users:allUsers});
+		}
+	});
+});
+//Put Route - Manage Agent Application
 router.put("/dashboard/agents/:id", function(req, res){
 	//can straight away use req.body.listing without having to define due to "listing[]" in the form name attributes
 		User.findByIdAndUpdate(req.params.id, req.body.user, function(err, updatedUser){
@@ -66,13 +91,24 @@ router.put("/dashboard/agents/:id", function(req, res){
 		});
 	});
 
-//Dashboard for Manage Accounts Get Route
-router.get("/dashboard/accounts", function(req,res){
-	User.find({}, function(err, allUsers){
+//Get Route - Manage Comment Dashboard
+router.get("/dashboard/comments", function(req,res){
+	Comment.find({}, function(err, allComments){
 		if(err){
 			console.log(err);
 		} else{
-			res.render("dashboards/admin/manageAccount.ejs", {users:allUsers});
+			res.render("dashboards/admin/comments/index.ejs", {comments:allComments});
+		}
+	});
+});
+
+//Get Route - Manage Review Dashboard
+router.get("/dashboard/reviews", function(req,res){
+	Review.find({}, function(err, allReviews){
+		if(err){
+			console.log(err);
+		} else{
+			res.render("dashboards/admin/reviews/index.ejs", {reviews:allReviews});
 		}
 	});
 });
@@ -87,13 +123,12 @@ router.get("/dashboard/accounts", function(req,res){
 // 	});
 // });
 
-//Dashboard for Manage Listings Get Route
+//Get Route - Manage Listings Dashboard
 router.get("/dashboard/listings", function(req,res){
 	listing.find({}).populate("comments likes").exec(function(err, foundlisting){
 		if(err){
 			console.log(err);
 		} else{
-		
 			// var obj = {listings:foundlisting}
 			// var lengthObj = {listings:foundlisting.length}
 			// var max = Object.values(lengthObj)[0];
@@ -152,10 +187,8 @@ router.get("/dashboard/listings", function(req,res){
 			// 		}
 			// 	});
 			// }
-
 			// clickRateCalc();
-				
-			res.render("dashboards/admin/manageListings.ejs", {listings:foundlisting});
+			res.render("dashboards/admin/listings/index.ejs", {listings:foundlisting});
 			// res.render("dashboards/admin/manageListings.ejs", {listings:foundlisting, getClickRate:getClickRate});
 		}
 	});
@@ -264,7 +297,7 @@ router.get("/user/:id/reviews", function (req, res) {
 	});
 });
 
-//Edit Route
+//Edit Account Route
 router.get("/user/:id/edit", middleware.checkUserOwnership, function(req, res){
 	User.findById(req.params.id, function(err, foundUser){
 		if(err){
