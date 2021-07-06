@@ -152,52 +152,59 @@
   </div>
 
   <!-- overview -->
-  <div class="container overview my-4 pb-3 text-center">
-    <a href="/user/<%= user._id %>">
-      <span style="border-right: solid lightgray 1px;">
-        <%= listings.length %>
-          <% if(listings.length<2){ %>
-            Listing
-            <% } else { %>
-              Listings
-              <% } %>
-      </span>
-    </a>
-
-    <a href="/user/<%= user._id %>/reviews">
-      <span style="border-right: solid lightgray 1px;">
-        <%= user.reviews.length %>
-          <% if(user.reviews.length<2){ %>
-            Review
-            <% } else { %>
-              Reviews
-              <% } %>
-      </span>
-    </a>
-
-    <% if(currentUser && user._id.equals(currentUser._id)){ %>
-      <a href="" data-toggle="modal" data-target="#notificationTarget">
-        <span style="border-right: solid lightgray 1px;">
-          <%= allNotifications.length %>
-            <% if(allNotifications.length<2){ %>
-              Notification
-              <% } else { %>
-                Notifications
-                <% } %>
-        </span>
-      </a>
-      <% } %>
-
-        <a href="" data-toggle="modal" data-target="#followerTarget">
+  <div class="container overview text-center mt-4 pb-3">
+    <div class="row">
+      <div class="col-3 first py-2">
+        <a href="/user/<%= user._id %>">
           <span>
-            <%= allFollowers.length %>
-              <% if(allFollowers.length<2){ %>
-                Follower
+            <%= listings.length %>
+              <% if(listings.length<2){ %>
+                Listing
                 <% } else { %>
-                  Followers
+                  Listings
                   <% } %>
           </span>
         </a>
+      </div>
+      <div class="col-3 second py-2">
+        <a href="/user/<%= user._id %>/reviews">
+          <span>
+            <%= user.reviews.length %>
+              <% if(user.reviews.length<2){ %>
+                Review
+                <% } else { %>
+                  Reviews
+                  <% } %>
+          </span>
+        </a>
+      </div>
+      <div class="col-3 third py-2">
+        <% if(currentUser && user._id.equals(currentUser._id)){ %>
+          <a href="" data-toggle="modal" data-target="#notificationTarget">
+            <span>
+              <%= allNotifications.length %>
+              <% if(allNotifications.length<2){ %>
+                Notification
+                <% } else { %>
+                  Notifications
+                  <% } %>
+            </span>
+          </a>
+          <% } %>
+      </div>
+      <div class="col-3 forth py-2">
+        <a href="" data-toggle="modal" data-target="#followerTarget">
+          <span>
+            <%= allFollowers.length %>
+            <% if(allFollowers.length<2){ %>
+              Follower
+              <% } else { %>
+                Followers
+                <% } %>
+          </span>
+        </a>
+      </div>
+    </div>
   </div>
 
 
@@ -351,7 +358,7 @@
       </div>
 
       <!-- listings & reviews -->
-      <div class="col-8">
+      <div class="col-8 pr-0">
         <!-- listings -->
         <div class="col-12 borderStyle">
           <div class="d-flex p-2 mb-0 justify-content-between headerStyle">

@@ -30,68 +30,120 @@
 </head>
 
 <body>
+  <nav class="navbar navbar-expand-md sticky-top shadow py-0">
+    <div class="container">
+      <a href="/" class="mr-4">"Logo"</a>
+      <a class="nav-link d-none d-md-block" href="/listings">Properties</a>
+      <a class="nav-link d-none d-md-block" href="/user">Find Agents</a>
+      <a class="nav-link d-none d-md-block" href="#">About Us</a>
+      <a class="nav-link d-none d-md-block" href="#">Connect</a>
+      
 
-  <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
-    <a class="navbar-brand" href="/listings">Property</a>
-    <a class="navbar-brand" href="/user">Agent</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav ml-auto">
-        <% if(!currentUser){ %>
-          <li class="nav-item active">
-            <a class="nav-link" href="/dashboard">Dashboard</a>
-          </li>
-          <li class="nav-item active">
-            <a class="nav-link" href="/login">Login</a>
-          </li>
-          <li class="nav-item active">
-            <a class="nav-link" href="/register">Sign Up</a>
-          </li>
-          <% } else{ %>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                aria-expanded="false">Notifications <span class="badge">
-                  <%= notifications.length %>
-                </span></a>
-              <ul class="dropdown-menu">
-                <% if(notifications==0){ %>
-                  <li>
-                    No notifications
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+  
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto align-items-center d-flex">
+          <% if(!currentUser){ %>
+                <div class="d-md-none">
+                  <li class="nav-item active">
+                    <a class="nav-link" href="/listings">Properties</a>
                   </li>
-                  <% } else { %>
-                    <% notifications.forEach(function(notification) { %>
-                      <li>
-                        <a href="/notifications/<%= notification.id %>">
-                          <%= notification.username %> created a new listing
-                        </a>
-                      </li>
-                      <% }); %>
-                        <% } %>
-              </ul>
-            </li>
-            <li class="nav-item active">
-              <a class="nav-link" href="#">Signed In As <%= currentUser.username %></a>
-            </li>
-            <li class="nav-item active">
-              <a class="nav-link" href="/user/<%= currentUser.id %>">Profile</a>
-            </li>
-            <% if(currentUser && currentUser.isAdmin){ %>
-              <li class="nav-item active">
-                <a class="nav-link" href="/dashboard">Dashboard</a>
+                  <li class="nav-item active">
+                    <a class="nav-link" href="/user">Find Agents</a>
+                  </li>
+                  <li class="nav-item active">
+                    <a class="nav-link" href="#">About Us</a>
+                  </li>
+                  <li class="nav-item active">
+                    <a class="nav-link" href="#">Connect</a>
+                  </li>
+                </div>
+                <!-- <li class="nav-item active">
+                  <a class="nav-link" href="/dashboard">Dashboard</a>
+                </li> -->
+                <li class="nav-item active py-2">
+                  <a class="nav-link" href="/login">Login</a>
+                </li>
+                <li class="nav-item active">
+                  <a class="nav-link" href="/register">Register</a>
+                </li>
+            <% } else{ %>
+              <div class="d-md-none">
+                <li class="nav-item active">
+                  <a class="nav-link" href="/listings">Properties</a>
+                </li>
+                <li class="nav-item active">
+                  <a class="nav-link" href="/user">Find Agents</a>
+                </li>
+                <li class="nav-item active">
+                  <a class="nav-link" href="#">About Us</a>
+                </li>
+                <li class="nav-item active">
+                  <a class="nav-link" href="#">Connect</a>
+                </li>
+              </div>
+              <li class="nav-item active currentUserNav">
+                <a class="nav-link p-1" href="/user/<%= currentUser.id %>">
+                  <img src="<%= currentUser.image %>" style="width: 30px; border-radius: 50%;">
+                  <span style="font-size: 0.9em;">
+                    <%= currentUser.username %>
+                  </span>
+                </a>
               </li>
-              <% } %>
-                <li class="nav-item active">
-                  <a class="nav-link" href="http://localhost:3001/messenger/<%= currentUser.id %>">Chat</a>
-                </li>
-                <li class="nav-item active">
-                  <a class="nav-link" href="/logout">Log Out</a>
-                </li>
-                <% } %>
-      </ul>
+              <li class="dropdown pl-2">
+                <a href="#" data-toggle="dropdown" role="button" aria-haspopup="true"
+                  aria-expanded="false">
+                  <img class="fa-bell" src="/img/notification.png" style="width: 37px;">
+                </a>
+                <ul class="dropdown-menu">
+                  <% if(notifications==0){ %>
+                    <li>
+                      No notifications
+                    </li>
+                    <% } else { %>
+                      <% notifications.forEach(function(notification) { %>
+                        <li>
+                          <a href="/notifications/<%= notification.id %>">
+                            <%= notification.username %> created a new listing
+                          </a>
+                        </li>
+                        <% }); %>
+                          <% } %>
+                </ul>
+              </li>
+              <li class="dropdown pl-2">
+                <a href="#" data-toggle="dropdown" role="button" aria-haspopup="true"
+                  aria-expanded="false" style="text-decoration: none;">
+                  <i class="fas fa-user-alt"></i>
+                </a>
+                <ul class="dropdown-menu">
+                  <li class="nav-item active">
+                    <a class="nav-link" href="/user/<%= currentUser.id %>">Profile</a>
+                  </li>
+                  <% if(currentUser && currentUser.isAdmin){ %>
+                    <li class="nav-item active">
+                      <a class="nav-link" href="/dashboard">Dashboard</a>
+                    </li>
+                  <% } %>
+                  <li class="nav-item active">
+                    <a class="nav-link" href="/user/<%= currentUser.id %>/edit">Manage Account</a>
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-item active">
+                <a class="nav-link pl-2" href="http://localhost:3001/messenger/<%= currentUser.id %>">
+                  <i class="fas fa-comment-alt"></i>
+                </a>
+              </li>
+              <li class="nav-item active">
+                <a class="nav-link pl-2" href="/logout">Log Out</a>
+              </li>
+            <% } %>
+        </ul>
+      </div>
     </div>
   </nav>
 
@@ -112,7 +164,6 @@
               </button>
           </div>
           <% } %>
-  </div>
   </div>
 
   <script>
