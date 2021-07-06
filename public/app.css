@@ -3,11 +3,22 @@ body {
   font-family: "Poppins", sans-serif;
   font-size: 0.9em;
 }
+::-webkit-scrollbar{
+  width: 13px;
+}
+::-webkit-scrollbar-track{
+  background-color: #747474;
+}
+::-webkit-scrollbar-thumb{
+  background: #35383F;
+}
+::-webkit-scrollbar-thumb:hover{
+  background: rgb(27, 27, 27);
+}
 
 .shadow {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
-
 
 /* Inside listing card Styling */
 .list-card img {

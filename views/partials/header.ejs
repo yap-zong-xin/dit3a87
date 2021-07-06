@@ -30,7 +30,7 @@
 </head>
 
 <body>
-  <nav class="navbar navbar-expand-md sticky-top shadow py-0">
+  <nav class="navbar navbar-expand-md sticky-top shadow py-1">
     <div class="container">
       <a href="/" class="mr-4">"Logo"</a>
       <a class="nav-link d-none d-md-block" href="/listings">Properties</a>
@@ -98,17 +98,34 @@
                   aria-expanded="false">
                   <img class="fa-bell" src="/img/notification.png" style="width: 37px;">
                 </a>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu p-3" style="width: 280px;">
                   <% if(notifications==0){ %>
                     <li>
-                      No notifications
+                      <p style="font-weight: 500; font-size: 0.85em;" class="m-0">No Notifications</p>
                     </li>
                     <% } else { %>
                       <% notifications.forEach(function(notification) { %>
+                        <p style="font-weight: 500; font-size: 0.9em;">Notifications</p>
+                        <hr class="py-0">
                         <li>
-                          <a href="/notifications/<%= notification.id %>">
-                            <%= notification.username %> created a new listing
-                          </a>
+                          <div class="row align-items-center d-flex">
+                            <div class="col-3">
+                              <img src="<%= notification.image %>" style="width: 60px; border-radius: 50%;">
+                            </div>
+                            <div class="col-9">
+                              <a href="/notifications/<%= notification.id %>">
+                                <span style="font-size: 0.9em;">
+                                  <%= notification.username %> created a new listing
+                                </span>
+                                <br>
+                                <em>
+                                  <span style="font-size: 0.83em;">
+                                    <%= moment(notification.createdAt).fromNow() %>
+                                  </span>
+                                </em>
+                              </a>
+                            </div>
+                          </div>
                         </li>
                         <% }); %>
                           <% } %>
@@ -119,7 +136,7 @@
                   aria-expanded="false" style="text-decoration: none;">
                   <i class="fas fa-user-alt"></i>
                 </a>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu" style="font-size: 0.95em;">
                   <li class="nav-item active">
                     <a class="nav-link" href="/user/<%= currentUser.id %>">Profile</a>
                   </li>

@@ -1,60 +1,62 @@
 <%- include("../partials/header") %>
 
   <!-- banner -->
-  <div class="container px-0"
-    style="background: url('<%= user.banner %>'); height: 300px; width: 100%; background-size: cover; object-fit: cover; background-position: center center; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">
-    <div class="justify-content-between align-items-center d-flex">
-      <div class="px-4 mx-1">
-      </div>
-      <div>
-        <!-- approve/remove agent -->
-        <% if(user.isAgent && currentUser && currentUser.isAdmin){ %>
-          <form action="/dashboard/agents/<%= user._id %>?_method=PUT" method="POST" class="text-center"
-            style="position:relative; top: 10px;">
-            <% if(user.agentStatus==false){ %>
-              <button type="submit" name="user[agentStatus]" value="true" class="btn approveBtn"
-                style="background: #41e792; color: white; font-weight: 600; font-size: 0.9em;">Approve Agent</button>
-              <% } else{ %>
-                <button type="submit" name="user[agentStatus]" value="false" class="btn approveBtn"
-                  style="background: #DC3545; color: white; font-weight: 600; font-size: 0.9em;">Remove Agent</button>
-                <% } %>
-          </form>
-          <% } %>
-      </div>
-      <div>
-        <!-- upload banner button -->
-        <% if(currentUser && user._id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
-          <form action="/user/<%=user._id %>/banner?_method=PUT" method="POST" enctype="multipart/form-data"
-            id="bannerForm">
-            <span class="justify-content-end d-flex">
-              <label for="file-upload" class="customBannerUpload px-3">
-                <i class="fas fa-camera"></i>
-              </label>
-              <input type="file" id="file-upload" name="banner" onchange="this.form.submit()" id="bannerUpload"
-                accept="image/*">
-            </span>
-          </form>
-          <% } else { %>
-            <div class="py-4"></div>
+  <div style="background-image: linear-gradient(rgb(133, 0, 133), white); height: 300px; width: 100%;">
+    <div class="container px-0"
+      style="background: url('<%= user.banner %>'); height: 300px; width: 100%; background-size: cover; object-fit: cover; background-position: center center; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">
+      <div class="justify-content-between align-items-center d-flex">
+        <div class="px-4 mx-1">
+        </div>
+        <div>
+          <!-- approve/remove agent -->
+          <% if(user.isAgent && currentUser && currentUser.isAdmin){ %>
+            <form action="/dashboard/agents/<%= user._id %>?_method=PUT" method="POST" class="text-center"
+              style="position:relative; top: 10px;">
+              <% if(user.agentStatus==false){ %>
+                <button type="submit" name="user[agentStatus]" value="true" class="btn approveBtn"
+                  style="background: #41e792; color: white; font-weight: 600; font-size: 0.9em;">Approve Agent</button>
+                <% } else{ %>
+                  <button type="submit" name="user[agentStatus]" value="false" class="btn approveBtn"
+                    style="background: #DC3545; color: white; font-weight: 600; font-size: 0.9em;">Remove Agent</button>
+                  <% } %>
+            </form>
             <% } %>
+        </div>
+        <div>
+          <!-- upload banner button -->
+          <% if(currentUser && user._id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
+            <form action="/user/<%=user._id %>/banner?_method=PUT" method="POST" enctype="multipart/form-data"
+              id="bannerForm">
+              <span class="justify-content-end d-flex">
+                <label for="file-upload" class="customBannerUpload px-3">
+                  <i class="fas fa-camera"></i>
+                </label>
+                <input type="file" id="file-upload" name="banner" onchange="this.form.submit()" id="bannerUpload"
+                  accept="image/*">
+              </span>
+            </form>
+            <% } else { %>
+              <div class="py-4"></div>
+              <% } %>
+        </div>
       </div>
+  
+      <!-- profile image -->
+      <span class="justify-content-center d-flex">
+        <img src="<%= user.image %>" alt="user profile image" class="profileImage">
+      </span>
+      <% if(currentUser && user._id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
+        <!-- upload profile image button -->
+        <form action="/user/<%=user._id %>/image?_method=PUT" method="POST" enctype="multipart/form-data" id="imageForm"
+          class="text-center">
+          <label for="file-upload-image" class="customImageUpload px-3">
+            <i class="fas fa-camera"></i>
+          </label>
+          <input type="file" id="file-upload-image" name="image" onchange="this.form.submit()" id="imageUpload"
+            accept="image/*">
+        </form>
+        <% } %>
     </div>
-
-    <!-- profile image -->
-    <span class="justify-content-center d-flex">
-      <img src="<%= user.image %>" alt="user profile image" class="profileImage">
-    </span>
-    <% if(currentUser && user._id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
-      <!-- upload profile image button -->
-      <form action="/user/<%=user._id %>/image?_method=PUT" method="POST" enctype="multipart/form-data" id="imageForm"
-        class="text-center">
-        <label for="file-upload-image" class="customImageUpload px-3">
-          <i class="fas fa-camera"></i>
-        </label>
-        <input type="file" id="file-upload-image" name="image" onchange="this.form.submit()" id="imageUpload"
-          accept="image/*">
-      </form>
-      <% } %>
   </div>
 
 
@@ -206,6 +208,7 @@
       </div>
     </div>
   </div>
+  
 
 
   <div class="container">
