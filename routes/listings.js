@@ -319,7 +319,24 @@ router.get("/listings", function(req,res){
 							console.log(err);
 							res.redirect("back");
 						}else {
+
+							//====== for listing analytics
+							// for (var i = 0; i < alllistings.length; i++) {
+							// 	//id
+							// 	var id = alllistings[i]._id;
+							// 	console.log(alllistings[i]._id);
+
+							// 	async function postCount (id) {
+							// 		await countApi("/hit/3dpropertylistingsg/" +  id + "-click").then(success => {
+							// 		console.log("https://api.countapi.xyz/hit/3dpropertylistingsg/" + id + "-click");
+							// 		console.log("id: " + id + "success: " + success.data.value);
+							// 	});
+							// 	}
+							// 	postCount(id)
+							// }
+							
 							console.log('form data sthuff: ',req.query);
+
 							res.render("listings/index.ejs", {
 								listings: alllistings,
 								current: pageNumber,
@@ -348,7 +365,7 @@ router.get("/listings", function(req,res){
 											async function postCount (id) {
 												await countApi("/hit/3dpropertylistingsg/" +  id + "-click").then(success => {
 												console.log("https://api.countapi.xyz/hit/3dpropertylistingsg/" + id + "-click");
-												console.log(success.data.value);
+												console.log("id: " + id + "success: " + success.data.value);
 											});
 											}
 											postCount(id)
