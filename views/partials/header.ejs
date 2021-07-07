@@ -32,7 +32,7 @@
 <body>
   <nav class="navbar navbar-expand-md sticky-top shadow py-0">
     <div class="container px-0">
-      <a href="/" class="mr-4 px-3 py-4" style="background: #4632da; color: white; text-decoration: none;">Logo</a>
+      <a href="/" class="mr-4 p-4" style="background: #4632da; color: white; text-decoration: none;">Logo</a>
       <a class="nav-link d-none d-md-block" href="/listings">Properties</a>
       <a class="nav-link d-none d-md-block" href="/user">Find Agents</a>
       <a class="nav-link d-none d-md-block" href="#">About Us</a>
@@ -89,58 +89,33 @@
                   </span>
                 </a>
               </li>
-              <li class="dropdown pl-2">
-                <a href="#" data-toggle="dropdown" role="button" aria-haspopup="true"
-                  aria-expanded="false">
-                  <img class="fa-bell" src="/img/notification.png" style="width: 37px;">
-                </a>
-                <ul class="dropdown-menu p-3" style="width: 250px;">
-                  <% if(notifications==0){ %>
-                    <li>
-                      <p style="font-weight: 500; font-size: 0.85em;" class="m-0">No Notifications</p>
+              <% if(currentUser && currentUser.isAdmin || currentUser && currentUser.isAgent ){ %>
+                <li class="dropdown pl-2">
+                  <a href="#" data-toggle="dropdown" role="button" aria-haspopup="true"
+                    aria-expanded="false" style="text-decoration: none;">
+                    <img class="fa-plus" src="/img/add.png" style="width: 37px;">
+                  </a>
+                  <ul class="dropdown-menu" style="font-size: 0.95em; width: 250px;">
+                    <li class="nav-item active">
+                      <a class="nav-link" href="/listings/new">Add Listing</a>
                     </li>
-                    <% } else { %>
-                      <% notifications.forEach(function(notification) { %>
-                        <p style="font-weight: 500; font-size: 0.9em;">Notifications</p>
-                        <hr class="py-0">
-                        <li>
-                          <div class="row align-items-center d-flex">
-                            <div class="col-3">
-                              <img src="<%= notification.image %>" style="width: 60px; border-radius: 50%;">
-                            </div>
-                            <div class="col-9">
-                              <a href="/notifications/<%= notification.id %>">
-                                <span style="font-size: 0.9em;">
-                                  <%= notification.username %> created a new listing
-                                </span>
-                                <br>
-                                <em>
-                                  <span style="font-size: 0.83em;">
-                                    <%= moment(notification.createdAt).fromNow() %>
-                                  </span>
-                                </em>
-                              </a>
-                            </div>
-                          </div>
-                        </li>
-                        <% }); %>
-                          <% } %>
-                </ul>
-              </li>
+                  </ul>
+                </li>
+              <% } %>
               <li class="dropdown pl-2">
                 <a href="#" data-toggle="dropdown" role="button" aria-haspopup="true"
                   aria-expanded="false" style="text-decoration: none;">
                   <i class="fas fa-user-alt"></i>
                 </a>
                 <ul class="dropdown-menu" style="font-size: 0.95em; width: 205px;">
-                  <li class="nav-item active">
-                    <a class="nav-link" href="/user/<%= currentUser.id %>">Profile</a>
-                  </li>
                   <% if(currentUser && currentUser.isAdmin){ %>
                     <li class="nav-item active">
                       <a class="nav-link" href="/dashboard">Dashboard</a>
                     </li>
                   <% } %>
+                  <li class="nav-item active">
+                    <a class="nav-link" href="/user/<%= currentUser.id %>">Profile</a>
+                  </li>
                   <li class="nav-item active">
                     <a class="nav-link" href="/user/<%= currentUser.id %>/edit">Edit Profile</a>
                   </li>
@@ -154,8 +129,43 @@
                   <i class="fas fa-comment-alt"></i>
                 </a>
               </li>
+              <li class="dropdown">
+                <a href="#" data-toggle="dropdown" role="button" aria-haspopup="true"
+                  aria-expanded="false">
+                  <img class="fa-bell" src="/img/notification.png" style="width: 37px;">
+                </a>
+                <ul class="dropdown-menu p-3 dropdown-menu dropdown-menu-right" style="width: 350px;">
+                  <% if(notifications==0){ %>
+                    <li>
+                      <p style="font-weight: 500; font-size: 0.85em;" class="m-0">No Notifications</p>
+                    </li>
+                    <% } else { %>
+                      <p style="font-weight: 500; font-size: 0.9em;">Notifications</p>
+                      <% notifications.forEach(function(notification) { %>
+                        <hr class="py-0">
+                        <li>
+                          <div class="row align-items-center d-flex">
+                            <div class="col-3">
+                              <img src="<%= notification.image %>" style="width: 60px; border-radius: 50%;">
+                            </div>
+                            <div class="col-9">
+                              <a href="/notifications/<%= notification.id %>">
+                                <span style="font-size: 0.9em;">
+                                  <%= notification.username %> created a new listing
+                                </span>
+                              </a>
+                              <em style="font-size: 0.80em;">
+                                <%= moment(notification.createdAt).fromNow() %>
+                              </em>
+                            </div>
+                          </div>
+                        </li>
+                        <% }); %>
+                          <% } %>
+                </ul>
+              </li>
               <li class="nav-item active">
-                <a class="nav-link pl-0 py-0" href="/logout">
+                <a class="nav-link pl-2 py-0" href="/logout">
                   <i class="fas fa-sign-out-alt"></i>
                 </a>
               </li>

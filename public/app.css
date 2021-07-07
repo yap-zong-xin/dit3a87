@@ -1101,6 +1101,11 @@ input[type=range]::-ms-thumb {
   border-radius: 50px;
   font-size: 0.95em;
 }
+.navbarMenu{
+  background: rgb(148, 148, 148);
+  color: black;
+}
+
 .fa-bell{
   transform: rotate(-20deg);
   text-decoration: none;
@@ -1108,20 +1113,55 @@ input[type=range]::-ms-thumb {
   border-radius: 50%;
   padding: 11px;
 }
-.fa-comment, .fa-user-alt, .fa-comment-alt, .fa-sign-out-alt{
+.fa-comment, .fa-user-alt, .fa-comment-alt, .fa-sign-out-alt, .fa-plus{
   font-size: 2.7em;
   background: rgb(231, 231, 231);
   padding: 13px;
   border-radius: 50%;
-}
-.navbarMenu{
-  background: rgb(148, 148, 148);
   color: black;
 }
 .currentUserNav{
   background: rgb(231, 231, 231);
   border-radius: 50px;
 }
+.currentUserNav span{
+  color: black;
+}
+
+.fa-bell:hover{
+  background: rgb(197, 197, 197);
+}
+.fa-comment:hover, .fa-user-alt:hover, .fa-comment-alt:hover, .fa-sign-out-alt:hover, .fa-plus:hover{
+  background: rgb(197, 197, 197);
+}
+.currentUserNav:hover{
+  background: rgb(197, 197, 197);
+}
+
+.fa-bell:active{
+  background: rgb(158, 158, 158);
+}
+.fa-comment:active, .fa-user-alt:active, .fa-comment-alt:active, .fa-sign-out-alt:active, .fa-plus:active{
+  background: rgb(158, 158, 158);
+}
+.currentUserNav:active{
+  background: rgb(158, 158, 158);
+}
+
+.fa-plus {
+  display: block;
+}
+.fa-plus {
+  -webkit-transition-duration: 1s;
+  -moz-transition-duration: 1s;
+  -o-transition-duration: 1s;
+  transition-duration: 1s;
+  -webkit-transition-property: -webkit-transform;
+  -moz-transition-property: -moz-transform;
+  -o-transition-property: -o-transform;
+  transition-property: transform;
+}
+
 
 #userRole{
   font-size: 0.9em;
