@@ -4,16 +4,17 @@ body {
   font-size: 0.9em;
 }
 ::-webkit-scrollbar{
-  width: 13px;
+  width: 8px;
 }
 ::-webkit-scrollbar-track{
-  background-color: #747474;
+  background-color: #aaaaaa;
 }
 ::-webkit-scrollbar-thumb{
+  border-radius: 20px;
   background: #35383F;
 }
 ::-webkit-scrollbar-thumb:hover{
-  background: rgb(27, 27, 27);
+  background: black;
 }
 
 .shadow {
@@ -981,7 +982,7 @@ input[type=range]::-ms-thumb {
 /* flash message */
 .flashMessage{
   position: fixed;
-  top: 70px;
+  top: 80px;
   z-index: 1;
   left: 50%;
   transform: translateX(-50%);
@@ -1107,11 +1108,15 @@ input[type=range]::-ms-thumb {
   border-radius: 50%;
   padding: 11px;
 }
-.fa-comment, .fa-user-alt, .fa-comment-alt{
+.fa-comment, .fa-user-alt, .fa-comment-alt, .fa-sign-out-alt{
   font-size: 2.7em;
   background: rgb(231, 231, 231);
   padding: 13px;
   border-radius: 50%;
+}
+.navbarMenu{
+  background: rgb(148, 148, 148);
+  color: black;
 }
 .currentUserNav{
   background: rgb(231, 231, 231);
@@ -1185,9 +1190,8 @@ input[type=range]::-ms-thumb {
 }
 
 .borderStyle{
-  border: 1.5px solid lightgray;
-  border-radius: 13px;
   padding: 18px;
+  background: white;
 }
 
 .checked{
