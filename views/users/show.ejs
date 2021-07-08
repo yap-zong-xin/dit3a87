@@ -252,7 +252,7 @@
       <div class="row">
         <!-- profile details & followers & notifictions -->
         <div class="col-4">
-          <div class="row">
+          <div class="row item shark-1">
             <!-- profile details -->
             <div class="col-12 borderStyle mt-3">
               <div class="align-items-center d-flex pl-4 pr-2 py-2 mb-4 justify-content-between headerStyle">
@@ -383,7 +383,7 @@
                 </p>
                 <% } else { %>
                   <div class="row px-2">
-                    <% listings.forEach(function(listing) { %>
+                    <% listings.reverse().forEach(function(listing) { %>
                       <div class="col-3 p-3 listingHover">
                         <div class="row">
                           <a href="/listings/<%= listing.id %>" style="text-decoration: none; color: black;">

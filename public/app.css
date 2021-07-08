@@ -1468,3 +1468,11 @@ nav{
 nav a{
   color: black;
 }
+
+.item {
+  position: sticky;
+}
+
+.shark-1 {
+  top: 63px;
+}
