@@ -89,19 +89,19 @@
                   </span>
                 </a>
               </li>
-              <% if(currentUser && currentUser.isAdmin || currentUser && currentUser.isAgent ){ %>
-                <li class="dropdown pl-2">
-                  <a href="#" data-toggle="dropdown" role="button" aria-haspopup="true"
-                    aria-expanded="false" style="text-decoration: none;">
-                    <img class="fa-plus" src="/img/add.png" style="width: 37px;">
-                  </a>
-                  <ul class="dropdown-menu" style="font-size: 0.95em; width: 250px;">
+              <li class="dropdown pl-2">
+                <a href="#" data-toggle="dropdown" role="button" aria-haspopup="true"
+                aria-expanded="false" style="text-decoration: none;">
+                  <img class="fa-plus" src="/img/add.png" style="width: 37px;">
+                </a>
+                <ul class="dropdown-menu" style="font-size: 0.95em; width: 250px;">
+                  <% if(currentUser && currentUser.isAdmin || currentUser && currentUser.isAgent){ %>
                     <li class="nav-item active">
                       <a class="nav-link" href="/listings/new">Add Listing</a>
                     </li>
-                  </ul>
-                </li>
-              <% } %>
+                  <% } %>
+                </ul>
+              </li>
               <li class="dropdown pl-2">
                 <a href="#" data-toggle="dropdown" role="button" aria-haspopup="true"
                   aria-expanded="false" style="text-decoration: none;">
@@ -132,7 +132,7 @@
               <li class="dropdown">
                 <a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" class="mr-1">
                   <img class="fa-bell" src="/img/notification.png" style="width: 37px;">
-                  <span class="text-center" style="font-size: 0.85em; position: absolute; right: 0.5px; top: 0px; border-radius: 50%; width: 18px; background: #4632DA; text-decoration: none; color: white;">
+                  <span class="text-center" style="font-size: 0.75em; position: absolute; right: 0.5px; top: 0px; border-radius: 50%; width: 15px; background: #4632DA; text-decoration: none; color: white;">
                     <%= notifications.length %>
                   </span>
                 </a>
@@ -144,7 +144,7 @@
                     <% } else { %>
                       <p style="font-weight: 500; font-size: 0.9em;">Notifications</p>
                       <% notifications.forEach(function(notification) { %>
-                        <hr class="py-0">
+                        <hr class="py-0 my-2">
                         <li>
                           <div class="row align-items-center d-flex">
                             <div class="col-3">

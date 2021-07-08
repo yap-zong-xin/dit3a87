@@ -1,62 +1,59 @@
 <%- include("../partials/header") %>
 
   <!-- banner -->
-  <div style="background-image: linear-gradient(rgb(83, 83, 83), white); height: 300px; width: 100%;">
-    <div class="container px-0"
-      style="background: url('<%= user.banner %>'); height: 300px; width: 100%; background-size: cover; object-fit: cover; background-position: center center; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">
-      <div class="justify-content-between align-items-center d-flex">
-        <div class="px-4 mx-1">
-        </div>
-        <div>
-          <!-- approve/remove agent -->
-          <% if(user.isAgent && currentUser && currentUser.isAdmin){ %>
-            <form action="/dashboard/agents/<%= user._id %>?_method=PUT" method="POST" class="text-center"
-              style="position:relative; top: 10px;">
-              <% if(user.agentStatus==false){ %>
-                <button type="submit" name="user[agentStatus]" value="true" class="btn approveBtn"
-                  style="background: #41e792; color: white; font-weight: 600; font-size: 0.9em;">Approve Agent</button>
-                <% } else{ %>
-                  <button type="submit" name="user[agentStatus]" value="false" class="btn approveBtn"
-                    style="background: #DC3545; color: white; font-weight: 600; font-size: 0.9em;">Remove Agent</button>
-                  <% } %>
-            </form>
-            <% } %>
-        </div>
-        <div>
-          <!-- upload banner button -->
-          <% if(currentUser && user._id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
-            <form action="/user/<%=user._id %>/banner?_method=PUT" method="POST" enctype="multipart/form-data"
-              id="bannerForm">
-              <span class="justify-content-end d-flex">
-                <label for="file-upload" class="customBannerUpload px-3">
-                  <i class="fas fa-camera"></i>
-                </label>
-                <input type="file" id="file-upload" name="banner" onchange="this.form.submit()" id="bannerUpload"
-                  accept="image/*">
-              </span>
-            </form>
-            <% } else { %>
-              <div class="py-4"></div>
-              <% } %>
-        </div>
+  <div style="background: url('<%= user.banner %>'); height: 300px; width: 100%; background-size: cover; object-fit: cover; background-position: center center;">
+    <div class="justify-content-between align-items-center d-flex">
+      <div class="px-4 mx-1">
       </div>
-  
-      <!-- profile image -->
-      <span class="justify-content-center d-flex">
-        <img src="<%= user.image %>" alt="user profile image" class="profileImage">
-      </span>
-      <% if(currentUser && user._id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
-        <!-- upload profile image button -->
-        <form action="/user/<%=user._id %>/image?_method=PUT" method="POST" enctype="multipart/form-data" id="imageForm"
-          class="text-center">
-          <label for="file-upload-image" class="customImageUpload px-3">
-            <i class="fas fa-camera"></i>
-          </label>
-          <input type="file" id="file-upload-image" name="image" onchange="this.form.submit()" id="imageUpload"
-            accept="image/*">
-        </form>
-        <% } %>
+      <div>
+        <!-- approve/remove agent -->
+        <% if(user.isAgent && currentUser && currentUser.isAdmin){ %>
+          <form action="/dashboard/agents/<%= user._id %>?_method=PUT" method="POST" class="text-center"
+            style="position:relative; top: 10px;">
+            <% if(user.agentStatus==false){ %>
+              <button type="submit" name="user[agentStatus]" value="true" class="btn approveBtn"
+                style="background: #41e792; color: white; font-weight: 600; font-size: 0.9em;">Approve Agent</button>
+              <% } else{ %>
+                <button type="submit" name="user[agentStatus]" value="false" class="btn approveBtn"
+                  style="background: #DC3545; color: white; font-weight: 600; font-size: 0.9em;">Remove Agent</button>
+                <% } %>
+          </form>
+          <% } %>
+      </div>
+      <div>
+        <!-- upload banner button -->
+        <% if(currentUser && user._id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
+          <form action="/user/<%=user._id %>/banner?_method=PUT" method="POST" enctype="multipart/form-data"
+            id="bannerForm">
+            <span class="justify-content-end d-flex">
+              <label for="file-upload" class="customBannerUpload px-3">
+                <i class="fas fa-camera"></i>
+              </label>
+              <input type="file" id="file-upload" name="banner" onchange="this.form.submit()" id="bannerUpload"
+                accept="image/*">
+            </span>
+          </form>
+          <% } else { %>
+            <div class="py-4"></div>
+            <% } %>
+      </div>
     </div>
+
+    <!-- profile image -->
+    <span class="justify-content-center d-flex">
+      <img src="<%= user.image %>" alt="user profile image" class="profileImage">
+    </span>
+    <% if(currentUser && user._id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
+      <!-- upload profile image button -->
+      <form action="/user/<%=user._id %>/image?_method=PUT" method="POST" enctype="multipart/form-data" id="imageForm"
+        class="text-center">
+        <label for="file-upload-image" class="customImageUpload px-3">
+          <i class="fas fa-camera"></i>
+        </label>
+        <input type="file" id="file-upload-image" name="image" onchange="this.form.submit()" id="imageUpload"
+          accept="image/*">
+      </form>
+      <% } %>
   </div>
 
 
@@ -157,17 +154,15 @@
   <div class="container overview text-center mt-4 pb-3">
     <div class="row">
       <% if(currentUser && user._id.equals(currentUser._id)){ %>
-        <div class="col-3 first my-2">
-          <a href="/user/<%= user._id %>">
-            <span>
-              <%= listings.length %>
-                <% if(listings.length<2){ %>
-                  Listing
-                  <% } else { %>
-                    Listings
-                    <% } %>
-            </span>
-          </a>
+        <div class="col-3 first my-2" style="cursor: default;">
+          <span>
+            <%= listings.length %>
+              <% if(listings.length<2){ %>
+                Listing
+                <% } else { %>
+                  Listings
+                  <% } %>
+          </span>
         </div>
         <div class="col-3 second my-2">
           <a href="/user/<%= user._id %>/reviews">
@@ -206,17 +201,15 @@
           </a>
         </div>
       <% } else { %>
-        <div class="col-4 first my-2">
-          <a href="/user/<%= user._id %>">
-            <span>
-              <%= listings.length %>
-                <% if(listings.length<2){ %>
-                  Listing
-                  <% } else { %>
-                    Listings
-                    <% } %>
-            </span>
-          </a>
+        <div class="col-4 first my-2" style="cursor: default;">
+          <span>
+            <%= listings.length %>
+              <% if(listings.length<2){ %>
+                Listing
+                <% } else { %>
+                  Listings
+                  <% } %>
+          </span>
         </div>
         <div class="col-4 second my-2">
           <a href="/user/<%= user._id %>/reviews">
@@ -308,7 +301,7 @@
                     </a>
                   </p>
                 </div>
-                <% if(user.isAgent==true){ %>
+                <% if(currentUser && user.isAgent==true){ %>
                   <div class="col-3">
                     <span>CEA:</span>
                   </div>
@@ -355,6 +348,12 @@
 
         <!-- listings & reviews -->
         <div class="col-8 pr-0">
+          <% if(listings.length==0){ %>
+          <% } else{ %>
+            <div class="col-12 borderStyle mt-3">
+              <div id="map" style="height: 200px;"></div>
+            </div>
+          <% } %>
           <!-- listings -->
           <div class="col-12 borderStyle mt-3">
             <div class="d-flex p-2 mb-0 justify-content-between headerStyle">
@@ -391,6 +390,20 @@
                                 <img src="<%= listing.thumbnail %>"
                                   style="background-size: cover; width: 100%; object-fit: cover; background-position: center center;">
                             </div>
+                            <% if(listing.soldStatus==true){ %>
+                              <div class="justify-content-center d-flex">
+                                <span class="text-center" id="soldBanner">
+                                  Sold
+                                </span>
+                              </div>
+                            <% } %>
+                            <% if(listing.archiveStatus==true){ %>
+                              <div class="justify-content-center d-flex">
+                                <span class="text-center" id="archiveBanner">
+                                  Archive
+                                </span>
+                              </div>
+                            <% } %>
                             <div class="col-12 my-2" style="font-weight: 600;">
                               <% if(listing.name.length<14){ %>
                                 <%= listing.name.substring(0, 14) %>
@@ -411,6 +424,11 @@
                             <div class="col-12 my-0" style="font-weight: 400;">
                               <span style="font-size: 0.9em;">
                                 Type: <%= listing.type %>
+                              </span>
+                            </div>
+                            <div class="col-12 mb-1" style="font-weight: 400;">
+                              <span style="font-size: 0.9em;">
+                                Rooms: <%= listing.numofRooms %>
                               </span>
                             </div>
                             <div class="col-12 mb-1" style="font-weight: 400;">
@@ -441,16 +459,28 @@
                                       <button  type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <i class="fas fa-ellipsis-v"></i>
                                       </button>
-                                      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                      <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
                                         <a class="dropdown-item" href="/listings/<%= listing._id %>/edit">
                                           Edit
                                         </a>
-                                        <a class="dropdown-item" href="#">
-                                          Archive
-                                        </a>
-                                        <a class="dropdown-item" href="#">
-                                          Mark as Sold
-                                        </a>
+                                        <% if(listing.archiveStatus==false){ %>
+                                          <a class="dropdown-item" href="/listings/<%= listing._id %>/archive">
+                                            Archive
+                                          </a>
+                                        <% } else { %>
+                                          <a class="dropdown-item" href="/listings/<%= listing._id %>/unarchive">
+                                            Unarchive
+                                          </a>
+                                        <% } %>
+                                        <% if(listing.soldStatus==false){ %>
+                                          <a class="dropdown-item" href="/listings/<%= listing._id %>/sold">
+                                            Mark as Sold
+                                          </a>
+                                        <% } else { %>
+                                          <a class="dropdown-item" href="/listings/<%= listing._id %>/unsold">
+                                            Mark as Available
+                                          </a>
+                                        <% } %>
                                       </div>
                                     </div>
                                   </div>
@@ -575,5 +605,12 @@
       </div>
     </div>
   </div>
+
+  <script>
+    const mapToken = '<%- process.env.MAPBOX_TOKEN %>'
+    const listings = { features: <%- JSON.stringify(listings) %> }
+  </script>
+  <script src="/javascripts/agentMap.js"></script>
+
 
   <%- include("../partials/footer") %>

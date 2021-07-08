@@ -1476,3 +1476,22 @@ nav a{
 .shark-1 {
   top: 63px;
 }
+
+#soldBanner{
+  position: absolute;
+  top: 150px;
+  background: rgb(219, 0, 0);
+  width: 82%;
+  font-weight: 600;
+  font-size: 0.8em;
+  color: white;
+}
+#archiveBanner{
+  position: absolute;
+  top: 16px;
+  background: #4632DA;
+  width: 82%;
+  font-weight: 600;
+  font-size: 0.8em;
+  color: white;
+}
