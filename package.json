@@ -8,7 +8,7 @@
     "start": "npm run startapp && npm run chat",
     "startapp": "node app.js",
     "dev": "(cd chat/api && npm run start) & (cd chat/client && npm run start) & (cd chat/socket && npm run start)",
-    "chatapi": "cd chat/api && npm start",
+    "chatapi": "cd chat/api && npm install && npm start",
     "chatclient": "cd chat/client && npm install && npm start",
     "chatsocket": "cd chat/socket && npm install && npm start",
     "chat": "npm run chatapi && npm run chatsocket",
