@@ -51,7 +51,9 @@ body {
   margin: 10px 0 10px;
   color: white;
   background-color: #186aff;
-  border-radius: 10px;
+  border-radius: 25px;
+  font-weight: 500;
+  padding: 10px 45px 10px 45px;
 }
 
 .landing-overlay {
@@ -107,10 +109,31 @@ body {
   line-height: 2;
 }
 
+.desc-insert h2 {
+  font-size: 42px;
+}
+
+.tp-red {
+  border-top: 15px solid #ff5d5d;
+}
+
+.tp-blue {
+  border-top: 15px solid #705dff;
+}
+
+.tp-gold {
+  border-top: 15px solid #ffde5d;
+}
+
 #top-border {
-  border-top: 10px solid #186aff;
-  border-radius: 5px;
+  border-radius: 10px;
   padding-top: 50px;
+  margin: 20px 0 20px;
+}
+
+#top-border h4 {
+  font-weight: 700;
+  padding-bottom: 45px;
 }
 
 #top-border i {
@@ -120,6 +143,11 @@ body {
 .wwd-desc a {
   letter-spacing: 0.5px;
   line-height: 2;
+}
+
+#text-wrapper {
+  margin-left: 100px;
+  margin-right: 100px;
 }
 
 /* Inside listing card Styling */
