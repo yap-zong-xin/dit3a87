@@ -13,7 +13,6 @@ export default function Messenger() {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
   const [arrivalMessage, setArrivalMessage] = useState(null);
-  const [onlineUsers, setOnlineUsers] = useState([]);
   const socket = useRef();
   const userId = useParams().userid;
   // const { user } = useContext(AuthContext);
@@ -115,10 +114,10 @@ export default function Messenger() {
         </div>
         <div className="chatBox">
           <div className="chatBoxWrapper">
+            {}
             {currentChat ? (
               <>
                 <div className="chatBoxTop">
-                  <p> </p>
                   {messages.map((m) => (
                     <div ref={scrollRef}>
                       <Message message={m} own={m.sender === userId} />
@@ -147,9 +146,8 @@ export default function Messenger() {
         <div className="chatOnline">
           <div className="chatOnlineWrapper">
             <ChatOnline
-              onlineUsers={onlineUsers}
+              conversation = {currentChat}
               currentId={userId}
-              setCurrentChat={setCurrentChat}
             />
           </div>
         </div>

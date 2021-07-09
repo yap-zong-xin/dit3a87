@@ -10,8 +10,10 @@ router.post("/:senderId/:receiverId", async (req, res) => {
 
 
  const convExists = await Conversation.find({members:[senderId,receiverId]})
+ const convExists1 = await Conversation.find({members:[receiverId,senderId]})
 
-if (convExists.length !==0) {
+
+if (convExists.length !==0 || convExists1.length !==0) {
   res.redirect("http://localhost:3001/messenger/"+senderId);
 } else {
     try {
@@ -21,7 +23,6 @@ if (convExists.length !==0) {
       });
     const savedConversation = await newConversation.save();
     res.status(200).redirect("http://localhost:3001/messenger/"+senderId);
-    res
   } catch (err) {
     res.status(500).json(err);
   }

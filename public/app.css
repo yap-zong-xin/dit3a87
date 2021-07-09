@@ -47,13 +47,20 @@ body {
   font-weight: 500;
 }
 
-.viewport-header button {
+.viewport-header button, .contact-us-landing button {
   margin: 10px 0 10px;
   color: white;
   background-color: #186aff;
   border-radius: 25px;
   font-weight: 500;
   padding: 10px 45px 10px 45px;
+}
+
+.contact-us-landing {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items:center;
 }
 
 .landing-overlay {
@@ -140,7 +147,7 @@ body {
   font-size: 80px;
 }
 
-.wwd-desc a {
+.wwd-desc p {
   letter-spacing: 0.5px;
   line-height: 2;
 }
@@ -148,6 +155,10 @@ body {
 #text-wrapper {
   margin-left: 70px;
   margin-right: 70px;
+}
+
+.text-area-contact textarea:focus {
+  outline:none;
 }
 
 /* Inside listing card Styling */

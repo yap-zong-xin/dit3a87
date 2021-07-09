@@ -1,55 +1,91 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import {useState} from "react";
+import {Button, Jumbotron, Container} from "reactstrap"
 import "./chatOnline.css";
 
-export default function ChatOnline({ onlineUsers, currentId, setCurrentChat }) {
-  const [friends, setFriends] = useState([]);
-  const [onlineFriends, setOnlineFriends] = useState([]);
-  const PF = process.env.REACT_APP_PUBLIC_FOLDER;
+export default function ChatOnline({ conversation, currentId }) {
+  const [user, setUser] = useState(null);
 
-  useEffect(() => {
-    const getFriends = async () => {
-      const res = await axios.get("/users/friends/" + currentId);
-      setFriends(res.data);
+  if (conversation != null) {
+    const friendId = conversation.members.find((m) => m !== currentId);
+    console.log(friendId)
+
+    const getUser = async () => {
+      try {
+        const res = await axios("http://localhost:3000/users/" + friendId);
+        setUser(res.data);
+      } catch (err) {
+        console.log(err);
+      }
     };
+    getUser();
 
-    getFriends();
-  }, [currentId]);
+  }
 
-  useEffect(() => {
-    setOnlineFriends(friends.filter((f) => onlineUsers.includes(f._id)));
-  }, [friends, onlineUsers]);
+  
 
-  const handleClick = async (user) => {
-    try {
-      const res = await axios.get(
-        `/conversations/find/${currentId}/${user._id}`
-      );
-      setCurrentChat(res.data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+
+
+
+  // const handleClick = async (user) => {
+  //   try {
+  //     const res = await axios.get(
+  //       `/conversations/find/${currentId}/${user._id}`
+  //     );
+  //     setCurrentChat(res.data);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
 
   return (
-    <div className="chatOnline">
-      {onlineFriends.map((o) => (
-        <div className="chatOnlineFriend" onClick={() => handleClick(o)}>
-          <div className="chatOnlineImgContainer">
-            <img
-              className="chatOnlineImg"
-              src={
-                o?.profilePicture
-                  ? PF + o.profilePicture
-                  : PF + "person/noAvatar.png"
-              }
-              alt=""
-            />
-            <div className="chatOnlineBadge"></div>
-          </div>
-          <span className="chatOnlineName">{o?.username}</span>
-        </div>
-      ))}
+    <div>
+      {user ? (
+        <>
+        <div>
+      <Jumbotron fluid>
+        <Container fluid>
+        <img
+            className="chatOnlineImg"
+            src={
+              user.image
+            }
+            alt=""
+          />
+          <h1 className="display-3">{user.firstName} {user.lastName}</h1>
+          <p className="lead">Email: {user.email}</p>
+          <p className="lead">Phone: {user.phone}</p>
+          <p className="lead">From: {user.country}</p>
+          <Button color="primary" size="lg" onClick={()=> window.open("http://localhost:3000/user/"+user._id)}>View Profile</Button>
+        </Container>
+      </Jumbotron>
+      </div>
+        </>
+      ) : (
+        <p>Start a conversation!</p>
+      )
+      }
     </div>
+
+
+    // <div className="chatOnline">
+    //   {onlineFriends.map((o) => (
+    //     <div className="chatOnlineFriend" onClick={() => handleClick(o)}>
+    //       <div className="chatOnlineImgContainer">
+    //         <img
+    //           className="chatOnlineImg"
+    //           src={
+    //             o?.profilePicture
+    //               ? PF + o.profilePicture
+    //               : PF + "person/noAvatar.png"
+    //           }
+    //           alt=""
+    //         />
+    //         <div className="chatOnlineBadge"></div>
+    //       </div>
+    //       <span className="chatOnlineName">{o?.username}</span>
+    //     </div>
+    //   ))}
+    // </div>
   );
 }
