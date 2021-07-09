@@ -27,8 +27,8 @@ var userRoutes = require('./routes/users');
 var reviewRoutes = require("./routes/reviews");
 
 //mongodb+srv://admin:admin@sap-dit3a87.airjg.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
-mongoose.connect(process.env.DB_URL || "mongodb://localhost/SAP", {  
-// mongoose.connect("mongodb+srv://admin:admin@sap-dit3a87.airjg.mongodb.net/myFirstDatabase?retryWrites=true&w=majority", {  
+// mongoose.connect(process.env.DB_URL || "mongodb://localhost/SAP", {  
+mongoose.connect("mongodb+srv://admin:admin@sap-dit3a87.airjg.mongodb.net/myFirstDatabase?retryWrites=true&w=majority", {  
 	useNewUrlParser: true,
 	useCreateIndex: true,
 	useUnifiedTopology: true,
