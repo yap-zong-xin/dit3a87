@@ -1387,6 +1387,112 @@ input[type=range]::-ms-thumb {
   background: #fff;
   width: auto
 }
+/* drag and drop files */
+#drop-area {
+  border: 2px dashed #ccc;
+  border-radius: 20px;
+  width: 480px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: rgb(158, 158, 158);
+}
+#drop-area.highlight {
+  border-color: purple;
+}
+#thumbnail-drop-area {
+  border: 2px dashed #ccc;
+  border-radius: 20px;
+  width: 480px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: rgb(158, 158, 158);
+}
+#thumbnail-drop-area.highlight {
+  border-color: purple;
+}
+.image-gallery {
+  margin-top: 10px;
+  width: 150px;
+  margin-bottom: 10px;
+  margin-right: 10px;
+  vertical-align: middle;
+}
+.video-gallery {
+  margin-top: 10px;
+  width: 150px;
+  margin-bottom: 10px;
+  margin-right: 10px;
+  vertical-align: middle;
+}
+.thumbnail-gallery-style {
+  height: 500px;
+  width: 500px;
+}
+.listingImage{
+  float: left;
+}
+.image-gallery-style {
+  height: 220px;
+  width: 220px;
+}
+.video-gallery-style {
+  height: 220px;
+  width: 240px;
+}
+.fileBtn {
+  display: inline-block;
+  padding: 10px;
+  background: #ccc;
+  cursor: pointer;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+.fileBtn:hover {
+  background: #ddd;
+}
+#fileElem {
+  display: none;
+}
+
+/* The Modal (background) */
+.upldForm {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+.upldForm-content {
+  background-color: #fefefe;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+}
+
+.upldForm-Num:hover {
+  cursor: pointer;
+}
+
+.closeUpldForm {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.closeUpldForm:hover,
+.closeUpldForm:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
 
 .box{
   width: 500px;
@@ -1495,3 +1601,4 @@ nav a{
   font-weight: 600;
   font-size: 0.8em;
 }
+

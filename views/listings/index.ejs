@@ -27,7 +27,97 @@
 
         <% if(currentUser && currentUser.isAdmin || currentUser && currentUser.isAgent && currentUser.agentStatus){ %>
             <a href="/listings/new">Add New listing</a>
+            <!-- Trigger/Open The Modal -->
+            <button id="upldListBtn">Upload Listing</button>
             <% } %>
+
+            <!-- The Modal -->
+            <div id="upldForm" class="upldForm">
+                <!-- Modal content -->
+                <div class="upldForm-content">
+                    <!-- header -->
+                    <div class="upldForm-header">
+                        <span class="closeUpldForm">&times;</span>
+                        <h7>Header lmao</h7>
+                        <div class="row">
+                            <!-- 1st slide: drag and drop thumbnail-->
+                            <div class="column">
+                                <!-- <span class="upldForm-Num" onclick="currentSlide(1)">&#9312;</span> -->
+                                <button type="button" onclick="currentSlide(1)">1 dragdrop thumbnail</button>
+                            </div>
+                            <!-- 2nd slide: thumbnail preview -->
+                            <div class="column">
+                                <!-- <span class="upldForm-Num" onclick="currentSlide(2)">&#9313;</span> -->
+                                <button id="upldForm-Btn2" type="button" onclick="currentSlide(2)" disabled>2 thumbnail</button>
+                            </div>
+                            <!-- 3rd slide: drag and drop listing files -->
+                            <div class="column">
+                                <!-- <span class="upldForm-Num" onclick="currentSlide(2)">&#9313;</span> -->
+                                <button type="button" onclick="currentSlide(3)">3 dragdrop</button>
+                            </div>
+                            <!-- 4th slide: listing image/video preview -->
+                            <div class="column">
+                                <!-- <span class="upldForm-Num" onclick="currentSlide(2)">&#9313;</span> -->
+                                <button id="upldForm-Btn4" type="button" onclick="currentSlide(4)" disabled>4 gallery</button>
+                            </div>
+                            <!-- 5th slide: form input -->
+                            <div class="column">
+                                <!-- <span class="upldForm-Num" onclick="currentSlide(2)">&#9313;</span> -->
+                                <button type="button" onclick="currentSlide(5)">5 form</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- body -->
+                    <div class="upldForm-body">
+                        <form action="/listings" method="POST" enctype="multipart/form-data">
+                        <!-- 1st slide: drag and drop upload thumbnail file -->
+                        <div class="upldForm-slides">
+                            <div id="thumbnail-drop-area">
+                                <p style="margin-top: 0;">Drag and drop thumbnail image</p>
+                                <label class="fileBtn" for="thumbnailFile">Select thumbnail image</label>
+                                <input name="listingThumbnail" type="file" style="visibility:hidden;" id="thumbnailFile" accept="image/*" onchange="handleThumbnailFile()">
+                            </div>
+                        </div>
+                        <!-- 2nd slide: previewing provided thumbnail -->
+                        <div class="upldForm-slides">
+                            <div id="thumbnail-gallery"></div>
+                        </div>
+                        <!-- 3rd slide: drag and drop upload listing files -->
+                        <div class="upldForm-slides">
+                            <div id="drop-area">
+                                <p style="margin-top: 0;">Drag and drop images/videos</p>
+                                <label class="fileBtn" for="galleryFileArray">Select some files</label>
+                                <input name="listingGallery" type="file" style="visibility:hidden;" id="galleryFileArray" multiple onchange="handleGalleryFiles()" required>
+                            </div>
+                        </div>
+                        <!-- 4th slide: previewing provided files for image/video -->
+                        <div class="upldForm-slides">
+                            <div id="image-gallery"></div>
+                            <div id="video-gallery"></div>
+                        </div>
+                        <!-- 5th slide: listing information -->
+                        <div class="upldForm-slides">
+                                <input type="text" name="name" placeholder="name">
+                                <!-- <input type="text" name="image" placeholder="image url"> -->
+                                <input type="text" name="description" placeholder="Description">
+                                <input type="text" name="zone" placeholder="District">
+                                <input type="text" name="location" placeholder="Location">
+                                <input type="number" name="price" placeholder="Price">
+                                <input type="number" name="size" placeholder="Size">
+                                <input type="text" name="type" placeholder="Property Type">
+                                <input type="number" name="bedrooms" placeholder="Number of bed rooms">
+                                <input type="number" name="bathrooms" placeholder="Number of bath rooms">
+                        </div>
+                        <!-- submit form -->
+                        <input type="submit" value="Submit">
+                        </form>
+                    </div>
+                    <!-- footer  -->
+                    <div class="upldForm-footer">
+                        <h8>Feet</h8>
+                    </div>
+                </div>
+            </div>
 
             <div id="map" style="width: 70%; height: 500px;"></div>
 
@@ -196,7 +286,7 @@
                                                 <p style="text-transform:capitalize;">Zone: <%= listing.zone %></p>
                                                 <p style="text-transform:capitalize;">Type: <%= listing.type %></p>
                                                 <p style="text-transform:capitalize;">Size: <%= listing.size %></p>
-                                                <p style="text-transform:capitalize;">Number of rooms: <%= listing.numofRooms %></p>
+                                                <p style="text-transform:capitalize;">Number of rooms: <%= listing.bedrooms %></p>
                                             </div>
                                         </div>
                                         <br>
@@ -304,7 +394,7 @@
 
         })();
     </script>
-    <script>
+    <!-- <script>
         (function () {
 
             var parent = document.querySelector(".numofRooms-slider");
@@ -332,7 +422,7 @@
             });
 
         })();
-    </script>
+    </script> -->
     <script>
         function upperCaseFirstLetter(string) {
             return string.charAt(0).toUpperCase() + string.slice(1);
@@ -372,6 +462,187 @@
             document.getElementById("sortArchive").value="";
         }                
     </script>
+    <script>
+        // Get the modal
+        var upldForm = document.getElementById("upldForm");
 
+        // Get the button that opens the modal
+        var upldListBtn = document.getElementById("upldListBtn");
+
+        // Get the <span> element that closes the modal
+        var closeUpldForm = document.getElementsByClassName("closeUpldForm")[0];
+
+        // When the user clicks on the button, open the modal
+        upldListBtn.onclick = function() {
+            upldForm.style.display = "block";
+        }
+
+        // When the user clicks on <span> (x), close the modal
+        closeUpldForm.onclick = function() {
+            upldForm.style.display = "none";
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+        if (event.target == upldForm) {
+            upldForm.style.display = "none";
+        }
+        }
+    </script>
+    <script>
+        var upldFormSlideIndex = 1;
+        showUpldFormSlides(upldFormSlideIndex);
+
+        // Thumbnail image controls
+        function currentSlide(n) {
+            showUpldFormSlides(upldFormSlideIndex = n);
+        }
+
+        function showUpldFormSlides(n) {
+        var i;
+        var upldFormSlides = document.getElementsByClassName("upldForm-slides");
+        if (n > upldFormSlides.length) {upldFormSlideIndex = 1}
+        if (n < 1) {upldFormSlideIndex = upldFormSlides.length}
+        for (i = 0; i < upldFormSlides.length; i++) {
+            upldFormSlides[i].style.display = "none";
+        }
+        upldFormSlides[upldFormSlideIndex-1].style.display = "block";
+        }
+    </script>
+    <script>
+        let thumbnailDropArea = document.getElementById("thumbnail-drop-area");
+        // Prevent default drag behaviors
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            thumbnailDropArea.addEventListener(eventName, preventDefaults, false)   
+            document.body.addEventListener(eventName, preventDefaults, false)
+        });
+        // Highlight drop area when item is dragged over it
+        ['dragenter', 'dragover'].forEach(eventName => {
+            thumbnailDropArea.addEventListener(eventName, highlight, false)
+        });
+        ['dragleave', 'drop'].forEach(eventName => {
+            thumbnailDropArea.addEventListener(eventName, unhighlight, false)
+        });
+        // Handle dropped file
+        thumbnailDropArea.addEventListener('drop', handleDrop, false);
+
+        function preventDefaults (e) {
+            e.preventDefault()
+            e.stopPropagation()
+        }
+
+        function highlight(e) {
+            thumbnailDropArea.classList.add('highlight')
+        }
+    
+        function unhighlight(e) {
+            thumbnailDropArea.classList.remove('active')
+        }
+    
+        function handleDrop(e) {
+            var dt = e.dataTransfer
+            var file = dt.files[0]
+            previewThumbnail(file);
+        }
+    
+        function handleThumbnailFile() {
+            var file = document.getElementById("thumbnailFile").files[0];
+            console.log('inside thumb: ',file)
+            previewThumbnail(file);
+        }
+
+        function previewThumbnail(file) {
+            if(!file) {
+                console.log('no file');
+            }
+            var reader = new FileReader();
+            reader.readAsDataURL(file); 
+            reader.onloadend = function() {
+                console.log('given thumbnail file: ',file);
+                var img = document.createElement('img');
+                img.src = reader.result;
+                img.classList.add("thumbnail-gallery-style");
+                var thumbnailGallery = document.getElementById('thumbnail-gallery')
+                if(thumbnailGallery.childNodes[0]) {
+                    thumbnailGallery.removeChild(thumbnailGallery.childNodes[0]);
+                }
+                thumbnailGallery.appendChild(img);
+            }
+            currentSlide(2);
+            document.getElementById("upldForm-Btn2").disabled=false;
+        }
+    </script>
+    <script>
+        let dropArea = document.getElementById("drop-area");
+    
+        // Prevent default drag behaviors
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+          dropArea.addEventListener(eventName, preventDefaults, false)   
+          document.body.addEventListener(eventName, preventDefaults, false)
+        });
+    
+        // Highlight drop area when item is dragged over it
+        ['dragenter', 'dragover'].forEach(eventName => {
+          dropArea.addEventListener(eventName, highlight, false)
+        });
+        ['dragleave', 'drop'].forEach(eventName => {
+          dropArea.addEventListener(eventName, unhighlight, false)
+        });
+    
+        // Handle dropped files
+        dropArea.addEventListener('drop', handleDrop, false);
+    
+        function preventDefaults (e) {
+          e.preventDefault()
+          e.stopPropagation()
+        }
+    
+        function highlight(e) {
+          dropArea.classList.add('highlight')
+        }
+    
+        function unhighlight(e) {
+          dropArea.classList.remove('active')
+        }
+    
+        function handleDrop(e) {
+            var dt = e.dataTransfer
+            var files = dt.files
+            console.log('the files: ',files);
+            previewGallery(files);
+        }
+
+        function handleGalleryFiles() {
+            var files = document.getElementById("galleryFileArray").files;
+            console.log('the files: ',files);
+            previewGallery(files);
+        }
+
+        function previewGallery(files) {
+            console.log('given gallery files: ', files);
+            for(let i=0; i<files.length; i++) {
+                console.log('given file type: ',files[i]);
+                let reader = new FileReader();
+                reader.readAsDataURL(files[i]);
+                reader.onloadend = function() {
+                    if(files[i].type.includes('image')) {
+                        console.log('iiiiiiiiiii');
+                        var img = document.createElement('img');
+                        img.src = reader.result;
+                        img.classList.add("image-gallery-style");
+                        document.getElementById('image-gallery').appendChild(img);
+                    }else if(files[i].type.includes('video')) {
+                        console.log('vvvvvvvvvvv');
+                        var vid = document.createElement('iframe');
+                        vid.src  = reader.result;
+                        vid.classList.add("video-gallery-style");
+                        document.getElementById('video-gallery').appendChild(vid);
+                    }
+                }
+            }
+            currentSlide(4);
+            document.getElementById("upldForm-Btn4").disabled=false;
+        }
+      </script>
     
 <%- include("../partials/footer") %>

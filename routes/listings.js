@@ -20,12 +20,12 @@ var fileFilter = function (req, file, cb) {
     // accept image files only
 	console.log('files type:'+file.mimetype);
 	if(file.mimetype.match(/^image/i)) {
-		if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/i)) {
+		if (!file.mimetype.match(/\/(jpg|jpeg|png|gif)$/i)) {
 			return cb(new Error('Only [jpg/jpeg/png/gif] image files are allowed!'), false);
 		}
 		cb(null, true);
 	} else if(file.mimetype.match(/^video/i)) {
-		if (!file.originalname.match(/\.(mp4|mov|wmv|avi|avchd|flv|f4v|swf|mkv|webm|html5|mpeg-2)$/i)) {
+		if (!file.mimetype.match(/\/(mp4|mov|wmv|avi|avchd|flv|f4v|swf|mkv|webm|html5|mpeg-2)$/i)) {
 			return cb(new Error('Only [mp4/mov/wmv/avi/avchd/flv/f4v/swf/mkv/webm/html5/mpeg-2] video files are allowed!'), false);
 		}
 		cb(null, true);
@@ -34,9 +34,47 @@ var fileFilter = function (req, file, cb) {
 	}
 	
 };
+// var fileFilter = function (req, file, cb) {
+//     // accept image files only
+// 	console.log('files type: '+typeof file.mimetype);
+// 	console.log('files filter: ', file);
+// 	if(file.mimetype.match(/^image/i)) {
+// 		console.log('matched image')
+// 		if (!(file.mimetype.includes("jpg", "jpeg", "png", "gif"))) {
+// 			return cb(new Error('Only [jpg/jpeg/png/gif] image files are allowed!'), false);
+// 		}
+// 		cb(null, true);
+// 	}
+// 	if(file.mimetype.match(/^video/i)) {
+// 		console.log('matched video')
+// 		if (!(file.mimetype.includes("mp4", "mov", "wmv", "avi", "avchd", "flv", "f4v", "swf", "mkv", "webm", "html5", "mpeg-2"))) {
+// 			return cb(new Error('Only [mp4/mov/wmv/avi/avchd/flv/f4v/swf/mkv/webm/html5/mpeg-2] video files are allowed!'), false);
+// 		}
+// 		cb(null, true);
+// 	}
+// };
+// var fileFilter = function (req, file, cb) {
+// 	console.log('files type:'+file.mimetype);
+// 	if(file.mimetype.includes("image")) {
+// 		if (file.originalname.match(/\.(jpg|jpeg|png|gif)$/i)) {
+// 			return cb(null, true);
+// 		}
+// 		cb(new Error('Invalid file'));
+// 	} else if(file.mimetype.includes("video")) {
+// 		if (file.originalname.match(/\.(mp4|mov|wmv|avi|avchd|flv|f4v|swf|mkv|webm|html5|mpeg-2)$/i)) {
+// 			return cb(null, true);
+// 		}
+// 		cb(new Error('Invalid file'));
+// 	}
+	
+// };
 //var upload = multer({ storage: storage, fileFilter: fileFilter})
-var uploadMultiple = multer({ storage: storage, fileFilter: fileFilter}).fields([ { name: 'thumbnail', maxCount: 1 }, { name: 'image', maxCount: 10 }, { name: 'video', maxCount: 10 } ]);
+var upload = multer({ storage: storage, fileFilter: fileFilter});//{ name: 'galleryFileArray', maxCount: 20 }
+// var uploadMultiple = upload.fields([ { name: 'thumbnailFile', maxCount: 1 }, { name: 'imageGallery', maxCount: 20 }, { name: 'videoGallery', maxCount: 20 } ]);//{ name: 'galleryFileArray', maxCount: 20 }
+var uploadMultiple = upload.fields([ { name: 'listingThumbnail', maxCount: 1 }, { name: 'listingGallery', maxCount: 20 } ]);
+// var uploadMultiple = multer({ storage: storage, fileFilter: fileFilter}).fields([ { name: 'listingThumbnail', maxCount: 1 }, { name: 'listingGallery', maxCount: 20 } ]);
 // var uploadMultiple = upload.fields([ { name: 'image' }, { name: 'video' } ]);
+// var uploadMultiple = multer({ storage: storage, fileFilter: fileFilter}).fields([ { name: 'thumbnail', maxCount: 1 }, { name: 'image', maxCount: 10 }, { name: 'video', maxCount: 10 } ]);
 
 var cloudinary = require('cloudinary');
 const { reject } = require('async');
@@ -308,7 +346,7 @@ router.get("/listings", function(req,res){
 				console.log('passed in archive check: ',regexArchive)
 				console.log('all parameters passed to mongo: '+minPrice+', '+maxPrice+', '+regexZone+', '+regexType+', '+minSize+', '+maxSize+', '+regexRooms);
 
-				listing.find({$and: [ {price: {$gte: minPrice, $lte: maxPrice}}, {zone: {$in : regexZone}}, {type: {$in: regexType}}, {size: {$gte: minSize, $lte: maxSize}}, {bedrooms: {$in: regexRooms}}, {soldStatus: {$in: regexSold}}, {archiveStatus: {$in: regexArchive}} ] }).sort(sortOptions).exec(function (err, alllistings) {
+				listing.find({$and: [ {price: {$gte: minPrice, $lte: maxPrice}}, {zone: {$in : regexZone}}, {type: {$in: regexType}}, {size: {$gte: minSize, $lte: maxSize}}, {bedrooms: {$in: regexRooms}}, {soldStatus: {$in: regexSold}}, {archiveStatus: {$in: regexArchive}} ] }).sort(sortOptions).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, alllistings) {
 					listing.count({price: minPrice}).exec(function (err, count) {
 						if (err) {
 							console.log(err);
@@ -389,7 +427,28 @@ function escapeRegex(text) {
 };
 
 //Post Route
-// router.post("/listings", middleware.isLoggedIn, upload.single('image'), async function(req,res){
+// router.post("/listings", middleware.isLoggedIn, uploadMultiple, async function(req,res){
+// 	var thumbnail = req.files.thumbnail;
+// 	console.log('thumbnail sdkadnfj: '+thumbnail[0].path);
+
+// 	var imageArray = req.files.image;
+
+// 	var fileArray = [];
+// 	for(let i = 0 ; i < imageArray.length; i++) {
+// 		fileArray.push(req.files.image[i]);
+// 	}
+// 	if (req.files.video) {
+// 		var videoArray = req.files.video;
+// 		for(let i = 0 ; i < videoArray.length; i++) {
+// 			fileArray.push(req.files.video[i]);
+// 		}
+// 	}
+
+// 	var imageSecureUrlArray = [];
+// 	var imagePublicIdArray = [];
+// 	var videoSecureUrlArray = [];
+// 	var videoPublicIdArray = [];
+
 // 	var name = req.body.name;
 // 	var desc = req.body.description;
 // 	var location = req.body.location;
@@ -397,15 +456,14 @@ function escapeRegex(text) {
 // 	var price = req.body.price;
 // 	var size = req.body.size;
 // 	var type = req.body.type;
-// 	var numofRooms = req.body.numofRooms;
-//   var author = {
+// 	var bedrooms = req.body.bedrooms;
+// 	var bathrooms = req.body.bathrooms;
+//   	var author = {
 // 		id: req.user._id,
 // 		username: req.user.username
 // 	};
-// 	// var newlisting = {name:name, image:image, description:desc, author:author, location:location, price:price, size:sie, zone:zone}
-// 	var newlisting = {name:name, description:desc, author:author, location:location, zone:zone, price:price, size:size, type:type, numofRooms:numofRooms}
-// 	try
-// 		{
+// 	var newlisting = {name:name, description:desc, author:author, location:location, zone:zone, price:price, size:size, type:type, bedrooms:bedrooms, bathrooms:bathrooms}
+// 	try {
 // 			var geoData = await geocodingClient.forwardGeocode({
 // 				query: location,
 // 				autocomplete: false,
@@ -414,57 +472,111 @@ function escapeRegex(text) {
 // 		  .send();
 // 			newlisting.geometry = geoData.body.features[0].geometry;
 // 			// console.log(newlisting.geometry);
-// 			cloudinary.v2.uploader.upload(req.file.path, function(err, result) {
-// 				// add cloudinary url for the image to the listing object under image property
-// 				req.body.image = result.secure_url;
-// 				newlisting.image = req.body.image
-// 				// add image's public_id to listing object
-// 				req.body.imageId = result.public_id;
-// 				newlisting.imageId = req.body.imageId
 
-// 				listing.create(newlisting, async function(err, newlyCreated){
-// 					if(err)
-// 					{
-// 						console.log(err);
-// 					} else {
-// 						let user = await User.findById(req.user._id).populate('followers').exec();
-// 						console.log(newlyCreated._id)
-// 						let newNotification = {
-// 							username: req.user.username,
-// 							listingId: newlyCreated._id
-// 						}
-// 						for(const follower of user.followers) {
-// 							let notification = await Notification.create(newNotification);
-// 							follower.notifications.push(notification);
-// 							follower.save();
-// 						}
-// 						req.flash("success", "listing successfully added!");
-// 						res.redirect(`/listings/${newlyCreated._id}`);
+// 			//1 thumbnail image upload to cloudinary
+// 			var thumbnailUpload = await uploadToCloudinary(thumbnail[0].path, { resource_type: "auto" });
+// 			console.log('thumbnail upload await: ',thumbnailUpload);
+// 			var thumbnailSecureUrl = thumbnailUpload.secure_url;
+// 			var thumbnailPublicId = thumbnailUpload.public_id;
+// 			newlisting.thumbnail = thumbnailSecureUrl;
+// 			newlisting.thumbnailId = thumbnailPublicId;
+
+// 		  	//image/videos upload to cloudinary
+// 			for(let i=0; i<fileArray.length; i++) {
+// 				if(fileArray[i].fieldname == 'image') {
+// 					console.log('image uploading');
+// 					var imageUpload = await uploadToCloudinary(fileArray[i].path); 
+// 					imageSecureUrlArray.push(imageUpload.secure_url);
+// 					imagePublicIdArray.push(imageUpload.public_id);
+// 					newlisting.image = imageSecureUrlArray;
+// 					newlisting.imageId = imagePublicIdArray;
+// 					console.log('image info: ',newlisting.image,'imageid info:',newlisting.imageId)
+// 				}else if(fileArray[i].fieldname == 'video') {
+// 					console.log('video uploading');
+// 					var videoUpload = await uploadToCloudinary(fileArray[i].path); 
+// 					videoSecureUrlArray.push(videoUpload.secure_url);
+// 					videoPublicIdArray.push(videoUpload.public_id);
+// 					newlisting.video = videoSecureUrlArray;
+// 					newlisting.videoId = videoPublicIdArray;
+// 					console.log('video info: ',newlisting.video,'videoid info:',newlisting.videoId)
+// 				}
+// 			}
+
+// 			//create the listing
+// 			listing.create(newlisting, async function(err, newlyCreated){
+// 				if(err)
+// 				{
+// 					console.log(err);
+// 				} else {
+// 					let user = await User.findById(req.user._id).populate('followers').exec();
+// 					//console.log("id" + newlyCreated._id)
+// 					let newNotification = {
+// 						username: req.user.username,
+// 						image: req.user.image,
+// 						listingId: newlyCreated._id,
+// 						idUser: newlyCreated.author.id,
+// 						listingImage: newlyCreated.thumbnail
 // 					}
-// 				});
+// 					for(const follower of user.followers) {
+// 						let notification = await Notification.create(newNotification);
+// 						follower.notifications.push(notification);
+// 						follower.save();
+// 					}
+// 					req.flash("success", "You have successfully added a listing.");
+// 					res.redirect(`/listings/${newlyCreated._id}`);
+// 				}
 // 			});
 // 		} catch (err){
-// 			console.log(err.message);
+// 			console.log('try catch error: ',err.message);
 // 			res.redirect('back');
 // 		}
 // });
 
 router.post("/listings", middleware.isLoggedIn, uploadMultiple, async function(req,res){
-	var thumbnail = req.files.thumbnail;
-	console.log('thumbnail sdkadnfj: '+thumbnail[0].path);
+	// uploadMultiple(req, res, function (err) {
+	// 	if (err instanceof multer.MulterError) {
+	// 	  // A Multer error occurred when uploading.
+	// 	  console.log('multer err: ', err instanceof multer.MulterError)
+	// 	} else if (err) {
+	// 	  // An unknown error occurred when uploading.
+	// 		console.log('unknow multer err: ',err)
+	// 	}
+	// 	console.log('fine');
+	// 	// Everything went fine.
+	//   })
 
-	var imageArray = req.files.image;
+	// var fs = require('fs');
+	// console.log('fs files open: ',fs.open());
+	console.log('the files: ',req.files);//JSON.parse(JSON.stringify(req.files))
+	// if(req.files.listingThumbnail) {
+		var listingThumbnail = req.files.listingThumbnail;
+		console.log('listingThumbnail sdkadnfj: '+listingThumbnail[0].path);
+	// }
+	// if(req.files.listingGallery) {
+		var listingGallery = req.files.listingGallery;
+		console.log('files got what: ',listingGallery);
+	// }
+	// if(req.files.imageGallery) {
+	// 	var imageFiles = req.files.imageGallery;
+	// 	console.log('imagessssssssss: '+imageFiles);
+	// }
+	// if(req.files.videoGallery) {
+	// 	var videoFiles = req.files.videoGallery;
+	// 	console.log('videossssssssss: '+videoFiles);
+	// }
 
-	var fileArray = [];
-	for(let i = 0 ; i < imageArray.length; i++) {
-		fileArray.push(req.files.image[i]);
-	}
-	if (req.files.video) {
-		var videoArray = req.files.video;
-		for(let i = 0 ; i < videoArray.length; i++) {
-			fileArray.push(req.files.video[i]);
-		}
-	}
+	// var imageArray = req.files.image;
+
+	// var fileArray = [];
+	// for(let i = 0 ; i < imageArray.length; i++) {
+	// 	fileArray.push(req.files.image[i]);
+	// }
+	// if (req.files.video) {
+	// 	var videoArray = req.files.video;
+	// 	for(let i = 0 ; i < videoArray.length; i++) {
+	// 		fileArray.push(req.files.video[i]);
+	// 	}
+	// }
 
 	var imageSecureUrlArray = [];
 	var imagePublicIdArray = [];
@@ -495,27 +607,25 @@ router.post("/listings", middleware.isLoggedIn, uploadMultiple, async function(r
 			newlisting.geometry = geoData.body.features[0].geometry;
 			// console.log(newlisting.geometry);
 
-			//1 thumbnail image upload to cloudinary
-			var thumbnailUpload = await uploadToCloudinary(thumbnail[0].path, { resource_type: "auto" });
-			console.log('thumbnail upload await: ',thumbnailUpload);
-			var thumbnailSecureUrl = thumbnailUpload.secure_url;
-			var thumbnailPublicId = thumbnailUpload.public_id;
-			newlisting.thumbnail = thumbnailSecureUrl;
-			newlisting.thumbnailId = thumbnailPublicId;
+			//1 thumbnailFile image upload to cloudinary
+			var thumbnailUpload = await uploadToCloudinary(listingThumbnail[0].path, { resource_type: "auto" });
+			console.log('listingThumbnail upload await: ',thumbnailUpload);
+			newlisting.thumbnail = thumbnailUpload.secure_url;
+			newlisting.thumbnailId = thumbnailUpload.public_id;
 
 		  	//image/videos upload to cloudinary
-			for(let i=0; i<fileArray.length; i++) {
-				if(fileArray[i].fieldname == 'image') {
+			for(let i=0; i<listingGallery.length; i++) {
+				if(listingGallery[i].mimetype.includes('image')) {
 					console.log('image uploading');
-					var imageUpload = await uploadToCloudinary(fileArray[i].path); 
+					var imageUpload = await uploadToCloudinary(listingGallery[i].path); 
 					imageSecureUrlArray.push(imageUpload.secure_url);
 					imagePublicIdArray.push(imageUpload.public_id);
 					newlisting.image = imageSecureUrlArray;
 					newlisting.imageId = imagePublicIdArray;
 					console.log('image info: ',newlisting.image,'imageid info:',newlisting.imageId)
-				}else if(fileArray[i].fieldname == 'video') {
+				}else if(listingGallery[i].mimetype.includes('video')) {
 					console.log('video uploading');
-					var videoUpload = await uploadToCloudinary(fileArray[i].path); 
+					var videoUpload = await uploadToCloudinary(listingGallery[i].path); 
 					videoSecureUrlArray.push(videoUpload.secure_url);
 					videoPublicIdArray.push(videoUpload.public_id);
 					newlisting.video = videoSecureUrlArray;
@@ -537,7 +647,7 @@ router.post("/listings", middleware.isLoggedIn, uploadMultiple, async function(r
 						image: req.user.image,
 						listingId: newlyCreated._id,
 						idUser: newlyCreated.author.id,
-						listingImage: newlyCreated.thumbnail
+						listingImage: newlyCreated.listingThumbnail
 					}
 					for(const follower of user.followers) {
 						let notification = await Notification.create(newNotification);
@@ -553,130 +663,6 @@ router.post("/listings", middleware.isLoggedIn, uploadMultiple, async function(r
 			res.redirect('back');
 		}
 });
-
-// router.post("/listings", middleware.isLoggedIn, uploadMultiple, async function(req,res){
-// 	var thumbnail = req.files.thumbnail;
-// 	console.log('thumbnail sdkadnfj: '+thumbnail[0].path);
-
-// 	var imageArray = req.files.image;
-// 	var videoArray = req.files.video;
-
-// 	var fileArray = [];
-// 	for(let i = 0 ; i < imageArray.length; i++) {
-// 		fileArray.push(req.files.image[i]);
-// 	}
-// 	if (videoArray) {
-// 		for(let i = 0 ; i < videoArray.length; i++) {
-// 			fileArray.push(req.files.video[i]);
-// 		}
-// 	}
-
-// 	var imageSecureUrlArray = [];
-// 	var imagePublicIdArray = [];
-// 	var videoSecureUrlArray = [];
-// 	var videoPublicIdArray = [];
-
-// 	var name = req.body.name;
-// 	var desc = req.body.description;
-// 	var location = req.body.location;
-// 	var zone = req.body.zone;
-// 	var price = req.body.price;
-// 	var size = req.body.size;
-// 	var type = req.body.type;
-// 	var numofRooms = req.body.numofRooms;
-//   	var author = {
-// 		id: req.user._id,//req.user._id
-// 		username: req.user.username//req.user.username
-// 	};
-// 	var newlisting = {name:name, description:desc, author:author, location:location, zone:zone, price:price, size:size, type:type, numofRooms:numofRooms}
-// 	try {
-// 			var geoData = await geocodingClient.forwardGeocode({
-// 				query: location,
-// 				autocomplete: false,
-// 		    limit: 1
-// 		  })
-// 		  .send();
-// 			newlisting.geometry = geoData.body.features[0].geometry;
-// 			// console.log(newlisting.geometry);
-
-// 			var thumbnailUpload = await cloudinary.v2.uploader.upload(thumbnail[0].path, { resource_type: "auto" }, function(err, result) { 
-// 				var thumbnailSecureUrl = result.secure_url;
-// 				var thumbnailPublicId = result.public_id;
-
-// 				newlisting.thumbnail = thumbnailSecureUrl;
-// 				console.log('thumnail: '+newlisting.thumbnail);
-// 				newlisting.thumbnailId = thumbnailPublicId;
-// 				console.log('thumbnailID: '+newlisting.thumbnailId);
-// 			}).send();
-// 			console.log('thumbnail outside: '+thumbnailUpload);
-
-// 			console.log('fileArray length b4: '+fileArray.length);
-// 			for(let k=0; k<fileArray.length; k++) {
-// 				cloudinary.v2.uploader.upload(fileArray[k].path, { resource_type: "auto" }, function(err, result) {
-// 					if(fileArray[k].fieldname == 'image') {
-// 						console.log('image handling');
-// 						// add cloudinary url for the image to the listing object under image property
-// 						imageSecureUrlArray.push(result.secure_url);
-// 						// req.files.image = result.secure_url;
-// 						// newlisting.image = req.files.image
-// 						//add image's public_id to listing object
-// 						imagePublicIdArray.push(result.public_id);
-// 						// req.files.imageId = result.public_id;
-// 						// newlisting.imageId = req.files.imageId
-// 						newlisting.image = imageSecureUrlArray;
-// 						console.log('new listing image: '+newlisting.image);
-// 						newlisting.imageId = imagePublicIdArray;
-// 						console.log('new listing imageID: '+newlisting.imageId);
-// 					}else if(fileArray[k].fieldname == 'video') {
-// 						console.log('video handling');
-// 						// video secure url
-// 						videoSecureUrlArray.push(result.secure_url);
-// 						// req.files.video = result.secure_url;
-// 						// newlisting.video = req.files.video
-// 						// video public id
-// 						videoPublicIdArray.push(result.public_id);
-// 						// req.files.videoId = result.public_id;
-// 						// newlisting.videoId = req.files.videoId
-// 						newlisting.video = videoSecureUrlArray;
-// 						console.log('new listing video: '+newlisting.video);
-// 						newlisting.videoId = videoPublicIdArray;
-// 						console.log('new listing videoID: '+newlisting.videoId);
-// 					}
-// 					console.log('amt of file arr: '+fileArray.length);
-// 					console.log('k amt: '+k);
-// 					console.log('k+1 amt: '+(k+1));
-// 					if((k+1) == fileArray.length) {
-// 						console.log('creating new listing now...');
-// 						console.log('thumbnail stuff went in: '+newlisting.thumbnail);
-// 						listing.create(newlisting, async function(err, newlyCreated){
-// 							if(err)
-// 							{
-// 								console.log(err);
-// 							} else {
-// 								let user = await User.findById(req.user._id).populate('followers').exec();
-// 								console.log(newlyCreated._id)
-// 								let newNotification = {
-// 									username: req.user.username,
-// 									image: req.user.image,
-// 									listingId: newlyCreated._id
-// 								}
-// 								for(const follower of user.followers) {
-// 									let notification = await Notification.create(newNotification);
-// 									follower.notifications.push(notification);
-// 									follower.save();
-// 								}
-// 								req.flash("success", "You have successfully added a listing.");
-// 								res.redirect(`/listings/${newlyCreated._id}`);
-// 							}
-// 						});
-// 					}
-// 				});
-// 			}
-// 		} catch (err){
-// 			console.log(err.message);
-// 			res.redirect('back');
-// 		}
-// });
 
 //New Route
 router.get("/listings/new", middleware.isLoggedIn, function(req,res){
