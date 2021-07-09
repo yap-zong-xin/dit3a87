@@ -1745,3 +1745,60 @@ nav a{
   font-size: 0.8em;
 }
 
+.reviewGradient{
+  background: linear-gradient(-45deg, #2c3e50 0%, #2B4F6B 13%, #2c6994 25%, #2A72A3 38%, #297CB2 50%, #2A72A3 62%, #2c6994 75%, #2B4F6B 87%, #2c3e50 100%);
+  /* background: linear-gradient(45deg, #2980b9 0%, #297BB1 13%, #2977AB 25%, #2A6995 38%, #2B5E83 50%, #2B5778 62%, #2B506C 75%, #2C475E 87%, #2c3e50 100%); */
+  background-size:  400% 400%;
+  animation: gradient 11s ease infinite;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+@keyframes gradient {
+  0% {
+    background-position: 0%;
+  }
+  50% {
+    background-position: 100%;
+  }
+  100% {
+    background-position: 0%;
+  }
+}
+
+#content {
+  position:relative;
+  width:600px;
+  height:100px;
+}
+#content:before, #content:after, #content>:first-child:before, #content>:first-child:after {
+    position:absolute;
+    width: 60px;
+    height: 60px;
+    border-color:rgba(255, 255, 255, 0.2); /* or whatever colour */
+    border-style:solid; /* or whatever style */
+    content: ' ';
+}
+#content:before {top:0;left:0;border-width: 5px 0 0 5px}
+#content:after {top:0;right:0;border-width: 0 0 0}
+#content>:first-child:before {bottom:0;right:0;border-width: 0 5px 5px 0;}
+#content>:first-child:after {bottom:0;left:0;border-width: 0 0 0 0}
+
+#mainLoader{
+  position: absolute;
+  top: 80px;
+  display: inline-block;
+  border: 3.5px solid #f3f3f3;
+  border-top: 5px solid #4632DA;
+  border-radius: 50%;
+  width: 2rem;
+  height: 2rem;
+  margin-bottom: 10rem;
+  animation: 1s spin infinite ease-in-out;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+  text-align: center;
+}
