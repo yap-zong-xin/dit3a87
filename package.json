@@ -12,7 +12,7 @@
     "chatclient": "cd chat/client && npm start",
     "chatsocket": "cd chat/socket && npm start",
     "chat": "npm run chatapi && npm run chatsocket",
-    "build": "cd chat/client && npm run build",
+    "build": "cd chat/client && npm run build && npm run chat",
     "install-client": "cd chat/client && npm install",
     "heroku-postbuild": "npm run install-client && npm run build"
   },
@@ -45,6 +45,5 @@
     "passport-local-mongoose": "^6.1.0",
     "simplebar": "^5.3.4",
     "xoauth2": "^1.2.0"
-  },
-  "homepage": "https://sap-dit3a87.herokuapp.com/"
+  }
 }
