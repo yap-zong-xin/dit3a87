@@ -12,7 +12,7 @@
     "chatclient": "cd chat/client && npm start",
     "chatsocket": "cd chat/socket && npm start",
     "chat": "npm run chatapi && npm run chatsocket",
-    "build": "cd chat/client && npm run build && npm run chat",
+    "build": "npm run chat && cd chat/client && npm run build",
     "install-client": "cd chat/client && npm install",
     "heroku-postbuild": "npm run install-client && npm run build"
   },
