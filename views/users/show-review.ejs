@@ -345,6 +345,17 @@
 
         <!-- listings & reviews -->
         <div class="col-8">
+          <% if(user.reviews.length==0){ %>
+          <% } else{ %>
+            <div class="col-12 borderStyle mt-3">
+              <div class="reviewGradient" style="height: 130px;">
+                <div id="content" class="align-items-center d-flex justify-content-center" style="color: white; font-weight: 600; padding: 20px 40px 20px 40px;">
+                  <span style="font-size: 1.8em;"><%= user.rating.toFixed(2) %></span>
+                  <span class="pl-1" style="font-size: 0.9em;"> out of 5.00</span>
+                </div>
+              </div>
+            </div>
+          <% } %>
           <!-- listings -->
           <div class="col-12 borderStyle mt-3">
             <div class="d-flex p-2 mb-0 justify-content-between headerStyle">

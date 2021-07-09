@@ -5,7 +5,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-
   <link rel="stylesheet" href="/owl.carousel.min.css">
   <link rel="stylesheet" href="/owl.theme.default.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
@@ -30,6 +29,7 @@
 </head>
 
 <body>
+  <div class="loader" id="mainLoader"></div>
   <nav class="navbar navbar-expand-md sticky-top shadow py-0">
     <div class="container px-0">
       <a href="/" class="mr-4 p-4" style="background: #4632da; color: white; text-decoration: none;">Logo</a>
@@ -132,9 +132,12 @@
               <li class="dropdown">
                 <a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" class="mr-1">
                   <img class="fa-bell" src="/img/notification.png" style="width: 37px;">
-                  <span class="text-center" style="font-size: 0.75em; position: absolute; right: 0.5px; top: 0px; border-radius: 50%; width: 15px; background: #4632DA; text-decoration: none; color: white;">
-                    <%= notifications.length %>
-                  </span>
+                  <% if(notifications.length<1){ %>
+                  <% } else { %>
+                    <span class="text-center" style="font-size: 0.75em; position: absolute; right: 0.5px; top: 0px; border-radius: 50%; width: 15px; background: #4632DA; text-decoration: none; color: white;">
+                      <%= notifications.length %>
+                    </span>
+                  <% } %>
                 </a>
                 <ul class="dropdown-menu p-3 dropdown-menu dropdown-menu-right" style="width: 350px; height: 370px; overflow-y: auto;">
                   <% if(notifications==0){ %>
