@@ -101,6 +101,9 @@ router.get("/", function(req,res){
 
 router.get("/listings", function(req,res){
 	var noMatch = null;
+	var perPage = 6;
+	var pageQuery = parseInt(req.query.page);
+	var pageNumber = pageQuery ? pageQuery : 1;
 	var largestPrice = 0;
 	var largestSize = 0;
 	listing.find().sort({price: -1}).limit(1).exec(function(err, foundLargestPrice) {
@@ -281,6 +284,39 @@ router.get("/listings", function(req,res){
 
 					}
 				}
+				//number of bath rooms
+				const onebathrooms = req.query.onebathrooms;
+				const twobathrooms = req.query.twobathrooms;
+				const threebathrooms = req.query.threebathrooms;
+				var allbathRooms = [];
+				allbathRooms.push(onebathrooms, twobathrooms, threebathrooms);
+				console.log('all bath rooms: '+allbathRooms);
+				var bathroomsArr=[];
+				var regexbathRooms;
+				var bathroomCount = 0;
+				for(let i=0; i<allbathRooms.length; i++) {
+					if(typeof allbathRooms[i]=='undefined'){
+						console.log('counting bath rooms')
+						bathroomCount++;
+					}
+				}
+				if(bathroomCount == 3){
+					regexbathRooms = [ 1, 2, 3 ];
+					console.log('inside bath room all empty: '+typeof regexbathRooms[1]);
+				}else {
+					for(let i=0; i<allbathRooms.length; i++) {
+						if(!(typeof allbathRooms[i] == 'undefined')) { //contains value does not contain undefined
+							console.log('line bath: '+allbathRooms[i]);
+							bathroomsArr[i] = allbathRooms[i];
+							console.log('inside bath rooms: '+bathroomsArr);
+							regexbathRooms = bathroomsArr.filter(function(elto){
+								return elto != null && elto != '';
+							})
+							console.log('regexbathRooms: '+regexbathRooms)
+						}
+
+					}
+				}
 				// Sort object (to be passed into .sort)
 				var sortOptions = {};
 				// Sort by Price
@@ -346,7 +382,7 @@ router.get("/listings", function(req,res){
 				console.log('passed in archive check: ',regexArchive)
 				console.log('all parameters passed to mongo: '+minPrice+', '+maxPrice+', '+regexZone+', '+regexType+', '+minSize+', '+maxSize+', '+regexRooms);
 
-				listing.find({$and: [ {price: {$gte: minPrice, $lte: maxPrice}}, {zone: {$in : regexZone}}, {type: {$in: regexType}}, {size: {$gte: minSize, $lte: maxSize}}, {bedrooms: {$in: regexRooms}}, {soldStatus: {$in: regexSold}}, {archiveStatus: {$in: regexArchive}} ] }).sort(sortOptions).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, alllistings) {
+				listing.find({$and: [ {price: {$gte: minPrice, $lte: maxPrice}}, {zone: {$in : regexZone}}, {type: {$in: regexType}}, {size: {$gte: minSize, $lte: maxSize}}, {bedrooms: {$in: regexRooms}}, {bathrooms: {$in: regexbathRooms}}, {soldStatus: {$in: regexSold}}, {archiveStatus: {$in: regexArchive}} ] }).sort(sortOptions).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, alllistings) {
 					listing.count({price: minPrice}).exec(function (err, count) {
 						if (err) {
 							console.log(err);
