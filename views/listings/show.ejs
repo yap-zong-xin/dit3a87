@@ -30,7 +30,8 @@
     <p>price: <%= listing.price %></p>
     <p>size: <%= listing.size %></p>
     <p>property type: <%= listing.type %></p>
-    <p>number of rooms: <%= listing.numofRooms %></p>
+    <p>number of bed rooms: <%= listing.bedrooms %></p>
+    <p>number of bath rooms: <%= listing.bathrooms %></p>
     <p>location: <%= listing.location %></p>
     <p>
       <em>Submitted by: <a href="/user/<%= listing.author.id %>"><%= listing.author.username %></a>, <%= moment(listing.createdAt).fromNow() %></em>
