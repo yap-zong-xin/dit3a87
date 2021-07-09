@@ -1494,6 +1494,20 @@ input[type=range]::-ms-thumb {
   cursor: pointer;
 }
 
+.deleteItemFromGallery {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.deleteItemFromGallery:hover,
+.deleteItemFromGallery:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
 .box{
   width: 500px;
 }

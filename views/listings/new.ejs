@@ -74,7 +74,7 @@
             <input type="number" name="bathrooms" placeholder="Number of bath rooms">
     </div>
     <!-- submit form -->
-    <button onclick="checkforfiles()">CHECK</button>
+    <!-- <button onclick="checkforfiles()">CHECK</button> -->
     <input type="submit" value="Submit">
     </form>
   <a href="/listings">Go Back</a>
@@ -293,8 +293,39 @@
     //   ev.target.appendChild(document.getElementById(data));
     // }
 
-    function deleteImage(id) {
-
+    function deleteItem(id) {
+      var imageGallery = document.getElementById("image-gallery")
+      while(imageGallery.firstChild) {
+        imageGallery.removeChild(imageGallery.firstChild)
+      }
+      var videoGallery = document.getElementById("video-gallery")
+      while(videoGallery.firstChild) {
+        videoGallery.removeChild(videoGallery.firstChild)
+      }
+      console.log('image idd: ',id)
+      var fileList = document.getElementById('galleryFileArray');
+      console.log('gallery filelist items: ', fileList.files);
+      var list = new DataTransfer();
+      // var newFileList = [];
+      for(let i=0; i<fileList.files.length; i++) {
+        if(i != id) {
+          console.log('adding new')
+          console.log('new fle: ',fileList.files[i])
+          // newFileList.push(fileList.files[i])
+          list.items.add(fileList.files[i]);
+        }
+      }
+      //remove from gallery
+      // var imageChild = document.getElementById("galleryImage");
+      // console.log('image cild: ',imageChild);
+      // var imageGallery = document.getElementById("image-gallery");
+      // imageGallery.removeChild(imageGallery.childNodes[id]);
+      // document.getElementById('galleryItem'+id).remove();
+      //new files
+      fileList.files = list.files;
+      // updateGallery(newFileList);
+      previewGallery(fileList.files);
+      console.log('check deleted and new files: ', fileList.files);
     }
 
     function previewGallery(files) {
@@ -313,22 +344,45 @@
             reader.readAsDataURL(files[i]);
             reader.onloadend = function() {
               if(files[i].type.includes('image')) {
+                //img div to contain img and btn
                   var imgDiv = document.createElement('div');
                   imgDiv.classList.add('listingImage'); 
+                  imgDiv.setAttribute("id", "galleryItem"+i);
+                  //image src + file
                   var img = document.createElement('img');
                   img.src = reader.result;
+                  img.setAttribute("id", "imageItem"+i);
                   img.classList.add("image-gallery-style");
                   img.setAttribute("draggable", true);
                   img.setAttribute("ondragstart", "drag(event)");
-                  img.setAttribute("id", "galleryImage"+[i]);
-                  img.setAttribute("onclick", "deleteImage("+[i]+")");
+                  //delete image btn
+                  var dltItemBtn = document.createElement('span');
+                  dltItemBtn.classList.add('deleteItemFromGallery');
+                  dltItemBtn.innerHTML= "&times;";
+                  dltItemBtn.setAttribute("onclick", "deleteItem("+[i]+")");
+                  //add img and btn to div
                   imgDiv.appendChild(img);
+                  imgDiv.appendChild(dltItemBtn);
                   document.getElementById('image-gallery').appendChild(imgDiv);
               }else if(files[i].type.includes('video')) {
+                //video div to contain video and button
+                  var vidDiv = document.createElement('div');
+                  vidDiv.classList.add('listingImage'); 
+                  vidDiv.setAttribute("id", "galleryItem"+i);
+                  //video src + file
                   var vid = document.createElement('iframe');
                   vid.src  = reader.result;
+                  vid.setAttribute("id", "videoItem"+i);
                   vid.classList.add("video-gallery-style");
-                  document.getElementById('video-gallery').appendChild(vid);
+                  //delete video btn
+                  var dltItemBtn = document.createElement('span');
+                  dltItemBtn.classList.add('deleteItemFromGallery');
+                  dltItemBtn.innerHTML= "&times;";
+                  dltItemBtn.setAttribute("onclick", "deleteItem("+[i]+")");
+                  //add img and btn to div
+                  vidDiv.appendChild(vid);
+                  vidDiv.appendChild(dltItemBtn);
+                  document.getElementById('video-gallery').appendChild(vidDiv);
               }
             }
         }   
@@ -412,13 +466,13 @@
     //   // galleryInput.files = files;
     // }
   </script>
-  <script>
+  <!-- <script>
     function checkforfiles(e) {
       e.preventDefault();
       var formData = new FormData(document.forms.namedItem("newListingForm"));
       console.log('file pop: ',formData.getAll('listingThumbnail'));
     }
-  </script>
+  </script> -->
   <!-- Choose Thumbnail drag and drop -->
   <script>
     let thumbnailDropArea = document.getElementById("thumbnail-drop-area");
@@ -467,12 +521,13 @@
         console.log('dt provi: ',dt.getData("text"));//document.getElementById(dt.getData("text"))
         // console.log('maybe files: ',document.getElementById(dt.getData("text")).src);
         console.log('dfgsdf: ', dt)
+        var files;
         var slctEle = document.getElementById(dt.getData("text"));
         if(slctEle != null) {
-          var files = dataURLtoFile(slctEle.src, "thumbnailImage");
+          files = dataURLtoFile(slctEle.src, "thumbnailImage");
           console.log('typ of fiel: ',files);
         }else{
-          var files = dt.files;
+          files = dt.files;
           console.log('drop: ', files)
         }
         // document.getElementById("thumbnailFile").file = file;
@@ -523,6 +578,7 @@
 
     function updateThumbnail(files) {
       console.log('chosen file: ',typeof files.length)
+      console.log('chosen thumnail: ', files)
       var file;
       if(typeof files.length == 'undefined'){
         file = files
