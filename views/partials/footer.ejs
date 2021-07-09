@@ -10,6 +10,16 @@
 <script src="/javascripts/owl.carousel.min.js"></script>
 <script src="/javascripts/jquer.js"></script>
 <script src="/javascripts/regForm.js"></script>
+<script>
+  $( ".fa-plus" ).click(function() {
+    //alert($( this ).css( "transform" ));
+    if (  $( this ).css( "transform" ) == 'none' ){
+        $(this).css("transform","rotate(180deg)");
+    } else {
+        $(this).css("transform","" );
+    }
+  });
+</script>
 
 </body>
 

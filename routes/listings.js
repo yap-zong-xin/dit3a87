@@ -63,9 +63,6 @@ router.get("/", function(req,res){
 
 router.get("/listings", function(req,res){
 	var noMatch = null;
-	var perPage = 6;
-	var pageQuery = parseInt(req.query.page);
-	var pageNumber = pageQuery ? pageQuery : 1;
 	var largestPrice = 0;
 	var largestSize = 0;
 	listing.find().sort({price: -1}).limit(1).exec(function(err, foundLargestPrice) {
@@ -82,7 +79,7 @@ router.get("/listings", function(req,res){
 			}
 			if(req.query.search) {
 					const regex = new RegExp(escapeRegex(req.query.search), 'gi');
-					listing.find({$or: [{name: regex}, {description: regex}, {"author.username":regex}]}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, alllistings) {
+					listing.find({$or: [{name: regex}, {description: regex}, {"author.username":regex}]}).exec(function (err, alllistings) {
 							listing.count({name: regex}).exec(function (err, count) {
 									if (err) {
 											console.log(err);
@@ -93,8 +90,6 @@ router.get("/listings", function(req,res){
 											}
 											res.render("listings/index.ejs", {
 													listings: alllistings,
-													current: pageNumber,
-													pages: Math.ceil(count / perPage),
 													noMatch: noMatch,
 													search: req.query.search,
 													largestPrice: largestPrice,
@@ -313,17 +308,32 @@ router.get("/listings", function(req,res){
 				console.log('passed in archive check: ',regexArchive)
 				console.log('all parameters passed to mongo: '+minPrice+', '+maxPrice+', '+regexZone+', '+regexType+', '+minSize+', '+maxSize+', '+regexRooms);
 
-				listing.find({$and: [ {price: {$gte: minPrice, $lte: maxPrice}}, {zone: {$in : regexZone}}, {type: {$in: regexType}}, {size: {$gte: minSize, $lte: maxSize}}, {bedrooms: {$in: regexRooms}}, {soldStatus: {$in: regexSold}}, {archiveStatus: {$in: regexArchive}} ] }).sort(sortOptions).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, alllistings) {
+				listing.find({$and: [ {price: {$gte: minPrice, $lte: maxPrice}}, {zone: {$in : regexZone}}, {type: {$in: regexType}}, {size: {$gte: minSize, $lte: maxSize}}, {bedrooms: {$in: regexRooms}}, {soldStatus: {$in: regexSold}}, {archiveStatus: {$in: regexArchive}} ] }).sort(sortOptions).exec(function (err, alllistings) {
 					listing.count({price: minPrice}).exec(function (err, count) {
 						if (err) {
 							console.log(err);
 							res.redirect("back");
 						}else {
+
+							//====== for listing analytics
+							// for (var i = 0; i < alllistings.length; i++) {
+							// 	//id
+							// 	var id = alllistings[i]._id;
+							// 	console.log(alllistings[i]._id);
+
+							// 	async function postCount (id) {
+							// 		await countApi("/hit/3dpropertylistingsg/" +  id + "-click").then(success => {
+							// 		console.log("https://api.countapi.xyz/hit/3dpropertylistingsg/" + id + "-click");
+							// 		console.log("id: " + id + "success: " + success.data.value);
+							// 	});
+							// 	}
+							// 	postCount(id)
+							// }
+							
 							console.log('form data sthuff: ',req.query);
+
 							res.render("listings/index.ejs", {
 								listings: alllistings,
-								current: pageNumber,
-								pages: Math.ceil(count / perPage),
 								noMatch: noMatch,
 								search: req.query.search,
 								largestPrice: largestPrice,
@@ -335,7 +345,7 @@ router.get("/listings", function(req,res){
 				});	
 			}else {
 					// get all listings from DB
-					listing.find({$and: [{soldStatus: false}, {archiveStatus: false}] }).sort({createdAt: -1}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, alllistings) {
+					listing.find({$and: [{soldStatus: false}, {archiveStatus: false}] }).sort({createdAt: -1}).exec(function (err, alllistings) {
 							listing.count().exec(function (err, count) {
 									if (err) {
 											console.log(err);
@@ -348,15 +358,13 @@ router.get("/listings", function(req,res){
 											async function postCount (id) {
 												await countApi("/hit/3dpropertylistingsg/" +  id + "-click").then(success => {
 												console.log("https://api.countapi.xyz/hit/3dpropertylistingsg/" + id + "-click");
-												console.log(success.data.value);
+												console.log("id: " + id + "success: " + success.data.value);
 											});
 											}
 											postCount(id)
 										}
 										res.render("listings/index.ejs", {
 											listings: alllistings,
-											current: pageNumber,
-											pages: Math.ceil(count / perPage),
 											noMatch: noMatch,
 											search: false,
 											largestPrice: largestPrice,
@@ -945,6 +953,20 @@ router.get("/listings/:id/sold", middleware.checklistingOwnership, function(req,
 		}
 	});
 });
+router.get("/listings/:id/unsold", middleware.checklistingOwnership, function(req, res){
+	listing.findById(req.params.id, function(err, foundlisting){
+		if(err){
+			res.redirect("/listings");
+		} else{
+			console.log('the one we tryna sell: ',foundlisting);
+			console.log('listing sold status: ',foundlisting.soldStatus);
+			foundlisting.soldStatus = false;
+			console.log('check if listing is marked as sold: '+foundlisting.soldStatus);
+			foundlisting.save();
+			res.render("listings/show.ejs", {listing: foundlisting});
+		}
+	});
+});
 
 //Archive Listing
 router.get("/listings/:id/archive", middleware.checklistingOwnership, function(req, res){
@@ -955,6 +977,19 @@ router.get("/listings/:id/archive", middleware.checklistingOwnership, function(r
 			console.log('the one we tryna archive: ',foundlisting);
 			console.log('listing archive status: ',foundlisting.archiveStatus);
 			foundlisting.archiveStatus = true;
+			console.log('check if listing is marked as archive: '+foundlisting.archiveStatus);
+			foundlisting.save();
+			res.render("listings/show.ejs", {listing: foundlisting});		}
+	});
+});
+router.get("/listings/:id/unarchive", middleware.checklistingOwnership, function(req, res){
+	listing.findById(req.params.id, function(err, foundlisting){
+		if(err){
+			res.redirect("/listings");
+		} else{
+			console.log('the one we tryna archive: ',foundlisting);
+			console.log('listing archive status: ',foundlisting.archiveStatus);
+			foundlisting.archiveStatus = false;
 			console.log('check if listing is marked as archive: '+foundlisting.archiveStatus);
 			foundlisting.save();
 			res.render("listings/show.ejs", {listing: foundlisting});		}

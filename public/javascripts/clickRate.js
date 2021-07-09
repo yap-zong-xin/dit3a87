@@ -6,7 +6,7 @@ async function countApi(url) {
 	try {
 	  return await axios.get(host + url);
 	} catch (err) {
-	  console.log('myRequest error', err)
+	  return console.log("err", err);
 	}
 }
 
@@ -18,8 +18,15 @@ async function getClickRate(url) {
     var result;
     result = await countApi("/get/3dpropertylistingsg/" + url)
     .then(success => {
-      return success.data.value;
+      try {
+        value = success.data.value
+      } catch (e) {
+        value = 0;
+      }
+      return value
+      //return success.data.value;
     })
+    
     return result;
   }
   
@@ -27,14 +34,22 @@ async function getClickRate(url) {
     var result;
     result = await countApi("/get/3dpropertylistingsg/" + url + "-click")
     .then(success => {
-      return success.data.value;
+      var value;
+        try {
+          value = success.data.value
+        } catch (e) {
+          value = 0;
+        }
+        return value;
     })
+
     return result;
   }
 
   async function clickRateCalc() {
     var e = await getShow(url)
     var f = await getShow2(url)
+
     var rateArr = [url,e,f];
     var obj;
 
@@ -54,8 +69,8 @@ async function getClickRate(url) {
         }
       })
       // console.log(obj)
-      //html
       
+      //html
       var html = `<a><b> Clicks: `+ obj.click +`</b></a><br>
                   <a><b> Seen: `+ obj.shown +`</b></a><br>
                   <a><b> Click Rate: `+ obj.clickRate +`</b></a>`
