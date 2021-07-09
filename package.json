@@ -2,11 +2,10 @@
   "name": "sap_dit3a87",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js",
-    "worker" : "node server.js"
+    "start": "node server.js"
   },
   "author": "",
   "license": "ISC",
