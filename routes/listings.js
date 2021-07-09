@@ -317,6 +317,45 @@ router.get("/listings", function(req,res){
 
 					}
 				}
+				//Tenure
+				const freehold = req.query.freehold;
+				const NinetyNineYL = req.query.NinetyNineYL;
+				const HundredThreeYL = req.query.HundredThreeYL;
+				const HundredTenYL = req.query.HundredTenYL;
+				const NineHundredNineYL = req.query.NineHundredNineYL;
+				const tenure = req.query.tenure;
+				var allTenure = [];
+				allTenure.push(freehold, NinetyNineYL, HundredThreeYL, HundredTenYL, NineHundredNineYL, tenure);
+				console.log('all tenure: '+allTenure);
+				var tenureArr=[];
+				var regexTenure;
+				var tenureCount = 0;
+				for(let i=0; i<allTenure.length; i++) {
+					if(typeof allTenure[i]=='undefined'){
+						console.log('counting tenure')
+						tenureCount++;
+					}
+				}
+				if(tenureCount == 6){
+					allTenure = [ 'freehold', 'ninetynine', 'hundredthree', 'hundredten', 'ninehundrednine', 'unknown' ];
+					regexTenure = allTenure.map(function(e){return new RegExp(e, "gi");});
+					console.log('inside Tenure all empty: '+regexTenure);
+				}else {
+					for(let i=0; i<allTenure.length; i++) {
+						if(!(typeof allTenure[i] == 'undefined')) { //contains value does not contain undefined
+							console.log('tenure at i: '+allTenure[i]);
+							tenureArr[i] = allTenure[i];
+							console.log('inside tenure: '+tenureArr);
+							var tenureArrRegex = tenureArr.map(function(e){return new RegExp(e, "gi");});
+							regexTenure = tenureArrRegex.filter(function(lp){
+								return lp != null && lp != '';
+							})
+							console.log('regex tenure: '+regexTenure)
+						}
+
+					}
+				}
+
 				// Sort object (to be passed into .sort)
 				var sortOptions = {};
 				// Sort by Price
@@ -382,7 +421,7 @@ router.get("/listings", function(req,res){
 				console.log('passed in archive check: ',regexArchive)
 				console.log('all parameters passed to mongo: '+minPrice+', '+maxPrice+', '+regexZone+', '+regexType+', '+minSize+', '+maxSize+', '+regexRooms);
 
-				listing.find({$and: [ {price: {$gte: minPrice, $lte: maxPrice}}, {zone: {$in : regexZone}}, {type: {$in: regexType}}, {size: {$gte: minSize, $lte: maxSize}}, {bedrooms: {$in: regexRooms}}, {bathrooms: {$in: regexbathRooms}}, {soldStatus: {$in: regexSold}}, {archiveStatus: {$in: regexArchive}} ] }).sort(sortOptions).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, alllistings) {
+				listing.find({$and: [ {price: {$gte: minPrice, $lte: maxPrice}}, {zone: {$in : regexZone}}, {type: {$in: regexType}}, {size: {$gte: minSize, $lte: maxSize}}, {bedrooms: {$in: regexRooms}}, {bathrooms: {$in: regexbathRooms}}, {tenure: {$in: regexTenure}}, {soldStatus: {$in: regexSold}}, {archiveStatus: {$in: regexArchive}} ] }).sort(sortOptions).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, alllistings) {
 					listing.count({price: minPrice}).exec(function (err, count) {
 						if (err) {
 							console.log(err);
@@ -628,11 +667,12 @@ router.post("/listings", middleware.isLoggedIn, uploadMultiple, async function(r
 	var type = req.body.type;
 	var bedrooms = req.body.bedrooms;
 	var bathrooms = req.body.bathrooms;
+	var tenure = req.body.tenure;
   	var author = {
 		id: req.user._id,
 		username: req.user.username
 	};
-	var newlisting = {name:name, description:desc, author:author, location:location, zone:zone, price:price, size:size, type:type, bedrooms:bedrooms, bathrooms:bathrooms}
+	var newlisting = {name:name, description:desc, author:author, location:location, zone:zone, price:price, size:size, type:type, bedrooms:bedrooms, bathrooms:bathrooms, tenure:tenure}
 	try {
 			var geoData = await geocodingClient.forwardGeocode({
 				query: location,
