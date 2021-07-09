@@ -1,6 +1,78 @@
 <%- include("../partials/header") %>
 
-  <h1>Landing Page!</h1>
-  <a href="/listings">View all listings</a>
+  <!-- <h1>Landing Page!</h1>
+  <a href="/listings">View all listings</a> -->
 
+  <!-- Video Background -->
+  <video autoplay muted loop id="myVideo">
+    <source src="img/loop.mp4" type="video/mp4">
+  </video>
+
+  <div class="container-fluid m-0 p-0">
+    <div class="col-md-12 viewport-header flex-column">
+      <h1>The website that finds your<br>perfect home.</h1>
+      <button class="btn" onclick="window.location=`/listings`;">Start Searching</button>
+    </div>
+  </div>
+
+  <div class="container-fluid landing-overlay" id="gradient-bg">
+    <div class="row col-md-12 benefit-landing" id="benefit-landing">
+        <button class="benefit-landing-txt" onClick="updateElement('realExp')" id="clicked">Realest Experience</button>
+        <button class="benefit-landing-txt" onClick="updateElement('pandeRoof')">Pandemic Roof</button>
+        <button class="benefit-landing-txt" onClick="updateElement('suitAll')">Suitable for All</button>
+        <button class="benefit-landing-txt" onClick="updateElement('highQual')">Higher Quality Prospect</button>
+        <button class="benefit-landing-txt" onClick="updateElement('live')">Live 24/7</button>
+    </div>
+    <div class="row col-md-12 d-flex flex-direction-row benefit-desc">
+      <div class="col-md-6 m-0  desc-insert">
+        <h2 id="title-insert"></h2>
+        <a id="desc-insert"></a>
+      </div>
+      <div class="col-md-6 m-0">
+        <a>insert image</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="container-fluid m-0 p-0 landing-overlay text-center" style="padding-bottom: 120px;">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#186aff" fill-opacity="1" d="M0,64L120,58.7C240,53,480,43,720,64C960,85,1200,139,1320,165.3L1440,192L1440,0L1320,0C1200,0,960,0,720,0C480,0,240,0,120,0L0,0Z"></path></svg>
+    <h1 style="margin-bottom: 50px;">What we do</h1>
+    <div class="row col-md-12 text-center" style="padding-top: 50px;">
+      <div class="col-md-4 wwd-desc">
+        <div id="top-border">
+          <i class="fas fa-eye"></i>
+          <h4>360 Degree View</h4>
+          <a>
+            Allow your audiences to view the whole surrounding at ultra-high resolution from one spot<br>
+            Hotspots and major landmarks can be showcased for viewers to learn about the places they can head to within the vicinity<br>
+            Creates lasting experiences for spaces like tourist attractions, exhibitions, museums, event spaces etc.
+          </a>
+        </div>
+      </div>
+      <div class="col-md-4 wwd-desc">
+        <div id="top-border">
+          <i class="fas fa-video"></i>
+          <h4>Video Production</h4>
+          <a>
+            We boost your branding online to grow your target audience and attract potential clients<br>
+            We tailor-make videos to match each project to your unique business branding<br>
+            We work hand in hand with you for your digital marketing campaigns, from crafting, scripting, shooting and engaging video content to achieve your campaign objectives.
+          </a>
+        </div>
+      </div>
+      <div class="col-md-4 wwd-desc">
+        <div id="top-border">
+          <i class="fas fa-vr-cardboard"></i>
+          <h4>Virtual Experience</h4>
+          <a>Unparalleled access for your audiences to your virtual location<br>
+            Your audiences can view exactly what you see and how you feel at any point you are at in your space<br>
+            Each project will be prepared based on our expertise and your views on the best 3D experience we can provide for your audiences.</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <script src="javascripts/landingDescription.js"></script>
+  <script>document.getElementById("clicked").click();</script>
   <%- include("../partials/footer") %>

@@ -21,6 +21,107 @@ body {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
+/* Landing Page */
+#myVideo {
+  object-fit: cover;
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.viewport-header{
+  backdrop-filter: blur(5px);
+  position: relative;
+  height: 100vh;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.viewport-header h1 {
+  color: white;
+  font-size: 56px;
+  font-weight: 500;
+}
+
+.viewport-header button {
+  margin: 10px 0 10px;
+  color: white;
+  background-color: #186aff;
+  border-radius: 10px;
+}
+
+.landing-overlay {
+  position:relative;
+  z-index:10;
+  background: white;
+  padding: 30px;
+}
+
+#gradient-bg {
+  padding: 40px 0 100px;
+  background-color: #186aff;
+  /* background: rgb(2,0,36); */
+  /* background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(63,9,121,1) 0%, rgba(0,125,255,1) 100%); */
+  /* height: 650px; */
+}
+
+.benefit-landing {
+  text-align: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+.benefit-landing-txt {
+  background-color: transparent;
+  border: none;
+  color: white;
+  font-size: 22px;
+  font-weight: 500;
+  margin: 15px;
+  text-transform: capitalize;
+}
+
+.benefit-landing-txt:focus {
+  outline:none;
+}
+
+.benefit-desc {
+  margin: 150px 0 150px;
+  padding-left: 80px;
+}
+
+.title-insert {
+  letter-spacing: 0.5px;
+  padding-left: 80px;
+}
+
+.desc-insert {
+  color: white;
+  font-size: 16px;
+  font-weight: 100;
+  letter-spacing: 0.5px;
+  line-height: 2;
+}
+
+#top-border {
+  border-top: 10px solid #186aff;
+  border-radius: 5px;
+  padding-top: 50px;
+}
+
+#top-border i {
+  font-size: 80px;
+}
+
+.wwd-desc a {
+  letter-spacing: 0.5px;
+  line-height: 2;
+}
+
 /* Inside listing card Styling */
 .list-card img {
   width: 150px;
