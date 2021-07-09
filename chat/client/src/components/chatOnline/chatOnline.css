@@ -1,3 +1,12 @@
+.container {
+  align-items:center;
+  flex: 1;
+  background-color: "grey";
+  border-width: 5;
+  border-top-left-radius: 500px;
+  border-top-right-radius: 500px;
+}
+
 .chatOnlineFriend {
   display: flex;
   align-items: center;
@@ -12,8 +21,8 @@
 }
 
 .chatOnlineImg {
-  width: 40px;
-  height: 40px;
+  width: 200px;
+  height: 200px;
   border-radius: 50%;
   object-fit: cover;
   border: 1px solid white;
