@@ -15,22 +15,102 @@
     </div>
   </div>
 
+ 
+
   <div class="container-fluid landing-overlay" id="gradient-bg">
-    <div class="row col-md-12 benefit-landing" id="benefit-landing">
-        <button class="benefit-landing-txt" onClick="updateElement('realExp')" id="clicked">Realest Experience</button>
-        <button class="benefit-landing-txt" onClick="updateElement('pandeRoof')">Pandemic Roof</button>
-        <button class="benefit-landing-txt" onClick="updateElement('suitAll')">Suitable for All</button>
-        <button class="benefit-landing-txt" onClick="updateElement('highQual')">Higher Quality Prospect</button>
-        <button class="benefit-landing-txt" onClick="updateElement('live')">Live 24/7</button>
-    </div>
-    <div class="row col-md-12 d-flex flex-direction-row benefit-desc">
-      <div class="col-md-6 m-0  desc-insert">
-        <h2 id="title-insert"></h2>
-        <a id="desc-insert"></a>
+    <div id="carouselExampleIndicators" class="carousel slide m-0 p-0" data-ride="carousel">
+      <ol class="carousel-indicators">
+        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="4"></li>
+      </ol>
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <div class="row col-md-12 d-flex flex-direction-row benefit-desc">
+            <div class="col-md-6 m-0  desc-insert">
+              <h2 id="title-insert">
+                Realest Experience.
+              </h2>
+              <a id="desc-insert">
+                Our 3D Virtual Tour provides a seamless navigating experience for your prospects, with the ability to adjust their view, zoom in or out and embedded texts to understand as much about the property they are viewing in this 3D experience.
+              </a>
+            </div>
+            <div class="col-md-6 m-0">
+              <a>insert image</a>
+            </div>
+          </div>
+        </div>
+        <div class="carousel-item">
+                    <div class="row col-md-12 d-flex flex-direction-row benefit-desc">
+            <div class="col-md-6 m-0  desc-insert">
+              <h2 id="title-insert">
+                Pandemic Roof
+              </h2>
+              <a id="desc-insert">
+                With our 3D Virtual Tour, property viewers can enjoy the most immersive experience at the comfort of their own locations, timings and devices they use.
+              </a>
+            </div>
+            <div class="col-md-6 m-0">
+              <a>insert image</a>
+            </div>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <div class="row col-md-12 d-flex flex-direction-row benefit-desc">
+            <div class="col-md-6 m-0  desc-insert">
+              <h2 id="title-insert">
+                Suitable for All.
+              </h2>
+              <a id="desc-insert">
+                Regardless you are a Real Estate Agent, Developer, Architecturer, Interior Designer etc. Our 3D Virtual Tour allows you to showcase your beautiful properties, exhibitions and businesses.
+              </a>
+            </div>
+            <div class="col-md-6 m-0">
+              <a>insert image</a>
+            </div>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <div class="row col-md-12 d-flex flex-direction-row benefit-desc">
+            <div class="col-md-6 m-0  desc-insert">
+              <h2 id="title-insert">
+                Higher Quality Prospects.
+              </h2>
+              <a id="desc-insert">
+                Upon enjoying and understanding better what is displayed in the 3D Virtual Tour, the more interested prospects are more likely to contact you to find out more, bringing in more meaningful businesses.
+              </a>
+            </div>
+            <div class="col-md-6 m-0">
+              <a>insert image</a>
+            </div>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <div class="row col-md-12 d-flex flex-direction-row benefit-desc">
+            <div class="col-md-6 m-0  desc-insert">
+              <h2 id="title-insert">
+                Live 24/7.
+              </h2>
+              <a id="desc-insert">
+                Having our 3D Virtual Tour of the space you want to show your audience, you can share with as many prospects at any point in time. This creates more viewership to any space you want to showcase.
+              </a>
+            </div>
+            <div class="col-md-6 m-0">
+              <a>insert image</a>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="col-md-6 m-0">
-        <a>insert image</a>
-      </div>
+      <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
     </div>
   </div>
 
@@ -81,6 +161,5 @@
   </div>
 
 
-  <script src="javascripts/landingDescription.js"></script>
   <script>document.getElementById("clicked").click();</script>
   <%- include("../partials/footer") %>

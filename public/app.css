@@ -93,7 +93,7 @@ body {
 
 .benefit-desc {
   margin: 150px 0 150px;
-  padding-left: 80px;
+  padding: 0 190px 0 190px;
 }
 
 .title-insert {
@@ -146,8 +146,8 @@ body {
 }
 
 #text-wrapper {
-  margin-left: 100px;
-  margin-right: 100px;
+  margin-left: 70px;
+  margin-right: 70px;
 }
 
 /* Inside listing card Styling */
