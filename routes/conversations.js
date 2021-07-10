@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const Conversation = require("../models/Conversation");
+const Conversation = require("../models/conversation");
 
 //new conv
 
@@ -47,7 +47,7 @@ router.get("/conversation/:userId", async (req, res) => {
 
 // get conv includes two userId
 
-router.get("conversations/find/:firstUserId/:secondUserId", async (req, res) => {
+router.get("/conversations/find/:firstUserId/:secondUserId", async (req, res) => {
   try {
     const conversation = await Conversation.findOne({
       members: { $all: [req.params.firstUserId, req.params.secondUserId] },
