@@ -1222,7 +1222,7 @@ input[type=range]::-ms-thumb {
 .profileOverviewBtn{
   width: 140px;
   border-radius: 50px;
-  font-size: 0.95em;
+  font-size: 0.9em;
 }
 .approveBtn{
   width: 160px;
@@ -1257,7 +1257,7 @@ input[type=range]::-ms-thumb {
   padding: 11px;
 }
 .fa-comment, .fa-user-alt, .fa-comment-alt, .fa-sign-out-alt, .fa-plus{
-  font-size: 2.7em;
+  font-size: 2.3em;
   background: rgb(231, 231, 231);
   padding: 13px;
   border-radius: 50%;
@@ -1815,4 +1815,93 @@ nav a{
   left: 0;
   right: 0;
   text-align: center;
+}
+
+/* dashboard menu */
+.navigation{
+  position: relative;
+  height: 500px;
+  /* width: 70px; */
+  width: 250px;
+  background: #4a565f;
+  box-shadow: 10px 0 0 #4187f6;
+  border-left: 10px solid #4a565f;
+  overflow-x: hidden;
+  /* transition: width 0.5s;  */
+}
+/* .navigation:hover{
+  width: 300px;
+} */
+.navigation ul{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding-left: 5px;
+  padding-top: 40px;
+}
+.navigation li{
+  position: relative;
+  list-style: none;
+  width: 100%;
+  height: 50px;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+}
+.navigation .active{
+  background: #4187f6;
+}
+.navigation a{
+  position: relative;
+  display: block;
+  width: 100%;
+  display: flex;
+  height: 50px;
+  text-decoration: none;
+  color: #fff;
+}
+.navigation .active a::before{
+  content: '';
+  position: absolute;
+  top: -30px;
+  right: 0;
+  width: 30px;
+  height: 30px;
+  background: #4a565f;
+  border-radius: 50%;
+  box-shadow: 15px 15px 0 #4187f6;
+}
+.navigation .active a::after{
+  content: '';
+  position: absolute;
+  bottom: -30px;
+  right: 0;
+  width: 30px;
+  height: 30px;
+  background: #4a565f;
+  border-radius: 50%;
+  box-shadow: 15px -15px 0 #4187f6;
+}
+.navigation .icon{
+  position: relative;
+  display: block;
+  min-width: 60px;
+  height: 60px;
+  line-height: 60px;
+  text-align: center;
+}
+.navigation .icon ion-icon{
+  position: relative;
+  font-size: 1.5em;
+  z-index: 1;
+}
+.navigation .title{
+  position: relative;
+  display: block;
+  padding-left: 10px;
+  height: 60px;
+  line-height: 50px;
+  white-space: nowrap;
+  color: white;
+  font-size: 0.9em;
 }

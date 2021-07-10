@@ -131,7 +131,7 @@
       </span>
       <% } else { %>
         <div class="justify-content-center d-flex">
-          <div class="mb-3" style="width: 152px;">
+          <div class="mb-3 text-center" style="width: 400px;">
             <a href="/user/<%= user._id %>/reviews" id="mainReview">
               <p class="m-0">
                 <%= user.rating.toFixed(2) %>
@@ -350,7 +350,7 @@
           <% if(user.reviews.length==0){ %>
           <% } else{ %>
             <div class="col-12 borderStyle mt-3">
-              <div class="reviewGradient" style="height: 130px;">
+              <div class="reviewGradient" style="height: 125px;">
                 <div id="content" class="align-items-center d-flex justify-content-center" style="color: white; font-weight: 600; padding: 20px 40px 20px 40px;">
                   <span style="font-size: 1.8em;"><%= user.rating.toFixed(2) %></span>
                   <span class="pl-1" style="font-size: 0.9em;"> out of 5.00</span>
