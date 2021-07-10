@@ -34,7 +34,7 @@ if (convExists.length !==0 || convExists1.length !==0) {
 
 //get conv of a user
 
-router.get("conversation/:userId", async (req, res) => {
+router.get("/conversation/:userId", async (req, res) => {
   try {
     const conversation = await Conversation.find({
       members: { $in: [req.params.userId] },
