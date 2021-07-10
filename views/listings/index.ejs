@@ -6,7 +6,6 @@
 
     <!--Map-->
     <div id="map" style="width: 80%; height: 300px;"></div>
-    
 
     <!-- No Match -->
     <div class="container">
@@ -20,102 +19,6 @@
             <h3><%= noMatch %></h3>
         <% } %>
 
-        <% if(currentUser && currentUser.isAdmin || currentUser && currentUser.isAgent && currentUser.agentStatus){ %>
-            <a href="/listings/new">Add New listing</a>
-            <!-- Trigger/Open The Modal -->
-            <button id="upldListBtn">Upload Listing</button>
-            <% } %>
-
-            <!-- The Modal -->
-            <div id="upldForm" class="upldForm">
-                <!-- Modal content -->
-                <div class="upldForm-content">
-                    <!-- header -->
-                    <div class="upldForm-header">
-                        <span class="closeUpldForm">&times;</span>
-                        <h7>Header lmao</h7>
-                        <div class="row">
-                            <!-- 1st slide: drag and drop thumbnail-->
-                            <div class="column">
-                                <!-- <span class="upldForm-Num" onclick="currentSlide(1)">&#9312;</span> -->
-                                <button type="button" onclick="currentSlide(1)">1 dragdrop thumbnail</button>
-                            </div>
-                            <!-- 2nd slide: thumbnail preview -->
-                            <div class="column">
-                                <!-- <span class="upldForm-Num" onclick="currentSlide(2)">&#9313;</span> -->
-                                <button id="upldForm-Btn2" type="button" onclick="currentSlide(2)" disabled>2 thumbnail</button>
-                            </div>
-                            <!-- 3rd slide: drag and drop listing files -->
-                            <div class="column">
-                                <!-- <span class="upldForm-Num" onclick="currentSlide(2)">&#9313;</span> -->
-                                <button type="button" onclick="currentSlide(3)">3 dragdrop</button>
-                            </div>
-                            <!-- 4th slide: listing image/video preview -->
-                            <div class="column">
-                                <!-- <span class="upldForm-Num" onclick="currentSlide(2)">&#9313;</span> -->
-                                <button id="upldForm-Btn4" type="button" onclick="currentSlide(4)" disabled>4 gallery</button>
-                            </div>
-                            <!-- 5th slide: form input -->
-                            <div class="column">
-                                <!-- <span class="upldForm-Num" onclick="currentSlide(2)">&#9313;</span> -->
-                                <button type="button" onclick="currentSlide(5)">5 form</button>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- body -->
-                    <div class="upldForm-body">
-                        <form action="/listings" method="POST" enctype="multipart/form-data">
-                        <!-- 1st slide: drag and drop upload thumbnail file -->
-                        <div class="upldForm-slides">
-                            <div id="thumbnail-drop-area">
-                                <p style="margin-top: 0;">Drag and drop thumbnail image</p>
-                                <label class="fileBtn" for="thumbnailFile">Select thumbnail image</label>
-                                <input name="listingThumbnail" type="file" style="visibility:hidden;" id="thumbnailFile" accept="image/*" onchange="handleThumbnailFile()">
-                            </div>
-                        </div>
-                        <!-- 2nd slide: previewing provided thumbnail -->
-                        <div class="upldForm-slides">
-                            <div id="thumbnail-gallery"></div>
-                        </div>
-                        <!-- 3rd slide: drag and drop upload listing files -->
-                        <div class="upldForm-slides">
-                            <div id="drop-area">
-                                <p style="margin-top: 0;">Drag and drop images/videos</p>
-                                <label class="fileBtn" for="galleryFileArray">Select some files</label>
-                                <input name="listingGallery" type="file" style="visibility:hidden;" id="galleryFileArray" multiple onchange="handleGalleryFiles()" required>
-                            </div>
-                        </div>
-                        <!-- 4th slide: previewing provided files for image/video -->
-                        <div class="upldForm-slides">
-                            <div id="image-gallery"></div>
-                            <div id="video-gallery"></div>
-                        </div>
-                        <!-- 5th slide: listing information -->
-                        <div class="upldForm-slides">
-                                <input type="text" name="name" placeholder="name">
-                                <!-- <input type="text" name="image" placeholder="image url"> -->
-                                <input type="text" name="description" placeholder="Description">
-                                <input type="text" name="zone" placeholder="District">
-                                <input type="text" name="location" placeholder="Location">
-                                <input type="number" name="price" placeholder="Price">
-                                <input type="number" name="size" placeholder="Size">
-                                <input type="text" name="type" placeholder="Property Type">
-                                <input type="number" name="bedrooms" placeholder="Number of bed rooms">
-                                <input type="number" name="bathrooms" placeholder="Number of bath rooms">
-                        </div>
-                        <!-- submit form -->
-                        <input type="submit" value="Submit">
-                        </form>
-                    </div>
-                    <!-- footer  -->
-                    <div class="upldForm-footer">
-                        <h8>Feet</h8>
-                    </div>
-                </div>
-            </div>
-
-            
-
             <div class="d-flex justify-content-around">
                 <div class="col-sm-4">
                     <div class="form-card">
@@ -123,7 +26,7 @@
                             <form action="/listings" method="GET" id="filterForm">
                                 <p>Filter</p><br>
 
-                                <!-- 1st Filter: Property Type-->
+                                <!-- Filter: Property Type-->
                                 <!-- <label for="type">Choose Property Type:</label>
                                 <select name="type" id="type">
                                     <option value="" disabled selected hidden>Property Type</option>
@@ -139,7 +42,7 @@
                                 <input type="checkbox" id="landed" name="landedType" value="landed" <% if(data.landedType) {%> checked <%} %>>
                                 <label for="landed">Landed</label><br>
 
-                                <!-- 2nd Filter: Property Zone -->
+                                <!-- Filter: Property Zone -->
                                 <br><label for="propertyStatus">Choose a Zone:</label><br>
                                 <input type="checkbox" id="north" name="northZone" value="north" <% if(data.northZone) {%> checked <%} %>>
                                 <label for="north">North</label><br>
@@ -150,7 +53,7 @@
                                 <input type="checkbox" id="west" name="westZone" value="west" <% if(data.westZone) {%> checked <%} %>>
                                 <label for="west">West</label><br>
 
-                                <!-- 6th filter: Number of rooms slider -->
+                                <!-- Filter: Number of rooms slider -->
                                 <!-- <label for="numofRooms">Number of Rooms:</label>
                                 <select name="numofRooms" id="numofRooms">
                                     <option value="" disabled selected hidden>Rooms</option>
@@ -175,6 +78,7 @@
                                 <input type="checkbox" id="6" name="sixrooms" value="6" <% if(data.sixrooms) {%> checked <%} %>>
                                 <label for="6">6</label><br>
 
+                                <!-- Filter: Number of bathrooms -->
                                 <br><label for="numofRooms">Number of bath rooms:</label><br>
                                 <input type="checkbox" id="1bath" name="onebathrooms" value="1" <% if(data.onebathrooms) {%> checked <%} %>>
                                 <label for="1bath">1</label><br>
@@ -183,7 +87,24 @@
                                 <input type="checkbox" id="3bath" name="threebathrooms" value="3" <% if(data.threebathrooms) {%> checked <%} %>>
                                 <label for="3bath">3</label><br>
 
-                                <!-- 3rd Filter: Price Slider -->
+                                <!-- Filter: Tenure type -->
+                                <label for="propertyType">Choose a property type:</label><br>
+                                <input type="checkbox" id="freehold" name="freehold" value="freehold" <% if(data.freehold) {%> checked <%} %>>
+                                <label for="freehold">Freehold</label><br>
+                                <input type="checkbox" id="NinetyNineYL" name="NinetyNineYL" value="ninetynine"<% if(data.NinetyNineYL) {%> checked <%} %>> 
+                                <label for="NinetyNineYL">99-Year Leasehold</label><br>
+                                <input type="checkbox" id="HundredThreeYL" name="HundredThreeYL" value="hundredthree" <% if(data.HundredThreeYL) {%> checked <%} %>>
+                                <label for="HundredThreeYL">103-Year Leasehold</label><br>
+                                <input type="checkbox" id="HundredTenYL" name="HundredTenYL" value="hundredten" <% if(data.HundredTenYL) {%> checked <%} %>>
+                                <label for="HundredTenYL">110-Year Leasehold</label><br>
+                                <input type="checkbox" id="NineHundredNineYL" name="ninehundrednine" value="999"<% if(data.NineHundredNineYL) {%> checked <%} %>> 
+                                <label for="NineHundredNineYL">999-Year Leasehold</label><br>
+                                <input type="checkbox" id="tenure" name="tenure" value="unknown" <% if(data.tenure) {%> checked <%} %>>
+                                <label for="tenure">Unknown Tenure</label><br>
+
+                                <!-- Filter: Price Slider -->
+
+                                <!-- Filter: Price Slider -->
                                 <div class="price-slider">
                                     <span>Price: 
                                         <input type="number" value="0" min="0" max="<%= largestPrice %>" name="minPrice" /> to
@@ -198,7 +119,7 @@
                                     </svg>
                                 </div>
 
-                                <!-- 4th Filter: Size Slider -->
+                                <!-- Filter: Size Slider -->
                                 <div class="size-slider">
                                     <span>Size: 
                                         <input type="number" value="0" min="0" max="<%= largestSize %>" name="minSize" /> to
@@ -213,7 +134,7 @@
                                     </svg>
                                 </div>
 
-                                <!-- 5th filter: Sort by highest or lowest price -->
+                                <!-- Filter: Sort by highest or lowest price -->
                                 <label for="sortPrice">Sort by:</label>
                                 <select name="sortPrice" id="sortPrice">
                                     <option value="" disabled selected hidden>Price</option>
@@ -221,7 +142,7 @@
                                     <option value="LowestPrice" <% if(data.sortPrice == 'LowestPrice') {%> selected <%} %>>Lowest Price</option>
                                 </select>
 
-                                <!-- 7th filter: Sort by recent/oldest -->
+                                <!-- Filter: Sort by recent/oldest -->
                                 <br><label for="sortDate">Sort by:</label>
                                 <select name="sortDate" id="sortDate">
                                     <option value="" disabled selected hidden>Date</option>
@@ -229,7 +150,7 @@
                                     <option value="Oldest" <% if(data.sortDate == 'Oldest') {%> selected <%} %>>Oldest</option>
                                 </select>
 
-                                <!-- 9th filter: for admin/agent to view sold/archived listing -->
+                                <!-- Filter: for admin/agent to view sold/archived listing -->
                                 <% if(currentUser && currentUser.isAdmin || currentUser && currentUser.isAgent && currentUser.agentStatus){ %>
                                     <!-- sold -->
                                     <br><label for="soldStatusCheck">Sold: </label><br>
@@ -238,14 +159,14 @@
                                     <input type="checkbox" id="archive" name="archiveCheck" value="archive" <% if(data.archiveCheck) {%> checked <%} %>>
                                     <label for="archive">Archive listing</label><br>
                                     
-                                    <!-- sort by sold/not sold -->
+                                    <!-- Filter: sort by sold/not sold -->
                                     <br><label for="sortSold">Sort by:</label>
                                     <select name="sortSold" id="sortSold">
                                         <option value="" disabled selected hidden>selling availability</option>
                                         <option value="Sold" <% if(data.sortSold == 'Sold') {%> selected <%} %>>Sold</option>
                                         <option value="NotSold" <% if(data.sortSold == 'NotSold') {%> selected <%} %>>Not Sold</option>
                                     </select>
-                                    <!-- sort by archive/not archive -->
+                                    <!-- Filter: sort by archive/not archive -->
                                     <br><label for="sortArchive">Sort by:</label>
                                     <select name="sortArchive" id="sortArchive">
                                         <option value="" disabled selected hidden>archive availability</option>
@@ -253,7 +174,7 @@
                                     </select>
                                 <% } %>
 
-                                <!-- 8th filter: reset form inputs -->
+                                <!-- Filter: reset form inputs -->
                                 <br><input type="button" onclick="resetForm()" value="Reset" >
 
                                 <!-- Apply filters/submit button -->
@@ -397,40 +318,6 @@
 
         })();
     </script>
-    <!-- <script>
-        (function () {
-
-            var parent = document.querySelector(".numofRooms-slider");
-            if (!parent) return;
-
-            var
-                rangeS = parent.querySelectorAll("input[type=range]"),
-                numberS = parent.querySelectorAll("input[type=number]");
-
-            rangeS.forEach(function (el) {
-                el.oninput = function () {
-                    var slide1 = parseFloat(rangeS[0].value);
-
-                    numberS[0].value = slide1;
-                }
-            });
-
-            numberS.forEach(function (el) {
-                el.oninput = function () {
-                    var number1 = parseFloat(numberS[0].value);
-
-                    rangeS[0].value = number1;
-
-                }
-            });
-
-        })();
-    </script> -->
-    <script>
-        function upperCaseFirstLetter(string) {
-            return string.charAt(0).toUpperCase() + string.slice(1);
-        }
-    </script>
     <script>                               
         function resetForm() {
             //document.getElementById("formFilter").resetForm()
@@ -465,187 +352,5 @@
             document.getElementById("sortArchive").value="";
         }                
     </script>
-    <script>
-        // Get the modal
-        var upldForm = document.getElementById("upldForm");
-
-        // Get the button that opens the modal
-        var upldListBtn = document.getElementById("upldListBtn");
-
-        // Get the <span> element that closes the modal
-        var closeUpldForm = document.getElementsByClassName("closeUpldForm")[0];
-
-        // When the user clicks on the button, open the modal
-        upldListBtn.onclick = function() {
-            upldForm.style.display = "block";
-        }
-
-        // When the user clicks on <span> (x), close the modal
-        closeUpldForm.onclick = function() {
-            upldForm.style.display = "none";
-        }
-
-        // When the user clicks anywhere outside of the modal, close it
-        window.onclick = function(event) {
-        if (event.target == upldForm) {
-            upldForm.style.display = "none";
-        }
-        }
-    </script>
-    <script>
-        var upldFormSlideIndex = 1;
-        showUpldFormSlides(upldFormSlideIndex);
-
-        // Thumbnail image controls
-        function currentSlide(n) {
-            showUpldFormSlides(upldFormSlideIndex = n);
-        }
-
-        function showUpldFormSlides(n) {
-        var i;
-        var upldFormSlides = document.getElementsByClassName("upldForm-slides");
-        if (n > upldFormSlides.length) {upldFormSlideIndex = 1}
-        if (n < 1) {upldFormSlideIndex = upldFormSlides.length}
-        for (i = 0; i < upldFormSlides.length; i++) {
-            upldFormSlides[i].style.display = "none";
-        }
-        upldFormSlides[upldFormSlideIndex-1].style.display = "block";
-        }
-    </script>
-    <script>
-        let thumbnailDropArea = document.getElementById("thumbnail-drop-area");
-        // Prevent default drag behaviors
-        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-            thumbnailDropArea.addEventListener(eventName, preventDefaults, false)   
-            document.body.addEventListener(eventName, preventDefaults, false)
-        });
-        // Highlight drop area when item is dragged over it
-        ['dragenter', 'dragover'].forEach(eventName => {
-            thumbnailDropArea.addEventListener(eventName, highlight, false)
-        });
-        ['dragleave', 'drop'].forEach(eventName => {
-            thumbnailDropArea.addEventListener(eventName, unhighlight, false)
-        });
-        // Handle dropped file
-        thumbnailDropArea.addEventListener('drop', handleDrop, false);
-
-        function preventDefaults (e) {
-            e.preventDefault()
-            e.stopPropagation()
-        }
-
-        function highlight(e) {
-            thumbnailDropArea.classList.add('highlight')
-        }
-    
-        function unhighlight(e) {
-            thumbnailDropArea.classList.remove('active')
-        }
-    
-        function handleDrop(e) {
-            var dt = e.dataTransfer
-            var file = dt.files[0]
-            previewThumbnail(file);
-        }
-    
-        function handleThumbnailFile() {
-            var file = document.getElementById("thumbnailFile").files[0];
-            console.log('inside thumb: ',file)
-            previewThumbnail(file);
-        }
-
-        function previewThumbnail(file) {
-            if(!file) {
-                console.log('no file');
-            }
-            var reader = new FileReader();
-            reader.readAsDataURL(file); 
-            reader.onloadend = function() {
-                console.log('given thumbnail file: ',file);
-                var img = document.createElement('img');
-                img.src = reader.result;
-                img.classList.add("thumbnail-gallery-style");
-                var thumbnailGallery = document.getElementById('thumbnail-gallery')
-                if(thumbnailGallery.childNodes[0]) {
-                    thumbnailGallery.removeChild(thumbnailGallery.childNodes[0]);
-                }
-                thumbnailGallery.appendChild(img);
-            }
-            currentSlide(2);
-            document.getElementById("upldForm-Btn2").disabled=false;
-        }
-    </script>
-    <script>
-        let dropArea = document.getElementById("drop-area");
-    
-        // Prevent default drag behaviors
-        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-          dropArea.addEventListener(eventName, preventDefaults, false)   
-          document.body.addEventListener(eventName, preventDefaults, false)
-        });
-    
-        // Highlight drop area when item is dragged over it
-        ['dragenter', 'dragover'].forEach(eventName => {
-          dropArea.addEventListener(eventName, highlight, false)
-        });
-        ['dragleave', 'drop'].forEach(eventName => {
-          dropArea.addEventListener(eventName, unhighlight, false)
-        });
-    
-        // Handle dropped files
-        dropArea.addEventListener('drop', handleDrop, false);
-    
-        function preventDefaults (e) {
-          e.preventDefault()
-          e.stopPropagation()
-        }
-    
-        function highlight(e) {
-          dropArea.classList.add('highlight')
-        }
-    
-        function unhighlight(e) {
-          dropArea.classList.remove('active')
-        }
-    
-        function handleDrop(e) {
-            var dt = e.dataTransfer
-            var files = dt.files
-            console.log('the files: ',files);
-            previewGallery(files);
-        }
-
-        function handleGalleryFiles() {
-            var files = document.getElementById("galleryFileArray").files;
-            console.log('the files: ',files);
-            previewGallery(files);
-        }
-
-        function previewGallery(files) {
-            console.log('given gallery files: ', files);
-            for(let i=0; i<files.length; i++) {
-                console.log('given file type: ',files[i]);
-                let reader = new FileReader();
-                reader.readAsDataURL(files[i]);
-                reader.onloadend = function() {
-                    if(files[i].type.includes('image')) {
-                        console.log('iiiiiiiiiii');
-                        var img = document.createElement('img');
-                        img.src = reader.result;
-                        img.classList.add("image-gallery-style");
-                        document.getElementById('image-gallery').appendChild(img);
-                    }else if(files[i].type.includes('video')) {
-                        console.log('vvvvvvvvvvv');
-                        var vid = document.createElement('iframe');
-                        vid.src  = reader.result;
-                        vid.classList.add("video-gallery-style");
-                        document.getElementById('video-gallery').appendChild(vid);
-                    }
-                }
-            }
-            currentSlide(4);
-            document.getElementById("upldForm-Btn4").disabled=false;
-        }
-      </script>
     
 <%- include("../partials/footer") %>
