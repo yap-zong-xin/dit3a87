@@ -1127,7 +1127,7 @@ input[type=range]::-ms-thumb {
 .flashMessage{
   position: fixed;
   top: 80px;
-  z-index: 1;
+  z-index: 9999;
   left: 50%;
   transform: translateX(-50%);
 }
@@ -1156,7 +1156,7 @@ input[type=range]::-ms-thumb {
   font-size: 2.4em;
   cursor: pointer;
   border-radius: 50%;
-  padding: 7px;
+  padding: 8px;
   background: white
 }
 
@@ -1172,15 +1172,18 @@ input[type=range]::-ms-thumb {
 .profileEditSubmit, .profileResetPassword{
   font-size: 0.95em;
   background:#4632da;
+  border-radius: 25px;
 }
 .profileDeleteBtn{
   font-size: 0.95em;
+  border-radius: 25px;
 }
 .profileEditSubmit:hover, .profileResetPassword:hover{
   background:#0d28b1;
 }
 .profileEditCancel{
   font-size: 0.95em;
+  border-radius: 25px;
 }
 
 .profileImage{
@@ -1425,7 +1428,7 @@ input[type=range]::-ms-thumb {
   background: #f2f2f2;
   padding: var(--field-padding);
   border-radius: 10px;
-  width: 505px;
+  width: 620px;
   outline: none;
   font-size: 14px;
 }
@@ -1825,7 +1828,7 @@ nav a{
 
 #mainLoader{
   position: absolute;
-  top: 80px;
+  top: 7px;
   display: inline-block;
   border: 3.5px solid #f3f3f3;
   border-top: 5px solid #4632DA;
@@ -1839,6 +1842,7 @@ nav a{
   left: 0;
   right: 0;
   text-align: center;
+  z-index: 999999;
 }
 
 /* dashboard menu */
@@ -1848,7 +1852,7 @@ nav a{
   /* width: 70px; */
   width: 250px;
   background: #4a565f;
-  box-shadow: 10px 0 0 #513afd;
+  box-shadow: 10px 0 0 white;
   border-left: 10px solid #4a565f;
   overflow-x: hidden;
   /* transition: width 0.5s;  */
@@ -1874,11 +1878,19 @@ nav a{
   border-top-left-radius: 20px;
   border-bottom-left-radius: 20px;
 }
+.navigation .active{
+  background: white;
+}
+.navigation .active:hover{
+  background: white;
+}
 .navigationHover:hover{
   background: rgb(63, 63, 63);
+  z-index: 9;
 }
-.navigation .active{
-  background: #513afd;
+.navigation .active a, .navigation .active .title{
+  color: black;
+  font-weight: 600;
 }
 .navigation a{
   position: relative;
@@ -1898,7 +1910,7 @@ nav a{
   height: 30px;
   background: #4a565f;
   border-radius: 50%;
-  box-shadow: 15px 15px 0 #513afd;
+  box-shadow: 15px 15px 0 white;
 }
 .navigation .active a::after{
   content: '';
@@ -1909,7 +1921,7 @@ nav a{
   height: 30px;
   background: #4a565f;
   border-radius: 50%;
-  box-shadow: 15px -15px 0 #513afd;
+  box-shadow: 15px -15px 0 white;
 }
 .navigation .icon{
   position: relative;
@@ -1921,7 +1933,7 @@ nav a{
 }
 .navigation .icon ion-icon{
   position: relative;
-  font-size: 1.4em;
+  font-size: 1.3em;
   z-index: 1;
 }
 .navigation .title{
