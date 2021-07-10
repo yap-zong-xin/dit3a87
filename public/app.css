@@ -1250,20 +1250,19 @@ input[type=range]::-ms-thumb {
   color: black;
 }
 
-.fa-bell{
-  transform: rotate(-20deg);
-  text-decoration: none;
+.iconHeader{
   background: rgb(231, 231, 231);
-  border-radius: 50%;
-  padding: 11px;
-}
-.fa-comment, .fa-user-alt, .fa-comment-alt, .fa-sign-out-alt, .fa-plus{
-  font-size: 2.3em;
-  background: rgb(231, 231, 231);
-  padding: 13px;
+  padding: 10px;
   border-radius: 50%;
   color: black;
 }
+.iconHeader:hover{
+  background: rgb(197, 197, 197);
+}
+.iconHeader:active{
+  background: rgb(158, 158, 158);
+}
+
 .currentUserNav{
   background: rgb(231, 231, 231);
   border-radius: 50px;
@@ -1271,41 +1270,9 @@ input[type=range]::-ms-thumb {
 .currentUserNav span{
   color: black;
 }
-
-.fa-bell:hover{
-  background: rgb(197, 197, 197);
-}
-.fa-comment:hover, .fa-user-alt:hover, .fa-comment-alt:hover, .fa-sign-out-alt:hover, .fa-plus:hover{
-  background: rgb(197, 197, 197);
-}
-.currentUserNav:hover{
-  background: rgb(197, 197, 197);
-}
-
-.fa-bell:active{
-  background: rgb(158, 158, 158);
-}
-.fa-comment:active, .fa-user-alt:active, .fa-comment-alt:active, .fa-sign-out-alt:active, .fa-plus:active{
-  background: rgb(158, 158, 158);
-}
 .currentUserNav:active{
   background: rgb(158, 158, 158);
 }
-
-.fa-plus {
-  display: block;
-}
-.fa-plus {
-  -webkit-transition-duration: 1s;
-  -moz-transition-duration: 1s;
-  -o-transition-duration: 1s;
-  transition-duration: 1s;
-  -webkit-transition-property: -webkit-transform;
-  -moz-transition-property: -moz-transform;
-  -o-transition-property: -o-transform;
-  transition-property: transform;
-}
-
 
 #userRole{
   font-size: 0.9em;
@@ -1877,17 +1844,19 @@ nav a{
 /* dashboard menu */
 .navigation{
   position: relative;
-  height: 500px;
+  height: 100vh;
   /* width: 70px; */
   width: 250px;
   background: #4a565f;
-  box-shadow: 10px 0 0 #4187f6;
+  box-shadow: 10px 0 0 #513afd;
   border-left: 10px solid #4a565f;
   overflow-x: hidden;
   /* transition: width 0.5s;  */
+  position: fixed !important;
+  top: 73px;
 }
 /* .navigation:hover{
-  width: 300px;
+  width: 230px;
 } */
 .navigation ul{
   position: absolute;
@@ -1905,8 +1874,11 @@ nav a{
   border-top-left-radius: 20px;
   border-bottom-left-radius: 20px;
 }
+.navigationHover:hover{
+  background: rgb(63, 63, 63);
+}
 .navigation .active{
-  background: #4187f6;
+  background: #513afd;
 }
 .navigation a{
   position: relative;
@@ -1926,7 +1898,7 @@ nav a{
   height: 30px;
   background: #4a565f;
   border-radius: 50%;
-  box-shadow: 15px 15px 0 #4187f6;
+  box-shadow: 15px 15px 0 #513afd;
 }
 .navigation .active a::after{
   content: '';
@@ -1937,7 +1909,7 @@ nav a{
   height: 30px;
   background: #4a565f;
   border-radius: 50%;
-  box-shadow: 15px -15px 0 #4187f6;
+  box-shadow: 15px -15px 0 #513afd;
 }
 .navigation .icon{
   position: relative;
@@ -1949,7 +1921,7 @@ nav a{
 }
 .navigation .icon ion-icon{
   position: relative;
-  font-size: 1.5em;
+  font-size: 1.4em;
   z-index: 1;
 }
 .navigation .title{
@@ -1960,5 +1932,5 @@ nav a{
   line-height: 50px;
   white-space: nowrap;
   color: white;
-  font-size: 0.9em;
+  font-size: 0.88em;
 }

@@ -13,16 +13,8 @@
 <script src="/javascripts/owl.carousel.min.js"></script>
 <script src="/javascripts/jquer.js"></script>
 <script src="/javascripts/regForm.js"></script>
-<script>
-  $( ".fa-plus" ).click(function() {
-    //alert($( this ).css( "transform" ));
-    if (  $( this ).css( "transform" ) == 'none' ){
-        $(this).css("transform","rotate(180deg)");
-    } else {
-        $(this).css("transform","" );
-    }
-  });
-</script>
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 <script>
   $(window).on('load', function(){
     $(".loader").fadeOut(1000);

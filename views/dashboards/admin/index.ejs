@@ -1,145 +1,124 @@
 <%- include("../../partials/header") %>
 
-  <div class="container m-0 p-0" style="background: #F3F3F3;">
-    <div class="navigation">
-      <ul>
-        <li class="list active">
-          <a href="#">
-            <span class="icon activeText">
-              <ion-icon name="layers-outline"></ion-icon>
-            </span>
-            <span class="title activeText">Overview</span>
-          </a>
-        </li>
-        <li class="list">
-          <a href="#">
-            <span class="icon">
-              <ion-icon name="people-outline"></ion-icon>
-            </span>
-            <span class="title">Accounts</span>
-          </a>
-        </li>
-        <li class="list">
-          <a href="#">
-            <span class="icon">
-              <ion-icon name="home-outline"></ion-icon>
-            </span>
-            <span class="title">Listings</span>
-          </a>
-        </li>
-        <li class="list">
-          <a href="#">
-            <span class="icon">
-              <ion-icon name="chatbubbles-outline"></ion-icon>
-            </span>
-            <span class="title">Comments</span>
-          </a>
-        </li>
-        <li class="list">
-          <a href="#">
-            <span class="icon">
-              <ion-icon name="star-outline"></ion-icon>
-            </span>
-            <span class="title">Reviews</span>
-          </a>
-        </li>
-      </ul>
-    </div>
-    <div class="row">
-      <div class="col-2 p-0" id="dashboardMenu">
-        <a href="/dashboard" style="color: white!important;">
-          <p class="selected py-1 mb-2">Overview</p>
-        </a>
-        <a href="/dashboard/accounts">
-          <p class="notSelected mb-0 py-1 my-2">Account</p>
-        </a>
-        <a href="/dashboard/listings">
-          <p class="notSelected mb-0 py-1 my-2">Listing</p>
-        </a>
-        <a href="/dashboard/comments">
-          <p class="notSelected mb-0 py-1 my-2">Comment</p>
-        </a>
-        <a href="/dashboard/reviews">
-          <p class="notSelected mb-0 py-1 my-2">Review</p>
-        </a>
+  <div class="row" style="background: #f3f3f3">
+    <div class="col-3">
+      <div class="navigation sticky-top">
+        <ul>
+          <li class="list active">
+            <a href="/dashboard">
+              <span class="icon activeText">
+                <ion-icon name="layers-outline"></ion-icon>
+              </span>
+              <span class="title activeText">Overview</span>
+            </a>
+          </li>
+          <li class="list navigationHover">
+            <a href="/dashboard/accounts">
+              <span class="icon">
+                <ion-icon name="people-outline"></ion-icon>
+              </span>
+              <span class="title">Accounts</span>
+            </a>
+          </li>
+          <li class="list navigationHover">
+            <a href="/dashboard/listings">
+              <span class="icon">
+                <ion-icon name="home-outline"></ion-icon>
+              </span>
+              <span class="title">Listings</span>
+            </a>
+          </li>
+          <li class="list navigationHover">
+            <a href="/dashboard/comments">
+              <span class="icon">
+                <ion-icon name="chatbubbles-outline"></ion-icon>
+              </span>
+              <span class="title">Comments</span>
+            </a>
+          </li>
+          <li class="list navigationHover">
+            <a href="/dashboard/reviews">
+              <span class="icon">
+                <ion-icon name="star-outline"></ion-icon>
+              </span>
+              <span class="title">Reviews</span>
+            </a>
+          </li>
+        </ul>
       </div>
-      <div class="col-10">
-        <div class="container">
-          <div class="row dashboardOverview">
-            <div class="col-3">
-              <a href="/dashboard/accounts">
-                <span class="align-items-center justify-content-center d-flex">
-                  <%= users.length %>
-                    <% if(users.length<2){ %>
-                      Account
-                      <% } else { %>
-                        Accounts
-                        <% } %>
-                </span>
-              </a>
-            </div>
-            <div class="col-3">
-              <a href="/dashboard/listings">
-                <span class="align-items-center justify-content-center d-flex">
-                  <%= listings.length %>
-                    <% if(listings.length<2){ %>
-                      Listing
-                      <% } else { %>
-                        Listings
-                        <% } %>
-                </span>
-              </a>
-            </div>
-            <div class="col-3">
-              <a href="/dashboard/comments">
-                <span class="align-items-center justify-content-center d-flex">
-                  <%= comments.length %>
-                    <% if(comments.length<2){ %>
-                      Comment
-                      <% } else { %>
-                        Comments
-                        <% } %>
-                </span>
-              </a>
-            </div>
-            <div class="col-3">
-              <a href="/dashboard/reviews">
-                <span class="align-items-center justify-content-center d-flex">
-                  <%= reviews.length %>
-                    <% if(reviews.length<2){ %>
-                      Review
-                      <% } else { %>
-                        Reviews
-                        <% } %>
-                </span>
-              </a>
-            </div>
+    </div>
+    <div class="col-9 p-0">
+      <div class="container">
+        <div class="row dashboardOverview">
+          <div class="col-3">
+            <a href="/dashboard/accounts">
+              <span class="align-items-center justify-content-center d-flex">
+                <%= users.length %>
+                  <% if(users.length<2){ %>
+                    Account
+                    <% } else { %>
+                      Accounts
+                      <% } %>
+              </span>
+            </a>
           </div>
+          <div class="col-3">
+            <a href="/dashboard/listings">
+              <span class="align-items-center justify-content-center d-flex">
+                <%= listings.length %>
+                  <% if(listings.length<2){ %>
+                    Listing
+                    <% } else { %>
+                      Listings
+                      <% } %>
+              </span>
+            </a>
+          </div>
+          <div class="col-3">
+            <a href="/dashboard/comments">
+              <span class="align-items-center justify-content-center d-flex">
+                <%= comments.length %>
+                  <% if(comments.length<2){ %>
+                    Comment
+                    <% } else { %>
+                      Comments
+                      <% } %>
+              </span>
+            </a>
+          </div>
+          <div class="col-3">
+            <a href="/dashboard/reviews">
+              <span class="align-items-center justify-content-center d-flex">
+                <%= reviews.length %>
+                  <% if(reviews.length<2){ %>
+                    Review
+                    <% } else { %>
+                      Reviews
+                      <% } %>
+              </span>
+            </a>
+          </div>
+          <!-- <div class="col-12 px-0">
+            <div class="container">
+              <div class="col-12">
+                <canvas id="myChart"></canvas>
+              </div>
+              <div class="col-12">
+                <div class="live-counter text-center">
+                  <a><b>Total Seen: </b></a>
+                  <a id="liveCount"></a>
+                </div>
+              </div>
+            </div>
+          </div> -->
         </div>
       </div>
     </div>
   </div>
 
-
-
-
-
-  <!--Total Seen-->
-  <div class="container">
-    <div class="col-md-12">
-      <canvas id="myChart"></canvas>
-    </div>
-    <div class="col-md-12">
-      <div class="live-counter text-center">
-        <a><b>Total Seen: </b></a>
-        <a id="liveCount"></a>
-      </div>
-    </div>
-  </div>
+  <div style="height:300px;"></div>
 
   <script src="/javascripts/viewGraph.js"></script>
-  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
   <script>
     const list = document.querySelectorAll('.list');
     function activeLink(){
