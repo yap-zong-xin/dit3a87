@@ -1,3 +1,5 @@
+
+
 function loadData(rs) {
     var resultSet = JSON.parse(rs);
     var insertDiv = document.getElementById("resultDiv");
@@ -130,17 +132,5 @@ function loadData(rs) {
 }
 
 function scrollData (rs) {
-    let options = {
-        root: null,
-        rootMargins: "0px",
-        threshold: 0.5
-    };
-    const observer = new IntersectionObserver(handleIntersect, options);
-    observer.observe(document.querySelector("footer"));
 
-    function handleIntersect(entries) {
-        if(entries[0].isIntersecting) {
-            console.log("hi")
-        }
-    }
 }
