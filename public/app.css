@@ -6,6 +6,7 @@ body {
   font-family: "Poppins", sans-serif;
   font-size: 0.9em;
 }
+
 ::-webkit-scrollbar{
   width: 8px;
 }
@@ -1722,6 +1723,51 @@ input[type=range]::-ms-thumb {
 .dashboardOverview a{
   color: black;
   text-decoration: none;
+}
+
+/* Search for User */
+.user-result {
+  display: flex;
+  flex-direction: row;
+  padding: 10px;
+  margin: 10px 0 10px;
+  background-color: #fff;
+  cursor: pointer;
+  transition: .2s;
+}
+
+.user-result:hover {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.caption-result h4, .caption-result h6 {
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.caption-result h6 {
+  font-weight: 500;
+}
+
+.caption-result {
+  margin: 0 10px 0 10px;
+  padding: 0 10px  0 10px;
+}
+
+.user-search {
+  display: flex;
+  flex-direction: row;
+  padding: 10px;
+  margin: 50px 0 50px;
+  background-color: #fff;
+}
+
+.user-search form, .user-search .form-group {
+  width: 100%;
+}
+
+.user-search .form-group input[type=text] {
+  width: 100%
 }
 
 /* navbar */
