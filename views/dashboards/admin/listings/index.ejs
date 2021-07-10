@@ -1,5 +1,35 @@
 <%- include("../../../partials/header") %>
 <script src="/javascripts/clickRate.js"></script>
+<!-- Search Form -->
+<form action="/dashboard/listings" method="GET" class="form-inline">
+  <div class="form-group">
+      <input type="text" class="form-control" name="search" placeholder="listing search...">
+      <input type="submit" value="Search" class="btn btn-info">
+  </div>
+</form>
+<!-- Filter form -->
+<form action="/dashboard/listings" method="GET" id="adminFilterForm">
+  <p>Filter</p><br>
+  <!-- Filter: sort by Most/Least popular listing -->
+  <label for="sortPop">Sort by:</label>
+  <select name="sortPop" id="sortPop">
+      <option value="" disabled selected hidden>Popularity</option>
+      <option value="MostPop" <% if(data.sortPop == 'MostPop') {%> selected <%} %>>Most Popular</option>
+      <option value="LeastPop" <% if(data.sortPop == 'LeastPop') {%> selected <%} %>>Least Popular</option>
+  </select>
+  <!-- Filter: sort by date -->
+  <label for="sortDate">Sort by:</label>
+  <select name="sortDate" id="sortDate">
+      <option value="" disabled selected hidden>Date</option>
+      <option value="Recent" <% if(data.sortDate == 'Recent') {%> selected <%} %>>Recent</option>
+      <option value="Oldest" <% if(data.sortDate == 'Oldest') {%> selected <%} %>>Oldest</option>
+  </select>
+  <!-- Filter: reset form inputs -->
+  <br><input type="button" onclick="resetForm()" value="Reset" >
+  <!-- Apply filters/submit button -->
+  <br><input type="submit" value="Apply" name="Apply" id="applyAdminFilter">
+
+</form>
   <%
   var idArr = [];
   
@@ -102,6 +132,13 @@ idArr.forEach((id, index)=> {
 
 %>
 
-
+<script>                               
+  function resetForm() {
+      //sort by price
+      document.getElementById("sortPop").value="";
+      //sort by date
+      document.getElementById("sortDate").value="";
+  }                
+</script>
 
 <%- include("../../../partials/footer") %>
