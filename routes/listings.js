@@ -101,9 +101,6 @@ router.get("/", function(req,res){
 
 router.get("/listings", function(req,res){
 	var noMatch = null;
-	var perPage = 6;
-	var pageQuery = parseInt(req.query.page);
-	var pageNumber = pageQuery ? pageQuery : 1;
 	var largestPrice = 0;
 	var largestSize = 0;
 	listing.find().sort({price: -1}).limit(1).exec(function(err, foundLargestPrice) {
@@ -436,7 +433,7 @@ router.get("/listings", function(req,res){
 				console.log('passed in archive check: ',regexArchive)
 				console.log('all parameters passed to mongo: '+minPrice+', '+maxPrice+', '+regexZone+', '+regexType+', '+minSize+', '+maxSize+', '+regexRooms);
 
-				listing.find({$and: [ {price: {$gte: minPrice, $lte: maxPrice}}, {zone: {$in : regexZone}}, {type: {$in: regexType}}, {size: {$gte: minSize, $lte: maxSize}}, {bedrooms: {$in: regexRooms}}, {bathrooms: {$in: regexbathRooms}}, {tenure: {$in: regexTenure}}, {soldStatus: {$in: regexSold}}, {archiveStatus: {$in: regexArchive}} ] }).sort(sortOptions).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, alllistings) {
+				listing.find({$and: [ {price: {$gte: minPrice, $lte: maxPrice}}, {zone: {$in : regexZone}}, {type: {$in: regexType}}, {size: {$gte: minSize, $lte: maxSize}}, {bedrooms: {$in: regexRooms}}, {bathrooms: {$in: regexbathRooms}}, {tenure: {$in: regexTenure}}, {soldStatus: {$in: regexSold}}, {archiveStatus: {$in: regexArchive}} ] }).sort(sortOptions).exec(function (err, alllistings) {
 					listing.count({price: minPrice}).exec(function (err, count) {
 						if (err) {
 							console.log(err);
@@ -842,91 +839,206 @@ router.get("/listings/:id/edit", middleware.checklistingOwnership, function(req,
 // 		}
 // 	});
 // });
+// router.put("/listings/:id", middleware.checklistingOwnership, uploadMultiple, function(req, res){
+// 	listing.findById(req.params.id, async function(err, listing){
+// 		if(err){
+// 			req.flash("error", err.message);
+// 			res.redirect("back");
+// 		} else{
+// 			// console.log(listing)
+// 			if(req.files){
+// 				//Thumbnail
+// 				if(req.files.thumbnail) {
+// 					var newThumbnail = req.files.thumbnail;
+// 					console.log('new thumbnail object: '+newThumbnail);
+// 					try{
+// 						console.log('check for: '+listing.thumbnailId);
+// 						await cloudinary.v2.uploader.destroy(listing.thumbnailId);
+// 						console.log('paht check: '+newThumbnail[0].path);
+// 						var result = await cloudinary.v2.uploader.upload(newThumbnail[0].path, { resource_type: "auto" });
+// 						listing.thumbnail = result.secure_url;
+// 						listing.thumbnailId = result.public_id;
+// 					}catch(err) {
+// 						req.flash("error", err.message);
+// 						return res.redirect("back");
+// 					}
+// 				}
+// 				//Image
+// 				if(req.files.image) {
+// 					var newImage = req.files.image;
+// 					var newImageArray = [];
+// 					for(let a=0; a<newImage.length; a++) {
+// 						newImageArray.push(newImage[a]);
+// 					}
+// 					// console.log('new image array length: ',newImageArray.length);
+// 					// console.log('new image stuff: ',newImageArray[0].path);
+// 					var newImageSecureUrlArray = [];
+// 					var newImagePublicIdArray = [];
+// 					try{
+// 						// console.log('check for: '+listing.imageId[0]);
+// 						for(let b=0; b<listing.imageId.length; b++) {
+// 							await cloudinary.v2.uploader.destroy(listing.imageId[b]);
+// 						}
+						
+// 						for(let c=0; c<newImageArray.length; c++) {
+// 							console.log('image paht check: ',newImageArray[c].path);
+// 							var result = await cloudinary.v2.uploader.upload(newImageArray[c].path, { resource_type: "auto" });
+// 							newImageSecureUrlArray.push(result.secure_url);
+// 							newImagePublicIdArray.push(result.public_id);
+// 							listing.image = newImageSecureUrlArray;
+// 							listing.imageId = newImagePublicIdArray;
+// 						}
+// 					}catch(err) {
+// 						req.flash("error", err.message);
+// 						return res.redirect("back");
+// 					}
+// 				}
+// 				//Video
+// 				if(req.files.video) {
+// 					var newVideo = req.files.video;
+// 					var newVideoArray = [];
+// 					for(let d=0; d<newVideo.length; d++) {
+// 						newVideoArray.push(newVideo[d]);
+// 					}
+// 					// console.log('new video array length: ',newVideoArray.length);
+// 					// console.log('new video stuff: ',newVideoArray[0].path);
+// 					var newVideoSecureUrlArray = [];
+// 					var newVideoPublicIdArray = [];
+// 					try{
+// 						// console.log('check for: '+listing.videoId[0]);
+// 						for(let p=0; p<listing.videoId.length; p++) {
+// 							await cloudinary.v2.uploader.destroy(listing.videoId[p]);
+// 						}
+						
+// 						for(let k=0; k<newVideoArray.length; k++) {
+// 							console.log('vide paht check: ',newVideoArray[k].path);
+// 							var result = await cloudinary.v2.uploader.upload(newVideoArray[k].path, { resource_type: "auto" });
+// 							newVideoSecureUrlArray.push(result.secure_url);
+// 							newVideoPublicIdArray.push(result.public_id);
+// 							listing.video = newVideoSecureUrlArray;
+// 							listing.videoId = newVideoPublicIdArray;
+// 						}
+// 					}catch(err) {
+// 						req.flash("error", err.message);
+// 						return res.redirect("back");
+// 					}
+// 				}
+// 			}
+// 			if(req.body.listing.location !== listing.location){
+// 				console.log(req.body.location)
+// 				console.log(listing.location)
+// 				try {
+// 						var response = await geocodingClient
+// 								.forwardGeocode({
+// 										query: req.body.listing.location,
+// 										limit: 1,
+// 								})
+// 								.send();
+// 						listing.geometry = response.body.features[0].geometry;
+// 						listing.location = req.body.listing.location;
+// 						console.log(listing.geometry)
+// 				} catch (err) {
+// 						console.log(err.message);
+// 						res.redirect('back');
+// 				}
+// 			}
+// 			listing.name = req.body.listing.name;
+// 			listing.description = req.body.listing.description;
+// 			listing.zone = req.body.listing.zone;
+// 			listing.price = req.body.listing.price;
+// 			listing.size = req.body.listing.size;
+// 			listing.type = req.body.listing.type;
+// 			listing.bedrooms = req.body.listing.bedrooms;
+// 			listing.save();
+// 			console.log(listing)
+// 			req.flash("success", "You have successfully updated a listing.");
+// 			res.redirect("/listings/" + listing._id);
+// 		}
+// 	});
+// });
 router.put("/listings/:id", middleware.checklistingOwnership, uploadMultiple, function(req, res){
 	listing.findById(req.params.id, async function(err, listing){
 		if(err){
 			req.flash("error", err.message);
 			res.redirect("back");
 		} else{
-			// console.log(listing)
-			if(req.files){
-				//Thumbnail
-				if(req.files.thumbnail) {
-					var newThumbnail = req.files.thumbnail;
-					console.log('new thumbnail object: '+newThumbnail);
-					try{
-						console.log('check for: '+listing.thumbnailId);
-						await cloudinary.v2.uploader.destroy(listing.thumbnailId);
-						console.log('paht check: '+newThumbnail[0].path);
-						var result = await cloudinary.v2.uploader.upload(newThumbnail[0].path, { resource_type: "auto" });
-						listing.thumbnail = result.secure_url;
-						listing.thumbnailId = result.public_id;
-					}catch(err) {
-						req.flash("error", err.message);
-						return res.redirect("back");
-					}
-				}
-				//Image
-				if(req.files.image) {
-					var newImage = req.files.image;
-					var newImageArray = [];
-					for(let a=0; a<newImage.length; a++) {
-						newImageArray.push(newImage[a]);
-					}
-					// console.log('new image array length: ',newImageArray.length);
-					// console.log('new image stuff: ',newImageArray[0].path);
-					var newImageSecureUrlArray = [];
-					var newImagePublicIdArray = [];
-					try{
-						// console.log('check for: '+listing.imageId[0]);
-						for(let b=0; b<listing.imageId.length; b++) {
-							await cloudinary.v2.uploader.destroy(listing.imageId[b]);
-						}
-						
-						for(let c=0; c<newImageArray.length; c++) {
-							console.log('image paht check: ',newImageArray[c].path);
-							var result = await cloudinary.v2.uploader.upload(newImageArray[c].path, { resource_type: "auto" });
-							newImageSecureUrlArray.push(result.secure_url);
-							newImagePublicIdArray.push(result.public_id);
-							listing.image = newImageSecureUrlArray;
-							listing.imageId = newImagePublicIdArray;
-						}
-					}catch(err) {
-						req.flash("error", err.message);
-						return res.redirect("back");
-					}
-				}
-				//Video
-				if(req.files.video) {
-					var newVideo = req.files.video;
-					var newVideoArray = [];
-					for(let d=0; d<newVideo.length; d++) {
-						newVideoArray.push(newVideo[d]);
-					}
-					// console.log('new video array length: ',newVideoArray.length);
-					// console.log('new video stuff: ',newVideoArray[0].path);
-					var newVideoSecureUrlArray = [];
-					var newVideoPublicIdArray = [];
-					try{
-						// console.log('check for: '+listing.videoId[0]);
-						for(let p=0; p<listing.videoId.length; p++) {
-							await cloudinary.v2.uploader.destroy(listing.videoId[p]);
-						}
-						
-						for(let k=0; k<newVideoArray.length; k++) {
-							console.log('vide paht check: ',newVideoArray[k].path);
-							var result = await cloudinary.v2.uploader.upload(newVideoArray[k].path, { resource_type: "auto" });
-							newVideoSecureUrlArray.push(result.secure_url);
-							newVideoPublicIdArray.push(result.public_id);
-							listing.video = newVideoSecureUrlArray;
-							listing.videoId = newVideoPublicIdArray;
-						}
-					}catch(err) {
-						req.flash("error", err.message);
-						return res.redirect("back");
-					}
+			//if thumbnail is provided
+			if(req.files.listingThumbnail) {
+				var listingThumbnail = req.files.listingThumbnail;
+				try{
+					console.log('check for: '+listing.thumbnailId);
+					await cloudinary.v2.uploader.destroy(listing.thumbnailId);
+					console.log('paht check: '+listingThumbnail[0].path);
+					var result = await cloudinary.v2.uploader.upload(listingThumbnail[0].path, { resource_type: "auto" });
+					listing.thumbnail = result.secure_url;
+					listing.thumbnailId = result.public_id;
+				}catch(err) {
+					req.flash("error", err.message);
+					return res.redirect("back");
 				}
 			}
+			if(req.files.listingGallery) {
+				console.log('new edit listing gallery: ', req.files.listingGallery);
+			}	
+			// //Image
+			// var newImage = req.files.image;
+			// var newImageArray = [];
+			// for(let a=0; a<newImage.length; a++) {
+			// 	newImageArray.push(newImage[a]);
+			// }
+			// // console.log('new image array length: ',newImageArray.length);
+			// // console.log('new image stuff: ',newImageArray[0].path);
+			// var newImageSecureUrlArray = [];
+			// var newImagePublicIdArray = [];
+			// try{
+			// 	// console.log('check for: '+listing.imageId[0]);
+			// 	for(let b=0; b<listing.imageId.length; b++) {
+			// 		await cloudinary.v2.uploader.destroy(listing.imageId[b]);
+			// 	}
+				
+			// 	for(let c=0; c<newImageArray.length; c++) {
+			// 		console.log('image paht check: ',newImageArray[c].path);
+			// 		var result = await cloudinary.v2.uploader.upload(newImageArray[c].path, { resource_type: "auto" });
+			// 		newImageSecureUrlArray.push(result.secure_url);
+			// 		newImagePublicIdArray.push(result.public_id);
+			// 		listing.image = newImageSecureUrlArray;
+			// 		listing.imageId = newImagePublicIdArray;
+			// 	}
+			// }catch(err) {
+			// 	req.flash("error", err.message);
+			// 	return res.redirect("back");
+			// }
+				
+			// //Video
+			// var newVideo = req.files.video;
+			// var newVideoArray = [];
+			// for(let d=0; d<newVideo.length; d++) {
+			// 	newVideoArray.push(newVideo[d]);
+			// }
+			// // console.log('new video array length: ',newVideoArray.length);
+			// // console.log('new video stuff: ',newVideoArray[0].path);
+			// var newVideoSecureUrlArray = [];
+			// var newVideoPublicIdArray = [];
+			// try{
+			// 	// console.log('check for: '+listing.videoId[0]);
+			// 	for(let p=0; p<listing.videoId.length; p++) {
+			// 		await cloudinary.v2.uploader.destroy(listing.videoId[p]);
+			// 	}
+				
+			// 	for(let k=0; k<newVideoArray.length; k++) {
+			// 		console.log('vide paht check: ',newVideoArray[k].path);
+			// 		var result = await cloudinary.v2.uploader.upload(newVideoArray[k].path, { resource_type: "auto" });
+			// 		newVideoSecureUrlArray.push(result.secure_url);
+			// 		newVideoPublicIdArray.push(result.public_id);
+			// 		listing.video = newVideoSecureUrlArray;
+			// 		listing.videoId = newVideoPublicIdArray;
+			// 	}
+			// }catch(err) {
+			// 	req.flash("error", err.message);
+			// 	return res.redirect("back");
+			// }
+				
+			//location and save
 			if(req.body.listing.location !== listing.location){
 				console.log(req.body.location)
 				console.log(listing.location)
