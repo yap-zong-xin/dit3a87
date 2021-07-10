@@ -1,6 +1,7 @@
 <%- include("../../partials/header") %>
 
-  <div class="row" style="background: #f3f3f3">
+<div style="overflow-x: hidden;">
+  <div class="row">
     <div class="col-3">
       <div class="navigation sticky-top">
         <ul>
@@ -47,7 +48,7 @@
         </ul>
       </div>
     </div>
-    <div class="col-9 p-0">
+    <div class="col-9">
       <div class="container">
         <div class="row dashboardOverview">
           <div class="col-3">
@@ -115,19 +116,18 @@
       </div>
     </div>
   </div>
+</div>
 
-  <div style="height:300px;"></div>
-
-  <script src="/javascripts/viewGraph.js"></script>
-  <script>
-    const list = document.querySelectorAll('.list');
-    function activeLink(){
-      list.forEach((item) =>
-        item.classList.remove('active'));
-        this.classList.add('active');
-      }
-      list.forEach((item) => 
-      item.addEventListener('click', activeLink));
-  </script>
+<script src="/javascripts/viewGraph.js"></script>
+<script>
+  const list = document.querySelectorAll('.list');
+  function activeLink(){
+    list.forEach((item) =>
+      item.classList.remove('active'));
+      this.classList.add('active');
+    }
+    list.forEach((item) => 
+    item.addEventListener('click', activeLink));
+</script>
 
   <%- include("../../partials/footer") %>

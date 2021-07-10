@@ -1,5 +1,56 @@
 <%- include("../../../partials/header") %>
+
 <script src="/javascripts/clickRate.js"></script>
+
+<div style="overflow-x: hidden;">
+  <div class="row">
+    <div class="col-3">
+      <div class="navigation sticky-top">
+        <ul>
+          <li class="list navigationHover">
+            <a href="/dashboard">
+              <span class="icon activeText">
+                <ion-icon name="layers-outline"></ion-icon>
+              </span>
+              <span class="title activeText">Overview</span>
+            </a>
+          </li>
+          <li class="list navigationHover">
+            <a href="/dashboard/accounts">
+              <span class="icon">
+                <ion-icon name="people-outline"></ion-icon>
+              </span>
+              <span class="title">Accounts</span>
+            </a>
+          </li>
+          <li class="list active">
+            <a href="/dashboard/listings">
+              <span class="icon">
+                <ion-icon name="home-outline"></ion-icon>
+              </span>
+              <span class="title">Listings</span>
+            </a>
+          </li>
+          <li class="list navigationHover">
+            <a href="/dashboard/comments">
+              <span class="icon">
+                <ion-icon name="chatbubbles-outline"></ion-icon>
+              </span>
+              <span class="title">Comments</span>
+            </a>
+          </li>
+          <li class="list navigationHover">
+            <a href="/dashboard/reviews">
+              <span class="icon">
+                <ion-icon name="star-outline"></ion-icon>
+              </span>
+              <span class="title">Reviews</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="col-9 p-0">
 <!-- Search Form -->
 <form action="/dashboard/listings" method="GET" class="form-inline">
   <div class="form-group">
@@ -121,6 +172,11 @@
           </div>
         <% }) %>
       <% }); %>
+    </div>
+  </div>
+</div>
+
+
 
 
 <% 

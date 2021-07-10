@@ -1214,19 +1214,14 @@ input[type=range]::-ms-thumb {
 }
 
 .followBtn, .chatBtn{
-  width: 100px;
-  border-radius: 50px;
-  font-size: 0.95em;
-}
-.editUserBtn{
-  width: 140px;
+  width: 130px;
   border-radius: 50px;
   font-size: 0.95em;
 }
 .profileOverviewBtn{
-  width: 140px;
+  width: 160px;
   border-radius: 50px;
-  font-size: 0.9em;
+  font-size: 0.95em;
 }
 .approveBtn{
   width: 160px;
@@ -1850,9 +1845,9 @@ nav a{
   position: relative;
   height: 100vh;
   /* width: 70px; */
-  width: 250px;
-  background: #4a565f;
+  width: 270px;
   box-shadow: 10px 0 0 white;
+  background: #4a565f;
   border-left: 10px solid #4a565f;
   overflow-x: hidden;
   /* transition: width 0.5s;  */
