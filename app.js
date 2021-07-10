@@ -25,6 +25,8 @@ var listingRoutes = require('./routes/listings');
 var indexRoutes = require('./routes/index');
 var userRoutes = require('./routes/users');
 var reviewRoutes = require("./routes/reviews");
+var conversationRoutes = require("./routes/conversations")
+var messageRoutes = require("./routes/messages")
 
 //mongodb+srv://admin:admin@sap-dit3a87.airjg.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
 // mongoose.connect(process.env.DB_URL || "mongodb://localhost/SAP", {  
@@ -76,6 +78,8 @@ app.use(commentRoutes);
 app.use(listingRoutes);
 app.use(userRoutes);
 app.use(reviewRoutes);
+app.use(conversationRoutes);
+app.use(messageRoutes);
 
 app.listen(process.env.PORT || 3000, process.env.IP, function() { 
 	console.log('Server Has Started!'); 

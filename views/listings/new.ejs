@@ -43,15 +43,26 @@
         <div id="drop-area">
             <p style="margin-top: 0;">Drag and drop images/videos</p>
             <label class="fileBtn" for="galleryFileArray">Select some files</label>
+            <!-- <input type="file" style="visibility: visible;" name="listingGallery" id="galleryFileArray" multiple accept="image/*, video/*" onchange="handleGalleryFiles(this.files)" required>
+            <label class="fileBtn" for="additionalGallery">Select additional files</label>
+            <input type="file" style="visibility: hidden;" name="additionalGallery" id="additionalGallery" multiple accept="image/*, video/*" onchange="handleGalleryFiles(this.files)"> -->
             <input type="file" name="listingGallery" id="galleryFileArray" multiple accept="image/*, video/*" onchange="handleGalleryFiles(this.files)" required>
         </div>
     </div>
+    <!-- slide: drag and drop additional image/video -->
+    <div class="upldForm-slides">
+      <div id="add-drop-area">
+          <p style="margin-top: 0;">Drag and drop images/videos</p>
+          <label class="fileBtn" for="additionalGallery">Select additional files</label>
+          <input type="file" name="additionalGallery" id="additionalGallery" multiple accept="image/*, video/*" onchange="additionalUpdateGallery(this.files)">
+      </div>
+  </div>
     <!-- slide: drag and drop thumbnail area -->
     <div class="upldForm-slides">
       <div id="thumbnail-drop-area">
         <p style="margin-top: 0;">Drag and drop thumbnail image</p>
         <label class="fileBtn" for="thumbnailFile">Select thumbnail image</label>
-        <input name="listingThumbnail" type="file" id="thumbnailFile" accept="image/*" onchange="handleThumbnailFile(this.files)" required>
+        <input name="listingThumbnail" type="file" id="thumbnailFile" accept="image/*" onchange="handleThumbnailFile(this.files)">
       </div>
       <div id="thumbnail-gallery"></div>
     </div>
@@ -280,10 +291,25 @@
     function handleGalleryFiles(files) {
         files = [...files];//make files into array
         console.log('aaaaaaaa: ', files);
+        // var oldGallery = document.getElementById('galleryFileArray');
+        // console.log('oldgal: ', oldGallery.files)
+        // var newFileArr = [];
+        // if(oldGallery.files < 0) {
+        //   for(let i=0; i<oldGallery.files.length; i++) {
+        //     newFileArr.push(oldGallery.files[i])
+        //   }
+        // }
+        // for(let i=0; i<files.length; i++) {
+        //   newFileArr.push(files[i]);
+        //   console.log('pus in new')
+        // }
+        // console.log('new file arara: ', newFileArr)
 
         // var files = document.getElementById("galleryFileArray").files;
         // console.log('the files: ',files);
         // files.forEach(appendGallery);
+        // document.getElementById("galleryFileArray").style.visibility = "hidden"
+        // document.getElementById("additionalGallery").style.visibility = "visible"
         updateGallery(files);
         // list.items.add(files);
         previewGallery(files);
@@ -402,6 +428,19 @@
         // document.getElementById("upldForm-Btn4").disabled=false;
     }
 
+    // function additionalUpdateGallery(files) {
+    //   files = [...files]//convert files to array
+    //   var galleryFiles = document.getElementById("galleryFileArray");
+    //   var list = new DataTransfer();
+    //   for(let i=0; i<galleryFiles.files.length; i++) {
+    //     list.items.add(galleryFiles.files[i]);
+    //   }
+    //   for(let i=0; i<files.length; i++) {
+    //     list.items.add(files[i]);
+    //   }
+    //   galleryFiles.files = list.files;
+    // }
+
     function updateGallery(files) {
       // var newListingForm = document.forms.namedItem("newListingForm")
       //   var formData = new FormData(newListingForm);
@@ -416,14 +455,31 @@
         //   }
         //   console.log('have prevos: ',formData.getAll('listingGallery'));
         // } 
+        var additionalFiles = document.getElementById("additionalGallery");
+        for(let i=0; i<additionalFiles.files.length; i++) {
+          list.items.add(additionalFiles.files[i]);
+        }
+        if(files.length == 0) {
         for(let i=0; i<galleryFiles.files.length; i++) {
           list.items.add(galleryFiles.files[i]);
+        }
         }
         for(let i=0; i<files.length; i++) {
           list.items.add(files[i]);
         }
         // console.log('list items thignaf: ',list.files)
+        console.log('galsadjhkadfs: ', list.files);
         galleryFiles.files = list.files;
+        //if thumbnail file is empty, populate with first image in gallery
+        var thumbnailFile = document.getElementById("thumbnailFile");
+        console.log('the files in thumbnail file side: ', thumbnailFile.files.length);
+        console.log('teypsadl: ', list.files[0].type)
+        if(thumbnailFile.files.length == 0 && list.files[0].type.includes("image")) {
+          files = files[0];
+          updateThumbnail(files);
+          previewThumbnail(files);
+        }
+
         // console.log('sdadsadasdsadsa: ',formData.getAll('listingGallery'));
         // console.log('alsssdt: ',galleryFiles.files);
     }
@@ -478,13 +534,69 @@
     //   // galleryInput.files = files;
     // }
   </script>
-  <!-- <script>
-    function checkforfiles(e) {
-      e.preventDefault();
-      var formData = new FormData(document.forms.namedItem("newListingForm"));
-      console.log('file pop: ',formData.getAll('listingThumbnail'));
+  <!-- additional drag and drop image/video -->
+  <script>
+        let addDropArea = document.getElementById("add-drop-area");
+
+    // Prevent default drag behaviors
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+      addDropArea.addEventListener(eventName, preventDefaults, false)   
+      document.body.addEventListener(eventName, preventDefaults, false)
+    });
+
+    // Highlight drop area when item is dragged over it
+    ['dragenter', 'dragover'].forEach(eventName => {
+      addDropArea.addEventListener(eventName, highlight, false)
+    });
+    ['dragleave', 'drop'].forEach(eventName => {
+      addDropArea.addEventListener(eventName, unhighlight, false)
+    });
+
+    // Handle dropped files
+    addDropArea.addEventListener('drop', handleAddDrop, false);
+
+    function preventDefaults (e) {
+      e.preventDefault()
+      e.stopPropagation()
     }
-  </script> -->
+
+    function highlight(e) {
+      addDropArea.classList.add('highlight')
+    }
+
+    function unhighlight(e) {
+      addDropArea.classList.remove('highlight')
+    }
+
+    function handleAddDrop(e) {
+      var dt = e.dataTransfer
+      var files = dt.files
+      console.log('hdisfas: ', files);
+      handleAddFiles(files);
+    }
+
+    function handleAddFiles(files) {
+        files = [...files];//make files into array
+        console.log('aaaaaaaa: ', files);
+        additionalUpdateGallery(files);
+        // previewGallery(files);
+    }
+
+    function additionalUpdateGallery(files) {
+      files = [...files]//convert files to array
+      var galleryFiles = document.getElementById("galleryFileArray");
+      var list = new DataTransfer();
+      for(let i=0; i<galleryFiles.files.length; i++) {
+        list.items.add(galleryFiles.files[i]);
+      }
+      for(let i=0; i<files.length; i++) {
+        list.items.add(files[i]);
+        
+      }
+      previewGallery(files);
+      galleryFiles.files = list.files;
+    }
+  </script>
   <!-- Choose Thumbnail drag and drop -->
   <script>
     let thumbnailDropArea = document.getElementById("thumbnail-drop-area");
@@ -501,7 +613,7 @@
         thumbnailDropArea.addEventListener(eventName, unhighlight, false)
     });
     // Handle dropped file
-    thumbnailDropArea.addEventListener('drop', handleDrop, false);
+    thumbnailDropArea.addEventListener('drop', handleThumbDrop, false);
 
     function preventDefaults (e) {
         e.preventDefault()
@@ -528,7 +640,7 @@
       return new File([u8arr], filename, {type:mime});
     }
 
-    function handleDrop(e) {
+    function handleThumbDrop(e) {
         var dt = e.dataTransfer;
         console.log('dt provi: ',dt.getData("text"));//document.getElementById(dt.getData("text"))
         // console.log('maybe files: ',document.getElementById(dt.getData("text")).src);
@@ -598,7 +710,7 @@
         file = files[files.length - 1];
       }
         var thumbnailFiles = document.getElementById("thumbnailFile");
-          console.log('insidei: ',thumbnailFiles.files.length);
+          console.log('thumbnail files length: ',thumbnailFiles.files.length);
           var list = new DataTransfer();
           // for(let i=0; i<files.length; i++) {
           //   list.items.add(files[i]);

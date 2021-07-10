@@ -1,9 +1,9 @@
 const router = require("express").Router();
-const Message = require("../models/Message");
+const Message = require("../models/message");
 
 //add
 
-router.post("/", async (req, res) => {
+router.post("/message", async (req, res) => {
   const newMessage = new Message(req.body);
 
   try {
@@ -16,7 +16,7 @@ router.post("/", async (req, res) => {
 
 //get
 
-router.get("/:conversationId", async (req, res) => {
+router.get("/message/:conversationId", async (req, res) => {
   try {
     const messages = await Message.find({
       conversationId: req.params.conversationId,
