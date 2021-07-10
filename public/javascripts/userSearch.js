@@ -1,5 +1,3 @@
-
-
 function loadData(rs) {
     var resultSet = JSON.parse(rs);
     var insertDiv = document.getElementById("resultDiv");
@@ -129,8 +127,4 @@ function loadData(rs) {
         }
         insertDiv.insertAdjacentHTML("beforebegin", html);
     }
-}
-
-function scrollData (rs) {
-
 }
