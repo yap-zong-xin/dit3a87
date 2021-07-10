@@ -1,40 +1,14 @@
 <%- include("../partials/header") %>
+<script src="/javascripts/userSearch.js"></script>
 <style>
   body {
     background-color: rgb(247,247,247);
   }
 </style>
-<!-- 
-  Lazy loading:
-  1) function to load agents
-    - check whether user is an agent (check if user is agent THEN run forloop)
-      - 5 search results per load
-      - 
-
-    - create section observer
-    - run function
--->
-
-<% function loadAgents(startIndex) {
-  for(var i = startIndex; i < 5; i ++) {  
-    if(users[i].isAgent==true && users[i].agentStatus==true){ %>
-      <div class="col-md-12">
-        <div class="user-result" onClick="window.location=`/user/<%= users[i]._id %>`">
-          <img src="<%= users[i].image %>" style="width : 200px; height: 200px;">
-          <div class="caption-result">
-            <h4><%= users[i].firstName %> <%= users[i].lastName %></h4>
-            <h6>CEA: <%= users[i].cea %></h6>
-            <% if (users[i].rating===0) { %>
-              <em>No reviews found.</em>
-            <% } else { %>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star <% if (user.rating > 1.5) { %> checked <% } %>"></span>
-                <span class="fa fa-star <% if (user.rating > 2.5) { %> checked <% } %>"></span>
-                <span class="fa fa-star <% if (user.rating > 3.5) { %> checked <% } %>"></span>
-                <span class="fa fa-star <% if (user.rating > 4.5) { %> checked <% } %>"></span>
-            <% } %>
-  <% }}
-}%>
+<script>
+  //Get search result set
+  var resultSet = `<%- JSON.stringify(users) %>`
+</script>
 
   <div class="container">
     <% if(noMatch !==undefined){ %>
@@ -51,34 +25,28 @@
           </form>
         </div>
       </div>
-      <% } %>
+  <% } %>
+      <main class="row" style="display:flex; flex-wrap: wrap;" id="resultDiv">
 
-      <div class="row" style="display:flex; flex-wrap: wrap;">
-        <% users.forEach(function(user){ %>
-          <!-- Agent Profile -->
-          <% if(user.isAgent==true && user.agentStatus==true){ %>
-            <div class="col-md-12">
-              <div class="user-result" onClick="window.location=`/user/<%= user._id %>`">
-                <img src="<%= user.image %>" style="width : 200px; height: 200px;">
-                <div class="caption-result">
-                  <h4><%= user.firstName %> <%= user.lastName %></h4>
-                  <h6>CEA: <%= user.cea %></h6>
-                  <% if (user.rating===0) { %>
-                    <em>No reviews found.</em>
-                  <% } else { %>
-                      <span class="fa fa-star checked"></span>
-                      <span class="fa fa-star <% if (user.rating > 1.5) { %> checked <% } %>"></span>
-                      <span class="fa fa-star <% if (user.rating > 2.5) { %> checked <% } %>"></span>
-                      <span class="fa fa-star <% if (user.rating > 3.5) { %> checked <% } %>"></span>
-                      <span class="fa fa-star <% if (user.rating > 4.5) { %> checked <% } %>"></span>
-                  <% } %>
-                </div>
-              </div>
-            </div>
-          <% } %>
-        <% }); %>
-      </div>
-      
+      </main>
+
   </div>
 
+
+  <script>
+    loadData(resultSet);  
+    // var endList = document.getElementById("footer");
+    // var list = document.getElementById("resultDiv");
+
+    // window.addEventListener('DOMContentLoaded', load);
+    // function load() {
+    //   addItems();
+    // }
+
+    // function addItems() {
+
+    // }
+
+  </script>
+  
   <%- include("../partials/footer") %>

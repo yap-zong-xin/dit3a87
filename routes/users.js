@@ -212,7 +212,7 @@ router.get("/user", function(req,res){
 			}
 		});	
 	} else {
-		User.find({}, function(err, allUsers){
+		User.find({isAgent: true, agentStatus: true}, function(err, allUsers){
 			if(err){
 				console.log(err);
 			} else{
