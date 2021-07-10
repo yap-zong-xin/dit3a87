@@ -13,7 +13,7 @@
               <span class="title activeText">Overview</span>
             </a>
           </li>
-          <li class="list navigationHover">
+          <li class="list active">
             <a href="/dashboard/accounts">
               <span class="icon">
                 <ion-icon name="people-outline"></ion-icon>
@@ -37,7 +37,7 @@
               <span class="title">Comments</span>
             </a>
           </li>
-          <li class="list active">
+          <li class="list navigationHover">
             <a href="/dashboard/reviews">
               <span class="icon">
                 <ion-icon name="star-outline"></ion-icon>
@@ -49,9 +49,25 @@
       </div>
     </div>
     <div class="col-9 p-0">
-      <%= reviews %>
+      <span style="font-weight: bold;">admin</span>
+      <% users.forEach(function(user){ %>
+        <% if(user.isAdmin==true){ %>
+          <div>
+            <p>
+              Username: <strong><%= user.username %></strong>
+            </p>
+            <% if(currentUser && user._id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
+              <a class="btn btn-warning" href="/user/<%= user._id %>/edit">Edit</a>
+              <form action="/user/<%= user._id %>?_method=DELETE" method="POST">
+                <button class="btn btn-danger">DELETE</button>
+              </form>
+              <a href="/user/<%= user._id %>" class="btn btn-primary">View Profile</a>
+            <% } %>
+          </div>
+        <% } %>
+      <% }); %>
     </div>
   </div>
 </div>
 
-    <%- include("../../../partials/footer") %>
+<%- include("../../../partials/footer") %>

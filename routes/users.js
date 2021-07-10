@@ -57,7 +57,7 @@ router.get("/dashboard", function(req,res){
 									if(err){
 										console.log(err);
 									} else{
-										res.render("dashboards/admin/index.ejs", {users:allUsers, listings:alllistings, reviews:allReviews, comments:allComments});
+										res.render("dashboards/index.ejs", {users:allUsers, listings:alllistings, reviews:allReviews, comments:allComments});
 									}
 								});
 							}
@@ -74,7 +74,37 @@ router.get("/dashboard/accounts", function(req,res){
 		if(err){
 			console.log(err);
 		} else{
-			res.render("dashboards/admin/accounts/index.ejs", {users:allUsers});
+			res.render("dashboards/accounts/index.ejs", {users:allUsers});
+		}
+	});
+});
+//Get Route - Manage Admin Account Dashboard
+router.get("/dashboard/accounts/admin", function(req,res){
+	User.find({}, function(err, allUsers){
+		if(err){
+			console.log(err);
+		} else{
+			res.render("dashboards/accounts/admin/index.ejs", {users:allUsers});
+		}
+	});
+});
+//Get Route - Manage Agent Account Dashboard
+router.get("/dashboard/accounts/agent", function(req,res){
+	User.find({}, function(err, allUsers){
+		if(err){
+			console.log(err);
+		} else{
+			res.render("dashboards/accounts/agent/index.ejs", {users:allUsers});
+		}
+	});
+});
+//Get Route - Manage Seeker Account Dashboard
+router.get("/dashboard/accounts/seeker", function(req,res){
+	User.find({}, function(err, allUsers){
+		if(err){
+			console.log(err);
+		} else{
+			res.render("dashboards/accounts/seeker/index.ejs", {users:allUsers});
 		}
 	});
 });
@@ -97,7 +127,7 @@ router.get("/dashboard/comments", function(req,res){
 		if(err){
 			console.log(err);
 		} else{
-			res.render("dashboards/admin/comments/index.ejs", {comments:allComments});
+			res.render("dashboards/comments/index.ejs", {comments:allComments});
 		}
 	});
 });
@@ -108,7 +138,7 @@ router.get("/dashboard/reviews", function(req,res){
 		if(err){
 			console.log(err);
 		} else{
-			res.render("dashboards/admin/reviews/index.ejs", {reviews:allReviews});
+			res.render("dashboards/reviews/index.ejs", {reviews:allReviews});
 		}
 	});
 });
@@ -118,7 +148,7 @@ router.get("/dashboard/reviews", function(req,res){
 // 		if(err){
 // 			console.log(err);
 // 		} else{
-// 			res.render("dashboards/admin/manageListings.ejs", {listings:alllistings});
+// 			res.render("dashboards/manageListings.ejs", {listings:alllistings});
 // 		}
 // 	});
 // });
@@ -188,8 +218,8 @@ router.get("/dashboard/reviews", function(req,res){
 // 			// 	});
 // 			// }
 // 			// clickRateCalc();
-// 			res.render("dashboards/admin/listings/index.ejs", {listings:foundlisting});
-// 			// res.render("dashboards/admin/manageListings.ejs", {listings:foundlisting, getClickRate:getClickRate});
+// 			res.render("dashboards/listings/index.ejs", {listings:foundlisting});
+// 			// res.render("dashboards/manageListings.ejs", {listings:foundlisting, getClickRate:getClickRate});
 // 		}
 // 	});
 // });
@@ -223,7 +253,7 @@ router.get("/dashboard/listings", function(req,res){
 					}
 					postCount(id);
 				}		
-				res.render("dashboards/admin/listings/index.ejs", {
+				res.render("dashboards/listings/index.ejs", {
 					listings:foundlisting,
 					noMatch: noMatch,
 					search: req.query.search,
@@ -274,7 +304,7 @@ router.get("/dashboard/listings", function(req,res){
 					}
 					postCount(id);
 				}		
-				res.render("dashboards/admin/listings/index.ejs", {
+				res.render("dashboards/listings/index.ejs", {
 					listings:foundlisting,
 					noMatch: noMatch,
 					search: req.query.search,
@@ -288,7 +318,7 @@ router.get("/dashboard/listings", function(req,res){
 		if(err){
 			console.log(err);
 		} else{
-			res.render("dashboards/admin/listings/index.ejs", {
+			res.render("dashboards/listings/index.ejs", {
 				listings:foundlisting,
 				noMatch: noMatch,
 				search: req.query.search,
