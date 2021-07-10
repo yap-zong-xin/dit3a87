@@ -1543,6 +1543,17 @@ input[type=range]::-ms-thumb {
 #drop-area.highlight {
   border-color: purple;
 }
+#add-drop-area {
+  border: 2px dashed #ccc;
+  border-radius: 20px;
+  width: 480px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: rgb(158, 158, 158);
+}
+#add-drop-area.highlight {
+  border-color: purple;
+}
 #thumbnail-drop-area {
   border: 2px dashed #ccc;
   border-radius: 20px;
@@ -1569,8 +1580,8 @@ input[type=range]::-ms-thumb {
   vertical-align: middle;
 }
 .thumbnail-gallery-style {
-  height: 500px;
-  width: 500px;
+  height: 300px;
+  width: 300px;
 }
 .listingImage{
   float: left;
