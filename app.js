@@ -16,7 +16,7 @@ var passportLocalMongoose = require("passport-local-mongoose");
 var flash = require("connect-flash");
 var cors = require('cors');
 
-var io = require("socket.io")(PORT, {
+var io = require("socket.io")(process.env.PORT || 3000, {
 	cors: {
 		origin: "https://sap-dit3a87.herokuapp.com/",
 	},
@@ -118,7 +118,7 @@ const getUser = (userId) => {
 
 io.on("connection", (socket) => {
 	//when ceonnect
-	console.log("a user connected.");
+	console.log("a user "+ socket.id +" connected.");
 
 	//take userId and socketId from user
 	socket.on("addUser", (userId) => {
