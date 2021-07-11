@@ -14,7 +14,7 @@ router.post("/conversation/:senderId/:receiverId", async (req, res) => {
 
 
 if (convExists.length !==0 || convExists1.length !==0) {
-  res.redirect("https://sap-dit3a87.herokuapp.com//messenger/chat/"+senderId);
+  res.redirect("https://sap-dit3a87.herokuapp.com/chat/messenger/"+senderId);
 } else {
     try {
 
@@ -22,7 +22,7 @@ if (convExists.length !==0 || convExists1.length !==0) {
         members: [senderId,receiverId],
       });
     const savedConversation = await newConversation.save();
-    res.status(200).redirect("https://sap-dit3a87.herokuapp.com//messenger/chat/"+senderId);
+    res.status(200).redirect("https://sap-dit3a87.herokuapp.com/chat/messenger/"+senderId);
   } catch (err) {
     res.status(500).json(err);
   }
