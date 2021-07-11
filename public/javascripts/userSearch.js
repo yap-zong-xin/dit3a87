@@ -1,5 +1,4 @@
 function loadData(rs,loadObj) {
-    console.log(loadObj)
     //loadObj
     var totalRem = loadObj.totalRem;
     var sectionRem = loadObj.sectionRem;
@@ -44,14 +43,16 @@ function loadData(rs,loadObj) {
             var rating = resultSet[i].rating;
             var ratingArr = [1.5, 2.5, 3.5, 4.5];
             var arrNum;
-            for (var e = 0; e < ratingArr.length; e++) {
-                var rDiff = ratingArr[i] - rating;
 
-                if (rDiff < 0) {
-                    arrNum = e;
+            console.log(rating)
+
+            for (var e = ratingArr.length - 1; e >= 0; e--) {
+                if (ratingArr[e] > rating) {
+                    arrNum = e ;
                 }
-
             }
+            
+            
             switch (arrNum) {
                 case 0:
                     html = `<div class="col-md-12">
@@ -140,7 +141,7 @@ function loadData(rs,loadObj) {
                             <div class="caption-result">
                                 <h4>`+ resultSet[i].firstName +` ` + resultSet[i].lastName +`</h4>
                                 <h6>CEA: ` + resultSet[i].cea +`</h6>
-                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star"></span>
                                 <span class="fa fa-star"></span>
                                 <span class="fa fa-star"></span>
                                 <span class="fa fa-star"></span>
