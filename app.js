@@ -4,23 +4,26 @@ if (process.env.NODE_ENV !== "production") {
 
 var express = require("express");
 const countapi = require('countapi-js');
-var app= express();
+var app = express();
 var server = require('http').createServer(app);
 var bodyParser = require("body-parser");
 var mongoose = require("mongoose");
 var methodOverride = require("method-override");
-const moment = require('moment-timezone'); 
+const moment = require('moment-timezone');
 var passport = require("passport");
 var localStrategy = require('passport-local').Strategy;
 var passportLocalMongoose = require("passport-local-mongoose");
 var flash = require("connect-flash");
 var cors = require('cors');
 
-var io = require('socket.io')(server);
-app.use(cors());
+var io = require("socket.io")(PORT, {
+	cors: {
+		origin: "https://sap-dit3a87.herokuapp.com/",
+	},
+});
 
 var listing = require("./models/listing");
-var Comment = require("./models/comment");	
+var Comment = require("./models/comment");
 var User = require("./models/user");
 
 var commentRoutes = require('./routes/comments');
@@ -33,28 +36,28 @@ var messageRoutes = require("./routes/messages")
 
 //mongodb+srv://admin:admin@sap-dit3a87.airjg.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
 // mongoose.connect(process.env.DB_URL || "mongodb://localhost/SAP", {  
-mongoose.connect("mongodb+srv://admin:admin@sap-dit3a87.airjg.mongodb.net/myFirstDatabase?retryWrites=true&w=majority", {  
+mongoose.connect("mongodb+srv://admin:admin@sap-dit3a87.airjg.mongodb.net/myFirstDatabase?retryWrites=true&w=majority", {
 	useNewUrlParser: true,
 	useCreateIndex: true,
 	useUnifiedTopology: true,
-	useFindAndModify: false 
+	useFindAndModify: false
 });
 
 app.locals.moment = require('moment');
 app.use(express.static("public"));
 app.use(methodOverride("_method"));
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(flash());
 
 const path = require('path');
 
-if (process.env.NODE_ENV == "production" ){
-	app.use('/chat',express.static(path.join(__dirname,'/chat/client/build')));
+if (process.env.NODE_ENV == "production") {
+	app.use('/chat', express.static(path.join(__dirname, '/chat/client/build')));
 
 
-app.get('/chat/*', (req, res) => {
-    res.sendFile(path.join(__dirname,"chat/client/build/index.html"));
-  });
+	app.get('/chat/*', (req, res) => {
+		res.sendFile(path.join(__dirname, "chat/client/build/index.html"));
+	});
 }
 
 
@@ -73,15 +76,15 @@ passport.use(User.createStrategy());
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-app.use(async function(req, res, next){
+app.use(async function (req, res, next) {
 	res.locals.currentUser = req.user;
-	if(req.user) {
-	 try {
-		 let user = await User.findById(req.user._id).populate('notifications', null, { isRead: false }).exec();
-		 res.locals.notifications = user.notifications.reverse();
-	 } catch(err) {
-		 console.log(err.message);
-	 }
+	if (req.user) {
+		try {
+			let user = await User.findById(req.user._id).populate('notifications', null, { isRead: false }).exec();
+			res.locals.notifications = user.notifications.reverse();
+		} catch (err) {
+			console.log(err.message);
+		}
 	}
 	res.locals.error = req.flash("error");
 	res.locals.success = req.flash("success");
@@ -96,54 +99,50 @@ app.use(reviewRoutes);
 app.use(conversationRoutes);
 app.use(messageRoutes);
 
-const io = require("socket.io")(PORT, {
-	cors: {
-	  origin: "https://sap-dit3a87.herokuapp.com/",
-	},
-  });
+
 
 let users = [];
 
 const addUser = (userId, socketId) => {
-  !users.some((user) => user.userId === userId) &&
-    users.push({ userId, socketId });
+	!users.some((user) => user.userId === userId) &&
+		users.push({ userId, socketId });
 };
 
 const removeUser = (socketId) => {
-  users = users.filter((user) => user.socketId !== socketId);
+	users = users.filter((user) => user.socketId !== socketId);
 };
 
 const getUser = (userId) => {
-  return users.find((user) => user.userId === userId);
+	return users.find((user) => user.userId === userId);
 };
 
 io.on("connection", (socket) => {
-  //when ceonnect
-  console.log("a user connected.");
+	//when ceonnect
+	console.log("a user connected.");
 
-  //take userId and socketId from user
-  socket.on("addUser", (userId) => {
-    addUser(userId, socket.id);
-    io.emit("getUsers", users);
-  });
+	//take userId and socketId from user
+	socket.on("addUser", (userId) => {
+		addUser(userId, socket.id);
+		io.emit("getUsers", users);
+	});
 
-  //send and get message
-  socket.on("sendMessage", ({ senderId, receiverId, text }) => {
-    const user = getUser(receiverId);
-    io.to(user.socketId).emit("getMessage", {
-      senderId,
-      text,
-    });
-  });
+	//send and get message
+	socket.on("sendMessage", ({ senderId, receiverId, text }) => {
+		const user = getUser(receiverId);
+		io.to(user.socketId).emit("getMessage", {
+			senderId,
+			text,
+		});
+	});
 
-  //when disconnect
-  socket.on("disconnect", () => {
-    console.log("a user disconnected!");
-    removeUser(socket.id);
-    io.emit("getUsers", users);
-  });
+	//when disconnect
+	socket.on("disconnect", () => {
+		console.log("a user disconnected!");
+		removeUser(socket.id);
+		io.emit("getUsers", users);
+	});
 });
 
-server.listen(process.env.PORT || 3000, process.env.IP, function() { 
-	console.log('Server Has Started!'); 
+server.listen(process.env.PORT || 3000, process.env.IP, function () {
+	console.log('Server Has Started!');
 });
