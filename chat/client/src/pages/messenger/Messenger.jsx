@@ -14,7 +14,7 @@ export default function Messenger() {
   const [newMessage, setNewMessage] = useState("");
   const [arrivalMessage, setArrivalMessage] = useState(null);
   const socket = useRef();
-  const userId = useParams().userid;
+  const userId = "60e8131492343f0015c20e2f";
   // const { user } = useContext(AuthContext);
   const scrollRef = useRef();
 
