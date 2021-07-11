@@ -96,6 +96,12 @@ app.use(reviewRoutes);
 app.use(conversationRoutes);
 app.use(messageRoutes);
 
+const io = require("socket.io")(PORT, {
+	cors: {
+	  origin: "https://sap-dit3a87.herokuapp.com/",
+	},
+  });
+
 let users = [];
 
 const addUser = (userId, socketId) => {
