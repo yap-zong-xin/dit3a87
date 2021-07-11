@@ -10,12 +10,14 @@
   var resultSet = `<%- JSON.stringify(users) %>`
 </script>
 
+  <div style="position: relative;text-align: center;color: white;">
+    <img class="shadow" src="img/findagents-banner.png" style="width:100%;">
+    <div class="user-header">Find Property Agents in Singapore</div>
+  </div>
+
   <div class="container">
     <% if(noMatch !==undefined){ %>
       <div class="col-md-12 m-0 p-0">
-        <h3>
-          <%= noMatch %>
-        </h3>
         <div class="user-search">
           <form action="/user" method="GET" class="form-inline">
             <div class="form-group">
@@ -24,16 +26,22 @@
             </div>
           </form>
         </div>
+        <h3>
+          <%= noMatch %>
+        </h3>
       </div>
   <% } %>
-      <main class="row" style="display:flex; flex-wrap: wrap;" id="resultDiv">
+      
 
-      </main>
-
+  </div>
+  <div class="container">
+    <main class="row" style="display:flex; flex-wrap: wrap;" id="resultDiv"></main>
   </div>
 
 
   <script>
+    var loadObj;
+
     const URL =
     "https://gist.githubusercontent.com/prof3ssorSt3v3/1944e7ba7ffb62fe771c51764f7977a4/raw/c58a342ab149fbbb9bb19c94e278d64702833270/infinite.json";
     document.addEventListener("DOMContentLoaded", () => {
@@ -44,13 +52,17 @@
         };
         const observer = new IntersectionObserver(handleIntersect, options);
         observer.observe(document.querySelector("footer"));
-        loadData(resultSet);
+        loadObj = loadFirstFive(resultSet)
     });
+
+
     function handleIntersect(entries) {
-    if (entries[0].isIntersecting) {
-        setTimeout(function() {loadData(resultSet);}, 1000)
+      if (entries[0].isIntersecting) {
+          setTimeout(function() {
+            loadData(resultSet,loadObj);
+          }, 1000)
+      }
     }
-}
 
   </script>
   <%- include("../partials/footer") %>
