@@ -37,6 +37,11 @@ body {
 
 .viewport-header{
   backdrop-filter: blur(5px);
+  -webkit-animation: fadein 2s;
+  -moz-animation: fadein 2s;
+  -ms-animation: fadein 2s;
+  -o-animation: fadein 2s;
+  animation: fadein 2s;
   position: relative;
   height: 100vh;
   text-align: center;
@@ -154,6 +159,17 @@ body {
 .wwd-desc p {
   letter-spacing: 0.5px;
   line-height: 2;
+}
+
+.wwd-desc {
+  position: relative;
+  top: 0;
+  transition: top ease 0.5s;
+}
+
+.wwd-desc:hover {
+  top: -25px;
+  /* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); */
 }
 
 #text-wrapper {
@@ -1710,6 +1726,17 @@ input[type=range]::-ms-thumb {
   transform: translate(-50%, -50%);
   font-weight: 700;
   font-size: 22px;
+  height: 100%;
+  width: 100%;
+  backdrop-filter: blur(10px);
+  display: flex;;
+  justify-content: center;
+  align-items: center;
+  -webkit-animation: fadein 2s;
+  -moz-animation: fadein 2s;
+  -ms-animation: fadein 2s;
+  -o-animation: fadein 2s;
+  animation: fadein 2s;
 }
 
 .user-result {
@@ -1743,17 +1770,56 @@ input[type=range]::-ms-thumb {
 .user-search {
   display: flex;
   flex-direction: row;
-  padding: 10px;
-  margin: 50px 0 50px;
+  padding: 30px 10px 30px 10px;
   background-color: #fff;
+  border-radius: 10px;
 }
 
 .user-search form, .user-search .form-group {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 100%;
 }
 
 .user-search .form-group input[type=text] {
-  width: 100%
+  width: 350px;
+  padding: 25px 10px 25px 10px;
+}
+
+.user-search .form-group input[type=submit] {
+  border-radius: 5px;
+  background-color: #3725c0;
+  font-weight: 500;
+}
+
+.user-search .form-group input[type=submit]:focus {
+  outline: none;
+}
+
+@keyframes fadein {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@-moz-keyframes fadein {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@-webkit-keyframes fadein {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@-ms-keyframes fadein {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@-o-keyframes fadein {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
 /* navbar */
@@ -1978,3 +2044,4 @@ nav a{
 .table-sortable .th-sort-desc {
   background: rgba(0, 0, 0, 0.1);
 }
+

@@ -44,14 +44,11 @@ function loadData(rs,loadObj) {
             var ratingArr = [1.5, 2.5, 3.5, 4.5];
             var arrNum;
 
-            console.log(rating)
-
             for (var e = ratingArr.length - 1; e >= 0; e--) {
                 if (ratingArr[e] > rating) {
                     arrNum = e ;
                 }
             }
-            
             
             switch (arrNum) {
                 case 0:
