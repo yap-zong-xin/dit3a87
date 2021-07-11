@@ -43,7 +43,7 @@ app.use(methodOverride("_method"));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(flash());
 
-app.use(express.static('/client/build'));
+app.use(express.static('/chat/client/build'));
 
 //use & run express session
 app.use(require("express-session")({
