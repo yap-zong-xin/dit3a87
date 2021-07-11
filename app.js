@@ -52,9 +52,9 @@ if (process.env.NODE_ENV == "production" ){
 	app.use('/chat',express.static(path.join(__dirname,'/chat/client/build')));
 
 
-// app.get('/chat/*', (req, res) => {
-//     res.sendFile(path.resolve(__dirname,'chat','client', 'build', 'index.html'));
-//   });
+app.get('/chat/*', (req, res) => {
+    res.sendFile(path.join(__dirname,"chat/client/public/index.html"));
+  });
 }
 
 
