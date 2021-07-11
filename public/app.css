@@ -1127,7 +1127,7 @@ input[type=range]::-ms-thumb {
 .flashMessage{
   position: fixed;
   top: 80px;
-  z-index: 1;
+  z-index: 9999;
   left: 50%;
   transform: translateX(-50%);
 }
@@ -1156,7 +1156,7 @@ input[type=range]::-ms-thumb {
   font-size: 2.4em;
   cursor: pointer;
   border-radius: 50%;
-  padding: 7px;
+  padding: 8px;
   background: white
 }
 
@@ -1172,15 +1172,18 @@ input[type=range]::-ms-thumb {
 .profileEditSubmit, .profileResetPassword{
   font-size: 0.95em;
   background:#4632da;
+  border-radius: 25px;
 }
 .profileDeleteBtn{
   font-size: 0.95em;
+  border-radius: 25px;
 }
 .profileEditSubmit:hover, .profileResetPassword:hover{
   background:#0d28b1;
 }
 .profileEditCancel{
   font-size: 0.95em;
+  border-radius: 25px;
 }
 
 .profileImage{
@@ -1211,17 +1214,12 @@ input[type=range]::-ms-thumb {
 }
 
 .followBtn, .chatBtn{
-  width: 100px;
-  border-radius: 50px;
-  font-size: 0.95em;
-}
-.editUserBtn{
-  width: 140px;
+  width: 130px;
   border-radius: 50px;
   font-size: 0.95em;
 }
 .profileOverviewBtn{
-  width: 140px;
+  width: 160px;
   border-radius: 50px;
   font-size: 0.95em;
 }
@@ -1250,20 +1248,19 @@ input[type=range]::-ms-thumb {
   color: black;
 }
 
-.fa-bell{
-  transform: rotate(-20deg);
-  text-decoration: none;
+.iconHeader{
   background: rgb(231, 231, 231);
-  border-radius: 50%;
-  padding: 11px;
-}
-.fa-comment, .fa-user-alt, .fa-comment-alt, .fa-sign-out-alt, .fa-plus{
-  font-size: 2.7em;
-  background: rgb(231, 231, 231);
-  padding: 13px;
+  padding: 10px;
   border-radius: 50%;
   color: black;
 }
+.iconHeader:hover{
+  background: rgb(197, 197, 197);
+}
+.iconHeader:active{
+  background: rgb(158, 158, 158);
+}
+
 .currentUserNav{
   background: rgb(231, 231, 231);
   border-radius: 50px;
@@ -1271,41 +1268,9 @@ input[type=range]::-ms-thumb {
 .currentUserNav span{
   color: black;
 }
-
-.fa-bell:hover{
-  background: rgb(197, 197, 197);
-}
-.fa-comment:hover, .fa-user-alt:hover, .fa-comment-alt:hover, .fa-sign-out-alt:hover, .fa-plus:hover{
-  background: rgb(197, 197, 197);
-}
-.currentUserNav:hover{
-  background: rgb(197, 197, 197);
-}
-
-.fa-bell:active{
-  background: rgb(158, 158, 158);
-}
-.fa-comment:active, .fa-user-alt:active, .fa-comment-alt:active, .fa-sign-out-alt:active, .fa-plus:active{
-  background: rgb(158, 158, 158);
-}
 .currentUserNav:active{
   background: rgb(158, 158, 158);
 }
-
-.fa-plus {
-  display: block;
-}
-.fa-plus {
-  -webkit-transition-duration: 1s;
-  -moz-transition-duration: 1s;
-  -o-transition-duration: 1s;
-  transition-duration: 1s;
-  -webkit-transition-property: -webkit-transform;
-  -moz-transition-property: -moz-transform;
-  -o-transition-property: -o-transform;
-  transition-property: transform;
-}
-
 
 #userRole{
   font-size: 0.9em;
@@ -1458,7 +1423,7 @@ input[type=range]::-ms-thumb {
   background: #f2f2f2;
   padding: var(--field-padding);
   border-radius: 10px;
-  width: 505px;
+  width: 620px;
   outline: none;
   font-size: 14px;
 }
@@ -1543,6 +1508,17 @@ input[type=range]::-ms-thumb {
 #drop-area.highlight {
   border-color: purple;
 }
+#add-drop-area {
+  border: 2px dashed #ccc;
+  border-radius: 20px;
+  width: 480px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: rgb(158, 158, 158);
+}
+#add-drop-area.highlight {
+  border-color: purple;
+}
 #thumbnail-drop-area {
   border: 2px dashed #ccc;
   border-radius: 20px;
@@ -1569,8 +1545,8 @@ input[type=range]::-ms-thumb {
   vertical-align: middle;
 }
 .thumbnail-gallery-style {
-  height: 500px;
-  width: 500px;
+  height: 300px;
+  width: 300px;
 }
 .listingImage{
   float: left;
@@ -1847,7 +1823,7 @@ nav a{
 
 #mainLoader{
   position: absolute;
-  top: 80px;
+  top: 7px;
   display: inline-block;
   border: 3.5px solid #f3f3f3;
   border-top: 5px solid #4632DA;
@@ -1861,4 +1837,107 @@ nav a{
   left: 0;
   right: 0;
   text-align: center;
+  z-index: 999999;
+}
+
+/* dashboard menu */
+.navigation{
+  position: relative;
+  height: 100vh;
+  /* width: 70px; */
+  width: 270px;
+  box-shadow: 10px 0 0 white;
+  background: #4a565f;
+  border-left: 10px solid #4a565f;
+  overflow-x: hidden;
+  /* transition: width 0.5s;  */
+  position: fixed !important;
+  top: 73px;
+}
+/* .navigation:hover{
+  width: 230px;
+} */
+.navigation ul{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding-left: 5px;
+  padding-top: 40px;
+}
+.navigation li{
+  position: relative;
+  list-style: none;
+  width: 100%;
+  height: 50px;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+}
+.navigation .active{
+  background: white;
+}
+.navigation .active:hover{
+  background: white;
+}
+.navigationHover:hover{
+  background: rgb(63, 63, 63);
+  z-index: 9;
+}
+.navigation .active a, .navigation .active .title{
+  color: black;
+  font-weight: 600;
+}
+.navigation a{
+  position: relative;
+  display: block;
+  width: 100%;
+  display: flex;
+  height: 50px;
+  text-decoration: none;
+  color: #fff;
+}
+.navigation .active a::before{
+  content: '';
+  position: absolute;
+  top: -30px;
+  right: 0;
+  width: 30px;
+  height: 30px;
+  background: #4a565f;
+  border-radius: 50%;
+  box-shadow: 15px 15px 0 white;
+}
+.navigation .active a::after{
+  content: '';
+  position: absolute;
+  bottom: -30px;
+  right: 0;
+  width: 30px;
+  height: 30px;
+  background: #4a565f;
+  border-radius: 50%;
+  box-shadow: 15px -15px 0 white;
+}
+.navigation .icon{
+  position: relative;
+  display: block;
+  min-width: 60px;
+  height: 60px;
+  line-height: 60px;
+  text-align: center;
+}
+.navigation .icon ion-icon{
+  position: relative;
+  font-size: 1.3em;
+  z-index: 1;
+}
+.navigation .title{
+  position: relative;
+  display: block;
+  padding-left: 10px;
+  height: 60px;
+  line-height: 50px;
+  white-space: nowrap;
+  color: white;
+  font-size: 0.88em;
 }

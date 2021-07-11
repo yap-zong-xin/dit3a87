@@ -57,7 +57,7 @@ router.get("/dashboard", function(req,res){
 									if(err){
 										console.log(err);
 									} else{
-										res.render("dashboards/admin/index.ejs", {users:allUsers, listings:alllistings, reviews:allReviews, comments:allComments});
+										res.render("dashboards/index.ejs", {users:allUsers, listings:alllistings, reviews:allReviews, comments:allComments});
 									}
 								});
 							}
@@ -74,7 +74,37 @@ router.get("/dashboard/accounts", function(req,res){
 		if(err){
 			console.log(err);
 		} else{
-			res.render("dashboards/admin/accounts/index.ejs", {users:allUsers});
+			res.render("dashboards/accounts/index.ejs", {users:allUsers});
+		}
+	});
+});
+//Get Route - Manage Admin Account Dashboard
+router.get("/dashboard/accounts/admin", function(req,res){
+	User.find({}, function(err, allUsers){
+		if(err){
+			console.log(err);
+		} else{
+			res.render("dashboards/accounts/admin/index.ejs", {users:allUsers});
+		}
+	});
+});
+//Get Route - Manage Agent Account Dashboard
+router.get("/dashboard/accounts/agent", function(req,res){
+	User.find({}, function(err, allUsers){
+		if(err){
+			console.log(err);
+		} else{
+			res.render("dashboards/accounts/agent/index.ejs", {users:allUsers});
+		}
+	});
+});
+//Get Route - Manage Seeker Account Dashboard
+router.get("/dashboard/accounts/seeker", function(req,res){
+	User.find({}, function(err, allUsers){
+		if(err){
+			console.log(err);
+		} else{
+			res.render("dashboards/accounts/seeker/index.ejs", {users:allUsers});
 		}
 	});
 });
@@ -97,7 +127,7 @@ router.get("/dashboard/comments", function(req,res){
 		if(err){
 			console.log(err);
 		} else{
-			res.render("dashboards/admin/comments/index.ejs", {comments:allComments});
+			res.render("dashboards/comments/index.ejs", {comments:allComments});
 		}
 	});
 });
@@ -108,7 +138,7 @@ router.get("/dashboard/reviews", function(req,res){
 		if(err){
 			console.log(err);
 		} else{
-			res.render("dashboards/admin/reviews/index.ejs", {reviews:allReviews});
+			res.render("dashboards/reviews/index.ejs", {reviews:allReviews});
 		}
 	});
 });
@@ -118,82 +148,187 @@ router.get("/dashboard/reviews", function(req,res){
 // 		if(err){
 // 			console.log(err);
 // 		} else{
-// 			res.render("dashboards/admin/manageListings.ejs", {listings:alllistings});
+// 			res.render("dashboards/manageListings.ejs", {listings:alllistings});
 // 		}
 // 	});
 // });
 
 //Get Route - Manage Listings Dashboard
+// router.get("/dashboard/listings", function(req,res){
+// 	listing.find({}).populate("comments likes").exec(function(err, foundlisting){
+// 		if(err){
+// 			console.log(err);
+// 		} else{
+// 			// var obj = {listings:foundlisting}
+// 			// var lengthObj = {listings:foundlisting.length}
+// 			// var max = Object.values(lengthObj)[0];
+// 			// var arrStr = [];
+// 			// var idArr = [];
+
+// 			// //create array and loop through all listings to get ID
+// 			// for (var i = 0; i < max ; i++) {
+// 			// 	var idObj = {listings:foundlisting[i]._id}
+// 			// 	var id = Object.values(idObj)[0];
+// 			// 	idArr[i] = id;
+// 			// }
+
+// 			// async function getShow(url) {
+// 			// 	var result;
+// 			// 	result = await countApi("/get/3dpropertylistingsg/" + url)
+// 			// 	.then(success => {
+// 			// 		return success.data.value;
+// 			// 	})
+// 			// 	return result;
+// 			// }
+			
+// 			// async function getShow2(url) {
+// 			// 	var result;
+// 			// 	result = await countApi("/get/3dpropertylistingsg/" + url + "-click")
+// 			// 	.then(success => {
+// 			// 		return success.data.value;
+// 			// 	})
+// 			// 	return result;
+// 			// }
+
+// 			// async function clickRateCalc() {
+// 			// 	idArr.forEach(async function(url, i) {
+// 			// 		var e = await getShow(url)
+// 			// 		var f = await getShow2(url)
+// 			// 		var rateArr = [url,e,f];
+// 			// 		arrStr.push(rateArr);
+// 			// 		if(arrStr.length == idArr.length) {
+// 			// 			//calculate clickrate
+// 			// 			arrStr.forEach(function(item, i) {
+// 			// 				var id = arrStr[i][0];
+// 			// 				var clickCount = arrStr[i][1];
+// 			// 				var shownCount = arrStr[i][2]
+// 			// 				var clickRateStr = Math.round((clickCount/shownCount) * 100) + "%";
+
+// 			// 				var obj = {
+// 			// 					"id" : id,
+// 			// 					"click" : clickCount,
+// 			// 					"shown" : shownCount,
+// 			// 					"clickRate" : clickRateStr
+// 			// 				}
+
+// 			// 				console.log(obj)
+// 			// 			})
+// 			// 			console.log("done")
+// 			// 		}
+// 			// 	});
+// 			// }
+// 			// clickRateCalc();
+// 			res.render("dashboards/listings/index.ejs", {listings:foundlisting});
+// 			// res.render("dashboards/manageListings.ejs", {listings:foundlisting, getClickRate:getClickRate});
+// 		}
+// 	});
+// });
+
+function escapeRegex(text) {
+	return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+  };
+
 router.get("/dashboard/listings", function(req,res){
-	listing.find({}).populate("comments likes").exec(function(err, foundlisting){
+	var noMatch = null;
+	if(req.query.search) {
+		const regex = new RegExp(escapeRegex(req.query.search), 'gi');
+		listing.find({$or: [{name: regex}, {description: regex}, {"author.username":regex}]}).populate("comments likes").exec(function(err, foundlisting){
+			if(err){
+				console.log(err);
+				res.redirect("back");
+			} else{
+				if(foundlisting.length < 1) {
+					noMatch = "result: '" + req.query.search + "' not found";
+				}		
+				for (var i = 0; i < foundlisting.length; i++) {
+					//id
+					var id = foundlisting[i]._id;
+					console.log(foundlisting[i]._id);
+
+					async function postCount (id) {
+						await countApi("/hit/3dpropertylistingsg/" +  id + "-click").then(success => {
+						console.log("https://api.countapi.xyz/hit/3dpropertylistingsg/" + id + "-click");
+						console.log("id: " + id + "success: " + success.data.value);
+						});
+					}
+					postCount(id);
+				}		
+				res.render("dashboards/listings/index.ejs", {
+					listings:foundlisting,
+					noMatch: noMatch,
+					search: req.query.search,
+					data: req.query
+				});
+			}
+		});
+	}else if(req.query.Apply) {
+		// Sort object (to be passed into .sort)
+		var sortOptions = {};
+		// Sort by popular
+		var sortPop = req.query.sortPop;
+		console.log('sort pop type: '+sortPop)	
+		if(sortPop == 'LeastPop') {
+			sortOptions.likes = 1;
+		}else if(sortPop == 'MostPop') {
+			sortOptions.likes = -1 ;
+		}
+		// Sort by date
+		var sortDate = req.query.sortDate;
+		console.log('sort date type: '+sortDate)	
+		if(sortDate == 'Oldest') {
+			sortOptions.createdAt = 1;
+		}else if(sortDate == 'Recent') {
+			sortOptions.createdAt = -1 ;
+		}
+
+		//if no sort is selected
+		if(Object.keys(sortOptions).length == 0) {
+			sortOptions.createdAt = -1
+		}
+
+		listing.find({}).populate("comments likes").sort(sortOptions).exec(function(err, foundlisting){
+			if(err){
+				console.log(err);
+				res.redirect("back");
+			} else{
+				for (var i = 0; i < foundlisting.length; i++) {
+					//id
+					var id = foundlisting[i]._id;
+					console.log(foundlisting[i]._id);
+
+					async function postCount (id) {
+						await countApi("/hit/3dpropertylistingsg/" +  id + "-click").then(success => {
+						console.log("https://api.countapi.xyz/hit/3dpropertylistingsg/" + id + "-click");
+						console.log("id: " + id + "success: " + success.data.value);
+						});
+					}
+					postCount(id);
+				}		
+				res.render("dashboards/listings/index.ejs", {
+					listings:foundlisting,
+					noMatch: noMatch,
+					search: req.query.search,
+					data: req.query
+				});
+			}
+		});
+
+	}else {
+		listing.find({}).populate("comments likes").exec(function(err, foundlisting){
 		if(err){
 			console.log(err);
 		} else{
-			// var obj = {listings:foundlisting}
-			// var lengthObj = {listings:foundlisting.length}
-			// var max = Object.values(lengthObj)[0];
-			// var arrStr = [];
-			// var idArr = [];
-
-			// //create array and loop through all listings to get ID
-			// for (var i = 0; i < max ; i++) {
-			// 	var idObj = {listings:foundlisting[i]._id}
-			// 	var id = Object.values(idObj)[0];
-			// 	idArr[i] = id;
-			// }
-
-			// async function getShow(url) {
-			// 	var result;
-			// 	result = await countApi("/get/3dpropertylistingsg/" + url)
-			// 	.then(success => {
-			// 		return success.data.value;
-			// 	})
-			// 	return result;
-			// }
-			
-			// async function getShow2(url) {
-			// 	var result;
-			// 	result = await countApi("/get/3dpropertylistingsg/" + url + "-click")
-			// 	.then(success => {
-			// 		return success.data.value;
-			// 	})
-			// 	return result;
-			// }
-
-			// async function clickRateCalc() {
-			// 	idArr.forEach(async function(url, i) {
-			// 		var e = await getShow(url)
-			// 		var f = await getShow2(url)
-			// 		var rateArr = [url,e,f];
-			// 		arrStr.push(rateArr);
-			// 		if(arrStr.length == idArr.length) {
-			// 			//calculate clickrate
-			// 			arrStr.forEach(function(item, i) {
-			// 				var id = arrStr[i][0];
-			// 				var clickCount = arrStr[i][1];
-			// 				var shownCount = arrStr[i][2]
-			// 				var clickRateStr = Math.round((clickCount/shownCount) * 100) + "%";
-
-			// 				var obj = {
-			// 					"id" : id,
-			// 					"click" : clickCount,
-			// 					"shown" : shownCount,
-			// 					"clickRate" : clickRateStr
-			// 				}
-
-			// 				console.log(obj)
-			// 			})
-			// 			console.log("done")
-			// 		}
-			// 	});
-			// }
-			// clickRateCalc();
-			res.render("dashboards/admin/listings/index.ejs", {listings:foundlisting});
-			// res.render("dashboards/admin/manageListings.ejs", {listings:foundlisting, getClickRate:getClickRate});
+			res.render("dashboards/listings/index.ejs", {
+				listings:foundlisting,
+				noMatch: noMatch,
+				search: req.query.search,
+				data: req.query
+			});
 		}
 	});
-});
 
+	}
+});
 //Profile
 //Get Route
 router.get("/user", function(req,res){
@@ -212,7 +347,7 @@ router.get("/user", function(req,res){
 			}
 		});	
 	} else {
-		User.find({}, function(err, allUsers){
+		User.find({isAgent: true, agentStatus: true}, function(err, allUsers){
 			if(err){
 				console.log(err);
 			} else{

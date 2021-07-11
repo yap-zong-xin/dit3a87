@@ -376,9 +376,9 @@
                       <button><i class="fas fa-search"></i></button>
                     </form>
                   <% } %>
-                  <% if(currentUser && user.isAgent==true || currentUser && user.isAdmin==true){ %>
+                  <% if(currentUser && user._id.equals(currentUser._id)){ %>
                     <a href="/listings/new" class="pl-1" style="text-decoration: none;">
-                      <img class="fa-plus" src="/img/add.png" style="width: 37px;">
+                      <ion-icon class="iconHeader" name="add-outline"></ion-icon>
                     </a>
                   <% } %>
                 </div>

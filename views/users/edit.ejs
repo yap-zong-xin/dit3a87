@@ -1,127 +1,134 @@
 <%- include("../partials/header") %>
 
-
-  <div class="container p-5">
-    <div class="row">
-      <div class="col-3 offset-1 pt-3">
-        <div class="col-12 pl-5">
-          <a href="/user/<%= user._id %>/edit" style="text-decoration: none; color: #4632da;">
-            <span class="p-2 px-3" style="border-left: 2.5px solid #4632da; color: #4632da; font-weight: 600;">Edit
-              Details</span>
-          </a>
-        </div>
-        <div class="col-12 mt-4 pl-5">
-          <a href="/user/<%= user._id %>/manage" style="text-decoration: none; color: black;">
-            <span class="p-2 px-3">Manage Account</span>
-          </a>
-        </div>
-      </div>
-      <div class="col-7 px-5 py-4 shadow" style="border-radius: 10px;">
-        <p style="font-size: 2em; font-weight: 600;">Edit Profile</p>
-        <form action="/user/<%= user._id %>?_method=PUT" method="POST" enctype="multipart/form-data"
-          id="profileEditForm">
-          <div class="row">
-            <% if(user.isAgent==false || currentUser && currentUser.isAdmin){ %>
-              <div class="col-12" style="height: 240px;">
-                <p style="font-weight: 600;">Profile Photo</p>
-                <div class="row">
-                  <div class="col-4">
-                    <img src="<%= user.image %>" class="profileImageEdit">
-                    <img id="output" class="profileImageEdit" />
-                  </div>
-                  <div class="col-8" style="position: relative; top: 40px;">
-                    <p style="font-weight: 300; font-size: 0.95em;">
-                      Clear frontal face photos are an important way for buyers and sellers to learn about each other.
-                    </p>
-                    <label for="file-upload-image" class="btn btn-outline-dark customImageUpload px-3 py-1">
-                      Upload a Photo
-                    </label>
-                    <input type="file" id="file-upload-image" name="image" onchange="loadFile(event)" id="imageUpload"
-                      accept="image/*">
-                  </div>
-                </div>
-              </div>
-              <% } %>
-                <div class="col-12">
-                  <p class="my-0" style="font-weight: 600;">Profile Details</p>
-                  <div class="row">
-                    <div class="col-12">
-                      <label class="custom-field one">
-                        <input type="text" name="user[username]" value="<%= user.username %>" placeholder=" "
-                          required />
-                        <span class="placeholder">Username</span>
-                      </label>
-                    </div>
-                    <div class="col-12">
-                      <label class="custom-field one">
-                        <input type="email" name="user[email]" value="<%= user.email %>" placeholder=" " required />
-                        <span class="placeholder">Email</span>
-                      </label>
-                    </div>
-                    <div class="col-12">
-                      <label class="custom-field one">
-                        <input type="number" name="user[phone]" value="<%= user.phone %>" placeholder=" " required />
-                        <span class="placeholder">Contact Number</span>
-                      </label>
-                    </div>
-                    <% if(currentUser && currentUser.isAdmin && user.cea!=null){ %>
-                      <div class="col-12">
-                        <label class="custom-field one">
-                          <input type="text" name="user[cea]" value="<%= user.cea %>" placeholder=" " required />
-                          <span class="placeholder">CEA Number</span>
-                        </label>
-                      </div>
-                      <% } %>
-                        <div class="col-12">
-                          <label class="custom-field one">
-                            <input type="text" name="user[streetName]" value="<%= user.streetName %>" placeholder=" "
-                              required />
-                            <span class="placeholder">Street Name</span>
-                          </label>
-                        </div>
-                        <div class="col-12">
-                          <label class="custom-field one">
-                            <input type="text" name="user[unitNumber]" value="<%= user.unitNumber %>" placeholder=" " />
-                            <span class="placeholder">Unit Number</span>
-                          </label>
-                        </div>
-                        <div class="col-12">
-                          <label class="custom-field one">
-                            <input type="number" name="user[postalCode]" value="<%= user.postalCode %>" placeholder=" "
-                              required />
-                            <span class="placeholder">Postal Code</span>
-                          </label>
-                        </div>
-                        <div class="col-12">
-                          <label class="custom-field one">
-                            <input type="text" name="user[country]" value="<%= user.country %>" placeholder=" "
-                              required />
-                            <span class="placeholder">Country</span>
-                          </label>
-                        </div>
-                        <div class="col-12">
-                          <label class="custom-field one">
-                            <input type="text" name="user[state]" value="<%= user.state %>" placeholder=" " required />
-                            <span class="placeholder">State</span>
-                          </label>
-                        </div>
-
-                  </div>
-                </div>
-          </div>
-
-          <div class="justify-content-end d-flex mt-3 mr-4">
-            <span class="left">
-              <a class="btn btn-secondary profileEditCancel" href="/user/<%= user.id %>">Cancel</a>
-            </span>
-            <span class="right">
-              <button class="btn btn-primary profileEditSubmit">Save Changes</button>
-            </span>
-          </div>
-        </form>
+<div style="overflow-x: hidden;">
+  <div class="row">
+    <div class="col-3">
+      <div class="navigation sticky-top">
+        <ul>
+          <li class="list active">
+            <a href="/user/<%= user._id %>/edit">
+              <span class="icon activeText">
+                <ion-icon name="create-outline"></ion-icon>
+              </span>
+              <span class="title activeText">Edit Details</span>
+            </a>
+          </li>
+          <li class="list navigationHover">
+            <a href="/user/<%= user._id %>/manage">
+              <span class="icon">
+                <ion-icon name="hammer-outline"></ion-icon>
+              </span>
+              <span class="title">Manage Account</span>
+            </a>
+          </li>
+        </ul>
       </div>
     </div>
+    <div class="col-6 offset-1 mt-4">
+      <form action="/user/<%= user._id %>?_method=PUT" method="POST" enctype="multipart/form-data"
+        id="profileEditForm">
+        <div class="row">
+          <% if(user.isAgent==false || currentUser && currentUser.isAdmin){ %>
+            <div class="col-12" style="height: 240px;">
+              <p style="font-weight: 600;">Profile Photo</p>
+              <div class="row">
+                <div class="col-4">
+                  <img src="<%= user.image %>" class="profileImageEdit">
+                  <img id="output" class="profileImageEdit" />
+                </div>
+                <div class="col-8" style="position: relative; top: 40px;">
+                  <p style="font-weight: 350; font-size: 0.95em;">
+                    Clear frontal face photos are an important way for buyers and sellers to learn about each other.
+                  </p>
+                  <label for="file-upload-image" class="btn btn-outline-dark customImageUpload px-3 py-1">
+                    Upload a Photo
+                  </label>
+                  <input type="file" id="file-upload-image" name="image" onchange="loadFile(event)" id="imageUpload"
+                    accept="image/*">
+                </div>
+              </div>
+            </div>
+            <% } %>
+              <div class="col-12">
+                <p class="my-0" style="font-weight: 600;">Profile Details</p>
+                <div class="row">
+                  <div class="col-12">
+                    <label class="custom-field one">
+                      <input type="text" name="user[username]" value="<%= user.username %>" placeholder=" "
+                        required />
+                      <span class="placeholder">Username</span>
+                    </label>
+                  </div>
+                  <div class="col-12">
+                    <label class="custom-field one">
+                      <input type="email" name="user[email]" value="<%= user.email %>" placeholder=" " required />
+                      <span class="placeholder">Email</span>
+                    </label>
+                  </div>
+                  <div class="col-12">
+                    <label class="custom-field one">
+                      <input type="number" name="user[phone]" value="<%= user.phone %>" placeholder=" " required />
+                      <span class="placeholder">Contact Number</span>
+                    </label>
+                  </div>
+                  <% if(currentUser && currentUser.isAdmin && user.cea!=null){ %>
+                    <div class="col-12">
+                      <label class="custom-field one">
+                        <input type="text" name="user[cea]" value="<%= user.cea %>" placeholder=" " required />
+                        <span class="placeholder">CEA Number</span>
+                      </label>
+                    </div>
+                    <% } %>
+                      <div class="col-12">
+                        <label class="custom-field one">
+                          <input type="text" name="user[streetName]" value="<%= user.streetName %>" placeholder=" "
+                            required />
+                          <span class="placeholder">Street Name</span>
+                        </label>
+                      </div>
+                      <div class="col-12">
+                        <label class="custom-field one">
+                          <input type="text" name="user[unitNumber]" value="<%= user.unitNumber %>" placeholder=" " />
+                          <span class="placeholder">Unit Number</span>
+                        </label>
+                      </div>
+                      <div class="col-12">
+                        <label class="custom-field one">
+                          <input type="number" name="user[postalCode]" value="<%= user.postalCode %>" placeholder=" "
+                            required />
+                          <span class="placeholder">Postal Code</span>
+                        </label>
+                      </div>
+                      <div class="col-12">
+                        <label class="custom-field one">
+                          <input type="text" name="user[country]" value="<%= user.country %>" placeholder=" "
+                            required />
+                          <span class="placeholder">Country</span>
+                        </label>
+                      </div>
+                      <div class="col-12">
+                        <label class="custom-field one">
+                          <input type="text" name="user[state]" value="<%= user.state %>" placeholder=" " required />
+                          <span class="placeholder">State</span>
+                        </label>
+                      </div>
+
+                </div>
+              </div>
+        </div>
+
+        <div class="justify-content-end d-flex mt-3">
+          <span class="left">
+            <a class="btn btn-secondary profileEditCancel px-4" href="/user/<%= user.id %>">Cancel</a>
+          </span>
+          <span class="right">
+            <button class="btn btn-primary profileEditSubmit px-4">Save Changes</button>
+          </span>
+        </div>
+      </form>
+    </div>
   </div>
+</div>
 
   <!-- profile upload -->
   <script>
@@ -132,6 +139,16 @@
         URL.revokeObjectURL(output.src) // free memory
       }
     };
+  </script>
+  <script>
+    const list = document.querySelectorAll('.list');
+    function activeLink(){
+      list.forEach((item) =>
+        item.classList.remove('active'));
+        this.classList.add('active');
+      }
+      list.forEach((item) => 
+      item.addEventListener('click', activeLink));
   </script>
 
   <%- include("../partials/footer") %>

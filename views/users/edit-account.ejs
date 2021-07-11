@@ -1,24 +1,32 @@
 <%- include("../partials/header") %>
 
-  <div class="container p-5">
+  <div style="overflow-x: hidden;">
     <div class="row">
-      <div class="col-3 offset-1 pt-3">
-        <div class="col-12 pl-5">
-          <a href="/user/<%= user._id %>/edit" style="text-decoration: none; color: black;">
-            <span class="p-2 px-3">Edit
-              Details</span>
-          </a>
-        </div>
-        <div class="col-12 mt-4 pl-5">
-          <a href="/user/<%= user._id %>/manage" style="text-decoration: none; color: black;">
-            <span class="p-2 px-3" style="border-left: 2.5px solid #4632da; color: #4632da; font-weight: 600;">Manage
-              Account</span>
-          </a>
+      <div class="col-3">
+        <div class="navigation sticky-top">
+          <ul>
+            <li class="list navigationHover">
+              <a href="/user/<%= user._id %>/edit">
+                <span class="icon activeText">
+                  <ion-icon name="create-outline"></ion-icon>
+                </span>
+                <span class="title activeText">Edit Details</span>
+              </a>
+            </li>
+            <li class="list active">
+              <a href="/user/<%= user._id %>/manage">
+                <span class="icon">
+                  <ion-icon name="hammer-outline"></ion-icon>
+                </span>
+                <span class="title">Manage Account</span>
+              </a>
+            </li>
+          </ul>
         </div>
       </div>
-      <div class="col-7 px-5 py-4 shadow" style="border-radius: 10px;">
-        <p class="mb-1" style="font-size: 1.8em; font-weight: 600;">Reset Password</p>
-        <p class="mt-1" style="font-weight: 300; font-size: 0.95em;">Click on the link below and we'll send you a link
+      <div class="col-6 offset-1 mt-4">
+        <p class="mb-1" style="font-size: 1.4em; font-weight: 700;">Reset Password</p>
+        <p class="mt-1" style="font-weight: 350; font-size: 0.95em;">Click on the link below and we'll send you a link
           to get back
           into your account.</p>
         <!-- reset password btn -->
@@ -26,21 +34,21 @@
           <div class="col-12">
             <form action="/forgot" method="POST">
               <input type="hidden" value="<%= user.email%>" name="email" autofocus class="form-control">
-              <input type="submit" class="btn btn-primary profileResetPassword" value="Reset Password">
+              <input type="submit" class="btn btn-primary profileResetPassword px-4" value="Reset Password">
             </form>
           </div>
         </div>
-        <p class="mt-4 pt-2 mb-1" style="font-size: 1.8em; font-weight: 600;">Delete Account</p>
+        <p class="mt-4 pt-2 mb-1" style="font-size: 1.4em; font-weight: 700;">Delete Account</p>
         <div class="px-0 col-12">
           <!-- delete user button -->
           <% if(currentUser && user._id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
-            <p class="mt-1" style="font-weight: 300; font-size: 0.95em;">When you delete your account, your profile,
+            <p class="mt-1" style="font-weight: 350; font-size: 0.95em;">When you delete your account, your profile,
               photos, videos,
               comments, likes and followers will be
               permanently removed. If you'd just like to take a break, you can temporarily disable your account instead.
             </p>
             <form action="/user/<%= user._id %>?_method=DELETE" method="POST">
-              <button class="btn btn-danger profileDeleteBtn">Delete</button>
+              <button class="btn btn-danger profileDeleteBtn px-4">Delete</button>
             </form>
             <% } %>
         </div>
