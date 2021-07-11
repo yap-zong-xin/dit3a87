@@ -5,6 +5,7 @@ if (process.env.NODE_ENV !== "production") {
 var express = require("express");
 const countapi = require('countapi-js');
 var app= express();
+var server = require('http').createServer(app);
 var bodyParser = require("body-parser");
 var mongoose = require("mongoose");
 var methodOverride = require("method-override");
@@ -14,10 +15,12 @@ var localStrategy = require('passport-local').Strategy;
 var passportLocalMongoose = require("passport-local-mongoose");
 var flash = require("connect-flash");
 var cors = require('cors');
+
+var io = require('socket.io')(server);
 app.use(cors());
 
 var listing = require("./models/listing");
-var Comment = require("./models/comment");
+var Comment = require("./models/comment");	
 var User = require("./models/user");
 
 var commentRoutes = require('./routes/comments');
@@ -43,10 +46,10 @@ app.use(methodOverride("_method"));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(flash());
 
-app.use('/messenger',express.static('/chat/client/build'));
+app.use('/chat',express.static('/chat/client/build'));
 
 const path = require('path');
-app.get('/messenger/*', (req, res) => {
+app.get('/chat/*', (req, res) => {
     res.sendFile(path.resolve(__dirname,'chat','client', 'build', 'index.html'));
   });
 
@@ -88,6 +91,48 @@ app.use(reviewRoutes);
 app.use(conversationRoutes);
 app.use(messageRoutes);
 
-app.listen(process.env.PORT || 3000, process.env.IP, function() { 
+let users = [];
+
+const addUser = (userId, socketId) => {
+  !users.some((user) => user.userId === userId) &&
+    users.push({ userId, socketId });
+};
+
+const removeUser = (socketId) => {
+  users = users.filter((user) => user.socketId !== socketId);
+};
+
+const getUser = (userId) => {
+  return users.find((user) => user.userId === userId);
+};
+
+io.on("connection", (socket) => {
+  //when ceonnect
+  console.log("a user connected.");
+
+  //take userId and socketId from user
+  socket.on("addUser", (userId) => {
+    addUser(userId, socket.id);
+    io.emit("getUsers", users);
+  });
+
+  //send and get message
+  socket.on("sendMessage", ({ senderId, receiverId, text }) => {
+    const user = getUser(receiverId);
+    io.to(user.socketId).emit("getMessage", {
+      senderId,
+      text,
+    });
+  });
+
+  //when disconnect
+  socket.on("disconnect", () => {
+    console.log("a user disconnected!");
+    removeUser(socket.id);
+    io.emit("getUsers", users);
+  });
+});
+
+server.listen(process.env.PORT || 3000, process.env.IP, function() { 
 	console.log('Server Has Started!'); 
 });
