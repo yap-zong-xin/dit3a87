@@ -45,6 +45,7 @@ app.use(flash());
 
 app.use('/messenger',express.static('/chat/client/build'));
 
+const path = require('path');
 app.get('*', (req, res) => {
     res.sendFile(path.resolve(__dirname,'chat','client', 'build', 'index.html'));
   });
