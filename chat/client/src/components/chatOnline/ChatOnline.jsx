@@ -1,5 +1,5 @@
 import axios from "axios";
-import {useState,useEffect} from "react";
+import {useState} from "react";
 import {Button, Jumbotron, Container} from "reactstrap"
 import "./chatOnline.css";
 
