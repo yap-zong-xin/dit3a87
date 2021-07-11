@@ -49,23 +49,56 @@
       </div>
     </div>
     <div class="col-9 p-0">
-      <span style="font-weight: bold;">seeker</span>
-      <% users.forEach(function(user){ %>
-        <% if(user.isAgent==false && user.isAdmin==false){ %>
-          <div>
-            <p>
-              Username: <strong><%= user.username %></strong>
-            </p>
-            <% if(currentUser && user._id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
-              <a class="btn btn-warning" href="/user/<%= user._id %>/edit">Edit</a>
-              <form action="/user/<%= user._id %>?_method=DELETE" method="POST">
-                <button class="btn btn-danger">DELETE</button>
-              </form>
-              <a href="/user/<%= user._id %>" class="btn btn-primary">View Profile</a>
-            <% } %>
-          </div>
-        <% } %>
-      <% }); %>
+      <div class="row accountTableHeading mr-5">
+        <table class="table table-sortable">
+          <thead>
+            <tr>
+              <th style="pointer-events: none;"></th>
+              <th>Username</th>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>Email</th>
+              <th>Role</th>
+              <th style="pointer-events: none;"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% users.forEach(function(user){ %>
+              <% if(user.isAgent==false && user.isAdmin==false){ %>
+                <tr>
+                  <td><img src="<%= user.image %>" alt="" style="border-radius: 50%; width: 60px; height: 60px;"></td>
+                  <td class="pt-4"><%= user.username %></td>
+                  <td class="pt-4"><%= user.firstName %></td>
+                  <td class="pt-4"><%= user.lastName %></td>
+                  <td class="pt-4">
+                    <a href="mailto:<%= user.email %>" style="color: black; font-size: 0.9em;">
+                      <%= user.email %>
+                    </a>
+                  </td>
+                  <td class="pt-4">
+                    <% if(user.isAdmin==true){ %>
+                      admin
+                    <% } else if(user.isAgent==true) { %>
+                      agent
+                    <% } else { %>
+                      seeker
+                    <% } %>
+                  </td>
+                  <td class="justify-content-end d-flex pt-4">
+                    <% if(currentUser && user._id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
+                      <!-- <a class="btn btn-warning" href="/user/<%= user._id %>/edit">Edit</a>
+                      <form action="/user/<%= user._id %>?_method=DELETE" method="POST">
+                        <button class="btn btn-danger">DELETE</button>
+                      </form> -->
+                      <a href="/user/<%= user._id %>" class="btn btn-dark px-3 mx-0">Go to Profile</a>
+                    <% } %>
+                  </td>
+                </tr>
+              <% } %>
+            <% }); %>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </div>
