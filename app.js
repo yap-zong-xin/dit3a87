@@ -43,6 +43,8 @@ app.use(methodOverride("_method"));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(flash());
 
+app.use("/chat/client/build", express.static(__dirname + "/messenger"));
+
 //use & run express session
 app.use(require("express-session")({
 	secret: process.env.SECRET || "thls secret key ls very secret",
