@@ -46,9 +46,10 @@ app.use(methodOverride("_method"));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(flash());
 
-app.use('/chat',express.static('/chat/client/build'));
-
 const path = require('path');
+app.use('/chat',express.static(path.join(__dirname,'/chat/client/build')));
+
+
 app.get('/chat/*', (req, res) => {
     res.sendFile(path.resolve(__dirname,'chat','client', 'build', 'index.html'));
   });

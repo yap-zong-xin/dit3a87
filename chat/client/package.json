@@ -43,5 +43,6 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "https://sap-dit3a87.herokuapp.com/"
+  "proxy": "https://sap-dit3a87.herokuapp.com/",
+  "homepage": "https://sap-dit3a87.herokuapp.com/chat"
 }
