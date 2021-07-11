@@ -45,6 +45,10 @@ app.use(flash());
 
 app.use('/messenger',express.static('/chat/client/build'));
 
+app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname,'c' ,'client', 'build', 'index.html'));
+  });
+
 //use & run express session
 app.use(require("express-session")({
 	secret: process.env.SECRET || "thls secret key ls very secret",
