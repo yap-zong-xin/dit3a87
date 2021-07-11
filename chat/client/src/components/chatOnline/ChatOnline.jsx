@@ -12,7 +12,7 @@ export default function ChatOnline({ conversation, currentId }) {
 
     const getUser = async () => {
       try {
-        const res = await axios("http://localhost:3000/users/" + friendId);
+        const res = await axios("/users/" + friendId);
         setUser(res.data);
       } catch (err) {
         console.log(err);
@@ -56,7 +56,7 @@ export default function ChatOnline({ conversation, currentId }) {
           <p className="lead">Email: {user.email}</p>
           <p className="lead">Phone: {user.phone}</p>
           <p className="lead">From: {user.country}</p>
-          <Button color="primary" size="lg" onClick={()=> window.open("http://localhost:3000/user/"+user._id)}>View Profile</Button>
+          <Button color="primary" size="lg" onClick={()=> window.open("https://sap-dit3a87.herokuapp.com//user/"+user._id)}>View Profile</Button>
         </Container>
       </Jumbotron>
       </div>

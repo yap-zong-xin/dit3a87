@@ -363,6 +363,7 @@
     // }
 
     function deleteItem(id) {
+      //clear out preview gallery
       var imageGallery = document.getElementById("image-gallery")
       while(imageGallery.firstChild) {
         imageGallery.removeChild(imageGallery.firstChild)
@@ -408,6 +409,14 @@
         // while(videoGallery.firstChild) {
         //   videoGallery.removeChild(videoGallery.firstChild)
         // }
+        var prevFileIds = 0;
+        var fileList = document.getElementById("galleryFileArray");
+        if(fileList.files.length != 0) {
+          for(let k=0; k<fileList.files.length; k++) {
+            prevFileIds++;
+          }
+        }
+
         for(let i=0; i<files.length; i++) {
             let reader = new FileReader();
             reader.readAsDataURL(files[i]);
@@ -416,11 +425,11 @@
                 //img div to contain img and btn
                   var imgDiv = document.createElement('div');
                   imgDiv.classList.add('listingImage'); 
-                  imgDiv.setAttribute("id", "galleryItem"+i);
+                  imgDiv.setAttribute("id", "galleryItem"+(i+prevFileIds));
                   //image src + file
                   var img = document.createElement('img');
                   img.src = reader.result;
-                  img.setAttribute("id", "imageItem"+i);
+                  img.setAttribute("id", "imageItem"+(i+prevFileIds));
                   img.classList.add("image-gallery-style");
                   img.setAttribute("draggable", true);
                   img.setAttribute("ondragstart", "drag(event)");
@@ -428,7 +437,7 @@
                   var dltItemBtn = document.createElement('span');
                   dltItemBtn.classList.add('deleteItemFromGallery');
                   dltItemBtn.innerHTML= "&times;";
-                  dltItemBtn.setAttribute("onclick", "deleteItem("+[i]+")");
+                  dltItemBtn.setAttribute("onclick", "deleteItem("+(i+prevFileIds)+")");
                   //add img and btn to div
                   imgDiv.appendChild(img);
                   imgDiv.appendChild(dltItemBtn);
@@ -437,17 +446,17 @@
                 //video div to contain video and button
                   var vidDiv = document.createElement('div');
                   vidDiv.classList.add('listingImage'); 
-                  vidDiv.setAttribute("id", "galleryItem"+i);
+                  vidDiv.setAttribute("id", "galleryItem"+(i+prevFileIds));
                   //video src + file
                   var vid = document.createElement('iframe');
                   vid.src  = reader.result;
-                  vid.setAttribute("id", "videoItem"+i);
+                  vid.setAttribute("id", "videoItem"+(i+prevFileIds));
                   vid.classList.add("video-gallery-style");
                   //delete video btn
                   var dltItemBtn = document.createElement('span');
                   dltItemBtn.classList.add('deleteItemFromGallery');
                   dltItemBtn.innerHTML= "&times;";
-                  dltItemBtn.setAttribute("onclick", "deleteItem("+[i]+")");
+                  dltItemBtn.setAttribute("onclick", "deleteItem("+(i+prevFileIds)+")");
                   //add img and btn to div
                   vidDiv.appendChild(vid);
                   vidDiv.appendChild(dltItemBtn);

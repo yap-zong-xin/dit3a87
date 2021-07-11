@@ -14,12 +14,12 @@ export default function Messenger() {
   const [newMessage, setNewMessage] = useState("");
   const [arrivalMessage, setArrivalMessage] = useState(null);
   const socket = useRef();
-  const userId = useParams().userid;
+  const userId = "60e8131492343f0015c20e2f";
   // const { user } = useContext(AuthContext);
   const scrollRef = useRef();
 
   useEffect(() => {
-    socket.current = io("ws://localhost:8900");
+    socket.current = io("/");
     socket.current.on("getMessage", (data) => {
       setArrivalMessage({
         sender: data.senderId,
@@ -87,7 +87,7 @@ export default function Messenger() {
     });
 
     try {
-      const res = await axios.post("/messages", message);
+      const res = await axios.post("/message", message);
       setMessages([...messages, res.data]);
       setNewMessage("");
     } catch (err) {

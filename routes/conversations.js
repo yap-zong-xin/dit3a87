@@ -14,7 +14,7 @@ router.post("/conversation/:senderId/:receiverId", async (req, res) => {
 
 
 if (convExists.length !==0 || convExists1.length !==0) {
-  res.redirect("http://localhost:3001/messenger/"+senderId);
+  res.redirect("https://sap-dit3a87.herokuapp.com/chat/messenger/"+senderId);
 } else {
     try {
 
@@ -22,7 +22,7 @@ if (convExists.length !==0 || convExists1.length !==0) {
         members: [senderId,receiverId],
       });
     const savedConversation = await newConversation.save();
-    res.status(200).redirect("http://localhost:3001/messenger/"+senderId);
+    res.status(200).redirect("https://sap-dit3a87.herokuapp.com/chat/messenger/"+senderId);
   } catch (err) {
     res.status(500).json(err);
   }
@@ -34,7 +34,7 @@ if (convExists.length !==0 || convExists1.length !==0) {
 
 //get conv of a user
 
-router.get("/conversation/:userId", async (req, res) => {
+router.get("/conversations/:userId", async (req, res) => {
   try {
     const conversation = await Conversation.find({
       members: { $in: [req.params.userId] },

@@ -43,6 +43,6 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:8800/api",
-  "homepage": "https://sap-dit3a87.herokuapp.com/messenger"
+  "proxy": "https://sap-dit3a87.herokuapp.com/",
+  "homepage": "https://sap-dit3a87.herokuapp.com/chat"
 }
