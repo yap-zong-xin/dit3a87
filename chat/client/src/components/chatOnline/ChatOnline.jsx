@@ -3,24 +3,26 @@ import {useState,useEffect} from "react";
 import {Button, Jumbotron, Container} from "reactstrap"
 import "./chatOnline.css";
 
-export default function ChatOnline({ currentId }) {
+export default function ChatOnline({ conversation, currentId }) {
   const [user, setUser] = useState(null);
 
 
   useEffect(() => {
-
+  if (conversation != null) {
+    const friendId = conversation.members.find((m) => m !== currentId);
+    console.log(friendId)
 
     const getUser = async () => {
       try {
-        const res = await axios("/users/" + currentId);
+        const res = await axios("/users/60e8131492343f0015c20e2f");
         setUser(res.data);
       } catch (err) {
         console.log(err);
       }
     };
     getUser();
-
-}, [currentId]);
+  }
+}, [currentId, conversation]);
 
   
 

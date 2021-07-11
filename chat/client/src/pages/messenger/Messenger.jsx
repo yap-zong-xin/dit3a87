@@ -13,7 +13,6 @@ export default function Messenger() {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
   const [arrivalMessage, setArrivalMessage] = useState(null);
-  const [friendId,setFriendId] = useState("")
   const socket = useRef();
   const userId = useParams().userid;
   // const { user } = useContext(AuthContext);
@@ -100,17 +99,6 @@ export default function Messenger() {
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-function handleCurrentChat(c) {
-
-  setCurrentChat(c)
-
-  const receiverId = c.members.find(
-    (member) => member !== userId
-  );
-    setFriendId(receiverId)
-
-}
-
   return (
     <>
       {/* <Topbar /> */}
@@ -118,7 +106,7 @@ function handleCurrentChat(c) {
         <div className="chatMenu">
           <div className="chatMenuWrapper">
             {conversations.map((c) => (
-              <div onClick={() => handleCurrentChat(c)}>
+              <div onClick={() => setCurrentChat(c)}>
                 <Conversation conversation={c} currentUser={userId} />
               </div>
             ))}
@@ -158,7 +146,8 @@ function handleCurrentChat(c) {
         <div className="chatOnline">
           <div className="chatOnlineWrapper">
             <ChatOnline
-              currentId={friendId}
+              conversation = {currentChat}
+              currentId={userId}
             />
           </div>
         </div>
