@@ -53,7 +53,7 @@ if (process.env.NODE_ENV == "production" ){
 
 
 app.get('/chat/*', (req, res) => {
-    res.sendFile(path.join(__dirname,"chat/client/build/index.html"));
+    res.sendFile(path.join(__dirname,"chat/client/public/index.html"));
   });
 }
 
