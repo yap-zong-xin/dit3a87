@@ -76,15 +76,46 @@
             <input type="text" name="name" placeholder="name">
             <!-- <input type="text" name="image" placeholder="image url"> -->
             <input type="text" name="description" placeholder="Description">
-            <input type="text" name="zone" placeholder="District">
+            <!-- district -->
+            <!-- <input type="text" name="zone" placeholder="District"> -->
+            <label for="district">District:</label>
+            <select name="district" id="district">
+                <option value="north" selected>North</option>
+                <option value="south">South</option>
+                <option value="east">East</option>
+                <option value="west">West</option>
+            </select>
+            <!-- location -->
             <input type="text" name="location" placeholder="Location">
             <input type="number" name="price" placeholder="Price">
             <input type="number" name="size" placeholder="Size">
-            <input type="text" name="type" placeholder="Property Type">
+            <!-- property type -->
+            <!-- <input type="text" name="type" placeholder="Property Type"> -->
+            <label for="type">Property Type:</label>
+            <select name="type" id="type">
+                <option value="hdb" selected>HDB</option>
+                <option value="condo">Condo</option>
+                <option value="landed">Landed</option>
+            </select>
             <!-- bedrooms -->
-            <input type="number" name="bedrooms" placeholder="Number of bed rooms">
+            <!-- <input type="number" name="bedrooms" placeholder="Number of bed rooms"> -->
+            <label for="bedrooms">Bedrooms:</label>
+            <select name="bedrooms" id="bedrooms">
+                <option value="1" selected>1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+            </select>
             <!-- bathrooms -->
-            <input type="number" name="bathrooms" placeholder="Number of bath rooms">
+            <!-- <input type="number" name="bathrooms" placeholder="Number of bath rooms"> -->
+            <label for="bathrooms">Bathrooms:</label>
+            <select name="bathrooms" id="bathrooms">
+                <option value="1" selected>1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+            </select>
             <!-- tenure -->
             <label for="tenure">Tenure:</label>
             <select name="tenure" id="tenure">

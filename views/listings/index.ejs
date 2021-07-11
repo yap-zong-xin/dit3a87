@@ -42,15 +42,15 @@
                                 <input type="checkbox" id="landed" name="landedType" value="landed" <% if(data.landedType) {%> checked <%} %>>
                                 <label for="landed">Landed</label><br>
 
-                                <!-- Filter: Property Zone -->
-                                <br><label for="propertyStatus">Choose a Zone:</label><br>
-                                <input type="checkbox" id="north" name="northZone" value="north" <% if(data.northZone) {%> checked <%} %>>
+                                <!-- Filter: Property district -->
+                                <br><label for="propertyStatus">Choose a District:</label><br>
+                                <input type="checkbox" id="north" name="northDistrict" value="north" <% if(data.northDistrict) {%> checked <%} %>>
                                 <label for="north">North</label><br>
-                                <input type="checkbox" id="south" name="southZone" value="south" <% if(data.southZone) {%> checked <%} %>>
+                                <input type="checkbox" id="south" name="southDistrict" value="south" <% if(data.southDistrict) {%> checked <%} %>>
                                 <label for="south">South</label><br>
-                                <input type="checkbox" id="east" name="eastZone" value="east" <% if(data.eastZone) {%> checked <%} %>>
+                                <input type="checkbox" id="east" name="eastDistrict" value="east" <% if(data.eastDistrict) {%> checked <%} %>>
                                 <label for="east">East</label><br>
-                                <input type="checkbox" id="west" name="westZone" value="west" <% if(data.westZone) {%> checked <%} %>>
+                                <input type="checkbox" id="west" name="westDistrict" value="west" <% if(data.westDistrict) {%> checked <%} %>>
                                 <label for="west">West</label><br>
 
                                 <!-- Filter: Number of rooms slider -->
@@ -205,7 +205,7 @@
                                                     <%= moment(listing.createdAt).format('LLLL'); %>
                                                 </span>
                                                 <p>$<%= listing.price %></p>
-                                                <p style="text-transform:capitalize;">Zone: <%= listing.zone %></p>
+                                                <p style="text-transform:capitalize;">District: <%= listing.district %></p>
                                                 <p style="text-transform:capitalize;">Type: <%= listing.type %></p>
                                                 <p style="text-transform:capitalize;">Size: <%= listing.size %></p>
                                                 <p style="text-transform:capitalize;">Number of rooms: <%= listing.bedrooms %></p>
@@ -323,7 +323,7 @@
             document.getElementById("hdb").checked=false;
             document.getElementById("condo").checked=false;
             document.getElementById("landed").checked=false;
-            //zone type
+            //District type
             document.getElementById("north").checked=false;
             document.getElementById("south").checked=false;
             document.getElementById("east").checked=false;

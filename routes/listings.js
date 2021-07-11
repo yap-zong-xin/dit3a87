@@ -200,38 +200,38 @@ router.get("/listings", function(req,res){
 					}
 				}
 				
-				// Zone 
-				const northZone = req.query.northZone;
-				const southZone = req.query.southZone;
-				const eastZone = req.query.eastZone;
-				const westZone = req.query.westZone;
-				var allZone = [];
-				allZone.push(northZone, southZone, eastZone, westZone);
-				console.log('all zone: '+allZone);
-				var zoneArr=[];
-				var regexZone;
+				// District 
+				const northDistrict = req.query.northDistrict;
+				const southDistrict = req.query.southDistrict;
+				const eastDistrict = req.query.eastDistrict;
+				const westDistrict = req.query.westDistrict;
+				var allDistrict = [];
+				allDistrict.push(northDistrict, southDistrict, eastDistrict, westDistrict);
+				console.log('all District: '+allDistrict);
+				var districtArr=[];
+				var regexDistrict;
 				var count = 0;
-				for(let i=0; i<allZone.length; i++) {
-					if(typeof allZone[i]=='undefined'){
+				for(let i=0; i<allDistrict.length; i++) {
+					if(typeof allDistrict[i]=='undefined'){
 						console.log('counting rooms')
 						count++;
 					}
 				}
 				if(count == 4){
-					allZone = [ 'north', 'south', 'east', 'west' ];
-					regexZone = allZone.map(function(e){return new RegExp(e, "gi");});
-					console.log('inside Zone all empty: '+regexZone);
+					allDistrict = [ 'north', 'south', 'east', 'west' ];
+					regexDistrict = allDistrict.map(function(e){return new RegExp(e, "gi");});
+					console.log('inside District all empty: '+regexDistrict);
 				}else {
-					for(let i=0; i<allZone.length; i++) {
-						if(!(typeof allZone[i] == 'undefined')) { //contains value does not contain undefined
-							console.log('line 87: '+allZone[i]);
-							zoneArr[i] = allZone[i];
-							console.log('inside zone: '+zoneArr);
-							var zoneArrRegex = zoneArr.map(function(e){return new RegExp(e, "gi");});
-							regexZone = zoneArrRegex.filter(function(el){
+					for(let i=0; i<allDistrict.length; i++) {
+						if(!(typeof allDistrict[i] == 'undefined')) { //contains value does not contain undefined
+							console.log('district at i: '+allDistrict[i]);
+							districtArr[i] = allDistrict[i];
+							console.log('inside District: '+districtArr);
+							var districtArrRegex = districtArr.map(function(e){return new RegExp(e, "gi");});
+							regexDistrict = districtArrRegex.filter(function(el){
 								return el != null && el != '';
 							})
-							console.log('regexZone: '+regexZone)
+							console.log('regexDistrict: '+regexDistrict)
 						}
 
 					}
@@ -284,8 +284,8 @@ router.get("/listings", function(req,res){
 				}else {
 					for(let i=0; i<allRooms.length; i++) {
 						if(!(typeof allRooms[i] == 'undefined')) { //contains value does not contain undefined
-							console.log('line 87: '+allRooms[i]);
-							roomsArr[i] = allRooms[i];
+							console.log('rooms at i: '+allRooms[i]);
+							roomsArr[i] = Number(allRooms[i]);
 							console.log('inside rooms: '+roomsArr);
 							// var roomsArrRegex = roomsArr.map(function(e){return new RegExp(e, "gi");});
 							regexRooms = roomsArr.filter(function(elt){
@@ -431,9 +431,9 @@ router.get("/listings", function(req,res){
 				console.log('final sort option object: ',sortOptions);
 				console.log('passed in sold check: ',regexSold)
 				console.log('passed in archive check: ',regexArchive)
-				console.log('all parameters passed to mongo: '+minPrice+', '+maxPrice+', '+regexZone+', '+regexType+', '+minSize+', '+maxSize+', '+regexRooms);
+				console.log('all parameters passed to mongo: '+minPrice+', '+maxPrice+', '+regexDistrict+', '+regexType+', '+minSize+', '+maxSize+', '+regexRooms);
 
-				listing.find({$and: [ {price: {$gte: minPrice, $lte: maxPrice}}, {zone: {$in : regexZone}}, {type: {$in: regexType}}, {size: {$gte: minSize, $lte: maxSize}}, {bedrooms: {$in: regexRooms}}, {bathrooms: {$in: regexbathRooms}}, {tenure: {$in: regexTenure}}, {soldStatus: {$in: regexSold}}, {archiveStatus: {$in: regexArchive}} ] }).sort(sortOptions).exec(function (err, alllistings) {
+				listing.find({$and: [ {price: {$gte: minPrice, $lte: maxPrice}}, {district: {$in : regexDistrict}}, {type: {$in: regexType}}, {size: {$gte: minSize, $lte: maxSize}}, {bedrooms: {$in: regexRooms}}, {bathrooms: {$in: regexbathRooms}}, {tenure: {$in: regexTenure}}, {soldStatus: {$in: regexSold}}, {archiveStatus: {$in: regexArchive}} ] }).sort(sortOptions).exec(function (err, alllistings) {
 					listing.count({price: minPrice}).exec(function (err, count) {
 						if (err) {
 							console.log(err);
@@ -673,18 +673,18 @@ router.post("/listings", middleware.isLoggedIn, uploadMultiple, async function(r
 	var name = req.body.name;
 	var desc = req.body.description;
 	var location = req.body.location;
-	var zone = req.body.zone;
+	var district = req.body.district;
 	var price = req.body.price;
 	var size = req.body.size;
 	var type = req.body.type;
-	var bedrooms = req.body.bedrooms;
-	var bathrooms = req.body.bathrooms;
+	var bedrooms = Number(req.body.bedrooms);
+	var bathrooms = Number(req.body.bathrooms);
 	var tenure = req.body.tenure;
   	var author = {
 		id: req.user._id,
 		username: req.user.username
 	};
-	var newlisting = {name:name, description:desc, author:author, location:location, zone:zone, price:price, size:size, type:type, bedrooms:bedrooms, bathrooms:bathrooms, tenure:tenure}
+	var newlisting = {name:name, description:desc, author:author, location:location, district:district, price:price, size:size, type:type, bedrooms:bedrooms, bathrooms:bathrooms, tenure:tenure}
 	try {
 			var geoData = await geocodingClient.forwardGeocode({
 				query: location,
