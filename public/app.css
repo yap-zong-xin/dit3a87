@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500&display=swap');
 import '@fortawesome/fontawesome-svg-core/styles.css';
 import { config } from '@fortawesome/fontawesome-svg-core';
 
@@ -1949,10 +1950,19 @@ nav a{
 .table-sortable td{
   font-size: 0.95em;
 }
+.table-sortable th:hover{
+  background: #4632DA;
+  color: white;
+}
+.table-sortable tr:hover{
+  background: rgb(251, 251, 251);
+}
 .table-sortable th {
   cursor: pointer;
-  font-size: 0.9em;
-  background: #F7F8FB;
+  font-size: 0.89em;
+  background: #ffffff;
+  font-weight: 500;
+  font-family: 'IBM Plex Sans', sans-serif;
 }
 .table-sortable .th-sort-asc::after {
   content: "\25b4";
@@ -1966,5 +1976,12 @@ nav a{
 }
 .table-sortable .th-sort-asc,
 .table-sortable .th-sort-desc {
-  background: rgba(0, 0, 0, 0.1);
+  background: #4632DA;
+  color: white;
+}
+
+.dashboardBtn{
+  background: #4632DA;
+  color: white;
+  border: 0;
 }

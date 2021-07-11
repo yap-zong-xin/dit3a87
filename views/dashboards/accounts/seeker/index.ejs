@@ -48,18 +48,21 @@
         </ul>
       </div>
     </div>
-    <div class="col-9 p-0">
+    <div class="col-9 p-0 mt-5">
       <div class="row accountTableHeading mr-5">
         <table class="table table-sortable">
           <thead>
             <tr>
-              <th style="pointer-events: none;"></th>
+              <th style="pointer-events: none;">Profile Image</th>
               <th>Username</th>
               <th>First Name</th>
               <th>Last Name</th>
               <th>Email</th>
+              <th>Phone</th>
               <th>Role</th>
-              <th style="pointer-events: none;"></th>
+              <th style="pointer-events: none;" class="justify-content-end d-flex">
+                <img src="/img/sort-none.png" alt="" style="width: 13px;">
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -75,6 +78,7 @@
                       <%= user.email %>
                     </a>
                   </td>
+                  <td class="pt-4"><%= user.phone %></td>
                   <td class="pt-4">
                     <% if(user.isAdmin==true){ %>
                       admin
@@ -84,13 +88,9 @@
                       seeker
                     <% } %>
                   </td>
-                  <td class="justify-content-end d-flex pt-4">
+                  <td class="justify-content-end d-flex pt-3">
                     <% if(currentUser && user._id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
-                      <!-- <a class="btn btn-warning" href="/user/<%= user._id %>/edit">Edit</a>
-                      <form action="/user/<%= user._id %>?_method=DELETE" method="POST">
-                        <button class="btn btn-danger">DELETE</button>
-                      </form> -->
-                      <a href="/user/<%= user._id %>" class="btn btn-dark px-3 mx-0">Go to Profile</a>
+                      <a href="/user/<%= user._id %>" class="btn btn-dark px-4 mx-0 dashboardBtn">Go to Profile</a>
                     <% } %>
                   </td>
                 </tr>
