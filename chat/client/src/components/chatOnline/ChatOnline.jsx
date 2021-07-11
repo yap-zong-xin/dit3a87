@@ -12,7 +12,7 @@ export default function ChatOnline({ conversation, currentId }) {
 
     const getUser = async () => {
       try {
-        const res = await axios("/users/" + friendId);
+        const res = await axios("/users/60e8131492343f0015c20e2f");
         setUser(res.data);
       } catch (err) {
         console.log(err);
