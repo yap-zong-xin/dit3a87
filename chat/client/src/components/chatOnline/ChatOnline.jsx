@@ -6,6 +6,8 @@ import "./chatOnline.css";
 export default function ChatOnline({ conversation, currentId }) {
   const [user, setUser] = useState(null);
 
+
+  useEffect(() => {
   if (conversation != null) {
     const friendId = conversation.members.find((m) => m !== currentId);
     console.log(friendId)
@@ -19,8 +21,8 @@ export default function ChatOnline({ conversation, currentId }) {
       }
     };
     getUser();
-
   }
+}, [currentId, conversation]);
 
   
 
