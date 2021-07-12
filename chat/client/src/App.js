@@ -11,13 +11,13 @@ import Messenger from "./pages/messenger/Messenger";
 function App() {
   // const { user } = useContext(AuthContext);
   return (
-    // <Router>
-    //   <Switch>
-    //     <Route path="/messenger/:userid">
-  <Messenger />
-    //     </Route>  
-    //   </Switch>
-    // </Router>
+    <Router>
+      <Switch>
+        <Route path="/chat/messenger/:userid">
+          <Messenger />
+        </Route>
+      </Switch>
+    </Router>
   );
 }
 

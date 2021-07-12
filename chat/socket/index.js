@@ -9,8 +9,8 @@ const io = require("socket.io")(PORT, {
 let users = [];
 
 const addUser = (userId, socketId) => {
-  !users.some((user) => user.userId === userId) &&
-    users.push({ userId, socketId });
+    users.push({userId, socketId });
+    console.log(users)
 };
 
 const removeUser = (socketId) => {
@@ -24,6 +24,7 @@ const getUser = (userId) => {
 io.on("connection", (socket) => {
   //when ceonnect
   console.log("a user connected.");
+
 
   //take userId and socketId from user
   socket.on("addUser", (userId) => {
