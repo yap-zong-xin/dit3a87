@@ -99,8 +99,8 @@ app.use(messageRoutes);
 let users = [];
 
 const addUser = (userId, socketId) => {
-  !users.some((user) => user.userId === userId) &&
-    users.push({ userId, socketId });
+    users.push({userId, socketId });
+    console.log(users)
 };
 
 const removeUser = (socketId) => {
@@ -113,7 +113,8 @@ const getUser = (userId) => {
 
 io.on("connection", (socket) => {
   //when ceonnect
-  console.log("a user"+ socket.id +" connected.");
+  console.log("a user connected.");
+
 
   //take userId and socketId from user
   socket.on("addUser", (userId) => {
@@ -137,6 +138,7 @@ io.on("connection", (socket) => {
     io.emit("getUsers", users);
   });
 });
+
 
 server.listen(process.env.PORT || 3000, process.env.IP, function() { 
 	console.log('Server Has Started!'); 

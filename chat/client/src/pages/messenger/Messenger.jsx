@@ -20,7 +20,7 @@ export default function Messenger() {
   const scrollRef = useRef();
 
   useEffect(() => {
-    socket.current = io("/");
+    socket.current = io("ws://localhost:8900");
     socket.current.on("getMessage", (data) => {
       setArrivalMessage({
         sender: data.senderId,
@@ -36,14 +36,9 @@ export default function Messenger() {
       setMessages((prev) => [...prev, arrivalMessage]);
   }, [arrivalMessage, currentChat]);
 
-  // useEffect(() => {
-  //   socket.current.emit("addUser", userId);
-  //   socket.current.on("getUsers", (users) => {
-  //     setOnlineUsers(
-  //       user.followings.filter((f) => users.some((u) => u.userId === f))
-  //     );
-  //   });
-  // }, [user]);
+  useEffect(() => {
+    socket.current.emit("addUser", userId);
+  }, [userId]);
 
   useEffect(() => {
     const getConversations = async () => {
@@ -72,9 +67,9 @@ export default function Messenger() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const message = {
-      sender: userId,
-      text: newMessage,
       conversationId: currentChat._id,
+      sender: userId,
+      text: newMessage
     };
 
     const receiverId = currentChat.members.find(
@@ -83,7 +78,7 @@ export default function Messenger() {
 
     socket.current.emit("sendMessage", {
       senderId: userId,
-      receiverId,
+      receiverId:receiverId,
       text: newMessage,
     });
 
