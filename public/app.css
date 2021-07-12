@@ -172,11 +172,33 @@ body {
   transition: top ease 0.5s;
 }
 
-.carousel-item {
+.login-card .carousel-item {
+  height: 400px;
+  color: white;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.login-card .carousel-item h3{
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.login-card .carousel-item img{
+  width: 60%;
+  margin-bottom: 30px;
+}
+
+.login-card .carousel-item svg {
+  height: 200px;
+}
+
+.landing-overlay .carousel-item {
   height: 600px;
 }
 
-.carousel-item svg {
+.landing-overlay .carousel-item svg {
   height: 300px;
 }
 
@@ -212,16 +234,36 @@ body {
   margin: 150px 0 150px;
 }
 
+.input-forgetpwd {
+  opacity: 1;
+  transition: opacity 1s;
+}
+
+.input-forgetpwd .hide{
+  opacity: 0;
+}
+
 .login-img {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-image: linear-gradient(-45deg, #186aff 0%, #04befe 100%);
+  /* background-image: linear-gradient(-45deg, #186aff 0%, #04befe 100%); */
+  background: linear-gradient(-45deg, #e73c7e,  #4632da,  #186aff, #04befe);
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
   padding: 20px
 }
 
-.login-img img {
-  width: 350px;
+@keyframes gradient {
+  0% {
+      background-position: 0% 50%;
+  }
+  50% {
+      background-position: 100% 50%;
+  }
+  100% {
+      background-position: 0% 50%;
+  }
 }
 
 .login-form {
@@ -232,6 +274,15 @@ body {
   text-align: center;
   margin: 0;
   padding: 100px 0 100px 0;
+}
+
+.inputs-login {
+  opacity: 1;
+  transition: opacity 1s;
+}
+
+.hide {
+  opacity: 0;
 }
 
 .login-form h2, .inputs-login {
@@ -305,7 +356,7 @@ body {
   font-weight: 500;
 }
 
-.login-submit .btn-reg {
+.login-submit .btn-reg, .fgt-pwd-btn input[type=submit], .fgt-pwd-btn input[type=button] {
   width: 150px;
   background-color: #186aff;
   border: none;
@@ -320,8 +371,18 @@ body {
   transition: 0.5s;
 }
 
-.login-submit .btn-reg:hover {
+.login-submit .btn-reg:hover, .fgt-pwd-btn input[type=submit]:hover {
   background-color: #4d84e2;
+}
+
+.fgt-pwd-btn input[type=button]:hover {
+  border: 3px solid #4d84e2;
+  color: #4d84e2;
+}
+
+.fgt-pwd-btn input[type=button], .fgt-pwd-btn input[type=submit] {
+  width: 120px;
+  height: 49px;
 }
 
 .fgt-pwd {
