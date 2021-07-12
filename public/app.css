@@ -187,7 +187,7 @@ body {
 
 .login-card .carousel-item img{
   width: 60%;
-  margin-bottom: 30px;
+  margin: 15px;
 }
 
 .login-card .carousel-item svg {
@@ -378,6 +378,10 @@ body {
 .fgt-pwd-btn input[type=button]:hover {
   border: 3px solid #4d84e2;
   color: #4d84e2;
+}
+
+.fgt-pwd-btn input[type=button]:focus {
+  outline: 0;
 }
 
 .fgt-pwd-btn input[type=button], .fgt-pwd-btn input[type=submit] {
