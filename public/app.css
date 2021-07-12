@@ -2035,7 +2035,7 @@ nav a{
 }
 .table-sortable th {
   cursor: pointer;
-  font-size: 0.89em;
+  font-size: 0.93em;
   background: #ffffff;
   font-weight: 500;
   font-family: 'IBM Plex Sans', sans-serif;
@@ -2060,4 +2060,19 @@ nav a{
   background: #4632DA;
   color: white;
   border: 0;
+}
+
+.dashboardSpecificOverview{
+  background: linear-gradient(-45deg, #3a7bd5 0%, #3a6073 100%);
+  /* background: linear-gradient(45deg, #2980b9 0%, #297BB1 13%, #2977AB 25%, #2A6995 38%, #2B5E83 50%, #2B5778 62%, #2B506C 75%, #2C475E 87%, #2c3e50 100%); */
+  height: 120px;
+  border-radius: 10px;
+  color: white;
+  font-weight: 500;
+  font-size: 0.7em;
+  text-transform: uppercase;
+}
+.dashboardSpecificOverview span{
+  font-weight: 600;
+  font-size: 1.7em;
 }
