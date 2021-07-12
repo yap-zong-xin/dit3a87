@@ -12,9 +12,10 @@ export default function Messenger() {
   const [currentChat, setCurrentChat] = useState(null);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
+  const [friendId,setFriendId] = useState("")
   const [arrivalMessage, setArrivalMessage] = useState(null);
   const socket = useRef();
-  const userId = "60e8131492343f0015c20e2f";
+  const userId = useParams().userid;
   // const { user } = useContext(AuthContext);
   const scrollRef = useRef();
 
@@ -59,7 +60,7 @@ export default function Messenger() {
   useEffect(() => {
     const getMessages = async () => {
       try {
-        const res = await axios.get("/messages/" + currentChat?._id);
+        const res = await axios.get("/messages/" + currentChat._id);
         setMessages(res.data);
       } catch (err) {
         console.log(err);
@@ -99,6 +100,18 @@ export default function Messenger() {
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
+  function handleCurrentChat (c){
+    setCurrentChat(c)
+
+    const receiverId = c.members.find(
+      (member) => member !== userId
+    );
+    setFriendId(receiverId)
+
+
+
+  }
+
   return (
     <>
       {/* <Topbar /> */}
@@ -106,7 +119,7 @@ export default function Messenger() {
         <div className="chatMenu">
           <div className="chatMenuWrapper">
             {conversations.map((c) => (
-              <div onClick={() => setCurrentChat(c)}>
+              <div onClick={() => handleCurrentChat(c)}>
                 <Conversation conversation={c} currentUser={userId} />
               </div>
             ))}
@@ -146,8 +159,7 @@ export default function Messenger() {
         <div className="chatOnline">
           <div className="chatOnlineWrapper">
             <ChatOnline
-              conversation = {currentChat}
-              currentId={userId}
+              currentId={friendId}
             />
           </div>
         </div>

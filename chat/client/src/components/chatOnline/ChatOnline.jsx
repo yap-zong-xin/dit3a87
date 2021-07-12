@@ -1,18 +1,15 @@
 import axios from "axios";
-import {useState} from "react";
+import {useState,useEffect} from "react";
 import {Button, Jumbotron, Container} from "reactstrap"
 import "./chatOnline.css";
 
-export default function ChatOnline({ conversation, currentId }) {
+export default function ChatOnline({ currentId }) {
   const [user, setUser] = useState(null);
 
-  if (conversation != null) {
-    const friendId = conversation.members.find((m) => m !== currentId);
-    console.log(friendId)
-
+  useEffect(()=> {
     const getUser = async () => {
       try {
-        const res = await axios("/users/" + friendId);
+        const res = await axios("/users/" + currentId);
         setUser(res.data);
       } catch (err) {
         console.log(err);
@@ -20,7 +17,11 @@ export default function ChatOnline({ conversation, currentId }) {
     };
     getUser();
 
-  }
+  },[currentId])
+
+
+
+
 
   
 
@@ -56,7 +57,7 @@ export default function ChatOnline({ conversation, currentId }) {
           <p className="lead">Email: {user.email}</p>
           <p className="lead">Phone: {user.phone}</p>
           <p className="lead">From: {user.country}</p>
-          <Button color="primary" size="lg" onClick={()=> window.open("https://sap-dit3a87.herokuapp.com//user/"+user._id)}>View Profile</Button>
+          <Button color="primary" size="lg" onClick={()=> window.open("https://sap-dit3a87.herokuapp.com/user/"+user._id)}>View Profile</Button>
         </Container>
       </Jumbotron>
       </div>
