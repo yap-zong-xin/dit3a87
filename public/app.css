@@ -2031,7 +2031,8 @@ nav a{
   color: white;
 }
 .table-sortable tr:hover{
-  background: rgb(251, 251, 251);
+  background: rgb(233, 233, 233);
+  cursor: pointer;
 }
 .table-sortable th {
   cursor: pointer;
@@ -2062,17 +2063,23 @@ nav a{
   border: 0;
 }
 
-.dashboardSpecificOverview{
-  background: linear-gradient(-45deg, #3a7bd5 0%, #3a6073 100%);
-  /* background: linear-gradient(45deg, #2980b9 0%, #297BB1 13%, #2977AB 25%, #2A6995 38%, #2B5E83 50%, #2B5778 62%, #2B506C 75%, #2C475E 87%, #2c3e50 100%); */
-  height: 120px;
+.breadcrumb{
+  font-size: 0.85em;
+  background: #D7E4EF;
+}
+.breadcrumb a{
+  text-decoration: none;
+}
+.breadcrumb a:hover{
+  color: #4632DA;
+}
+.g {
+  background: linear-gradient(-45deg, #3a7bd5 20%, #3a6073 100%);
+  padding: 2px;
   border-radius: 10px;
   color: white;
-  font-weight: 500;
-  font-size: 0.7em;
-  text-transform: uppercase;
 }
-.dashboardSpecificOverview span{
+
+.g p{
   font-weight: 600;
-  font-size: 1.7em;
 }
