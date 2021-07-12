@@ -616,14 +616,7 @@
       var dt = e.dataTransfer
       var files = dt.files
       console.log('hdisfas: ', files);
-      handleAddFiles(files);
-    }
-
-    function handleAddFiles(files) {
-        files = [...files];//make files into array
-        console.log('aaaaaaaa: ', files);
-        additionalUpdateGallery(files);
-        // previewGallery(files);
+      additionalUpdateGallery(files);
     }
 
     function additionalUpdateGallery(files) {
