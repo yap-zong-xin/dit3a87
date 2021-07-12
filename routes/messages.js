@@ -4,8 +4,12 @@ const Message = require("../models/message");
 //add
 
 router.post("/message", async (req, res) => {
-  const newMessage = new Message(req.body);
-  console.log(req.body)
+  const newMessage = new Message({
+    conversationId: req.body.conversationId,
+    sender: req.body.sender,
+    text: req.body.text
+  });
+  console.log(req.body.text)
 
   try {
     const savedMessage = await newMessage.save();
