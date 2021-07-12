@@ -126,6 +126,8 @@
                 <option value="ninehundrednine">999-Year Leasehold</option>
                 <option value="freehold">Freehold</option>
             </select>
+            <!-- 3d image link -->
+            <input type="text" name="threeDImage" placeholder="3D image link">
     </div>
     <!-- submit form -->
     <!-- <button onclick="checkforfiles()">CHECK</button> -->
@@ -342,8 +344,9 @@
         // document.getElementById("galleryFileArray").style.visibility = "hidden"
         // document.getElementById("additionalGallery").style.visibility = "visible"
         updateGallery(files);
-        // list.items.add(files);
         previewGallery(files);
+
+        // list.items.add(files);
     }
 
     //make image gallery preview files drag and droppable
@@ -412,6 +415,7 @@
         var prevFileIds = 0;
         var fileList = document.getElementById("galleryFileArray");
         if(fileList.files.length != 0) {
+          console.log('have previous')
           for(let k=0; k<fileList.files.length; k++) {
             prevFileIds++;
           }
@@ -633,6 +637,7 @@
         list.items.add(files[i]);
         
       }
+      updateGallery(files);
       previewGallery(files);
       galleryFiles.files = list.files;
     }
