@@ -48,7 +48,125 @@
         </ul>
       </div>
     </div>
-    <div class="col-9 p-0">
+    <div class="col-9">
+      <div class="row mr-5">
+        <div class="col-12 mb-2">
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="/listings">Home</a></li>
+              <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
+              <li class="breadcrumb-item"><a href="/dashboard/accounts">Accounts</a></li>
+              <li class="breadcrumb-item active"" aria-current="page">Agents</li>
+            </ol>
+          </nav>
+        </div>
+        <div class="col-4">
+          <div class="g text-center">
+            <div class="pt-2">
+              <p class="mb-0" style="font-size:0.8em; font-weight: 650;">Total</p>
+              <p>
+                <% var sum=[]; %>
+                <% users.forEach(function(user, index){ %>
+                  <% if(user.isAgent==true){ %>
+                    <% sum.push([user].length) %>
+                  <% } %>
+                <% }); %>
+                <span>
+                  <%= sum.reduce((a, b) => a + b, 0) %>
+                </span>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="g text-center">
+            <div class="pt-2">
+              <p class="mb-0" style="font-size:0.8em; font-weight: 650;">Male</p>
+              <p>
+                <% var sum=[]; %>
+                <% users.forEach(function(user, index){ %>
+                  <% if(user.isAgent==true && user.gender=="male"){ %>
+                    <% sum.push([user].length) %>
+                  <% } %>
+                <% }); %>
+                <span>
+                  <%= sum.reduce((a, b) => a + b, 0) %>
+                </span>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="g text-center">
+            <div class="pt-2">
+              <p class="mb-0" style="font-size:0.8em; font-weight: 650;">Female</p>
+              <p>
+                <% var sum=[]; %>
+                <% users.forEach(function(user, index){ %>
+                  <% if(user.isAgent==true && user.gender=="female"){ %>
+                    <% sum.push([user].length) %>
+                  <% } %>
+                <% }); %>
+                <span>
+                  <%= sum.reduce((a, b) => a + b, 0) %>
+                </span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row accountTableHeading mr-5 px-4 mt-4">
+        <p style="font-weight: 500; font-size: 1.1em;">Agents</p>
+        <table class="table table-sortable">
+          <thead>
+            <tr>
+              <th style="pointer-events: none;"></th>
+              <th>Username</th>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Role</th>
+              <th style="pointer-events: none!important;" class="justify-content-end d-flex">
+                <i class="fas fa-sort"></i>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <% users.forEach(function(user){ %>
+              <% if(user.isAgent==true){ %>
+                <tr onclick="window.location='/user/<%= user._id %>';">
+                  <td><img src="<%= user.image %>" alt="" style="border-radius: 50%; width: 50px; height:50px;"></td>
+                  <td class="pt-4"><%= user.username %></td>
+                  <td class="pt-4"><%= user.firstName %></td>
+                  <td class="pt-4"><%= user.lastName %></td>
+                  <td class="pt-4">
+                    <a href="mailto:<%= user.email %>" style="color: black; font-size: 0.9em;">
+                      <%= user.email %>
+                    </a>
+                  </td>
+                  <td class="pt-4"><%= user.phone %></td>
+                  <td class="pt-4">
+                    <% if(user.isAdmin==true){ %>
+                      <span class="badge badge-danger">Admin</span>
+                    <% } else if(user.isAgent==true) { %>
+                      <span class="badge badge-warning">Agent</span>
+                    <% } else { %>
+                      <span class="badge badge-info">Seeker</span>
+                    <% } %>
+                  </td>
+                  <td class="justify-content-end d-flex pt-4">
+                    <a href="/user/<%= user._id %>" class="btn btn-dark px-4 mx-0 dashboardBtn">View</a>
+                  </td>
+                </tr>
+              <% } %>
+            <% }); %>
+          </tbody>
+        </table>
+      </div>
+
+
+
 
       <!-- pending -->
       <p style="font-weight: bold; color: blue;">PENDING AGENTS</p>
@@ -90,32 +208,9 @@
           <a href="/user/<%= user._id %>" class="btn btn-primary">View Profile</a>
         <% } %>
       <% }); %>
-
-
-      <br>
-      <br>
-      <br>
-      <span style="font-weight: bold;">agent</span>
-      <% users.forEach(function(user){ %>
-        <% if(user.isAgent==true){ %>
-          <div>
-            <p>
-              Username: <strong><%= user.username %></strong>
-            </p>
-            <% if(currentUser && user._id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
-              <a class="btn btn-warning" href="/user/<%= user._id %>/edit">Edit</a>
-              <form action="/user/<%= user._id %>?_method=DELETE" method="POST">
-                <button class="btn btn-danger">DELETE</button>
-              </form>
-              <a href="/user/<%= user._id %>" class="btn btn-primary">View Profile</a>
-            <% } %>
-          </div>
-        <% } %>
-      <% }); %>
     </div>
   </div>
 </div>
 
-  
 
 <%- include("../../../partials/footer") %>
