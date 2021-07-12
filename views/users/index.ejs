@@ -20,8 +20,22 @@
       <div class="col-md-12 m-0 p-0">
         <div class="user-search shadow">
           <form action="/user" method="GET" class="form-inline">
-            <div class="row col-md-12 form-group">
-              <input type="text" class="form-control" name="search" placeholder="Search">
+            <div class="row col-md-12  form-group">
+              <div class="col-md-12 d-flex justify-content-center align-items-center flex-column">
+                <div class="row col-md-12  d-flex justify-content-center align-items-center">
+                  <input type="text" class="form-control" name="search" placeholder="Search Agent Name or CEA Number">
+                  <select name="zone" id="zone">
+                    <option selected hidden>Zone</option>
+                    <option>North</option>
+                    <option>East</option>
+                    <option>South</option>
+                    <option>West</option>
+                  </select>
+                </div>
+              </div>
+
+
+              <!-- Sort By, Agent Zone-->
               <input type="submit" value="Show Agents" class="btn btn-info">
             </div>
           </form>
