@@ -67,9 +67,11 @@ export default function Messenger() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const message = {
-      conversationId: currentChat._id,
-      sender: userId,
-      text: newMessage
+      body : {
+        conversationId: currentChat._id,
+        sender: userId,
+        text: newMessage
+      }
     };
 
     const receiverId = currentChat.members.find(
@@ -85,6 +87,7 @@ export default function Messenger() {
     try {
       const res = await axios.post("/message", message);
       setMessages([...messages, res.data]);
+      console.log(message)
       setNewMessage("");
     } catch (err) {
       console.log(err);
