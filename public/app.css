@@ -2120,9 +2120,21 @@ nav a{
 }
 
 .dashboardBtn{
-  background: #4632DA;
-  color: white;
   border: 0;
+  margin-top: 10px;
+}
+
+.dashboardBtnAgent button{
+  background: 0;
+  border: none;
+  font-size: 1.4em;
+  margin-top: 8px;
+}
+.dashboardBtnAgent button .fa-times-circle{
+  color: #DC3545;
+}
+.dashboardBtnAgent button .fa-check-circle{
+  color: #28A745;
 }
 
 .breadcrumb{
@@ -2136,14 +2148,10 @@ nav a{
   color: #4632DA;
 }
 .g {
-  background: linear-gradient(-45deg, #3a7bd5 20%, #3a6073 100%);
+  background: rgb(137, 173, 221);
   padding: 2px;
-  border-radius: 10px;
   color: white;
-  height: 62px;
-}
-
-.g p{
-  font-weight: 600;
+  font-weight: 500;
+  font-size: 0.9em;
 }
 

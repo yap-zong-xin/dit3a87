@@ -8,7 +8,7 @@
       <div>
         <!-- approve/remove agent -->
         <% if(user.isAgent && currentUser && currentUser.isAdmin){ %>
-          <form action="/dashboard/agents/<%= user._id %>?_method=PUT" method="POST" class="text-center"
+          <form action="/agentStatus/<%= user._id %>?_method=PUT" method="POST" class="text-center"
             style="position:relative; top: 10px;">
             <% if(user.agentStatus==false){ %>
               <button type="submit" name="user[agentStatus]" value="true" class="btn approveBtn"
