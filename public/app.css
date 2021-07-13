@@ -252,7 +252,7 @@ body {
   /* background-image: linear-gradient(-45deg, #186aff 0%, #04befe 100%); */
   background: linear-gradient(-45deg, #e73c7e,  #4632da,  #186aff, #04befe);
   background-size: 400% 400%;
-  animation: gradient 15s ease infinite;
+  animation: gradient 5s ease infinite;
   padding: 20px
 }
 
@@ -421,9 +421,9 @@ body {
   flex-direction: column;
   color: black;
   background-color: white;
-  height: 500px;
-
+  height: 550px;
 }
+
 
 .tab, .left-tab {
   opacity: 1;
@@ -477,7 +477,7 @@ body {
   flex-direction: column;
   color: white;
   padding: 50px;
-  height: 500px;
+  height: 550px;
 }
 
 .reg-left-panel button {
@@ -540,6 +540,7 @@ body {
   font-weight: 700;
 }
 
+
 .active-prog {
   color: #fff;
   /* font-size: 20px; */
@@ -555,6 +556,10 @@ body {
   margin-left: 20px;
 }
 
+.prog-border p {
+  font-weight: 400;
+}
+
 #tab-1, #tab-2, #tab-3 {
   display: none;
 }
@@ -565,10 +570,10 @@ body {
 
 .nextBtn button {
   border-radius: 50%;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  padding-left: 20px;
+  padding-right: 20px;
 }
 
 .input-field, .input-field-select {
