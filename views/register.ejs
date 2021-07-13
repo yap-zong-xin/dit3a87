@@ -106,9 +106,10 @@
         </div>
 
         <div class="tab hide" id="selection" style="display: none; padding: 50px;">
-          <h3 style="margin-bottom: 25px; padding-top: 25px;">Select your account type:</h3>
+          <h3 style="padding-top: 25px;">Select your account type</h3>
+          <p style="margin-bottom: 25px;">You will not be able to change your account type after registration.</p>
           <div class="row d-flex justify-content-center">
-            <div class="reg-role" onClick="roleSelect(`agent`)">
+            <div class="reg-role" onClick="roleSelect(`agent`)" >
               <i class="fas fa-user-secret"></i>
               <h5>Property Agent</h5>
               <p><b>CEA Number required</b><br>
@@ -125,7 +126,7 @@
         <form class="register-form" id="register-form" action="/register" enctype="multipart/form-data" method="POST">
           <div id="reg-form"></div>
           <!--Basic Details-->
-          <div class="tab hide reg-tab-1" id="tab-1">
+          <div class="tab hide reg-tab-1" id="tab-1" style="width: 330px;">
             <h3>Personal Details</h3>
             <div class="input-field">
               <i class="fas fa-user"></i>
@@ -155,7 +156,7 @@
           </div>
 
           <!--Address-->
-          <div class="tab hide reg-tab-2" id="tab-2">
+          <div class="tab hide reg-tab-2" id="tab-2" style="width: 330px;">
             <h3>Personal Address</h3>
             <div class="input-field">
               <i class="fas fa-map"></i>
@@ -185,7 +186,7 @@
           </div>
 
           <!--User Details-->
-          <div class="tab hide reg-tab-3" id="tab-3">
+          <div class="tab hide reg-tab-3" id="tab-3" style="width: 330px;">
             <h3>Account Information</h3>
             <div class="input-field">
               <i class="fas fa-user"></i>
@@ -199,7 +200,7 @@
             <input type="file" name="image" accept="image/*" required />
           </div>
 
-          <div class="row nextBtn hide" id="prevNext" style="display: none; margin-top: 20px; ">
+          <div class="row nextBtn hide" id="prevNext" style="display: none; margin-top: 20px;">
             <button type="button" id="prevBtn" onclick="nextPrev(-1)" style="margin-right: 50px;"><i
                 class="fas fa-arrow-left"></i></button>
             <button type="button" id="nextBtn" onclick="nextPrev(1)" style="margin-left: 50px;"><i
@@ -311,9 +312,9 @@
 
       //hide current tab
       displayArr[counter].classList.add("hide");
-      // window.setTimeout(() => {
-      displayArr[counter].style.display = "none"
-      // }, 600);
+      displayArr[counter].style.display = "none";
+
+
       //remove active
       var prog = document.getElementById("prog-" + counter);
       prog.classList.remove("active-prog");
@@ -321,7 +322,7 @@
       counter = counter + index;
 
       window.setTimeout(() => {
-        displayArr[counter].style.display = "block"
+        displayArr[counter].style.display = "block";
       }, 300);
       window.setTimeout(() => {
         displayArr[counter].classList.remove("hide");
