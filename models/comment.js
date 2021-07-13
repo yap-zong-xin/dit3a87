@@ -11,6 +11,7 @@ var commentSchema = new mongoose.Schema({
 			image: String,
 			firstName: String,
 			lastName: String,
+			listingId: String
 		},
 		createdAt: { type: Date, default: Date.now }
 });
