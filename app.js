@@ -33,8 +33,8 @@ var messageRoutes = require("./routes/messages")
 
 //mongodb+srv://admin:admin@sap-dit3a87.airjg.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
 // mongoose.connect(process.env.DB_URL || "mongodb://localhost/SAP", {  
-// mongoose.connect("mongodb://localhost/SAP" || "mongodb+srv://admin:admin@sap-dit3a87.airjg.mongodb.net/myFirstDatabase?retryWrites=true&w=majority", {  
-mongoose.connect("mongodb://localhost/SAP", {  
+mongoose.connect("mongodb://localhost/SAP" || "mongodb+srv://admin:admin@sap-dit3a87.airjg.mongodb.net/myFirstDatabase?retryWrites=true&w=majority", {  
+// mongoose.connect("mongodb://localhost/SAP", {  
 	useNewUrlParser: true,
 	useCreateIndex: true,
 	useUnifiedTopology: true,
