@@ -45,7 +45,10 @@ mongoose.connect("mongodb+srv://admin:admin@sap-dit3a87.airjg.mongodb.net/myFirs
 app.locals.moment = require('moment');
 app.use(express.static("public"));
 app.use(methodOverride("_method"));
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(express.json());
+app.use(express.urlencoded({
+  extended: true
+}));
 app.use(flash());
 
 const path = require('path');
