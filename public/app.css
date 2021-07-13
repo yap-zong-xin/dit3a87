@@ -1249,6 +1249,20 @@ input[type=range]::-ms-thumb {
   width: auto
 }
 /* drag and drop files */
+#profile-drop-area {
+  border: 2px dashed #ccc;
+  border-radius: 20px;
+  width:330px;
+  height: 100px;
+  margin: 20px auto;
+  padding: 10px;
+  background-color: rgb(158, 158, 158);
+  display: block;
+  align-items: center;
+}
+#profile-drop-area.highlight {
+  border-color: blue;
+}
 #drop-area {
   border: 2px dashed #ccc;
   border-radius: 20px;
@@ -1286,7 +1300,7 @@ input[type=range]::-ms-thumb {
   background-color: rgb(158, 158, 158);
 }
 #thumbnail-drop-area.highlight {
-  border-color: purple;
+  border-color: blue;
 }
 .image-gallery {
   margin-top: 10px;

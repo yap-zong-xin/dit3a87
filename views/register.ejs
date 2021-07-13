@@ -196,8 +196,10 @@
               <i class="fas fa-lock"></i>
               <input type="password" placeholder="Password" name="password" name="pwd" required />
             </div>
-            <p id="pic-msg"><b>Upload Profile Picture:</b></p>
-            <input type="file" name="image" accept="image/*" required />
+            <div id="profile-drop-area">
+              <p id="pic-msg"><b>Upload Profile Picture:</b></p>
+              <input type="file" name="image" id="profileFiles" accept="image/*" required onchange="handleProfileFiles(this.files)"/>
+            </div>
           </div>
 
           <div class="row nextBtn hide" id="prevNext" style="display: none; margin-top: 20px;">
@@ -441,5 +443,72 @@
 
     }
 
+  </script>
+    <script>
+      let profileDropArea = document.getElementById("profile-drop-area");
+      // Prevent default drag behaviors
+      ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+          profileDropArea.addEventListener(eventName, preventDefaults, false)   
+          document.body.addEventListener(eventName, preventDefaults, false)
+      });
+      // Highlight drop area when item is dragged over it
+      ['dragenter', 'dragover'].forEach(eventName => {
+        profileDropArea.addEventListener(eventName, highlight, false)
+      });
+      ['dragleave', 'drop'].forEach(eventName => {
+        profileDropArea.addEventListener(eventName, unhighlight, false)
+      });
+      // Handle dropped file
+      profileDropArea.addEventListener('drop', handleProfileDrop, false);
+  
+      function preventDefaults (e) {
+          e.preventDefault()
+          e.stopPropagation()
+      }
+  
+      function highlight(e) {
+        profileDropArea.classList.add('highlight')
+      }
+  
+      function unhighlight(e) {
+        profileDropArea.classList.remove('highlight')
+      }
+  
+      function handleProfileDrop(e) {
+          var dt = e.dataTransfer;
+          var files= dt.files;
+          // var slctEle = document.getElementById(dt.getData("text"));
+          // if(slctEle != null) {
+          //   files = dataURLtoFile(slctEle.src, "thumbnailImage");
+          //   console.log('typ of fiel: ',files);
+          // }else{
+          //   files 
+          //   console.log('drop: ', files)
+          // }
+          updateProfile(files)
+      }
+  
+      function handleProfileFiles(files) {
+          files = [...files];//make files into array
+          console.log('inside thumb: ',files)
+          updateProfile(files)
+      }
+  
+      function updateProfile(files) {
+        console.log('chosen file: ',typeof files.length)
+        console.log('chosen thumnail: ', files)
+        var file;
+        if(typeof files.length == 'undefined'){
+          file = files
+        }else {
+          file = files[files.length - 1];
+        }
+        var profileFiles = document.getElementById("profileFiles");
+        console.log('profileFiles length: ',profileFiles.files.length);
+        var list = new DataTransfer();
+        console.log('check for multiple profileFiles: ',file)
+        list.items.add(file);
+        profileFiles.files = list.files;
+      }
   </script>
   <%- include("partials/footer") %>
