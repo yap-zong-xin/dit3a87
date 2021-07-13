@@ -36,6 +36,10 @@ router.post("/listings/:id/comments", function(req, res){
           //can retrieve username/id (based on models/comment.js) from req.user since users must login before the code runs here (isLoggedIn)
           comment.author.id = req.user._id;
           comment.author.username = req.user.username;
+          comment.author.image = req.user.image;
+          comment.author.firstName = req.user.firstName;
+          comment.author.lastName = req.user.lastName;
+          comment.author.listingId = req.params.id;
           //save comment
           comment.save();
           //connect new comment to listing
@@ -73,6 +77,17 @@ router.put("/listings/:id/comments/:comment_id", middleware.checkCommentOwnershi
     }
   });
 });
+router.put("/listings/:id/comments/:comment_id/dashboard", middleware.checkCommentOwnership, function(req, res){
+  //can use req.body.listing due to the name="listing[...] in EDIT.EJS" 
+  Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, function(err, updatedComment){
+    if(err){
+      res.redirect("back");
+    } else{
+      req.flash("success", "You have successfully updated a comment.");
+      res.redirect("/dashboard/comments");
+    }
+  });
+});
 
 //Delete Route
 router.delete("/listings/:id/comments/:comment_id", middleware.checkCommentOwnership, function(req,res) {
@@ -89,6 +104,24 @@ router.delete("/listings/:id/comments/:comment_id", middleware.checkCommentOwner
       );
       req.flash("success", "You have successfully deleted a comment.");
       res.redirect("/listings/" + req.params.id);
+    }
+  });
+});
+//Delete Route at Dashboard
+router.delete("/listings/:id/comments/:comment_id/dashboard", middleware.checkCommentOwnership, function(req,res) {
+  Comment.findByIdAndRemove(req.params.comment_id, function(err) {
+    if (err) {
+      res.redirect("back");
+    } else {
+      listing.findByIdAndUpdate(req.params.id,{ $pull: { comments: { $in: [req.params.comment_id] } } },
+        function(err) {
+          if (err) {
+            console.log(err);
+          }
+        }
+      );
+      req.flash("success", "You have successfully deleted a comment.");
+      res.redirect("/dashboard/comments");
     }
   });
 });

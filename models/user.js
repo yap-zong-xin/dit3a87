@@ -28,6 +28,7 @@ var userSchema = new mongoose.Schema({
 	verificationCode: {type: String, default: ''},
 	resetPasswordToken: String,
 	resetPasswordExpires: Date,
+	lastLogin: { type: Date, default: Date.now },
 	reviews: [
 		{
 				type: mongoose.Schema.Types.ObjectId,
