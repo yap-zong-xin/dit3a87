@@ -1252,24 +1252,30 @@ input[type=range]::-ms-thumb {
 #drop-area {
   border: 2px dashed #ccc;
   border-radius: 20px;
-  width: 480px;
+  width:650px;
+  height: 400px;
   margin: 20px auto;
   padding: 20px;
   background-color: rgb(158, 158, 158);
+  display: block;
+  align-items: center;
 }
 #drop-area.highlight {
-  border-color: purple;
+  border-color: blue;
 }
 #add-drop-area {
   border: 2px dashed #ccc;
   border-radius: 20px;
-  width: 480px;
+  width: 650px;
+  height: 400px;
   margin: 20px auto;
   padding: 20px;
   background-color: rgb(158, 158, 158);
+  display: none;
+  justify-content: center;
 }
 #add-drop-area.highlight {
-  border-color: purple;
+  border-color: blue;
 }
 #thumbnail-drop-area {
   border: 2px dashed #ccc;
@@ -1301,6 +1307,9 @@ input[type=range]::-ms-thumb {
   width: 300px;
 }
 .listingImage{
+  float: left;
+}
+.listingVideo{
   float: left;
 }
 .image-gallery-style {
