@@ -48,8 +48,94 @@
         </ul>
       </div>
     </div>
-    <div class="col-9 p-0">
-      <%= comments %>
+    <div class="col-9">
+      <div class="row mr-5">
+        <div class="col-12 mb-2">
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-1">
+              <li class="breadcrumb-item"><a href="/listings">Home</a></li>
+              <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Comments</li>
+            </ol>
+          </nav>
+        </div>
+        <div class="col-12">
+          <div class="g text-center">
+            <div class="justify-content-between d-flex px-3">
+              <p class="py-1 my-1">Total Comments</p>
+              <p class="py-1 my-1">
+                <%= comments.length %>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row accountTableHeading mr-5 px-4 mt-4">
+        <p style="font-weight: 500; font-size: 1.1em;">Comments</p>
+        <table class="table table-sortable">
+          <thead>
+            <tr>
+              <th style="pointer-events: none;" class="justify-content-start d-flex">
+                <i class="fas fa-sort"></i>
+              </th>
+              <th>Username</th>
+              <th>Comment</th>
+              <th style="pointer-events: none!important;">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% comments.reverse().forEach(function(comment){ %>
+              <tr style="cursor: default;">
+                  <td>
+                    <a href="/user/<%= comment.author.id %>">
+                      <img src="<%= comment.author.image %>" alt="" style="border-radius: 50%; width: 50px; height:50px;">
+                    </a>
+                  </td>
+                  <td class="pt-4">
+                    <a href="/user/<%= comment.author.id %>" style="text-decoration: none; color: black; font-size: 0.95em;">
+                      <%= comment.author.username %>
+                    </a>
+                  </td>
+                </a>
+                <td class="pt-4" style="max-width:590px!important; white-space: pre-wrap;"><%= comment.text %></td>
+                <td class="justify-content-start d-flex pt-2">
+                  <% if(currentUser && comment.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
+                    <button type="button" class="btn dashboardManageBtn" style="border-radius: 0%!important;" data-toggle="modal" data-target="#exampleModalCenter">
+                      <ion-icon name="create-outline" class="editBtn"></ion-icon>
+                    </button>
+                    <form action="/listings/<%= comment.author.listingId %>/comments/<%= comment._id %>/dashboard?_method=DELETE" method="POST">
+                      <button class="btn dashboardManageBtn">
+                        <ion-icon name="trash-outline" class="trashBtn"></ion-icon>
+                      </button>
+                    </form>
+                  <% } %>
+                </td>
+              </tr>
+              <!-- Edit Comment Modal -->
+              <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body" style="height: 200px;">
+                      <form action="/listings/<%= comment.author.listingId %>/comments/<%= comment._id %>/dashboard?_method=PUT" method="POST">
+                        <div class="form-groups">
+                          <input class="form-control my-2" type="text" value="<%= comment.text %>" name="comment[text]" placeholder="text" style="width: 350px;">
+                          <button class="btn btn-info form-control">submit</button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <% }); %>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </div>

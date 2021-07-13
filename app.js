@@ -33,7 +33,9 @@ var messageRoutes = require("./routes/messages")
 
 //mongodb+srv://admin:admin@sap-dit3a87.airjg.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
 // mongoose.connect(process.env.DB_URL || "mongodb://localhost/SAP", {  
-mongoose.connect("mongodb+srv://admin:admin@sap-dit3a87.airjg.mongodb.net/myFirstDatabase?retryWrites=true&w=majority", {  
+// mongoose.connect("mongodb://localhost/SAP" || "mongodb+srv://admin:admin@sap-dit3a87.airjg.mongodb.net/myFirstDatabase?retryWrites=true&w=majority", {
+mongoose.connect("mongodb+srv://admin:admin@sap-dit3a87.airjg.mongodb.net/myFirstDatabase?retryWrites=true&w=majority", {   
+// mongoose.connect("mongodb://localhost/SAP", {  
 	useNewUrlParser: true,
 	useCreateIndex: true,
 	useUnifiedTopology: true,
@@ -43,7 +45,10 @@ mongoose.connect("mongodb+srv://admin:admin@sap-dit3a87.airjg.mongodb.net/myFirs
 app.locals.moment = require('moment');
 app.use(express.static("public"));
 app.use(methodOverride("_method"));
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(express.json());
+app.use(express.urlencoded({
+  extended: true
+}));
 app.use(flash());
 
 const path = require('path');
@@ -122,11 +127,13 @@ io.on("connection", (socket) => {
 
   //send and get message
   socket.on("sendMessage", ({ senderId, receiverId, text }) => {
-    const user = getUser(receiverId);
-    io.to(user.socketId).emit("getMessage", {
-      senderId,
-      text,
-    });
+    if(getUser(receiverId)) {
+      const user = getUser(receiverId);
+      io.to(user.socketId).emit("getMessage", {   
+        senderId,
+        text,
+      });
+    }
   });
 
   //when disconnect
