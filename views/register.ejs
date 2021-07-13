@@ -123,7 +123,7 @@
           </div>
         </div>
 
-        <form class="register-form" id="register-form" action="#" enctype="multipart/form-data" method="POST">
+        <form class="register-form" id="register-form" action="/register" enctype="multipart/form-data" method="POST">
           <div id="reg-form"></div>
           <!--Basic Details-->
           <div class="tab hide reg-tab-1" id="tab-1" style="width: 330px;">
@@ -309,7 +309,7 @@
 
     function nextPrev(index) {
       document.getElementById("nextBtn").type = "button";
-      
+
       if (index == 1 && !validateForm()) return false;
       var btn = document.getElementById("prevNext");
 
