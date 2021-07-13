@@ -459,12 +459,15 @@ body {
 
 .admin-header {
   color: rgb(148, 148, 148);
-  padding: 150px;
   -webkit-animation: fadein 0.5s;
   -moz-animation: fadein 0.5s;
   -ms-animation: fadein 0.5s;
   -o-animation: fadein 0.5s;
   animation: fadein 0.5s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 .admin-header h1 {
