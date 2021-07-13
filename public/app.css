@@ -412,6 +412,95 @@ body {
   margin-bottom: 101px;
 }
 
+/* admin registration*/
+.admin-reg {
+  background-color: #fff;
+  border-radius: 15px;
+  padding: 25px;
+  height: 650px;
+}
+
+.admin-reg form {
+  text-align: center;
+}
+
+.admin-wrap {
+  padding: 25px;
+  margin: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.admin-wrap h3 {
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.admin-reg-btn button {
+  border: 3px solid #186aff;
+  background-color: #186aff;
+  color: white;
+  border-radius: 25px;
+  padding: 7px 25px 7px 25px;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+.admin-reg-btn button:hover {
+  background-color: #1da1f2;
+  border: 3px solid #1da1f2;
+}
+
+.admin-reg-btn button:focus {
+  outline: none;
+}
+
+.admin-header {
+  color: rgb(148, 148, 148);
+  padding: 150px;
+  -webkit-animation: fadein 0.5s;
+  -moz-animation: fadein 0.5s;
+  -ms-animation: fadein 0.5s;
+  -o-animation: fadein 0.5s;
+  animation: fadein 0.5s;
+}
+
+.admin-header h1 {
+  color: #fff;
+  font-size: 48px;
+  font-weight: 700;
+  margin-bottom: 30px;
+}
+
+.active-admin-prog {
+  color: #fff;
+  transform: scale(1.2); 
+}
+
+.admin-header p {
+  font-size: 22px;
+  font-weight: 400;
+}
+
+.admin-prog {
+  display: flex;
+  flex-direction: row;
+  width: 300px;
+  justify-content: space-between;
+  transition: 0.4s;
+  margin: 10px 0 10px;
+}
+
+.admin-prog p {
+  font-weight: 100;
+}
+
+.admin-display-wrap {
+  display: none;
+}
+
 /* Registration */
 .reg-right-panel {
   display: flex;
@@ -424,7 +513,7 @@ body {
   height: 550px;
 }
 
-.tab, .left-tab, .nextBtn {
+.tab, .left-tab, .nextBtn, .admin-display-wrap, .admin-reg-btn {
   opacity: 1;
   transition: opacity 0.5s;
  }
@@ -505,7 +594,6 @@ body {
 .reg-left-panel button:hover {
   border: 3px solid rgb(175, 175, 175);
   color: rgb(175, 175, 175)
-
 }
 
 .reg-right-panel button:hover {
