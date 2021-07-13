@@ -9,7 +9,6 @@ router.post("/message", async (req, res) => {
     sender: req.body.sender,
     text: req.body.text
   });
-  console.log(req.body.text)
 
   try {
     const savedMessage = await newMessage.save();

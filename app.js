@@ -45,7 +45,10 @@ mongoose.connect("mongodb+srv://admin:admin@sap-dit3a87.airjg.mongodb.net/myFirs
 app.locals.moment = require('moment');
 app.use(express.static("public"));
 app.use(methodOverride("_method"));
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(express.json());
+app.use(express.urlencoded({
+  extended: true
+}));
 app.use(flash());
 
 const path = require('path');
@@ -124,11 +127,13 @@ io.on("connection", (socket) => {
 
   //send and get message
   socket.on("sendMessage", ({ senderId, receiverId, text }) => {
-    const user = getUser(receiverId);
-    io.to(user.socketId).emit("getMessage", {
-      senderId,
-      text,
-    });
+    if(getUser(receiverId)) {
+      const user = getUser(receiverId);
+      io.to(user.socketId).emit("getMessage", {   
+        senderId,
+        text,
+      });
+    }
   });
 
   //when disconnect
