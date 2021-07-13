@@ -132,18 +132,6 @@ router.put("/dashboardAgent/agents/:id", function(req, res){
 		}
 	});
 });
-//Put Route - Manage Agent Application at Dashboard Account Page
-router.put("/dashboard/agents/:id", function(req, res){
-//can straight away use req.body.listing without having to define due to "listing[]" in the form name attributes
-	User.findByIdAndUpdate(req.params.id, req.body.user, function(err, updatedUser){
-		if(err){
-			res.redirect("/listings");
-		} else{
-			req.flash("success", "You have succesfully updated the agent status.")
-			res.redirect("/dashboard/accounts");
-		}
-	});
-});
 
 //Get Route - Manage Comment Dashboard
 router.get("/dashboard/comments", function(req,res){

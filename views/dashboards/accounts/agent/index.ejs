@@ -52,19 +52,25 @@
       <div class="row mr-5">
         <div class="col-12 mb-2">
           <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
+            <ol class="breadcrumb mb-1">
               <li class="breadcrumb-item"><a href="/listings">Home</a></li>
               <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
               <li class="breadcrumb-item"><a href="/dashboard/accounts">Accounts</a></li>
-              <li class="breadcrumb-item active"" aria-current="page">Agents</li>
+            </ol>
+          </nav>
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb breadcrumbSec">
+              <li class="breadcrumb-item"><a href="/dashboard/accounts/seeker">Seeker</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Agent</li>
+              <li class="breadcrumb-item"><a href="/dashboard/accounts/admin">Admin</a></li>
             </ol>
           </nav>
         </div>
         <div class="col-4">
           <div class="g text-center">
-            <div class="pt-2">
-              <p class="mb-0" style="font-size:0.8em; font-weight: 650;">Total</p>
-              <p>
+            <div class="justify-content-between d-flex px-3">
+              <p class="py-1 my-1">Total</p>
+              <p class="py-1 my-1">
                 <% var sum=[]; %>
                 <% users.forEach(function(user, index){ %>
                   <% if(user.isAgent==true){ %>
@@ -80,36 +86,32 @@
         </div>
         <div class="col-4">
           <div class="g text-center">
-            <div class="pt-2">
-              <p class="mb-0" style="font-size:0.8em; font-weight: 650;">Male</p>
-              <p>
+            <div class="justify-content-between d-flex px-3">
+              <p class="py-1 my-1">Male</p>
+              <p class="py-1 my-1">
                 <% var sum=[]; %>
                 <% users.forEach(function(user, index){ %>
                   <% if(user.isAgent==true && user.gender=="male"){ %>
                     <% sum.push([user].length) %>
                   <% } %>
                 <% }); %>
-                <span>
-                  <%= sum.reduce((a, b) => a + b, 0) %>
-                </span>
+                <%= sum.reduce((a, b) => a + b, 0) %>
               </p>
             </div>
           </div>
         </div>
         <div class="col-4">
           <div class="g text-center">
-            <div class="pt-2">
-              <p class="mb-0" style="font-size:0.8em; font-weight: 650;">Female</p>
-              <p>
+            <div class="justify-content-between d-flex px-3">
+              <p class="py-1 my-1">Female</p>
+              <p class="py-1 my-1">
                 <% var sum=[]; %>
                 <% users.forEach(function(user, index){ %>
                   <% if(user.isAgent==true && user.gender=="female"){ %>
                     <% sum.push([user].length) %>
                   <% } %>
                 <% }); %>
-                <span>
-                  <%= sum.reduce((a, b) => a + b, 0) %>
-                </span>
+                <%= sum.reduce((a, b) => a + b, 0) %>
               </p>
             </div>
           </div>
@@ -120,16 +122,15 @@
         <table class="table table-sortable">
           <thead>
             <tr>
-              <th style="pointer-events: none;"></th>
+              <th style="pointer-events: none;" class="justify-content-start d-flex">
+                <i class="fas fa-sort"></i>
+              </th>
               <th>Username</th>
-              <th>First Name</th>
-              <th>Last Name</th>
+              <th>Name</th>
               <th>Email</th>
               <th>Phone</th>
               <th>Role</th>
-              <th style="pointer-events: none!important;" class="justify-content-end d-flex">
-                <i class="fas fa-sort"></i>
-              </th>
+              <th style="pointer-events: none!important;">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -138,8 +139,7 @@
                 <tr onclick="window.location='/user/<%= user._id %>';">
                   <td><img src="<%= user.image %>" alt="" style="border-radius: 50%; width: 50px; height:50px;"></td>
                   <td class="pt-4"><%= user.username %></td>
-                  <td class="pt-4"><%= user.firstName %></td>
-                  <td class="pt-4"><%= user.lastName %></td>
+                  <td class="pt-4"><%= user.firstName + " " + user.lastName %></td>
                   <td class="pt-4">
                     <a href="mailto:<%= user.email %>" style="color: black; font-size: 0.9em;">
                       <%= user.email %>
@@ -161,19 +161,31 @@
                     <% } else { %>
                     <% } %>
                   </td>
-                  <td class="justify-content-end d-flex dashboardBtnAgent">
+                  <td class="justify-content-start d-flex pt-2">
+                    <a href="/user/<%= user._id %>" class="btn dashboardManageBtn" style="border-radius: 0%!important;">
+                      <ion-icon name="eye-outline" class="showBtn"></ion-icon>
+                    </a>
+                    <% if(currentUser && user._id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
+                      <a class="btn dashboardManageBtn" style="border-radius: 0%!important;" href="/user/<%= user._id %>/edit">
+                        <ion-icon name="create-outline" class="editBtn"></ion-icon>
+                      </a>
+                      <form action="/user/<%= user._id %>?_method=DELETE" method="POST">
+                        <button class="btn dashboardManageBtn">
+                          <ion-icon name="trash-outline" class="trashBtn"></ion-icon>
+                        </button>
+                      </form>
+                    <% } %>
                     <form action="/dashboardAgent/agents/<%= user._id %>?_method=PUT" method="POST">
                       <% if(user.agentStatus==false){ %>
-                        <button type="submit" name="user[agentStatus]" value="true">
-                          <i class="fas fa-check-circle"></i>
+                        <button type="submit" name="user[agentStatus]" value="true" class="btn dashboardManageBtn">
+                          <ion-icon name="checkmark-outline" class="checkBtn"></ion-icon>
                         </button>
                       <% } else{ %>
-                        <button type="submit" name="user[agentStatus]" value="false">
-                          <i class="fas fa-times-circle"></i>
+                        <button type="submit" name="user[agentStatus]" value="false" class="btn dashboardManageBtn">
+                          <ion-icon name="close-outline" class="rejectBtn"></ion-icon>
                         </button>
                       <% } %>
                     </form>
-                    <a href="/user/<%= user._id %>" class="btn btn-dark px-3 py-1 dashboardBtn d-none">View</a>
                   </td>
                 </tr>
               <% } %>
