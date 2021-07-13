@@ -424,8 +424,7 @@ body {
   height: 550px;
 }
 
-
-.tab, .left-tab {
+.tab, .left-tab, .nextBtn {
   opacity: 1;
   transition: opacity 0.5s;
  }
@@ -569,6 +568,8 @@ body {
 }
 
 .nextBtn button {
+  opacity: 1;
+  transition: opacity 0.5s;
   border-radius: 50%;
   padding-top: 15px;
   padding-bottom: 15px;
