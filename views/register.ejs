@@ -1,23 +1,70 @@
 <%- include("partials/header") %>
-  <div class="container container-login shadow">
-    <div class="forms-container">
-      <div class="signin-signup">
+  <div class="container" style="margin-top: 50px" data-aos="fade-up">
+    <div class="row col-md-12 m-0 p-0 reg-container shadow">
+      <div class="col-md-4 reg-left-panel login-img">
+        <div class="left-tab" id="left-tab-message">
+          <img alt="signin" src="img/undraw_Browsing_online_re_umsa.png" style="width: 70%; margin: 15px">
+          <h3>Already Registed?</h3>
+          <p>Sign in now to start browsing!</p>
+          <button onClick="window.location=`/login`;">Sign In</button>
+        </div>
+        <div class="left-tab hide" id="left-tab-progress" style="display: none;">
+          <h2>Steps:</h2>
+          <div class="prog-row" id="prog-1">
+            <div class="count-border">
+              <h3>1</h3>
+            </div>
+            <div class="prog-border">
+              <p>Personal Information</p>
+            </div>
+          </div>
+          <div class="prog-row" id="prog-2">
+            <div class="count-border">
+              <h3>2</h3>
+            </div>
+            <div class="prog-border">
+              <p>Personal Address</p>
+            </div>
+          </div>
+          <div class="prog-row" id="prog-3">
+            <div class="count-border">
+              <h3>3</h3>
+            </div>
+            <div class="prog-border">
+              <p>Account Information</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-8 reg-right-panel">
+        <div class="tab" id="right-tab-message">
+          <h3>New Here?<br>Let's get you set up</h3>
+          <p>We'll take a couple of minutes to set up your account.</p>
+          <button onClick="showForm()">Continue</button>
+        </div>
 
-        <!--Seeker-->
-        <form action="/register" method="POST" enctype="multipart/form-data" class="sign-in-form" id="regForm-seeker">
-          <h2 class="title">Property Seeker</h2>
+        <div class="tab hide" id="selection" style="display: none;">
+          <h3 style="margin-bottom: 25px">Select your account type:</h3>
+          <div class="row d-flex justify-content-center">
+            <div class="reg-role" onClick="roleSelect(`agent`)">
+              <i class="fas fa-user-secret"></i>
+              <h5>Property Agent</h5>
+              <p><b>CEA Number required</b><br>
+                Subjected to Approval</p>
+            </div>
+            <div class="reg-role" onClick="roleSelect(`seeker`)">
+              <i class="fas fa-users"></i>
+              <h5>Property Seeker</h5>
+              <p>CEA Number not required<br>Start browsing now!</p>
+            </div>
+          </div>
+        </div>
 
-          <ul class="typeOfRole d-none">
-            <li>
-              <input type="radio" id="admin" name="roleCode" value="public" checked />
-              <label for="admin">Admin</label>
-            </li>
-          </ul>
-
-          <div class="loader-seeker" id="loader-seeker"></div>
-
+        <form id="register-form" action="/register" enctype="multipart/form-data" method="POST">
+          <div id="reg-form"></div>
           <!--Basic Details-->
-          <div class="tab">
+          <div class="tab hide reg-tab-1" id="tab-1">
+            <h3>Personal Details</h3>
             <div class="input-field">
               <i class="fas fa-user"></i>
               <input type="text" placeholder="First Name" id="firstName" name="firstName" required />
@@ -46,7 +93,8 @@
           </div>
 
           <!--Address-->
-          <div class="tab">
+          <div class="tab hide reg-tab-2" id="tab-2">
+            <h3>Personal Address</h3>
             <div class="input-field">
               <i class="fas fa-map"></i>
               <input type="text" placeholder="Address Line 1" id="address-ln1" name="streetName" required />
@@ -75,7 +123,8 @@
           </div>
 
           <!--User Details-->
-          <div class="tab">
+          <div class="tab hide reg-tab-3" id="tab-3">
+            <h3>Account Information</h3>
             <div class="input-field">
               <i class="fas fa-user"></i>
               <input type="text" placeholder="Username" id="username" name="username" required />
@@ -84,297 +133,223 @@
               <i class="fas fa-lock"></i>
               <input type="password" placeholder="Password" name="password" name="pwd" required />
             </div>
-              <p><b>Upload Profile Picture:</b></p>
-              <input type="file" name="image" accept="image/*" />
+            <p id="pic-msg"><b>Upload Profile Picture:</b></p>
+            <input type="file" name="image" accept="image/*" required />
           </div>
 
-          <div style="text-align:center;margin-top:40px;">
-            <span class="step"></span>
-            <span class="step"></span>
-            <span class="step"></span>
-          </div>
-          <div style="overflow:auto;">
-            <div class="np-btn">
-              <button type="button" class="btn" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
-              <button type="button" class="btn" id="nextBtn" onclick="nextPrev(1)">Next</button>
-            </div>
+          <div class="row nextBtn hide" id="prevNext" style="display: none; margin-top: 20px;">
+            <button type="button" id="prevBtn" onclick="nextPrev(-1)" style="margin-right: 50px;"><i
+                class="fas fa-arrow-left"></i></button>
+            <button type="button" id="nextBtn" onclick="nextPrev(1)" style="margin-left: 50px;"><i
+                class="fas fa-arrow-right"></i></button>
           </div>
         </form>
-
-        <!--Agent-->
-        <form action="/register" method="POST" enctype="multipart/form-data" class="sign-up-form" id="regForm-agent">
-          <h2 class="title">Property Agent</h2>
-          <ul class="typeOfRole d-none">
-            <li>
-              <input type="radio" id="agent" name="roleCode" value="agent" checked />
-              <label for="admin">Admin</label>
-            </li>
-          </ul>
-
-          <div class="loader-agent" id="loader-agent"></div>
-
-          <!--Basic Details-->
-          <div class="tab-agent">
-            <div class="input-field">
-              <i class="fas fa-user"></i>
-              <input type="text" placeholder="First Name" id="f-name" name="firstName" required />
-            </div>
-            <div class="input-field">
-              <i class="fas fa-user"></i>
-              <input type="text" placeholder="Last Name" id="l-name" name="lastName" required />
-            </div>
-            <div class="input-field-select">
-              <i class="fas fa-venus-mars"></i>
-              <select name="gender" id="gender" id="gender" name="gender" required>
-                <option value="unselected" hidden selected>Select Gender</option>
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-                <option value="others">Others</option>
-              </select>
-            </div>
-            <div class="input-field">
-              <i class="fas fa-envelope"></i>
-              <input type="text" placeholder="Email" id="email" name="email" required />
-            </div>
-            <div class="input-field">
-              <i class="fas fa-phone"></i>
-              <input type="text" placeholder="Phone Number" id="phone" name="phone" required />
-            </div>
-          </div>
-
-          <!--Address-->
-          <div class="tab-agent">
-            <div class="input-field">
-              <i class="fas fa-map"></i>
-              <input type="text" placeholder="Address Line 1" id="address-ln1" name="streetName" required />
-            </div>
-            <div class="input-field">
-              <i class="fas fa-map"></i>
-              <input type="text" placeholder="Address Line 2" id="address-ln2" name="unitNumber" />
-            </div>
-            <div class="input-field">
-              <i class="fas fa-city"></i>
-              <input type="text" placeholder="State/City" id="city" name="state" required />
-            </div>
-            <div class="input-field-select">
-              <i class="fas fa-globe-asia"></i>
-              <select name="country" id="country" name="country" required>
-                <option value="unselected" hidden selected>Select Country</option>
-                <option value="Singapore">Singapore</option>
-                <option value="Malaysia">Malaysia</option>
-                <option value="Indonesia">Indonesia</option>
-              </select>
-            </div>
-            <div class="input-field">
-              <i class="fas fa-map-marker-alt"></i>
-              <input type="text" placeholder="Postal" id="postal" name="postalCode" required />
-            </div>
-          </div>
-
-          <!--User Details-->
-          <div class="tab-agent">
-            <div class="input-field">
-              <i class="fas fa-user"></i>
-              <input type="text" placeholder="Username" id="username" name="username" required />
-            </div>
-            <div class="input-field">
-              <i class="fas fa-lock"></i>
-              <input type="password" placeholder="Password" id="pwd" name="password" required />
-            </div>
-            <div class="input-field">
-              <i class="fas fa-id-card-alt"></i>
-              <input type="string" name="cea" placeholder="CEA Number" id="cea" required />
-            </div>
-              <p><b>Upload Profile Picture:</b></p>
-              <input type="file" name="image" accept="image/*" required />
-          </div>
-
-          <div style="text-align:center;margin-top:40px;">
-            <span class="step-agent"></span>
-            <span class="step-agent"></span>
-            <span class="step-agent"></span>
-          </div>
-
-          <div style="overflow:auto;">
-            <div class="np-btn">
-              <button type="button" class="btn" id="prevBtnAgent" onclick="nextPrevAgent(-1)">Previous</button>
-              <button type="button" class="btn" id="nextBtnAgent" onclick="nextPrevAgent(1)">Next</button>
-            </div>
-          </div>
-        </form>
-      </div>
-
-    </div>
-
-    <div class="panels-container">
-      <div class="panel left-panel">
-        <div class="content">
-          <h3>Selling Properties?</h3>
-          <p>
-            Sign up as a Property Agent to start listing!
-          </p>
-          <button class="btn transparent" id="sign-up-btn">
-            Sign up
-          </button>
-        </div>
-      </div>
-      <div class="panel right-panel">
-        <div class="content">
-          <h3>Searching for Properties?</h3>
-          <p>
-            Sign up now to start browsing!
-          </p>
-          <button class="btn transparent" id="sign-in-btn">
-            Sign Up
-          </button>
-        </div>
       </div>
     </div>
   </div>
+
   <script>
-    var currentTab = 0, currentTabAgent = 0; // Current tab is set to be the first tab (0)
-    showTab(currentTab); // Display the current tab
-    showTabAgent(currentTabAgent); // Display the current tab
+    var counter = 0;
+    //get elements
+    var select = document.getElementById("selection");
+    var firstTab = document.getElementById("tab-1");
+    var secTab = document.getElementById("tab-2");
+    var thirdTab = document.getElementById("tab-3");
+    var displayArr = [select, firstTab, secTab, thirdTab];
 
-    function showTab(n) {
-      // This function will display the specified tab of the form ...
-      var x = document.getElementsByClassName("tab");
-      x[n].style.display = "block";
-      // ... and fix the Previous/Next buttons:
-      if (n == 0) {
-        document.getElementById("prevBtn").style.display = "none";
-      } else {
-        document.getElementById("prevBtn").style.display = "inline";
-      }
-      if (n == (x.length - 1)) {
-        document.getElementById("nextBtn").innerHTML = "Submit";
-      } else {
-        document.getElementById("nextBtn").innerHTML = "Next";
-      }
-      // ... and run a function that displays the correct step indicator:
-      fixStepIndicator(n)
+    function showForm() {
+      var x = document.getElementById("right-tab-message")
+      var y = document.getElementById("selection")
+
+      x.classList.add("hide");
+
+      window.setTimeout(() => {
+        x.style.display = "none";
+      }, 500);
+
+      window.setTimeout(() => {
+        y.style.display = "block";
+      }, 500);
+
+      window.setTimeout(() => {
+        y.classList.remove("hide");
+      }, 1000);
     }
 
-    function showTabAgent(n) {
-      // This function will display the specified tab of the form ...
-      var x = document.getElementsByClassName("tab-agent");
-      x[n].style.display = "block";
-      // ... and fix the Previous/Next buttons:
-      if (n == 0) {
-        document.getElementById("prevBtnAgent").style.display = "none";
-      } else {
-        document.getElementById("prevBtnAgent").style.display = "inline";
+    function roleSelect(role) {
+      //select role
+      var ele = document.getElementById("reg-form")
+      if (role == "seeker") {
+        var html = `<ul class="typeOfRole d-none" id="role">
+                      <li>
+                        <input type="radio" id="reg-role" name="roleCode" value="public" checked />
+                        <label for="admin">public</label>
+                      </li>
+                    </ul>`
+      } else if (role == "agent") {
+        var html = `<ul class="typeOfRole d-none" id="role">
+                        <li>
+                          <input type="radio" id="reg-role" name="roleCode" value="agent" checked />
+                          <label for="admin">agent</label>
+                        </li>
+                      </ul>`
       }
-      if (n == (x.length - 1)) {
-        document.getElementById("nextBtnAgent").innerHTML = "Submit";
-      } else {
-        document.getElementById("nextBtnAgent").innerHTML = "Next";
-      }
-      // ... and run a function that displays the correct step indicator:
-      fixStepIndicatorAgent(n)
+
+      ele.insertAdjacentHTML("beforebegin", html);
+
+      //hide
+      var select = document.getElementById("selection");
+      var tab = document.getElementById("tab-1");
+      var btn = document.getElementById("prevNext");
+      select.classList.add("hide");
+
+      window.setTimeout(() => {
+        select.style.display = "none";
+      }, 500);
+
+      window.setTimeout(() => {
+        tab.style.display = "block";
+        btn.style.display = "block";
+      }, 500);
+
+      window.setTimeout(() => {
+        tab.classList.remove("hide");
+        btn.classList.remove("hide");
+      }, 1000);
+
+
+
+      //hide msg tab
+      var msgBar = document.getElementById("left-tab-message");
+      //show progress tab
+      var progBar = document.getElementById("left-tab-progress");
+
+      msgBar.classList.add("hide");
+
+      window.setTimeout(() => {
+        msgBar.style.display = "none";
+      }, 500);
+      window.setTimeout(() => {
+        progBar.style.display = "block"
+      }, 500)
+
+      window.setTimeout(() => {
+        progBar.classList.remove("hide");
+      }, 1000);
+
+      //set active
+      var active = document.getElementById("prog-" + (counter + 1));
+      active.classList.add("active-prog");
+      counter = counter + 1;
     }
 
-    function nextPrev(n) {
-      var x = document.getElementsByClassName("tab");
-      if (n == 1 && !validateForm()) return false;
-      // Hide the current tab:
-      x[currentTab].style.transition = "transform 1s ease-in-out"
-      x[currentTab].style.display = "none";
-      currentTab = currentTab + n;
-      if (currentTab >= x.length) {
-        document.getElementById("loader-seeker").style.display = "block";
-        document.getElementById("regForm-seeker").submit();
-        return false;
-      }
-      showTab(currentTab);
-    }
 
-    function nextPrevAgent(n) {
-      var x = document.getElementsByClassName("tab-agent");
-      if (n == 1 && !validateFormAgent()) return false;
-      // Hide the current tab:
-      x[currentTabAgent].style.display = "none";
-      currentTabAgent = currentTabAgent + n;
+    function nextPrev(index) {
+      if (index== 1 && !validateForm()) return false;
 
-      if (currentTabAgent >= x.length) {
-        document.getElementById("loader-agent").style.display = "block";
-        document.getElementById("regForm-agent").submit();
-        return false;
+      //hide current tab
+      displayArr[counter].classList.add("hide");
+      // window.setTimeout(() => {
+      displayArr[counter].style.display = "none"
+      // }, 600);
+      //remove active
+      var prog = document.getElementById("prog-" + counter);
+      prog.classList.remove("active-prog");
+
+      counter = counter + index;
+
+      window.setTimeout(() => {
+        displayArr[counter].style.display = "block"
+      }, 300);
+      window.setTimeout(() => {
+        displayArr[counter].classList.remove("hide");
+      }, 1000);
+
+
+      try {
+        //set active
+        var prog = document.getElementById("prog-" + counter);
+        prog.classList.add("active-prog");
+      } catch (e) {
+        console.log(e);
       }
-      showTabAgent(currentTabAgent);
+
+      if (counter == 0) {
+        var btn = document.getElementById("prevNext");
+        var msgBar = document.getElementById("left-tab-message");
+        var progBar = document.getElementById("left-tab-progress");
+        var role = document.getElementById("role");
+        document.getElementById("role").remove();
+
+        btn.style.display = "none";
+        progBar.classList.add("hide");
+        btn.classList.add("hide");
+        window.setTimeout(() => {
+          progBar.style.display = "none";
+          btn.style.display = "none";
+        }, 600);
+
+        window.setTimeout(() => {
+          msgBar.style.display = "block";
+        }, 600);
+
+        window.setTimeout(() => {
+          msgBar.classList.remove("hide");
+        }, 1000);
+      }
+
+      if (counter == 3) {
+        document.getElementById("nextBtn").type = "submit";
+      }
     }
 
     function validateForm() {
-      var x, y, i, z, e, valid = true;
-      x = document.getElementsByClassName("tab");
-      z = x[currentTab].getElementsByClassName("input-field");
-      a = x[currentTab].getElementsByClassName("input-field-select")
-      y = x[currentTab].getElementsByTagName("input")
-      w = x[currentTab].getElementsByTagName("select")
-      for (e = 0; e < w.length; e++) {
-        if (w[e].value == "unselected") {
-          a[e].className += " invalid";
-          valid = false;
+      var x, a, b, c, d, valid = true;
+
+      //reg-tab-1
+      if (counter == 1) {
+        x = document.getElementsByClassName("reg-tab-1");
+      } else if (counter == 2) { //reg-tab-2
+        x = document.getElementsByClassName("reg-tab-2");
+      } else if (counter == 3) { //reg-tab-3
+        x = document.getElementsByClassName("reg-tab-3");
+      }
+
+      a = x[0].getElementsByClassName("input-field");
+      b = x[0].getElementsByClassName("input-field-select");
+      c = x[0].getElementsByTagName("input");
+      d = x[0].getElementsByTagName("select");
+
+      for (var i = 0; i < c.length; i++) {
+        if (c[i].type == "file") {
+          if (document.getElementById("reg-role").value == "agent") {
+            if (c[i].value == "") {
+              console.log("upload profile picture")
+              document.getElementById("pic-msg").classList.add("invalid-input-text")
+              valid = false;
+            }
+          }
+        } else {
+            if (c[i].value == "") {
+            a[i].className += " invalid-input";
+            valid = false;
+          } else {
+            a[i].classList.remove("invalid-input");
+          }
         }
       }
 
-      console.log(y)
-
-      for (i = 0; i < y.length; i++) {
-        if (y[i].value == "") {
-          z[i].className += " invalid";
+      for (var e = 0; e < d.length; e++) {
+        if (d[e].value == "unselected") {
+          b[e].className += " invalid-input";
           valid = false;
+        } else {
+          b[e].classList.remove("invalid-input");
         }
       }
-      if (valid) {
-        document.getElementsByClassName("step")[currentTab].className += " finish";
-      }
+
       return valid;
     }
 
-    function validateFormAgent() {
-      var x, y, i, z, e, valid = true;
-      x = document.getElementsByClassName("tab-agent");
-      z = x[currentTabAgent].getElementsByClassName("input-field");
-      a = x[currentTabAgent].getElementsByClassName("input-field-select")
-      y = x[currentTabAgent].getElementsByTagName("input")
-      w = x[currentTabAgent].getElementsByTagName("select")
-      for (e = 0; e < w.length; e++) {
-        if (w[e].value == "unselected") {
-          a[e].className += " invalid";
-          valid = false;
-        }
-      }
-      for (i = 0; i < y.length; i++) {
-        if (y[i].value == "") {
-          z[i].className += " invalid";
-          valid = false;
-        }
-      }
-      if (valid) {
-        document.getElementsByClassName("step-agent")[currentTabAgent].className += " finish";
-      }
-      return valid;
-    }
-
-    function fixStepIndicator(n) {
-      // This function removes the "active" class of all steps...
-      var i, x = document.getElementsByClassName("step");
-      for (i = 0; i < x.length; i++) {
-        x[i].className = x[i].className.replace(" active", "");
-      }
-      //... and adds the "active" class to the current step:
-      x[n].className += " active";
-    }
-
-    function fixStepIndicatorAgent(n) {
-      // This function removes the "active" class of all steps...
-      var i, x = document.getElementsByClassName("step-agent");
-      for (i = 0; i < x.length; i++) {
-        x[i].className = x[i].className.replace(" active", "");
-      }
-      //... and adds the "active" class to the current step:
-      x[n].className += " active";
-    }
   </script>
   <%- include("partials/footer") %>
