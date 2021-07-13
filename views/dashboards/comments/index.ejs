@@ -48,8 +48,67 @@
         </ul>
       </div>
     </div>
-    <div class="col-9 p-0">
-      <%= comments %>
+    <div class="col-9">
+      <div class="row mr-5">
+        <div class="col-12 mb-2">
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-1">
+              <li class="breadcrumb-item"><a href="/listings">Home</a></li>
+              <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Comments</li>
+            </ol>
+          </nav>
+        </div>
+        <div class="col-12">
+          <div class="g text-center">
+            <div class="justify-content-between d-flex px-3">
+              <p class="py-1 my-1">Total Comments</p>
+              <p class="py-1 my-1">
+                <%= comments.length %>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row accountTableHeading mr-5 px-4 mt-4">
+        <p style="font-weight: 500; font-size: 1.1em;">Comments</p>
+        <table class="table table-sortable">
+          <thead>
+            <tr>
+              <th style="pointer-events: none;" class="justify-content-start d-flex">
+                <i class="fas fa-sort"></i>
+              </th>
+              <th>Username</th>
+              <th>Comment</th>
+              <th style="pointer-events: none!important;">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% comments.reverse().forEach(function(comment){ %>
+              <tr onclick="window.location='/user/<%= comment.author.id %>';">
+                <td><img src="<%= comment.author.image %>" alt="" style="border-radius: 50%; width: 50px; height:50px;"></td>
+                <td class="pt-4"><%= comment.author.username %></td>
+                <td class="pt-4" style="max-width:570px!important; white-space: pre-wrap;"><%= comment.text %></td>
+                <td class="justify-content-start d-flex pt-2">
+                  <a href="/user/<%= comment.author.id %>" class="btn dashboardManageBtn" style="border-radius: 0%!important;">
+                    <ion-icon name="eye-outline" class="showBtn"></ion-icon>
+                  </a>
+                  <% if(currentUser && comment.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
+                    <a class="btn dashboardManageBtn" style="border-radius: 0%!important;" href="/user/<%= comment.author.id %>/edit">
+                      <ion-icon name="create-outline" class="editBtn"></ion-icon>
+                    </a>
+                    <form action="/user/<%= comment.author.id %>?_method=DELETE" method="POST">
+                      <button class="btn dashboardManageBtn">
+                        <ion-icon name="trash-outline" class="trashBtn"></ion-icon>
+                      </button>
+                    </form>
+                  <% } %>
+                </td>
+              </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </div>

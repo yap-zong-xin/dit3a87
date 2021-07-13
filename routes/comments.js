@@ -36,6 +36,10 @@ router.post("/listings/:id/comments", function(req, res){
           //can retrieve username/id (based on models/comment.js) from req.user since users must login before the code runs here (isLoggedIn)
           comment.author.id = req.user._id;
           comment.author.username = req.user.username;
+          comment.author.image = req.user.image;
+          comment.author.firstName = req.user.firstName;
+          comment.author.lastName = req.user.lastName;
+
           //save comment
           comment.save();
           //connect new comment to listing
