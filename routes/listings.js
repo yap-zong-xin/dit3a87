@@ -71,7 +71,7 @@ var fileFilter = function (req, file, cb) {
 //var upload = multer({ storage: storage, fileFilter: fileFilter})
 var upload = multer({ storage: storage, fileFilter: fileFilter});//{ name: 'galleryFileArray', maxCount: 20 }
 // var uploadMultiple = upload.fields([ { name: 'thumbnailFile', maxCount: 1 }, { name: 'imageGallery', maxCount: 20 }, { name: 'videoGallery', maxCount: 20 } ]);//{ name: 'galleryFileArray', maxCount: 20 }
-var uploadMultiple = upload.fields([ { name: 'listingThumbnail', maxCount: 1 }, { name: 'listingGallery', maxCount: 20 } ]);
+var uploadMultiple = upload.fields([ { name: 'listingThumbnail', maxCount: 1 }, { name: 'additionalGallery', maxCount: 20 }, { name: 'listingGallery', maxCount: 20 } ]);
 // var uploadMultiple = multer({ storage: storage, fileFilter: fileFilter}).fields([ { name: 'listingThumbnail', maxCount: 1 }, { name: 'listingGallery', maxCount: 20 } ]);
 // var uploadMultiple = upload.fields([ { name: 'image' }, { name: 'video' } ]);
 // var uploadMultiple = multer({ storage: storage, fileFilter: fileFilter}).fields([ { name: 'thumbnail', maxCount: 1 }, { name: 'image', maxCount: 10 }, { name: 'video', maxCount: 10 } ]);
@@ -680,11 +680,12 @@ router.post("/listings", middleware.isLoggedIn, uploadMultiple, async function(r
 	var bedrooms = Number(req.body.bedrooms);
 	var bathrooms = Number(req.body.bathrooms);
 	var tenure = req.body.tenure;
+	var threeDImage = req.body.threeDImage;
   	var author = {
 		id: req.user._id,
 		username: req.user.username
 	};
-	var newlisting = {name:name, description:desc, author:author, location:location, district:district, price:price, size:size, type:type, bedrooms:bedrooms, bathrooms:bathrooms, tenure:tenure}
+	var newlisting = {name:name, description:desc, author:author, location:location, district:district, price:price, size:size, type:type, bedrooms:bedrooms, bathrooms:bathrooms, tenure:tenure, threeDImage:threeDImage}
 	try {
 			var geoData = await geocodingClient.forwardGeocode({
 				query: location,

@@ -33,7 +33,9 @@ var messageRoutes = require("./routes/messages")
 
 //mongodb+srv://admin:admin@sap-dit3a87.airjg.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
 // mongoose.connect(process.env.DB_URL || "mongodb://localhost/SAP", {  
-mongoose.connect("mongodb+srv://admin:admin@sap-dit3a87.airjg.mongodb.net/myFirstDatabase?retryWrites=true&w=majority", {  
+// mongoose.connect("mongodb://localhost/SAP" || "mongodb+srv://admin:admin@sap-dit3a87.airjg.mongodb.net/myFirstDatabase?retryWrites=true&w=majority", {
+mongoose.connect("mongodb+srv://admin:admin@sap-dit3a87.airjg.mongodb.net/myFirstDatabase?retryWrites=true&w=majority", {   
+// mongoose.connect("mongodb://localhost/SAP", {  
 	useNewUrlParser: true,
 	useCreateIndex: true,
 	useUnifiedTopology: true,
@@ -51,12 +53,10 @@ const path = require('path');
 if (process.env.NODE_ENV == "production" ){
 	app.use('/chat',express.static(path.join(__dirname,'/chat/client/build')));
 
-
 app.get('/chat/*', (req, res) => {
     res.sendFile(path.join(__dirname,"chat/client/build/index.html"));
   });
 }
-
 
 //use & run express session
 app.use(require("express-session")({

@@ -1,26 +1,48 @@
 <%- include("partials/header") %>
+<style>
+  body {
+  }
+</style>
   <div class="container">
-    <div class="row col-md-12 p-0 login-card shadow">
+    <div class="row col-md-12 p-0 login-card shadow" data-aos="fade-up" >
       <!--Left Panel for Picture-->
-      <div class="col-md-5 m-0 p-0 login-img">
-        <img class="img-fluid" src="/img/log.svg" alt="Login Image">
+      <div class="col-md-5 m-0 p-0 d-flex flex-column login-img" >
+        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+          <ol class="carousel-indicators">
+            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+          </ol>
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <img alt="clock" src="img/undraw_time_management_30iu.png">
+              <h3>Find your dream home<br>in a few clicks.</h3>
+              <p>Register now to start browsing!</p>
+            </div>
+            <div class="carousel-item">
+              <img alt="sales" src="img/undraw_business_deal_cpi9.png">
+              <h3>Having troubles selling<br>your property?</h3>
+              <p>We offer services to assist you!</p>
+            </div>
+          </div>
+        </div>
       </div>
       <!--Right Panel for Login Form-->
       <div class="col-md-7 login-form">
         <div class="inputs-login" id="inputs-login">
           <form action="/login" method="POST">
-            <h2>Member Login</h2>
-            <div class="input-field">
-              <i class="fas fa-user"></i>
+            <h2 style="font-weight: 700;">Welcome Back!</h2>
+            <p style="margin-bottom: 30px; font-weight: 200;">Sign in to start browsing!</p>
+            <div class="input-field" style="margin-top: 20px">
+              <i class="fas fa-user" style="margin-right: 10px;"></i>
               <input type="email" name="email" placeholder="Email" id="email" required />
             </div>
 
-            <div class="input-field">
-              <i class="fas fa-lock"></i>
+            <div class="input-field" style="margin-top: 20px">
+              <i class="fas fa-lock" style="margin-right: 10px;"></i>
               <input type="password" name="password" placeholder="Password" required />
             </div>
 
-            <div class="login-check d-flex justify-content-end align-items-center">
+            <div class="login-check d-flex justify-content-end align-items-center" style="margin-top: 10px;">
               <label class="m-0 p-0 d-flex justify-content-between align-items-center">Remember Me
                 <input type="checkbox" value="lsRememberMe" id="rememberMe"> <label for="rememberMe"></label>
                 <span class="checkmark"></span>
@@ -38,18 +60,21 @@
           </form>
         </div>
 
-        <div class="inputs-login" id="input-forgetpwd">
-          <h2>Forgot Password?</h2>
-          <p>You can reset your password here.</p>
-
+        <div class="inputs-login hide" id="input-forgetpwd"  style="padding: 21.5px">
+          <h2 style="font-weight: 700;">Forgot Password?</h2>
+          <p style="font-weight: 200; margin-bottom: 30px;">You can reset your password here.</p>
           <!--Forget pwd-->
           <form action="/forgot" method="POST">
             <div class="input-field">
-              <i class="fas fa-envelope"></i>
+              <i class="fas fa-envelope" style="margin-right: 10px;"></i>
               <input type="email" placeholder="Email" id="email" name="email" required />
             </div>
-            <input type="submit" value="Reset" class="btn solid btn-reg" />
+            <div class="fgt-pwd-btn">
+              <input type="button" value="Back" class="btn solid btn-reg" onClick="hideReset()" style="background-color: transparent; color: #186aff; border: 3px solid #186aff"/>
+              <input type="submit" value="Reset" class="btn solid btn-reg"/>
+            </div>
           </form>
+          
         </div>
 
       </div>
@@ -58,12 +83,44 @@
 
   <script>
     function showReset() {
-      console.log("hi");
-      var x = document.getElementById("inputs-login");
-      x.style.display = "none";
-
       var y = document.getElementById("input-forgetpwd");
-      y.style.display = "block";
+      var x = document.getElementById("inputs-login");
+
+      //hide login
+      x.classList.add("hide");
+
+      window.setTimeout(() => {
+        x.style.display = "none";
+      }, 500);
+
+      window.setTimeout(() => {
+        y.style.display = "block";
+      }, 500);
+
+      window.setTimeout(() => {
+        y.classList.remove("hide");
+      }, 1000);
+    }
+
+    function hideReset() {
+      var y = document.getElementById("input-forgetpwd");
+      var x = document.getElementById("inputs-login");
+
+      //hide login
+      y.classList.add("hide");
+
+      window.setTimeout(() => {
+        y.style.display = "none";
+      }, 500);
+
+      window.setTimeout(() => {
+        x.style.display = "block";
+      }, 500);
+
+
+      window.setTimeout(() => {
+        x.classList.remove("hide");
+      }, 1000);
     }
   </script>
 

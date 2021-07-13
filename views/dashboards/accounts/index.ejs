@@ -48,28 +48,131 @@
         </ul>
       </div>
     </div>
-    <div class="col-9 p-0">
-      <div class="row">
+    <div class="col-9">
+      <div class="row mr-5">
+        <div class="col-12 mb-2">
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-1">
+              <li class="breadcrumb-item"><a href="/listings">Home</a></li>
+              <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Accounts</li>
+            </ol>
+          </nav>
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb breadcrumbSec">
+              <li class="breadcrumb-item"><a href="/dashboard/accounts/seeker">Seeker</a></li>
+              <li class="breadcrumb-item"><a href="/dashboard/accounts/agent">Agent</a></li>
+              <li class="breadcrumb-item"><a href="/dashboard/accounts/admin">Admin</a></li>
+            </ol>
+          </nav>
+        </div>
+
         <div class="col-4">
-          <a href="/dashboard/accounts/seeker">
-            Seekers
-          </a>
+          <div class="g text-center">
+            <div class="justify-content-between d-flex px-3">
+              <p class="py-1 my-1">Total</p>
+              <p class="py-1 my-1"><%= users.length %></p>
+            </div>
+          </div>
         </div>
         <div class="col-4">
-          <a href="/dashboard/accounts/agent">
-            Agents
-          </a>
+          <div class="g text-center">
+            <div class="justify-content-between d-flex px-3">
+              <p class="py-1 my-1">Male</p>
+              <p class="py-1 my-1">
+                <% var sum=[]; %>
+                <% users.forEach(function(user, index){ %>
+                  <% if(user.gender=="male"){ %>
+                    <% sum.push([user].length) %>
+                  <% } %>
+                <% }); %>
+                <%= sum.reduce((a, b) => a + b, 0) %>
+              </p>
+            </div>
+          </div>
         </div>
         <div class="col-4">
-          <a href="/dashboard/accounts/admin">
-            Admins
-          </a>
+          <div class="g text-center">
+            <div class="justify-content-between d-flex px-3">
+              <p class="py-1 my-1">Female</p>
+              <p class="py-1 my-1">
+                <% var sum=[]; %>
+                <% users.forEach(function(user, index){ %>
+                  <% if(user.gender=="female"){ %>
+                    <% sum.push([user].length) %>
+                  <% } %>
+                <% }); %>
+                <%= sum.reduce((a, b) => a + b, 0) %>
+              </p>
+            </div>
+          </div>
         </div>
+      </div>
+      <div class="row accountTableHeading mr-5 px-4 mt-4">
+        <p style="font-weight: 500; font-size: 1.1em;">Users</p>
+        <table class="table table-sortable">
+          <thead>
+            <tr>
+              <th style="pointer-events: none;" class="justify-content-start d-flex">
+                <i class="fas fa-sort"></i>
+              </th>
+              <th>Username</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Role</th>
+              <th style="pointer-events: none!important;">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% users.slice(0, 5).reverse().forEach(function(user){ %>
+              <tr onclick="window.location='/user/<%= user._id %>';">
+                <td><img src="<%= user.image %>" alt="" style="border-radius: 50%; width: 50px; height:50px;"></td>
+                <td class="pt-4"><%= user.username %></td>
+                <td class="pt-4"><%= user.firstName + " " + user.lastName %></td>
+                <td class="pt-4">
+                  <a href="mailto:<%= user.email %>" style="color: black; font-size: 0.9em;">
+                    <%= user.email %>
+                  </a>
+                </td>
+                <td class="pt-4"><%= user.phone %></td>
+                <td class="pt-4">
+                  <% if(user.isAdmin==true){ %>
+                    <span class="badge badge-admin">Admin</span>
+                  <% } else if(user.isAgent==true) { %>
+                    <span class="badge badge-warning">Agent</span>
+                  <% } else { %>
+                    <span class="badge badge-info">Seeker</span>
+                  <% } %>
+                  <% if(user.isAgent==true && user.agentStatus==false){ %>
+                    <span class="badge badge-danger">Pending</span>
+                  <% } else if(user.isAgent==true && user.agentStatus==true){ %>
+                    <span class="badge badge-success">Verified</span>
+                  <% } else { %>
+                  <% } %>
+                </td>
+                <td class="justify-content-start d-flex pt-2">
+                  <a href="/user/<%= user._id %>" class="btn dashboardManageBtn" style="border-radius: 0%!important;">
+                    <ion-icon name="eye-outline" class="showBtn"></ion-icon>
+                  </a>
+                  <% if(currentUser && user._id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
+                    <a class="btn dashboardManageBtn" style="border-radius: 0%!important;" href="/user/<%= user._id %>/edit">
+                      <ion-icon name="create-outline" class="editBtn"></ion-icon>
+                    </a>
+                    <form action="/user/<%= user._id %>?_method=DELETE" method="POST">
+                      <button class="btn dashboardManageBtn">
+                        <ion-icon name="trash-outline" class="trashBtn"></ion-icon>
+                      </button>
+                    </form>
+                  <% } %>
+                </td>
+              </tr>
+            <% }); %>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
 </div>
-
-  
 
 <%- include("../../partials/footer") %>

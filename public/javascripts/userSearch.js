@@ -52,7 +52,7 @@ function loadData(rs,loadObj) {
             
             switch (arrNum) {
                 case 0:
-                    html = `<div class="col-md-12">
+                    html = `<div class="col-md-12" data-aos="fade-up">
                                 <div class="user-result" onClick="window.location='/user/` + resultSet[i]._id + `'">
                                     <img src="` + resultSet[i].image + `" style="width : 200px; height: 200px;">
                                     <div class="caption-result">
@@ -68,7 +68,7 @@ function loadData(rs,loadObj) {
                             </div>`
                 break;
                 case 1:
-                    html = `<div class="col-md-12">
+                    html = `<div class="col-md-12" data-aos="fade-up">
                                     <div class="user-result" onClick="window.location='/user/` + resultSet[i]._id + `'">
                                         <img src="` + resultSet[i].image + `" style="width : 200px; height: 200px;">
                                         <div class="caption-result">
@@ -84,7 +84,7 @@ function loadData(rs,loadObj) {
                                 </div>`
                 break;
                 case 2:
-                    html = `<div class="col-md-12">
+                    html = `<div class="col-md-12" data-aos="fade-up">
                                 <div class="user-result" onClick="window.location='/user/` + resultSet[i]._id + `'">
                                     <img src="` + resultSet[i].image + `" style="width : 200px; height: 200px;">
                                     <div class="caption-result">
@@ -100,7 +100,7 @@ function loadData(rs,loadObj) {
                             </div>`
                 break;
                 case 3:
-                    html = `<div class="col-md-12">
+                    html = `<div class="col-md-12" data-aos="fade-up">
                                 <div class="user-result" onClick="window.location='/user/` + resultSet[i]._id + `'">
                                     <img src="` + resultSet[i].image + `" style="width : 200px; height: 200px;">
                                     <div class="caption-result">
@@ -116,7 +116,7 @@ function loadData(rs,loadObj) {
                             </div>`
                 break;
                 case 4:
-                    html = `<div class="col-md-12">
+                    html = `<div class="col-md-12" data-aos="fade-up">
                                 <div class="user-result" onClick="window.location='/user/` + resultSet[i]._id + `'">
                                     <img src="` + resultSet[i].image + `" style="width : 200px; height: 200px;">
                                     <div class="caption-result">
@@ -132,20 +132,20 @@ function loadData(rs,loadObj) {
                             </div>`
                 break;
                 default:
-                    html = `<div class="col-md-12">
-                        <div class="user-result" onClick="window.location='/user/` + resultSet[i]._id + `'">
-                            <img src="` + resultSet[i].image + `" style="width : 200px; height: 200px;">
-                            <div class="caption-result">
-                                <h4>`+ resultSet[i].firstName +` ` + resultSet[i].lastName +`</h4>
-                                <h6>CEA: ` + resultSet[i].cea +`</h6>
-                                <span class="fa fa-star"></span>
-                                <span class="fa fa-star"></span>
-                                <span class="fa fa-star"></span>
-                                <span class="fa fa-star"></span>
-                                <span class="fa fa-star"></span>
-                            </div>
-                        </div> 
-                    </div>`                    
+                    html = `<div class="col-md-12" data-aos="fade-up">
+                                <div class="user-result" onClick="window.location='/user/` + resultSet[i]._id + `'">
+                                    <img src="` + resultSet[i].image + `" style="width : 200px; height: 200px;">
+                                    <div class="caption-result">
+                                        <h4>`+ resultSet[i].firstName +` ` + resultSet[i].lastName +`</h4>
+                                        <h6>CEA: ` + resultSet[i].cea +`</h6>
+                                        <span class="fa fa-star"></span>
+                                        <span class="fa fa-star"></span>
+                                        <span class="fa fa-star"></span>
+                                        <span class="fa fa-star"></span>
+                                        <span class="fa fa-star"></span>
+                                    </div>
+                                </div> 
+                            </div>`                    
             }
         }
         insertDiv.insertAdjacentHTML("beforebegin", html);

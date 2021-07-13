@@ -16,6 +16,7 @@ var listingSchema = new mongoose.Schema({
    bedrooms: Number,
    bathrooms: Number,
    tenure: String,
+   threeDImage: String,
    video: [{type: String}],
    videoId: [{type: String}],
    soldStatus: {type: Boolean, default: false},

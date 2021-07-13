@@ -24,13 +24,13 @@
               <div class="col-md-12 d-flex justify-content-center align-items-center flex-column">
                 <div class="row col-md-12  d-flex justify-content-center align-items-center">
                   <input type="text" class="form-control" name="search" placeholder="Search Agent Name or CEA Number">
-                  <select name="zone" id="zone">
+                  <!-- <select name="zone" id="zone">
                     <option selected hidden>Zone</option>
                     <option>North</option>
                     <option>East</option>
                     <option>South</option>
                     <option>West</option>
-                  </select>
+                  </select> -->
                 </div>
               </div>
 
@@ -38,6 +38,27 @@
               <!-- Sort By, Agent Zone-->
               <input type="submit" value="Show Agents" class="btn btn-info">
             </div>
+          </form>
+          <form action="/user" method="GET" id="filterAgentForm">
+            <!-- Filter: sort by rating -->
+            <label for="sortRating">Sort by:</label>
+            <select name="sortRating" id="sortRating">
+                <option value="" disabled selected hidden>Rating</option>
+                <option value="HighestRating" <% if(data.sortRating == 'HighestRating') {%> selected <%} %>>Highest Rating</option>
+                <option value="LowestRating" <% if(data.sortRating == 'LowestRating') {%> selected <%} %>>Lowest Rating</option>
+            </select>
+            <!-- Filter: sort by join date -->
+            <label for="sortDate">Sort by:</label>
+            <select name="sortDate" id="sortDate">
+                <option value="" disabled selected hidden>Date</option>
+                <option value="Recent" <% if(data.sortDate == 'Recent') {%> selected <%} %>>Recent</option>
+                <option value="Oldest" <% if(data.sortDate == 'Oldest') {%> selected <%} %>>Oldest</option>
+            </select>
+            
+            <!-- Filter: reset form inputs -->
+            <input type="button" onclick="resetForm()" value="Reset" >
+            <!-- Apply filters/submit button -->
+            <input type="submit" value="Apply" name="Apply" id="applyFilter">
           </form>
         </div>
         <h3>
@@ -79,5 +100,13 @@
       }
     }
 
+  </script>
+  <script> 
+          function resetForm() {
+            //sort by price
+            document.getElementById("sortRating").value="";
+            //sort by date
+            document.getElementById("sortDate").value="";
+        }     
   </script>
   <%- include("../partials/footer") %>

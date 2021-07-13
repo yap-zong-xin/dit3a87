@@ -172,11 +172,33 @@ body {
   transition: top ease 0.5s;
 }
 
-.carousel-item {
+.login-card .carousel-item {
+  height: 400px;
+  color: white;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.login-card .carousel-item h3{
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.login-card .carousel-item img{
+  width: 60%;
+  margin: 15px;
+}
+
+.login-card .carousel-item svg {
+  height: 200px;
+}
+
+.landing-overlay .carousel-item {
   height: 600px;
 }
 
-.carousel-item svg {
+.landing-overlay .carousel-item svg {
   height: 300px;
 }
 
@@ -212,16 +234,36 @@ body {
   margin: 150px 0 150px;
 }
 
+.input-forgetpwd {
+  opacity: 1;
+  transition: opacity 1s;
+}
+
+.input-forgetpwd .hide{
+  opacity: 0;
+}
+
 .login-img {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-image: linear-gradient(-45deg, #186aff 0%, #04befe 100%);
+  /* background-image: linear-gradient(-45deg, #186aff 0%, #04befe 100%); */
+  background: linear-gradient(-45deg, #e73c7e,  #4632da,  #186aff, #04befe);
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
   padding: 20px
 }
 
-.login-img img {
-  width: 350px;
+@keyframes gradient {
+  0% {
+      background-position: 0% 50%;
+  }
+  50% {
+      background-position: 100% 50%;
+  }
+  100% {
+      background-position: 0% 50%;
+  }
 }
 
 .login-form {
@@ -232,6 +274,15 @@ body {
   text-align: center;
   margin: 0;
   padding: 100px 0 100px 0;
+}
+
+.inputs-login {
+  opacity: 1;
+  transition: opacity 1s;
+}
+
+.hide {
+  opacity: 0;
 }
 
 .login-form h2, .inputs-login {
@@ -305,7 +356,7 @@ body {
   font-weight: 500;
 }
 
-.login-submit .btn-reg {
+.login-submit .btn-reg, .fgt-pwd-btn input[type=submit], .fgt-pwd-btn input[type=button] {
   width: 150px;
   background-color: #186aff;
   border: none;
@@ -320,8 +371,22 @@ body {
   transition: 0.5s;
 }
 
-.login-submit .btn-reg:hover {
+.login-submit .btn-reg:hover, .fgt-pwd-btn input[type=submit]:hover {
   background-color: #4d84e2;
+}
+
+.fgt-pwd-btn input[type=button]:hover {
+  border: 3px solid #4d84e2;
+  color: #4d84e2;
+}
+
+.fgt-pwd-btn input[type=button]:focus {
+  outline: 0;
+}
+
+.fgt-pwd-btn input[type=button], .fgt-pwd-btn input[type=submit] {
+  width: 120px;
+  height: 49px;
 }
 
 .fgt-pwd {
@@ -2055,13 +2120,12 @@ nav a{
 }
 
 .dashboardBtn{
-  background: #4632DA;
-  color: white;
   border: 0;
+  margin-top: 10px;
 }
 
 .breadcrumb{
-  font-size: 0.85em;
+  font-size: 0.8em;
   background: #D7E4EF;
 }
 .breadcrumb a{
@@ -2070,15 +2134,61 @@ nav a{
 .breadcrumb a:hover{
   color: #4632DA;
 }
+.breadcrumbSec{
+  font-size: 0.8em;
+  background: #e7e7e7;
+}
+.breadcrumbSec a{
+  text-decoration: none;
+}
+.breadcrumbSec a:hover{
+  color: #4632DA;
+}
 .g {
-  background: linear-gradient(-45deg, #3a7bd5 20%, #3a6073 100%);
+  background: #4632DA;
   padding: 2px;
-  border-radius: 10px;
   color: white;
-  height: 62px;
+  font-weight: 500;
+  font-size: 0.85em;
+  border-radius: 25px;
 }
 
-.g p{
-  font-weight: 600;
+.badge-admin{
+  background: purple;
+  color: #F5E3F8;
 }
 
+.dashboardManageBtn{
+  border-radius: 0%;
+  padding: 0px 3px 0px 3px;
+  margin-top:8px;
+}
+
+.trashBtn{
+  font-size: 1.2em;
+  color: red;
+  padding: 10px 2px 10px 2px;
+}
+.editBtn{
+  font-size: 1.4em;
+  color: black;
+  padding: 10px 2px 10px 2px;
+}
+.showBtn{
+  font-size: 1.6em;
+  color: #4632DA;
+  padding: 10px 2px 10px 2px;
+}
+.checkBtn{
+  font-size: 1.4em;
+  color: green;
+  padding: 10px 2px 10px 2px;
+}
+.rejectBtn{
+  font-size: 1.5em;
+  color: black;
+  padding: 10px 2px 10px 2px;
+}
+.trashBtn:hover, .editBtn:hover, .showBtn:hover, .checkBtn:hover, .rejectBtn:hover{
+  background: rgb(202, 202, 202);
+}

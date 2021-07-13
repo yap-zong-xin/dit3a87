@@ -108,18 +108,30 @@ router.get("/dashboard/accounts/seeker", function(req,res){
 		}
 	});
 });
-//Put Route - Manage Agent Application
-router.put("/dashboard/agents/:id", function(req, res){
-	//can straight away use req.body.listing without having to define due to "listing[]" in the form name attributes
-		User.findByIdAndUpdate(req.params.id, req.body.user, function(err, updatedUser){
-			if(err){
-				res.redirect("/listings");
-			} else{
-				req.flash("success", "You have succesfully updated the agent status.")
-				res.redirect("/user/" + req.params.id);
-			}
-		});
+//Put Route - Manage Agent Application at Profile Page
+router.put("/agentStatus/:id", function(req, res){
+//can straight away use req.body.listing without having to define due to "listing[]" in the form name attributes
+	User.findByIdAndUpdate(req.params.id, req.body.user, function(err, updatedUser){
+		if(err){
+			res.redirect("/listings");
+		} else{
+			req.flash("success", "You have succesfully updated the agent status.")
+			res.redirect("/user/" + req.params.id);
+		}
 	});
+});
+//Put Route - Manage Agent Application at Dashboard Agent Page
+router.put("/dashboardAgent/agents/:id", function(req, res){
+//can straight away use req.body.listing without having to define due to "listing[]" in the form name attributes
+	User.findByIdAndUpdate(req.params.id, req.body.user, function(err, updatedUser){
+		if(err){
+			res.redirect("/listings");
+		} else{
+			req.flash("success", "You have succesfully updated the agent status.")
+			res.redirect("/dashboard/accounts/agent");
+		}
+	});
+});
 
 //Get Route - Manage Comment Dashboard
 router.get("/dashboard/comments", function(req,res){
@@ -343,15 +355,58 @@ router.get("/user", function(req,res){
 				if(allUsers.length < 1) {
 					noMatch = "No agent match that query, please try again.";
 				}
-				res.render("users/index.ejs", {users: allUsers, noMatch: noMatch});
+				res.render("users/index.ejs", {
+					users: allUsers, 
+					noMatch: noMatch,
+					data: req.query
+				});
 			}
 		});	
-	} else {
+	}else if(req.query.Apply) {
+		// Sort object (to be passed into .sort)
+		var sortOptions = {};
+		// Sort by Rating
+		var sortRating = req.query.sortRating;
+		console.log('sort price type: '+sortRating)	
+		if(sortRating == 'LowestRating') {
+			sortOptions.rating = 1;
+		}else if(sortRating == 'HighestRating') {
+			sortOptions.rating = -1 ;
+		}
+		// Sort by date added
+		var sortDate = req.query.sortDate;
+		console.log('sort date type: '+sortDate)	
+		if(sortDate == 'Recent') {
+			sortOptions.createdAt = -1;
+		}else if(sortDate == 'Oldest') {
+			sortOptions.createdAt = 1;
+		}
+
+		if(Object.keys(sortOptions).length == 0) {
+			sortOptions.createdAt = -1
+		}
+
+		User.find({isAgent: true, agentStatus: true}).sort(sortOptions).exec(function(err, allUsers){
+			if(err){
+				console.log(err);
+			} else{
+				res.render("users/index.ejs", {
+					users:allUsers, 
+					noMatch: noMatch,
+					data: req.query
+				});
+			}
+		});
+	}else {
 		User.find({isAgent: true, agentStatus: true}, function(err, allUsers){
 			if(err){
 				console.log(err);
 			} else{
-				res.render("users/index.ejs", {users:allUsers, noMatch: noMatch});
+				res.render("users/index.ejs", {
+					users:allUsers, 
+					noMatch: noMatch,
+					data: req.query
+				});
 			}
 		});
 	}

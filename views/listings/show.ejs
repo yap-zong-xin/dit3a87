@@ -34,6 +34,7 @@
     <p>number of bath rooms: <%= listing.bathrooms %></p>
     <p>location: <%= listing.location %></p>
     <p>tenure: <%= listing.tenure %></p>
+    <p>3d image link: <%= listing.threeDImage %></p>
     <p>
       <em>Submitted by: <a href="/user/<%= listing.author.id %>"><%= listing.author.username %></a>, <%= moment(listing.createdAt).fromNow() %></em>
     </p>
