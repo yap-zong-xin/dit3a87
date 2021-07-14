@@ -279,6 +279,7 @@ router.post("/login", middleware.notLoggedIn, function (req, res, next) {
 					req.flash("error", "Account is not verified. Please verify using the link sent to your email.")
 					res.redirect("/login");
 				}else {
+					User.findOneAndUpdate({email:inputEmail}, {$set: {lastLogin: Date.now()}}, { new : true })
 					passport.authenticate("local",
 					{
 						successRedirect: "/listings",
@@ -286,7 +287,6 @@ router.post("/login", middleware.notLoggedIn, function (req, res, next) {
 						failureFlash: true,
 						successFlash: "You have logged in successfully. Welcome to 3D Property Website."
 					})(req, res);
-					User.findOneAndUpdate({email:inputEmail}, {lastLogin: Date.now()})
 				}
 			});
 		}
