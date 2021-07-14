@@ -647,12 +647,6 @@
     const listings = { features: <%- JSON.stringify(listings) %> }
   </script>
   <script src="/javascripts/agentMap.js"></script>
-  
-  <% if(currentUser){ %>
-    <% idArr.forEach((id, index)=> { %>
-      <script>getClickRate("<%=id%>")</script>
-    <% }); %>
-  <% } else{ %>
-  <% } %>
+
 
   <%- include("../partials/footer") %>
