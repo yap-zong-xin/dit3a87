@@ -208,6 +208,7 @@
             <button type="button" id="nextBtn" onclick="nextPrev(1)" style="margin-left: 50px;"><i
                 class="fas fa-arrow-right"></i></button>
           </div>
+          <div class="loader-reg" id="loader-reg"></div>
         </form>
       </div>
     </div>
@@ -220,7 +221,8 @@
     var firstTab = document.getElementById("tab-1");
     var secTab = document.getElementById("tab-2");
     var thirdTab = document.getElementById("tab-3");
-    var displayArr = [select, firstTab, secTab, thirdTab];
+    var loader = document.getElementById("loader-reg")
+    var displayArr = [select, firstTab, secTab, thirdTab, loader];
 
     function showForm() {
       var x = document.getElementById("right-tab-message")
@@ -329,11 +331,14 @@
 
       window.setTimeout(() => {
         displayArr[counter].style.display = "block";
-        btn.style.display = "block";
+        if(counter != 4) {
+          btn.style.display = "block";
+        }
+        
       }, 600);
       window.setTimeout(() => {
         displayArr[counter].classList.remove("hide");
-        if (counter != 0) {
+        if (counter != 0 && counter != 4) {
           btn.classList.remove("hide");
         }
       }, 1000);
@@ -373,7 +378,6 @@
         clearAllInputs();
       }
 
-
       if (counter == 3) {
         document.getElementById("nextBtn").type = "submit";
       }
@@ -400,7 +404,6 @@
         if (c[i].type == "file") {
           if (document.getElementById("reg-role").value == "agent") {
             if (c[i].value == "") {
-              console.log("upload profile picture")
               document.getElementById("pic-msg").classList.add("invalid-input-text")
               valid = false;
             }
@@ -424,7 +427,10 @@
         }
       }
 
-      console.log(valid);
+      if (counter == 3 && valid == true) {
+        document.getElementById("nextBtn").type = "submit";
+      }
+
       return valid;
     }
 

@@ -729,17 +729,7 @@ body {
   width: 300px;
 }
 
-.loader-seeker, .loader-agent, .loader {
-  display: none;
-  border: 16px solid #f3f3f3; /* Light grey */
-  border-top: 16px solid #186aff; /* Blue */
-  border-radius: 50%;
-  width: 90px;
-  height: 90px;
-  animation: spin 2s linear infinite;
-}
-
-.loader {
+.loader, .loader-reg {
   display: block;
   border: 5px solid #f3f3f3; /* Light grey */
   border-top: 5px solid #186aff; /* Blue */
@@ -747,6 +737,14 @@ body {
   width: 30px;
   height: 30px;
   animation: spin 2s linear infinite;
+}
+
+.loader-reg {
+  display: none;
+  border: 15px solid #f3f3f3; /* Light grey */
+  border-top: 15px solid #186aff; /* Blue */
+  width: 50px;
+  height: 50px;
 }
 
 @keyframes spin {
@@ -813,12 +811,6 @@ body {
     padding: 0 15px 0 15px;
     width: 203px;
   }
-
-  .loader-seeker, .loader-agent {
-    width: 45px;
-    height: 45px;
-  }
-
 }
 
 

@@ -176,6 +176,10 @@
             <button type="button" id="prevBtn" onclick="nextPrev(-1)" style="margin-right: 50px; visibility: hidden;">Back</button>
             <button type="button" id="nextBtn" onclick="nextPrev(1)" style="margin-left: 50px;">Next</button>
           </div>
+          <div class="d-flex justify-content-center align-items-center" style="height: 650px;">
+            <div class="loader-reg" id="loader-reg"></div>
+          </div>
+          
         </form>
       </div>
     </div>
@@ -187,8 +191,10 @@
     var pDetail = document.getElementById("admin-1");
     var adDetail = document.getElementById("admin-2");
     var accDetail = document.getElementById("admin-3");
-    var displayArr = [pDetail, adDetail, accDetail];
+    var displayLoader = document.getElementById("loader-reg");
 
+    var displayArr = [pDetail, adDetail, accDetail, displayLoader];
+  
     var progOne = document.getElementById("prog-1");
     var progTwo = document.getElementById("prog-2");
     var progThree = document.getElementById("prog-3");
@@ -208,6 +214,7 @@
 
     function nextPrev(index) {
       if (index == 1 && !validateForm()) { return false };
+
       document.getElementById("prevBtn").style.visibility = "visible";
       //hide current tab
       displayArr[counter].classList.add("hide");
@@ -223,17 +230,27 @@
       //show next tab
       window.setTimeout(() => {
         displayArr[counter].style.display = "block";
-        btn.style.display = "block";
-        progArr[counter].classList.add("active-admin-prog");
+
+        if(counter != 3) {
+          btn.style.display = "block";
+          progArr[counter].classList.add("active-admin-prog");
+        } else {
+          progArr[2].classList.add("active-admin-prog");
+        }
+        
       }, 600);
       window.setTimeout(() => {
         displayArr[counter].classList.remove("hide");
-        btn.classList.remove("hide");
+        if (counter != 0 && counter != 3) {
+          btn.classList.remove("hide");
+        }
       }, 1000);
 
-      console.log(counter)
       if (counter == 0) {
         document.getElementById("prevBtn").style.visibility = "hidden";
+      }
+      if (counter == 2) {
+        document.getElementById("nextBtn").type = "submit";
       }
     }
 
@@ -276,6 +293,12 @@
         } else {
           b[e].classList.remove("invalid-input");
         }
+      }
+
+      if (counter == 2 && valid == true) {
+        document.getElementById("nextBtn").type = "submit";
+      } else {
+        document.getElementById("nextBtn").type = "button";
       }
 
       console.log(valid);
