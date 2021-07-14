@@ -1,5 +1,5 @@
 <%- include("partials/header") %>
-<h1>Sign Up Form</h1>
+<!-- <h1>Sign Up Form</h1>
 
   <form action="/register" method="POST" enctype="multipart/form-data">
     <ul class="typeOfRole d-none">
@@ -23,7 +23,7 @@
     <input type="number" name="postalCode" placeholder="postal code">
     <br>(profile image is optional)<input type="file" name="image" accept="image/*">
     <button>Sign Up</button>
-  </form>
+  </form> -->
 
 
 
@@ -166,7 +166,7 @@
                 <div id="profile-drop-area" style="background-color: #fff;">
                   <p id="pic-msg"><b>Upload Profile Picture:</b></p>
                   <input type="file" name="image" id="profileFiles" accept="image/*"
-                    onchange="handleProfileFiles(this.files)" style="background-color: #fff;" />
+                    onchange="handleProfileFiles(this.files)" style="background-color: #fff;" required />
                 </div>
               </div>
             </div>
@@ -214,8 +214,8 @@
 
     function nextPrev(index) {
       if (index == 1 && !validateForm()) { return false };
-
       document.getElementById("prevBtn").style.visibility = "visible";
+
       //hide current tab
       displayArr[counter].classList.add("hide");
       btn.classList.add("hide");
@@ -226,7 +226,8 @@
       progArr[counter].classList.remove("active-admin-prog");
       counter = counter + index;
 
-      console.log(counter);
+      // console.log(counter);
+
       //show next tab
       window.setTimeout(() => {
         displayArr[counter].style.display = "block";
@@ -241,7 +242,7 @@
       }, 600);
       window.setTimeout(() => {
         displayArr[counter].classList.remove("hide");
-        if (counter != 0 && counter != 3) {
+        if (counter != 3) {
           btn.classList.remove("hide");
         }
       }, 1000);
@@ -251,6 +252,9 @@
       }
       if (counter == 2) {
         document.getElementById("nextBtn").type = "submit";
+          document.getElementById("nextBtn").innerHTML = "Submit";
+      } else {
+        document.getElementById("nextBtn").innerHTML = "Next";
       }
     }
 
@@ -271,11 +275,9 @@
       d = x[0].getElementsByTagName("select");
 
       for (var i = 0; i < c.length; i++) {
-        if (c[i].type == "file") {
-          if (c[i].value == "") {
-            document.getElementById("pic-msg").classList.add("invalid-input-text")
-            valid = false;
-          }
+        if (c[i].type == "file" && c[i].value == "") {
+          document.getElementById("pic-msg").classList.add("invalid-input-text");
+          valid = false;
         } else {
           if (c[i].value == "") {
             a[i].className += " invalid-input";
@@ -295,15 +297,85 @@
         }
       }
 
-      if (counter == 2 && valid == true) {
-        document.getElementById("nextBtn").type = "submit";
-      } else {
-        document.getElementById("nextBtn").type = "button";
-      }
 
-      console.log(valid);
+      //   console.log(counter == 2 && valid == true);
+      // if (counter == 2 && valid == true) {
+      //   console.log("hi")
+      //   document.getElementById("nextBtn").type = "submit";
+      // } else {
+      //   document.getElementById("nextBtn").type = "button";
+      // }
+
+      // console.log(valid);
       return valid;
     }
   </script>
+      <script>
+        let profileDropArea = document.getElementById("profile-drop-area");
+        // Prevent default drag behaviors
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            profileDropArea.addEventListener(eventName, preventDefaults, false)   
+            document.body.addEventListener(eventName, preventDefaults, false)
+        });
+        // Highlight drop area when item is dragged over it
+        ['dragenter', 'dragover'].forEach(eventName => {
+          profileDropArea.addEventListener(eventName, highlight, false)
+        });
+        ['dragleave', 'drop'].forEach(eventName => {
+          profileDropArea.addEventListener(eventName, unhighlight, false)
+        });
+        // Handle dropped file
+        profileDropArea.addEventListener('drop', handleProfileDrop, false);
+    
+        function preventDefaults (e) {
+            e.preventDefault()
+            e.stopPropagation()
+        }
+    
+        function highlight(e) {
+          profileDropArea.classList.add('highlight')
+        }
+    
+        function unhighlight(e) {
+          profileDropArea.classList.remove('highlight')
+        }
+    
+        function handleProfileDrop(e) {
+            var dt = e.dataTransfer;
+            var files= dt.files;
+            // var slctEle = document.getElementById(dt.getData("text"));
+            // if(slctEle != null) {
+            //   files = dataURLtoFile(slctEle.src, "thumbnailImage");
+            //   console.log('typ of fiel: ',files);
+            // }else{
+            //   files 
+            //   console.log('drop: ', files)
+            // }
+            updateProfile(files)
+        }
+    
+        function handleProfileFiles(files) {
+            files = [...files];//make files into array
+            console.log('inside thumb: ',files)
+            updateProfile(files)
+        }
+    
+        function updateProfile(files) {
+          console.log('chosen file: ',typeof files.length)
+          console.log('chosen thumnail: ', files)
+          var file;
+          if(typeof files.length == 'undefined'){
+            file = files
+          }else {
+            file = files[files.length - 1];
+          }
+          var profileFiles = document.getElementById("profileFiles");
+          console.log('profileFiles length: ',profileFiles.files.length);
+          var list = new DataTransfer();
+          console.log('check for multiple profileFiles: ',file)
+          list.items.add(file);
+          profileFiles.files = list.files;
+        }
+    </script>
 
   <%- include("partials/footer") %>
