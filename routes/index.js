@@ -286,6 +286,7 @@ router.post("/login", middleware.notLoggedIn, function (req, res, next) {
 						failureFlash: true,
 						successFlash: "You have logged in successfully. Welcome to 3D Property Website."
 					})(req, res);
+					User.findOneAndUpdate({email:inputEmail}, {lastLogin: Date.now()})
 				}
 			});
 		}
