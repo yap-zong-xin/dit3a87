@@ -493,7 +493,7 @@
                               </div>
                             </form>
                           </div>
-                          <% if(currentUser && user.isAdmin==true || currentUser && user.isAgent==true){ %>
+                          <% if(currentUser && user._id.equals(currentUser._id)){ %>
                             <div class="col-12 mt-1">
                               <a href="" data-toggle="modal" data-target="#analyticTarget" style="color: black;">
                                 <ion-icon name="trending-up-outline"></ion-icon><span class="pl-1" style="font-size: 0.9em; color: black">View Analytics</span>
@@ -515,7 +515,7 @@
                                       </button>
                                     </div>
                                   </div>
-                                  <div class="modal-body" style="height: 260px!important;">
+                                  <div class="modal-body" style="height: 240px!important;">
                                     <div class="row">
                                       <div class="col-12 pb-3" style="border-bottom: 1px lightgray solid;">
                                         <div class="row">
