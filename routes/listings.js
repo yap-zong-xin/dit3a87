@@ -1074,31 +1074,14 @@ router.put("/listings/:id", middleware.checklistingOwnership, uploadMultiple, fu
 });
 
 //Delete Route
-router.delete("/listings/:id", middleware.checklistingOwnership, function(req, res){
-  listing.findById(req.params.id, async function(err, listing) {
-    if(err) {
-      req.flash("error", err.message);
-      return res.redirect("back");
-    }
-    try {
-			Comment.remove({"_id": {$in: listing.comments}}, async function (err) {
-				if (err) {
-					console.log(err);
-					return res.redirect("/listings");
-				}
-				//  delete the listing
-				await cloudinary.v2.uploader.destroy(listing.imageId);
-				listing.remove();
-				req.flash("success", "You have successfully deleted a listing.");
-				res.redirect('/listings');
-			});
-    } catch(err) {
-			if(err) {
-				req.flash("error", err.message);
-				return res.redirect("back");
-			}
-    }
-  });
+router.delete("/listings/:id", function(req, res){
+	listing.findByIdAndRemove(req.params.id, function(err){
+		if(err){
+			res.redirect("/listings");
+		} else{
+			res.redirect("/listings");
+		}
+	});
 });
 
 router.post("/listings/:id/like", middleware.isLoggedIn, function (req, res) {

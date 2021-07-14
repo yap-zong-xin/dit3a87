@@ -1,0 +1,116 @@
+<%- include("../../partials/header") %>
+
+<div style="overflow-x: hidden;">
+  <div class="row">
+    <div class="col-3">
+      <div class="navigation sticky-top">
+        <ul>
+          <li class="list navigationHover">
+            <a href="/dashboard">
+              <span class="icon activeText">
+                <ion-icon name="layers-outline"></ion-icon>
+              </span>
+              <span class="title activeText">Overview</span>
+            </a>
+          </li>
+          <li class="list navigationHover">
+            <a href="/dashboard/accounts">
+              <span class="icon">
+                <ion-icon name="people-outline"></ion-icon>
+              </span>
+              <span class="title">Accounts</span>
+            </a>
+          </li>
+          <li class="list navigationHover">
+            <a href="/dashboard/listings">
+              <span class="icon">
+                <ion-icon name="home-outline"></ion-icon>
+              </span>
+              <span class="title">Listings</span>
+            </a>
+          </li>
+          <li class="list navigationHover">
+            <a href="/dashboard/comments">
+              <span class="icon">
+                <ion-icon name="chatbubbles-outline"></ion-icon>
+              </span>
+              <span class="title">Comments</span>
+            </a>
+          </li>
+          <li class="list active">
+            <a href="/dashboard/reviews">
+              <span class="icon">
+                <ion-icon name="star-outline"></ion-icon>
+              </span>
+              <span class="title">Reviews</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="col-9">
+      <div class="row mr-5">
+        <div class="col-12 mb-2">
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-1">
+              <li class="breadcrumb-item"><a href="/listings">Home</a></li>
+              <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
+              <li class="breadcrumb-item"><a href="/dashboard/comments">Comments</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Edit</li>
+            </ol>
+          </nav>
+        </div>
+        <div class="col-12">
+          <div class="">
+            <ion-icon name="return-up-back-outline"></ion-icon>
+            <a href="/dashboard/comments" style="text-decoration: none; color: black; font-size: 0.88em;">Return Back</a>
+          </div>
+          <div class="d-flex justify-content-center">
+            <form action="/user/<%= user_id %>/reviews/<%= review._id %>/dashboard?_method=PUT" method="POST">
+                <div class="form-group">
+                    <p>Edit Review</p>
+                    <div>
+                        <input type="radio" id="first-rate5" name="review[rating]" value="5" <% if (review.rating === 5) { %> checked <% } %> />
+                        <label for="first-rate5" title="5 stars - Amazing">
+                            <%- '<span class="fa fa-star checked"></span>'.repeat(5) %>
+                        </label>
+                    </div>
+                    <div>
+                        <input type="radio" id="first-rate4" name="review[rating]" value="4" <% if (review.rating === 4) { %> checked <% } %> />
+                        <label for="first-rate4" title="4 stars - Very good">
+                            <%- '<span class="fa fa-star checked"></span>'.repeat(4) %>
+                        </label>
+                    </div>
+                    <div>
+                        <input type="radio" id="first-rate3" name="review[rating]" value="3" <% if (review.rating === 3) { %> checked <% } %> />
+                        <label for="first-rate3" title="3 stars - Average">
+                            <%- '<span class="fa fa-star checked"></span>'.repeat(3) %>
+                        </label>
+                    </div>
+                    <div>
+                        <input type="radio" id="first-rate2" name="review[rating]" value="2" <% if (review.rating === 2) { %> checked <% } %> />
+                        <label for="first-rate2" title="2 stars - Not good">
+                            <%- '<span class="fa fa-star checked"></span>'.repeat(2) %>
+                        </label>
+                    </div>
+                    <div>
+                        <input type="radio" id="first-rate1" name="review[rating]" value="1" <% if (review.rating === 1) { %> checked <% } %> />
+                        <label for="first-rate1" title="1 star - Terrible">
+                            <%- '<span class="fa fa-star checked"></span>'.repeat(1) %>
+                        </label>
+                    </div>
+                </div>
+
+
+
+                <textarea class="form-control my-2" name="review[text]" placeholder="Write a review for this agent..." style="width: 600px; height: 170px;"><%= review.text %></textarea>
+                <button class="btn btn-dark form-control">Save Changes</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include("../../partials/footer") %>

@@ -37,8 +37,6 @@ router.post("/listings/:id/comments", function(req, res){
           comment.author.id = req.user._id;
           comment.author.username = req.user.username;
           comment.author.image = req.user.image;
-          comment.author.firstName = req.user.firstName;
-          comment.author.lastName = req.user.lastName;
           comment.author.listingId = req.params.id;
           //save comment
           comment.save();
@@ -55,12 +53,12 @@ router.post("/listings/:id/comments", function(req, res){
 });
 
 //Edit Route
-router.get("/listings/:id/comments/:comment_id/edit", middleware.checkCommentOwnership, function(req, res){
+router.get("/listings/:id/comments/:comment_id/edit/dashboard", middleware.checkCommentOwnership, function(req, res){
 	Comment.findById(req.params.comment_id, function(err, foundComment){
 		if(err){
 			res.redirect("back");
 		} else{
-			res.render("comments/edit.ejs", {listing_id: req.params.id, comment: foundComment});
+			res.render("dashboards/comments/edit.ejs", {listing_id: req.params.id, comment: foundComment});
 		}
 	})
 });
@@ -77,6 +75,7 @@ router.put("/listings/:id/comments/:comment_id", middleware.checkCommentOwnershi
     }
   });
 });
+//Update Route at Dashboard
 router.put("/listings/:id/comments/:comment_id/dashboard", middleware.checkCommentOwnership, function(req, res){
   //can use req.body.listing due to the name="listing[...] in EDIT.EJS" 
   Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, function(err, updatedComment){

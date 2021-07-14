@@ -1,6 +1,5 @@
 <%- include("partials/header") %>
-
-  <h1>Sign Up Form</h1>
+<h1>Sign Up Form</h1>
 
   <form action="/register" method="POST" enctype="multipart/form-data">
     <ul class="typeOfRole d-none">
@@ -25,5 +24,286 @@
     <br>(profile image is optional)<input type="file" name="image" accept="image/*">
     <button>Sign Up</button>
   </form>
+
+
+
+
+
+  <style>
+    body {
+      background: linear-gradient(-45deg, #e73c7e, #4632da, #186aff, #04befe);
+      background-size: 400% 400%;
+      animation: gradient 15s ease infinite;
+      height: 100vh;
+      overflow-x: hidden; /* Hide horizontal scrollbar */
+    }
+
+    footer,
+    nav {
+      display: none;
+    }
+
+  </style>
+
+  <div class="container-fluid">
+    <div class="row col-md-12" style="margin-top: 150px;">
+      <div class="col-md-6">
+        <div class="col-md-12 admin-header" style="height: 650px;">
+          <div>
+            <h1>Administrator<br>Registration Form</h1>
+            <div class="admin-prog"  id="prog-1">
+              <div class="admin-h">
+                <h2>1</h2>
+              </div>
+              <div class="admin-p">
+                <p>Basic Information</p>
+              </div>
+            </div>
+            <div class="admin-prog" id="prog-2">
+              <div class="admin-h">
+                <h2>2</h2>
+              </div>
+              <div class="admin-p">
+                <p>Personal Address</p>
+              </div>
+            </div>
+            <div class="admin-prog" id="prog-3">
+              <div class="admin-h">
+                <h2>3</h2>
+              </div>
+              <div class="admin-p">
+                <p>Account Information</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 admin-reg shadow" data-aos="fade-left">
+        <form action="/register" method="POST" enctype="multipart/form-data">
+          <ul class="typeOfRole d-none">
+            <li>
+              <input type="radio" id="admin" name="roleCode" value="admin" checked />
+              <label for="admin">Admin</label>
+            </li>
+          </ul>
+
+          <div class="admin-display-wrap hide admin-1" id="admin-1">
+            <div class="admin-wrap">
+              <h3>Personal Details</h3>
+              <div class="input-field">
+                <i class="fas fa-user"></i>
+                <input type="text" placeholder="First Name" id="firstName" name="firstName" required />
+              </div>
+              <div class="input-field">
+                <i class="fas fa-user"></i>
+                <input type="text" placeholder="Last Name" id="lastName" name="lastName" required />
+              </div>
+              <div class="input-field-select">
+                <i class="fas fa-venus-mars"></i>
+                <select name="gender" id="gender" id="gender" name="gender" required>
+                  <option value="unselected" hidden selected>Select Gender</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                  <option value="others">Others</option>
+                </select>
+              </div>
+              <div class="input-field">
+                <i class="fas fa-envelope"></i>
+                <input type="text" placeholder="Email" id="email" name="email" required />
+              </div>
+              <div class="input-field">
+                <i class="fas fa-phone"></i>
+                <input type="text" placeholder="Phone Number" id="phone" name="phone" required />
+              </div>
+            </div>
+          </div>
+
+          <!--Address-->
+          <div class="admin-display-wrap hide admin-2" id="admin-2">
+            <div class="admin-wrap">
+              <h3>Personal Address</h3>
+              <div class="input-field">
+                <i class="fas fa-map"></i>
+                <input type="text" placeholder="Address Line 1" id="address-ln1" name="streetName" required />
+              </div>
+              <div class="input-field">
+                <i class="fas fa-map"></i>
+                <input type="text" placeholder="Address Line 2" id="address-ln2" name="unitNumber" required />
+              </div>
+              <div class="input-field">
+                <i class="fas fa-city"></i>
+                <input type="text" placeholder="State/City" id="city" name="state" required />
+              </div>
+              <div class="input-field-select">
+                <i class="fas fa-globe-asia"></i>
+                <select name="country" id="country" name="country" required>
+                  <option value="unselected" hidden selected>Select Country</option>
+                  <option value="Singapore">Singapore</option>
+                  <option value="Malaysia">Malaysia</option>
+                  <option value="Indonesia">Indonesia</option>
+                </select>
+              </div>
+              <div class="input-field">
+                <i class="fas fa-map-marker-alt"></i>
+                <input type="text" placeholder="Postal" id="postal" name="postalCode" required />
+              </div>
+            </div>
+          </div>
+
+          <!--User Details-->
+          <div class="admin-display-wrap hide admin-3" id="admin-3">
+            <div class="admin-wrap">
+              <h3>Account Information</h3>
+              <div class="input-field">
+                <i class="fas fa-user"></i>
+                <input type="text" placeholder="Username" id="username" name="username" required />
+              </div>
+              <div class="input-field">
+                <i class="fas fa-lock"></i>
+                <input type="password" placeholder="Password" name="password" name="pwd" required />
+              </div>
+              <div class="col-md-12">
+                <div id="profile-drop-area" style="background-color: #fff;">
+                  <p id="pic-msg"><b>Upload Profile Picture:</b></p>
+                  <input type="file" name="image" id="profileFiles" accept="image/*"
+                    onchange="handleProfileFiles(this.files)" style="background-color: #fff;" />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="admin-reg-btn" id="prevNext" style="display: none; margin-top: 20px;">
+            <button type="button" id="prevBtn" onclick="nextPrev(-1)" style="margin-right: 50px; visibility: hidden;">Back</button>
+            <button type="button" id="nextBtn" onclick="nextPrev(1)" style="margin-left: 50px;">Next</button>
+          </div>
+          <div class="d-flex justify-content-center align-items-center" style="height: 650px;">
+            <div class="loader-reg" id="loader-reg"></div>
+          </div>
+          
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    var counter = 0;
+
+    var pDetail = document.getElementById("admin-1");
+    var adDetail = document.getElementById("admin-2");
+    var accDetail = document.getElementById("admin-3");
+    var displayLoader = document.getElementById("loader-reg");
+
+    var displayArr = [pDetail, adDetail, accDetail, displayLoader];
+  
+    var progOne = document.getElementById("prog-1");
+    var progTwo = document.getElementById("prog-2");
+    var progThree = document.getElementById("prog-3");
+    var progArr = [progOne,progTwo,progThree];
+
+    var btn = document.getElementById("prevNext");
+
+    //show first tab
+    displayArr[0].style.display = "block";
+    displayArr[0].classList.remove("hide");
+    progArr[0].classList.add("active-admin-prog");
+
+    //show buttons
+    btn.style.display = "block";
+    btn.classList.remove("hide");
+    
+
+    function nextPrev(index) {
+      if (index == 1 && !validateForm()) { return false };
+
+      document.getElementById("prevBtn").style.visibility = "visible";
+      //hide current tab
+      displayArr[counter].classList.add("hide");
+      btn.classList.add("hide");
+      
+
+      displayArr[counter].style.display = "none";
+      btn.style.display = "none";
+      progArr[counter].classList.remove("active-admin-prog");
+      counter = counter + index;
+
+      console.log(counter);
+      //show next tab
+      window.setTimeout(() => {
+        displayArr[counter].style.display = "block";
+
+        if(counter != 3) {
+          btn.style.display = "block";
+          progArr[counter].classList.add("active-admin-prog");
+        } else {
+          progArr[2].classList.add("active-admin-prog");
+        }
+        
+      }, 600);
+      window.setTimeout(() => {
+        displayArr[counter].classList.remove("hide");
+        if (counter != 0 && counter != 3) {
+          btn.classList.remove("hide");
+        }
+      }, 1000);
+
+      if (counter == 0) {
+        document.getElementById("prevBtn").style.visibility = "hidden";
+      }
+      if (counter == 2) {
+        document.getElementById("nextBtn").type = "submit";
+      }
+    }
+
+    function validateForm() {
+      var x, a, b, c, d, valid = true;
+
+      if (counter == 0) {
+        x = document.getElementsByClassName("admin-1");
+      } else if (counter == 1) {
+        x = document.getElementsByClassName("admin-2");
+      } else if (counter == 2) {
+        x = document.getElementsByClassName("admin-3");
+      }
+
+      a = x[0].getElementsByClassName("input-field");
+      b = x[0].getElementsByClassName("input-field-select");
+      c = x[0].getElementsByTagName("input");
+      d = x[0].getElementsByTagName("select");
+
+      for (var i = 0; i < c.length; i++) {
+        if (c[i].type == "file") {
+          if (c[i].value == "") {
+            document.getElementById("pic-msg").classList.add("invalid-input-text")
+            valid = false;
+          }
+        } else {
+          if (c[i].value == "") {
+            a[i].className += " invalid-input";
+            valid = false;
+          } else {
+            a[i].classList.remove("invalid-input");
+          }
+        }
+      }
+
+      for (var e = 0; e < d.length; e++) {
+        if (d[e].value == "unselected") {
+          b[e].className += " invalid-input";
+          valid = false;
+        } else {
+          b[e].classList.remove("invalid-input");
+        }
+      }
+
+      if (counter == 2 && valid == true) {
+        document.getElementById("nextBtn").type = "submit";
+      } else {
+        document.getElementById("nextBtn").type = "button";
+      }
+
+      console.log(valid);
+      return valid;
+    }
+  </script>
 
   <%- include("partials/footer") %>

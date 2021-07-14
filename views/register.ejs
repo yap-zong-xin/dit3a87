@@ -9,7 +9,7 @@
           <button onClick="window.location=`/login`;">Sign In</button>
         </div>
         <div class="left-tab hide" id="left-tab-progress" style="display: none;">
-          <h2 style="margin-bottom: 25px; text-align: left;">Account Registration:</h2>
+          <h2 style="margin-bottom: 25px; text-align: left;">Account Registration</h2>
           <div class="prog-row" id="prog-1">
             <div class="count-border">
               <h3>1</h3>
@@ -196,16 +196,19 @@
               <i class="fas fa-lock"></i>
               <input type="password" placeholder="Password" name="password" name="pwd" required />
             </div>
-            <p id="pic-msg"><b>Upload Profile Picture:</b></p>
-            <input type="file" name="image" accept="image/*" required />
+            <div id="profile-drop-area" style="background-color: #fff;">
+              <p id="pic-msg"><b>Upload Profile Picture:</b></p>
+              <input type="file" name="image" id="profileFiles" accept="image/*" onchange="handleProfileFiles(this.files)" style="background-color: #fff;"/>
+            </div>
           </div>
 
-          <div class="row nextBtn hide" id="prevNext" style="display: none; margin-top: 20px;">
+          <div class="row hide nextBtn" id="prevNext" style="display: none; margin-top: 20px;">
             <button type="button" id="prevBtn" onclick="nextPrev(-1)" style="margin-right: 50px;"><i
                 class="fas fa-arrow-left"></i></button>
             <button type="button" id="nextBtn" onclick="nextPrev(1)" style="margin-left: 50px;"><i
                 class="fas fa-arrow-right"></i></button>
           </div>
+          <div class="loader-reg" id="loader-reg"></div>
         </form>
       </div>
     </div>
@@ -218,7 +221,8 @@
     var firstTab = document.getElementById("tab-1");
     var secTab = document.getElementById("tab-2");
     var thirdTab = document.getElementById("tab-3");
-    var displayArr = [select, firstTab, secTab, thirdTab];
+    var loader = document.getElementById("loader-reg")
+    var displayArr = [select, firstTab, secTab, thirdTab, loader];
 
     function showForm() {
       var x = document.getElementById("right-tab-message")
@@ -264,8 +268,8 @@
       var select = document.getElementById("selection");
       var tab = document.getElementById("tab-1");
       var btn = document.getElementById("prevNext");
-      select.classList.add("hide");
 
+      select.classList.add("hide");
       window.setTimeout(() => {
         select.style.display = "none";
       }, 500);
@@ -279,8 +283,6 @@
         tab.classList.remove("hide");
         btn.classList.remove("hide");
       }, 1000);
-
-
 
       //hide msg tab
       var msgBar = document.getElementById("left-tab-message");
@@ -308,12 +310,18 @@
 
 
     function nextPrev(index) {
+      document.getElementById("nextBtn").type = "button";
+
       if (index == 1 && !validateForm()) return false;
+      var btn = document.getElementById("prevNext");
 
       //hide current tab
       displayArr[counter].classList.add("hide");
-      displayArr[counter].style.display = "none";
+      btn.classList.add("hide");
 
+      displayArr[counter].style.display = "none";
+      btn.style.display = "none";
+      
 
       //remove active
       var prog = document.getElementById("prog-" + counter);
@@ -323,9 +331,16 @@
 
       window.setTimeout(() => {
         displayArr[counter].style.display = "block";
-      }, 300);
+        if(counter != 4) {
+          btn.style.display = "block";
+        }
+        
+      }, 600);
       window.setTimeout(() => {
         displayArr[counter].classList.remove("hide");
+        if (counter != 0 && counter != 4) {
+          btn.classList.remove("hide");
+        }
       }, 1000);
 
 
@@ -344,9 +359,9 @@
         var role = document.getElementById("role");
         document.getElementById("role").remove();
 
-        btn.style.display = "none";
         progBar.classList.add("hide");
         btn.classList.add("hide");
+
         window.setTimeout(() => {
           progBar.style.display = "none";
           btn.style.display = "none";
@@ -389,7 +404,6 @@
         if (c[i].type == "file") {
           if (document.getElementById("reg-role").value == "agent") {
             if (c[i].value == "") {
-              console.log("upload profile picture")
               document.getElementById("pic-msg").classList.add("invalid-input-text")
               valid = false;
             }
@@ -411,6 +425,10 @@
         } else {
           b[e].classList.remove("invalid-input");
         }
+      }
+
+      if (counter == 3 && valid == true) {
+        document.getElementById("nextBtn").type = "submit";
       }
 
       return valid;
@@ -441,5 +459,72 @@
 
     }
 
+  </script>
+    <script>
+      let profileDropArea = document.getElementById("profile-drop-area");
+      // Prevent default drag behaviors
+      ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+          profileDropArea.addEventListener(eventName, preventDefaults, false)   
+          document.body.addEventListener(eventName, preventDefaults, false)
+      });
+      // Highlight drop area when item is dragged over it
+      ['dragenter', 'dragover'].forEach(eventName => {
+        profileDropArea.addEventListener(eventName, highlight, false)
+      });
+      ['dragleave', 'drop'].forEach(eventName => {
+        profileDropArea.addEventListener(eventName, unhighlight, false)
+      });
+      // Handle dropped file
+      profileDropArea.addEventListener('drop', handleProfileDrop, false);
+  
+      function preventDefaults (e) {
+          e.preventDefault()
+          e.stopPropagation()
+      }
+  
+      function highlight(e) {
+        profileDropArea.classList.add('highlight')
+      }
+  
+      function unhighlight(e) {
+        profileDropArea.classList.remove('highlight')
+      }
+  
+      function handleProfileDrop(e) {
+          var dt = e.dataTransfer;
+          var files= dt.files;
+          // var slctEle = document.getElementById(dt.getData("text"));
+          // if(slctEle != null) {
+          //   files = dataURLtoFile(slctEle.src, "thumbnailImage");
+          //   console.log('typ of fiel: ',files);
+          // }else{
+          //   files 
+          //   console.log('drop: ', files)
+          // }
+          updateProfile(files)
+      }
+  
+      function handleProfileFiles(files) {
+          files = [...files];//make files into array
+          console.log('inside thumb: ',files)
+          updateProfile(files)
+      }
+  
+      function updateProfile(files) {
+        console.log('chosen file: ',typeof files.length)
+        console.log('chosen thumnail: ', files)
+        var file;
+        if(typeof files.length == 'undefined'){
+          file = files
+        }else {
+          file = files[files.length - 1];
+        }
+        var profileFiles = document.getElementById("profileFiles");
+        console.log('profileFiles length: ',profileFiles.files.length);
+        var list = new DataTransfer();
+        console.log('check for multiple profileFiles: ',file)
+        list.items.add(file);
+        profileFiles.files = list.files;
+      }
   </script>
   <%- include("partials/footer") %>

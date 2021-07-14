@@ -1,7 +1,5 @@
 <%- include("../../partials/header") %>
 
-<script src="/javascripts/clickRate.js"></script>
-
 <div style="overflow-x: hidden;">
   <div class="row">
     <div class="col-3">
@@ -23,7 +21,7 @@
               <span class="title">Accounts</span>
             </a>
           </li>
-          <li class="list active">
+          <li class="list navigationHover">
             <a href="/dashboard/listings">
               <span class="icon">
                 <ion-icon name="home-outline"></ion-icon>
@@ -31,7 +29,7 @@
               <span class="title">Listings</span>
             </a>
           </li>
-          <li class="list navigationHover">
+          <li class="list active">
             <a href="/dashboard/comments">
               <span class="icon">
                 <ion-icon name="chatbubbles-outline"></ion-icon>
@@ -50,53 +48,37 @@
         </ul>
       </div>
     </div>
-    <div class="col-9 p-0">
-
-
-  <%
-    var idArr = [];
-    listings.forEach(function(listing){ 
-      var id = listing._id
-      idArr.push(id);
-  %>
-    <br><a>============================================</a><br>
-    <a>id: <%= id%></a>
-    <br>
-    <br>
-    <p>
-      name:<%= listing.name%>
-    </p><br><br>
-    <div class="loader" id="loader-<%=id%>"></div>
-    <a id="<%=id%>"></a><br><br>
-    <p>
-      <em>Submitted by: <a href="/user/<%= listing.author.id %>"><%= listing.author.username %></a>, <%= moment(listing.createdAt).fromNow() %></em>
-    </p>
-    <% if(currentUser && listing.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
-      <a class="btn btn-warning" href="/listings/<%= listing._id %>/edit">Edit</a>
-      <form action="/listings/<%= listing._id %>?_method=DELETE" method="POST">
-        <button class="btn btn-danger">DELETE</button>
-      </form>
-      <% } %>
-        <a href="/listings/<%= listing._id %>" class="btn btn-primary">View Listing</a>
-
-        <br>
-        <span class="badge label-primary">
-          <i class="fas fa-thumbs-up"></i>
-          <%= listing.likes.length %>
-        </span><br>
-        <span>
-          <%= moment(listing.createdAt).format('LLLL'); %>
-        </span>
-        <br>
-      <% }); %>
+    <div class="col-9">
+      <div class="row mr-5">
+        <div class="col-12 mb-2">
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-1">
+              <li class="breadcrumb-item"><a href="/listings">Home</a></li>
+              <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
+              <li class="breadcrumb-item"><a href="/dashboard/comments">Comments</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Edit</li>
+            </ol>
+          </nav>
+        </div>
+        <div class="col-12">
+          <div class="">
+            <ion-icon name="return-up-back-outline"></ion-icon>
+            <a href="/dashboard/comments" style="text-decoration: none; color: black; font-size: 0.88em;">Return Back</a>
+          </div>
+          <div class="d-flex justify-content-center">
+            <form action="/listings/<%= listing_id %>/comments/<%= comment._id %>/dashboard?_method=PUT" method="POST">
+            <div class="form-groups">
+              <p>Edit Comment</p>
+              <textarea class="form-control my-2" name="comment[text]" placeholder="text" style="width: 600px; height: 170px;"><%= comment.text %></textarea>
+              <button class="btn btn-dark form-control">Save Changes</button>
+            </div>
+          </form>
+          
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
-
-<% idArr.forEach((id, index)=> { %>
-  <script>getClickRate("<%=id%>")</script>
-<% }); %>
-
-
 
 <%- include("../../partials/footer") %>
