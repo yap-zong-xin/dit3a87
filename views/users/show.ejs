@@ -515,7 +515,7 @@
                                   <div class="justify-content-between align-items-center d-flex border-bottom">
                                     <div class="py-4"></div>
                                     <div>
-                                      <p class="modal-title pl-5" id="exampleModalLongTitle">Followers</p>
+                                      <p class="modal-title pl-5" id="exampleModalLongTitle">Listing Insights</p>
                                     </div>
                                     <div>
                                       <button type="button" class="close mr-3" data-dismiss="modal" aria-label="Close">
@@ -523,9 +523,38 @@
                                       </button>
                                     </div>
                                   </div>
-                                  <div class="modal-body">
-                                    <div class="loader" id="loader-<%=id%>"></div>
-                                    <a id="<%=id%>"></a>
+                                  <div class="modal-body" style="height: 260px!important;">
+                                    <div class="row">
+                                      <div class="col-12 pb-3" style="border-bottom: 1px lightgray solid;">
+                                        <div class="row">
+                                          <div class="col-2">
+                                                <img src="<%= listing.thumbnail %>"
+                                                style="background-size: cover; width: 100%; object-fit: cover; background-position: center center; border-radius: 10px;">
+                                          </div>
+                                          <div class="col-10">
+                                            <div class="row">
+                                              <div class="col-12" style="font-weight: 600;">
+                                                <% if(listing.name.length<40){ %>
+                                                  <%= listing.name.substring(0, 40) %>
+                                                    <% } else { %>
+                                                      <%= listing.name.substring(0, 40) + " ..." %>
+                                                        <% } %>
+                                              </div>
+                                              <div class="col-12">
+                                                <span style="color: rgb(145, 145, 145);">
+                                                  <%= " - Listed on " + moment(listing.createdAt).format('MMM DD, YYYY') %>
+                                                </span>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="col-12 pt-3">
+                                        <p style="font-weight:600; font-size: 0.85em;">Overall Insights</p>
+                                        <div class="loader" id="loader-<%=id%>"></div>
+                                        <a id="<%=id%>"></a>
+                                      </div>
+                                    </div>
                                   </div>
                                 </div>
                               </div>
@@ -655,6 +684,12 @@
     const listings = { features: <%- JSON.stringify(listings) %> }
   </script>
   <script src="/javascripts/agentMap.js"></script>
-
+  
+  <% if(currentUser && user._id.equals(currentUser._id)){ %>
+    <% idArr.forEach((id, index)=> { %>
+      <script>getClickRate("<%=id%>")</script>
+    <% }); %>
+  <% } else{ %>
+  <% } %>
 
   <%- include("../partials/footer") %>

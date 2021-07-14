@@ -71,10 +71,22 @@ async function getClickRate(url) {
       // console.log(obj)
       
       //html
-      var html = `<a><b> Clicks: `+ obj.click +`</b></a><br>
-                  <a><b> Seen: `+ obj.shown +`</b></a><br>
-                  <a><b> Click Rate: `+ obj.clickRate +`</b></a>`
-
+      var html = `
+        <div class="row pt-2">
+          <div class="col-4 text-center" style="border-right:1px solid lightgray;">
+            <p>` + obj.shown + `</p>
+            <p>Impressions</p>
+          </div>
+          <div class="col-4 text-center" style="border-right:1px solid lightgray;">
+            <p>` + obj.click + `</p>
+            <p>Clicks</p>
+          </div>
+          <div class="col-4 text-center">
+            <p>` + obj.clickRate + `</p>
+            <p>Click Rate</p>
+          </div>
+        </div>
+      `
       document.getElementById(obj.id).innerHTML = html;
       document.getElementById("loader-"+obj.id).remove();
       return obj;

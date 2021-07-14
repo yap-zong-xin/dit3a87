@@ -208,7 +208,6 @@
             <button type="button" id="nextBtn" onclick="nextPrev(1)" style="margin-left: 50px;"><i
                 class="fas fa-arrow-right"></i></button>
           </div>
-          <div class="loader-reg" id="loader-reg"></div>
         </form>
       </div>
     </div>
@@ -221,8 +220,7 @@
     var firstTab = document.getElementById("tab-1");
     var secTab = document.getElementById("tab-2");
     var thirdTab = document.getElementById("tab-3");
-    var loader = document.getElementById("loader-reg")
-    var displayArr = [select, firstTab, secTab, thirdTab, loader];
+    var displayArr = [select, firstTab, secTab, thirdTab];
 
     function showForm() {
       var x = document.getElementById("right-tab-message")
@@ -253,6 +251,7 @@
                         <label for="admin">public</label>
                       </li>
                     </ul>`
+        document.getElementById("profileFiles").required = false;
       } else if (role == "agent") {
         var html = `<ul class="typeOfRole d-none" id="role">
                         <li>
@@ -260,6 +259,7 @@
                           <label for="admin">agent</label>
                         </li>
                       </ul>`
+        document.getElementById("profileFiles").required = true;
       }
 
       ele.insertAdjacentHTML("beforebegin", html);
@@ -310,8 +310,6 @@
 
 
     function nextPrev(index) {
-      document.getElementById("nextBtn").type = "button";
-
       if (index == 1 && !validateForm()) return false;
       var btn = document.getElementById("prevNext");
 
@@ -328,6 +326,30 @@
       prog.classList.remove("active-prog");
 
       counter = counter + index;
+
+      if (counter == 3) {
+        console.log("true")
+        var htmlBtn = `<button type="submit" onclick="validateSubmit(1)" id="submitBtn" style="margin-left: 50px;"><i
+                class="fas fa-arrow-right"></i></button>`
+        //remove old button
+        document.getElementById("nextBtn").remove();
+        //add new button
+        document.getElementById("prevNext").insertAdjacentHTML("beforeend", htmlBtn);
+      } else {
+        //check if submit button is there
+        if (document.getElementById("nextBtn") == undefined) {
+          var htmlBtn = `<button type="button" id="nextBtn" onclick="nextPrev(1)" style="margin-left: 50px;"><i
+                class="fas fa-arrow-right"></i></button>`
+        //remove old button
+        document.getElementById("submitBtn").remove();
+        //add new button
+        document.getElementById("prevNext").insertAdjacentHTML("beforeend", htmlBtn);
+        } else {
+          console.log("bye")
+        }
+        
+
+      }
 
       window.setTimeout(() => {
         displayArr[counter].style.display = "block";
@@ -377,10 +399,6 @@
 
         clearAllInputs();
       }
-
-      if (counter == 3) {
-        document.getElementById("nextBtn").type = "submit";
-      }
     }
 
     function validateForm() {
@@ -403,10 +421,13 @@
       for (var i = 0; i < c.length; i++) {
         if (c[i].type == "file") {
           if (document.getElementById("reg-role").value == "agent") {
+            document.getElementById("profileFiles").required = true;
             if (c[i].value == "") {
               document.getElementById("pic-msg").classList.add("invalid-input-text")
               valid = false;
-            }
+            } 
+          } else {
+            document.getElementById("profileFiles").required = false;
           }
         } else {
           if (c[i].value == "") {
@@ -425,10 +446,6 @@
         } else {
           b[e].classList.remove("invalid-input");
         }
-      }
-
-      if (counter == 3 && valid == true) {
-        document.getElementById("nextBtn").type = "submit";
       }
 
       return valid;
@@ -457,6 +474,14 @@
         b[e].classList.remove("invalid-input");
       }
 
+    }
+
+    function validateSubmit(index) {
+      if (index == 1 && !validateForm()) {
+        return false
+      } else {
+        document.getElementById("register-form").submit();
+      }
     }
 
   </script>
