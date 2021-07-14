@@ -731,12 +731,18 @@ body {
 
 .loader, .loader-reg {
   display: block;
-  border: 5px solid #f3f3f3; /* Light grey */
-  border-top: 5px solid #186aff; /* Blue */
+  display: inline-block;
+  border: 3.5px solid #f3f3f3;
+  border-top: 5px solid #4632DA;
   border-radius: 50%;
-  width: 30px;
-  height: 30px;
-  animation: spin 2s linear infinite;
+  width: 2rem;
+  height: 2rem;
+  margin-bottom: 10rem;
+  animation: 1s spin infinite ease-in-out;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
 }
 
 .loader-reg {
@@ -1223,12 +1229,12 @@ input[type=range]::-ms-thumb {
   font-size: 0.95em;
 }
 .modal-title{
-  font-size: 1.1em;
+  font-size: 1.4em;
   font-weight: 600;
 }
 
 .modal-content  {
-  border-radius: 15px !important; 
+  border-radius: 5px !important; 
 }
 
 #mainReview{

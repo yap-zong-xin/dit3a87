@@ -78,15 +78,15 @@
               <th style="pointer-events: none;" class="justify-content-start d-flex">
                 <i class="fas fa-sort"></i>
               </th>
-              <th>Username</th>
-              <th>Rating</th>
-              <th>Review</th>
+              <th>Review By</th>
+              <th>Rating Given</th>
+              <th>Review Given</th>
               <th style="pointer-events: none!important;">Actions</th>
             </tr>
           </thead>
           <tbody>
             <% reviews.reverse().forEach(function(review){ %>
-              <tr style="cursor: default;">
+              <tr onclick="window.location='/user/<%= review.user %>/reviews';">
                   <td>
                     <a href="/user/<%= review.author.id %>">
                       <img src="<%= review.author.image %>" alt="" style="border-radius: 50%; width: 50px; height:50px;">
@@ -98,9 +98,21 @@
                     </a>
                   </td>
                 </a>
-                <td class="pt-4"><%= review.rating %></td>
-                <td class="pt-4" style="min-width:500px!important; max-width:500px!important; white-space: pre-wrap;"><%= review.text %></td>
+                <td class="pt-4">
+                  <div class="justify-content-start d-flex">
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star <% if (review.rating > 1.5) { %> checked <% } %>"></span>
+                    <span class="fa fa-star <% if (review.rating > 2.5) { %> checked <% } %>"></span>
+                    <span class="fa fa-star <% if (review.rating > 3.5) { %> checked <% } %>"></span>
+                    <span class="fa fa-star <% if (review.rating > 4.5) { %> checked <% } %>"></span>
+                    <span class="pl-1"><%= review.rating + ".0" %></span>
+                  </div>
+                </td>
+                <td class="pt-4" style="min-width:420px!important; max-width:420px!important; white-space: pre-wrap;"><%= review.text %></td>
                 <td class="justify-content-start d-flex pt-2">
+                  <a href="/user/<%= review.user %>/reviews" class="btn dashboardManageBtn" style="border-radius: 0%!important;">
+                    <ion-icon name="eye-outline" class="showBtn"></ion-icon>
+                  </a>
                   <% if(currentUser && review.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
                     <a href="/user/<%= review.author.id %>/reviews/<%= review._id %>/edit/dashboard" class="btn dashboardManageBtn">
                       <ion-icon name="create-outline" class="editBtn"></ion-icon>

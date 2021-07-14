@@ -11,6 +11,10 @@ var commentSchema = new mongoose.Schema({
 			image: String,
 			listingId: String,
 		},
+		user: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "User"
+		},
 		createdAt: { type: Date, default: Date.now }
 });
  

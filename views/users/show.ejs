@@ -1,5 +1,6 @@
 <%- include("../partials/header") %>
 
+
   <!-- banner -->
   <div style="background: url('<%= user.banner %>'); height: 300px; width: 100%; background-size: cover; object-fit: cover; background-position: center center;">
     <div class="justify-content-between align-items-center d-flex">
@@ -391,7 +392,7 @@
                 </p>
                 <% } else { %>
                   <div class="row px-2">
-                    <% listings.reverse().forEach(function(listing) { %>
+                    <% var idArr = []; listings.reverse().forEach(function(listing) { var id = listing._id; idArr.push(id);%>
                       <div class="col-3 p-3 listingHover">
                         <div class="row">
                           <a href="/listings/<%= listing.id %>" style="text-decoration: none; color: black;">
@@ -427,7 +428,7 @@
                             </div>
                             <div class="col-12 mt-1" style="font-weight: 400;">
                               <span style="font-size: 0.9em;">
-                                Zone: <%= listing.zone %>
+                                Zone: <%= listing.district %>
                               </span>
                             </div>
                             <div class="col-12 my-0" style="font-weight: 400;">
@@ -437,12 +438,7 @@
                             </div>
                             <div class="col-12 mb-1" style="font-weight: 400;">
                               <span style="font-size: 0.9em;">
-                                Rooms: <%= listing.numofRooms %>
-                              </span>
-                            </div>
-                            <div class="col-12 mb-1" style="font-weight: 400;">
-                              <span style="font-size: 0.9em;">
-                                Rooms: <%= listing.numofRooms %>
+                                Tenure: <%= listing.tenure %>
                               </span>
                             </div>
                           </a>
@@ -497,6 +493,36 @@
                               </div>
                             </form>
                           </div>
+                          <% if(currentUser && user.isAdmin==true || currentUser && user.isAgent==true){ %>
+                            <div class="col-12 mt-1">
+                              <a href="" data-toggle="modal" data-target="#analyticTarget" style="color: black;">
+                                <ion-icon name="trending-up-outline"></ion-icon><span class="pl-1" style="font-size: 0.9em; color: black">View Analytics</span>
+                              </a>
+                            </div>
+                            <!-- Analytic Modal -->
+                            <div class="modal fade" id="analyticTarget" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+                            aria-hidden="true">
+                              <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                  <div class="justify-content-between align-items-center d-flex border-bottom">
+                                    <div class="py-4"></div>
+                                    <div>
+                                      <p class="modal-title pl-5" id="exampleModalLongTitle">Followers</p>
+                                    </div>
+                                    <div>
+                                      <button type="button" class="close mr-3" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                      </button>
+                                    </div>
+                                  </div>
+                                  <div class="modal-body">
+                                    <div class="loader" id="loader-<%=id%>"></div>
+                                    <a id="<%=id%>"></a>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          <% } %>
                         </div>
                       </div>
                       <% }); %>
@@ -615,11 +641,18 @@
     </div>
   </div>
 
+  <script src="/javascripts/clickRate.js"></script>
   <script>
     const mapToken = '<%- process.env.MAPBOX_TOKEN %>'
     const listings = { features: <%- JSON.stringify(listings) %> }
   </script>
   <script src="/javascripts/agentMap.js"></script>
-
+  
+  <% if(currentUser){ %>
+    <% idArr.forEach((id, index)=> { %>
+      <script>getClickRate("<%=id%>")</script>
+    <% }); %>
+  <% } else{ %>
+  <% } %>
 
   <%- include("../partials/footer") %>
