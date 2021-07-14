@@ -177,7 +177,6 @@
             <button type="button" id="nextBtn" onclick="nextPrev(1)" style="margin-left: 50px;">Next</button>
           </div>
           <div class="d-flex justify-content-center align-items-center" style="height: 650px;">
-            <div class="loader-reg" id="loader-reg"></div>
           </div>
           
         </form>
@@ -193,7 +192,7 @@
     var accDetail = document.getElementById("admin-3");
     var displayLoader = document.getElementById("loader-reg");
 
-    var displayArr = [pDetail, adDetail, accDetail, displayLoader];
+    var displayArr = [pDetail, adDetail, accDetail];
   
     var progOne = document.getElementById("prog-1");
     var progTwo = document.getElementById("prog-2");
@@ -252,8 +251,9 @@
       }
       if (counter == 2) {
         document.getElementById("nextBtn").type = "submit";
-          document.getElementById("nextBtn").innerHTML = "Submit";
+        document.getElementById("nextBtn").innerHTML = "Submit";
       } else {
+        document.getElementById("nextBtn").type = "button";
         document.getElementById("nextBtn").innerHTML = "Next";
       }
     }
@@ -297,16 +297,6 @@
         }
       }
 
-
-      //   console.log(counter == 2 && valid == true);
-      // if (counter == 2 && valid == true) {
-      //   console.log("hi")
-      //   document.getElementById("nextBtn").type = "submit";
-      // } else {
-      //   document.getElementById("nextBtn").type = "button";
-      // }
-
-      // console.log(valid);
       return valid;
     }
   </script>
