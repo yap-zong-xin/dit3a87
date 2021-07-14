@@ -279,7 +279,11 @@ router.post("/login", middleware.notLoggedIn, function (req, res, next) {
 					req.flash("error", "Account is not verified. Please verify using the link sent to your email.")
 					res.redirect("/login");
 				}else {
-					User.findOneAndUpdate({email:inputEmail}, {$set: {lastLogin: Date.now()}}, { new : true })
+					User.findOneAndUpdate({email:inputEmail}, {$set: {lastLogin: Date.now() }}, function(err, updatedUser) {
+						if(err) {
+							console.log(err)
+						}
+					})
 					passport.authenticate("local",
 					{
 						successRedirect: "/listings",
