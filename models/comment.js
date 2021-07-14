@@ -9,9 +9,7 @@ var commentSchema = new mongoose.Schema({
 			},
 			username: String,
 			image: String,
-			firstName: String,
-			lastName: String,
-			listingId: String
+			listingId: String,
 		},
 		createdAt: { type: Date, default: Date.now }
 });

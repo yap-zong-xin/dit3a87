@@ -603,31 +603,26 @@ router.put("/user/:id/image", middleware.checkUserOwnership, upload.single("imag
 });
 
 //Destroy Route
-router.delete("/user/:id", middleware.checkUserOwnership, function(req, res){
-  User.findById(req.params.id, async function(err, user) {
-		console.log(user)
-    if(err) {
-      req.flash("error", err.message);
-      return res.redirect("back");
-    }
-    try {
-			Review.remove({"_id": {$in: user.reviews}}, async function (err) {
-				if (err) {
-					console.log(err);
-					return res.redirect("/listings");
-				}
-        await cloudinary.v2.uploader.destroy(user.imageId);
-        user.remove();
-        req.flash('success', 'You have successfully deleted the user.');
-        res.redirect('/listings');
-			});
-    } catch(err) {
-        if(err) {
-          req.flash("error", err.message);
-          return res.redirect("back");
-        }
-    }
-  });
+router.delete("/user/:id", function(req, res){
+	User.findByIdAndRemove(req.params.id, function(err){
+		if(err){
+			res.redirect("/user");
+		} else{
+			req.flash('success', 'You have successfully deleted the account.');
+			res.redirect("/login");
+		}
+	});
+});
+//Destroy Route at Dashboard
+router.delete("/user/:id/dashboard", function(req, res){
+	User.findByIdAndRemove(req.params.id, function(err){
+		if(err){
+			res.redirect("/user");
+		} else{
+			req.flash('success', 'You have successfully deleted the account.');
+			res.redirect("/dashboard/accounts");
+		}
+	});
 });
 
 // follow user

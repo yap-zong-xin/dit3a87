@@ -48,10 +48,77 @@
         </ul>
       </div>
     </div>
-    <div class="col-9 p-0">
-      <%= reviews %>
+    <div class="col-9">
+      <div class="row mr-5">
+        <div class="col-12 mb-2">
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-1">
+              <li class="breadcrumb-item"><a href="/listings">Home</a></li>
+              <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Reviews</li>
+            </ol>
+          </nav>
+        </div>
+        <div class="col-12">
+          <div class="g text-center">
+            <div class="justify-content-between d-flex px-3">
+              <p class="py-1 my-1">Total Reviews</p>
+              <p class="py-1 my-1">
+                <%= reviews.length %>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row accountTableHeading mr-5 px-4 mt-4">
+        <p style="font-weight: 500; font-size: 1.1em;">Reviews</p>
+        <table class="table table-sortable">
+          <thead>
+            <tr>
+              <th style="pointer-events: none;" class="justify-content-start d-flex">
+                <i class="fas fa-sort"></i>
+              </th>
+              <th>Username</th>
+              <th>Rating</th>
+              <th>Review</th>
+              <th style="pointer-events: none!important;">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% reviews.reverse().forEach(function(review){ %>
+              <tr style="cursor: default;">
+                  <td>
+                    <a href="/user/<%= review.author.id %>">
+                      <img src="<%= review.author.image %>" alt="" style="border-radius: 50%; width: 50px; height:50px;">
+                    </a>
+                  </td>
+                  <td class="pt-4">
+                    <a href="/user/<%= review.author.id %>" style="text-decoration: none; color: black; font-size: 0.95em;">
+                      <%= review.author.username %>
+                    </a>
+                  </td>
+                </a>
+                <td class="pt-4"><%= review.rating %></td>
+                <td class="pt-4" style="min-width:500px!important; max-width:500px!important; white-space: pre-wrap;"><%= review.text %></td>
+                <td class="justify-content-start d-flex pt-2">
+                  <% if(currentUser && review.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
+                    <a href="/user/<%= review.author.id %>/reviews/<%= review._id %>/edit/dashboard" class="btn dashboardManageBtn">
+                      <ion-icon name="create-outline" class="editBtn"></ion-icon>
+                    </a>
+                    <form action="/user/<%= review.author.id %>/reviews/<%= review._id %>/dashboard?_method=DELETE" method="POST">
+                      <button class="btn dashboardManageBtn">
+                        <ion-icon name="trash-outline" class="trashBtn"></ion-icon>
+                      </button>
+                    </form>
+                  <% } %>
+                </td>
+              </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </div>
 
-    <%- include("../../partials/footer") %>
+<%- include("../../partials/footer") %>
