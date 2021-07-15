@@ -88,6 +88,18 @@
             </tr>
           </thead>
           <tbody>
+            <% if(listings.length==0){ %>
+              <tr>
+                <td><em>No listings yet.</em></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+            <% } %>
             <% var idArr = []; listings.reverse().forEach(function(listing) { var id = listing._id; idArr.push(id);%>
               <tr>
                 <td onclick="window.location='/listings/<%= listing._id %>';">
