@@ -501,12 +501,12 @@
                           </div>
                           <% if(currentUser && user._id.equals(currentUser._id)){ %>
                             <div class="col-12 mt-1">
-                              <a href="" data-toggle="modal" data-target="#analyticTarget" style="color: black;">
+                              <a href="" data-toggle="modal" data-target="#analyticTarget<%= id %>" style="color: black;">
                                 <ion-icon name="trending-up-outline"></ion-icon><span class="pl-1" style="font-size: 0.9em; color: black">View Analytics</span>
                               </a>
                             </div>
                             <!-- Analytic Modal -->
-                            <div class="modal fade" id="analyticTarget" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+                            <div class="modal fade" id="analyticTarget<%= id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
                             aria-hidden="true">
                               <div class="modal-dialog modal-dialog-centered" role="document">
                                 <div class="modal-content">
