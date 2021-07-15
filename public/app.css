@@ -1751,6 +1751,7 @@ input[type=range]::-ms-thumb {
   border-radius: 5px;
   transition: 0.3s;
   font-weight: 600;
+  background-color: #fff;
 }
 
 .user-search .form-group option:disabled {
