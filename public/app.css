@@ -1605,9 +1605,18 @@ input[type=range]::-ms-thumb {
   animation: fadein 0.5s;
 }
 
+.user-header {
+  display: flex;
+  justify-content: start;
+  text-align: left;
+}
+
 .user-header p {
-  font-size: 3vw;
-  text-shadow: 2px 2px 5px black
+  font-size: 48px;
+  font-weight: 700;
+  /* text-transform: uppercase; */
+  color: white;
+  /* text-shadow: 2px 2px 5px black */
 }
 
 .user-result {
@@ -1729,10 +1738,10 @@ input[type=range]::-ms-thumb {
   transition: 0.3s;
 }
 
-.user-search .form-group input[type=submit] {
+.user-search .form-group button {
   border-radius: 10px;
   background-color: #3725c0;
-  font-weight: 500;
+  font-weight: 700;
   width: 100%;
   margin: 5px;
   height: 100%;
@@ -1763,11 +1772,11 @@ input[type=range]::-ms-thumb {
   border-right: 1px solid rgb(196, 196, 196);
 }
 
-.user-search .form-group input[type=submit]:hover {
+.user-search .form-group button:hover {
   opacity: 0.7;
 }
 
-.user-search .form-group input[type=submit]:focus,
+.user-search .form-group button:focus,
 .user-search .form-group input[type=text]:focus,
 .user-search .form-group select:focus {
   outline:none !important;
