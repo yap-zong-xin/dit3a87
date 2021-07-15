@@ -32,7 +32,7 @@ function loadData(rs,loadObj) {
         if (resultSet[i].rating === 0) {
             html = `<div class="col-md-12" data-aos="fade-up" data-aos-once="true">
                         <div class="col-md-12 user-result" onClick="window.location='/user/` + resultSet[i]._id + `'">
-                            <div class="row col-md-9 col-6 m-0 user-detail" style="padding: 10px;">
+                            <div class="row col-md-9 col-6 m-0 user-detail" style="padding: 20px;">
                                 <img class="img-fluid" src="` + resultSet[i].image + `" style="width : 200px; height: 200px;">
                                 <div class="caption-result">
                                     <h4>`+ resultSet[i].firstName + ` ` + resultSet[i].lastName + `</h4>
@@ -80,7 +80,7 @@ function loadData(rs,loadObj) {
                 case 0:
                     html = `<div class="col-md-12" data-aos="fade-up" data-aos-once="true">
                             <div class="col-md-12 user-result" onClick="window.location='/user/` + resultSet[i]._id + `'">
-                                <div class="row col-md-9 col-6 m-0 user-detail" style="padding: 10px;">
+                                <div class="row col-md-9 col-6 m-0 user-detail" style="padding: 20px;">
                                 <img class="img-fluid" src="` + resultSet[i].image + `" style="width : 200px; height: 200px;">
                                 <div class="caption-result">
                                     <h4>`+ resultSet[i].firstName + ` ` + resultSet[i].lastName + `</h4>
@@ -117,7 +117,7 @@ function loadData(rs,loadObj) {
                 case 1:
                     html = `<div class="col-md-12" data-aos="fade-up" data-aos-once="true">
                             <div class="col-md-12 user-result" onClick="window.location='/user/` + resultSet[i]._id + `'">
-                                <div class="row col-md-9 col-6 m-0 user-detail" style="padding: 10px;">
+                                <div class="row col-md-9 col-6 m-0 user-detail" style="padding: 20px;">
                                 <img class="img-fluid" src="` + resultSet[i].image + `" style="width : 200px; height: 200px;">
                                 <div class="caption-result">
                                     <h4>`+ resultSet[i].firstName + ` ` + resultSet[i].lastName + `</h4>
@@ -153,8 +153,8 @@ function loadData(rs,loadObj) {
                 break;
                 case 2:
                     html = `<div class="col-md-12" data-aos="fade-up" data-aos-once="true">
-                            <div class="col-md-12 user-result user-detail" onClick="window.location='/user/` + resultSet[i]._id + `'">
-                            <div class="row col-md-9 col-6 m-0" style="padding: 10px;">
+                            <div class="col-md-12 user-result " onClick="window.location='/user/` + resultSet[i]._id + `'">
+                            <div class="row col-md-9 col-6 m-0 user-detail" style="padding: 20px;">
                                 <img class="img-fluid" src="` + resultSet[i].image + `" style="width : 200px; height: 200px;">
                                 <div class="caption-result">
                                     <h4>`+ resultSet[i].firstName + ` ` + resultSet[i].lastName + `</h4>
@@ -190,8 +190,8 @@ function loadData(rs,loadObj) {
                 break;
                 case 3:
                     html = `<div class="col-md-12" data-aos="fade-up" data-aos-once="true">
-                            <div class="col-md-12 user-result user-detail" onClick="window.location='/user/` + resultSet[i]._id + `'">
-                                <div class="row col-md-9 col-6 m-0" style="padding: 10px;">
+                            <div class="col-md-12 user-result " onClick="window.location='/user/` + resultSet[i]._id + `'">
+                                <div class="row col-md-9 col-6 m-0 user-detail" style="padding: 20px;">
                                 <img class="img-fluid" src="` + resultSet[i].image + `" style="width : 200px; height: 200px;">
                                 <div class="caption-result">
                                     <h4>`+ resultSet[i].firstName + ` ` + resultSet[i].lastName + `</h4>
@@ -228,7 +228,7 @@ function loadData(rs,loadObj) {
                 case 4:
                     html = `<div class="col-md-12" data-aos="fade-up" data-aos-once="true">
                             <div class="col-md-12 user-result" onClick="window.location='/user/` + resultSet[i]._id + `'">
-                                <div class="row col-md-9 col-6 m-0 user-detail" style="padding: 10px;">
+                                <div class="row col-md-9 col-6 m-0 user-detail" style="padding: 20px;">
                                 <img class="img-fluid" src="` + resultSet[i].image + `" style="width : 200px; height: 200px;">
                                 <div class="caption-result">
                                     <h4>`+ resultSet[i].firstName + ` ` + resultSet[i].lastName + `</h4>
@@ -268,7 +268,7 @@ function loadData(rs,loadObj) {
                 default:
                     html = `<div class="col-md-12" data-aos="fade-up" data-aos-once="true">
                             <div class="col-md-12 user-result " onClick="window.location='/user/` + resultSet[i]._id + `'">
-                                <div class="row col-md-9 col-6 m-0 user-detail" style="padding: 10px;">
+                                <div class="row col-md-9 col-6 m-0 user-detail" style="padding: 20px;">
                                 <img class="img-fluid" src="` + resultSet[i].image + `" style="width : 200px; height: 200px;">
                                 <div class="caption-result">
                                     <h4>`+ resultSet[i].firstName + ` ` + resultSet[i].lastName + `</h4>

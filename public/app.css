@@ -1637,10 +1637,11 @@ input[type=range]::-ms-thumb {
   display: flex;
   flex-direction: row;
   margin: 10px 0 10px 0;
-  background-color: #fff;
+  /* background-color: #fff; */
   cursor: pointer;
   padding: 0px;
   transition: .2s;
+  /* border-bottom: 1px solid rgb(196, 196, 196); */
 }
 
 .user-result-contact {
@@ -1696,7 +1697,8 @@ input[type=range]::-ms-thumb {
 }
 
 .user-result:hover {
-  transform: scale(1.05);
+  /* background-color: #fff; */
+  transform: scale(1.005);
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
@@ -1867,6 +1869,7 @@ input[type=range]::-ms-thumb {
     justify-content: center;
     align-items: center;
     text-align: center;
+    padding: 30px;
   }
 
   .caption-result {
