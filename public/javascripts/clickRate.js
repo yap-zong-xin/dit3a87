@@ -74,16 +74,16 @@ async function getClickRate(url) {
       var html = `
         <div class="row pt-2">
           <div class="col-4 text-center" style="border-right:1px solid lightgray;">
-            <p>` + obj.shown + `</p>
-            <p style="font-weight:600;">Impressions</p>
+            <p style="font-size: 1.1em;">` + obj.shown + `</p>
+            <p style="font-weight:600; font-size: 1.2em;">Impressions</p>
           </div>
           <div class="col-4 text-center" style="border-right:1px solid lightgray;">
-            <p>` + obj.click + `</p>
-            <p style="font-weight:600;">Clicks</p>
+            <p style="font-size: 1.1em;">` + obj.click + `</p>
+            <p style="font-weight:600; font-size: 1.2em;">Clicks</p>
           </div>
           <div class="col-4 text-center">
-            <p>` + obj.clickRate + `</p>
-            <p style="font-weight:600;">Click Rate</p>
+            <p style="font-size: 1.1em;">` + obj.clickRate + `</p>
+            <p style="font-weight:600; font-size: 1.2em;">Click Rate</p>
           </div>
         </div>
       `

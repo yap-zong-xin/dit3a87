@@ -181,7 +181,6 @@
             <%= comment.text %>
           </p>
             
-          <% if(currentUser && comment.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
             <!-- Edit Button -->
             <a class="btn btn-xs btn-warning" role="button" data-toggle="collapse"
             href="#collapseEdit<%= comment._id %>" aria-expanded="false"
@@ -213,7 +212,6 @@
                 </form>
               </div>
             </div>
-          <% } %>
           <hr>
         </div>
       </div>

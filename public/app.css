@@ -1950,6 +1950,10 @@ nav a{
   background: purple;
   color: #F5E3F8;
 }
+.badge-archive{
+  background: #4632DA;
+  color: #F5E3F8;
+}
 
 .dashboardManageBtn{
   border-radius: 0%;

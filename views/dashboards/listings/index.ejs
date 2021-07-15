@@ -78,34 +78,55 @@
               <th style="pointer-events: none;" class="justify-content-start d-flex">
                 <i class="fas fa-sort"></i>
               </th>
-              <th>Username</th>
-              <th>f</th>
+              <th>Listing Name</th>
+              <th>Price</th>
+              <th>District</th>
+              <th>Type</th>
+              <th>Status</th>
+              <th>Analytics</th>
               <th style="pointer-events: none!important;">Actions</th>
             </tr>
           </thead>
           <tbody>
-            <%= listings %>
             <% var idArr = []; listings.reverse().forEach(function(listing) { var id = listing._id; idArr.push(id);%>
               <tr>
                 <td onclick="window.location='/listings/<%= listing._id %>';">
-                    <a href="/listings/<%= listing._id %>">
-                      <img src="<%= listing.thumbnail %>" alt="" style="border-radius: 10px; width: 50px; height:50px;">
-                    </a>
-                    </td>
-                  <td class="pt-4" onclick="window.location='/listings/<%= listing._id %>';">
-                    <a href="/lisitngs/<%= listing._id %>" style="text-decoration: none; color: black; font-size: 0.95em;">
-                      <% if(listing.name.length<14){ %>
-                        <%= listing.name.substring(0, 14) %>
-                          <% } else { %>
-                            <%= listing.name.substring(0, 14) + " ..." %>
-                              <% } %>
-                    </a>
-                  </td>
-                </a>
-                <td class="justify-content-start d-flex pt-4">
+                  <a href="/listings/<%= listing._id %>">
+                    <img src="<%= listing.thumbnail %>" alt="" style="border-radius: 10px; width: 50px; height:50px;">
+                  </a>
+                </td>
+                <td class="pt-4" onclick="window.location='/listings/<%= listing._id %>';">
+                  <a href="/listings/<%= listing._id %>" style="text-decoration: none; color: black; font-size: 0.95em;">
+                    <% if(listing.name.length<14){ %>
+                      <%= listing.name.substring(0, 14) %>
+                    <% } else { %>
+                      <%= listing.name.substring(0, 14) + " ..." %>
+                    <% } %>
+                  </a>
+                </td>
+                <td class="pt-4" onclick="window.location='/listings/<%= listing._id %>';">
+                  <span><%= "S$" + listing.price %></span>
+                </td>
+                <td class="pt-4" onclick="window.location='/listings/<%= listing._id %>';">
+                  <span><%= listing.district %></span>
+                </td>
+                <td class="pt-4" onclick="window.location='/listings/<%= listing._id %>';">
+                  <span><%= listing.type %></span>
+                </td>
+                <td class="pt-4" onclick="window.location='/listings/<%= listing._id %>';">
+                  <% if(listing.archiveStatus==true){ %>
+                    <span class="badge badge-archive">Archive</span>
+                  <% } else if(listing.soldStatus==true) { %>
+                    <span class="badge badge-danger">Sold</span>
+                  <% } else { %>
+                    <span class="badge badge-success">Available</span>
+                  <% } %>
+                </td>
+                <td class="pt-4">
                   <a href="" data-toggle="modal" data-target="#analyticTarget<%= id %>" style="color: black;">
-                    <div class="col-12 mt-1">
-                      <ion-icon name="trending-up-outline"></ion-icon><span class="pl-1" style="font-size: 1em; color: black">View Analytics</span>
+                    <div class="col-12 mt-1 px-0">
+                      <ion-icon name="trending-up-outline"></ion-icon>
+                      <span class="pl-1" style="font-size: 1em; color: black">View Analytics</span>
                     </div>
                   </a>
                   <!-- Analytic Modal -->
@@ -161,7 +182,19 @@
                     </div>
                   </div>
                 </td>
-
+                <td class="justify-content-start d-flex pt-2">
+                  <a href="/listings/<%= listing._id %>" class="btn dashboardManageBtn" style="border-radius: 0%!important;">
+                    <ion-icon name="eye-outline" class="showBtn"></ion-icon>
+                  </a>
+                  <a class="btn dashboardManageBtn" style="border-radius: 0%!important;" href="/listings/<%= listing._id %>/edit">
+                    <ion-icon name="create-outline" class="editBtn"></ion-icon>
+                  </a>
+                  <form action="/listings/<%= listing._id %>/dashboard?_method=DELETE" method="POST">
+                    <button class="btn dashboardManageBtn">
+                      <ion-icon name="trash-outline" class="trashBtn"></ion-icon>
+                    </button>
+                  </form>
+                </td>
               </tr>
             <% }); %>
           </tbody>

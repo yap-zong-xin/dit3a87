@@ -1079,7 +1079,18 @@ router.delete("/listings/:id", function(req, res){
 		if(err){
 			res.redirect("/listings");
 		} else{
+			req.flash("success", "You have successfully deleted a listing.");
 			res.redirect("/listings");
+		}
+	});
+});
+//Delete Route at Dashboard
+router.delete("/listings/:id/dashboard", function(req, res){
+	listing.findByIdAndRemove(req.params.id, function(err){
+		if(err){
+			res.redirect("/listings");
+		} else{
+			res.redirect("/dashboard/listings");
 		}
 	});
 });
@@ -1152,9 +1163,11 @@ router.get("/listings/:id/archive", middleware.checklistingOwnership, function(r
 			foundlisting.archiveStatus = true;
 			console.log('check if listing is marked as archive: '+foundlisting.archiveStatus);
 			foundlisting.save();
-			res.render("listings/show.ejs", {listing: foundlisting});		}
+			res.render("listings/show.ejs", {listing: foundlisting});
+		}
 	});
 });
+//Unarchive Listing
 router.get("/listings/:id/unarchive", middleware.checklistingOwnership, function(req, res){
 	listing.findById(req.params.id, function(err, foundlisting){
 		if(err){
@@ -1165,7 +1178,8 @@ router.get("/listings/:id/unarchive", middleware.checklistingOwnership, function
 			foundlisting.archiveStatus = false;
 			console.log('check if listing is marked as archive: '+foundlisting.archiveStatus);
 			foundlisting.save();
-			res.render("listings/show.ejs", {listing: foundlisting});		}
+			res.render("listings/show.ejs", {listing: foundlisting});
+		}
 	});
 });
 
