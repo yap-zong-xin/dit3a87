@@ -152,7 +152,7 @@
 
     function deleteItem(id) {
       //remove from preview
-      var galleryItem = document.getElementById("galleryItem"+id).style.display = "none";
+      document.getElementById("galleryItem"+id).style.display = "none";
       //remove from file input
       var fileList = document.getElementById('galleryFileArray');
       var list = new DataTransfer();
@@ -176,29 +176,29 @@
         while(videoGallery.firstChild) {
           videoGallery.removeChild(videoGallery.firstChild)
         }
-        var prevFileIds = 0;
-        var firstImageThumbnail = 0;
-        var thumbnailPreview = document.getElementById("thumbnailFile")
+        // var firstImageThumbnail = 0;
+        // var thumbnailPreview = document.getElementById("thumbnailFile")
+        var currentThumbnail = document.getElementById("thumbnailFile");
         for(let i=0; i<files.length; i++) {
             let reader = new FileReader();
             reader.readAsDataURL(files[i]);
             reader.onloadend = function() {
               if(files[i].type.includes('image')) {
-                if (firstImageThumbnail == 0) {
-                  //dont show first image in lisitng gallery
-                  console.log('sdhsjakfhskfsdakf');
-                  updateThumbnail(files[i])
-                  previewThumbnail(files[i])
-                  firstImageThumbnail++;
-                }else {
+                // if (firstImageThumbnail == 0) {
+                //   //dont show first image in lisitng gallery
+                //   console.log('sdhsjakfhskfsdakf');
+                //   updateThumbnail(files[i])
+                //   previewThumbnail(files[i])
+                //   firstImageThumbnail++;
+                // }else {
                 //img div to contain img and btn
                   var imgDiv = document.createElement('div');
                   imgDiv.classList.add('listingImage'); 
-                  imgDiv.setAttribute("id", "galleryItem"+(i+prevFileIds));
+                  imgDiv.setAttribute("id", "galleryItem"+i);
                   //image src + file
                   var img = document.createElement('img');
                   img.src = reader.result;
-                  img.setAttribute("id", "imageItem"+(i+prevFileIds));
+                  img.setAttribute("id", "imageItem"+i);
                   img.classList.add("image-gallery-style");
                   img.setAttribute("draggable", true);
                   img.setAttribute("ondragstart", "drag(event)");
@@ -206,36 +206,51 @@
                   var dltItemBtn = document.createElement('span');
                   dltItemBtn.classList.add('deleteItemFromGallery');
                   dltItemBtn.innerHTML= "&times;";
-                  dltItemBtn.setAttribute("onclick", "deleteItem("+(i+prevFileIds)+")");
+                  dltItemBtn.setAttribute("onclick", "deleteItem("+i+")");
                   //add img and btn to div
                   imgDiv.appendChild(img);
                   imgDiv.appendChild(dltItemBtn);
                   document.getElementById('image-gallery').appendChild(imgDiv);
-                }
+                  if(currentThumbnail.files.length == 0){
+                    updateThumbnail(files[i])
+                    // imgDiv.childNodes[1].style.display = "none"
+                    document.getElementById('thumbnail-gallery').appendChild(imgDiv);
+                    // previewThumbnail(files[i])
+                    // imgDiv.style.display = "none"
+                  }
+                // }
               }else if(files[i].type.includes('video')) {
                 console.log('files at i', files[i])
                 console.log('iiiiiii: ',i);
-                console.log('ppppppppppp: ', prevFileIds);
                 //video div to contain video and button
                   var vidDiv = document.createElement('div');
                   vidDiv.classList.add('listingVideo'); 
-                  vidDiv.setAttribute("id", "galleryItem"+(i+prevFileIds));
+                  vidDiv.setAttribute("id", "galleryItem"+i);
                   //video src + file
                   var vid = document.createElement('iframe');
                   vid.src  = reader.result;
-                  vid.setAttribute("id", "videoItem"+(i+prevFileIds));
+                  vid.setAttribute("id", "videoItem"+i);
                   vid.classList.add("video-gallery-style");
                   //delete video btn
                   var dltItemBtn = document.createElement('span');
                   dltItemBtn.classList.add('deleteItemFromGallery');
                   dltItemBtn.innerHTML= "&times;";
-                  dltItemBtn.setAttribute("onclick", "deleteItem("+(i+prevFileIds)+")");
+                  dltItemBtn.setAttribute("onclick", "deleteItem("+i+")");
                   //add img and btn to div
                   vidDiv.appendChild(vid);
                   vidDiv.appendChild(dltItemBtn);
                   document.getElementById('video-gallery').appendChild(vidDiv);
               }
             }
+            // var currentThumbnail = document.getElementById("thumbnailFile");
+            // for(let i=0; i<files.length; i++) {
+            //   if(currentThumbnail.files.length == 0 && files[i].type.includes('image')) {
+            //     console.log('ioioioioio: ',i)
+            //     updateThumbnail(files[i])
+            //     previewThumbnail(files[i])
+            //     document.getElementById("galleryItem"+i).style.display = "none";
+            //   }
+            // }
         }   
     }
 
@@ -377,6 +392,8 @@
     }
 
     function handleThumbDrop(e) {
+      var thumbnailGallery = document.getElementById("thumbnail-gallery")
+
         var dt = e.dataTransfer;
         console.log('dt provi: ',dt.getData("text"));//document.getElementById(dt.getData("text"))
         console.log('dfgsdf: ', dt)
@@ -386,6 +403,8 @@
         if(slctEle != null) {
           files = dataURLtoFile(slctEle.src, "thumbnailImage");
           console.log('typ of fiel: ',files);
+          thumbnailGallery.appendChild(document.getElementById(dt.getData("text")).parentElement);
+          // document.getElementById(dt.getData("text")).parentElement.childNodes[1].style.display = "none"
         }else{
           files = dt.files;
           console.log('drop: ', files)
@@ -402,6 +421,10 @@
     }
 
     function previewThumbnail(files) {
+      var thumbnailGallery = document.getElementById("thumbnail-gallery")
+
+      var imageGallery = document.getElementById("image-gallery")
+
       console.log('thumbnaisda: ',files)
       var file;
       if(typeof files.length == 'undefined'){
@@ -409,24 +432,24 @@
         list.items.add(files);
         file = list.files[list.files.length - 1];
         console.log('drag file: ', file);
+        if(thumbnailGallery.firstChild) {
+          // thumbnailGallery.childNodes[1].style.display = "block"
+          imageGallery.appendChild(thumbnailGallery.firstChild);
+          // imageGallery.childNodes[1].style.display = "block"
+        }
       }else {
         file = files[files.length - 1];
         console.log('select file', file);
-      }
-      console.log('preview file: ', file)
-      var thumbnailGallery = document.getElementById("thumbnail-gallery")
-      while(thumbnailGallery.firstChild) {
-        thumbnailGallery.removeChild(thumbnailGallery.firstChild)
-      }
-      let reader = new FileReader();
-      console.log('reader file: ', file);
-      reader.readAsDataURL(file); 
-      reader.onloadend = function() {
-        console.log('given thumbnail file: ',file);
-        var img = document.createElement('img');
-        img.src = reader.result;
-        img.classList.add("thumbnail-gallery-style");
-        thumbnailGallery.appendChild(img);
+        let reader = new FileReader();
+        console.log('reader file: ', file);
+        reader.readAsDataURL(file); 
+        reader.onloadend = function() {
+          console.log('given thumbnail file: ',file);
+          var img = document.createElement('img');
+          img.src = reader.result;
+          img.classList.add("thumbnail-gallery-style");
+          thumbnailGallery.appendChild(img);
+        }
       }
     }
 

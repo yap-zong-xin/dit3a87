@@ -1414,13 +1414,16 @@ input[type=range]::-ms-thumb {
   vertical-align: middle;
 }
 .thumbnail-gallery-style {
-  height: 300px;
-  width: 300px;
+  height: 220px;
+  width: 220px;
 }
 .listingImage{
   float: left;
 }
 .listingVideo{
+  float: left;
+}
+.listingThumbnail{
   float: left;
 }
 .image-gallery-style {
@@ -1429,7 +1432,7 @@ input[type=range]::-ms-thumb {
 }
 .video-gallery-style {
   height: 220px;
-  width: 240px;
+  width: 220px;
 }
 .fileBtn {
   display: inline-block;
