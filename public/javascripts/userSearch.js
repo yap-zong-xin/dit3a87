@@ -27,128 +27,280 @@ function loadData(rs,loadObj) {
 
 
     for (i = startIndex; i < endIndex; i++) {
+        var dateMonthAsWord = moment(resultSet[i].createdAt).format('DD-MMM-YYYY');
         var html;
         if (resultSet[i].rating === 0) {
-            html = `<div class="col-md-12">
-                            <div class="user-result" onClick="window.location='/user/` + resultSet[i]._id + `'">
+            html = `<div class="col-md-12" data-aos="fade-up" data-aos-once="true">
+                        <div class="col-md-12 user-result" onClick="window.location='/user/` + resultSet[i]._id + `'">
+                            <div class="row col-md-9 m-0" style="padding: 10px;">
                                 <img src="` + resultSet[i].image + `" style="width : 200px; height: 200px;">
                                 <div class="caption-result">
                                     <h4>`+ resultSet[i].firstName + ` ` + resultSet[i].lastName + `</h4>
                                     <h6>CEA: ` + resultSet[i].cea + `</h6>
-                                    <em>No reviews found.</em>
+                                    <div class="location-result">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                        <p>` + resultSet[i].country + `</p>
+                                    </div>
+                                    <em style="color:rgb(163, 163, 163);">No reviews found.</em>
                                 </div>
-                            </div> 
-                        </div>`
+                            </div>
+                            <div class="user-result-contact col-md-3 m-0">
+                                <h5>Agent Details</h5>
+                                <div class="contact-row">
+                                    <i class="far fa-envelope"></i>
+                                    <p>: ` + resultSet[i].email + `</p>
+                                </div>
+                                <div class="contact-row">
+                                    <i class="fas fa-phone-alt"></i>
+                                    <p>: ` + resultSet[i].phone + `</p>
+                                </div>
+                                <div class="contact-row">
+                                    <p><b style="font-weight: 600;">Member Since</b></p>
+                                    <p>: ` + dateMonthAsWord + `</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>`
         } else {
             var rating = resultSet[i].rating;
             var ratingArr = [1.5, 2.5, 3.5, 4.5];
             var arrNum;
 
             for (var e = ratingArr.length - 1; e >= 0; e--) {
-                if (ratingArr[e] > rating) {
-                    arrNum = e ;
+
+                if (rating == 5) {
+                    arrNum = 4
+                }
+                else if (ratingArr[e] > rating) {
+                    arrNum = e;
                 }
             }
             
             switch (arrNum) {
                 case 0:
-                    html = `<div class="col-md-12" data-aos="fade-up">
-                                <div class="user-result" onClick="window.location='/user/` + resultSet[i]._id + `'">
-                                    <img src="` + resultSet[i].image + `" style="width : 200px; height: 200px;">
-                                    <div class="caption-result">
-                                        <h4>`+ resultSet[i].firstName +` ` + resultSet[i].lastName +`</h4>
-                                        <h6>CEA: ` + resultSet[i].cea +`</h6>
-                                        <span class="fa fa-star checked"></span>
-                                        <span class="fa fa-star"></span>
-                                        <span class="fa fa-star"></span>
-                                        <span class="fa fa-star"></span>
-                                        <span class="fa fa-star"></span>
+                    html = `<div class="col-md-12" data-aos="fade-up" data-aos-once="true">
+                            <div class="col-md-12 user-result" onClick="window.location='/user/` + resultSet[i]._id + `'">
+                                <div class="row col-md-9 m-0" style="padding: 10px;">
+                                <img src="` + resultSet[i].image + `" style="width : 200px; height: 200px;">
+                                <div class="caption-result">
+                                    <h4>`+ resultSet[i].firstName + ` ` + resultSet[i].lastName + `</h4>
+                                    <h6>CEA: ` + resultSet[i].cea + `</h6>
+                                    <div class="location-result">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                        <p>` + resultSet[i].country + `</p>
                                     </div>
-                                </div> 
-                            </div>`
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                </div>
+                            </div>
+                            <div class="user-result-contact col-md-3 m-0">
+                                <h5>Agent Details</h5>
+                                <div class="contact-row">
+                                    <i class="far fa-envelope"></i>
+                                    <p>: ` + resultSet[i].email + `</p>
+                                </div>
+                                <div class="contact-row">
+                                    <i class="fas fa-phone-alt"></i>
+                                    <p>: ` + resultSet[i].phone + `</p>
+                                </div>
+                                <div class="contact-row">
+                                    <p><b style="font-weight: 600;">Member Since</b></p>
+                                    <p>: ` + dateMonthAsWord + `</p>
+                                </div>
+                            </div>
+                            </div>
+                        </div>`
                 break;
                 case 1:
-                    html = `<div class="col-md-12" data-aos="fade-up">
-                                    <div class="user-result" onClick="window.location='/user/` + resultSet[i]._id + `'">
-                                        <img src="` + resultSet[i].image + `" style="width : 200px; height: 200px;">
-                                        <div class="caption-result">
-                                            <h4>`+ resultSet[i].firstName +` ` + resultSet[i].lastName +`</h4>
-                                            <h6>CEA: ` + resultSet[i].cea +`</h6>
-                                            <span class="fa fa-star checked"></span>
-                                            <span class="fa fa-star checked"></span>
-                                            <span class="fa fa-star"></span>
-                                            <span class="fa fa-star"></span>
-                                            <span class="fa fa-star"></span>
-                                        </div>
-                                    </div> 
-                                </div>`
+                    html = `<div class="col-md-12" data-aos="fade-up" data-aos-once="true">
+                            <div class="col-md-12 user-result" onClick="window.location='/user/` + resultSet[i]._id + `'">
+                                <div class="row col-md-9 m-0" style="padding: 10px;">
+                                <img src="` + resultSet[i].image + `" style="width : 200px; height: 200px;">
+                                <div class="caption-result">
+                                    <h4>`+ resultSet[i].firstName + ` ` + resultSet[i].lastName + `</h4>
+                                    <h6>CEA: ` + resultSet[i].cea + `</h6>
+                                    <div class="location-result">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                        <p>` + resultSet[i].country + `</p>
+                                    </div>
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                </div>
+                            </div>
+                            <div class="user-result-contact col-md-3 m-0">
+                                <h5>Agent Details</h5>
+                                <div class="contact-row">
+                                    <i class="far fa-envelope"></i>
+                                    <p>: ` + resultSet[i].email + `</p>
+                                </div>
+                                <div class="contact-row">
+                                    <i class="fas fa-phone-alt"></i>
+                                    <p>: ` + resultSet[i].phone + `</p>
+                                </div>
+                                <div class="contact-row">
+                                    <p><b style="font-weight: 600;">Member Since</b></p>
+                                    <p>: ` + dateMonthAsWord + `</p>
+                                </div>
+                            </div>
+                            </div>
+                        </div>`
                 break;
                 case 2:
-                    html = `<div class="col-md-12" data-aos="fade-up">
-                                <div class="user-result" onClick="window.location='/user/` + resultSet[i]._id + `'">
-                                    <img src="` + resultSet[i].image + `" style="width : 200px; height: 200px;">
-                                    <div class="caption-result">
-                                        <h4>`+ resultSet[i].firstName +` ` + resultSet[i].lastName +`</h4>
-                                        <h6>CEA: ` + resultSet[i].cea +`</h6>
-                                        <span class="fa fa-star checked"></span>
-                                        <span class="fa fa-star checked"></span>
-                                        <span class="fa fa-star checked"></span>
-                                        <span class="fa fa-star"></span>
-                                        <span class="fa fa-star"></span>
+                    html = `<div class="col-md-12" data-aos="fade-up" data-aos-once="true">
+                            <div class="col-md-12 user-result" onClick="window.location='/user/` + resultSet[i]._id + `'">
+                                <div class="row col-md-9 m-0" style="padding: 10px;">
+                                <img src="` + resultSet[i].image + `" style="width : 200px; height: 200px;">
+                                <div class="caption-result">
+                                    <h4>`+ resultSet[i].firstName + ` ` + resultSet[i].lastName + `</h4>
+                                    <h6>CEA: ` + resultSet[i].cea + `</h6>
+                                    <div class="location-result">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                        <p>` + resultSet[i].country + `</p>
                                     </div>
-                                </div> 
-                            </div>`
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                </div>
+                            </div>
+                            <div class="user-result-contact col-md-3 m-0">
+                                <h5>Agent Details</h5>
+                                <div class="contact-row">
+                                    <i class="far fa-envelope"></i>
+                                    <p>: ` + resultSet[i].email + `</p>
+                                </div>
+                                <div class="contact-row">
+                                    <i class="fas fa-phone-alt"></i>
+                                    <p>: ` + resultSet[i].phone + `</p>
+                                </div>
+                                <div class="contact-row">
+                                    <p><b style="font-weight: 600;">Member Since</b></p>
+                                    <p>: ` + dateMonthAsWord + `</p>
+                                </div>
+                            </div>
+                            </div>
+                        </div>`
                 break;
                 case 3:
-                    html = `<div class="col-md-12" data-aos="fade-up">
-                                <div class="user-result" onClick="window.location='/user/` + resultSet[i]._id + `'">
-                                    <img src="` + resultSet[i].image + `" style="width : 200px; height: 200px;">
-                                    <div class="caption-result">
-                                        <h4>`+ resultSet[i].firstName +` ` + resultSet[i].lastName +`</h4>
-                                        <h6>CEA: ` + resultSet[i].cea +`</h6>
-                                        <span class="fa fa-star checked"></span>
-                                        <span class="fa fa-star checked"></span>
-                                        <span class="fa fa-star checked"></span>
-                                        <span class="fa fa-star checked"></span>
-                                        <span class="fa fa-star"></span>
+                    html = `<div class="col-md-12" data-aos="fade-up" data-aos-once="true">
+                            <div class="col-md-12 user-result" onClick="window.location='/user/` + resultSet[i]._id + `'">
+                                <div class="row col-md-9 m-0" style="padding: 10px;">
+                                <img src="` + resultSet[i].image + `" style="width : 200px; height: 200px;">
+                                <div class="caption-result">
+                                    <h4>`+ resultSet[i].firstName + ` ` + resultSet[i].lastName + `</h4>
+                                    <h6>CEA: ` + resultSet[i].cea + `</h6>
+                                    <div class="location-result">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                        <p>` + resultSet[i].country + `</p>
                                     </div>
-                                </div> 
-                            </div>`
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star"></span>
+                                </div>
+                            </div>
+                            <div class="user-result-contact col-md-3 m-0">
+                                <h5>Agent Details</h5>
+                                <div class="contact-row">
+                                    <i class="far fa-envelope"></i>
+                                    <p>: ` + resultSet[i].email + `</p>
+                                </div>
+                                <div class="contact-row">
+                                    <i class="fas fa-phone-alt"></i>
+                                    <p>: ` + resultSet[i].phone + `</p>
+                                </div>
+                                <div class="contact-row">
+                                    <p><b style="font-weight: 600;">Member Since</b></p>
+                                    <p>: ` + dateMonthAsWord + `</p>
+                                </div>
+                            </div>
+                            </div>
+                        </div>`
                 break;
                 case 4:
-                    html = `<div class="col-md-12" data-aos="fade-up">
-                                <div class="user-result" onClick="window.location='/user/` + resultSet[i]._id + `'">
-                                    <img src="` + resultSet[i].image + `" style="width : 200px; height: 200px;">
-                                    <div class="caption-result">
-                                        <h4>`+ resultSet[i].firstName +` ` + resultSet[i].lastName +`</h4>
-                                        <h6>CEA: ` + resultSet[i].cea +`</h6>
-                                        <span class="fa fa-star checked"></span>
-                                        <span class="fa fa-star checked"></span>
-                                        <span class="fa fa-star checked"></span>
-                                        <span class="fa fa-star checked"></span>
-                                        <span class="fa fa-star checked"></span>
+                    html = `<div class="col-md-12" data-aos="fade-up" data-aos-once="true">
+                            <div class="col-md-12 user-result" onClick="window.location='/user/` + resultSet[i]._id + `'">
+                                <div class="row col-md-9 m-0" style="padding: 10px;">
+                                <img src="` + resultSet[i].image + `" style="width : 200px; height: 200px;">
+                                <div class="caption-result">
+                                    <h4>`+ resultSet[i].firstName + ` ` + resultSet[i].lastName + `</h4>
+                                    <h6>CEA: ` + resultSet[i].cea + `</h6>
+                                    <div class="location-result">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                        <p>` + resultSet[i].country + `</p>
                                     </div>
-                                </div> 
-                            </div>`
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star checked"></span>
+                                </div>
+                            </div>
+                            <div class="user-result-contact col-md-3 m-0">
+                                <h5>Agent Details</h5>
+                                <div class="contact-row">
+                                    <i class="far fa-envelope"></i>
+                                    <p>: ` + resultSet[i].email + `</p>
+                                </div>
+                                <div class="contact-row">
+                                    <i class="fas fa-phone-alt"></i>
+                                    <p>: ` + resultSet[i].phone + `</p>
+                                </div>
+                                <div class="contact-row">
+                                    <p><b style="font-weight: 600;">Member Since</b></p>
+                                    <p>: ` + dateMonthAsWord + `</p>
+                                </div>
+                            </div>
+                            </div>
+                        </div>`
                 break;
                 default:
-                    html = `<div class="col-md-12" data-aos="fade-up">
-                                <div class="user-result" onClick="window.location='/user/` + resultSet[i]._id + `'">
-                                    <img src="` + resultSet[i].image + `" style="width : 200px; height: 200px;">
-                                    <div class="caption-result">
-                                        <h4>`+ resultSet[i].firstName +` ` + resultSet[i].lastName +`</h4>
-                                        <h6>CEA: ` + resultSet[i].cea +`</h6>
-                                        <span class="fa fa-star"></span>
-                                        <span class="fa fa-star"></span>
-                                        <span class="fa fa-star"></span>
-                                        <span class="fa fa-star"></span>
-                                        <span class="fa fa-star"></span>
+                    html = `<div class="col-md-12" data-aos="fade-up" data-aos-once="true">
+                            <div class="col-md-12 user-result" onClick="window.location='/user/` + resultSet[i]._id + `'">
+                                <div class="row col-md-9 m-0" style="padding: 10px;">
+                                <img src="` + resultSet[i].image + `" style="width : 200px; height: 200px;">
+                                <div class="caption-result">
+                                    <h4>`+ resultSet[i].firstName + ` ` + resultSet[i].lastName + `</h4>
+                                    <h6>CEA: ` + resultSet[i].cea + `</h6>
+                                    <div class="location-result">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                        <p>` + resultSet[i].country + `</p>
                                     </div>
-                                </div> 
-                            </div>`                    
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                </div>
+                            </div>
+                            <div class="user-result-contact col-md-3 m-0">
+                                <h5>Agent Details</h5>
+                                <div class="contact-row">
+                                    <i class="far fa-envelope"></i>
+                                    <p>: ` + resultSet[i].email + `</p>
+                                </div>
+                                <div class="contact-row">
+                                    <i class="fas fa-phone-alt"></i>
+                                    <p>: ` + resultSet[i].phone + `</p>
+                                </div>
+                                <div class="contact-row">
+                                    <p><b style="font-weight: 600;">Member Since</b></p>
+                                    <p>: ` + dateMonthAsWord + `</p>
+                                </div>
+                            </div>
+                            </div>
+                        </div>`                   
             }
         }
-        insertDiv.insertAdjacentHTML("beforebegin", html);
+        insertDiv.insertAdjacentHTML("beforeend", html);
     }
 
     //update object

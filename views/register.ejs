@@ -15,7 +15,7 @@
               <h3>1</h3>
             </div>
             <div class="prog-border">
-              <p>Personal Information</p>
+              <p>Basic Details</p>
             </div>
           </div>
           <div class="prog-row" id="prog-2">
@@ -23,7 +23,7 @@
               <h3>2</h3>
             </div>
             <div class="prog-border">
-              <p>Personal Address</p>
+              <p>Address Information</p>
             </div>
           </div>
           <div class="prog-row" id="prog-3">
@@ -31,7 +31,7 @@
               <h3>3</h3>
             </div>
             <div class="prog-border">
-              <p>Account Information</p>
+              <p>Account Details</p>
             </div>
           </div>
 
@@ -106,7 +106,7 @@
         </div>
 
         <div class="tab hide" id="selection" style="display: none; padding: 50px;">
-          <h3 style="padding-top: 25px;">Select your account type</h3>
+          <h3 style="padding-top: 25px; padding-bottom: 0; margin-bottom: 0">Select your account type</h3>
           <p style="margin-bottom: 25px;">You will not be able to change your account type after registration.</p>
           <div class="row d-flex justify-content-center">
             <div class="reg-role" onClick="roleSelect(`agent`)" >
@@ -127,7 +127,8 @@
           <div id="reg-form"></div>
           <!--Basic Details-->
           <div class="tab hide reg-tab-1" id="tab-1" style="width: 330px;">
-            <h3>Personal Details</h3>
+            <h3>Basic Details</h3>
+            <div class="col-md-12" style="width: 100%; border-bottom: 1px solid rgb(211, 211, 211); margin-bottom: 30px;"></div>
             <div class="input-field">
               <i class="fas fa-user"></i>
               <input type="text" placeholder="First Name" id="firstName" name="firstName" required />
@@ -157,7 +158,8 @@
 
           <!--Address-->
           <div class="tab hide reg-tab-2" id="tab-2" style="width: 330px;">
-            <h3>Personal Address</h3>
+            <h3>Address Information</h3>
+            <div class="col-md-12" style="width: 100%; border-bottom: 1px solid rgb(211, 211, 211); margin-bottom: 30px;"></div>
             <div class="input-field">
               <i class="fas fa-map"></i>
               <input type="text" placeholder="Address Line 1" id="address-ln1" name="streetName" required />
@@ -187,7 +189,8 @@
 
           <!--User Details-->
           <div class="tab hide reg-tab-3" id="tab-3" style="width: 330px;">
-            <h3>Account Information</h3>
+            <h3>Account Details</h3>
+            <div class="col-md-12" style="width: 100%; border-bottom: 1px solid rgb(211, 211, 211); margin-bottom: 30px;"></div>
             <div class="input-field">
               <i class="fas fa-user"></i>
               <input type="text" placeholder="Username" id="username" name="username" required />
@@ -203,6 +206,7 @@
           </div>
 
           <div class="row hide nextBtn" id="prevNext" style="display: none; margin-top: 20px;">
+            <div class="col-md-12" style="width: 100%; border-bottom: 1px solid rgb(211, 211, 211); margin-bottom: 30px; padding-top: 10px;"></div>
             <button type="button" id="prevBtn" onclick="nextPrev(-1)" style="margin-right: 50px;"><i
                 class="fas fa-arrow-left"></i></button>
             <button type="button" id="nextBtn" onclick="nextPrev(1)" style="margin-left: 50px;"><i
