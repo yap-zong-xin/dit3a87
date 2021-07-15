@@ -1632,6 +1632,7 @@ input[type=range]::-ms-thumb {
   flex-direction: row;
   align-items: center;
   color: rgb(163, 163, 163);
+  overflow-wrap: break-word;
 }
 
 .user-result-contact h5 {
@@ -1799,12 +1800,88 @@ input[type=range]::-ms-thumb {
   box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2);
 }
 
+@media only screen and (min-width: 768px) and (max-width: 1199px) {
+  .user-result-contact {
+    text-align: center;
+  }
+
+  .contact-row {
+    flex-direction: column;
+  }
+
+  .contact-row p {
+    font-size: 12px;
+  }
+
+  .contact-row i {
+    font-size: 12px;
+  }
+}
+
 
 @media only screen and (max-width: 767px) {
   #search-border {
     border: none;
   }
+  .contact-row p {
+    font-size: 14px;
+  }
+
+  .contact-row i {
+    font-size: 14px;
+  }
+
+  .user-detail {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+
+  .caption-result {
+    padding: 15px;
+  }
+
 }
+
+@media only screen and (max-width: 478px) {
+  .contact-row {
+    flex-direction: column;
+  }
+  .user-result-contact {
+    text-align: center;
+  }
+}
+
+@media only screen and (max-width: 471px) {
+  .contact-row p {
+    font-size: 12px;
+    overflow-wrap: break-word;
+  }
+
+  .contact-row i {
+    font-size: 12px;
+  }
+
+  .user-detail h4 {
+    font-size: 16px;
+  }
+
+  .user-detail h6 {
+    font-size: 14px;
+  }
+
+  .location-result i, .location-result p {
+    font-size: 12px;
+  }
+
+  .user-detail span {
+    font-size: 10px;
+  }
+
+}
+
 
 @keyframes fadein {
   from { opacity: 0; }
