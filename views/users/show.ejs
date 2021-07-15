@@ -242,7 +242,6 @@
     </div>
   </div>
   
-
   <div style="background: #f3f3f3;">
     <div class="container">
       <div class="row">
@@ -678,13 +677,12 @@
     </div>
   </div>
 
-  <script src="/javascripts/clickRate.js"></script>
   <script>
     const mapToken = '<%- process.env.MAPBOX_TOKEN %>'
     const listings = { features: <%- JSON.stringify(listings) %> }
-  </script>
+    </script>
   <script src="/javascripts/agentMap.js"></script>
-  
+  <script src="/javascripts/clickRate.js"></script>
   <% if(currentUser && user._id.equals(currentUser._id)){ %>
     <% idArr.forEach((id, index)=> { %>
       <script>getClickRate("<%=id%>")</script>

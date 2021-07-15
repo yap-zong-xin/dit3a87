@@ -75,15 +75,15 @@ async function getClickRate(url) {
         <div class="row pt-2">
           <div class="col-4 text-center" style="border-right:1px solid lightgray;">
             <p>` + obj.shown + `</p>
-            <p>Impressions</p>
+            <p style="font-weight:600;">Impressions</p>
           </div>
           <div class="col-4 text-center" style="border-right:1px solid lightgray;">
             <p>` + obj.click + `</p>
-            <p>Clicks</p>
+            <p style="font-weight:600;">Clicks</p>
           </div>
           <div class="col-4 text-center">
             <p>` + obj.clickRate + `</p>
-            <p>Click Rate</p>
+            <p style="font-weight:600;">Click Rate</p>
           </div>
         </div>
       `
