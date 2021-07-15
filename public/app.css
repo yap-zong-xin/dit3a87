@@ -1378,14 +1378,14 @@ input[type=range]::-ms-thumb {
   margin: 20px auto;
   padding: 20px;
   background-color: rgb(158, 158, 158);
-  /* display: none; */
+  display: none;
   justify-content: center;
 }
 #add-drop-area.highlight {
   border-color: blue;
 }
 #upldForm-form {
-  /* display: none; */
+  display: none;
 }
 #thumbnail-drop-area {
   border: 2px dashed #ccc;
@@ -1394,7 +1394,7 @@ input[type=range]::-ms-thumb {
   margin: 20px auto;
   padding: 20px;
   background-color: rgb(158, 158, 158);
-  /* display: none; */
+  display: none;
 }
 #thumbnail-drop-area.highlight {
   border-color: blue;
