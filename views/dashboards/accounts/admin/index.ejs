@@ -134,6 +134,17 @@
             </tr>
           </thead>
           <tbody>
+            <% if(users.length==0){ %>
+              <tr>
+                <td><em>No users yet.</em></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+            <% } %>
             <% users.forEach(function(user){ %>
               <% if(user.isAdmin==true){ %>
                 <tr onclick="window.location='/user/<%= user._id %>';">

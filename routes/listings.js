@@ -1090,6 +1090,7 @@ router.delete("/listings/:id/dashboard", function(req, res){
 		if(err){
 			res.redirect("/listings");
 		} else{
+			req.flash("success", "You have successfully deleted a listing.");
 			res.redirect("/dashboard/listings");
 		}
 	});

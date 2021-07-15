@@ -84,8 +84,16 @@
             </tr>
           </thead>
           <tbody>
+            <% if(comments.length==0){ %>
+              <tr>
+                <td><em>No comments yet.</em></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+            <% } %>
             <% comments.reverse().forEach(function(comment){ %>
-              <tr  onclick="window.location='/listings/<%= comment.author.listingId %>';">
+              <tr onclick="window.location='/listings/<%= comment.author.listingId %>';">
                   <td>
                     <a href="/user/<%= comment.author.id %>">
                       <img src="<%= comment.author.image %>" alt="" style="border-radius: 50%; width: 50px; height:50px;">
@@ -97,7 +105,7 @@
                     </a>
                   </td>
                 </a>
-                <td class="" style="min-width:450px!important; max-width:450px!important; white-space: pre-wrap;"><%= comment.text %></td>
+                <td class="pt-4" style="min-width:450px!important; max-width:450px!important; white-space: pre-wrap;"><%= comment.text %></td>
                 <td class="justify-content-start d-flex pt-2">
                   <a href="/listings/<%= comment.author.listingId %>" class="btn dashboardManageBtn" style="border-radius: 0%!important;">
                     <ion-icon name="eye-outline" class="showBtn"></ion-icon>
