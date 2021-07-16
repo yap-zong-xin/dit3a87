@@ -21,7 +21,13 @@
       <% } %>
       <% for(let i=0; i<listing.video.length; i++) { %>
         <a data-fancybox="gallery" data-width="640" data-height="360" href="<%= listing.video[i] %>">
-          <img class="card-img-top img-fluid d-none" src="https://peach.blender.org/wp-content/uploads/bird1.jpg" />
+          <%
+          console.log('original video: ', listing.video[i]);
+          var slicedVideo = listing.video[i].split(".");
+          slicedVideo[slicedVideo.length - 1] = "jpg"
+          var videoThumbnail = slicedVideo.join(".");
+          %>
+          <img class="card-img-top img-fluid d-none" src="<%=videoThumbnail%>" />
         </a>
       <% } %>
     </div>
@@ -256,6 +262,9 @@
         autoStart: true,
       },
     })
+  </script>
+  <script>
+    cloudinary
   </script>
 
 <%- include("../partials/footer") %>
