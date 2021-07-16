@@ -270,14 +270,14 @@
                     <%= moment(user.createdAt).format('DD MMMM YYYY, h:mm:ss a'); %>
                   </p>
                 </div>
-                <div class="col-3">
+                <!-- <div class="col-3">
                   <span>Last Login:</span>
                 </div>
                 <div class="col-9">
                   <p>
                     <%= moment(user.lastLogin).format('DD MMMM YYYY, h:mm:ss a'); %>
                   </p>
-                </div>
+                </div> -->
                 <div class="col-3">
                   <span>Role:</span>
                 </div>
@@ -474,18 +474,16 @@
                                         <a class="dropdown-item" href="/listings/<%= listing._id %>/edit">
                                           Edit
                                         </a>
-                                        <% if(listing.archiveStatus==false){ %>
+                                        <% if(listing.archiveStatus==false && listing.soldStatus==false){ %>
                                           <a class="dropdown-item" href="/listings/<%= listing._id %>/archive">
                                             Archive
                                           </a>
-                                        <% } else { %>
-                                          <a class="dropdown-item" href="/listings/<%= listing._id %>/unarchive">
-                                            Unarchive
-                                          </a>
-                                        <% } %>
-                                        <% if(listing.soldStatus==false){ %>
                                           <a class="dropdown-item" href="/listings/<%= listing._id %>/sold">
                                             Mark as Sold
+                                          </a>
+                                        <% } else if(listing.archiveStatus==true&& listing.soldStatus==false) { %>
+                                          <a class="dropdown-item" href="/listings/<%= listing._id %>/unarchive">
+                                            Unarchive
                                           </a>
                                         <% } else { %>
                                           <a class="dropdown-item" href="/listings/<%= listing._id %>/unsold">

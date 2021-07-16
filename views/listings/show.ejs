@@ -1,5 +1,32 @@
 <%- include("../partials/header") %>
 
+  <div class="container pb-3 mb-4 mt-4">
+    <div class="row">
+      <div class="col-12 p-0">
+        <iframe width="100%;" height="400" class="m-0" src="https://www.hatchdev.asia/virtual-listing/reflections-keppel/fullscreen/?embedded" frameborder="0" allow="vr" allowfullscreen="allowfullscreen"></iframe>
+      </div>
+      <div class="col-8 p-0 galleryThumbnail">
+        <a data-fancybox="gallery" href="<%= listing.thumbnail %>" data-type="image">
+          <img src="<%= listing.thumbnail %>" class="img-fluid m-0" alt="">
+          <div class="mainToggleText">
+            <%= listing.image.length + listing.video.length + " +" %>
+          </div>
+        </a>
+      </div>
+      <div class="col-4 p-0 pl-1">
+        <div id='map' style="height: 300px!important; width: 100%!important;" class="m-0"></div>
+      </div>
+      <% for(let i=1; i<listing.image.length; i++) { %>
+        <a data-fancybox="gallery" href="<%= listing.image[i] %>" data-type="image"></a>
+      <% } %>
+      <% for(let i=0; i<listing.video.length; i++) { %>
+        <a data-fancybox="gallery" data-width="640" data-height="360" href="<%= listing.video[i] %>">
+          <img class="card-img-top img-fluid d-none" src="https://peach.blender.org/wp-content/uploads/bird1.jpg" />
+        </a>
+      <% } %>
+    </div>
+  </div>
+
   <h1>This is the listings page</h1>
 
   <p style="color: red;">
@@ -223,5 +250,12 @@
     const listing = <%- JSON.stringify(listing) %>
   </script>
   <script src="/javascripts/showPageMap.js"></script>
+  <script>
+    $('[data-fancybox="gallery"]').fancybox({
+      thumbs: {
+        autoStart: true,
+      },
+    })
+  </script>
 
 <%- include("../partials/footer") %>
