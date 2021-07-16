@@ -402,6 +402,14 @@ router.get("/listings", function(req,res){
 				}else if(sortArchive == 'NotArchive') {
 					sortOptions.archiveStatus = 1;
 				}
+				// Sort by most/least popular listing
+				var sortPop = req.query.sortPop;
+				console.log('sortPop type: '+sortPop)	
+				if(sortPop == 'MostPop') {
+					sortOptions.likes = -1;
+				}else if(sortPop == 'LeastPop') {
+					sortOptions.likes = 1;
+				}
 				//if no sort is selected
 				if(Object.keys(sortOptions).length == 0) {
 					sortOptions.createdAt = -1

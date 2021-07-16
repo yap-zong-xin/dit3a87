@@ -148,6 +148,14 @@
                                     <option value="Oldest" <% if(data.sortDate == 'Oldest') {%> selected <%} %>>Oldest</option>
                                 </select>
 
+                                  <!-- Filter: sort by Most/Least popular listing -->
+                                <br><label for="sortPop">Sort by:</label>
+                                <select name="sortPop" id="sortPop">
+                                    <option value="" disabled selected hidden>Popularity</option>
+                                    <option value="MostPop" <% if(data.sortPop == 'MostPop') {%> selected <%} %>>Most Popular</option>
+                                    <option value="LeastPop" <% if(data.sortPop == 'LeastPop') {%> selected <%} %>>Least Popular</option>
+                                </select>
+
                                 <!-- Filter: for admin/agent to view sold/archived listing -->
                                 <% if(currentUser && currentUser.isAdmin || currentUser && currentUser.isAgent && currentUser.agentStatus){ %>
                                     <!-- sold -->
@@ -339,14 +347,16 @@
             document.getElementById("sortPrice").value="";
             //sort by date
             document.getElementById("sortDate").value="";
+            //sort by popularity
+            document.getElementById("sortPop").value="";
             //sold/archive
-            document.getElementById("sold").checked=false;
-            document.getElementById("notsold").checked=false;
-            document.getElementById("archive").checked=false;
-            document.getElementById("notarchive").checked=false;
-            //sort by price
+            // document.getElementById("sold").checked=false;
+            // document.getElementById("notsold").checked=false;
+            // document.getElementById("archive").checked=false;
+            // document.getElementById("notarchive").checked=false;
+            //sort by sold
             document.getElementById("sortSold").value="";
-            //sort by date
+            //sort by archive
             document.getElementById("sortArchive").value="";
         }                
     </script>
