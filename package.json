@@ -20,6 +20,7 @@
   "license": "ISC",
   "dependencies": {
     "@fancyapps/fancybox": "^3.5.7",
+    "@fancyapps/ui": "^4.0.0-alpha.4",
     "@mapbox/mapbox-sdk": "^0.12.1",
     "aos": "^2.3.4",
     "async": "^3.2.0",
