@@ -1406,7 +1406,7 @@ input[type=range]::-ms-thumb {
 #thumbnail-drop-area {
   border: 2px dashed #ccc;
   border-radius: 20px;
-  width: 480px;
+  width: 265px;
   margin: 20px auto;
   padding: 20px;
   background-color: rgb(158, 158, 158);

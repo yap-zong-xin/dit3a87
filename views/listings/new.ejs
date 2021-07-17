@@ -7,22 +7,22 @@
         <form action="/listings" method="POST" enctype="multipart/form-data" name="newListingForm">
           <!-- slide: drag and drop upload listing files -->
             <div id="drop-area">
-              <p style="margin-top: 0;">Drag and drop images/videos</p>
               <label class="fileBtn" for="galleryFileArray">Select files</label>
-              <input type="file" name="listingGallery" id="galleryFileArray" multiple accept="image/*, video/*" onchange="handleGalleryFiles(this.files)" required>
+              <input style="visibility: hidden;" type="file" name="listingGallery" id="galleryFileArray" multiple accept="image/*, video/*" onchange="handleGalleryFiles(this.files)" required>
+              <p style="margin-top: 0;">or drag and drop</p>
             </div>
             <!-- additional image/video gallery drag and drop -->
             <div id="add-drop-area">
-              <p style="margin-top: 0;">Additional Images?</p>
-              <label class="fileBtn" for="additionalGallery">Select files</label>
-              <input type="file" name="additionalGallery" id="additionalGallery" multiple accept="image/*, video/*" onchange="additionalUpdateGallery(this.files)">
+              <label class="fileBtn" for="additionalGallery">Additional files?</label>
+              <input style="visibility: hidden;" type="file" name="additionalGallery" id="additionalGallery" multiple accept="image/*, video/*" onchange="additionalUpdateGallery(this.files)">
+              <p style="margin-top: 0;">or drag and drop</p>
             </div>
             <!-- thumbnail -->
             <div id="thumbnail-drop-area">
               <div id="thumbnail-gallery"></div>
-              <p style="margin-top: 0;">Drag and drop thumbnail image</p>
+              <!-- <p style="margin-top: 0;">Drag and drop thumbnail image</p> -->
               <label class="fileBtn" for="thumbnailFile">Select thumbnail image</label>
-              <input name="listingThumbnail" type="file" id="thumbnailFile" accept="image/*" onchange="handleThumbnailFile(this.files)" required>
+              <input style="visibility: hidden;" name="listingThumbnail" type="file" id="thumbnailFile" accept="image/*" onchange="handleThumbnailFile(this.files)" required>
             </div>
             <!-- gallery preview -->
             <div id="image-gallery"></div>
@@ -214,6 +214,7 @@
                   if(currentThumbnail.files.length == 0){
                     updateThumbnail(files[i])
                     // imgDiv.childNodes[1].style.display = "none"
+                    imgDiv.removeChild(imgDiv.childNodes[1]);
                     document.getElementById('thumbnail-gallery').appendChild(imgDiv);
                     // previewThumbnail(files[i])
                     // imgDiv.style.display = "none"
