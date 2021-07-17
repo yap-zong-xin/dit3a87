@@ -345,6 +345,13 @@
       }
       var fileList = document.getElementById('galleryFileArray');
       fileList.files = list.files;
+      var previousThumbnail = document.getElementById('thumbnail-gallery');
+      console.log('previous thumbnail in gallery: ',previousThumbnail.childNodes[0].classList.value)
+      if(previousThumbnail.childNodes[0].classList.value == 'listingImage') {
+        console.log('checks out: ', previousThumbnail.childNodes[0].id);
+        document.getElementById("thumbnailFile").value="";
+        document.getElementById("thumbnail-gallery").removeChild(document.getElementById("thumbnail-gallery").firstChild);
+      }
       previewGallery(list.files);
     }
   </script>
