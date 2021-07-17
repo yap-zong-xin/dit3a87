@@ -1372,6 +1372,7 @@ input[type=range]::-ms-thumb {
 #profile-drop-area.highlight {
   border-color: blue;
 }
+/* image gallery */
 #drop-area {
   border: 2px dashed #ccc;
   border-radius: 20px;
@@ -1381,10 +1382,17 @@ input[type=range]::-ms-thumb {
   padding: 20px;
   background-color: rgb(158, 158, 158);
   display: block;
-  align-items: center;
+  /* align-items: center; */
 }
 #drop-area.highlight {
   border-color: blue;
+}
+.dropText {
+  position: relative;
+  text-align: center;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
 }
 #add-drop-area {
   border: 2px dashed #ccc;
