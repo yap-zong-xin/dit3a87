@@ -148,11 +148,11 @@
             </div>
             <div class="input-field">
               <i class="fas fa-envelope"></i>
-              <input type="text" placeholder="Email" id="email" name="email" required />
+              <input type="email" placeholder="Email" id="email" name="email" required />
             </div>
             <div class="input-field">
               <i class="fas fa-phone"></i>
-              <input type="text" placeholder="Phone Number" id="phone" name="phone" required />
+              <input type="tel" placeholder="Phone Number" id="phone" name="phone" required />
             </div>
           </div>
 
@@ -348,8 +348,6 @@
         document.getElementById("submitBtn").remove();
         //add new button
         document.getElementById("prevNext").insertAdjacentHTML("beforeend", htmlBtn);
-        } else {
-          console.log("bye")
         }
         
 
@@ -436,7 +434,27 @@
         } else {
           if (c[i].value == "") {
             a[i].className += " invalid-input";
+            console.log(c[i].type)
             valid = false;
+          } else if (c[i].type == "email") { //if email
+            var regex = new RegExp ('^[^@\s]+@[^@\s\.]+\.[^@\.\s]+$')
+            var str = (c[i].value).toString();
+            if(RegExp(regex).test(str) == false) {
+              a[i].className += " invalid-input";
+              valid = false;
+            } else {
+              a[i].classList.remove("invalid-input");
+            }
+          } else if (c[i].type == "tel") {
+            var regex = new RegExp ('^[0-9]+$')
+            var str = (c[i].value).toString();
+            console.log(RegExp(regex).test(str))
+            if(RegExp(regex).test(str) == false) {
+              a[i].className += " invalid-input";
+              valid = false;
+            } else {
+              a[i].classList.remove("invalid-input");
+            }
           } else {
             a[i].classList.remove("invalid-input");
           }
