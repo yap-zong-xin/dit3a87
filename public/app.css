@@ -999,7 +999,7 @@ input[type=range]::-ms-thumb {
 .flashMessage{
   position: fixed;
   top: 80px;
-  z-index: 9998;
+  z-index: 90;
   left: 50%;
   transform: translateX(-50%);
 }
@@ -2032,7 +2032,7 @@ nav a{
   left: 0;
   right: 0;
   text-align: center;
-  z-index: 999999;
+  z-index: 93;
 }
 
 /* dashboard menu */
@@ -2048,6 +2048,7 @@ nav a{
   /* transition: width 0.5s;  */
   position: fixed !important;
   top: 55px;
+  z-index: 89;
 }
 /* .navigation:hover{
   width: 230px;
@@ -2254,6 +2255,9 @@ nav a{
 }
 
 /* gallery */
+.fancybox-image{
+  z-index:95!important;
+}
 .secondImage{
   position: relative;
   width: 100%;
