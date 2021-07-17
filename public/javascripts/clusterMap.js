@@ -7,7 +7,8 @@ const map = new mapboxgl.Map({
   // style: 'mapbox://styles/mapbox/navigation-night-v1',
   // Singapore
   center: [103.808052586332, 1.3516161224392],
-  zoom: 10.5
+  zoom: 10.5,
+  attributionControl: false
 });
  
 // Add zoom and rotation controls to the map.

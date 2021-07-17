@@ -471,38 +471,65 @@ router.get("/user", function(req,res){
 	var noMatch = null;
 	if(req.query.search){
 		const regex = new RegExp(escapeRegex(req.query.search), 'gi');
-		//search the different types (name/time/date)
-		User.find({$or: [{username: regex}, {firstName: regex}, {lastName: regex}]}, function(err, allUsers){
-			if(err){
-				console.log(err);
-			} else {
-				if(allUsers.length < 1) {
-					noMatch = "No agent match that query, please try again.";
-				}
-				res.render("users/index.ejs", {
-					users: allUsers, 
-					noMatch: noMatch,
-					data: req.query
-				});
+		
+		if (req.query.sort) {
+			// Sort object (to be passed into .sort)
+			var sortOptions = {};
+			var sort = req.query.sort;
+			if(sort == 'LowestRating') {
+				sortOptions.rating = 1;
+			}else if(sort == 'HighestRating') {
+				sortOptions.rating = -1 ;
+			} else if(sort == 'Recent') {
+				sortOptions.createdAt = -1;
+			}else if(sort == 'Oldest') {
+				sortOptions.createdAt = 1;
 			}
-		});	
-	}else if(req.query.Apply) {
+
+			if(Object.keys(sortOptions).length == 0) {
+				sortOptions.createdAt = -1
+			}
+
+			User.find({$or: [{username: regex}, {firstName: regex}, {lastName: regex}], isAgent: true, agentStatus: true}).sort(sortOptions).exec(function(err, allUsers){
+				if(err){
+					console.log(err);
+				} else{
+					res.render("users/index.ejs", {
+						users:allUsers, 
+						noMatch: noMatch,
+						data: req.query
+					});
+				}
+			});
+		} else {
+			//search the different types (name/time/date)
+			User.find({$or: [{username: regex}, {firstName: regex}, {lastName: regex}], isAgent: true, agentStatus: true}, function(err, allUsers){
+				if(err){
+					console.log(err);
+				} else {
+					if(allUsers.length < 1) {
+						noMatch = "No agent match that query, please try again.";
+					}
+					res.render("users/index.ejs", {
+						users: allUsers, 
+						noMatch: noMatch,
+						data: req.query
+					});
+				}
+			});	
+		}
+
+	} else if(req.query.sort) {
 		// Sort object (to be passed into .sort)
 		var sortOptions = {};
-		// Sort by Rating
-		var sortRating = req.query.sortRating;
-		console.log('sort price type: '+sortRating)	
-		if(sortRating == 'LowestRating') {
+		var sort = req.query.sort;
+		if(sort == 'LowestRating') {
 			sortOptions.rating = 1;
-		}else if(sortRating == 'HighestRating') {
+		}else if(sort == 'HighestRating') {
 			sortOptions.rating = -1 ;
-		}
-		// Sort by date added
-		var sortDate = req.query.sortDate;
-		console.log('sort date type: '+sortDate)	
-		if(sortDate == 'Recent') {
+		} else if(sort == 'Recent') {
 			sortOptions.createdAt = -1;
-		}else if(sortDate == 'Oldest') {
+		}else if(sort == 'Oldest') {
 			sortOptions.createdAt = 1;
 		}
 
@@ -521,7 +548,7 @@ router.get("/user", function(req,res){
 				});
 			}
 		});
-	}else {
+	} else {
 		User.find({isAgent: true, agentStatus: true}, function(err, allUsers){
 			if(err){
 				console.log(err);

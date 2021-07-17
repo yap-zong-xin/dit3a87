@@ -12,7 +12,6 @@
   var urlParams = new URLSearchParams(queryString);
   var resultSearch = urlParams.get('search');
 
-  console.log(resultSearch)
 </script>
 
   <!-- <div style="position: relative; text-align: center;color: white;">
@@ -24,39 +23,41 @@
     <div class="user-header"><p>Find Property Agents in Singapore</p></div>
   </div> -->
 
-  <div class="container-fluid m-0 shadow fade-in" style="padding: 30px 0 30px 0; background-color: #3725c0;">
-    <div class="container" style=" margin-bottom: 50px" data-aos="zoom-in" data-aos-once="true" id="search-container">
-      <div class="user-header"><p>Find Property Agents.</p></div>
-      <% if(noMatch !==undefined){ %>
-        <div class="col-md-12 m-0 p-0">
-          <div class="user-search shadow">
-            <form action="/user" method="GET" class="form-inline">
-              <div class="row col-md-12 m-0 form-group">
-                <div class="row col-md-12 m-0 p-0 d-flex justify-content-center align-items-center">
-                  <div class="row col-md-7 m-0 flex-nowrap fAgent-input" id="search-border">
-                    <i class="fas fa-search"></i>
-                    <input type="text" class="form-control" name="search" placeholder="Search for Agents">
-                  </div>
-                  <div class="row col-md-4 m-0 flex-nowrap fAgent-input">
-                    <i class="fas fa-filter"></i>
-                    <select name="sortRating" id="sortRating">
-                      <option value="" disabled selected hidden>Sort By</option>
-                      <option value="HighestRating" <% if(data.sortRating == 'HighestRating') {%> selected <%} %>>Highest Rating</option>
-                      <option value="LowestRating" <% if(data.sortRating == 'LowestRating') {%> selected <%} %>>Lowest Rating</option>
-                      <option value="Recent" <% if(data.sortDate == 'Recent') {%> selected <%} %>>Recent</option>
-                      <option value="Oldest" <% if(data.sortDate == 'Oldest') {%> selected <%} %>>Oldest</option>
-                  </select>
-                  </div>
-                  <div class="row col-md-1 p-0 fAgent-submit">
-                    <button type="submit" class="btn btn-info d-flex justify-content-center align-items-center text-align-center" style="padding: 15px 25px 15px 25px;">GO</button>
+  <div class="container-fluid m-0 p-0 shadow fade-in find-agent-div">
+    <div class="container-fluid blur-div fade-in">
+      <div class="container" data-aos="zoom-in" data-aos-once="true" id="search-container">
+        <div class="user-header fade-in"><p>Find Property Agents.</p></div>
+        <% if(noMatch !==undefined){ %>
+          <div class="col-md-12 m-0 p-0">
+            <div class="user-search shadow">
+              <form action="/user" method="GET" class="form-inline">
+                <div class="row col-md-12 m-0 form-group">
+                  <div class="row col-md-12 m-0 p-0 d-flex justify-content-center align-items-center">
+                    <div class="row col-md-7 m-0 flex-nowrap fAgent-input" id="search-border">
+                      <i class="fas fa-search"></i>
+                      <input type="text" class="form-control" name="search" placeholder="Search for Agents">
+                    </div>
+                    <div class="row col-md-4 m-0 flex-nowrap fAgent-input">
+                      <i class="fas fa-filter"></i>
+                      <select name="sort" id="sort">
+                        <option value="" disabled selected hidden>Sort By</option>
+                        <option value="HighestRating" <% if(data.sort == 'HighestRating') {%> selected <%} %>>Highest Rating</option>
+                        <option value="LowestRating" <% if(data.sort == 'LowestRating') {%> selected <%} %>>Lowest Rating</option>
+                        <option value="Recent" <% if(data.sort == 'Recent') {%> selected <%} %>>Recent</option>
+                        <option value="Oldest" <% if(data.sort == 'Oldest') {%> selected <%} %>>Oldest</option>
+                    </select>
+                    </div>
+                    <div class="row col-md-1 p-0 fAgent-submit">
+                      <button type="submit" class="btn btn-info d-flex justify-content-center align-items-center text-align-center" style="padding: 15px 25px 15px 25px;">GO</button>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </form>
-  
+              </form>
+    
+            </div>
           </div>
-        </div>
-    <% } %>
+      <% } %>
+      </div>
     </div>
   </div>
 
@@ -100,11 +101,9 @@
 
   </script>
   <script> 
-          function resetForm() {
-            //sort by price
-            document.getElementById("sortRating").value="";
-            //sort by date
-            document.getElementById("sortDate").value="";
+      function resetForm() {
+        //sort by price
+        document.getElementById("sort").value="";
         }     
   </script>
   <script>
