@@ -217,8 +217,8 @@
                   document.getElementById('image-gallery').appendChild(imgDiv);
                   if(currentThumbnail.files.length == 0){
                     updateThumbnail(files[i])
-                    // imgDiv.childNodes[1].style.display = "none"
-                    imgDiv.removeChild(imgDiv.childNodes[1]);
+                    imgDiv.childNodes[1].style.display = "none"
+                    // imgDiv.removeChild(imgDiv.childNodes[1]);
                     document.getElementById('thumbnail-gallery').appendChild(imgDiv);
                     // previewThumbnail(files[i])
                     // imgDiv.style.display = "none"
@@ -405,7 +405,15 @@
 
     function handleThumbDrop(e) {
       var thumbnailGallery = document.getElementById("thumbnail-gallery")
-
+      var previousThumbnail = document.getElementById("thumbnailFile");
+      var imageGallery = document.getElementById("image-gallery");
+      console.log('the err thianka: ', thumbnailGallery.firstChild.childNodes[1]);
+      // if(previousThumbnail.files.length > 0) {
+        previousThumbnail.value ="";
+        thumbnailGallery.firstChild.childNodes[1].style.display = "block"
+        imageGallery.appendChild(document.getElementById("thumbnail-gallery").firstChild);
+        // document.getElementById("thumbnail-gallery").removeChild(document.getElementById("thumbnail-gallery").firstChild);
+      // }
         var dt = e.dataTransfer;
         console.log('dt provi: ',dt.getData("text"));//document.getElementById(dt.getData("text"))
         console.log('dfgsdf: ', dt)
@@ -426,13 +434,15 @@
     }
 
     function handleThumbnailFile(files) {
+      var imageGallery = document.getElementById("image-gallery");
         files = [...files];//make files into array
         console.log('inside thumb: ',files)
         var previousThumbnail = document.getElementById("thumbnailFile");
         console.log('previousds length: ', previousThumbnail.files.length)
         if(previousThumbnail.files.length > 0) {
           previousThumbnail.value ="";
-          document.getElementById("thumbnail-gallery").removeChild(document.getElementById("thumbnail-gallery").firstChild);
+          imageGallery.appendChild(document.getElementById("thumbnail-gallery").firstChild);
+          // document.getElementById("thumbnail-gallery").removeChild(document.getElementById("thumbnail-gallery").firstChild);
         }
         updateThumbnail(files)
         previewThumbnail(files);
