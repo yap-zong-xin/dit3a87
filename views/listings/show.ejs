@@ -9,14 +9,14 @@
         <a data-fancybox="gallery" href="<%= listing.thumbnail %>" data-type="image">
           <img src="<%= listing.thumbnail %>" class="img-fluid m-0" alt="">
           <div class="mainToggleText">
-            <%= listing.image.length + listing.video.length + " +" %>
+            <%= listing.image.length + listing.video.length + 1 + " +" %>
           </div>
         </a>
       </div>
       <div class="col-4 p-0 pl-1">
         <div id='map' style="height: 300px!important; width: 100%!important;" class="m-0"></div>
       </div>
-      <% for(let i=0; i<listing.image.length; i++) { %>
+      <% for(let i=0; i<listing.image.length; i++){ %>
         <a data-fancybox="gallery" href="<%= listing.image[i] %>" data-type="image"></a>
       <% } %>
       <% for(let i=0; i<listing.video.length; i++) { %>

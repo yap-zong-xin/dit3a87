@@ -2274,7 +2274,7 @@ nav a{
   height: 300px;
   object-fit: cover;
   z-index: 1;
-	opacity: 0.6;
+	opacity: 0.7;
 }
 .galleryThumbnail img:hover{
   opacity: 0.4;

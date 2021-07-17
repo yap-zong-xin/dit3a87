@@ -79,90 +79,46 @@ router.get("/dashboard/accounts", function(req, res){
 	var pageNumber = pageQuery ? pageQuery : 1;
 	var noMatch = null;
 	if(req.query.search) {
-			const regex = new RegExp(escapeRegex(req.query.search), 'gi');
-			User.find({username: regex}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, allUsers) {
-					User.count({username: regex}).exec(function (err, count) {
-							if (err) {
-									console.log(err);
-									res.redirect("back");
-							} else {
-									if(allUsers.length < 1) {
-											noMatch = "No user match that query, please try again.";
-									}
-									res.render("dashboards/accounts/index.ejs", {
-											users: allUsers,
-											current: pageNumber,
-											pages: Math.ceil(count / perPage),
-											noMatch: noMatch,
-											search: req.query.search
-									});
-							}
+		const regex = new RegExp(escapeRegex(req.query.search), 'gi');
+		User.find({username: regex}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, allUsers) {
+			User.count({username: regex}).exec(function (err, count) {
+				if (err) {
+					console.log(err);
+					res.redirect("back");
+				} else {
+					if(allUsers.length < 1) {
+						noMatch = "Result: '" + req.query.search + "' not found. Please try again.";
+					}
+					res.render("dashboards/accounts/index.ejs", {
+						users: allUsers,
+						current: pageNumber,
+						pages: Math.ceil(count / perPage),
+						noMatch: noMatch,
+						search: req.query.search
 					});
+				}
 			});
+		});
 	} else {
-			// get all users from DB
-			User.find({}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, allUsers) {
-					User.count().exec(function (err, count) {
-							if (err) {
-									console.log(err);
-							} else {
-									res.render("dashboards/accounts/index.ejs", {
-											users: allUsers,
-											current: pageNumber,
-											pages: Math.ceil(count / perPage),
-											noMatch: noMatch,
-											search: false
-									});
-							}
+		// get all users from DB
+		User.find({}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, allUsers) {
+			User.count().exec(function (err, count) {
+				if (err) {
+					console.log(err);
+				} else {
+					res.render("dashboards/accounts/index.ejs", {
+						users: allUsers,
+						current: pageNumber,
+						pages: Math.ceil(count / perPage),
+						noMatch: noMatch,
+						search: false
 					});
+				}
 			});
+		});
 	}
 });
 
-
-
-// router.get("/dashboard/accounts", function(req,res){
-// 	var perPage = 10;
-// 	var pageQuery = parseInt(req.query.page);
-// 	var pageNumber = pageQuery ? pageQuery : 1;
-// 	var noMatch = null;
-// 	if(req.query.search){
-// 		const regex = new RegExp(escapeRegex(req.query.search), 'gi');
-// 		//search the different types (name/time/date)
-// 		User.find({username: regex}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, searchUsers) {
-// 			User.count().exec(function (err, count) {
-// 				if(err){
-// 					console.log(err);
-// 				} else {
-// 					if(searchUsers.length < 1) {
-// 						noMatch = "No users match that query, please try again.";
-// 					}
-// 					res.render("dashboards/accounts/index.ejs", {
-// 						users:searchUsers,
-// 						current: pageNumber,
-// 						pages: Math.ceil(count / perPage),
-// 						noMatch: noMatch,
-// 					});
-// 				} 
-// 			});
-// 		});	
-// 	} else {
-// 		User.find({}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, allUsers) {
-// 			User.count().exec(function (err, count) {
-// 				if(err){
-// 					console.log(err);
-// 				} else{
-// 					res.render("dashboards/accounts/index.ejs", {
-// 						users:allUsers,
-// 						current: pageNumber,
-// 						pages: Math.ceil(count / perPage),
-// 						noMatch: noMatch
-// 					});
-// 				}
-// 			});
-// 		});
-// 	}
-// });
 //Get Route - Manage Admin Account Dashboard
 router.get("/dashboard/accounts/admin", function(req,res){
 	User.find({}, function(err, allUsers){
@@ -219,25 +175,97 @@ router.put("/dashboardAgent/agents/:id", function(req, res){
 });
 
 //Get Route - Manage Comment Dashboard
-router.get("/dashboard/comments", function(req,res){
-	Comment.find({}, function(err, allComments){
-		if(err){
-			console.log(err);
-		} else{
-			res.render("dashboards/comments/index.ejs", {comments:allComments});
-		}
-	});
+router.get("/dashboard/comments", function(req, res){
+	var perPage = 8;
+	var pageQuery = parseInt(req.query.page);
+	var pageNumber = pageQuery ? pageQuery : 1;
+	var noMatch = null;
+	if(req.query.search) {
+		const regex = new RegExp(escapeRegex(req.query.search), 'gi');
+		Comment.find({text: regex}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, allComments) {
+			Comment.count({text: regex}).exec(function (err, count) {
+				if (err) {
+					console.log(err);
+					res.redirect("back");
+				} else {
+					if(allComments.length < 1) {
+						noMatch = "Result: '" + req.query.search + "' not found. Please try again.";
+					}
+					res.render("dashboards/comments/index.ejs", {
+						comments: allComments,
+						current: pageNumber,
+						pages: Math.ceil(count / perPage),
+						noMatch: noMatch,
+						search: req.query.search
+					});
+				}
+			});
+		});
+	} else {
+		// get all users from DB
+		Comment.find({}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, allComments) {
+			Comment.count().exec(function (err, count) {
+				if (err) {
+					console.log(err);
+				} else {
+					res.render("dashboards/comments/index.ejs", {
+						comments: allComments,
+						current: pageNumber,
+						pages: Math.ceil(count / perPage),
+						noMatch: noMatch,
+						search: false
+					});
+				}
+			});
+		});
+	}
 });
 
 //Get Route - Manage Review Dashboard
-router.get("/dashboard/reviews", function(req,res){
-	Review.find({}, function(err, allReviews){
-		if(err){
-			console.log(err);
-		} else{
-			res.render("dashboards/reviews/index.ejs", {reviews:allReviews});
-		}
-	});
+router.get("/dashboard/reviews", function(req, res){
+	var perPage = 8;
+	var pageQuery = parseInt(req.query.page);
+	var pageNumber = pageQuery ? pageQuery : 1;
+	var noMatch = null;
+	if(req.query.search) {
+		const regex = new RegExp(escapeRegex(req.query.search), 'gi');
+		Review.find({text: regex}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, allReviews) {
+			Review.count({text: regex}).exec(function (err, count) {
+				if (err) {
+					console.log(err);
+					res.redirect("back");
+				} else {
+					if(allReviews.length < 1) {
+						noMatch = "Result: '" + req.query.search + "' not found. Please try again.";
+					}
+					res.render("dashboards/reviews/index.ejs", {
+						reviews: allReviews,
+						current: pageNumber,
+						pages: Math.ceil(count / perPage),
+						noMatch: noMatch,
+						search: req.query.search
+					});
+				}
+			});
+		});
+	} else {
+		// get all users from DB
+		Review.find({}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, allReviews) {
+			Review.count().exec(function (err, count) {
+				if (err) {
+					console.log(err);
+				} else {
+					res.render("dashboards/reviews/index.ejs", {
+						reviews: allReviews,
+						current: pageNumber,
+						pages: Math.ceil(count / perPage),
+						noMatch: noMatch,
+						search: false
+					});
+				}
+			});
+		});
+	}
 });
 
 // router.get("/dashboard/listings", function(req,res){
@@ -322,106 +350,121 @@ router.get("/dashboard/reviews", function(req,res){
 // });
 
 router.get("/dashboard/listings", function(req,res){
+	var perPage = 8;
+	var pageQuery = parseInt(req.query.page);
+	var pageNumber = pageQuery ? pageQuery : 1;
 	var noMatch = null;
 	if(req.query.search) {
 		const regex = new RegExp(escapeRegex(req.query.search), 'gi');
-		listing.find({$or: [{name: regex}, {description: regex}, {"author.username":regex}]}).populate("comments likes").exec(function(err, foundlisting){
-			if(err){
-				console.log(err);
-				res.redirect("back");
-			} else{
-				if(foundlisting.length < 1) {
-					noMatch = "result: '" + req.query.search + "' not found";
-				}		
-				for (var i = 0; i < foundlisting.length; i++) {
-					//id
-					var id = foundlisting[i]._id;
-					console.log(foundlisting[i]._id);
+		listing.find({name: regex}).skip((perPage * pageNumber) - perPage).limit(perPage).populate("comments likes").exec(function(err, foundlisting){
+			listing.count({name: regex}).exec(function (err, count) {
+				if(err){
+					console.log(err);
+					res.redirect("back");
+				} else{
+					if(foundlisting.length < 1) {
+						noMatch = "Result: '" + req.query.search + "' not found. Please try again.";
+					}		
+					for (var i = 0; i < foundlisting.length; i++) {
+						//id
+						var id = foundlisting[i]._id;
+						console.log(foundlisting[i]._id);
 
-					async function postCount (id) {
-						await countApi("/hit/3dpropertylistingsg/" +  id + "-click").then(success => {
-						console.log("https://api.countapi.xyz/hit/3dpropertylistingsg/" + id + "-click");
-						console.log("id: " + id + "success: " + success.data.value);
-						});
-					}
-					postCount(id);
-				}		
-				res.render("dashboards/listings/index.ejs", {
-					listings:foundlisting,
-					noMatch: noMatch,
-					search: req.query.search,
-					data: req.query
-				});
-			}
-		});
-	}else if(req.query.Apply) {
-		// Sort object (to be passed into .sort)
-		var sortOptions = {};
-		// Sort by popular
-		var sortPop = req.query.sortPop;
-		console.log('sort pop type: '+sortPop)	
-		if(sortPop == 'LeastPop') {
-			sortOptions.likes = 1;
-		}else if(sortPop == 'MostPop') {
-			sortOptions.likes = -1 ;
-		}
-		// Sort by date
-		var sortDate = req.query.sortDate;
-		console.log('sort date type: '+sortDate)	
-		if(sortDate == 'Oldest') {
-			sortOptions.createdAt = 1;
-		}else if(sortDate == 'Recent') {
-			sortOptions.createdAt = -1 ;
-		}
-
-		//if no sort is selected
-		if(Object.keys(sortOptions).length == 0) {
-			sortOptions.createdAt = -1
-		}
-
-		listing.find({}).populate("comments likes").sort(sortOptions).exec(function(err, foundlisting){
-			if(err){
-				console.log(err);
-				res.redirect("back");
-			} else{
-				for (var i = 0; i < foundlisting.length; i++) {
-					//id
-					var id = foundlisting[i]._id;
-					console.log(foundlisting[i]._id);
-
-					async function postCount (id) {
-						await countApi("/hit/3dpropertylistingsg/" +  id + "-click").then(success => {
-						console.log("https://api.countapi.xyz/hit/3dpropertylistingsg/" + id + "-click");
-						console.log("id: " + id + "success: " + success.data.value);
-						});
-					}
-					postCount(id);
-				}		
-				res.render("dashboards/listings/index.ejs", {
-					listings:foundlisting,
-					noMatch: noMatch,
-					search: req.query.search,
-					data: req.query
-				});
-			}
-		});
-
-	}else {
-		listing.find({}).populate("comments likes").exec(function(err, foundlisting){
-		if(err){
-			console.log(err);
-		} else{
-			res.render("dashboards/listings/index.ejs", {
-				listings:foundlisting,
-				noMatch: noMatch,
-				search: req.query.search,
-				data: req.query
+						async function postCount (id) {
+							await countApi("/hit/3dpropertylistingsg/" +  id + "-click").then(success => {
+							console.log("https://api.countapi.xyz/hit/3dpropertylistingsg/" + id + "-click");
+							console.log("id: " + id + "success: " + success.data.value);
+							});
+						}
+						postCount(id);
+					}		
+					res.render("dashboards/listings/index.ejs", {
+						listings:foundlisting,
+						noMatch: noMatch,
+						search: req.query.search,
+						data: req.query,
+						current: pageNumber,
+						pages: Math.ceil(count / perPage)
+					});
+				}
 			});
-		}
-	});
+		});
 
+	// filter
+	// } else if(req.query.Apply) {
+	// 	// Sort object (to be passed into .sort)
+	// 	var sortOptions = {};
+	// 	// Sort by popular
+	// 	var sortPop = req.query.sortPop;
+	// 	console.log('sort pop type: '+sortPop)	
+	// 	if(sortPop == 'LeastPop') {
+	// 		sortOptions.likes = 1;
+	// 	}else if(sortPop == 'MostPop') {
+	// 		sortOptions.likes = -1 ;
+	// 	}
+	// 	// Sort by date
+	// 	var sortDate = req.query.sortDate;
+	// 	console.log('sort date type: '+sortDate)	
+	// 	if(sortDate == 'Oldest') {
+	// 		sortOptions.createdAt = 1;
+	// 	}else if(sortDate == 'Recent') {
+	// 		sortOptions.createdAt = -1 ;
+	// 	}
+
+	// 	//if no sort is selected
+	// 	if(Object.keys(sortOptions).length == 0) {
+	// 		sortOptions.createdAt = -1
+	// 	}
+
+	// 	listing.find({}).populate("comments likes").sort(sortOptions).exec(function(err, foundlisting){
+	// 		if(err){
+	// 			console.log(err);
+	// 			res.redirect("back");
+	// 		} else{
+	// 			for (var i = 0; i < foundlisting.length; i++) {
+	// 				//id
+	// 				var id = foundlisting[i]._id;
+	// 				console.log(foundlisting[i]._id);
+
+	// 				async function postCount (id) {
+	// 					await countApi("/hit/3dpropertylistingsg/" +  id + "-click").then(success => {
+	// 					console.log("https://api.countapi.xyz/hit/3dpropertylistingsg/" + id + "-click");
+	// 					console.log("id: " + id + "success: " + success.data.value);
+	// 					});
+	// 				}
+	// 				postCount(id);
+	// 			}		
+	// 			res.render("dashboards/listings/index.ejs", {
+	// 				listings:foundlisting,
+	// 				noMatch: noMatch,
+	// 				data: req.query,
+	// 				current: pageNumber,
+	// 				pages: Math.ceil(count / perPage),
+	// 				search: false
+	// 			});
+	// 		}
+	// 	});
+
+	} else {
+		listing.find({}).skip((perPage * pageNumber) - perPage).limit(perPage).populate("comments likes").exec(function(err, foundlisting){
+			listing.count().exec(function (err, count) {
+				if(err){
+					console.log(err);
+				} else{
+					res.render("dashboards/listings/index.ejs", {
+						listings:foundlisting,
+						noMatch: noMatch,
+						data: req.query,
+						current: pageNumber,
+						pages: Math.ceil(count / perPage),
+						search: false
+					});
+				}
+			});
+		});
 	}
 });
+
 //Profile
 //Get Route
 router.get("/user", function(req,res){
