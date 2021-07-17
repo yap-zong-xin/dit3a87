@@ -38,6 +38,10 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
+function escapeRegex(text) {
+	return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+};
+
 //Dashboard
 //Get Route - Overview Dashboard
 router.get("/dashboard", function(req,res){
@@ -69,15 +73,96 @@ router.get("/dashboard", function(req,res){
 });
 
 //Get Route - Manage Accounts Dashboard
-router.get("/dashboard/accounts", function(req,res){
-	User.find({}, function(err, allUsers){
-		if(err){
-			console.log(err);
-		} else{
-			res.render("dashboards/accounts/index.ejs", {users:allUsers});
-		}
-	});
+router.get("/dashboard/accounts", function(req, res){
+	var perPage = 8;
+	var pageQuery = parseInt(req.query.page);
+	var pageNumber = pageQuery ? pageQuery : 1;
+	var noMatch = null;
+	if(req.query.search) {
+			const regex = new RegExp(escapeRegex(req.query.search), 'gi');
+			User.find({username: regex}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, allUsers) {
+					User.count({username: regex}).exec(function (err, count) {
+							if (err) {
+									console.log(err);
+									res.redirect("back");
+							} else {
+									if(allUsers.length < 1) {
+											noMatch = "No user match that query, please try again.";
+									}
+									res.render("dashboards/accounts/index.ejs", {
+											users: allUsers,
+											current: pageNumber,
+											pages: Math.ceil(count / perPage),
+											noMatch: noMatch,
+											search: req.query.search
+									});
+							}
+					});
+			});
+	} else {
+			// get all users from DB
+			User.find({}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, allUsers) {
+					User.count().exec(function (err, count) {
+							if (err) {
+									console.log(err);
+							} else {
+									res.render("dashboards/accounts/index.ejs", {
+											users: allUsers,
+											current: pageNumber,
+											pages: Math.ceil(count / perPage),
+											noMatch: noMatch,
+											search: false
+									});
+							}
+					});
+			});
+	}
 });
+
+
+
+// router.get("/dashboard/accounts", function(req,res){
+// 	var perPage = 10;
+// 	var pageQuery = parseInt(req.query.page);
+// 	var pageNumber = pageQuery ? pageQuery : 1;
+// 	var noMatch = null;
+// 	if(req.query.search){
+// 		const regex = new RegExp(escapeRegex(req.query.search), 'gi');
+// 		//search the different types (name/time/date)
+// 		User.find({username: regex}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, searchUsers) {
+// 			User.count().exec(function (err, count) {
+// 				if(err){
+// 					console.log(err);
+// 				} else {
+// 					if(searchUsers.length < 1) {
+// 						noMatch = "No users match that query, please try again.";
+// 					}
+// 					res.render("dashboards/accounts/index.ejs", {
+// 						users:searchUsers,
+// 						current: pageNumber,
+// 						pages: Math.ceil(count / perPage),
+// 						noMatch: noMatch,
+// 					});
+// 				} 
+// 			});
+// 		});	
+// 	} else {
+// 		User.find({}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, allUsers) {
+// 			User.count().exec(function (err, count) {
+// 				if(err){
+// 					console.log(err);
+// 				} else{
+// 					res.render("dashboards/accounts/index.ejs", {
+// 						users:allUsers,
+// 						current: pageNumber,
+// 						pages: Math.ceil(count / perPage),
+// 						noMatch: noMatch
+// 					});
+// 				}
+// 			});
+// 		});
+// 	}
+// });
 //Get Route - Manage Admin Account Dashboard
 router.get("/dashboard/accounts/admin", function(req,res){
 	User.find({}, function(err, allUsers){
@@ -235,10 +320,6 @@ router.get("/dashboard/reviews", function(req,res){
 // 		}
 // 	});
 // });
-
-function escapeRegex(text) {
-	return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
-  };
 
 router.get("/dashboard/listings", function(req,res){
 	var noMatch = null;
@@ -411,10 +492,6 @@ router.get("/user", function(req,res){
 		});
 	}
 });
-
-function escapeRegex(text) {
-	return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
-};
 
 //Show Route
 router.get("/user/:id", function (req, res) {
