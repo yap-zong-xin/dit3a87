@@ -490,7 +490,7 @@ router.get("/user", function(req,res){
 				sortOptions.createdAt = -1
 			}
 
-			User.find({$or: [{username: regex}, {firstName: regex}, {lastName: regex}], isAgent: true, agentStatus: true}).sort(sortOptions).exec(function(err, allUsers){
+			User.find({$or: [{username: regex}, {firstName: regex}, {lastName: regex}, {cea: regex}], isAgent: true, agentStatus: true}).sort(sortOptions).exec(function(err, allUsers){
 				if(err){
 					console.log(err);
 				} else{
@@ -502,8 +502,9 @@ router.get("/user", function(req,res){
 				}
 			});
 		} else {
+
 			//search the different types (name/time/date)
-			User.find({$or: [{username: regex}, {firstName: regex}, {lastName: regex}], isAgent: true, agentStatus: true}, function(err, allUsers){
+			User.find({$or: [{username: regex}, {firstName: regex}, {lastName: regex}, {cea: regex}], isAgent: true, agentStatus: true}, function(err, allUsers){
 				if(err){
 					console.log(err);
 				} else {
