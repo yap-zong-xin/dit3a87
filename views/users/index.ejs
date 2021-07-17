@@ -39,12 +39,12 @@
                     </div>
                     <div class="row col-md-4 m-0 flex-nowrap fAgent-input">
                       <i class="fas fa-filter"></i>
-                      <select name="sortRating" id="sortRating">
+                      <select name="sort" id="sort">
                         <option value="" disabled selected hidden>Sort By</option>
-                        <option value="HighestRating" <% if(data.sortRating == 'HighestRating') {%> selected <%} %>>Highest Rating</option>
-                        <option value="LowestRating" <% if(data.sortRating == 'LowestRating') {%> selected <%} %>>Lowest Rating</option>
-                        <option value="Recent" <% if(data.sortDate == 'Recent') {%> selected <%} %>>Recent</option>
-                        <option value="Oldest" <% if(data.sortDate == 'Oldest') {%> selected <%} %>>Oldest</option>
+                        <option value="HighestRating" <% if(data.sort == 'HighestRating') {%> selected <%} %>>Highest Rating</option>
+                        <option value="LowestRating" <% if(data.sort == 'LowestRating') {%> selected <%} %>>Lowest Rating</option>
+                        <option value="Recent" <% if(data.sort == 'Recent') {%> selected <%} %>>Recent</option>
+                        <option value="Oldest" <% if(data.sort == 'Oldest') {%> selected <%} %>>Oldest</option>
                     </select>
                     </div>
                     <div class="row col-md-1 p-0 fAgent-submit">
@@ -101,11 +101,9 @@
 
   </script>
   <script> 
-          function resetForm() {
-            //sort by price
-            document.getElementById("sortRating").value="";
-            //sort by date
-            document.getElementById("sortDate").value="";
+      function resetForm() {
+        //sort by price
+        document.getElementById("sort").value="";
         }     
   </script>
   <script>
