@@ -69,47 +69,50 @@
       </div>
       <div class="row accountTableHeading mr-5 px-4 mt-2">
         <div class="col-12 px-0">
-          <div class="justify-content-between d-flex">
-            <% if(noMatch !== undefined){ %>
-              <form action="/dashboard/accounts/filter" method="GET" class="form-inline">
-                <div class="box justify-content-end d-flex pb-3">
-                  <i class="fas fa-filter"></i>
-                  <select name="sort" id="sort">
-                    <option value="" disabled selected hidden>Sort By</option>
-                    <option value="HighestRating" <% if(data.sort == 'HighestRating') {%> selected <%} %>>Highest Rating</option>
-                    <option value="LowestRating" <% if(data.sort == 'LowestRating') {%> selected <%} %>>Lowest Rating</option>
-                    <option value="Recent" <% if(data.sort == 'Recent') {%> selected <%} %>>Recent</option>
-                    <option value="Oldest" <% if(data.sort == 'Oldest') {%> selected <%} %>>Oldest</option>
-                  </select>
-                  <select name="filterAccType" id="filterAccType">
-                    <option value="" disabled selected hidden>Filter</option>
-                    <option value="Admin" <% if(data.filterAccType == 'Admin') {%> selected <%} %>>Admin</option>
-                    <option value="Agent" <% if(data.filterAccType == 'Agent') {%> selected <%} %>>Agent</option>
-                    <option value="Seeker" <% if(data.filterAccType == 'Seeker') {%> selected <%} %>>Seeker</option>
-                    <option value="All" <% if(data.filterAccType == 'All') {%> selected <%} %>>All</option>
-                  </select>
-                  <input type="submit" value= "GO" name="applyFilter" class="btn btn-info d-flex justify-content-center align-items-center text-align-center" style="padding: 10px 20px 10px 20px;"></input>
+          <% if(noMatch !== undefined){ %>
+            <form action="/dashboard/accounts" method="GET">
+              <div class="input-group mb-3">
+                <input type="text" class="form-control searchBox" name="search" placeholder="Search Users">
+                <div class="input-group-append">
+                  <button class="btn btn-dark">
+                    <i class="fas fa-search"></i>
+                  </button>
                 </div>
-              </form>
-            <% } %>
+              </div>
+            </form>
+          <% } %>
+        </div>
+        <div class="col-12 px-0 justify-content-between align-items-end d-flex">
+          <div>
+            <p style="font-weight: 500; font-size: 1.1em;" class="mb-0">Users</p>
           </div>
-          <div class="justify-content-between d-flex">
-            <div>
-              <p style="font-weight: 500; font-size: 1.1em;">Users</p>
-            </div>
-            <div class="box justify-content-end d-flex pb-3">
-              <% if(noMatch !== undefined){ %>
-                <form action="/dashboard/accounts" method="GET" class="form-inline">
-                  <div class="form-group">
-                    <input type="text" name="search" placeholder="Search Users">
-                      <button><i class="fas fa-search"></i></button>
-                  </div>
-                </form>
-              <% } %>
-            </div>
+          <div>
+            <form action="/dashboard/accounts/filter" method="GET" class="form-inline filterBox">
+              <label for="sort"><span class="pr-2">Sort By:</span></label>
+              <div class="form-group">
+                <select class="form-control" name="sort" id="sort" style="height: 35px;">
+                  <option value="" disabled selected hidden></option>
+                  <option value="HighestRating" <% if(data.sort == 'HighestRating') {%> selected <%} %>>Highest Rating</option>
+                  <option value="LowestRating" <% if(data.sort == 'LowestRating') {%> selected <%} %>>Lowest Rating</option>
+                  <option value="Recent" <% if(data.sort == 'Recent') {%> selected <%} %>>Recent</option>
+                  <option value="Oldest" <% if(data.sort == 'Oldest') {%> selected <%} %>>Oldest</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="filterAccType"><span class="px-2">Filter By:</span></label>
+                <select class="form-control" name="filterAccType" id="filterAccType" style="height: 35px;">
+                  <option value="" disabled selected hidden></option>
+                  <option value="Admin" <% if(data.filterAccType == 'Admin') {%> selected <%} %>>Admin</option>
+                  <option value="Agent" <% if(data.filterAccType == 'Agent') {%> selected <%} %>>Agent</option>
+                  <option value="Seeker" <% if(data.filterAccType == 'Seeker') {%> selected <%} %>>Seeker</option>
+                  <option value="All" <% if(data.filterAccType == 'All') {%> selected <%} %>>All</option>
+                </select>
+              </div>
+              <input type="submit" value="Apply" name="applyFilter" class="btn btn-dark rounded-0 ml-2" style="height: 35px; font-size:0.85em;"></input>
+            </form>
           </div>
         </div>
-        <div class="col-12 text-right" style="font-size: 0.88em;">
+        <div class="col-12 text-right pt-3" style="font-size: 0.88em;">
           <em>
             <% if(users.length==0){ %>
               Search result: 0—0

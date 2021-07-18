@@ -1584,7 +1584,7 @@ input[type=range]::-ms-thumb {
   left: -5px;
   padding-right: 10px;
   border-radius: 0 25px 25px 0;
-  width: 70px;
+  width: 50px;
   height: 35px;
   border: none;
   outline: none;
@@ -1595,6 +1595,18 @@ input[type=range]::-ms-thumb {
 
 .box button:hover{
   background:#301eb8;
+}
+
+.filterBox select{
+  border: 1px solid gray;
+  border-radius: 0;
+}
+.searchBox{
+  border: 1px solid gray;
+}
+
+.fa-search{
+  font-size: 0.9em;
 }
 
 #dashboardMenu{
