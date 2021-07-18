@@ -1599,7 +1599,6 @@ input[type=range]::-ms-thumb {
 
 .filterBox select{
   border: 1px solid gray;
-  border-radius: 0;
 }
 .searchBox{
   border: 1px solid gray;

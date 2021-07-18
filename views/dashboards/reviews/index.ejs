@@ -62,21 +62,21 @@
       </div>
       <div class="row accountTableHeading mr-5 px-4 mt-2">
         <div class="col-12 px-0">
-          <div class="justify-content-between d-flex">
-            <div>
-              <p style="font-weight: 500; font-size: 1.1em;">Reviews</p>
-            </div>
-            <div class="box justify-content-end d-flex pb-3">
-              <% if(noMatch !== undefined){ %>
-                <form action="/dashboard/reviews" method="GET" class="form-inline">
-                  <div class="form-group">
-                    <input type="text" name="search" placeholder="Search Reviews">
-                      <button><i class="fas fa-search"></i></button>
-                  </div>
-                </form>
-              <% } %>
-            </div>
-          </div>
+          <% if(noMatch !== undefined){ %>
+            <form action="/dashboard/reviews" method="GET">
+              <div class="input-group mb-3">
+                <input type="text" class="form-control searchBox" name="search" placeholder="Search Reviews">
+                <div class="input-group-append">
+                  <button class="btn btn-dark">
+                    <i class="fas fa-search"></i>
+                  </button>
+                </div>
+              </div>
+            </form>
+          <% } %>
+        </div>
+        <div class="col-12 px-0">
+          <p class="mb-0" style="font-weight: 500; font-size: 1.1em;">Reviews</p>
         </div>
         <div class="col-12 text-right" style="font-size: 0.88em;">
           <em>
