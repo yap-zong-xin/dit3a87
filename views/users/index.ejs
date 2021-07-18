@@ -110,22 +110,22 @@
   </script>
   <script>
     $(document).ready(function(){
-    $(window).scroll(function(){
+      $(window).scroll(function(){
         //shows up when scroll over 300
         if($(window).scrollTop()>300){
-	    $('.my_bttn').fadeIn(250);
-	}
-	else{
-	    $('.my_bttn').fadeOut(250);
-	}
+          $('.my_bttn').fadeIn(250);
+        }
+        else{
+          $('.my_bttn').fadeOut(250);
+        }
+      });
+      //back to top
+      $('.my_bttn').click(function(){
+        //scroll speed(400) scroll range left(0)
+        $('html,body').animate(
+          {scrollTop:0},400
+        );
+      });
     });
-    //back to top
-    $('.my_bttn').click(function(){
-    //scroll speed(400) scroll range left(0)
-	$('html,body').animate(
-	    {scrollTop:0},400
-	);
-    });
-});
   </script>
-  <%- include("../partials/footer") %>
+<%- include("../partials/footer") %>

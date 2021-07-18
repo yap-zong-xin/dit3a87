@@ -27,7 +27,7 @@ var listingSchema = new mongoose.Schema({
 			ref: "User"
 		},
 		username: String,
-      email: String
+      email: String,
 	},
    comments: [
       {
