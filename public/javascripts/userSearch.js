@@ -33,7 +33,7 @@ function loadData(rs,loadObj) {
             html = `<div class="col-md-12" data-aos="fade-up" data-aos-once="true">
                         <div class="col-md-12 user-result" onClick="window.location='/user/` + resultSet[i]._id + `'">
                             <div class="row col-md-9 col-6 m-0 user-detail" style="padding: 20px;">
-                                <img class="img-fluid" src="` + resultSet[i].image + `" style="width : 200px; height: 200px;">
+                                <img class="img-fluid" src="` + resultSet[i].image + `"">
                                 <div class="caption-result">
                                     <h4>`+ resultSet[i].firstName + ` ` + resultSet[i].lastName + `</h4>
                                     <h6>CEA: ` + resultSet[i].cea + `</h6>
@@ -81,7 +81,7 @@ function loadData(rs,loadObj) {
                     html = `<div class="col-md-12" data-aos="fade-up" data-aos-once="true">
                             <div class="col-md-12 user-result" onClick="window.location='/user/` + resultSet[i]._id + `'">
                                 <div class="row col-md-9 col-6 m-0 user-detail" style="padding: 20px;">
-                                <img class="img-fluid" src="` + resultSet[i].image + `" style="width : 200px; height: 200px;">
+                                <img class="img-fluid" src="` + resultSet[i].image + `"">
                                 <div class="caption-result">
                                     <h4>`+ resultSet[i].firstName + ` ` + resultSet[i].lastName + `</h4>
                                     <h6>CEA: ` + resultSet[i].cea + `</h6>
@@ -118,7 +118,7 @@ function loadData(rs,loadObj) {
                     html = `<div class="col-md-12" data-aos="fade-up" data-aos-once="true">
                             <div class="col-md-12 user-result" onClick="window.location='/user/` + resultSet[i]._id + `'">
                                 <div class="row col-md-9 col-6 m-0 user-detail" style="padding: 20px;">
-                                <img class="img-fluid" src="` + resultSet[i].image + `" style="width : 200px; height: 200px;">
+                                <img class="img-fluid" src="` + resultSet[i].image + `"">
                                 <div class="caption-result">
                                     <h4>`+ resultSet[i].firstName + ` ` + resultSet[i].lastName + `</h4>
                                     <h6>CEA: ` + resultSet[i].cea + `</h6>
@@ -155,7 +155,7 @@ function loadData(rs,loadObj) {
                     html = `<div class="col-md-12" data-aos="fade-up" data-aos-once="true">
                             <div class="col-md-12 user-result " onClick="window.location='/user/` + resultSet[i]._id + `'">
                             <div class="row col-md-9 col-6 m-0 user-detail" style="padding: 20px;">
-                                <img class="img-fluid" src="` + resultSet[i].image + `" style="width : 200px; height: 200px;">
+                                <img class="img-fluid" src="` + resultSet[i].image + `"">
                                 <div class="caption-result">
                                     <h4>`+ resultSet[i].firstName + ` ` + resultSet[i].lastName + `</h4>
                                     <h6>CEA: ` + resultSet[i].cea + `</h6>
@@ -192,7 +192,7 @@ function loadData(rs,loadObj) {
                     html = `<div class="col-md-12" data-aos="fade-up" data-aos-once="true">
                             <div class="col-md-12 user-result " onClick="window.location='/user/` + resultSet[i]._id + `'">
                                 <div class="row col-md-9 col-6 m-0 user-detail" style="padding: 20px;">
-                                <img class="img-fluid" src="` + resultSet[i].image + `" style="width : 200px; height: 200px;">
+                                <img class="img-fluid" src="` + resultSet[i].image + `"">
                                 <div class="caption-result">
                                     <h4>`+ resultSet[i].firstName + ` ` + resultSet[i].lastName + `</h4>
                                     <h6>CEA: ` + resultSet[i].cea + `</h6>
@@ -229,7 +229,7 @@ function loadData(rs,loadObj) {
                     html = `<div class="col-md-12" data-aos="fade-up" data-aos-once="true">
                             <div class="col-md-12 user-result" onClick="window.location='/user/` + resultSet[i]._id + `'">
                                 <div class="row col-md-9 col-6 m-0 user-detail" style="padding: 20px;">
-                                <img class="img-fluid" src="` + resultSet[i].image + `" style="width : 200px; height: 200px;">
+                                <img class="img-fluid" src="` + resultSet[i].image + `"">
                                 <div class="caption-result">
                                     <h4>`+ resultSet[i].firstName + ` ` + resultSet[i].lastName + `</h4>
                                     <h6>CEA: ` + resultSet[i].cea + `</h6>
@@ -269,7 +269,7 @@ function loadData(rs,loadObj) {
                     html = `<div class="col-md-12" data-aos="fade-up" data-aos-once="true">
                             <div class="col-md-12 user-result " onClick="window.location='/user/` + resultSet[i]._id + `'">
                                 <div class="row col-md-9 col-6 m-0 user-detail" style="padding: 20px;">
-                                <img class="img-fluid" src="` + resultSet[i].image + `" style="width : 200px; height: 200px;">
+                                <img class="img-fluid" src="` + resultSet[i].image + `"">
                                 <div class="caption-result">
                                     <h4>`+ resultSet[i].firstName + ` ` + resultSet[i].lastName + `</h4>
                                     <h6>CEA: ` + resultSet[i].cea + `</h6>

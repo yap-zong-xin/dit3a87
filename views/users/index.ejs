@@ -13,18 +13,13 @@
   var resultSearch = urlParams.get('search');
 
 </script>
-
-  <!-- <div style="position: relative; text-align: center;color: white;">
-    <video autoplay muted loop style="max-width: 100%;">
-      <source src="img/search-banner.mp4" type="video/mp4">
-    </video>
-
-    <img class="shadow fade-in" src="img/findagents-banner.png" style="max-width: 100%;">
-    <div class="user-header"><p>Find Property Agents in Singapore</p></div>
-  </div> -->
-
-  <div class="container-fluid m-0 p-0 shadow fade-in find-agent-div">
-    <div class="container-fluid blur-div fade-in">
+<button class="my_bttn">
+  <i class="fa fa-arrow-up"></i>
+</button>
+  <div class="container-fluid m-0 p-0 fade-in">
+    <div class="container-fluid m-0 p-0 fade-in find-agent-div shadow">
+      <div class="blur-div m-0 p-0"></div>
+    </div>
       <div class="container" data-aos="zoom-in" data-aos-once="true" id="search-container">
         <div class="user-header fade-in"><p>Find Property Agents.</p></div>
         <% if(noMatch !==undefined){ %>
@@ -58,7 +53,6 @@
           </div>
       <% } %>
       </div>
-    </div>
   </div>
 
 
@@ -67,7 +61,7 @@
       <% if (noMatch != undefined) { %>
         <h3 id="search-result"><%= noMatch %></h3>
       <% } else { %>
-      <h3 id="search-result">Featured Agents</h3>
+      <h3 id="search-result">Showing All Agents</h3>
      <% } %>
       <p>About <%= users.length%> results</p>
     </div>
@@ -113,5 +107,25 @@
     if (resultSearch == "") {
       document.getElementById("search-result").innerHTML = 'Featured Agents';
     }
+  </script>
+  <script>
+    $(document).ready(function(){
+    $(window).scroll(function(){
+        //shows up when scroll over 300
+        if($(window).scrollTop()>300){
+	    $('.my_bttn').fadeIn(250);
+	}
+	else{
+	    $('.my_bttn').fadeOut(250);
+	}
+    });
+    //back to top
+    $('.my_bttn').click(function(){
+    //scroll speed(400) scroll range left(0)
+	$('html,body').animate(
+	    {scrollTop:0},400
+	);
+    });
+});
   </script>
   <%- include("../partials/footer") %>

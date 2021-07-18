@@ -1619,14 +1619,50 @@ input[type=range]::-ms-thumb {
 }
 
 /* Search for User */
+.my_bttn{
+  height: 45px;
+  width: 45px;
+  background-color: #3725c0;
+  border: none;
+  color: white;
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  outline: none;
+  display: none;
+  transition: transform 0.1s;
+}
+
+.my_bttn:hover{
+  transform: scale(1.05) 
+             translateY(-5px);
+}
+
+.my_bttn:focus {
+  outline: none;
+}
+
 .find-agent-div {
-  border-left: 25px solid #3725c0; 
-  background-image: url('/img/findagents-banner.png');
+  background-image: url('/img/findagents-banner.jpg');
+  height: 500px;
+  /* filter: blur(2px); */
+}
+
+#search-container {
+  margin-top: -150px;
 }
 
 .blur-div {
-  padding: 50px 0 50px 0; 
-  backdrop-filter: blur(2px);
+  /* padding: 50px 0 50px 0;  */
+  height: 100%;
+  backdrop-filter: blur(3px);
+  -webkit-animation: fadein 4s;
+  -moz-animation: fadein 4s;
+  -ms-animation: fadein 4s;
+  -o-animation: fadein 4s;
+  animation: fadein 4s;
 }
 
 .user-header {
@@ -1645,11 +1681,11 @@ input[type=range]::-ms-thumb {
 }
 
 .fade-in {
-  -webkit-animation: fadein 0.5s;
-  -moz-animation: fadein 0.5s;
-  -ms-animation: fadein 0.5s;
-  -o-animation: fadein 0.5s;
-  animation: fadein 0.5s;
+  -webkit-animation: fadein 1s;
+  -moz-animation: fadein 1s;
+  -ms-animation: fadein 1s;
+  -o-animation: fadein 1s;
+  animation: fadein 1s;
 }
 
 .user-header {
@@ -1864,6 +1900,9 @@ input[type=range]::-ms-thumb {
 }
 
 .user-result img {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
   box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2);
 }
 
