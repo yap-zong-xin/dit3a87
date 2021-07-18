@@ -29,7 +29,7 @@ body {
 }
 
 .mapboxgl-ctrl-logo {
-  display: none !important;
+  /* display: none !important; */
 }
 
 /* Landing Page */

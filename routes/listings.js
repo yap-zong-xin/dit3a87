@@ -692,7 +692,7 @@ router.post("/listings", middleware.isLoggedIn, uploadMultiple, async function(r
   	var author = {
 		id: req.user._id,
 		username: req.user.username,
-		email: req.user.email
+		email: req.user.email,
 	};
 	var newlisting = {name:name, description:desc, author:author, location:location, district:district, price:price, size:size, type:type, bedrooms:bedrooms, bathrooms:bathrooms, tenure:tenure, threeDImage:threeDImage}
 	try {
