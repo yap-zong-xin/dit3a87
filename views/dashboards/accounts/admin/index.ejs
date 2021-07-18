@@ -59,66 +59,32 @@
             </ol>
           </nav>
           <nav aria-label="breadcrumb">
-            <ol class="breadcrumb breadcrumbSec">
+            <ol class="breadcrumb breadcrumbSec mb-0">
               <li class="breadcrumb-item"><a href="/dashboard/accounts/seeker">Seeker</a></li>
               <li class="breadcrumb-item"><a href="/dashboard/accounts/agent">Agent</a></li>
               <li class="breadcrumb-item active" aria-current="page">Admin</li>
             </ol>
           </nav>
         </div>
-        <div class="col-4">
-          <div class="g text-center">
-            <div class="justify-content-between d-flex px-3">
-              <p class="py-1 my-1">Total Users</p>
-              <p class="py-1 my-1">
-                <% var sum=[]; %>
-                <% users.forEach(function(user, index){ %>
-                  <% if(user.isAdmin==true){ %>
-                    <% sum.push([user].length) %>
-                  <% } %>
-                <% }); %>
-                <span>
-                  <%= sum.reduce((a, b) => a + b, 0) %>
-                </span>
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="col-4">
-          <div class="g text-center">
-            <div class="justify-content-between d-flex px-3">
-              <p class="py-1 my-1">Total Males</p>
-              <p class="py-1 my-1">
-                <% var sum=[]; %>
-                <% users.forEach(function(user, index){ %>
-                  <% if(user.isAdmin==true && user.gender=="male"){ %>
-                    <% sum.push([user].length) %>
-                  <% } %>
-                <% }); %>
-                <%= sum.reduce((a, b) => a + b, 0) %>
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="col-4">
-          <div class="g text-center">
-            <div class="justify-content-between d-flex px-3">
-              <p class="py-1 my-1">Total Females</p>
-              <p class="py-1 my-1">
-                <% var sum=[]; %>
-                <% users.forEach(function(user, index){ %>
-                  <% if(user.isAdmin==true && user.gender=="female"){ %>
-                    <% sum.push([user].length) %>
-                  <% } %>
-                <% }); %>
-                <%= sum.reduce((a, b) => a + b, 0) %>
-              </p>
-            </div>
-          </div>
-        </div>
       </div>
-      <div class="row accountTableHeading mr-5 px-4 mt-4">
-        <p style="font-weight: 500; font-size: 1.1em;">Admins</p>
+      <div class="row accountTableHeading mr-5 px-4 mt-2">
+        <div class="col-12 px-0">
+          <div class="justify-content-between d-flex">
+            <div>
+              <p style="font-weight: 500; font-size: 1.1em;">Admins</p>
+            </div>
+            <div class="box justify-content-end d-flex pb-3">
+              <% if(noMatch !== undefined){ %>
+                <form action="/dashboard/accounts/admin" method="GET" class="form-inline">
+                  <div class="form-group">
+                    <input type="text" name="search" placeholder="Search Admins">
+                      <button><i class="fas fa-search"></i></button>
+                  </div>
+                </form>
+              <% } %>
+            </div>
+          </div>
+        </div>
         <table class="table table-sortable">
           <thead>
             <tr>
@@ -136,7 +102,11 @@
           <tbody>
             <% if(users.length==0){ %>
               <tr>
-                <td><em>No users yet.</em></td>
+                <% if(noMatch !== undefined){ %>
+                  <td><em><%= noMatch %></em></td>
+                <% } else { %>
+                  <td><em>No users yet.</em></td>
+                <% } %>
                 <td></td>
                 <td></td>
                 <td></td>
