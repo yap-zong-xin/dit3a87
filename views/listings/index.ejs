@@ -1,116 +1,137 @@
 <%- include("../partials/header") %>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
-<style>
-    body {
-        font-family: "Poppins", sans-serif;
-    }
-</style>
-<body>
-    
-</body>
+
     <!--Top Banner-->
     <div class="container-fluid m-0 p-0">
         <div class="container-fluid m-0 p-0 listing-banner-img listing-banner shadow fade-in">
             <div class="blur-div m-0 p-0"></div>
         </div>
     </div>
-    <div class="container" data-aos="zoom-in" data-aos-once="true" style="margin-top: -150px;">
+
+    <!--Search Bar-->
+    <div class="container" data-aos="zoom-in" data-aos-once="true" style="margin-top: -150px; margin-bottom: 50px;">
         <div class="col-md-12 listing-header d-flex flex-column fade-in">
             <p>Find your Property.</p>
         </div>    
-            <div class="col-md-12 m-0 search-container shadow">
-                <form action="/listings" method="GET" class="form-inline" style="font-family: 'Poppins', sans-serif;">
-                    <div class="row col-md-12 search-row">
-                        <div class="col-md-6">
-                            <div class="search-input">
-                                <i class="fas fa-map-marker-alt"></i>
-                                <input type="text" class="form-control" name="search" placeholder="Search for Properties" style="width: 100%">
-                            </div>                            
-                        </div>
-                        <div class="col-md-2">
-                            <div class="search-input flex-column">
-                                <label for="propertyType">Property Type</label> 
-                                 <select name="propertyType" id="propertyType">
-                                     <!-- <option id="placeholder" name="placeholder" value="placeholder" selected hidden>Property Type</option> -->
-                                     <option id="any" name="any" value="any" selected >Any</option>
-                                     <option id="hdb" name="hdbType" value="hdb">HDB</option>
-                                     <option id="condo" name="condoType" value="condo">Condominium</option>
-                                     <option id="landed" name="landedType" value="landed">Landed Property</option>
-                                 </select>
-                             </div>
-                        </div>
-
-                        <div class="col-md-2">
-                            <div class="search-input flex-column">
-                                <label for="numofRooms">Rooms</label> 
-                                <select name="numofRooms" id="numofRooms">
-                                    <!-- <option id="placeholder" name="placeholder" value="placeholder" selected hidden>No. of Bedrooms</option> -->
-                                    <option id="any" name="any" value="any" selected >Any</option>
-                                    <option id="1" name="onerooms" value="1">1</option>
-                                    <option id="2" name="tworooms" value="2" value="2">2</option>
-                                    <option id="3" name="threerooms" value="3" value="3">3</option>
-                                    <option id="4" name="fourrooms" value="4">4</option>
-                                    <option id="5" name="fiverooms" value="5" value="5">5</option>
-                                    <option id="6" name="sixrooms" value="6">6</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="search-input flex-column">
-                                <label for="sortBy">Sort By</label> 
-                                <select name="sortBy" id="sortBy">
-                                    <!-- <option id="placeholder" name="placeholder" value="placeholder" selected hidden>Sort By</option> -->
-                                    <option value="MostPop" <% if(data.sortBy == 'MostPop') {%> selected <%} %>>Most Popular</option>
-                                    <option value="HighestPrice" <% if(data.sortBy == 'HighestPrice') {%> selected <%} %>>Highest Price</option>
-                                    <option value="LowestPrice" <% if(data.sortBy == 'LowestPrice') {%> selected <%} %>>Lowest Price</option>
-                                    <option value="Recent" <% if(data.sortBy == 'Recent') {%> selected <%} %>>Recent</option>
-                                    <option value="Oldest" <% if(data.sortBy == 'Oldest') {%> selected <%} %>>Oldest</option>
-                                    <option value="LeastPop" <% if(data.sortBy == 'LeastPop') {%> selected <%} %>>Least Popular</option>
-                                </select>
-                            </div>
+        <div class="col-md-12 m-0 search-container shadow">
+            <form action="/listings" method="GET" class="form-inline" style="font-family: 'Poppins', sans-serif;">
+                <div class="row col-md-12 search-row">
+                    <div class="col-md-6">
+                        <div class="search-input">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <input type="text" class="form-control" name="search" placeholder="Search for Properties" style="width: 100%">
+                        </div>                            
+                    </div>
+                    <div class="col-md-2">
+                        <div class="search-input flex-column">
+                            <label for="propertyType">Property Type</label> 
+                            <select name="propertyType" id="propertyType">
+                                <!-- <option id="placeholder" name="placeholder" value="placeholder" selected hidden>Property Type</option> -->
+                                <option id="any" name="any" value="any" selected >Any</option>
+                                <option id="hdb" name="hdbType" value="hdb">HDB</option>
+                                <option id="condo" name="condoType" value="condo">Condominium</option>
+                                <option id="landed" name="landedType" value="landed">Landed Property</option>
+                            </select>
                         </div>
                     </div>
-                    <div class="row col-md-12 search-row hide-row" id="hide-row">
-                        <div class="col-md-3">
-                            <div class= "search-input">
-                                <p>S$</p>
-                                <input type="number" min="0" max="<%= largestPrice %>" name="minPrice" placeholder="Min. Price"/>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class= "search-input">
-                                <p>S$</p>
-                                <input type="number" min="0" max="<%= largestPrice %>" name="maxPrice" placeholder="Max. Price" />
-                            </div> 
-                        </div>
-                        <div class="col-md-3">
-                            <div class="search-input">
-                                <input type="number" min="0" max="<%= largestSize %>" name="minSize" placeholder="Min. Area" />
-                                <p style="font-size: 14px">sqft</p>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="search-input">
-                                <input type="number" min="0" max="<%= largestSize %>" name="maxSize" placeholder="Max. Area" />
-                                <p style="font-size: 14px">sqft</p>
-                            </div>
+                    <div class="col-md-2">
+                        <div class="search-input flex-column">
+                            <label for="numofRooms">Rooms</label> 
+                            <select name="numofRooms" id="numofRooms">
+                                <!-- <option id="placeholder" name="placeholder" value="placeholder" selected hidden>No. of Bedrooms</option> -->
+                                <option id="any" name="any" value="any" selected >Any</option>
+                                <option id="1" name="onerooms" value="1">1</option>
+                                <option id="2" name="tworooms" value="2" value="2">2</option>
+                                <option id="3" name="threerooms" value="3" value="3">3</option>
+                                <option id="4" name="fourrooms" value="4">4</option>
+                                <option id="5" name="fiverooms" value="5" value="5">5</option>
+                                <option id="6" name="sixrooms" value="6">6</option>
+                            </select>
                         </div>
                     </div>
-                    <div class="row col-md-12 search-row">
-                        <div class="col-md-6">
-                            <p class="search-btn showHideBtn" id="showHideBtn">More Options</p>
-                        </div>
-                        <div class="col-md-6 search-btn">
-                            <button class="float-right" type="submit">Show Listings</button>
+                    <div class="col-md-2">
+                        <div class="search-input flex-column">
+                            <label for="sortBy">Sort By</label> 
+                            <select name="sortBy" id="sortBy">
+                                <!-- <option id="placeholder" name="placeholder" value="placeholder" selected hidden>Sort By</option> -->
+                                <option value="MostPop" <% if(data.sortBy == 'MostPop') {%> selected <%} %>>Most Popular</option>
+                                <option value="HighestPrice" <% if(data.sortBy == 'HighestPrice') {%> selected <%} %>>Highest Price</option>
+                                <option value="LowestPrice" <% if(data.sortBy == 'LowestPrice') {%> selected <%} %>>Lowest Price</option>
+                                <option value="Recent" <% if(data.sortBy == 'Recent') {%> selected <%} %>>Recent</option>
+                                <option value="Oldest" <% if(data.sortBy == 'Oldest') {%> selected <%} %>>Oldest</option>
+                                <option value="LeastPop" <% if(data.sortBy == 'LeastPop') {%> selected <%} %>>Least Popular</option>
+                            </select>
                         </div>
                     </div>
-                </form>
-            </div>
+                </div>
+                <div class="row col-md-12 search-row hide-row" id="hide-row">
+                    <div class="col-md-3">
+                        <div class= "search-input">
+                            <p>S$</p>
+                            <input type="number" min="0" max="<%= largestPrice %>" name="minPrice" placeholder="Min. Price"/>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class= "search-input">
+                            <p>S$</p>
+                            <input type="number" min="0" max="<%= largestPrice %>" name="maxPrice" placeholder="Max. Price" />
+                        </div> 
+                    </div>
+                    <div class="col-md-3">
+                        <div class="search-input">
+                            <input type="number" min="0" max="<%= largestSize %>" name="minSize" placeholder="Min. Area" />
+                            <p style="font-size: 14px">sqft</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="search-input">
+                            <input type="number" min="0" max="<%= largestSize %>" name="maxSize" placeholder="Max. Area" />
+                            <p style="font-size: 14px">sqft</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row col-md-12 search-row">
+                    <div class="col-md-6">
+                        <p class="search-btn showHideBtn" id="showHideBtn">More Options</p>
+                    </div>
+                    <div class="col-md-6 search-btn">
+                        <button class="float-right" type="submit">Show Listings</button>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
       
-<!--Map-->
-<div id="map" style="width: 80%; height: 300px;"></div>
+    <!--Map-->
+    <div class="container">
+        <div class="col-md-12 explore-listing" data-aos="fade-up" data-aos-once="true">
+            <p class="row">Explore Listings</p>
+        </div>
+        <div class="col-md-12 p-0 explore-map" data-aos="fade-up" data-aos-once="true">
+            <div class="shadow" id="map" style="width: 100%; height: 400px; border-radius: 15px;"></div>
+        </div>
+        <div class="col-md-12">
+            <div class="row">
+                <div class="owl-carousel owl-theme" data-aos="fade-up" data-aos-once="true">
+                    <div class="item"><h4>1</h4></div>
+                    <div class="item"><h4>2</h4></div>
+                    <div class="item"><h4>3</h4></div>
+                    <div class="item"><h4>4</h4></div>
+                    <div class="item"><h4>5</h4></div>
+                    <div class="item"><h4>6</h4></div>
+                    <div class="item"><h4>7</h4></div>
+                    <div class="item"><h4>8</h4></div>
+                    <div class="item"><h4>9</h4></div>
+                    <div class="item"><h4>10</h4></div>
+                    <div class="item"><h4>11</h4></div>
+                    <div class="item"><h4>12</h4></div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+
 
 <!-- No Match -->
 <div class="container">
