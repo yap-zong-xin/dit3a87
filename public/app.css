@@ -1178,6 +1178,17 @@ input[type=range]::-ms-thumb {
   font-size: 0.9em;
 }
 
+#userActive{
+  background: rgb(165, 154, 245);
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  margin-left: 10px;
+  font-weight: bold;
+  font-size: 0.9em;
+}
+
 .profileHeader{
   font-size: 1.1em;
 }

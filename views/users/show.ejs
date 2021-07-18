@@ -116,6 +116,18 @@
           <br>
         </div>
         <% } %>
+      <% if(user.isAgent==true){ %>
+        <div class="right">
+          <span id="userActive">
+            <% if ( moment(user.lastLogin).format('DD MM YYYY hh:mm:ss') > moment().subtract(7,'days').format('DD MM YYYY hh:mm:ss'))  {%>
+            <span class="pr-1">Active</span>
+            <% } else { %>
+              <span class="pr-1">Inactive</span>
+              <% } %>
+          </span>
+          <br>
+        </div>
+        <% } %>
     </div>
   </div>
 
@@ -684,4 +696,16 @@
   <% } else{ %>
   <% } %>
 
+  <% var lastLogin = user.lastLogin %>
+
+  <script>
+    var date = moment("<%=lastLogin%>").format('DD MM YYYY hh:mm:ss')
+    var newDate = moment().subtract(7,'days').format('DD MM YYYY hh:mm:ss')
+
+    console.log(date > newDate)
+
+    </script>
+
+
+  
   <%- include("../partials/footer") %>
