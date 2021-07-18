@@ -124,7 +124,7 @@
                 <td></td>
               </tr>
             <% } %>
-            <% users.reverse().forEach(function(user){ %>
+            <% users.forEach(function(user){ %>
               <tr onclick="window.location='/user/<%= user._id %>';">
                 <td><img src="<%= user.image %>" alt="" style="border-radius: 50%; width: 50px; height:50px;"></td>
                 <td class="pt-4"><%= user.username %></td>

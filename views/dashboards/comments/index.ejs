@@ -111,7 +111,7 @@
                 <td></td>
               </tr>
             <% } %>
-            <% comments.reverse().forEach(function(comment){ %>
+            <% comments.forEach(function(comment){ %>
               <tr onclick="window.location='/listings/<%= comment.author.listingId %>';">
                   <td>
                     <a href="/user/<%= comment.author.id %>">

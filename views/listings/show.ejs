@@ -1,9 +1,49 @@
 <%- include("../partials/header") %>
 
-  <div class="container pb-3 mb-4 mt-4">
+  <div class="container pb-3 mb-4 mt-2">
+    <div class="row">
+      <div class="col-12 px-0">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item"><a href="/listings">Listings</a></li>
+            <li class="breadcrumb-item active" aria-current="page"><%= listing.name %></li>
+          </ol>
+        </nav>
+      </div>
+      <div class="col-12 pt-3 justify-content-between align-items-center d-flex">
+        <div>
+          <p class="my-0" style="font-size: 2.6em; font-weight: 350;"><%= listing.name %></p>
+        </div>
+        <div>
+          <button class="btn btn-outline-dark">
+            <ion-icon name="share-outline"></ion-icon>
+          </button>
+          <button class="btn btn-outline-dark">
+            <ion-icon name="chatbox-outline"></ion-icon>
+          </button>
+          <button class="btn btn-outline-dark">
+            <ion-icon name="mail-outline"></ion-icon>
+          </button>
+          <a href="/user/<%= listing.author.id %>">
+            <button class="btn btn-outline-dark">
+              <ion-icon name="person-outline"></ion-icon>
+            </button>
+          </a>
+        </div>
+      </div>
+      <div class="col-12 pb-3">
+        <a href="#" class="badge badge-default badge-outlined"><%= listing.district %></a>
+        <a href="#" class="badge badge-default badge-outlined"><%= listing.type %></a>
+        <a href="#" class="badge badge-default badge-outlined"><%= listing.tenure %></a>
+        <a href="#" class="badge badge-default badge-outlined"><%= listing.location %></a>
+      </div>
+    </div>
+
+    <!-- gallery -->
     <div class="row">
       <div class="col-12 p-0">
-        <iframe width="100%;" height="400" class="m-0" src="https://www.hatchdev.asia/virtual-listing/reflections-keppel/fullscreen/?embedded" frameborder="0" allow="vr" allowfullscreen="allowfullscreen"></iframe>
+        <%- listing.threeDImage %>
       </div>
       <div class="col-8 p-0 galleryThumbnail">
         <a data-fancybox="gallery" href="<%= listing.thumbnail %>" data-type="image">
@@ -32,6 +72,8 @@
       <% } %>
     </div>
   </div>
+
+ 
 
   <h1>This is the listings page</h1>
 
@@ -201,7 +243,7 @@
     <% if (listing.comments.length===0) { %>
       <em style="color: grey;">No comments yet.</em>
     <% } %>
-    <% listing.comments.forEach(function(comment) { %>
+    <% listing.comments.reverse().forEach(function(comment) { %>
       <div class="row">
         <div class="col-md-12">
           <strong>

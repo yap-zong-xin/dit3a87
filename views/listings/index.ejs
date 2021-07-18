@@ -195,7 +195,7 @@
                 <div class="all-listing-card-container">
                     <p style="color: red;">Different categories (latest/...)</p>
                     <div class="row px-2">
-                        <% listings.reverse().forEach(function(listing) { %>
+                        <% listings.forEach(function(listing) { %>
                             <div class="col-3 p-3 listingHover">
                                 <div class="row">
                                     <a href="/listings/<%= listing.id %>" style="text-decoration: none; color: black;">

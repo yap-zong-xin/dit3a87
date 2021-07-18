@@ -2309,12 +2309,10 @@ nav a{
   height: 300px;
   object-fit: cover;
   z-index: 1;
-	opacity: 0.7;
 }
 .galleryThumbnail img:hover{
   opacity: 0.4;
 }
-
 .mainToggleText{
   position: absolute;
   top: 50%;
@@ -2325,6 +2323,33 @@ nav a{
   font-family: 'Montserrat', sans-serif;
   font-size: 2.3em;
 }
+
 .pagination a{
   text-decoration: none;
+}
+
+/* badge */
+.badge {
+  display: inline-block;
+  font-size: 0.75em;
+  font-weight: 600;
+  padding: 5px 8px;
+  border: 1px solid transparent;
+  min-width: 10px;
+  line-height: 1;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  border-radius: 99999px
+}
+.badge.badge-default {
+  background-color: #B0BEC5
+}
+.badge.badge-outlined {
+  background-color: transparent
+}
+.badge.badge-outlined.badge-default {
+  border-color: #00a2f3;
+  color: #00a2f3
 }

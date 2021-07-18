@@ -119,7 +119,7 @@
                 <td></td>
               </tr>
             <% } %>
-            <% var idArr = []; listings.reverse().forEach(function(listing) { var id = listing._id; idArr.push(id);%>
+            <% var idArr = []; listings.forEach(function(listing) { var id = listing._id; idArr.push(id);%>
               <tr>
                 <td onclick="window.location='/listings/<%= listing._id %>';">
                   <a href="/listings/<%= listing._id %>">
