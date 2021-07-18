@@ -1,6 +1,6 @@
 <%- include("../partials/header") %>
 
-  <div class="container pb-3 mb-4 mt-2">
+  <div class="container pb-0 mt-2">
     <div class="row">
       <div class="col-12 px-0">
         <nav aria-label="breadcrumb">
@@ -16,27 +16,59 @@
           <p class="my-0" style="font-size: 2.6em; font-weight: 350;"><%= listing.name %></p>
         </div>
         <div>
-          <button class="btn btn-outline-dark">
-            <ion-icon name="share-outline"></ion-icon>
-          </button>
-          <button class="btn btn-outline-dark">
-            <ion-icon name="chatbox-outline"></ion-icon>
-          </button>
-          <button class="btn btn-outline-dark">
-            <ion-icon name="mail-outline"></ion-icon>
-          </button>
-          <a href="/user/<%= listing.author.id %>">
-            <button class="btn btn-outline-dark">
-              <ion-icon name="person-outline"></ion-icon>
-            </button>
-          </a>
+          <div class="justify-content-end d-flex">
+            <div>
+              <% if(!currentUser){ %>
+              <% } else { %>
+                <form action="/conversation/<%= currentUser._id %>/<%= listing.author.id %>" method="POST">
+                  <button type="submit" class="btn btn-outline-dark">
+                    <ion-icon name="chatbox-outline"></ion-icon>
+                  </button>
+                </form>
+              <% } %>
+            </div>
+            <div class="pl-1">
+              <button class="btn btn-outline-dark">
+                <ion-icon name="share-outline"></ion-icon>
+              </button>
+              <a href="mailto:<%= listing.author.email %>" style="color: black; text-decoration: none;">
+                <button class="btn btn-outline-dark">
+                  <ion-icon name="mail-outline"></ion-icon>
+                </button>
+              </a>
+              <a href="/user/<%= listing.author.id %>" style="text-decoration: none;">
+                <button class="btn btn-outline-dark">
+                  <ion-icon name="person-outline"></ion-icon>
+                </button>
+              </a>
+            </div>
+            <div class="pl-1">
+              <form action="/listings/<%= listing._id %>/like" method="POST">
+                <% if (currentUser && listing.likes.some(function (like) { return like.equals(currentUser._id) })) { %>
+                  <button class="btn btn-outline-dark">
+                    <i class="fas fa-heart filledHeart"></i>
+                    <span>
+                      <%= listing.likes.length %> Likes
+                    </span>
+                  </button>
+                <% } else { %>
+                  <button class="btn btn-outline-dark align-items-center d-flex">
+                    <ion-icon name="heart-outline" class="pr-1"></ion-icon>
+                    <span>
+                      <%= listing.likes.length %> Likes
+                    </span>
+                  </button>
+                <% } %>
+              </form>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="col-12 pb-3">
-        <a href="#" class="badge badge-default badge-outlined"><%= listing.district %></a>
-        <a href="#" class="badge badge-default badge-outlined"><%= listing.type %></a>
-        <a href="#" class="badge badge-default badge-outlined"><%= listing.tenure %></a>
-        <a href="#" class="badge badge-default badge-outlined"><%= listing.location %></a>
+      <div class="col-12 pb-3" style="cursor: default;">
+        <span class="badge badge-default badge-outlined"><%= listing.district %></span>
+        <span class="badge badge-default badge-outlined"><%= listing.type %></span>
+        <span class="badge badge-default badge-outlined"><%= listing.tenure %></span>
+        <span class="badge badge-default badge-outlined"><%= listing.location %></span>
       </div>
     </div>
 
@@ -73,16 +105,47 @@
     </div>
   </div>
 
+  <div class="container px-0">
+    <p class="mb-1" style="font-size: 0.9em;">
+      <em>
+        Published <%= moment(listing.createdAt).fromNow() %> by 
+        <a href="/user/<%= listing.author.id %>"><%= listing.author.username %></a>
+      </em>
+    </p>
+  </div>
+
+  <div class="container pt-2">
+    <div class="row">
+      <div class="col-8">
+        <p class="my-0" style="font-size: 1.6em; font-weight: 650;"><%= "S$" + listing.price %></p>
+        <p class="pt-1 align-items-center d-flex" style="font-size: 1.05em;">
+          <ion-icon name="bed-outline"></ion-icon>
+          <span class="pl-2"><%= listing.bedrooms %></span>
+          <img class="pl-3" src="/img/toilet.svg" style="width: 31px;">
+          <span class="pl-2"><%= listing.bathrooms %></span>
+          <ion-icon class="pl-3" name="compass-outline"></ion-icon>
+          <span class="pl-2"><%= listing.district %></span>
+          <ion-icon class="pl-3" name="location-outline"></ion-icon>
+          <span class="pl-2"><%= listing.location %></span>
+        </p>
+        <hr>
+        <p style="font-weight: 630; font-size: 1.2em;">Description</p>
+        <p style="font-size: 1.05em;"><%= listing.description %></p>
+        <hr>
+        <p style="font-weight: 630; font-size: 1.2em;">Location</p>
+        <p style="font-size: 1.05em;">
+          <div id='map' style="height: 300px!important; width: 100%!important;" class="m-0"></div>
+        </p>
+      </div>
+      <div class="col-4">
+
+      </div>
+    </div>
+  </div>
+
  
 
-  <h1>This is the listings page</h1>
-
-  <p style="color: red;">
-    • Gallery below 3DVT
-    <br>• Add 'Message' box (optional) under 'Contact Agent' section
-    <br>• Add 'Share' function at the bottom
-    <br>• Have 'copy url' and other social media icons
-  </p>
+  
   <!-- Listing Info -->
   <div id='map' style="height: 500px!important; width: 800px!important;"></div>
   <div>
@@ -298,11 +361,6 @@
     const listing = <%- JSON.stringify(listing) %>
   </script>
   <script src="/javascripts/showPageMap.js"></script>
-  <script>
-    $('[data-fancybox="gallery"]').fancybox({
-
-    })
-  </script>
   <script>
     cloudinary
   </script>

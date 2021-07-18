@@ -26,7 +26,8 @@ var listingSchema = new mongoose.Schema({
 			type: mongoose.Schema.Types.ObjectId,
 			ref: "User"
 		},
-		username: String
+		username: String,
+      email: String
 	},
    comments: [
       {
