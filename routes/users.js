@@ -100,7 +100,29 @@ router.get("/dashboard/accounts", function(req, res){
 				}
 			});
 		});
-	}else if(req.query.applyFilter) {
+	} else {
+		// get all users from DB
+		User.find({}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, allUsers) {
+			User.count().exec(function (err, count) {
+				if (err) {
+					console.log(err);
+				} else {
+					res.render("dashboards/accounts/index.ejs", {
+						users: allUsers,
+						current: pageNumber,
+						pages: Math.ceil(count / perPage),
+						noMatch: noMatch,
+						search: false,
+						data: req.query
+					});
+				}
+			});
+		});
+	}
+});
+//Get Route - Manage Accounts Dashboard Filter
+router.get("/dashboard/accounts/filter", function(req, res){
+	if(req.query.applyFilter) {
 		// Sort object (to be passed into .sort)
 		var sortOptions = {};
 		var sort = req.query.sort;
@@ -136,39 +158,15 @@ router.get("/dashboard/accounts", function(req, res){
 				filterOptions.isAdmin = false;
 				filterOptions.isAgent = false;
 			}else if(filterAccType == 'All') {
-
 			}
 		// }
-
-		User.find({$and: [filterOptions]}).sort(sortOptions).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, allUsers) {
+		User.find({$and: [filterOptions]}).sort(sortOptions).exec(function (err, allUsers) {
 			User.count().exec(function (err, count) {
 				if (err) {
 					console.log(err);
 				} else {
-					res.render("dashboards/accounts/index.ejs", {
+					res.render("dashboards/accounts/filter/index.ejs", {
 						users: allUsers,
-						current: pageNumber,
-						pages: Math.ceil(count / perPage),
-						noMatch: noMatch,
-						search: false,
-						data: req.query
-					});
-				}
-			});
-		});
-	}else {
-		// get all users from DB
-		User.find({}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, allUsers) {
-			User.count().exec(function (err, count) {
-				if (err) {
-					console.log(err);
-				} else {
-					res.render("dashboards/accounts/index.ejs", {
-						users: allUsers,
-						current: pageNumber,
-						pages: Math.ceil(count / perPage),
-						noMatch: noMatch,
-						search: false,
 						data: req.query
 					});
 				}

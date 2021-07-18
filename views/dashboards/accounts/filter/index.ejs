@@ -1,4 +1,4 @@
-<%- include("../../partials/header") %>
+<%- include("../../../partials/header") %>
 
 <div style="overflow-x: hidden;">
   <div class="row">
@@ -70,7 +70,6 @@
       <div class="row accountTableHeading mr-5 px-4 mt-2">
         <div class="col-12 px-0">
           <div class="justify-content-between d-flex">
-            <% if(noMatch !== undefined){ %>
               <form action="/dashboard/accounts/filter" method="GET" class="form-inline">
                 <div class="box justify-content-end d-flex pb-3">
                   <i class="fas fa-filter"></i>
@@ -91,21 +90,18 @@
                   <input type="submit" value= "GO" name="applyFilter" class="btn btn-info d-flex justify-content-center align-items-center text-align-center" style="padding: 10px 20px 10px 20px;"></input>
                 </div>
               </form>
-            <% } %>
           </div>
           <div class="justify-content-between d-flex">
             <div>
               <p style="font-weight: 500; font-size: 1.1em;">Users</p>
             </div>
             <div class="box justify-content-end d-flex pb-3">
-              <% if(noMatch !== undefined){ %>
                 <form action="/dashboard/accounts" method="GET" class="form-inline">
                   <div class="form-group">
                     <input type="text" name="search" placeholder="Search Users">
                       <button><i class="fas fa-search"></i></button>
                   </div>
                 </form>
-              <% } %>
             </div>
           </div>
         </div>
@@ -114,7 +110,7 @@
             <% if(users.length==0){ %>
               Search result: 0—0
             <% } else { %>
-              Search result: <%= (Number(current)*8)-7 %>—<%= users.length+(Number(current)-1)*8 %>
+              Search result: <%= "1—" + users.length %>
             <% } %>
           </em>
         </div>
@@ -134,12 +130,7 @@
           </thead>
           <tbody>
             <% if(users.length==0){ %>
-              <tr>
-                <% if(noMatch !== undefined){ %>
-                  <td><em><%= noMatch %></em></td>
-                <% } else { %>
-                  <td><em>No users yet.</em></td>
-                <% } %>
+                <tr><em>No users yet.</em></td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -194,55 +185,8 @@
           </tbody>
         </table>
       </div>
-
-      <div class="row text-center pr-5">
-        <div class="col-12 justify-content-center d-flex pr-5">
-          <% if (pages && pages > 0) { %>
-            <ul class="pagination text-center">
-              <% if (current == 1) { %>
-                <li class="disabled"><a class="border px-3 py-2">First</a></li>
-              <% } else { %>
-                <li><a class="border px-3 py-2" href="/dashboard/accounts<%if(search){%>?search=<%=search%><%}%>">First</a></li>
-              <% } %>
-          
-              <% if (current == 1) { %>
-                <li class="disabled"><a class="border px-3 py-2">«</a></li>
-              <% } else { %>
-                <li><a class="border px-3 py-2" href="/dashboard/accounts?page=<%= Number(current) - 1 %><%if(search){%>&search=<%=search%><%}%>">«</a></li>
-              <% } %>
-          
-              <% var i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
-              <% if (i !== 1) { %>
-                <li class="disabled"><a class="border px-3 py-2">...</a></li>
-              <% } %>
-              <% for (; i <= (Number(current) + 4) && i <= pages; i++) { %>
-                <% if (i == current) { %>
-                  <li class="active"><a class="border px-3 py-2"><%= i %></a></li>
-                <% } else { %>
-                  <li><a class="border px-3 py-2" href="/dashboard/accounts?page=<%= i %><%if(search){%>&search=<%=search%><%}%>"><%= i %></a></li>
-                <% } %>
-                <% if (i == Number(current) + 4 && i < pages) { %>
-                  <li class="disabled"><a class="border px-3 py-2">...</a></li>
-                <% } %>
-              <% } %>
-          
-              <% if (current == pages) { %>
-                <li class="disabled"><a class="border px-3 py-2">»</a></li>
-              <% } else { %>
-                <li><a class="border px-3 py-2" href="/dashboard/accounts?page=<%= Number(current) + 1 %><%if(search){%>&search=<%=search%><%}%>">»</a></li>
-              <% } %>
-          
-              <% if (current == pages) { %>
-                <li class="disabled"><a class="border px-3 py-2">Last</a></li>
-              <% } else { %>
-                <li><a class="border px-3 py-2" href="/dashboard/accounts?page=<%= pages %><%if(search){%>&search=<%=search%><%}%>">Last</a></li>
-              <% } %>
-            </ul>
-          <% } %>
-        </div>
-      </div>
     </div>
   </div>
 </div>
 
-<%- include("../../partials/footer") %>
+<%- include("../../../partials/footer") %>
