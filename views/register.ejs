@@ -437,7 +437,7 @@
             console.log(c[i].type)
             valid = false;
           } else if (c[i].type == "email") { //if email
-            var regex = new RegExp ('^[^@\s]+@[^@\s\.]+\.[^@\.\s]+$')
+            var regex = new RegExp ('^[^@]+@[^@]+\.[^@]+$')
             var str = (c[i].value).toString();
             if(RegExp(regex).test(str) == false) {
               a[i].className += " invalid-input";
