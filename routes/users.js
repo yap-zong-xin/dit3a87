@@ -94,12 +94,69 @@ router.get("/dashboard/accounts", function(req, res){
 						current: pageNumber,
 						pages: Math.ceil(count / perPage),
 						noMatch: noMatch,
-						search: req.query.search
+						search: req.query.search,
+						data: req.query
 					});
 				}
 			});
 		});
-	} else {
+	}else if(req.query.applyFilter) {
+		// Sort object (to be passed into .sort)
+		var sortOptions = {};
+		var sort = req.query.sort;
+		if(sort == 'LowestRating') {
+			sortOptions.rating = 1;
+		}else if(sort == 'HighestRating') {
+			sortOptions.rating = -1 ;
+		} else if(sort == 'Recent') {
+			sortOptions.createdAt = -1;
+		}else if(sort == 'Oldest') {
+			sortOptions.createdAt = 1;
+		}
+
+		if(Object.keys(sortOptions).length == 0) {
+			sortOptions.createdAt = -1
+		}
+
+		//filter acc type
+		// if(req.query.filterAccType) {
+			var filterAccType = req.query.filterAccType;
+			var filterOptions = {};
+			// filterOptions.isAdmin = false;
+			// filterOptions.isAgent = false;
+			console.log('filter chosen: ', filterAccType);
+			if(filterAccType == 'Admin') {
+				console.log('admin chosen')
+				filterOptions.isAdmin = true;
+			}else if(filterAccType == 'Agent') {
+				console.log('agent chosen')
+				filterOptions.isAgent = true;
+			} else if(filterAccType == 'Seeker') {
+				console.log('seeker chosen')
+				filterOptions.isAdmin = false;
+				filterOptions.isAgent = false;
+			}else if(filterAccType == 'All') {
+
+			}
+		// }
+
+		User.find({$and: [filterOptions]}).sort(sortOptions).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, allUsers) {
+			User.count().exec(function (err, count) {
+				if (err) {
+					console.log(err);
+				} else {
+					res.render("dashboards/accounts/index.ejs", {
+						users: allUsers,
+						current: pageNumber,
+						pages: Math.ceil(count / perPage),
+						noMatch: noMatch,
+						search: false,
+						data: req.query
+					});
+				}
+			});
+		});
+	}else {
 		// get all users from DB
 		User.find({}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, allUsers) {
 			User.count().exec(function (err, count) {
@@ -111,7 +168,8 @@ router.get("/dashboard/accounts", function(req, res){
 						current: pageNumber,
 						pages: Math.ceil(count / perPage),
 						noMatch: noMatch,
-						search: false
+						search: false,
+						data: req.query
 					});
 				}
 			});
