@@ -1633,6 +1633,7 @@ input[type=range]::-ms-thumb {
   outline: none;
   display: none;
   transition: transform 0.1s;
+  z-index: 1
 }
 
 .my_bttn:hover{
@@ -1953,6 +1954,13 @@ input[type=range]::-ms-thumb {
 
 }
 
+@media only screen and (max-width: 500px) {
+  .user-result img {
+    width: 150px;
+    height: 150px;
+  }
+}
+
 @media only screen and (max-width: 478px) {
   .contact-row {
     flex-direction: column;
@@ -1989,6 +1997,14 @@ input[type=range]::-ms-thumb {
   }
 
 }
+
+@media only screen and (max-width: 388px) {
+  .user-result img {
+    width: 100px;
+    height: 100px;
+  }
+}
+
 
 
 @keyframes fadein {
