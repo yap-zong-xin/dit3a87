@@ -266,44 +266,235 @@ router.get("/dashboard/accounts", function(req, res){
 			sortOptions.createdAt = -1
 		}
 
-		// //filter acc type
-		// // if(req.query.filterAccType) {
-		// 	var filterAccType = req.query.filterAccType;
-		// 	var filterOptions = {};
-		// 	// filterOptions.isAdmin = false;
-		// 	// filterOptions.isAgent = false;
-		// 	console.log('filter chosen: ', filterAccType);
-		// 	if(filterAccType == 'Admin') {
-		// 		console.log('admin chosen')
-		// 		filterOptions.isAdmin = true;
-		// 	}else if(filterAccType == 'Agent') {
-		// 		console.log('agent chosen')
-		// 		filterOptions.isAgent = true;
-		// 	} else if(filterAccType == 'Seeker') {
-		// 		console.log('seeker chosen')
-		// 		filterOptions.isAdmin = false;
-		// 		filterOptions.isAgent = false;
-		// 	}else if(filterAccType == 'All') {
-		// 	}
-		// // }
-		User.find({}).sort(sortOptions).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, allUsers) {
-			User.count().exec(function (err, count) {
-				if (err) {
-					console.log(err);
-				} else {
-					res.render("dashboards/accounts/index.ejs", {
-						users: allUsers,
-						current: pageNumber,
-						pages: Math.ceil(count / perPage),
-						noMatch: noMatch,
-						search: false,
-						sort: req.query.sort,
-						data: req.query
+		if(req.query.filterAccType) {
+			// console.log(req.query.filterAccType)
+			var filterOptions = {};
+			var filterAccType = req.query.filterAccType;
+			// filterOptions.isAdmin = false;
+			// filterOptions.isAgent = false;
+			console.log('filter chosen: ', filterAccType);
+			if(filterAccType == 'Admin') {
+				console.log('admin chosen')
+				User.find({isAdmin: true})
+				.sort(sortOptions)
+				.skip((perPage * pageNumber) - perPage)
+				.limit(perPage)
+				.exec(function (err, allUsers) {
+					User.count().exec(function (err, count) {
+						if (err) {
+							console.log(err);
+						} else {
+							res.render("dashboards/accounts/index.ejs", {
+								users: allUsers,
+								current: pageNumber,
+								pages: Math.ceil(count / perPage),
+								noMatch: noMatch,
+								search: req.query.search,
+								filterAccType: req.query.filterAccType,
+								sort: req.query.sort,
+								data: req.query
+							});
+						}
 					});
-				}
+				});
+			}else if(filterAccType == 'Agent') {
+				console.log('agent chosen')
+				User.find({isAgent: true})
+				.sort(sortOptions)
+				.skip((perPage * pageNumber) - perPage)
+				.limit(perPage)
+				.exec(function (err, allUsers) {
+					User.count().exec(function (err, count) {
+						if (err) {
+							console.log(err);
+						} else {
+							res.render("dashboards/accounts/index.ejs", {
+								users: allUsers,
+								current: pageNumber,
+								pages: Math.ceil(count / perPage),
+								noMatch: noMatch,
+								search: req.query.search,
+								filterAccType: req.query.filterAccType,
+								sort: req.query.sort,
+								data: req.query
+							});
+						}
+					});
+				});
+			} else if(filterAccType == 'Seeker') {
+				console.log('seeker chosen')
+				User.find({isAgent: false, isAdmin: false})
+				.sort(sortOptions)
+				.skip((perPage * pageNumber) - perPage)
+				.limit(perPage)
+				.exec(function (err, allUsers) {
+					User.count().exec(function (err, count) {
+						if (err) {
+							console.log(err);
+						} else {
+							res.render("dashboards/accounts/index.ejs", {
+								users: allUsers,
+								current: pageNumber,
+								pages: Math.ceil(count / perPage),
+								noMatch: noMatch,
+								search: req.query.search,
+								filterAccType: req.query.filterAccType,
+								sort: req.query.sort,
+								data: req.query
+							});
+						}
+					});
+				});
+			}else if(filterAccType == 'All') {
+				User.find({})
+				.sort(sortOptions)
+				.skip((perPage * pageNumber) - perPage)
+				.limit(perPage)
+				.exec(function (err, allUsers) {
+					User.count().exec(function (err, count) {
+						if (err) {
+							console.log(err);
+						} else {
+							res.render("dashboards/accounts/index.ejs", {
+								users: allUsers,
+								current: pageNumber,
+								pages: Math.ceil(count / perPage),
+								noMatch: noMatch,
+								search: req.query.search,
+								filterAccType: req.query.filterAccType,
+								sort: req.query.sort,
+								data: req.query
+							});
+						}
+					});
+				});
+			}
+
+		} else {
+			User.find({}).sort(sortOptions).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, allUsers) {
+				User.count().exec(function (err, count) {
+					if (err) {
+						console.log(err);
+					} else {
+						res.render("dashboards/accounts/index.ejs", {
+							users: allUsers,
+							current: pageNumber,
+							pages: Math.ceil(count / perPage),
+							noMatch: noMatch,
+							search: false,
+							sort: req.query.sort,
+							data: req.query
+						});
+					}
+				});
 			});
-		});
-	} else {
+		}
+	} 
+	else if (req.query.filterAccType) {
+			console.log(req.query.filterAccType)
+			var filterOptions = {};
+			var filterAccType = req.query.filterAccType;
+			// filterOptions.isAdmin = false;
+			// filterOptions.isAgent = false;
+			console.log('filter chosen: ', filterAccType);
+			if(filterAccType == 'Admin') {
+				console.log('admin chosen')
+				User.find({isAdmin: true})
+				.sort(sortOptions)
+				.skip((perPage * pageNumber) - perPage)
+				.limit(perPage)
+				.exec(function (err, allUsers) {
+					User.count().exec(function (err, count) {
+						if (err) {
+							console.log(err);
+						} else {
+							res.render("dashboards/accounts/index.ejs", {
+								users: allUsers,
+								current: pageNumber,
+								pages: Math.ceil(count / perPage),
+								noMatch: noMatch,
+								search: req.query.search,
+								filterAccType: req.query.filterAccType,
+								sort: req.query.sort,
+								data: req.query
+							});
+						}
+					});
+				});
+			}else if(filterAccType == 'Agent') {
+				console.log('agent chosen')
+				User.find({isAgent: true})
+				.sort(sortOptions)
+				.skip((perPage * pageNumber) - perPage)
+				.limit(perPage)
+				.exec(function (err, allUsers) {
+					User.count().exec(function (err, count) {
+						if (err) {
+							console.log(err);
+						} else {
+							res.render("dashboards/accounts/index.ejs", {
+								users: allUsers,
+								current: pageNumber,
+								pages: Math.ceil(count / perPage),
+								noMatch: noMatch,
+								search: req.query.search,
+								filterAccType: req.query.filterAccType,
+								sort: req.query.sort,
+								data: req.query
+							});
+						}
+					});
+				});
+			} else if(filterAccType == 'Seeker') {
+				console.log('seeker chosen')
+				User.find({isAgent: false, isAdmin: false})
+				.sort(sortOptions)
+				.skip((perPage * pageNumber) - perPage)
+				.limit(perPage)
+				.exec(function (err, allUsers) {
+					User.count().exec(function (err, count) {
+						if (err) {
+							console.log(err);
+						} else {
+							res.render("dashboards/accounts/index.ejs", {
+								users: allUsers,
+								current: pageNumber,
+								pages: Math.ceil(count / perPage),
+								noMatch: noMatch,
+								search: req.query.search,
+								filterAccType: req.query.filterAccType,
+								sort: req.query.sort,
+								data: req.query
+							});
+						}
+					});
+				});
+			}else if(filterAccType == 'All') {
+				User.find({})
+				.sort(sortOptions)
+				.skip((perPage * pageNumber) - perPage)
+				.limit(perPage)
+				.exec(function (err, allUsers) {
+					User.count().exec(function (err, count) {
+						if (err) {
+							console.log(err);
+						} else {
+							res.render("dashboards/accounts/index.ejs", {
+								users: allUsers,
+								current: pageNumber,
+								pages: Math.ceil(count / perPage),
+								noMatch: noMatch,
+								search: req.query.search,
+								filterAccType: req.query.filterAccType,
+								sort: req.query.sort,
+								data: req.query
+							});
+						}
+					});
+				});
+			}
+	} 
+	else {
 		// get all users from DB
 		User.find({}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, allUsers) {
 			User.count().exec(function (err, count) {
