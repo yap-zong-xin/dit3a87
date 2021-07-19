@@ -80,21 +80,134 @@ router.get("/dashboard/accounts", function(req, res){
 	var noMatch = null;
 	if(req.query.search) {
 		const regex = new RegExp(escapeRegex(req.query.search), 'gi');
-		User.find({$or: [{username: regex}, {firstName: regex}, {lastName: regex}]}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, allUsers) {
-			User.count({username: regex}).exec(function (err, count) {
+		if(req.query.sort) {
+			// Sort object (to be passed into .sort)
+			var sortOptions = {};
+			var sort = req.query.sort;
+			if(sort == 'LowestRating') {
+				sortOptions.rating = 1;
+			}else if(sort == 'HighestRating') {
+				sortOptions.rating = -1 ;
+			} else if(sort == 'Recent') {
+				sortOptions.createdAt = -1;
+			}else if(sort == 'Oldest') {
+				sortOptions.createdAt = 1;
+			}
+	
+			if(Object.keys(sortOptions).length == 0) {
+				sortOptions.createdAt = -1
+			}
+	
+			// //filter acc type
+			// // if(req.query.filterAccType) {
+			// 	var filterAccType = req.query.filterAccType;
+			// 	var filterOptions = {};
+			// 	// filterOptions.isAdmin = false;
+			// 	// filterOptions.isAgent = false;
+			// 	console.log('filter chosen: ', filterAccType);
+			// 	if(filterAccType == 'Admin') {
+			// 		console.log('admin chosen')
+			// 		filterOptions.isAdmin = true;
+			// 	}else if(filterAccType == 'Agent') {
+			// 		console.log('agent chosen')
+			// 		filterOptions.isAgent = true;
+			// 	} else if(filterAccType == 'Seeker') {
+			// 		console.log('seeker chosen')
+			// 		filterOptions.isAdmin = false;
+			// 		filterOptions.isAgent = false;
+			// 	}else if(filterAccType == 'All') {
+			// 	}
+			// }
+			User.find({$or: [{username: regex}, {firstName: regex}, {lastName: regex}]}).sort(sortOptions).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, allUsers) {
+				User.count().exec(function (err, count) {
+					if (err) {
+						console.log(err);
+					} else {
+						res.render("dashboards/accounts/index.ejs", {
+							users: allUsers,
+							current: pageNumber,
+							pages: Math.ceil(count / perPage),
+							noMatch: noMatch,
+							search: req.query.search,
+							sort: req.query.sort,
+							data: req.query
+						});
+					}
+				});
+			});
+		} else {
+			User.find({$or: [{username: regex}, {firstName: regex}, {lastName: regex}]}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, allUsers) {
+				User.count({username: regex}).exec(function (err, count) {
+					if (err) {
+						console.log(err);
+						res.redirect("back");
+					} else {
+						if(allUsers.length < 1) {
+							noMatch = "Result: '" + req.query.search + "' not found. Please try again.";
+						}
+						res.render("dashboards/accounts/index.ejs", {
+							users: allUsers,
+							current: pageNumber,
+							pages: Math.ceil(count / perPage),
+							noMatch: noMatch,
+							search: req.query.search,
+							sort: false,
+							data: req.query
+						});
+					}
+				});
+			});
+		}
+	} else if(req.query.sort) {
+		// Sort object (to be passed into .sort)
+		var sortOptions = {};
+		var sort = req.query.sort;
+		if(sort == 'LowestRating') {
+			sortOptions.rating = 1;
+		}else if(sort == 'HighestRating') {
+			sortOptions.rating = -1 ;
+		} else if(sort == 'Recent') {
+			sortOptions.createdAt = -1;
+		}else if(sort == 'Oldest') {
+			sortOptions.createdAt = 1;
+		}
+
+		if(Object.keys(sortOptions).length == 0) {
+			sortOptions.createdAt = -1
+		}
+
+		// //filter acc type
+		// // if(req.query.filterAccType) {
+		// 	var filterAccType = req.query.filterAccType;
+		// 	var filterOptions = {};
+		// 	// filterOptions.isAdmin = false;
+		// 	// filterOptions.isAgent = false;
+		// 	console.log('filter chosen: ', filterAccType);
+		// 	if(filterAccType == 'Admin') {
+		// 		console.log('admin chosen')
+		// 		filterOptions.isAdmin = true;
+		// 	}else if(filterAccType == 'Agent') {
+		// 		console.log('agent chosen')
+		// 		filterOptions.isAgent = true;
+		// 	} else if(filterAccType == 'Seeker') {
+		// 		console.log('seeker chosen')
+		// 		filterOptions.isAdmin = false;
+		// 		filterOptions.isAgent = false;
+		// 	}else if(filterAccType == 'All') {
+		// 	}
+		// // }
+		User.find({}).sort(sortOptions).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, allUsers) {
+			User.count().exec(function (err, count) {
 				if (err) {
 					console.log(err);
-					res.redirect("back");
 				} else {
-					if(allUsers.length < 1) {
-						noMatch = "Result: '" + req.query.search + "' not found. Please try again.";
-					}
 					res.render("dashboards/accounts/index.ejs", {
 						users: allUsers,
 						current: pageNumber,
 						pages: Math.ceil(count / perPage),
 						noMatch: noMatch,
-						search: req.query.search,
+						search: false,
+						sort: req.query.sort,
 						data: req.query
 					});
 				}
@@ -113,60 +226,7 @@ router.get("/dashboard/accounts", function(req, res){
 						pages: Math.ceil(count / perPage),
 						noMatch: noMatch,
 						search: false,
-						data: req.query
-					});
-				}
-			});
-		});
-	}
-});
-//Get Route - Manage Accounts Dashboard Filter
-router.get("/dashboard/accounts/filter", function(req, res){
-	if(req.query.applyFilter) {
-		// Sort object (to be passed into .sort)
-		var sortOptions = {};
-		var sort = req.query.sort;
-		if(sort == 'LowestRating') {
-			sortOptions.rating = 1;
-		}else if(sort == 'HighestRating') {
-			sortOptions.rating = -1 ;
-		} else if(sort == 'Recent') {
-			sortOptions.createdAt = -1;
-		}else if(sort == 'Oldest') {
-			sortOptions.createdAt = 1;
-		}
-
-		if(Object.keys(sortOptions).length == 0) {
-			sortOptions.createdAt = -1
-		}
-
-		//filter acc type
-		// if(req.query.filterAccType) {
-			var filterAccType = req.query.filterAccType;
-			var filterOptions = {};
-			// filterOptions.isAdmin = false;
-			// filterOptions.isAgent = false;
-			console.log('filter chosen: ', filterAccType);
-			if(filterAccType == 'Admin') {
-				console.log('admin chosen')
-				filterOptions.isAdmin = true;
-			}else if(filterAccType == 'Agent') {
-				console.log('agent chosen')
-				filterOptions.isAgent = true;
-			} else if(filterAccType == 'Seeker') {
-				console.log('seeker chosen')
-				filterOptions.isAdmin = false;
-				filterOptions.isAgent = false;
-			}else if(filterAccType == 'All') {
-			}
-		// }
-		User.find({$and: [filterOptions]}).sort(sortOptions).exec(function (err, allUsers) {
-			User.count().exec(function (err, count) {
-				if (err) {
-					console.log(err);
-				} else {
-					res.render("dashboards/accounts/filter/index.ejs", {
-						users: allUsers,
+						sort: false,
 						data: req.query
 					});
 				}

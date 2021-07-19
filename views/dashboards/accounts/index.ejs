@@ -70,6 +70,42 @@
       <div class="row accountTableHeading mr-5 px-4 mt-2">
         <div class="col-12 px-0">
           <% if(noMatch !== undefined){ %>
+            <form action="/dashboard/accounts" method="GET" class="form-inline">
+              <div class="row col-md-12 m-0 form-group">
+                <div class="row col-md-12 m-0 p-0 d-flex justify-content-center align-items-center">
+                  <div class="row col-md-7 m-0 flex-nowrap fAgent-input" id="search-border">
+                    <i class="fas fa-search"></i>
+                    <input type="text" class="form-control searchBox" name="search" placeholder="Search Users">
+                  </div>
+                  <div class="row col-md-4 m-0 flex-nowrap fAgent-input">
+                    <select class="form-control" name="sort" id="sort" style="height: 35px;">
+                      <option value="" disabled selected hidden></option>
+                      <option value="HighestRating" <% if(data.sort == 'HighestRating') {%> selected <%} %>>Highest Rating</option>
+                      <option value="LowestRating" <% if(data.sort == 'LowestRating') {%> selected <%} %>>Lowest Rating</option>
+                      <option value="Recent" <% if(data.sort == 'Recent') {%> selected <%} %>>Recent</option>
+                      <option value="Oldest" <% if(data.sort == 'Oldest') {%> selected <%} %>>Oldest</option>
+                    </select>
+                  </div>
+                  <div class="row col-md-4 m-0 flex-nowrap fAgent-input">
+                    <select class="form-control" name="filterAccType" id="filterAccType" style="height: 35px;">
+                      <option value="" disabled selected hidden></option>
+                      <option value="Admin" <% if(data.filterAccType == 'Admin') {%> selected <%} %>>Admin</option>
+                      <option value="Agent" <% if(data.filterAccType == 'Agent') {%> selected <%} %>>Agent</option>
+                      <option value="Seeker" <% if(data.filterAccType == 'Seeker') {%> selected <%} %>>Seeker</option>
+                      <option value="All" <% if(data.filterAccType == 'All') {%> selected <%} %>>All</option>
+                    </select>
+                  </div>
+                  <div class="row col-md-1 p-0">
+                    <button type="submit" class="btn btn-info d-flex justify-content-center align-items-center text-align-center" style="padding: 15px 25px 15px 25px;">GO</button>
+                  </div>
+                </div>
+              </div>
+            </form>
+
+
+
+
+
             <form action="/dashboard/accounts" method="GET">
               <div class="input-group mb-3">
                 <input type="text" class="form-control searchBox" name="search" placeholder="Search Users">
@@ -87,7 +123,7 @@
             <p style="font-weight: 500; font-size: 1.1em;" class="mb-0">Users</p>
           </div>
           <div>
-            <form action="/dashboard/accounts/filter" method="GET" class="form-inline filterBox">
+            <form action="/dashboard/accounts" method="GET" class="form-inline filterBox">
               <label for="sort"><span class="pr-2">Sort By:</span></label>
               <div class="form-group">
                 <select class="form-control" name="sort" id="sort" style="height: 35px;">
@@ -205,13 +241,13 @@
               <% if (current == 1) { %>
                 <li class="disabled"><a class="border px-3 py-2">First</a></li>
               <% } else { %>
-                <li><a class="border px-3 py-2" href="/dashboard/accounts<%if(search){%>?search=<%=search%><%}%>">First</a></li>
+                <li><a class="border px-3 py-2" href="/dashboard/accounts<%if(search){%>?search=<%=search%><%}%><%if(sort){%>&sort=<%=sort%><%}%>">First</a></li>
               <% } %>
           
               <% if (current == 1) { %>
                 <li class="disabled"><a class="border px-3 py-2">«</a></li>
               <% } else { %>
-                <li><a class="border px-3 py-2" href="/dashboard/accounts?page=<%= Number(current) - 1 %><%if(search){%>&search=<%=search%><%}%>">«</a></li>
+                <li><a class="border px-3 py-2" href="/dashboard/accounts?page=<%= Number(current) - 1 %><%if(search){%>&search=<%=search%><%}%><%if(sort){%>&sort=<%=sort%><%}%>">«</a></li>
               <% } %>
           
               <% var i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
@@ -222,7 +258,7 @@
                 <% if (i == current) { %>
                   <li class="active"><a class="border px-3 py-2"><%= i %></a></li>
                 <% } else { %>
-                  <li><a class="border px-3 py-2" href="/dashboard/accounts?page=<%= i %><%if(search){%>&search=<%=search%><%}%>"><%= i %></a></li>
+                  <li><a class="border px-3 py-2" href="/dashboard/accounts?page=<%= i %><%if(search){%>&search=<%=search%><%}%><%if(sort){%>&sort=<%=sort%><%}%>"><%= i %></a></li>
                 <% } %>
                 <% if (i == Number(current) + 4 && i < pages) { %>
                   <li class="disabled"><a class="border px-3 py-2">...</a></li>
@@ -232,13 +268,13 @@
               <% if (current == pages) { %>
                 <li class="disabled"><a class="border px-3 py-2">»</a></li>
               <% } else { %>
-                <li><a class="border px-3 py-2" href="/dashboard/accounts?page=<%= Number(current) + 1 %><%if(search){%>&search=<%=search%><%}%>">»</a></li>
+                <li><a class="border px-3 py-2" href="/dashboard/accounts?page=<%= Number(current) + 1 %><%if(search){%>&search=<%=search%><%}%><%if(sort){%>&sort=<%=sort%><%}%>">»</a></li>
               <% } %>
           
               <% if (current == pages) { %>
                 <li class="disabled"><a class="border px-3 py-2">Last</a></li>
               <% } else { %>
-                <li><a class="border px-3 py-2" href="/dashboard/accounts?page=<%= pages %><%if(search){%>&search=<%=search%><%}%>">Last</a></li>
+                <li><a class="border px-3 py-2" href="/dashboard/accounts?page=<%= pages %><%if(search){%>&search=<%=search%><%}%><%if(sort){%>&sort=<%=sort%><%}%>">Last</a></li>
               <% } %>
             </ul>
           <% } %>
