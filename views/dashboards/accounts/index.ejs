@@ -124,6 +124,7 @@
           </div>
           <div>
             <form action="/dashboard/accounts" method="GET" class="form-inline filterBox">
+              <input type="text" class="form-control searchBox" name="search" placeholder="Search Users">
               <label for="sort"><span class="pr-2">Sort By:</span></label>
               <div class="form-group">
                 <select class="form-control" name="sort" id="sort" style="height: 35px;">
@@ -144,7 +145,7 @@
                   <option value="All" <% if(data.filterAccType == 'All') {%> selected <%} %>>All</option>
                 </select>
               </div>
-              <input type="submit" value="Apply" name="applyFilter" class="btn btn-dark rounded-0 ml-2" style="height: 35px; font-size:0.85em;"></input>
+              <button type="submit" class="btn btn-dark rounded-0 ml-2" style="height: 35px; font-size:0.85em;">submit</button>
             </form>
           </div>
         </div>

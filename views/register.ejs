@@ -199,6 +199,7 @@
               <i class="fas fa-lock"></i>
               <input type="password" placeholder="Password" name="password" name="pwd" required />
             </div>
+            <div class="m-0 p-0" id="cea-num"></div>
             <div id="profile-drop-area" style="background-color: #fff;">
               <p id="pic-msg"><b>Upload Profile Picture:</b></p>
               <input type="file" name="image" id="profileFiles" accept="image/*" onchange="handleProfileFiles(this.files)" style="background-color: #fff;"/>
@@ -256,6 +257,10 @@
                       </li>
                     </ul>`
         document.getElementById("profileFiles").required = false;
+        try {
+          document.getElementById("cea-input").remove();
+        } catch (e) {}
+
       } else if (role == "agent") {
         var html = `<ul class="typeOfRole d-none" id="role">
                         <li>
@@ -264,6 +269,11 @@
                         </li>
                       </ul>`
         document.getElementById("profileFiles").required = true;
+        var cea = `<div class="input-field" id="cea-input">
+                    <i class="fas fa-id-card"></i>
+                    <input type="text" placeholder="CEA Number" id="cea" name="cea" required />
+                  </div>`
+        document.getElementById("cea-num").insertAdjacentHTML("beforebegin", cea);   
       }
 
       ele.insertAdjacentHTML("beforebegin", html);

@@ -32,6 +32,7 @@ var imageFilter = function (req, file, cb) {
 };
 var upload = multer({ storage: storage, fileFilter: imageFilter})
 var cloudinary = require('cloudinary');
+const { filter } = require('async');
 cloudinary.config({ 
   cloud_name: 'yappy', 
   api_key: process.env.CLOUDINARY_API_KEY, 
@@ -98,43 +99,83 @@ router.get("/dashboard/accounts", function(req, res){
 				sortOptions.createdAt = -1
 			}
 	
-			// //filter acc type
-			// // if(req.query.filterAccType) {
-			// 	var filterAccType = req.query.filterAccType;
-			// 	var filterOptions = {};
-			// 	// filterOptions.isAdmin = false;
-			// 	// filterOptions.isAgent = false;
-			// 	console.log('filter chosen: ', filterAccType);
-			// 	if(filterAccType == 'Admin') {
-			// 		console.log('admin chosen')
-			// 		filterOptions.isAdmin = true;
-			// 	}else if(filterAccType == 'Agent') {
-			// 		console.log('agent chosen')
-			// 		filterOptions.isAgent = true;
-			// 	} else if(filterAccType == 'Seeker') {
-			// 		console.log('seeker chosen')
-			// 		filterOptions.isAdmin = false;
-			// 		filterOptions.isAgent = false;
-			// 	}else if(filterAccType == 'All') {
-			// 	}
-			// }
-			User.find({$or: [{username: regex}, {firstName: regex}, {lastName: regex}]}).sort(sortOptions).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, allUsers) {
-				User.count().exec(function (err, count) {
-					if (err) {
-						console.log(err);
-					} else {
-						res.render("dashboards/accounts/index.ejs", {
-							users: allUsers,
-							current: pageNumber,
-							pages: Math.ceil(count / perPage),
-							noMatch: noMatch,
-							search: req.query.search,
-							sort: req.query.sort,
-							data: req.query
-						});
-					}
+			//filter acc type
+			if(req.query.filterAccType) {
+				// console.log(req.query.filterAccType)
+				var filterOptions = {};
+				var filterAccType = req.query.filterAccType;
+				// filterOptions.isAdmin = false;
+				// filterOptions.isAgent = false;
+				console.log('filter chosen: ', filterAccType);
+				if(filterAccType == 'Admin') {
+					console.log('admin chosen')
+					filterOptions.isAdmin = -1;
+					filterOptions.isAgent = 1;
+				}else if(filterAccType == 'Agent') {
+					console.log('agent chosen')
+					filterOptions.isAgent = -1;
+					filterOptions.isAdmin = 1;
+				} else if(filterAccType == 'Seeker') {
+					console.log('seeker chosen')
+					filterOptions.isAdmin = 1;
+					filterOptions.isAgent = 1;
+				}else if(filterAccType == 'All') {
+					filterOptions.isAdmin = 1;
+					filterOptions.isAgent = 1;
+				}
+
+				var obj = {
+					"rating" : sortOptions.rating,
+					"isAgent" : filterOptions.isAgent,
+					"isAdmin" : filterOptions.isAdmin
+				}
+
+
+				console.log(obj);
+
+				User.find({$or: [{username: regex}, {firstName: regex}, {lastName: regex}]})
+				.sort(obj)
+				.skip((perPage * pageNumber) - perPage)
+				.limit(perPage)
+				.exec(function (err, allUsers) {
+					User.count().exec(function (err, count) {
+						if (err) {
+							console.log(err);
+						} else {
+							res.render("dashboards/accounts/index.ejs", {
+								users: allUsers,
+								current: pageNumber,
+								pages: Math.ceil(count / perPage),
+								noMatch: noMatch,
+								search: req.query.search,
+								filterAccType: req.query.filterAccType,
+								sort: req.query.sort,
+								data: req.query
+							});
+						}
+					});
 				});
-			});
+			} else {
+				User.find({$or: [{username: regex}, {firstName: regex}, {lastName: regex}]}).sort(sortOptions).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, allUsers) {
+					User.count().exec(function (err, count) {
+						if (err) {
+							console.log(err);
+						} else {
+							res.render("dashboards/accounts/index.ejs", {
+								users: allUsers,
+								current: pageNumber,
+								pages: Math.ceil(count / perPage),
+								noMatch: noMatch,
+								search: req.query.search,
+								sort: req.query.sort,
+								data: req.query
+							});
+						}
+					});
+				});
+			}
+
+
 		} else {
 			User.find({$or: [{username: regex}, {firstName: regex}, {lastName: regex}]}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, allUsers) {
 				User.count({username: regex}).exec(function (err, count) {
