@@ -95,17 +95,17 @@
                     </div>
                 </div>
                 <div class="row col-md-12 search-row">
-                    <div class="float-left">
+                    <div class="float-left" style="padding: 0 15px 0 15px;">
                         <p class="search-btn showHideBtn" id="showHideBtn">More Options</p>
                     </div>
-                    <div class="search-btn float-right">
+                    <div class="search-btn float-right" style="padding: 0 15px 0 15px;">
                         <button type="submit">Show Listings</button>
                     </div>
                 </div>
             </form>
         </div>
     </div>
-      
+
     <!--Map-->
     <div class="container">
         <div class="col-md-12 explore" data-aos="fade-up" data-aos-once="true">
@@ -139,7 +139,8 @@
     <div class="container" style="margin-top: 50px;" id="listing-add">
         <div class="col-md-12 explore" data-aos="fade-up" data-aos-once="true"> 
             <p class="row">Popular Listings</p>
-        </div>    
+        </div>   
+        <!--Add Old Listing code here--> 
         <div class="col-md-12">
             <% if(noMatch !== undefined){ %>
                 <form action="/listings" method="GET" class="form-inline">
@@ -431,6 +432,7 @@
                 </div>
             </div>
         </div>
+        <div class="listing-add" id="listing-add"></div>
     </div>
 
     <script>
@@ -442,11 +444,11 @@
     <!-- <script type="text/javascript" src="https://livejs.com/live.js"></script> -->
     <script>
         $(".hide-row" ).hide();
-            $('.showHideBtn').click(function() {
+        $('.showHideBtn').click(function() {
                 var $this = $(this);
                 $this.toggleClass('showHideBtn');
                 if($this.hasClass('showHideBtn')){
-                    $this.text('More Options');			
+                    $this.text('More Options');	       
                 } else {
                     $this.text('Less Option');
                 }
