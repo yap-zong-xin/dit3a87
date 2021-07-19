@@ -1,0 +1,219 @@
+<%- include("../../partials/header") %>
+
+<div style="overflow-x: hidden;">
+  <div class="row">
+    <div class="col-3">
+      <div class="navigation sticky-top">
+        <ul>
+          <li class="list navigationHover">
+            <a href="/dashboard">
+              <span class="icon activeText">
+                <ion-icon name="layers-outline"></ion-icon>
+              </span>
+              <span class="title activeText">Overview</span>
+            </a>
+          </li>
+          <li class="list active">
+            <a href="/dashboard/accounts">
+              <span class="icon">
+                <ion-icon name="people-outline"></ion-icon>
+              </span>
+              <span class="title">Accounts</span>
+            </a>
+          </li>
+          <li class="list navigationHover">
+            <a href="/dashboard/listings">
+              <span class="icon">
+                <ion-icon name="home-outline"></ion-icon>
+              </span>
+              <span class="title">Listings</span>
+            </a>
+          </li>
+          <li class="list navigationHover">
+            <a href="/dashboard/comments">
+              <span class="icon">
+                <ion-icon name="chatbubbles-outline"></ion-icon>
+              </span>
+              <span class="title">Comments</span>
+            </a>
+          </li>
+          <li class="list navigationHover">
+            <a href="/dashboard/reviews">
+              <span class="icon">
+                <ion-icon name="star-outline"></ion-icon>
+              </span>
+              <span class="title">Reviews</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="col-9">
+      <div class="row mr-5">
+        <div class="col-12 mb-2">
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-1">
+              <li class="breadcrumb-item"><a href="/listings">Home</a></li>
+              <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Accounts</li>
+            </ol>
+          </nav>
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb breadcrumbSec">
+              <li class="breadcrumb-item"><a href="/dashboard/accounts/seeker">Seeker</a></li>
+              <li class="breadcrumb-item"><a href="/dashboard/accounts/agent">Agent</a></li>
+              <li class="breadcrumb-item"><a href="/dashboard/accounts/admin">Admin</a></li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+      <div class="row accountTableHeading mr-5 px-4 mt-2">
+        <div class="col-12 px-0">
+          <div class="justify-content-between align-items-center d-flex">
+            <div>
+              <p style="font-weight: 500; font-size: 1.1em;">Users</p>
+            </div>
+            <div class="box justify-content-end d-flex pb-3">
+              <% if(noMatch !== undefined){ %>
+                <h3><%= noMatch %></h3>
+                <form action="/dashboard/accounts" method="GET" class="form-inline">
+                  <div class="form-group">
+                    <input type="text" name="search" placeholder="Search Listings">
+                      <button><i class="fas fa-search"></i></button>
+                  </div>
+                </form>
+              <% } %>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 text-right" style="font-size: 0.88em;">
+          <em>
+            <% if(users.length==0){ %>
+              User: 0—0
+            <% } else { %>
+              User: <%= (Number(current)*10)-9 %>—<%= users.length+(Number(current)-1)*10 %>
+            <% } %>
+          </em>
+        </div>
+        <table class="table table-sortable">
+          <thead>
+            <tr>
+              <th style="pointer-events: none;" class="justify-content-start d-flex">
+                <i class="fas fa-sort"></i>
+              </th>
+              <th>Username</th>
+              <th>Full Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Role</th>
+              <th style="pointer-events: none!important;">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if(users.length==0){ %>
+              <tr>
+                <td><em>No users yet.</em></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+            <% } %>
+            <% users.reverse().forEach(function(user){ %>
+              <tr onclick="window.location='/user/<%= user._id %>';">
+                <td><img src="<%= user.image %>" alt="" style="border-radius: 50%; width: 50px; height:50px;"></td>
+                <td class="pt-4"><%= user.username %></td>
+                <td class="pt-4"><%= user.firstName + " " + user.lastName %></td>
+                <td class="pt-4">
+                  <a href="mailto:<%= user.email %>" style="color: black; font-size: 0.9em;">
+                    <%= user.email %>
+                  </a>
+                </td>
+                <td class="pt-4"><%= user.phone %></td>
+                <td class="pt-4">
+                  <% if(user.isAdmin==true){ %>
+                    <span class="badge badge-admin">Admin</span>
+                  <% } else if(user.isAgent==true) { %>
+                    <span class="badge badge-warning">Agent</span>
+                  <% } else { %>
+                    <span class="badge badge-info">Seeker</span>
+                  <% } %>
+                  <% if(user.isAgent==true && user.agentStatus==false){ %>
+                    <span class="badge badge-danger">Pending</span>
+                  <% } else if(user.isAgent==true && user.agentStatus==true){ %>
+                    <span class="badge badge-success">Verified</span>
+                  <% } else { %>
+                  <% } %>
+                </td>
+                <td class="justify-content-start d-flex pt-2">
+                  <a href="/user/<%= user._id %>" class="btn dashboardManageBtn" style="border-radius: 0%!important;">
+                    <ion-icon name="eye-outline" class="showBtn"></ion-icon>
+                  </a>
+                  <% if(currentUser && user._id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
+                    <a class="btn dashboardManageBtn" style="border-radius: 0%!important;" href="/user/<%= user._id %>/edit">
+                      <ion-icon name="create-outline" class="editBtn"></ion-icon>
+                    </a>
+                    <form action="/user/<%= user._id %>/dashboard?_method=DELETE" method="POST">
+                      <button class="btn dashboardManageBtn">
+                        <ion-icon name="trash-outline" class="trashBtn"></ion-icon>
+                      </button>
+                    </form>
+                  <% } %>
+                </td>
+              </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      </div>
+
+      <nav aria-label="Page navigation">
+        <% if (pages && pages > 0) { %>
+          <ul class="pagination justify-content-center mr-5">
+            <% if (current == 1) { %>
+              <li class="page-item disabled"><a class="page-link">First</a></li>
+            <% } else { %>
+              <li><a class="page-link" href="/dashboard/accounts">First</a></li>
+            <% } %>
+      
+            <% if (current == 1) { %>
+              <li class="page-item disabled"><a class="page-link">«</a></li>
+            <% } else { %>
+              <li><a class="page-link" href="/dashboard/accounts?page=<%= Number(current) - 1 %>">«</a></li>
+            <% } %>
+      
+            <% var i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
+            <% if (i !== 1) { %>
+              <li class="page-item disabled"><a class="page-link">...</a></li>
+            <% } %>
+            <% for (; i <= (Number(current) + 4) && i <= pages; i++) { %>
+              <% if (i == current) { %>
+                <li class="active"><a class="page-link"><%= i %></a></li>
+              <% } else { %>
+                <li><a class="page-link" href="/dashboard/accounts?page=<%= i %>"><%= i %></a></li>
+              <% } %>
+              <% if (i == Number(current) + 4 && i < pages) { %>
+                <li class="page-item disabled"><a class="page-link">...</a></li>
+              <% } %>
+            <% } %>
+      
+            <% if (current == pages) { %>
+              <li class="page-item disabled"><a class="page-link">»</a></li>
+            <% } else { %>
+              <li><a class="page-link" href="/dashboard/accounts?page=<%= Number(current) + 1 %>">»</a></li>
+            <% } %>
+      
+            <% if (current == pages) { %>
+              <li class="page-item disabled"><a class="page-link">Last</a></li>
+            <% } else { %>
+              <li><a class="page-link" href="/dashboard/accounts?page=<%= pages %>">Last</a></li>
+            <% } %>
+          </ul>
+        <% } %>
+      </nav>
+    </div>
+  </div>
+</div>
+
+<%- include("../../partials/footer") %>

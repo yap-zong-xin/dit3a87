@@ -216,6 +216,7 @@ router.get("/dashboard/accounts", function(req, res){
 								pages: Math.ceil(count / perPage),
 								noMatch: noMatch,
 								search: req.query.search,
+								filterAccType: req.query.filterAccType,
 								sort: req.query.sort,
 								data: req.query
 							});
@@ -223,7 +224,6 @@ router.get("/dashboard/accounts", function(req, res){
 					});
 				});
 			}
-
 
 		} else {
 			User.find({$or: [{username: regex}, {firstName: regex}, {lastName: regex}]}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, allUsers) {
@@ -241,7 +241,8 @@ router.get("/dashboard/accounts", function(req, res){
 							pages: Math.ceil(count / perPage),
 							noMatch: noMatch,
 							search: req.query.search,
-							sort: false,
+							filterAccType: req.query.filterAccType,
+							sort: req.query.sort,
 							data: req.query
 						});
 					}
@@ -381,7 +382,8 @@ router.get("/dashboard/accounts", function(req, res){
 							current: pageNumber,
 							pages: Math.ceil(count / perPage),
 							noMatch: noMatch,
-							search: false,
+							search: req.query.search,
+							filterAccType: req.query.filterAccType,
 							sort: req.query.sort,
 							data: req.query
 						});
@@ -506,8 +508,9 @@ router.get("/dashboard/accounts", function(req, res){
 						current: pageNumber,
 						pages: Math.ceil(count / perPage),
 						noMatch: noMatch,
-						search: false,
-						sort: false,
+						search: req.query.search,
+						filterAccType: req.query.filterAccType,
+						sort: req.query.sort,
 						data: req.query
 					});
 				}
