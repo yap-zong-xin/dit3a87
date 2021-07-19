@@ -109,52 +109,101 @@ router.get("/dashboard/accounts", function(req, res){
 				console.log('filter chosen: ', filterAccType);
 				if(filterAccType == 'Admin') {
 					console.log('admin chosen')
-					filterOptions.isAdmin = -1;
-					filterOptions.isAgent = 1;
+					User.find({$or: [{username: regex}, {firstName: regex}, {lastName: regex}], isAdmin: true})
+					.sort(sortOptions)
+					.skip((perPage * pageNumber) - perPage)
+					.limit(perPage)
+					.exec(function (err, allUsers) {
+						User.count().exec(function (err, count) {
+							if (err) {
+								console.log(err);
+							} else {
+								res.render("dashboards/accounts/index.ejs", {
+									users: allUsers,
+									current: pageNumber,
+									pages: Math.ceil(count / perPage),
+									noMatch: noMatch,
+									search: req.query.search,
+									filterAccType: req.query.filterAccType,
+									sort: req.query.sort,
+									data: req.query
+								});
+							}
+						});
+					});
 				}else if(filterAccType == 'Agent') {
 					console.log('agent chosen')
-					filterOptions.isAgent = -1;
-					filterOptions.isAdmin = 1;
+					User.find({$or: [{username: regex}, {firstName: regex}, {lastName: regex}], isAgent: true})
+					.sort(sortOptions)
+					.skip((perPage * pageNumber) - perPage)
+					.limit(perPage)
+					.exec(function (err, allUsers) {
+						User.count().exec(function (err, count) {
+							if (err) {
+								console.log(err);
+							} else {
+								res.render("dashboards/accounts/index.ejs", {
+									users: allUsers,
+									current: pageNumber,
+									pages: Math.ceil(count / perPage),
+									noMatch: noMatch,
+									search: req.query.search,
+									filterAccType: req.query.filterAccType,
+									sort: req.query.sort,
+									data: req.query
+								});
+							}
+						});
+					});
 				} else if(filterAccType == 'Seeker') {
 					console.log('seeker chosen')
-					filterOptions.isAdmin = 1;
-					filterOptions.isAgent = 1;
-				}else if(filterAccType == 'All') {
-					filterOptions.isAdmin = 1;
-					filterOptions.isAgent = 1;
-				}
-
-				var obj = {
-					"rating" : sortOptions.rating,
-					"isAgent" : filterOptions.isAgent,
-					"isAdmin" : filterOptions.isAdmin
-				}
-
-
-				console.log(obj);
-
-				User.find({$or: [{username: regex}, {firstName: regex}, {lastName: regex}]})
-				.sort(obj)
-				.skip((perPage * pageNumber) - perPage)
-				.limit(perPage)
-				.exec(function (err, allUsers) {
-					User.count().exec(function (err, count) {
-						if (err) {
-							console.log(err);
-						} else {
-							res.render("dashboards/accounts/index.ejs", {
-								users: allUsers,
-								current: pageNumber,
-								pages: Math.ceil(count / perPage),
-								noMatch: noMatch,
-								search: req.query.search,
-								filterAccType: req.query.filterAccType,
-								sort: req.query.sort,
-								data: req.query
-							});
-						}
+					User.find({$or: [{username: regex}, {firstName: regex}, {lastName: regex}], isAgent: false, isAdmin: false})
+					.sort(sortOptions)
+					.skip((perPage * pageNumber) - perPage)
+					.limit(perPage)
+					.exec(function (err, allUsers) {
+						User.count().exec(function (err, count) {
+							if (err) {
+								console.log(err);
+							} else {
+								res.render("dashboards/accounts/index.ejs", {
+									users: allUsers,
+									current: pageNumber,
+									pages: Math.ceil(count / perPage),
+									noMatch: noMatch,
+									search: req.query.search,
+									filterAccType: req.query.filterAccType,
+									sort: req.query.sort,
+									data: req.query
+								});
+							}
+						});
 					});
-				});
+				}else if(filterAccType == 'All') {
+					User.find({$or: [{username: regex}, {firstName: regex}, {lastName: regex}]})
+					.sort(sortOptions)
+					.skip((perPage * pageNumber) - perPage)
+					.limit(perPage)
+					.exec(function (err, allUsers) {
+						User.count().exec(function (err, count) {
+							if (err) {
+								console.log(err);
+							} else {
+								res.render("dashboards/accounts/index.ejs", {
+									users: allUsers,
+									current: pageNumber,
+									pages: Math.ceil(count / perPage),
+									noMatch: noMatch,
+									search: req.query.search,
+									filterAccType: req.query.filterAccType,
+									sort: req.query.sort,
+									data: req.query
+								});
+							}
+						});
+					});
+				}
+
 			} else {
 				User.find({$or: [{username: regex}, {firstName: regex}, {lastName: regex}]}).sort(sortOptions).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, allUsers) {
 					User.count().exec(function (err, count) {
