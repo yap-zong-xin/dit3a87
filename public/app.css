@@ -1032,7 +1032,7 @@ input {
   width: 300px;
   text-align: center;
   position: relative;
-  height: 6em;
+  height: 3em;
 }
 .price-slider svg,
 .price-slider input[type=range] {
@@ -1129,7 +1129,7 @@ input[type=range]::-ms-thumb {
   width: 300px;
   text-align: center;
   position: relative;
-  height: 6em;
+  height: 3em;
 }
 .size-slider svg,
 .size-slider input[type=range] {
@@ -2586,4 +2586,34 @@ nav a{
 .badge.badge-outlined.badge-default {
   border-color: #0077ff;
   color: #0077ff
+}
+/* listing filter */
+.seperateFilter {
+  display: inline-block;
+  width: 100%;
+  border-top: 1px solid rgb(114, 114, 114);
+}
+.fa-caret-down {
+  float: right;
+}
+.dropdownPType-content {
+  display: none;
+}
+.dropdownDistrict-content {
+  display: none;
+}
+.dropdownBedroom-content {
+  display: none;
+}
+.dropdownBathroom-content {
+  display: none;
+}
+.dropdownTenure-content {
+  display: none;
+}
+.dropdownSold-content {
+  display: none;
+}
+.showOptions {
+  display: block;
 }

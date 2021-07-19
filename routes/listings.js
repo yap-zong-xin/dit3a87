@@ -369,44 +369,27 @@ router.get("/listings", function(req,res){
 
 				// Sort object (to be passed into .sort)
 				var sortOptions = {};
+				var sort = req.query.sort;
 				// Sort by Price
-				var sortPrice = req.query.sortPrice;
-				console.log('sort price type: '+sortPrice)	
-				if(sortPrice == 'LowestPrice') {
+				if(sort == 'LowestPrice') {
 					sortOptions.price = 1;
-				}else if(sortPrice == 'HighestPrice') {
+				}else if(sort == 'HighestPrice') {
 					sortOptions.price = -1 ;
-				}
-				// Sort by date added
-				var sortDate = req.query.sortDate;
-				console.log('sort date type: '+sortDate)	
-				if(sortDate == 'Recent') {
+				}else if(sort == 'Recent') {
 					sortOptions.createdAt = -1;
-				}else if(sortDate == 'Oldest') {
+				}else if(sort == 'Oldest') {
 					sortOptions.createdAt = 1;
-				}
-				// Sort by sold or not
-				var sortSold = req.query.sortSold;
-				console.log('sort sold type: '+sortSold)	
-				if(sortSold == 'Sold') {
+				}else if(sort == 'Sold') {
 					sortOptions.soldStatus = -1;
-				}else if(sortSold == 'NotSold') {
+				}else if(sort == 'NotSold') {
 					sortOptions.soldStatus = 1;
-				}
-				// Sort by archive or not
-				var sortArchive = req.query.sortArchive;
-				console.log('sort archive type: '+sortArchive)	
-				if(sortArchive == 'Archive') {
+				}else if(sort == 'Archive') {
 					sortOptions.archiveStatus = -1;
-				}else if(sortArchive == 'NotArchive') {
+				}else if(sort == 'NotArchive') {
 					sortOptions.archiveStatus = 1;
-				}
-				// Sort by most/least popular listing
-				var sortPop = req.query.sortPop;
-				console.log('sortPop type: '+sortPop)	
-				if(sortPop == 'MostPop') {
+				}else if(sort == 'MostPop') {
 					sortOptions.likes = -1;
-				}else if(sortPop == 'LeastPop') {
+				}else if(sort == 'LeastPop') {
 					sortOptions.likes = 1;
 				}
 				//if no sort is selected
