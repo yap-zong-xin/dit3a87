@@ -1,5 +1,18 @@
 <%- include("../partials/header") %>
 
+  <% if(listing.archiveStatus==true && listing.soldStatus==false) { %>
+    <div class="text-center fixed-top py-1" style="background: #4632DA; color: white; top: 73px; font-weight: 600; font-size: 0.9em;">
+      <span>Archived</span>
+    </div>
+    <div class="mb-4 pb-3"></div>
+  <% } else if(listing.archiveStatus==false && listing.soldStatus==true){ %>
+    <div class="text-center fixed-top py-1" style="background: #DB0000; color: white; top: 73px; font-weight: 600; font-size: 0.9em;">
+      <span>Sold</span>
+    </div>
+    <div class="mb-4 pb-3"></div>
+  <% } else { %>
+  <% } %>
+
   <div class="container pb-0 mt-2">
     <div class="row">
       <div class="col-12 px-0">
@@ -55,6 +68,37 @@
                 <% } %>
               </form>
             </div>
+            <% if(currentUser && listing.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
+              <div class="pl-1">
+                <div class="dropdown">
+                  <button class="btn btn-outline-dark" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <ion-icon name="ellipsis-vertical-outline"></ion-icon>
+                  </button>
+                  <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="/listings/<%= listing._id %>/edit">Edit</a>
+                    <form action="/listings/<%= listing._id %>?_method=DELETE" method="POST">
+                      <button class="dropdown-item">Delete</button>
+                    </form>
+                    <% if(listing.archiveStatus==false && listing.soldStatus==false){ %>
+                      <a class="dropdown-item" href="/listings/<%= listing._id %>/archive">
+                        Archive
+                      </a>
+                      <a class="dropdown-item" href="/listings/<%= listing._id %>/sold">
+                        Mark as Sold
+                      </a>
+                    <% } else if(listing.archiveStatus==true&& listing.soldStatus==false) { %>
+                      <a class="dropdown-item" href="/listings/<%= listing._id %>/unarchive">
+                        Unarchive
+                      </a>
+                    <% } else { %>
+                      <a class="dropdown-item" href="/listings/<%= listing._id %>/unsold">
+                        Mark as Available
+                      </a>
+                    <% } %>
+                  </div>
+                </div>
+              </div>
+            <% } %>
           </div>
         </div>
       </div>
@@ -370,37 +414,24 @@
           </div>
         <% }) %>
       </div>
-      <div class="col-4" id="agentPreview">
-        <div class="item shark-2">
-          hi
+      <div class="col-4">
+        <div class="item shark-2 text-center p-4" style="border: 1.5px lightgray solid; border-radius: 10px; top:90px;">
+          <img src="<%= listing.author.image %>" alt="" style="width: 30%; border-radius: 50%;">
+          <div>
+            <p class="pt-2 mb-0" style="font-size: 1.15em; font-weight: 600;">
+              <%= listing.author.username %>
+            </p>
+            <p class="" style="font-size: 0.9em; color: gray;">
+              <%= "Joined on " + moment(listing.author.createdAt).format('MMM DD, YYYY') %>
+            </p>
+            <p class="pt-2" style="font-size: 1.1em; font-weight: 600;">
+              <%= listing.author.rating %>
+            </p>
+          </div>
         </div>
       </div>
     </div>
   </div>
-
- 
-
-  
-  <!-- Listing Info -->
-  <div id='map' style="height: 500px!important; width: 800px!important;"></div>
-  <!-- Edit/Delete Listing -->
-  <% if(currentUser && listing.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
-    <a class="btn btn-warning" href="/listings/<%= listing._id %>/edit">Edit</a>
-    <form action="/listings/<%= listing._id %>?_method=DELETE" method="POST">
-      <button class="btn btn-danger">DELETE</button>
-    </form>
-  <% } %>
- 
-  <% if(currentUser && listing.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
-    <!-- Mark listing as sold -->
-    <%if(listing.soldStatus == false) {%>
-    <a class="btn btn-primary" href="/listings/<%= listing._id %>/sold">Mark as SOLD</a>
-    <%}%>
-    <!-- Archive Listing -->
-    <%if(listing.archiveStatus == false) {%>
-    <a class="btn btn-primary" href="/listings/<%= listing._id %>/archive">Archive Listing</a>
-    <%}%>
-  <% } %>
 
   <script>
     const mapToken = '<%- process.env.MAPBOX_TOKEN %>'
