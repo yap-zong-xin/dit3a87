@@ -1,12 +1,12 @@
 <%- include("../partials/header") %>
 
   <% if(listing.archiveStatus==true && listing.soldStatus==false) { %>
-    <div class="text-center fixed-top py-1" style="background: #4632DA; color: white; top: 73px; font-weight: 600; font-size: 0.9em;">
+    <div class="text-center fixed-top py-1" style="background: #4632DA; color: white; top: 102px; font-weight: 600; font-size: 0.9em;">
       <span>Archived</span>
     </div>
     <div class="mb-4 pb-3"></div>
   <% } else if(listing.archiveStatus==false && listing.soldStatus==true){ %>
-    <div class="text-center fixed-top py-1" style="background: #DB0000; color: white; top: 73px; font-weight: 600; font-size: 0.9em;">
+    <div class="text-center fixed-top py-1" style="background: #DB0000; color: white; top: 102px; font-weight: 600; font-size: 0.9em;">
       <span>Sold</span>
     </div>
     <div class="mb-4 pb-3"></div>
@@ -415,14 +415,24 @@
         <% }) %>
       </div>
       <div class="col-4">
-        <div class="item shark-2 text-center p-4" style="border: 1.5px lightgray solid; border-radius: 10px; top:90px;">
-          <img src="<%= listing.author.image %>" alt="" style="width: 30%; border-radius: 50%;">
+        <div class="item shark-2 text-center p-4" style="border: 1.5px lightgray solid; border-radius: 10px; top:115px;">
+          <a href="/user/<%= listing.author.id %>">
+            <img src="<%= listing.author.image %>" alt="" style="width: 30%; border-radius: 50%;">
+          </a>
           <div>
-            <p class="pt-2 mb-0" style="font-size: 1.15em; font-weight: 600;">
-              <%= listing.author.username %>
+            <a href="/user/<%= listing.author.id %>" style="color: black;">
+              <p class="pt-2 mb-0" style="font-size: 1.15em; font-weight: 600;">
+                <%= listing.author.firstName + " " + listing.author.lastName %>
+              </p>
+            </a>
+            <p class="mb-0" style="font-size: 0.9em; font-weight: 350;">
+              <em><%= "@" + listing.author.username %></em>
             </p>
-            <p class="" style="font-size: 0.9em; color: gray;">
-              <%= "Joined on " + moment(listing.author.createdAt).format('MMM DD, YYYY') %>
+            <p class="pt-4 mb-0" style="font-size: 0.9em; font-weight: 350;">
+              CEA License <span style="font-weight: 600; font-size: 1.15em;"><%= listing.author.cea %></span>
+            </p>
+            <p class="" style="font-size: 0.9em; font-weight: 350;">
+              Joined on <span style="font-weight: 600; font-size: 1.15em;"><%= moment(listing.author.createdAt).format('MMM DD, YYYY') %></span>
             </p>
             <p class="pt-2" style="font-size: 1.1em; font-weight: 600;">
               <%= listing.author.rating %>

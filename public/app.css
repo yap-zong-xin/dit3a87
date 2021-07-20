@@ -1265,7 +1265,7 @@ input[type=range]::-ms-thumb {
 /* flash message */
 .flashMessage{
   position: fixed;
-  top: 80px;
+  top: 115px;
   z-index: 90;
   left: 50%;
   transform: translateX(-50%);
@@ -2399,7 +2399,7 @@ nav a{
 
 #mainLoader{
   position: absolute;
-  top: 7px;
+  top: 42px;
   display: inline-block;
   border: 3.5px solid #f3f3f3;
   border-top: 5px solid #4632DA;
@@ -2413,7 +2413,7 @@ nav a{
   left: 0;
   right: 0;
   text-align: center;
-  z-index: 93;
+  z-index: 95;
 }
 
 /* dashboard menu */
@@ -2428,7 +2428,7 @@ nav a{
   overflow-x: hidden;
   /* transition: width 0.5s;  */
   position: fixed !important;
-  top: 55px;
+  top: 90px;
   z-index: 89;
 }
 /* .navigation:hover{

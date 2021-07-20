@@ -674,9 +674,12 @@ router.post("/listings", middleware.isLoggedIn, uploadMultiple, async function(r
   	var author = {
 		id: req.user._id,
 		username: req.user.username,
+		firstName: req.user.firstName,
+		lastName: req.user.lastName,
 		email: req.user.email,
 		image: req.user.image,
 		createdAt: req.user.createdAt,
+		cea: req.user.cea,
 	};
 	var newlisting = {name:name, description:desc, author:author, location:location, district:district, price:price, size:size, type:type, bedrooms:bedrooms, bathrooms:bathrooms, tenure:tenure, threeDImage:threeDImage}
 	try {

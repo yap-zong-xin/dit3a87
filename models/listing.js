@@ -27,8 +27,11 @@ var listingSchema = new mongoose.Schema({
 			ref: "User"
 		},
 		username: String,
+		firstName: String,
+		lastName: String,
       email: String,
       image: String,
+      cea: String,
       createdAt: { type: Date, default: Date.now }
 	},
    comments: [

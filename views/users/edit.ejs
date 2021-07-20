@@ -48,73 +48,72 @@
                 </div>
               </div>
             </div>
-            <% } %>
+          <% } %>
+          <div class="col-12">
+            <p class="my-0" style="font-weight: 600;">Profile Details</p>
+            <div class="row">
               <div class="col-12">
-                <p class="my-0" style="font-weight: 600;">Profile Details</p>
-                <div class="row">
-                  <div class="col-12">
-                    <label class="custom-field one">
-                      <input type="text" name="user[username]" value="<%= user.username %>" placeholder=" "
-                        required />
-                      <span class="placeholder">Username</span>
-                    </label>
-                  </div>
-                  <div class="col-12">
-                    <label class="custom-field one">
-                      <input type="email" name="user[email]" value="<%= user.email %>" placeholder=" " required />
-                      <span class="placeholder">Email</span>
-                    </label>
-                  </div>
-                  <div class="col-12">
-                    <label class="custom-field one">
-                      <input type="number" name="user[phone]" value="<%= user.phone %>" placeholder=" " required />
-                      <span class="placeholder">Contact Number</span>
-                    </label>
-                  </div>
-                  <% if(currentUser && currentUser.isAdmin && user.cea!=null){ %>
-                    <div class="col-12">
-                      <label class="custom-field one">
-                        <input type="text" name="user[cea]" value="<%= user.cea %>" placeholder=" " required />
-                        <span class="placeholder">CEA Number</span>
-                      </label>
-                    </div>
-                    <% } %>
-                      <div class="col-12">
-                        <label class="custom-field one">
-                          <input type="text" name="user[streetName]" value="<%= user.streetName %>" placeholder=" "
-                            required />
-                          <span class="placeholder">Street Name</span>
-                        </label>
-                      </div>
-                      <div class="col-12">
-                        <label class="custom-field one">
-                          <input type="text" name="user[unitNumber]" value="<%= user.unitNumber %>" placeholder=" " />
-                          <span class="placeholder">Unit Number</span>
-                        </label>
-                      </div>
-                      <div class="col-12">
-                        <label class="custom-field one">
-                          <input type="number" name="user[postalCode]" value="<%= user.postalCode %>" placeholder=" "
-                            required />
-                          <span class="placeholder">Postal Code</span>
-                        </label>
-                      </div>
-                      <div class="col-12">
-                        <label class="custom-field one">
-                          <input type="text" name="user[country]" value="<%= user.country %>" placeholder=" "
-                            required />
-                          <span class="placeholder">Country</span>
-                        </label>
-                      </div>
-                      <div class="col-12">
-                        <label class="custom-field one">
-                          <input type="text" name="user[state]" value="<%= user.state %>" placeholder=" " required />
-                          <span class="placeholder">State</span>
-                        </label>
-                      </div>
-
-                </div>
+                <label class="custom-field one">
+                  <input type="text" name="user[username]" value="<%= user.username %>" placeholder=" "
+                    required />
+                  <span class="placeholder">Username</span>
+                </label>
               </div>
+              <div class="col-12">
+                <label class="custom-field one">
+                  <input type="email" name="user[email]" value="<%= user.email %>" placeholder=" " required />
+                  <span class="placeholder">Email</span>
+                </label>
+              </div>
+              <div class="col-12">
+                <label class="custom-field one">
+                  <input type="number" name="user[phone]" value="<%= user.phone %>" placeholder=" " required />
+                  <span class="placeholder">Contact Number</span>
+                </label>
+              </div>
+              <% if(currentUser && currentUser.isAdmin){ %>
+                <div class="col-12">
+                  <label class="custom-field one">
+                    <input type="text" name="user[cea]" value="<%= user.cea %>" placeholder=" " required />
+                    <span class="placeholder">CEA Number</span>
+                  </label>
+                </div>
+                <% } %>
+                  <div class="col-12">
+                    <label class="custom-field one">
+                      <input type="text" name="user[streetName]" value="<%= user.streetName %>" placeholder=" "
+                        required />
+                      <span class="placeholder">Street Name</span>
+                    </label>
+                  </div>
+                  <div class="col-12">
+                    <label class="custom-field one">
+                      <input type="text" name="user[unitNumber]" value="<%= user.unitNumber %>" placeholder=" " />
+                      <span class="placeholder">Unit Number</span>
+                    </label>
+                  </div>
+                  <div class="col-12">
+                    <label class="custom-field one">
+                      <input type="number" name="user[postalCode]" value="<%= user.postalCode %>" placeholder=" "
+                        required />
+                      <span class="placeholder">Postal Code</span>
+                    </label>
+                  </div>
+                  <div class="col-12">
+                    <label class="custom-field one">
+                      <input type="text" name="user[country]" value="<%= user.country %>" placeholder=" "
+                        required />
+                      <span class="placeholder">Country</span>
+                    </label>
+                  </div>
+                  <div class="col-12">
+                    <label class="custom-field one">
+                      <input type="text" name="user[state]" value="<%= user.state %>" placeholder=" " required />
+                      <span class="placeholder">State</span>
+                    </label>
+                  </div>
+            </div>
+          </div>
         </div>
 
         <div class="mt-3">

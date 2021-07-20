@@ -60,14 +60,14 @@
           </nav>
         </div>
       </div>
-      <div class="row accountTableHeading mr-5 px-4 mt-2">
+      <div class="row accountTableHeading mr-5 px-4 mt-0">
         <div class="col-12 px-0">
           <% if(noMatch !== undefined){ %>
             <form action="/dashboard/comments" method="GET">
               <div class="input-group mb-3">
-                <input type="text" class="form-control" name="search" placeholder="Search comment text">
+                <input type="text" class="form-control rounded-0" name="search" placeholder="Search comment text">
                 <div class="input-group-append">
-                  <button class="btn btn-dark">
+                  <button class="btn btn-dark rounded-0">
                     <i class="fas fa-search"></i>
                   </button>
                 </div>
