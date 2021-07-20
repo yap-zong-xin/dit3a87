@@ -1092,7 +1092,10 @@ body {
   padding: 20px;
 }
 .all-listing-card-container {
-  padding: 20px;
+  /* border: 1px solid rgb(196, 196, 196); */
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
 }
 .indiv-card{
   border-radius: 5px; /* 5px rounded corners */
@@ -1521,6 +1524,7 @@ input[type=range]::-ms-thumb {
 .listingHover:hover{
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.08), 0 6px 20px 0 rgba(0, 0, 0, 0.08);
   border-radius: 10px;
+  transform: scale(1.005);
 }
 
 .likeBtn button{

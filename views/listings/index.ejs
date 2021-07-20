@@ -2,6 +2,13 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
 
+<style>
+    body {
+        background-color: rgb(247,247,247);
+    }
+</style>
+
+
     <button class="my_bttn">
         <i class="fa fa-arrow-up"></i>
     </button>
@@ -141,13 +148,13 @@
             <p class="row">Popular Listings</p>
         </div>   
         <!--Add Old Listing code here--> 
-        <div class="col-md-12">
+        <div class="col-md-12 m-0 p-0" data-aos="zoom-in" data-aos-once="true">
             <div class="all-listing-card">
                 <div class="all-listing-card-container">
                     <div class="row">
                         <% listings.forEach(function(listing) { %>
                             <div class="col-lg-12 col-xl-6">
-                                <div class="listingHover" style="display: flex; align-items: center; justify-content: center; flex-direction: column; margin: 10px; padding: 10px;">
+                                <div class="listingHover" style="display: flex; align-items: center; justify-content: center; flex-direction: column; margin: 10px; padding: 10px; transition: 0.3s; ">
                                     <!-- <div class="col-md-12">
 
                                     </div> -->
