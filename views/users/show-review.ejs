@@ -418,15 +418,17 @@
                                 <div class="col-4 justify-content-end d-flex">
                                   <%if(currentUser&&review.author.id.equals(currentUser._id)||currentUser&&currentUser.isAdmin){%>
                                     <div class="left">
-                                      <a class="btn btn-dark editDeleteReviewBtn"
-                                        href="/user/<%=user._id %>/reviews/<%=review._id %>/edit">Edit</a>
+                                      <a href="/user/<%=user._id %>/reviews/<%=review._id %>/edit">
+                                        <ion-icon name="create-outline" class="editBtn py-1" style="font-size: 1.2em;"></ion-icon>
+                                      </a>
                                     </div>
                                     <div class="right">
                                       <form id="delete-form"
                                         action="/user/<%=user._id %>/reviews/<%=review._id %>?_method=DELETE"
                                         method="POST">
-                                        <input type="submit" class="btn btn-danger editDeleteReviewBtn"
-                                          value="Delete">
+                                        <button class="btn showListingManageBtn p-0">
+                                          <ion-icon name="trash-outline" class="trashBtn py-1"></ion-icon>
+                                        </button>
                                       </form>
                                     </div>
                                     <% } %>

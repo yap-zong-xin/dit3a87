@@ -75,7 +75,7 @@ router.get("/dashboard", function(req,res){
 
 //Get Route - Manage Accounts Dashboard
 router.get("/dashboard/accounts", function(req, res){
-	var perPage = 5;
+	var perPage = 8;
 	var pageQuery = parseInt(req.query.page);
 	var pageNumber = pageQuery ? pageQuery : 1;
 	var noMatch = null;
@@ -260,6 +260,9 @@ router.get("/dashboard/accounts", function(req, res){
 						console.log(err);
 						res.redirect("back");
 					} else {
+						if(allUsers.length < 1) {
+							noMatch = "Result: '" + req.query.search + "' not found. Please try again.";
+						}
 						res.render("dashboards/accounts/index.ejs", {
 							users: allUsers,
 							current: pageNumber,
@@ -559,99 +562,6 @@ router.get("/dashboard/accounts", function(req, res){
 	}
 });
 
-//Get Route - Manage Admin Account Dashboard
-router.get("/dashboard/accounts/admin", function(req,res){
-	var noMatch = null;
-	if(req.query.search){
-		const regex = new RegExp(escapeRegex(req.query.search), 'gi');
-		User.find({$or: [{username: regex}, {lastName: regex}, {firstName: regex}]}).exec(function(err, allUsers){
-			if(err){
-				console.log(err);
-			} else {
-				if(allUsers.length < 1) {
-					noMatch = "Result: '" + req.query.search + "' not found. Please try again.";
-				}
-				res.render("dashboards/accounts/admin/index.ejs", {
-					users: allUsers, 
-					noMatch: noMatch
-				});
-			}
-		});	
-	} else {
-		User.find({}, function(err, allUsers){
-			if(err){
-				console.log(err);
-			} else{
-				res.render("dashboards/accounts/admin/index.ejs", {
-					users: allUsers, 
-					noMatch: noMatch
-				});
-			} 
-		});	
-	}
-});
-//Get Route - Manage Agent Account Dashboard
-router.get("/dashboard/accounts/agent", function(req,res){
-	var noMatch = null;
-	if(req.query.search){
-		const regex = new RegExp(escapeRegex(req.query.search), 'gi');
-		User.find({$or: [{username: regex}, {lastName: regex}, {firstName: regex}]}).exec(function(err, allUsers){
-			if(err){
-				console.log(err);
-			} else {
-				if(allUsers.length < 1) {
-					noMatch = "Result: '" + req.query.search + "' not found. Please try again.";
-				}
-				res.render("dashboards/accounts/agent/index.ejs", {
-					users: allUsers, 
-					noMatch: noMatch
-				});
-			}
-		});	
-	} else {
-		User.find({}, function(err, allUsers){
-			if(err){
-				console.log(err);
-			} else{
-				res.render("dashboards/accounts/agent/index.ejs", {
-					users: allUsers, 
-					noMatch: noMatch
-				});
-			} 
-		});	
-	}
-});
-//Get Route - Manage Seeker Account Dashboard
-router.get("/dashboard/accounts/seeker", function(req,res){
-	var noMatch = null;
-	if(req.query.search){
-		const regex = new RegExp(escapeRegex(req.query.search), 'gi');
-		User.find({$or: [{username: regex}, {lastName: regex}, {firstName: regex}]}).exec(function(err, allUsers){
-			if(err){
-				console.log(err);
-			} else {
-				if(allUsers.length < 1) {
-					noMatch = "Result: '" + req.query.search + "' not found. Please try again.";
-				}
-				res.render("dashboards/accounts/seeker/index.ejs", {
-					users: allUsers, 
-					noMatch: noMatch
-				});
-			}
-		});	
-	} else {
-		User.find({}, function(err, allUsers){
-			if(err){
-				console.log(err);
-			} else{
-				res.render("dashboards/accounts/seeker/index.ejs", {
-					users: allUsers, 
-					noMatch: noMatch
-				});
-			} 
-		});	
-	}
-});
 //Put Route - Manage Agent Application at Profile Page
 router.put("/agentStatus/:id", function(req, res){
 //can straight away use req.body.listing without having to define due to "listing[]" in the form name attributes

@@ -327,13 +327,17 @@
                     </div>
                     <div class="col-4 text-right">
                       <% if(currentUser && comment.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
-                        <a class="btn btn-dark editDeleteReviewBtn" role="button" data-toggle="collapse"
+                        <a class="btn showListingManageBtn p-0" role="button" data-toggle="collapse"
                         href="#collapseEdit<%= comment._id %>" aria-expanded="false"
-                        aria-controls="collapse<%= comment._id %>">Edit</a>
+                        aria-controls="collapse<%= comment._id %>">
+                          <ion-icon name="create-outline" class="editBtn py-1"></ion-icon>
+                        </a>
                         <form id="delete-form"
                           action="/listings/<%= listing._id %>/comments/<%= comment._id %>?_method=DELETE"
                           method="POST" style="display: inline;">
-                          <button class="btn btn-danger editDeleteReviewBtn">Delete</button>
+                          <button class="btn showListingManageBtn p-0">
+                            <ion-icon name="trash-outline" class="trashBtn py-1"></ion-icon>
+                          </button>
                         </form>
                       <% } %>
                     </div>
@@ -366,8 +370,10 @@
           </div>
         <% }) %>
       </div>
-      <div class="col-4">
-
+      <div class="col-4" id="agentPreview">
+        <div class="item shark-2">
+          hi
+        </div>
       </div>
     </div>
   </div>

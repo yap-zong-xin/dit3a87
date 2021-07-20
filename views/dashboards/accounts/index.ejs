@@ -61,56 +61,52 @@
         </div>
       </div>
 
-      <div class="row mr-5">
+      <div class="row mr-5 text-right">
         <div class="col-12">
           <% if(noMatch !== undefined){ %>
             <form action="/dashboard/accounts" method="GET">
               <div class="row">
-                <div class="col-12">
+                <div class="col-5">
+                  <div class="input-group mb-3">
+                    <input type="text" class="form-control rounded-0" name="search" placeholder="Search users">
+                  </div>
+                </div>
+                <div class="col-7 pl-0">
                   <div class="row">
-                    <div class="col-5">
+                    <div class="col-5 px-0">
+                      <!-- sort input -->
                       <div class="input-group mb-3">
-                        <input type="text" class="form-control rounded-0" name="search" placeholder="Search users">
+                        <div class="input-group-prepend">
+                          <label class="input-group-text" style="background: white; border: none;" for="sort">Sort by:</label>
+                        </div>
+                        <select class="custom-select" name="sort" id="sort">
+                          <option value="" disabled selected hidden></option>
+                          <option value="HighestRating" <% if(data.sort == 'HighestRating') {%> selected <%} %>>Highest Rating</option>
+                          <option value="LowestRating" <% if(data.sort == 'LowestRating') {%> selected <%} %>>Lowest Rating</option>
+                          <option value="Recent" <% if(data.sort == 'Recent') {%> selected <%} %>>Recent</option>
+                          <option value="Oldest" <% if(data.sort == 'Oldest') {%> selected <%} %>>Oldest</option>
+                        </select>
                       </div>
                     </div>
-                    <div class="col-7 pl-0">
-                      <div class="row">
-                        <div class="col-5 px-0">
-                          <!-- sort input -->
-                          <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                              <label class="input-group-text" style="background: white; border: none;" for="sort">Sort by:</label>
-                            </div>
-                            <select class="custom-select" name="sort" id="sort">
-                              <option value="" disabled selected hidden></option>
-                              <option value="HighestRating" <% if(data.sort == 'HighestRating') {%> selected <%} %>>Highest Rating</option>
-                              <option value="LowestRating" <% if(data.sort == 'LowestRating') {%> selected <%} %>>Lowest Rating</option>
-                              <option value="Recent" <% if(data.sort == 'Recent') {%> selected <%} %>>Recent</option>
-                              <option value="Oldest" <% if(data.sort == 'Oldest') {%> selected <%} %>>Oldest</option>
-                            </select>
+                    <div class="col-5 px-0">
+                        <!-- filter input -->
+                        <div class="input-group mb-3">
+                          <div class="input-group-prepend">
+                            <label class="input-group-text" style="background: white; border: none;" for="filterAccType">Filter by:</label>
                           </div>
+                          <select class="custom-select" name="filterAccType" id="filterAccType">
+                            <option value="" disabled selected hidden></option>
+                            <option value="Admin" <% if(data.filterAccType == 'Admin') {%> selected <%} %>>Admin</option>
+                            <option value="Agent" <% if(data.filterAccType == 'Agent') {%> selected <%} %>>Agent</option>
+                            <option value="Seeker" <% if(data.filterAccType == 'Seeker') {%> selected <%} %>>Seeker</option>
+                            <option value="All" <% if(data.filterAccType == 'All') {%> selected <%} %>>All</option>
+                          </select>
                         </div>
-                        <div class="col-5 px-0">
-                            <!-- filter input -->
-                            <div class="input-group mb-3">
-                              <div class="input-group-prepend">
-                                <label class="input-group-text" style="background: white; border: none;" for="filterAccType">Filter by:</label>
-                              </div>
-                              <select class="custom-select" name="filterAccType" id="filterAccType">
-                                <option value="" disabled selected hidden></option>
-                                <option value="Admin" <% if(data.filterAccType == 'Admin') {%> selected <%} %>>Admin</option>
-                                <option value="Agent" <% if(data.filterAccType == 'Agent') {%> selected <%} %>>Agent</option>
-                                <option value="Seeker" <% if(data.filterAccType == 'Seeker') {%> selected <%} %>>Seeker</option>
-                                <option value="All" <% if(data.filterAccType == 'All') {%> selected <%} %>>All</option>
-                              </select>
-                            </div>
-                        </div>
-                        <div class="col-2">
-                          <button type="submit" class="btn btn-dark rounded-1">
-                            <ion-icon name="search"></ion-icon>
-                          </button>
-                        </div>
-                      </div>
+                    </div>
+                    <div class="col-2">
+                      <button type="submit" class="btn btn-dark rounded-1" style="width: 100%;">
+                        <ion-icon name="search"></ion-icon>
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -129,7 +125,7 @@
             <% if(users.length==0){ %>
               Search result: 0—0
             <% } else { %>
-              Search result: <%= (Number(current)*5)-4 %>—<%= users.length+(Number(current)-1)*5 %>
+              Search result: <%= (Number(current)*8)-7 %>—<%= users.length+(Number(current)-1)*8 %>
             <% } %>
           </em>
         </div>
