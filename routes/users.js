@@ -75,7 +75,7 @@ router.get("/dashboard", function(req,res){
 
 //Get Route - Manage Accounts Dashboard
 router.get("/dashboard/accounts", function(req, res){
-	var perPage = 8;
+	var perPage = 5;
 	var pageQuery = parseInt(req.query.page);
 	var pageNumber = pageQuery ? pageQuery : 1;
 	var noMatch = null;
@@ -109,15 +109,19 @@ router.get("/dashboard/accounts", function(req, res){
 				console.log('filter chosen: ', filterAccType);
 				if(filterAccType == 'Admin') {
 					console.log('admin chosen')
-					User.find({$or: [{username: regex}, {firstName: regex}, {lastName: regex}], isAdmin: true})
+					User
+					.find({$or: [{username: regex}, {firstName: regex}, {lastName: regex}], isAdmin: true})
 					.sort(sortOptions)
 					.skip((perPage * pageNumber) - perPage)
 					.limit(perPage)
 					.exec(function (err, allUsers) {
-						User.count().exec(function (err, count) {
+						User.count({$or: [{username: regex}, {firstName: regex}, {lastName: regex}], isAdmin: true}).exec(function (err, count) {
 							if (err) {
 								console.log(err);
 							} else {
+								if(allUsers.length < 1) {
+									noMatch = "Result: '" + req.query.search + "' not found. Please try again.";
+								}
 								res.render("dashboards/accounts/index.ejs", {
 									users: allUsers,
 									current: pageNumber,
@@ -133,15 +137,19 @@ router.get("/dashboard/accounts", function(req, res){
 					});
 				}else if(filterAccType == 'Agent') {
 					console.log('agent chosen')
-					User.find({$or: [{username: regex}, {firstName: regex}, {lastName: regex}], isAgent: true})
+					User
+					.find({$or: [{username: regex}, {firstName: regex}, {lastName: regex}], isAgent: true})
 					.sort(sortOptions)
 					.skip((perPage * pageNumber) - perPage)
 					.limit(perPage)
 					.exec(function (err, allUsers) {
-						User.count().exec(function (err, count) {
+						User.count({$or: [{username: regex}, {firstName: regex}, {lastName: regex}], isAgent: true}).exec(function (err, count) {
 							if (err) {
 								console.log(err);
 							} else {
+								if(allUsers.length < 1) {
+									noMatch = "Result: '" + req.query.search + "' not found. Please try again.";
+								}
 								res.render("dashboards/accounts/index.ejs", {
 									users: allUsers,
 									current: pageNumber,
@@ -157,15 +165,19 @@ router.get("/dashboard/accounts", function(req, res){
 					});
 				} else if(filterAccType == 'Seeker') {
 					console.log('seeker chosen')
-					User.find({$or: [{username: regex}, {firstName: regex}, {lastName: regex}], isAgent: false, isAdmin: false})
+					User
+					.find({$or: [{username: regex}, {firstName: regex}, {lastName: regex}], isAgent: false, isAdmin: false})
 					.sort(sortOptions)
 					.skip((perPage * pageNumber) - perPage)
 					.limit(perPage)
 					.exec(function (err, allUsers) {
-						User.count().exec(function (err, count) {
+						User.count({$or: [{username: regex}, {firstName: regex}, {lastName: regex}], isAgent: false, isAdmin: false}).exec(function (err, count) {
 							if (err) {
 								console.log(err);
 							} else {
+								if(allUsers.length < 1) {
+									noMatch = "Result: '" + req.query.search + "' not found. Please try again.";
+								}
 								res.render("dashboards/accounts/index.ejs", {
 									users: allUsers,
 									current: pageNumber,
@@ -180,15 +192,19 @@ router.get("/dashboard/accounts", function(req, res){
 						});
 					});
 				}else if(filterAccType == 'All') {
-					User.find({$or: [{username: regex}, {firstName: regex}, {lastName: regex}]})
+					User
+					.find({$or: [{username: regex}, {firstName: regex}, {lastName: regex}]})
 					.sort(sortOptions)
 					.skip((perPage * pageNumber) - perPage)
 					.limit(perPage)
 					.exec(function (err, allUsers) {
-						User.count().exec(function (err, count) {
+						User.count({$or: [{username: regex}, {firstName: regex}, {lastName: regex}]}).exec(function (err, count) {
 							if (err) {
 								console.log(err);
 							} else {
+								if(allUsers.length < 1) {
+									noMatch = "Result: '" + req.query.search + "' not found. Please try again.";
+								}
 								res.render("dashboards/accounts/index.ejs", {
 									users: allUsers,
 									current: pageNumber,
@@ -205,11 +221,19 @@ router.get("/dashboard/accounts", function(req, res){
 				}
 
 			} else {
-				User.find({$or: [{username: regex}, {firstName: regex}, {lastName: regex}]}).sort(sortOptions).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, allUsers) {
-					User.count().exec(function (err, count) {
+				User
+				.find({$or: [{username: regex}, {firstName: regex}, {lastName: regex}]})
+				.sort(sortOptions)
+				.skip((perPage * pageNumber) - perPage)
+				.limit(perPage)
+				.exec(function (err, allUsers) {
+					User.count({$or: [{username: regex}, {firstName: regex}, {lastName: regex}]}).exec(function (err, count) {
 						if (err) {
 							console.log(err);
 						} else {
+							if(allUsers.length < 1) {
+								noMatch = "Result: '" + req.query.search + "' not found. Please try again.";
+							}
 							res.render("dashboards/accounts/index.ejs", {
 								users: allUsers,
 								current: pageNumber,
@@ -226,15 +250,16 @@ router.get("/dashboard/accounts", function(req, res){
 			}
 
 		} else {
-			User.find({$or: [{username: regex}, {firstName: regex}, {lastName: regex}]}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, allUsers) {
-				User.count({username: regex}).exec(function (err, count) {
+			User
+			.find({$or: [{username: regex}, {firstName: regex}, {lastName: regex}]})
+			.skip((perPage * pageNumber) - perPage)
+			.limit(perPage)
+			.exec(function (err, allUsers) {
+				User.count({$or: [{username: regex}, {firstName: regex}, {lastName: regex}]}).exec(function (err, count) {
 					if (err) {
 						console.log(err);
 						res.redirect("back");
 					} else {
-						if(allUsers.length < 1) {
-							noMatch = "Result: '" + req.query.search + "' not found. Please try again.";
-						}
 						res.render("dashboards/accounts/index.ejs", {
 							users: allUsers,
 							current: pageNumber,
@@ -276,12 +301,13 @@ router.get("/dashboard/accounts", function(req, res){
 			console.log('filter chosen: ', filterAccType);
 			if(filterAccType == 'Admin') {
 				console.log('admin chosen')
-				User.find({isAdmin: true})
+				User
+				.find({isAdmin: true})
 				.sort(sortOptions)
 				.skip((perPage * pageNumber) - perPage)
 				.limit(perPage)
 				.exec(function (err, allUsers) {
-					User.count().exec(function (err, count) {
+					User.count({isAdmin: true}).exec(function (err, count) {
 						if (err) {
 							console.log(err);
 						} else {
@@ -300,12 +326,13 @@ router.get("/dashboard/accounts", function(req, res){
 				});
 			}else if(filterAccType == 'Agent') {
 				console.log('agent chosen')
-				User.find({isAgent: true})
+				User
+				.find({isAgent: true})
 				.sort(sortOptions)
 				.skip((perPage * pageNumber) - perPage)
 				.limit(perPage)
 				.exec(function (err, allUsers) {
-					User.count().exec(function (err, count) {
+					User.count({isAgent: true}).exec(function (err, count) {
 						if (err) {
 							console.log(err);
 						} else {
@@ -324,12 +351,13 @@ router.get("/dashboard/accounts", function(req, res){
 				});
 			} else if(filterAccType == 'Seeker') {
 				console.log('seeker chosen')
-				User.find({isAgent: false, isAdmin: false})
+				User
+				.find({isAgent: false, isAdmin: false})
 				.sort(sortOptions)
 				.skip((perPage * pageNumber) - perPage)
 				.limit(perPage)
 				.exec(function (err, allUsers) {
-					User.count().exec(function (err, count) {
+					User.count({isAgent: false, isAdmin: false}).exec(function (err, count) {
 						if (err) {
 							console.log(err);
 						} else {
@@ -347,12 +375,13 @@ router.get("/dashboard/accounts", function(req, res){
 					});
 				});
 			}else if(filterAccType == 'All') {
-				User.find({})
+				User
+				.find({})
 				.sort(sortOptions)
 				.skip((perPage * pageNumber) - perPage)
 				.limit(perPage)
 				.exec(function (err, allUsers) {
-					User.count().exec(function (err, count) {
+					User.count({}).exec(function (err, count) {
 						if (err) {
 							console.log(err);
 						} else {
@@ -372,8 +401,13 @@ router.get("/dashboard/accounts", function(req, res){
 			}
 
 		} else {
-			User.find({}).sort(sortOptions).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, allUsers) {
-				User.count().exec(function (err, count) {
+			User
+			.find({})
+			.sort(sortOptions)
+			.skip((perPage * pageNumber) - perPage)
+			.limit(perPage)
+			.exec(function (err, allUsers) {
+				User.count({}).exec(function (err, count) {
 					if (err) {
 						console.log(err);
 					} else {
@@ -391,8 +425,7 @@ router.get("/dashboard/accounts", function(req, res){
 				});
 			});
 		}
-	} 
-	else if (req.query.filterAccType) {
+	} else if (req.query.filterAccType) {
 			console.log(req.query.filterAccType)
 			var filterOptions = {};
 			var filterAccType = req.query.filterAccType;
@@ -401,12 +434,13 @@ router.get("/dashboard/accounts", function(req, res){
 			console.log('filter chosen: ', filterAccType);
 			if(filterAccType == 'Admin') {
 				console.log('admin chosen')
-				User.find({isAdmin: true})
+				User
+				.find({isAdmin: true})
 				.sort(sortOptions)
 				.skip((perPage * pageNumber) - perPage)
 				.limit(perPage)
 				.exec(function (err, allUsers) {
-					User.count().exec(function (err, count) {
+					User.count({isAdmin: true}).exec(function (err, count) {
 						if (err) {
 							console.log(err);
 						} else {
@@ -423,14 +457,15 @@ router.get("/dashboard/accounts", function(req, res){
 						}
 					});
 				});
-			}else if(filterAccType == 'Agent') {
+			} else if(filterAccType == 'Agent') {
 				console.log('agent chosen')
-				User.find({isAgent: true})
+				User
+				.find({isAgent: true})
 				.sort(sortOptions)
 				.skip((perPage * pageNumber) - perPage)
 				.limit(perPage)
 				.exec(function (err, allUsers) {
-					User.count().exec(function (err, count) {
+					User.count({isAgent: true}).exec(function (err, count) {
 						if (err) {
 							console.log(err);
 						} else {
@@ -449,12 +484,13 @@ router.get("/dashboard/accounts", function(req, res){
 				});
 			} else if(filterAccType == 'Seeker') {
 				console.log('seeker chosen')
-				User.find({isAgent: false, isAdmin: false})
+				User
+				.find({isAgent: false, isAdmin: false})
 				.sort(sortOptions)
 				.skip((perPage * pageNumber) - perPage)
 				.limit(perPage)
 				.exec(function (err, allUsers) {
-					User.count().exec(function (err, count) {
+					User.count({isAgent: false, isAdmin: false}).exec(function (err, count) {
 						if (err) {
 							console.log(err);
 						} else {
@@ -471,13 +507,14 @@ router.get("/dashboard/accounts", function(req, res){
 						}
 					});
 				});
-			}else if(filterAccType == 'All') {
-				User.find({})
+			} else if(filterAccType == 'All') {
+				User
+				.find({})
 				.sort(sortOptions)
 				.skip((perPage * pageNumber) - perPage)
 				.limit(perPage)
 				.exec(function (err, allUsers) {
-					User.count().exec(function (err, count) {
+					User.count({}).exec(function (err, count) {
 						if (err) {
 							console.log(err);
 						} else {
@@ -495,11 +532,14 @@ router.get("/dashboard/accounts", function(req, res){
 					});
 				});
 			}
-	} 
-	else {
+	} else {
 		// get all users from DB
-		User.find({}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, allUsers) {
-			User.count().exec(function (err, count) {
+		User
+		.find({})
+		.skip((perPage * pageNumber) - perPage)
+		.limit(perPage)
+		.exec(function (err, allUsers) {
+			User.count({}).exec(function (err, count) {
 				if (err) {
 					console.log(err);
 				} else {

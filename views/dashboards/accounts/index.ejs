@@ -58,103 +58,78 @@
               <li class="breadcrumb-item active" aria-current="page">Accounts</li>
             </ol>
           </nav>
-          <nav aria-label="breadcrumb mb-2" class="d-none">
-            <ol class="breadcrumb breadcrumbSec mb-0">
-              <li class="breadcrumb-item"><a href="/dashboard/accounts/seeker">Seeker</a></li>
-              <li class="breadcrumb-item"><a href="/dashboard/accounts/agent">Agent</a></li>
-              <li class="breadcrumb-item"><a href="/dashboard/accounts/admin">Admin</a></li>
-            </ol>
-          </nav>
         </div>
       </div>
-      <div class="row accountTableHeading mr-5 px-4 mt-2">
-        <div class="col-12 px-0">
+
+      <div class="row mr-5">
+        <div class="col-12">
           <% if(noMatch !== undefined){ %>
-            <form action="/dashboard/accounts" method="GET" class="form-inline">
-              <div class="row col-md-12 m-0 form-group">
-                <div class="row col-md-12 m-0 p-0 d-flex justify-content-center align-items-center">
-                  <div class="row col-md-7 m-0 flex-nowrap fAgent-input" id="search-border">
-                    <i class="fas fa-search"></i>
-                    <input type="text" class="form-control searchBox" name="search" placeholder="Search Users">
-                  </div>
-                  <div class="row col-md-4 m-0 flex-nowrap fAgent-input">
-                    <select class="form-control" name="sort" id="sort" style="height: 35px;">
-                      <option value="" disabled selected hidden></option>
-                      <option value="HighestRating" <% if(data.sort == 'HighestRating') {%> selected <%} %>>Highest Rating</option>
-                      <option value="LowestRating" <% if(data.sort == 'LowestRating') {%> selected <%} %>>Lowest Rating</option>
-                      <option value="Recent" <% if(data.sort == 'Recent') {%> selected <%} %>>Recent</option>
-                      <option value="Oldest" <% if(data.sort == 'Oldest') {%> selected <%} %>>Oldest</option>
-                    </select>
-                  </div>
-                  <div class="row col-md-4 m-0 flex-nowrap fAgent-input">
-                    <select class="form-control" name="filterAccType" id="filterAccType" style="height: 35px;">
-                      <option value="" disabled selected hidden></option>
-                      <option value="Admin" <% if(data.filterAccType == 'Admin') {%> selected <%} %>>Admin</option>
-                      <option value="Agent" <% if(data.filterAccType == 'Agent') {%> selected <%} %>>Agent</option>
-                      <option value="Seeker" <% if(data.filterAccType == 'Seeker') {%> selected <%} %>>Seeker</option>
-                      <option value="All" <% if(data.filterAccType == 'All') {%> selected <%} %>>All</option>
-                    </select>
-                  </div>
-                  <div class="row col-md-1 p-0">
-                    <button type="submit" class="btn btn-info d-flex justify-content-center align-items-center text-align-center" style="padding: 15px 25px 15px 25px;">GO</button>
-                  </div>
-                </div>
-              </div>
-            </form>
-
-
-
-
-
             <form action="/dashboard/accounts" method="GET">
-              <div class="input-group mb-3">
-                <input type="text" class="form-control searchBox" name="search" placeholder="Search Users">
-                <div class="input-group-append">
-                  <button class="btn btn-dark">
-                    <i class="fas fa-search"></i>
-                  </button>
+              <div class="row">
+                <div class="col-12">
+                  <div class="row">
+                    <div class="col-5">
+                      <div class="input-group mb-3">
+                        <input type="text" class="form-control rounded-0" name="search" placeholder="Search users">
+                      </div>
+                    </div>
+                    <div class="col-7 pl-0">
+                      <div class="row">
+                        <div class="col-5 px-0">
+                          <!-- sort input -->
+                          <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                              <label class="input-group-text" style="background: white; border: none;" for="sort">Sort by:</label>
+                            </div>
+                            <select class="custom-select" name="sort" id="sort">
+                              <option value="" disabled selected hidden></option>
+                              <option value="HighestRating" <% if(data.sort == 'HighestRating') {%> selected <%} %>>Highest Rating</option>
+                              <option value="LowestRating" <% if(data.sort == 'LowestRating') {%> selected <%} %>>Lowest Rating</option>
+                              <option value="Recent" <% if(data.sort == 'Recent') {%> selected <%} %>>Recent</option>
+                              <option value="Oldest" <% if(data.sort == 'Oldest') {%> selected <%} %>>Oldest</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="col-5 px-0">
+                            <!-- filter input -->
+                            <div class="input-group mb-3">
+                              <div class="input-group-prepend">
+                                <label class="input-group-text" style="background: white; border: none;" for="filterAccType">Filter by:</label>
+                              </div>
+                              <select class="custom-select" name="filterAccType" id="filterAccType">
+                                <option value="" disabled selected hidden></option>
+                                <option value="Admin" <% if(data.filterAccType == 'Admin') {%> selected <%} %>>Admin</option>
+                                <option value="Agent" <% if(data.filterAccType == 'Agent') {%> selected <%} %>>Agent</option>
+                                <option value="Seeker" <% if(data.filterAccType == 'Seeker') {%> selected <%} %>>Seeker</option>
+                                <option value="All" <% if(data.filterAccType == 'All') {%> selected <%} %>>All</option>
+                              </select>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                          <button type="submit" class="btn btn-dark rounded-1">
+                            <ion-icon name="search"></ion-icon>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </form>
           <% } %>
         </div>
-        <div class="col-12 px-0 justify-content-between align-items-end d-flex">
-          <div>
-            <p style="font-weight: 500; font-size: 1.1em;" class="mb-0">Users</p>
-          </div>
-          <div>
-            <form action="/dashboard/accounts" method="GET" class="form-inline filterBox">
-              <input type="text" class="form-control searchBox" name="search" placeholder="Search Users">
-              <label for="sort"><span class="pr-2">Sort By:</span></label>
-              <div class="form-group">
-                <select class="form-control" name="sort" id="sort" style="height: 35px;">
-                  <option value="" disabled selected hidden></option>
-                  <option value="HighestRating" <% if(data.sort == 'HighestRating') {%> selected <%} %>>Highest Rating</option>
-                  <option value="LowestRating" <% if(data.sort == 'LowestRating') {%> selected <%} %>>Lowest Rating</option>
-                  <option value="Recent" <% if(data.sort == 'Recent') {%> selected <%} %>>Recent</option>
-                  <option value="Oldest" <% if(data.sort == 'Oldest') {%> selected <%} %>>Oldest</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="filterAccType"><span class="px-2">Filter By:</span></label>
-                <select class="form-control" name="filterAccType" id="filterAccType" style="height: 35px;">
-                  <option value="" disabled selected hidden></option>
-                  <option value="Admin" <% if(data.filterAccType == 'Admin') {%> selected <%} %>>Admin</option>
-                  <option value="Agent" <% if(data.filterAccType == 'Agent') {%> selected <%} %>>Agent</option>
-                  <option value="Seeker" <% if(data.filterAccType == 'Seeker') {%> selected <%} %>>Seeker</option>
-                  <option value="All" <% if(data.filterAccType == 'All') {%> selected <%} %>>All</option>
-                </select>
-              </div>
-              <button type="submit" class="btn btn-dark rounded-0 ml-2" style="height: 35px; font-size:0.85em;">submit</button>
-            </form>
-          </div>
+      </div>
+
+      <div class="row accountTableHeading mr-5 px-4 mt-2">
+        <div class="col-12">
+          <p style="font-weight: 500; font-size: 1.1em;" class="mb-0">Users</p>
         </div>
-        <div class="col-12 text-right pt-3" style="font-size: 0.88em;">
+        <div class="col-12 text-right pt-0" style="font-size: 0.88em;">
           <em>
             <% if(users.length==0){ %>
               Search result: 0—0
             <% } else { %>
-              Search result: <%= (Number(current)*8)-7 %>—<%= users.length+(Number(current)-1)*8 %>
+              Search result: <%= (Number(current)*5)-4 %>—<%= users.length+(Number(current)-1)*5 %>
             <% } %>
           </em>
         </div>
@@ -242,7 +217,7 @@
               <% if (current == 1) { %>
                 <li class="disabled"><a class="border px-3 py-2">First</a></li>
               <% } else { %>
-                <li><a class="border px-3 py-2" href="/dashboard/accounts<%if(search){%>?search=<%=search%><%}%><%if(sort){%>&sort=<%=sort%><%}%><%if(filterAccType){%>&filterAccType=<%=filterAccType%><%}%>">First</a></li>
+                <li><a class="border px-3 py-2" href="/dashboard/accounts?page=<%= 1 %><%if(search){%>&search=<%=search%><%}%><%if(sort){%>&sort=<%=sort%><%}%><%if(filterAccType){%>&filterAccType=<%=filterAccType%><%}%>">First</a></li>
               <% } %>
           
               <% if (current == 1) { %>

@@ -2407,6 +2407,10 @@ nav a{
   font-size: 0.88em;
 }
 
+.fa-sort{
+  font-size: 0.9em;
+}
+
 .accountTableHeading a{
   border-radius: 25px;
   font-size: 0.85em;
