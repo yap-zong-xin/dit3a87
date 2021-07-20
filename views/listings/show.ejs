@@ -416,9 +416,9 @@
       </div>
       <div class="col-4">
         <% if(listing.archiveStatus==true || listing.soldStatus==true) { %>
-          <div class="item shark-2 text-center p-4" style="border: 1.5px lightgray solid; border-radius: 10px; top:145px;">
+          <div class="item shark-2 text-center p-4" style="border: 1.5px lightgray solid; border-radius: 10px;">
         <% } else { %>
-          <div class="item shark-2 text-center p-4" style="border: 1.5px lightgray solid; border-radius: 10px; top:120px;">
+          <div class="item shark-3 text-center p-4" style="border: 1.5px lightgray solid; border-radius: 10px;">
         <% } %>
           <a href="/user/<%= listing.author.id %>">
             <img src="<%= listing.author.image %>" alt="" style="width: 30%; border-radius: 50%;">

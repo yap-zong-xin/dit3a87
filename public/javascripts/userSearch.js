@@ -25,6 +25,7 @@ function loadData(rs,loadObj) {
         endIndex = startIndex + 5;
     }
 
+
     for (i = startIndex; i < endIndex; i++) {
         var dateMonthAsWord = moment(resultSet[i].createdAt).format('DD-MMM-YYYY');
         var html;

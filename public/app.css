@@ -11,7 +11,7 @@ body {
 }
 
 ::-webkit-input-placeholder {
-  font-size: 0.95em;
+  font-size: 0.9em;
 }
 
 ::-webkit-scrollbar{
@@ -321,7 +321,7 @@ body {
 .search-input input:placeholder-shown {
   color: rgb(136, 136, 136);
   font-family: "Poppins", sans-serif;
-  font-size: 15px;
+  font-size: 1.2em;
 }
 
 #showHideBtn {
@@ -627,11 +627,6 @@ body {
   outline: none;
   line-height: 1;
   font-weight: 600;
-}
-
-.login-form .input-field input::placeholder {
-  color: #aaa;
-  font-weight: 500;
 }
 
 .login-submit .btn-reg, .fgt-pwd-btn input[type=submit], .fgt-pwd-btn input[type=button] {
@@ -977,11 +972,6 @@ body {
   color: #333;
 }
 
-.input-field input::placeholder {
-  color: #aaa;
-  font-weight: 500;
-}
-
 .invalid-input {
   background-color: #ffdddd;
 }
@@ -1066,11 +1056,6 @@ body {
     width: 100%;
   }
   
-  .input-field input::placeholder {
-    color: #aaa;
-    font-weight: 500;
-  }
-
   /* .btn, .btn.transparent{
     height: 30px;
     text-align: center;
@@ -1599,8 +1584,7 @@ input[type=range]::-ms-thumb {
 .custom-field input:focus + .placeholder,
 .custom-field input:not(:placeholder-shown) + .placeholder {
   top: -10px;
-  font-size: 10px;
-  color: #222;
+  font-size: 1.2em;
 }
 
 /* ONE */
@@ -1626,8 +1610,7 @@ input[type=range]::-ms-thumb {
 .custom-field.one input:not(:placeholder-shown) + .placeholder,
 .custom-field.one input:focus + .placeholder {
   top: 0;
-  font-size: 0.9em;
-  color: #222;
+  font-size: 1.2em;
   background: #fff;
   width: auto
 }
@@ -2081,7 +2064,7 @@ input[type=range]::-ms-thumb {
   flex-direction: row;
   padding: 0;
   background-color: #fff;
-  border-radius: 10px;
+  border-radius: 5px;
 }
 
 .user-search form, .user-search .form-group {
@@ -2100,7 +2083,7 @@ input[type=range]::-ms-thumb {
 }
 
 .user-search .form-group input[type=text]:placeholder-shown {
-  font-weight: 500;
+  font-size: 1.2em;
 }
 
 .user-search .form-group select {
@@ -2120,7 +2103,7 @@ input[type=range]::-ms-thumb {
 }
 
 .user-search .form-group button {
-  border-radius: 10px;
+  border-radius: 5px;
   background-color: #3725c0;
   font-weight: 700;
   width: 100%;
@@ -2332,11 +2315,14 @@ nav a{
 }
 
 .shark-1 {
-  top: 63px;
+  top: 97px;
 }
 
 .shark-2 {
-  top: 85px;
+  top: 140px;
+}
+.shark-3 {
+  top: 115px;
 }
 
 #soldBanner{
