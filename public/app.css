@@ -392,6 +392,90 @@ body {
   outline: none;
 }
 
+.listing-tag-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.listing-tag {
+  padding: 0 5px 0 5px;
+  border: 1px solid #3725c0;
+  border-radius: 3px;
+  color: #3725c0;
+  text-transform: capitalize;
+  width: 80%;
+  text-align: center;
+}
+
+.listing-detail {
+  display: flex;
+  flex-direction: row;
+  margin: 2px 0 2px;
+}
+
+#listing-name {
+  font-size: 22px;
+  font-weight: 600;
+}
+
+#listing-price {
+  font-weight: 500;
+}
+
+#listing-street, 
+#listing-price {
+  font-size: 16px;
+}
+
+.prop-detail {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.prop-tag {
+  display: flex;
+  flex-direction: row;
+  font-size: 15px;
+  margin: 0;
+  padding: 0;
+}
+
+.prop-tag i {
+  margin-right: 5px;
+}
+
+.listing-tag-wrapper,
+.prop-detail {
+  margin: 5px 0 5px;
+}
+
+.list-left {
+  padding: 10px
+}
+
+.list-right{ 
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+#soldBanner-list{
+  background: rgb(219, 0, 0);
+  font-weight: 600;
+  font-size: 0.8em;
+  color: white;
+  width: 100%;
+}
+
+#archiveBanner-list{
+  background: #3725c0;
+  font-weight: 600;
+  font-size: 0.8em;
+  color: white;
+  width: 100%;
+}
 
 /* Login */
 .login-card {
