@@ -59,20 +59,45 @@
   <div class="container align-items-center justify-content-between d-flex mt-3 px-4">
     <div>
       <% if(!currentUser){ %>
-        <a href="/follow/<%= user.id %>">
+        <form action="/followSingle/<%= user.id %>" method="POST">
           <button class="btn btn-dark followBtn">Follow</button>
-        </a>
+        </form>
         <% } else { %>
           <% if(user._id.equals(currentUser._id)){ %>
             <a class="btn btn-dark profileOverviewBtn" href="/user/<%= user._id %>/edit">
               <span>Edit Profile</span>
             </a>
             <% } else { %>
+              <%
+              var currentFollow = false;
+              for(let i=0; i<user.followers.length; i++) {
+                if(user.followers[i]._id.equals(currentUser._id)) {
+                  currentFollow = true;
+                }
+              } 
+              %>
+              <%
+              if(currentFollow == false) {
+              %>
+                <div class="left">
+                  <form action="/followSingle/<%= user.id %>" method="POST">
+                    <button class="btn btn-dark followBtn">Follow</button>
+                  </form>
+                </div>
+              <%
+              }else {
+                console.log('user: ', user._id)
+                console.log('cuas: ', currentUser._id)
+
+              %>
               <div class="left">
-                <a href="/follow/<%= user.id %>">
-                  <button class="btn btn-dark followBtn">Follow</button>
-                </a>
+                <form action="/followSingle/<%= user.id %>" method="POST">
+                  <button class="btn btn-dark followBtn">Unfollow</button>
+                </form>
               </div>
+              <%
+              }
+              %>
               <div class="left right">
                 <form action="/conversation/<%= currentUser._id %>/<%= user.id %>"
                   method="POST">
@@ -80,7 +105,7 @@
                 </form>
               </div>
               <% } %>
-                <% } %>
+          <% } %>
     </div>
     <div class="justify-content-center d-flex py-2">
       <div class="left">
@@ -669,11 +694,23 @@
                       </a>
                     </div>
                     <!-- follow button -->
-                    <div class="col-3 justify-content-end d-flex">
-                      <a href="/follow/<%= followers._id %>">
-                        <button class="btn btn-dark editDeleteReviewBtn">Follow</button>
-                      </a>
-                    </div>
+                    <%console.log(currentUser)%>
+                    <%if(currentUser._id.equals(followers._id)) {%>
+                    <%}else {%>
+                      <%if(currentFollow == false) {%>
+                      <div class="col-3 justify-content-end d-flex">
+                        <form action="/followAny/<%= followers._id %>" method="POST">
+                          <button class="btn btn-dark followBtn">Follow</button>
+                        </form>
+                      </div>
+                      <%}else{%>
+                        <div class="col-3 justify-content-end d-flex">
+                          <form action="/followAny/<%= followers._id %>" method="POST">
+                            <button class="btn btn-dark followBtn">Unfollow</button>
+                          </form>
+                        </div>
+                      <%}%>
+                    <%}%>
                   </div>
                 </div>
                 <% }); %>

@@ -1186,28 +1186,84 @@ router.delete("/user/:id/dashboard", function(req, res){
 	});
 });
 
-// follow user
-router.get('/follow/:id', middleware.isLoggedIn, async function(req, res) {
-  try {
-		let user = await User.findById(req.params.id);
-		var foundUserFollower = user.followers.some(function (followers) {
+// follow/unfollow user
+// router.get('/follow/:id', middleware.isLoggedIn, async function(req, res) {
+//   try {
+// 		let user = await User.findById(req.params.id);
+// 		var foundUserFollower = user.followers.some(function (followers) {
+// 			return followers.equals(req.user._id);
+// 		});
+// 		if(foundUserFollower){
+			
+// 			req.flash('success', 'You unfollowed ' + user.username + '.');
+// 			res.redirect("back");
+// 		} else{
+// 			user.followers.push(req.user._id);
+// 			user.save();
+// 			req.flash('success', 'You are now following ' + user.username + '.');
+// 			res.redirect('/user/' + req.params.id);
+// 		}
+//   } catch(err) {
+//     req.flash('error', err.message);
+//     res.redirect('back');
+//   }
+// });
+router.post('/followSingle/:id', middleware.isLoggedIn, async function(req, res) {
+	User.findById(req.params.id, function(err, foundUser) {
+		if(err) {
+			console.log(err)
+			return res.redirect('back');
+		}
+		var foundUserFollower = foundUser.followers.some(function (followers) {
 			return followers.equals(req.user._id);
 		});
-		if(foundUserFollower){
-			req.flash("error","You are already following " + user.username + '.');
-			res.redirect("back");
-		} else{
-			user.followers.push(req.user._id);
-			user.save();
-			req.flash('success', 'You are now following ' + user.username + '.');
-			res.redirect('/user/' + req.params.id);
+		var successMsg="";
+		if(foundUserFollower) {
+			foundUser.followers.pull(req.user._id)
+			successMsg = 'You unfollowed ' + foundUser.username + '.';
+		}else {
+			foundUser.followers.push(req.user._id);
+			successMsg = 'You are now following ' + foundUser.username + '.';
 		}
-  } catch(err) {
-    req.flash('error', err.message);
-    res.redirect('back');
-  }
-});
+		foundUser.save(function(err) {
+			if (err) {
+				req.flash('error', err.message);
+				res.redirect('back');			
+			}
+			req.flash('success', successMsg);
+ 			res.redirect('/user/' + req.params.id);
+		})
+	})
+  });
 
+//modal form follow
+router.post('/followAny/:id', middleware.isLoggedIn, async function(req, res) {
+	User.findById(req.params.id, function(err, foundUser) {
+		if(err) {
+			console.log(err)
+			return res.redirect('back');
+		}
+		var foundUserFollower = foundUser.followers.some(function (followers) {
+			return followers.equals(req.user._id);
+		});
+		var successMsg="";
+		if(foundUserFollower) {
+			foundUser.followers.pull(req.user._id)
+			successMsg = 'You unfollowed ' + foundUser.username + '.';
+		}else {
+			foundUser.followers.push(req.user._id);
+			successMsg = 'You are now following ' + foundUser.username + '.';
+		}
+		foundUser.save(function(err) {
+			if (err) {
+				req.flash('error', err.message);
+				res.redirect('back');			
+			}
+			req.flash('success', successMsg);
+ 			res.redirect('/user/' + req.params.id);
+		})
+	})
+  });
 // handle notification
 router.get('/notifications/:id', middleware.isLoggedIn, async function(req, res) {
   try {
