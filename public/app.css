@@ -1931,13 +1931,15 @@ input[type=range]::-ms-thumb {
 }
 
 .find-agent-div {
-  background-image: url('/img/findagents-banner.jpg');
-  height: 500px;
-  /* filter: blur(2px); */
+  background-image: url('/img/hunters-race-MYbhN8KaaEc-unsplash.jpg');
+  height: 300px;
+  background-position: right top;
+  background-repeat: no-repeat;
+	background-size: cover;
 }
 
 #search-container {
-  margin-top: -150px;
+  margin-top: -130px;
 }
 
 .blur-div {
@@ -1981,7 +1983,7 @@ input[type=range]::-ms-thumb {
 }
 
 .user-header p {
-  font-size: 48px;
+  font-size: 2.3em;
   font-weight: 700;
   /* text-transform: uppercase; */
   color: white;
@@ -2098,7 +2100,7 @@ input[type=range]::-ms-thumb {
 }
 
 .user-search .form-group input[type=text]:placeholder-shown {
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .user-search .form-group select {
@@ -2339,7 +2341,7 @@ nav a{
 
 #soldBanner{
   position: absolute;
-  top: 150px;
+  top: 140px;
   background: rgb(219, 0, 0);
   width: 82%;
   font-weight: 600;

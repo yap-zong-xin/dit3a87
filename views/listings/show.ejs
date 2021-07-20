@@ -415,7 +415,11 @@
         <% }) %>
       </div>
       <div class="col-4">
-        <div class="item shark-2 text-center p-4" style="border: 1.5px lightgray solid; border-radius: 10px; top:115px;">
+        <% if(listing.archiveStatus==true || listing.soldStatus==true) { %>
+          <div class="item shark-2 text-center p-4" style="border: 1.5px lightgray solid; border-radius: 10px; top:145px;">
+        <% } else { %>
+          <div class="item shark-2 text-center p-4" style="border: 1.5px lightgray solid; border-radius: 10px; top:120px;">
+        <% } %>
           <a href="/user/<%= listing.author.id %>">
             <img src="<%= listing.author.image %>" alt="" style="width: 30%; border-radius: 50%;">
           </a>
@@ -428,15 +432,27 @@
             <p class="mb-0" style="font-size: 0.9em; font-weight: 350;">
               <em><%= "@" + listing.author.username %></em>
             </p>
-            <p class="pt-4 mb-0" style="font-size: 0.9em; font-weight: 350;">
+            <p class="pt-3" style="font-size: 1em; font-weight: 600;">
+              <span class="fa fa-star checked"></span>
+              <span class="fa fa-star <% if (listing.author.rating > 1.5) { %> checked <% } %>"></span>
+              <span class="fa fa-star <% if (listing.author.rating > 2.5) { %> checked <% } %>"></span>
+              <span class="fa fa-star <% if (listing.author.rating > 3.5) { %> checked <% } %>"></span>
+              <span class="fa fa-star <% if (listing.author.rating > 4.5) { %> checked <% } %>"></span>
+              <%= listing.author.rating.toFixed(2) %>
+            </p>
+            <p class="pt-2 mb-0" style="font-size: 0.9em; font-weight: 350;">
               CEA License <span style="font-weight: 600; font-size: 1.15em;"><%= listing.author.cea %></span>
             </p>
             <p class="" style="font-size: 0.9em; font-weight: 350;">
               Joined on <span style="font-weight: 600; font-size: 1.15em;"><%= moment(listing.author.createdAt).format('MMM DD, YYYY') %></span>
             </p>
-            <p class="pt-2" style="font-size: 1.1em; font-weight: 600;">
-              <%= listing.author.rating %>
-            </p>
+            <% if(currentUser){ %>
+              <form action="/conversation/<%= currentUser._id %>/<%= listing.author.id %>" method="POST">
+                <button type="submit" class="btn btn-dark" style="width: 100%;">
+                  Chat
+                </button>
+              </form>
+            <% } %>
           </div>
         </div>
       </div>

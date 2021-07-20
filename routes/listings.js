@@ -671,7 +671,7 @@ router.post("/listings", middleware.isLoggedIn, uploadMultiple, async function(r
 	var bathrooms = Number(req.body.bathrooms);
 	var tenure = req.body.tenure;
 	var threeDImage = req.body.threeDImage;
-  	var author = {
+	var author = {
 		id: req.user._id,
 		username: req.user.username,
 		firstName: req.user.firstName,
@@ -680,6 +680,7 @@ router.post("/listings", middleware.isLoggedIn, uploadMultiple, async function(r
 		image: req.user.image,
 		createdAt: req.user.createdAt,
 		cea: req.user.cea,
+		rating: req.user.rating,
 	};
 	var newlisting = {name:name, description:desc, author:author, location:location, district:district, price:price, size:size, type:type, bedrooms:bedrooms, bathrooms:bathrooms, tenure:tenure, threeDImage:threeDImage}
 	try {

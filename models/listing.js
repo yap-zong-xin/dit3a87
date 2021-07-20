@@ -32,6 +32,7 @@ var listingSchema = new mongoose.Schema({
       email: String,
       image: String,
       cea: String,
+      rating: Number,
       createdAt: { type: Date, default: Date.now }
 	},
    comments: [
