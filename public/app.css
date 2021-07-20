@@ -1541,7 +1541,6 @@ input[type=range]::-ms-thumb {
 .listingHover:hover{
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.08), 0 6px 20px 0 rgba(0, 0, 0, 0.08);
   border-radius: 10px;
-  transform: scale(1.005);
 }
 
 .likeBtn button{
