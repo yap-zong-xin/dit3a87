@@ -675,6 +675,8 @@ router.post("/listings", middleware.isLoggedIn, uploadMultiple, async function(r
 		id: req.user._id,
 		username: req.user.username,
 		email: req.user.email,
+		image: req.user.image,
+		createdAt: req.user.createdAt,
 	};
 	var newlisting = {name:name, description:desc, author:author, location:location, district:district, price:price, size:size, type:type, bedrooms:bedrooms, bathrooms:bathrooms, tenure:tenure, threeDImage:threeDImage}
 	try {
@@ -1116,7 +1118,7 @@ router.post("/listings/:id/like", middleware.isLoggedIn, function (req, res) {
 
 //Mark listing as sold
 router.get("/listings/:id/sold", middleware.checklistingOwnership, function(req, res){
-	listing.findById(req.params.id, function(err, foundlisting){
+	listing.findById(req.params.id).populate("comments likes").exec(function(err, foundlisting){
 		if(err){
 			res.redirect("/listings");
 		} else{
@@ -1130,7 +1132,7 @@ router.get("/listings/:id/sold", middleware.checklistingOwnership, function(req,
 	});
 });
 router.get("/listings/:id/unsold", middleware.checklistingOwnership, function(req, res){
-	listing.findById(req.params.id, function(err, foundlisting){
+	listing.findById(req.params.id).populate("comments likes").exec(function(err, foundlisting){
 		if(err){
 			res.redirect("/listings");
 		} else{
@@ -1146,7 +1148,7 @@ router.get("/listings/:id/unsold", middleware.checklistingOwnership, function(re
 
 //Archive Listing
 router.get("/listings/:id/archive", middleware.checklistingOwnership, function(req, res){
-	listing.findById(req.params.id, function(err, foundlisting){
+	listing.findById(req.params.id).populate("comments likes").exec(function(err, foundlisting){
 		if(err){
 			res.redirect("/listings");
 		} else{
@@ -1161,7 +1163,7 @@ router.get("/listings/:id/archive", middleware.checklistingOwnership, function(r
 });
 //Unarchive Listing
 router.get("/listings/:id/unarchive", middleware.checklistingOwnership, function(req, res){
-	listing.findById(req.params.id, function(err, foundlisting){
+	listing.findById(req.params.id).populate("comments likes").exec(function(err, foundlisting){
 		if(err){
 			res.redirect("/listings");
 		} else{

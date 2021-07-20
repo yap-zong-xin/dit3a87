@@ -28,6 +28,8 @@ var listingSchema = new mongoose.Schema({
 		},
 		username: String,
       email: String,
+      image: String,
+      createdAt: { type: Date, default: Date.now }
 	},
    comments: [
       {
