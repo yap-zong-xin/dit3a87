@@ -432,14 +432,23 @@
             <p class="mb-0" style="font-size: 0.9em; font-weight: 350;">
               <em><%= "@" + listing.author.username %></em>
             </p>
-            <p class="pt-3" style="font-size: 1em; font-weight: 600;">
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star <% if (listing.author.rating > 1.5) { %> checked <% } %>"></span>
-              <span class="fa fa-star <% if (listing.author.rating > 2.5) { %> checked <% } %>"></span>
-              <span class="fa fa-star <% if (listing.author.rating > 3.5) { %> checked <% } %>"></span>
-              <span class="fa fa-star <% if (listing.author.rating > 4.5) { %> checked <% } %>"></span>
-              <%= listing.author.rating.toFixed(2) %>
-            </p>
+            <% if (listing.author.rating===0) { %>
+              <span class="justify-content-center d-flex pt-3 pb-1" style="font-size: 0.9em; color: gray;">
+                <em>No reviews found.</em>
+              </span>
+              <% } else { %>
+                <a href="/user/<%= listing.author._id %>/reviews" id="mainReview">
+                  <p class="pt-3 mb-2" style="font-size: 1em; font-weight: 600;">
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star <% if (listing.author.rating > 1.5) { %> checked <% } %>"></span>
+                    <span class="fa fa-star <% if (listing.author.rating > 2.5) { %> checked <% } %>"></span>
+                    <span class="fa fa-star <% if (listing.author.rating > 3.5) { %> checked <% } %>"></span>
+                    <span class="fa fa-star <% if (listing.author.rating > 4.5) { %> checked <% } %>"></span>
+                    <%= listing.author.rating.toFixed(2) %>
+                  </p>
+                </a>
+              <% } %>
+            
             <p class="pt-2 mb-0" style="font-size: 0.9em; font-weight: 350;">
               CEA License <span style="font-weight: 600; font-size: 1.15em;"><%= listing.author.cea %></span>
             </p>

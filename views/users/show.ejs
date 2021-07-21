@@ -6,30 +6,34 @@
       <div class="px-4 mx-1">
       </div>
       <div>
-      <!-- suspend account-->
-      <% if(currentUser && currentUser.isAdmin){ %>
-        <form action="/suspend/<%= user.id %>?_method=PUT" method="POST" class="text-center" style="position:relative; top: 10px;">
-          <% if(user.suspend==false){ %>
-            <button type="submit" name="user[suspend]" value="true" class="btn approveBtn"
-              style="background: #41e792; color: white; font-weight: 600; font-size: 0.9em;">Suspend Account</button>
-            <% } else{ %>
-              <button type="submit" name="user[suspend]" value="false" class="btn approveBtn"
-                style="background: #DC3545; color: white; font-weight: 600; font-size: 0.9em;">Unsuspend Account</button>
+        <div class="left pb-3">
+          <!-- suspend account-->
+          <% if(currentUser && user.isAdmin!=true){ %>
+            <form action="/suspend/<%= user.id %>?_method=PUT" method="POST" class="text-center" style="position:relative; top: 10px;">
+              <% if(user.suspend==false){ %>
+                <button type="submit" name="user[suspend]" value="true" class="btn approveBtn"
+                  style="background: #FFC107; color: white; font-weight: 600; font-size: 0.9em;">Suspend User</button>
+              <% } else{ %>
+                <button type="submit" name="user[suspend]" value="false" class="btn approveBtn"
+                  style="background: #17A2B8; color: white; font-weight: 600; font-size: 0.9em;">Unsuspend User</button>
               <% } %>
-        </form>
-        <% } %>
-        <!-- approve/remove agent -->
-        <% if(user.isAgent && currentUser && currentUser.isAdmin){ %>
-          <form action="/agentStatus/<%= user._id %>?_method=PUT" method="POST" class="text-center" style="position:relative; top: 10px;">
-            <% if(user.agentStatus==false){ %>
-              <button type="submit" name="user[agentStatus]" value="true" class="btn approveBtn"
-                style="background: #41e792; color: white; font-weight: 600; font-size: 0.9em;">Approve Agent</button>
+            </form>
+          <% } %>
+        </div>
+        <div class="right pb-3">
+          <!-- approve/remove agent -->
+          <% if(user.isAgent && currentUser && currentUser.isAdmin){ %>
+            <form action="/agentStatus/<%= user._id %>?_method=PUT" method="POST" class="text-center" style="position:relative; top: 10px;">
+              <% if(user.agentStatus==false){ %>
+                <button type="submit" name="user[agentStatus]" value="true" class="btn approveBtn"
+                  style="background: #41e792; color: white; font-weight: 600; font-size: 0.9em;">Approve Agent</button>
               <% } else{ %>
                 <button type="submit" name="user[agentStatus]" value="false" class="btn approveBtn"
                   style="background: #DC3545; color: white; font-weight: 600; font-size: 0.9em;">Remove Agent</button>
-                <% } %>
-          </form>
+              <% } %>
+            </form>
           <% } %>
+        </div>
       </div>
       <div>
         <!-- upload banner button -->
@@ -133,19 +137,19 @@
           </span>
           <br>
         </div>
-        <% } %>
+      <% } %>
       <% if(user.isAgent==true){ %>
         <div class="right">
           <span id="userActive">
             <% if ( moment(user.lastLogin).format('DD MM YYYY hh:mm:ss') > moment().subtract(7,'days').format('DD MM YYYY hh:mm:ss'))  {%>
-            <span class="pr-1">Active</span>
+            <span class="pr-1"><i class="fas fa-bolt"></i> Active</span>
             <% } else { %>
-              <span class="pr-1">Inactive</span>
+              <span class="pr-1"><img src="/img/snooze.svg"><img src="/img/snooze.svg" style="width: 12%;">Inactive</span>
               <% } %>
           </span>
           <br>
         </div>
-        <% } %>
+      <% } %>
     </div>
   </div>
 
