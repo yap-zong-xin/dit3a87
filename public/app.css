@@ -2716,3 +2716,42 @@ nav a{
 #upldForm-form input, #upldForm-form select, #upldForm-form textarea{
   border: 1px gray solid;
 }
+
+.typeOfFacilities {
+  list-style-type: none;
+  padding: 0;
+}
+.typeOfFacilities li {
+  float: left;
+  margin: 0 5px 0 0;
+  width: 50px;
+  height: 40px;
+  position: relative;
+}
+.typeOfFacilities label,
+.typeOfFacilities input {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+.typeOfFacilities input[type="radio"] {
+  opacity: 0.01;
+  z-index: 100;
+}
+.typeOfFacilities input[type="radio"]:checked+label,
+.Checked+label {
+  background: #4632DA;
+  color: white;
+}
+.typeOfFacilities label {
+  padding: 5px;
+  border: 1px solid #CCC;
+  cursor: pointer;
+  z-index: 90;
+}
+.typeOfFacilities label:hover {
+  background: #DDD;
+}

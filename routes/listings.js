@@ -663,6 +663,8 @@ router.post("/listings", middleware.isLoggedIn, uploadMultiple, async function(r
 	var name = req.body.name;
 	var desc = req.body.description;
 	var location = req.body.location;
+	var unitNumber = req.body.unitNumber;
+	var street = req.body.street;
 	var district = req.body.district;
 	var price = req.body.price;
 	var size = req.body.size;
@@ -682,7 +684,31 @@ router.post("/listings", middleware.isLoggedIn, uploadMultiple, async function(r
 		cea: req.user.cea,
 		rating: req.user.rating,
 	};
-	var newlisting = {name:name, description:desc, author:author, location:location, district:district, price:price, size:size, type:type, bedrooms:bedrooms, bathrooms:bathrooms, tenure:tenure, threeDImage:threeDImage}
+	var newlisting = {name:name, description:desc, author:author, location:location, unitNumber:unitNumber, street:street, district:district, price:price, size:size, type:type, bedrooms:bedrooms, bathrooms:bathrooms, tenure:tenure, threeDImage:threeDImage}
+	if(req.body.carpark === 'true'){
+		newlisting.carpark = true;
+	}
+	if(req.body.pool === 'true'){
+		newlisting.pool = true;
+	}
+	if(req.body.gym === 'true'){
+		newlisting.gym = true;
+	}
+	if(req.body.playground === 'true'){
+		newlisting.playground = true;
+	}
+	if(req.body.hall === 'true'){
+		newlisting.hall = true;
+	}
+	if(req.body.mall === 'true'){
+		newlisting.mall = true;
+	}
+	if(req.body.intercom === 'true'){
+		newlisting.intercom = true;
+	}
+	if(req.body.security === 'true'){
+		newlisting.security = true;
+	}
 	try {
 			var geoData = await geocodingClient.forwardGeocode({
 				query: location,

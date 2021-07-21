@@ -49,6 +49,8 @@ var listingSchema = new mongoose.Schema({
    ],
    createdAt: { type: Date, default: Date.now },
    location: String,
+   unitNumber: String,
+   streetAddress: String,
    geometry: {
       type: {
          type: String,
@@ -60,7 +62,14 @@ var listingSchema = new mongoose.Schema({
          requird: true
       }
    },
-
+   carpark: {type: Boolean, default: false},
+   pool: {type: Boolean, default: false},
+   gym: {type: Boolean, default: false},
+   playground: {type: Boolean, default: false},
+   hall: {type: Boolean, default: false},
+   mall: {type: Boolean, default: false},
+   intercom: {type: Boolean, default: false},
+   security: {type: Boolean, default: false},
 }, opts);
  
 listingSchema.virtual("properties.popUpMarkup").get(function(){

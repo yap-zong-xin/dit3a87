@@ -61,7 +61,7 @@
         <div class="offset-1 col-10 mt-4 pt-3">
           <div id="upldForm-form">
             <span style="font-weight: 600; font-size: 1.7em;">Property Details</span>
-            <div class="form-row mt-2">
+            <div class="form-row my-2">
               <div class="form-group col-4">
                 <label for="name">Property Name</label>
                 <input type="text" name="name" class="form-control" id="name" required>
@@ -127,16 +127,16 @@
                 </select>
               </div>
               <div class="form-group col-4">
-                <label for="streetAddress">Street Address</label>
-                <input type="text" name="streetAddress" class="form-control" id="streetAddress" required>
+                <label for="street">Street Address</label>
+                <input type="text" name="street" class="form-control" id="street" required>
               </div>
               <div class="form-group col-4">
                 <label for="unitNumber">Unit Number</label>
                 <input type="text" name="unitNumber" class="form-control" id="unitNumber" required>
               </div>
               <div class="form-group col-4">
-                <label for="postal">Postal Code</label>
-                <input type="number" name="postal" class="form-control" id="postal" required>
+                <label for="location">Postal Code</label>
+                <input type="number" name="location" class="form-control" id="location" required>
               </div>
               <div class="form-group col-4">
                 <label for="threeDImage">3D Image Link</label>
@@ -148,10 +148,186 @@
               </div>
             </div>
 
+            <span style="font-weight: 600; font-size: 1.7em;">Facilities & Amenities</span>
+            <div class="row pt-2">
+              <div class="col-6">
+                <ul class="typeOfFacilities">
+                  <div class="left">
+                    <img src="/img/carpark.svg" alt="" style="width:22px;" class="pr-2">
+                    Carkpark: 
+                  </div>
+                  <div class="right justify-content-end d-flex text-center">
+                    <li>
+                      <input type="radio" id="carparkTrue" name="carpark" value="true" />
+                      <label for="carparkTrue">
+                        <ion-icon name="checkmark-outline"></ion-icon>
+                      </label>
+                    </li>
+                    <li>
+                      <input type="radio" id="carparkFalse" name="carpark" value="false" />
+                      <label for="carparkFalse">
+                        <ion-icon name="close-outline"></ion-icon>
+                      </label>
+                    </li>
+                  </div>
+                </ul>
+              </div>
+              <div class="col-6">
+                <ul class="typeOfFacilities">
+                  <div class="left">
+                    <img src="/img/swimmingpool.svg" alt="" style="width:30px;" class="pr-2">
+                    Swimming Pool: 
+                  </div>
+                  <div class="right justify-content-end d-flex text-center">
+                    <li>
+                      <input type="radio" id="poolTrue" name="pool" value="true" />
+                      <label for="poolTrue">
+                        <ion-icon name="checkmark-outline"></ion-icon>
+                      </label>
+                    </li>
+                    <li>
+                      <input type="radio" id="poolFalse" name="pool" value="false" />
+                      <label for="poolFalse">
+                        <ion-icon name="close-outline"></ion-icon>
+                      </label>
+                    </li>
+                  </div>
+                </ul>
+              </div>
+              <div class="col-6">
+                <ul class="typeOfFacilities">
+                  <div class="left">
+                    <img src="/img/gym.svg" alt="" style="width:25px;" class="pr-2">
+                    Gym: 
+                  </div>
+                  <div class="right justify-content-end d-flex text-center">
+                    <li>
+                      <input type="radio" id="gymTrue" name="gym" value="true" />
+                      <label for="gymTrue">
+                        <ion-icon name="checkmark-outline"></ion-icon>
+                      </label>
+                    </li>
+                    <li>
+                      <input type="radio" id="gymFalse" name="gym" value="false" />
+                      <label for="gymFalse">
+                        <ion-icon name="close-outline"></ion-icon>
+                      </label>
+                    </li>
+                  </div>
+                </ul>
+              </div>
+              <div class="col-6">
+                <ul class="typeOfFacilities">
+                  <div class="left">
+                    <img src="/img/playground.svg" alt="" style="width:22px;" class="pr-2">
+                    Playground: 
+                  </div>
+                  <div class="right justify-content-end d-flex text-center">
+                    <li>
+                      <input type="radio" id="playgroundTrue" name="playground" value="true" />
+                      <label for="playgroundTrue">
+                        <ion-icon name="checkmark-outline"></ion-icon>
+                      </label>
+                    </li>
+                    <li>
+                      <input type="radio" id="playgroundFalse" name="playground" value="false" />
+                      <label for="playgroundFalse">
+                        <ion-icon name="close-outline"></ion-icon>
+                      </label>
+                    </li>
+                  </div>
+                </ul>
+              </div>
+              <div class="col-6">
+                <ul class="typeOfFacilities">
+                  <div class="left">
+                    <img src="/img/hall.svg" alt="" style="width:22px;" class="pr-2">
+                    Multi-purpose Hall: 
+                  </div>
+                  <div class="right justify-content-end d-flex text-center">
+                    <li>
+                      <input type="radio" id="hallTrue" name="hall" value="true" />
+                      <label for="hallTrue">
+                        <ion-icon name="checkmark-outline"></ion-icon>
+                      </label>
+                    </li>
+                    <li>
+                      <input type="radio" id="hallFalse" name="hall" value="false" />
+                      <label for="hallFalse">
+                        <ion-icon name="close-outline"></ion-icon>
+                      </label>
+                    </li>
+                  </div>
+                </ul>
+              </div>
+              <div class="col-6">
+                <ul class="typeOfFacilities">
+                  <div class="left">
+                    <img src="/img/shopping.svg" alt="" style="width:20px;" class="pr-2">
+                    Shopping Mall: 
+                  </div>
+                  <div class="right justify-content-end d-flex text-center">
+                    <li>
+                      <input type="radio" id="mallTrue" name="mall" value="true" />
+                      <label for="mallTrue">
+                        <ion-icon name="checkmark-outline"></ion-icon>
+                      </label>
+                    </li>
+                    <li>
+                      <input type="radio" id="mallFalse" name="mall" value="false" />
+                      <label for="mallFalse">
+                        <ion-icon name="close-outline"></ion-icon>
+                      </label>
+                    </li>
+                  </div>
+                </ul>
+              </div>
+              <div class="col-6">
+                <ul class="typeOfFacilities">
+                  <div class="left">
+                    <img src="/img/intercom.svg" alt="" style="width:22px;" class="pr-2">
+                    Intercom: 
+                  </div>
+                  <div class="right justify-content-end d-flex text-center">
+                    <li>
+                      <input type="radio" id="intercomTrue" name="intercom" value="true" />
+                      <label for="intercomTrue">
+                        <ion-icon name="checkmark-outline"></ion-icon>
+                      </label>
+                    </li>
+                    <li>
+                      <input type="radio" id="intercomFalse" name="intercom" value="false" />
+                      <label for="intercomFalse">
+                        <ion-icon name="close-outline"></ion-icon>
+                      </label>
+                    </li>
+                  </div>
+                </ul>
+              </div>
+              <div class="col-6">
+                <ul class="typeOfFacilities">
+                  <div class="left">
+                    <img src="/img/security.svg" alt="" style="width:22px;" class="pr-2">
+                    Security: 
+                  </div>
+                  <div class="right justify-content-end d-flex text-center">
+                    <li>
+                      <input type="radio" id="securityTrue" name="security" value="true" />
+                      <label for="securityTrue">
+                        <ion-icon name="checkmark-outline"></ion-icon>
+                      </label>
+                    </li>
+                    <li>
+                      <input type="radio" id="securityFalse" name="security" value="false" />
+                      <label for="securityFalse">
+                        <ion-icon name="close-outline"></ion-icon>
+                      </label>
+                    </li>
+                  </div>
+                </ul>
+              </div>
+            </div>
 
-
-
-            
             <input type="submit" value="Submit">
           </div>
         </div>
