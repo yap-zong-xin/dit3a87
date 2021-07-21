@@ -29,6 +29,7 @@ var userSchema = new mongoose.Schema({
 	resetPasswordToken: String,
 	resetPasswordExpires: Date,
 	lastLogin: { type: Date, default: Date.now },
+	suspend: {type: Boolean, default: false},
 	reviews: [
 		{
 				type: mongoose.Schema.Types.ObjectId,

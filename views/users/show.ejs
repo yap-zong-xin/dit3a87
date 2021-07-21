@@ -6,6 +6,18 @@
       <div class="px-4 mx-1">
       </div>
       <div>
+      <!-- suspend account-->
+      <% if(currentUser && currentUser.isAdmin){ %>
+        <form action="/suspend/<%= user.id %>?_method=PUT" method="POST" class="text-center" style="position:relative; top: 10px;">
+          <% if(user.suspend==false){ %>
+            <button type="submit" name="user[suspend]" value="true" class="btn approveBtn"
+              style="background: #41e792; color: white; font-weight: 600; font-size: 0.9em;">Suspend Account</button>
+            <% } else{ %>
+              <button type="submit" name="user[suspend]" value="false" class="btn approveBtn"
+                style="background: #DC3545; color: white; font-weight: 600; font-size: 0.9em;">Unsuspend Account</button>
+              <% } %>
+        </form>
+        <% } %>
         <!-- approve/remove agent -->
         <% if(user.isAgent && currentUser && currentUser.isAdmin){ %>
           <form action="/agentStatus/<%= user._id %>?_method=PUT" method="POST" class="text-center" style="position:relative; top: 10px;">

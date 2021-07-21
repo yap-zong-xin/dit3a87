@@ -1289,4 +1289,50 @@ router.get('/users/:userId', async function(req, res) {
 	  }
 });
 
+//suspend/unsuspend account
+router.put("/suspend/:id", function(req, res){
+	User.findByIdAndUpdate(req.params.id, req.body.user, function(err, suspendUser){
+		if(err){
+			console.log(err)
+			return res.redirect('back');
+		} else{
+			var successMsg = "";
+			var choiceSus = JSON.parse(req.body.user.suspend);
+			if(choiceSus == true) {
+				successMsg = " has been suspended."
+			}else {
+				successMsg = " has been unsuspended."
+			}
+			req.flash("success", suspendUser.username+successMsg);
+			res.redirect("/user/" + req.params.id);
+		}
+	});
+});
+// router.post('/suspend/:id', middleware.isLoggedIn, async function(req, res) {
+// 	User.findById(req.params.id, function(err, suspendUser) {
+// 		if(err) {
+// 			req.flash("error", err.message);
+// 			return res.redirect("back");
+// 		}
+// 		if(suspendUser.suspend == false) {
+// 			suspendUser.suspend = true;
+// 			req.flash('success',suspendUser.username+' is now suspended.');
+// 		}else {
+// 			suspendUser.suspend = false;
+// 			req.flash('success','Removed suspension on '+suspendUser.username+'.');
+// 		}
+// 		res.redirect('/user/' + req.params.id);
+// 	})
+// });
+// router.post('/unsuspend/:id', middleware.isLoggedIn, async function(req, res) {
+// 	User.findOneAndUpdate({ _id: req.params.id }, {$set: {suspend: true}}, function(err, suspendUser) {
+// 		if(err) {
+// 			req.flash("error", err.message);
+// 			return res.redirect("back");
+// 		}
+// 		req.flash('success',suspendUser.username+' suspended.');
+// 		res.redirect("/login")
+// 	})
+// });
+
 module.exports = router;
