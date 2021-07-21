@@ -42,10 +42,10 @@
           <div class="col-12 mt-4 px-0">
             <div class="row">
               <div class="col-3 pr-0">
-                <div id="thumbnail-drop-area" class="m-0">
+                <div id="thumbnail-drop-area" class="m-0" style="background-color: grey;">
                   <div id="thumbnail-gallery" style="pointer-events: none!important;"></div>
                   <div class="thumbnailSlctText">
-                    <input style="display: none;" name="listingThumbnail" type="file" id="thumbnailFile" accept="image/*" onchange="handleThumbnailFile(this.files)" required>
+                    <input  name="listingThumbnail" type="file" id="thumbnailFile" accept="image/*" onchange="handleThumbnailFile(this.files)" required>
                     <span style="background: black; color: white;font-size: 0.9em; font-weight: 600; padding: 1px 24px 1px 24px;">Thumbnail</span>
                   </div>
                 </div>
@@ -57,6 +57,11 @@
             </div>
           </div>
         </div>
+        <br>
+        <br>
+
+        <br>
+
         <div class="offset-1 col-10 mt-4">
           <div id="upldForm-form">
             <span>hi</span>
@@ -174,6 +179,12 @@
             document.getElementById("add-drop-area").style.display = "block"
             document.getElementById("thumbnail-drop-area").style.display = "block"
             document.getElementById("upldForm-form").style.display = "block"
+          }else if (currentGallery.files.length == 0) {
+            document.getElementById("drop-area").style.display = "block"
+            document.getElementById("add-drop-area").style.display = "none"
+            document.getElementById("thumbnail-drop-area").style.display = "none"
+            document.getElementById("upldForm-form").style.display = "none"
+
           }
       }
 
@@ -382,20 +393,16 @@
       });
       // Handle dropped file
       thumbnailDropArea.addEventListener('drop', handleThumbDrop, false);
-
       function preventDefaults (e) {
           e.preventDefault()
           e.stopPropagation()
       }
-
       function highlight(e) {
           thumbnailDropArea.classList.add('highlight')
       }
-
       function unhighlight(e) {
           thumbnailDropArea.classList.remove('highlight')
       }
-
       function dataURLtoFile(dataurl, filename) {
         var arr = dataurl.split(','),
             mime = arr[0].match(/:(.*?);/)[1],
@@ -407,7 +414,6 @@
         }
         return new File([u8arr], filename, {type:mime});
       }
-
       function handleThumbDrop(e) {
         var thumbnailGallery = document.getElementById("thumbnail-gallery")
         var previousThumbnail = document.getElementById("thumbnailFile");
@@ -422,18 +428,22 @@
         var files;
         console.log('dtgetdata: ', dt.getData('text'))
         var slctEle = document.getElementById(dt.getData("text"));
+        console.log('slcele: ', slctEle)
         if(slctEle != null) {
           files = dataURLtoFile(slctEle.src, "thumbnailImage");
           console.log('typ of fiel: ',files);
-          thumbnailGallery.appendChild(document.getElementById(dt.getData("text")).parentElement);
+          updateThumbnail(files)
+          slctEle.parentNode.childNodes[1].style.display = "none"
+          console.log('mmcvmcvmc: ',thumbnailGallery)
+          document.getElementById("thumbnail-gallery").appendChild(slctEle.parentNode);
+          console.log('mmcvmcvmc: ',thumbnailGallery)
         }else{
           files = dt.files;
           console.log('drop: ', files)
+          updateThumbnail(files)
+          previewThumbnail(files);
         }
-        updateThumbnail(files)
-        previewThumbnail(files);
       }
-
       function handleThumbnailFile(files) {
         var imageGallery = document.getElementById("image-gallery");
           files = [...files];
@@ -447,12 +457,9 @@
           updateThumbnail(files)
           previewThumbnail(files);
       }
-
       function previewThumbnail(files) {
         var thumbnailGallery = document.getElementById("thumbnail-gallery")
-
         var imageGallery = document.getElementById("image-gallery")
-
         console.log('thumbnaisda: ',files)
         var file;
         if(typeof files.length == 'undefined'){
@@ -478,7 +485,6 @@
           }
         }
       }
-
       function updateThumbnail(files) {
         console.log('chosen file: ',typeof files.length)
         console.log('chosen thumnail: ', files)
