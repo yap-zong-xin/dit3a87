@@ -57,73 +57,104 @@
             </div>
           </div>
         </div>
-        <br>
-        <br>
 
-        <br>
-
-        <div class="offset-1 col-10 mt-4">
+        <div class="offset-1 col-10 mt-4 pt-3">
           <div id="upldForm-form">
-            <span>hi</span>
-            <input type="text" name="name" placeholder="Name/Title">
-            <!-- <input type="text" name="image" placeholder="image url"> -->
-            <input type="text" name="description" placeholder="Description">
-            <!-- district -->
-            <!-- <input type="text" name="zone" placeholder="District"> -->
-            <label for="district">District:</label>
-            <select name="district" id="district">
-              <option value="north" selected>North</option>
-              <option value="south">South</option>
-              <option value="east">East</option>
-              <option value="west">West</option>
-            </select>
-            <!-- location -->
-            <input type="text" name="location" placeholder="Location">
-            <input type="number" name="price" placeholder="Price">
-            <input type="number" name="size" placeholder="Size">
-            <!-- property type -->
-            <!-- <input type="text" name="type" placeholder="Property Type"> -->
-            <label for="type">Property Type:</label>
-            <select name="type" id="type">
-              <option value="hdb" selected>HDB</option>
-              <option value="condo">Condo</option>
-              <option value="landed">Landed</option>
-            </select>
-            <!-- bedrooms -->
-            <!-- <input type="number" name="bedrooms" placeholder="Number of bed rooms"> -->
-            <label for="bedrooms">Bedrooms:</label>
-            <select name="bedrooms" id="bedrooms">
-              <option value="1" selected>1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-              <option value="6">6</option>
-            </select>
-            <!-- bathrooms -->
-            <!-- <input type="number" name="bathrooms" placeholder="Number of bath rooms"> -->
-            <label for="bathrooms">Bathrooms:</label>
-            <select name="bathrooms" id="bathrooms">
-              <option value="1" selected>1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-            </select>
-            <!-- tenure -->
-            <label for="tenure">Tenure:</label>
-            <select name="tenure" id="tenure">
-              <option value="unknown" selected>Unknown</option>
-              <option value="ninetynine">99-Year Leasehold</option>
-              <option value="hundredthree">103-Year Leasehold</option>
-              <option value="hundredten">110-Year Leasehold</option>
-              <option value="ninehundrednine">999-Year Leasehold</option>
-              <option value="freehold">Freehold</option>
-            </select>
-            <!-- 3d image link -->
-            <input type="text" name="threeDImage" placeholder="3D image link">
+            <span style="font-weight: 600; font-size: 1.7em;">Property Details</span>
+            <div class="form-row mt-2">
+              <div class="form-group col-4">
+                <label for="name">Property Name</label>
+                <input type="text" name="name" class="form-control" id="name" required>
+              </div>
+              <div class="form-group col-4">
+                <label for="price">Price (in SGD)</label>
+                <input type="number" name="price" class="form-control" id="price" required>
+              </div>
+              <div class="form-group col-4">
+                <label for="size">Size</label>
+                <input type="number" name="size" class="form-control" id="size" required>
+              </div>
+              <div class="form-group col-4">
+                <label for="type">Category</label>
+                <select name="type" class="form-control" id="type" required>
+                  <option></option>
+                  <option value="hdb">HDB</option>
+                  <option value="condo">Condo</option>
+                  <option value="landed">Landed</option>
+                </select>
+              </div>
+              <div class="form-group col-4">
+                <label for="bedrooms">Bedroom</label>
+                <select name="bedrooms" class="form-control" id="bedrooms" required>
+                  <option></option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                  <option value="6">6</option>
+                </select>
+              </div>
+              <div class="form-group col-4">
+                <label for="bathrooms">Bathroom</label>
+                <select name="bathrooms" class="form-control" id="bathrooms" required>
+                  <option></option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                </select>
+              </div>
+              <div class="form-group col-4">
+                <label for="tenure">Tenure</label>
+                <select name="tenure" class="form-control" id="tenure" required>
+                  <option></option>
+                  <option value="unknown">Unknown</option>
+                  <option value="ninetynine">99-Year Leasehold</option>
+                  <option value="hundredthree">103-Year Leasehold</option>
+                  <option value="hundredten">110-Year Leasehold</option>
+                  <option value="ninehundrednine">999-Year Leasehold</option>
+                  <option value="freehold">Freehold</option>
+                </select>
+              </div>
+              <div class="form-group col-4">
+                <label for="district">District</label>
+                <select name="district" class="form-control" id="district" required>
+                  <option></option>
+                  <option value="north">North</option>
+                  <option value="south">South</option>
+                  <option value="east">East</option>
+                  <option value="west">West</option>
+                </select>
+              </div>
+              <div class="form-group col-4">
+                <label for="streetAddress">Street Address</label>
+                <input type="text" name="streetAddress" class="form-control" id="streetAddress" required>
+              </div>
+              <div class="form-group col-4">
+                <label for="unitNumber">Unit Number</label>
+                <input type="text" name="unitNumber" class="form-control" id="unitNumber" required>
+              </div>
+              <div class="form-group col-4">
+                <label for="postal">Postal Code</label>
+                <input type="number" name="postal" class="form-control" id="postal" required>
+              </div>
+              <div class="form-group col-4">
+                <label for="threeDImage">3D Image Link</label>
+                <input type="text" name="threeDImage" class="form-control" id="threeDImage" required>
+              </div>
+              <div class="form-group col-12">
+                <label for="description">Description</label>
+                <textarea name="description" class="form-control" id="description" cols="30" rows="3"></textarea>
+              </div>
+            </div>
+
+
+
+
+            
             <input type="submit" value="Submit">
           </div>
         </div>
-          
       </div>
     </form>
   </div>

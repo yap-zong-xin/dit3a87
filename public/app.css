@@ -2709,3 +2709,10 @@ nav a{
 .showOptions {
   display: block;
 }
+
+#upldForm-form label{
+  font-size: 0.9em;
+}
+#upldForm-form input, #upldForm-form select, #upldForm-form textarea{
+  border: 1px gray solid;
+}
