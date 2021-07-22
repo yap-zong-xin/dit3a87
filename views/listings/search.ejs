@@ -1,6 +1,12 @@
 <%- include("../partials/header") %>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    var queryString = window.location.search;
+    var urlParams = new URLSearchParams(queryString);
+    var resultSearch = urlParams.get('search');
+</script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+
 
 <button class="my_bttn">
     <i class="fa fa-arrow-up"></i>
@@ -9,10 +15,15 @@
 <div class="container-fluid search-bar-container">
     <div class="container">
         <div class="col-md-12">
-            <div class="row search-bar" style="margin: 15px 0 15px;">
+            <div class="row" style="padding: 5px 0 5px;">
                 <form action="/listings" method="GET" class="form-inline" style="font-family: 'Poppins', sans-serif;">
-                    <input type="text" class="form-control" name="search" placeholder="Search for Properties">
-                    <button type="submit">Go</button>
+                    <div class="search-bar-result">
+                        <div class="search-bar-result-input">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <input type="text" class="form-control" name="search" placeholder="Search for Properties">
+                        </div>
+                        <button type="submit" class="btn btn-info d-flex justify-content-center align-items-center" style="padding: 7x 12px;" >Go</button>
+                    </div>    
                 </form>
             </div>
         </div>
@@ -30,13 +41,19 @@
                     <li class="breadcrumb-item active" aria-current="page">Properties for Sale</li>
                   </ol>
                 </nav>
-              </div>
+            </div>
+        </div>
+        <div class="row" style="padding-top: 20px; padding-bottom: 20px;">
+            <div class="d-flex flex-column">
+                <h3 id="search-result" style="font-size: 1.5em;"></h3>
+                <p>Found: <%= listings.length%> results</p>
+            </div>
         </div>
     </div>
     <div class="row col-md-12 p-0 m-0">
         <div class="col-md-4 p-0 m-0">
             <div class="form-card">
-                <div class="form-card-container">
+                <div class="form-card-container p-0">
                     <form action="/listings" method="GET" id="filterForm">
                         <strong>Filter</strong>
                         <!-- Filter: Property Type-->
@@ -400,6 +417,14 @@
 </div>
 
 <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js'></script>
+<script>
+    if (resultSearch != null) {
+      document.getElementById("search-result").innerHTML = 'Search result for "' + resultSearch + '"';
+    }
+    if (resultSearch == "") {
+      document.getElementById("search-result").innerHTML = 'Latest Listings';
+    }
+  </script>
 <script>
     (function () {
         var parent = document.querySelector(".price-slider");
