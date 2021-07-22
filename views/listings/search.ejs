@@ -79,7 +79,7 @@
 
                         <!-- Filter: Property Type-->
                         <div class="dropdownPType">
-                            <div class="search-dropdown dropdownPType-content" >
+                            <div class="search-dropdown dropdownPType-content-onclick">
                                 <div class="dropdown-label-wrap">
                                     <label class="dropdownPType-label">Property Type</label>
                                 </div>
@@ -90,16 +90,16 @@
                                 <input type="checkbox" id="hdb" name="hdbType" value="hdb" <% if(data.hdbType) {%> checked <%} %>>
                                 <label for="hdb">HDB</label><br>
                                 <input type="checkbox" id="condo" name="condoType" value="condo"<% if(data.condoType) {%> checked <%} %>> 
-                                <label for="condo">Condo</label><br>
+                                <label for="condo">Condominium</label><br>
                                 <input type="checkbox" id="landed" name="landedType" value="landed" <% if(data.landedType) {%> checked <%} %>>
-                                <label for="landed">Landed</label><br>
+                                <label for="landed">Landed Property</label><br>
                             </div>  
                         </div>
 
         
                         <!-- Filter: Property district -->
                         <div class="dropdownDistrict">
-                            <div class="search-dropdown dropdownDistrict-content">
+                            <div class="search-dropdown dropdownDistrict-content-onclick">
                                 <div class="dropdown-label-wrap">
                                     <label class="dropdownDistrict-label">District</label>
                                 </div>
@@ -120,7 +120,7 @@
         
                         <!-- Filter: Number of rooms slider -->
                         <div class="dropdownBedroom">
-                            <div class="search-dropdown dropdownBedroom-content">
+                            <div class="search-dropdown dropdownBedroom-content-onclick">
                                 <div class="dropdown-label-wrap">
                                     <label class="dropdownBedroom-label">Bedrooms</label>
                                 </div>
@@ -128,24 +128,24 @@
                             </div>
                             <div class="dropdownBedroom-content hide-row-Bedroom" id="dropdownBedroom-content">
                                 <input type="checkbox" id="1" name="onerooms" value="1" <% if(data.onerooms) {%> checked <%} %>>
-                                <label for="1">1</label><br>
+                                <label for="1">1 Bedroom</label><br>
                                 <input type="checkbox" id="2" name="tworooms" value="2" <% if(data.tworooms) {%> checked <%} %>>
-                                <label for="2">2</label><br>
+                                <label for="2">2 Bedrooms</label><br>
                                 <input type="checkbox" id="3" name="threerooms" value="3" <% if(data.threerooms) {%> checked <%} %>>
-                                <label for="3">3</label><br>
+                                <label for="3">3 Bedrooms</label><br>
                                 <input type="checkbox" id="4" name="fourrooms" value="4" <% if(data.fourrooms) {%> checked <%} %>>
-                                <label for="4">4</label><br>
+                                <label for="4">4 Bedrooms</label><br>
                                 <input type="checkbox" id="5" name="fiverooms" value="5" <% if(data.fiverooms) {%> checked <%} %>>
-                                <label for="5">5</label><br>
+                                <label for="5">5 Bedrooms</label><br>
                                 <input type="checkbox" id="6" name="sixrooms" value="6" <% if(data.sixrooms) {%> checked <%} %>>
-                                <label for="6">6</label><br>
+                                <label for="6">6 Bedrooms</label><br>
                             </div>  
                         </div>
         
         
                         <!-- Filter: Number of bathrooms -->
                         <div class="dropdownBathroom">
-                            <div class="search-dropdown dropdownBathroom-content">
+                            <div class="search-dropdown dropdownBathroom-content-onclick">
                                 <div class="dropdown-label-wrap">
                                     <label class="dropdownBathroom-label">Bathrooms</label>
                                 </div>
@@ -153,17 +153,17 @@
                             </div>
                             <div class="dropdownBathroom-content hide-row-Bathroom" id="dropdownBathroom-content" >
                                 <input type="checkbox" id="1bath" name="onebathrooms" value="1" <% if(data.onebathrooms) {%> checked <%} %>>
-                                <label for="1bath">1</label><br>
+                                <label for="1bath">1 Bathroom</label><br>
                                 <input type="checkbox" id="2bath" name="twobathrooms" value="2" <% if(data.twobathrooms) {%> checked <%} %>>
-                                <label for="2bath">2</label><br>
+                                <label for="2bath">2 Bathroom</label><br>
                                 <input type="checkbox" id="3bath" name="threebathrooms" value="3" <% if(data.threebathrooms) {%> checked <%} %>>
-                                <label for="3bath">3</label><br>
+                                <label for="3bath">3 Bathroom</label><br>
                             </div>  
                         </div>
         
                         <!-- Filter: Tenure type -->
                         <div class="dropdownTenure">
-                            <div class="search-dropdown dropdownTenure-content">
+                            <div class="search-dropdown dropdownTenure-content-onclick">
                                 <div class="dropdown-label-wrap">
                                     <label class="dropdownTenure-label">Tenure</label>
                                 </div>
@@ -553,32 +553,31 @@
     // }
 </script>
 <script>
-    $('.dropdownPType-content').click(function() {
+    $('.dropdownPType-content-onclick').click(function() {
             var $this = $(this);
             $('.hide-row-PType').slideToggle('slow', function() {
         });
     });
 
-    $('.dropdownDistrict-content').click(function() {
+    $('.dropdownDistrict-content-onclick').click(function() {
             var $this = $(this);
-            $this.toggleClass('showHideBtn');
             $('.hide-row-District').slideToggle('slow', function() {
         });
     });
 
-    $('.dropdownBedroom-content').click(function() {
+    $('.dropdownBedroom-content-onclick').click(function() {
             var $this = $(this);
             $('.hide-row-Bedroom').slideToggle('slow', function() {
         });
     });
 
-    $('.dropdownBathroom-content').click(function() {
+    $('.dropdownBathroom-content-onclick').click(function() {
             var $this = $(this);
             $('.hide-row-Bathroom').slideToggle('slow', function() {
         });
     });
 
-    $('.dropdownTenure-content').click(function() {
+    $('.dropdownTenure-content-onclick').click(function() {
             var $this = $(this);
             $('.hide-row-Tenure').slideToggle('slow', function() {
         });
