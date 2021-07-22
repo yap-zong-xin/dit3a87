@@ -76,7 +76,7 @@
                             data-layout="button_count">
                           </div>
                           <a class="twitter-share-button right" style="text-decoration: none; border-radius: 3px; border: solid 1px #1DA1F2; background: #1DA1F2; color: white; font-size: 0.8em; font-weight: 600; padding: 0 17px;"
-                            href="https://twitter.com/intent/tweet?text=https://sap-dit3a87.herokuapp.com/listings/<%= listing._id %>" target="_blank">
+                            href="https://twitter.com/intent/tweet?text=Check out this property! https://sap-dit3a87.herokuapp.com/listings/<%= listing._id %>" target="_blank">
                             <ion-icon name="logo-twitter"></ion-icon> Tweet
                           </a>
                         </div>
@@ -336,60 +336,63 @@
           </div>
         </div>
         <hr>
-        <p style="font-weight: 600; font-size: 1.3em;">Facilities & Amenities</p>
-        <p style="font-size: 1.05em;">
-          <div class="row">
-            <% if(listing.carpark==true){ %>
-              <div class="col-6 pb-3">
-                <img src="/img/carpark.svg" alt="" style="width:22px;">
-                <span class="pl-2">Nearby carpark</span><br>
-              </div>
-            <% } %>
-            <% if(listing.pool==true){ %>
-              <div class="col-6 pb-3">
-                <img src="/img/swimmingpool.svg" alt="" style="width:30px;">
-                <span style="font-size: 0.9em;" class="pl-2">Nearby swimming pool</span><br>
-              </div>
-            <% } %>
-            <% if(listing.gym==true){ %>
-              <div class="col-6 pb-3">
-                <img src="/img/gym.svg" alt="" style="width:25px;">
-                <span style="font-size: 0.9em;" class="pl-2">Nearby gym</span><br>
-              </div>
-            <% } %>
-            <% if(listing.playground==true){ %>
-              <div class="col-6 pb-3">
-                <img src="/img/playground.svg" alt="" style="width:22px;">
-                <span style="font-size: 0.9em;" class="pl-2">Nearby playground</span><br>
-              </div>
-            <% } %>
-            <% if(listing.hall==true){ %>
-              <div class="col-6 pb-3">
-                <img src="/img/hall.svg" alt="" style="width:22px;">
-                <span style="font-size: 0.9em;" class="pl-2">Nearby multi-purpose hall</span><br>
-              </div>
-            <% } %>
-            <% if(listing.mall==true){ %>
-              <div class="col-6 pb-3">
-                <img src="/img/shopping.svg" alt="" style="width:20px;">
-                <span style="font-size: 0.9em;" class="pl-2">Nearby shopping mall</span><br>
-              </div>
-            <% } %>
-            <% if(listing.intercom==true){ %>
-              <div class="col-6 pb-3">
-                <img src="/img/intercom.svg" alt="" style="width:22px;">
-                <span style="font-size: 0.9em;" class="pl-2">Intercom</span><br>
-              </div>
-            <% } %>
-            <% if(listing.security==true){ %>
-              <div class="col-6 pb-3">
-                <img src="/img/security.svg" alt="" style="width:22px;">
-                <span style="font-size: 0.9em;" class="pl-2">24 hours security</span><br>
-              </div>
-            <% } %>
-          </div>
-        </p>
-        <hr>
+        <% if(listing.carpark!=true && listing.pool!=true && listing.gym!=true && listing.playground!=true && listing.hall!=true && listing.mall!=true && listing.intercom!=true && listing.security!=true){ %>
+        <% } else { %>
+          <p style="font-weight: 600; font-size: 1.3em;">Facilities & Amenities</p>
+          <p style="font-size: 1.05em;">
+            <div class="row">
+              <% if(listing.carpark==true){ %>
+                <div class="col-6 pb-3">
+                  <img src="/img/carpark.svg" alt="" style="width:22px;">
+                  <span class="pl-2">Nearby carpark</span><br>
+                </div>
+              <% } %>
+              <% if(listing.pool==true){ %>
+                <div class="col-6 pb-3">
+                  <img src="/img/swimmingpool.svg" alt="" style="width:30px;">
+                  <span style="font-size: 0.9em;" class="pl-2">Nearby swimming pool</span><br>
+                </div>
+              <% } %>
+              <% if(listing.gym==true){ %>
+                <div class="col-6 pb-3">
+                  <img src="/img/gym.svg" alt="" style="width:25px;">
+                  <span style="font-size: 0.9em;" class="pl-2">Nearby gym</span><br>
+                </div>
+              <% } %>
+              <% if(listing.playground==true){ %>
+                <div class="col-6 pb-3">
+                  <img src="/img/playground.svg" alt="" style="width:22px;">
+                  <span style="font-size: 0.9em;" class="pl-2">Nearby playground</span><br>
+                </div>
+              <% } %>
+              <% if(listing.hall==true){ %>
+                <div class="col-6 pb-3">
+                  <img src="/img/hall.svg" alt="" style="width:22px;">
+                  <span style="font-size: 0.9em;" class="pl-2">Nearby multi-purpose hall</span><br>
+                </div>
+              <% } %>
+              <% if(listing.mall==true){ %>
+                <div class="col-6 pb-3">
+                  <img src="/img/shopping.svg" alt="" style="width:20px;">
+                  <span style="font-size: 0.9em;" class="pl-2">Nearby shopping mall</span><br>
+                </div>
+              <% } %>
+              <% if(listing.intercom==true){ %>
+                <div class="col-6 pb-3">
+                  <img src="/img/intercom.svg" alt="" style="width:22px;">
+                  <span style="font-size: 0.9em;" class="pl-2">Intercom</span><br>
+                </div>
+              <% } %>
+              <% if(listing.security==true){ %>
+                <div class="col-6 pb-3">
+                  <img src="/img/security.svg" alt="" style="width:22px;">
+                  <span style="font-size: 0.9em;" class="pl-2">24 hours security</span><br>
+                </div>
+              <% } %>
+            </div>
+          </p>
+          <hr>
+        <% } %>
         <p style="font-weight: 600; font-size: 1.3em;">Other Nearby Facilities</p>
         <p style="font-size: 1.05em;">
           <div id='map1' style="height: 300px!important; width: 100%!important;" class="m-0 pb-3"></div>

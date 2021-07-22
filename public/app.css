@@ -1917,11 +1917,10 @@ input[type=range]::-ms-thumb {
   border-top-left-radius: 25px;
   border-bottom-left-radius: 25px;
 }
-.dashboardOverview span{
+.dashboardOverview div{
   border: solid 1px gray;
-  border-radius: 25px;
   height: 40px;
-  width: 200px;
+  width: 100%;
 }
 .dashboardOverview a{
   color: black;
@@ -2857,4 +2856,8 @@ nav a{
 }
 .icons a:hover i{
   transform: scale(1.2);
+}
+
+#myChart{
+  height: 320px!important;
 }

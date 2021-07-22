@@ -8,7 +8,6 @@ async function countApi(url) {
 	}
 }
 
-
 var myChart = document.getElementById('myChart').getContext('2d');
 var liveCount = document.getElementById("liveCount");
 var timestampArr = [0, 0, 0, 0, 0];
@@ -22,13 +21,12 @@ var massPopChart = new Chart(myChart, {
 		datasets: [{
 			label: 'Count',
 			data: counterArr,
-			backgroundColor: 'blue'
+			backgroundColor: '#4632DA'
 		}]
 	},
 	options: {
 		title: {
 			display: true,
-			text: 'Live View Graph'
 		},
 		legend: {
 			display: 'false'
@@ -42,7 +40,7 @@ var updateChart = function updateChart(counter) {
 		//y-axis (value)
 		var counter = success.data.value;
 		//x-axis (current time)
-		var timestamp = moment().format('MMMM Do YYYY, h:mm:ss a')
+		var timestamp = moment().format('D/MM, hh:mm:ss a')
 		//populate graph
 		massPopChart.data.datasets[0].data.shift();
 		massPopChart.data.datasets[0].data.push(counter);
