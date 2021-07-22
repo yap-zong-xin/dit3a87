@@ -286,7 +286,6 @@
 
         <hr>
         <p style="font-weight: 600; font-size: 1.3em;">Description</p>
-        <p style="font-size: 1.05em;"><%= listing.descriptionTitle %></p>
         <p class="pb-3"><%= listing.description %></p>
         <hr>
         <p style="font-weight: 600; font-size: 1.3em;">Property Details</p>
@@ -296,7 +295,15 @@
             <span><%= listing.district %></span>
           </div>
           <div class="col-6 pb-3">
-            <span style="font-size: 0.9em; font-weight:650;">Location</span><br>
+            <span style="font-size: 0.9em; font-weight:650;">Street Address</span><br>
+            <span><%= listing.street %></span>
+          </div>
+          <div class="col-6 pb-3">
+            <span style="font-size: 0.9em; font-weight:650;">Unit Number</span><br>
+            <span><%= listing.unitNumber %></span>
+          </div>
+          <div class="col-6 pb-3">
+            <span style="font-size: 0.9em; font-weight:650;">Postal Code</span><br>
             <span><%= listing.location %></span>
           </div>
           <div class="col-6 pb-3">

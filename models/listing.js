@@ -51,7 +51,7 @@ var listingSchema = new mongoose.Schema({
    createdAt: { type: Date, default: Date.now },
    location: String,
    unitNumber: String,
-   streetAddress: String,
+   street: String,
    geometry: {
       type: {
          type: String,
