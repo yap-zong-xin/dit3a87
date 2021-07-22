@@ -33,6 +33,7 @@ var listingSchema = new mongoose.Schema({
       image: String,
       cea: String,
       rating: Number,
+      phone: Number,
       createdAt: { type: Date, default: Date.now }
 	},
    comments: [

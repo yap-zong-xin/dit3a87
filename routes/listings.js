@@ -683,6 +683,7 @@ router.post("/listings", middleware.isLoggedIn, uploadMultiple, async function(r
 		createdAt: req.user.createdAt,
 		cea: req.user.cea,
 		rating: req.user.rating,
+		phone: req.user.phone,
 	};
 	var newlisting = {name:name, description:desc, author:author, location:location, unitNumber:unitNumber, street:street, district:district, price:price, size:size, type:type, bedrooms:bedrooms, bathrooms:bathrooms, tenure:tenure, threeDImage:threeDImage}
 	if(req.body.carpark === 'true'){
