@@ -72,11 +72,11 @@
                     <a class="nav-link" href="#">Connect</a>
                   </li>
                 </div>
-                <li class="nav-item active px-2" style="border: 1.7px #4632DA solid;">
-                  <a class="nav-link py-1" href="/login">Login</a>
+                <li class="nav-item active px-2" style="background:#003580;">
+                  <a class="nav-link py-1" href="/login" style="color: white;">Login</a>
                 </li>
-                <li class="nav-item active px-2 ml-2" style="border: 1.7px #4632DA solid;">
-                  <a class="nav-link py-1" href="/register">Register</a>
+                <li class="nav-item active px-2 ml-2" style="background:#003580;">
+                  <a class="nav-link py-1" href="/register" style="color: white;">Register</a>
                 </li>
             <% } else{ %>
               <div class="d-md-none">
@@ -166,7 +166,7 @@
                         <li>
                           <div class="row align-items-center d-flex">
                             <div class="col-3">
-                              <img src="<%= notification.image %>" style="width: 60px; border-radius: 50%;">
+                              <img src="<%= notification.image %>" style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover!important;">
                             </div>
                             <div class="col-9">
                               <a href="/notifications/<%= notification.id %>">
