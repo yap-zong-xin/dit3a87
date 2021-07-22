@@ -837,58 +837,26 @@ router.get("/dashboard/listings", function(req,res){
 		}
 
 		//Sold/Archive Checkbox
-		const soldCheck = req.query.soldCheck;
-		const archiveCheck = req.query.archiveCheck;
-		console.log('sold check: '+soldCheck);
-		console.log('archive check: '+archiveCheck);
-		var regexSold = [];
-		var regexArchive = [];
-		if(soldCheck){ //if sold is check, show sold and not sold only
-			regexSold.push(true);
-		}else {
-			regexSold.push(false);
-		}
-		if(archiveCheck){
-			regexArchive.push(true);
-		}else {
-			regexArchive.push(false);
-		}
-
-		// Filter: Property Type
-		const hdbType = req.query.hdbType;
-		const condoType = req.query.condoType;
-		const landedType = req.query.landedType;
-		var allType = []
-		allType.push(hdbType, condoType, landedType);
-		console.log('all type: '+allType);
-		var typeArr=[];
+		var filterPropType = req.query.filterPropType;
+		var regexSold = [true, false];
+		var regexArchive = [true, false];
 		var regexType;
-		var typeCount = 0;
-		for(let i=0; i<allType.length; i++) {
-			if(typeof allType[i]=='undefined'){
-				console.log('counting type')
-				typeCount++;
-			}
+		var slcType = ['hdb', 'condo', 'landed']
+		if(filterPropType == 'sold') {
+			regexSold = [true];
+		}else if(filterPropType == 'archive') {
+			regexArchive = [true];
+		}else if(filterPropType == 'hdb') {
+			slcType = ['hdb'];
+		}else if(filterPropType == 'condo') {
+			slcType = ['condo'];
+		}else if(filterPropType == 'landed') {
+			slcType = ['landed'];
+		}else if(filterPropType == 'all') {
+			slcType = ['hdb', 'condo', 'landed'];
 		}
-		if(typeCount == 3){
-			allType = [ 'hdb', 'condo', 'landed' ];
-			regexType = allType.map(function(e){return new RegExp(e, "gi");});
-			console.log('inside type all empty: '+regexType);
-		}else {
-			for(let i=0; i<allType.length; i++) {
-				if(!(typeof allType[i] == 'undefined')) { //contains value does not contain undefined
-					console.log('all type at i: '+allType[i]);
-					typeArr[i] = allType[i];
-					console.log('inside type: '+typeArr);
-					var typeArrRegex = typeArr.map(function(e){return new RegExp(e, "gi");});
-					regexType = typeArrRegex.filter(function(eli){
-						return eli != null && eli != '';
-					})
-					console.log('regexType: '+regexType)
-				}
-
-			}
-		}
+		regexType = slcType.map(function(e){return new RegExp(e, "gi");});
+		
 		//QUERY
 		listing.find({$and: [{type: {$in: regexType}}, {soldStatus: {$in: regexSold}}, {archiveStatus: {$in: regexArchive}}]}).sort(sortOptions).skip((perPage * pageNumber) - perPage).limit(perPage).populate("comments likes").exec(function(err, foundlisting){
 			listing.count().exec(function (err, count) {

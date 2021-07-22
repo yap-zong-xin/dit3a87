@@ -63,13 +63,12 @@
       <div class="row accountTableHeading mr-5 px-4 mt-2">
         <div class="col-12 px-0">
           <div class="justify-content-between d-flex">
-            <div class="box justify-content-between d-flex pb-3">
               <% if(noMatch !== undefined){ %>
                 <form action="/dashboard/listings" method="GET" class="form-inline">
                   <!-- SORT -->
-                  <span class="seperateFilter"></span>
-                  <select name="sort" id="sort">
-                    <option value="" disabled selected hidden>Sort by</option>
+                  <label for="sort">Sort by: </label>
+                  <select class="custom-select" name="sort" id="sort">
+                    <option></option>
                     <option value="HighestPrice" <% if(data.sort == 'HighestPrice') {%> selected <%} %>>Highest Price</option>
                     <option value="LowestPrice" <% if(data.sort == 'LowestPrice') {%> selected <%} %>>Lowest Price</option>
                     <option value="Recent" <% if(data.sort == 'Recent') {%> selected <%} %>>Recent</option>
@@ -82,8 +81,17 @@
                     <option value="NotArchive" <% if(data.sort == 'NotArchive') {%> selected <%} %>>Not Archive</option>
                   </select>
                   <!-- Filter: Sold/Archive -->
-                  <span class="seperateFilter"></span>
-                  <div class="dropdownSold">
+                  <label for="filterPropType">Filter by: </label>
+                  <select class="custom-select" name="filterPropType" id="filterPropType">
+                    <option></option>
+                    <option value="sold" <% if(data.filterPropType == 'sold') {%> selected <%} %>>Sold Listing</option>
+                    <option value="archive" <% if(data.filterPropType == 'archive') {%> selected <%} %>>Archived Listing</option>
+                    <option value="hdb" <% if(data.filterPropType == 'hdb') {%> selected <%} %>>HDB</option>
+                    <option value="condo" <% if(data.filterPropType == 'condo') {%> selected <%} %>>Condo</option>
+                    <option value="landed" <% if(data.filterPropType == 'landed') {%> selected <%} %>>Landed</option>
+                    <option value="all" <% if(data.filterPropType == 'all') {%> selected <%} %>>All Listing</option>
+                  </select>
+                  <!-- <div class="dropdownSold">
                     <div onclick="openSold()">
                         <label class="dropdownSold-label">Sold/Archived</label>
                         <i class="fas fa-caret-down"></i>    
@@ -95,7 +103,6 @@
                         <label for="archive">Archive listing</label><br>
                     </div>  
                   </div>
-                  <!-- Filter: Property type -->
                   <span class="seperateFilter"></span>
                   <div class="dropdownPType">
                       <div onclick="openPType()">
@@ -103,7 +110,6 @@
                           <i class="fas fa-caret-down"></i>    
                       </div>
                       <div class="dropdownPType-content" id="dropdownPType-content">
-                          <!-- <label for="propertyType">Choose a property type:</label><br> -->
                           <input type="checkbox" id="hdb" name="hdbType" value="hdb" <% if(data.hdbType) {%> checked <%} %>>
                           <label for="hdb">HDB</label><br>
                           <input type="checkbox" id="condo" name="condoType" value="condo"<% if(data.condoType) {%> checked <%} %>> 
@@ -111,12 +117,11 @@
                           <input type="checkbox" id="landed" name="landedType" value="landed" <% if(data.landedType) {%> checked <%} %>>
                           <label for="landed">Landed</label><br>
                       </div>  
-                  </div>
+                  </div> -->
                   <!-- Apply button -->
                   <br><input type="submit" value="Apply" name="Apply" id="applyFilter">
                 </form>
               <% } %>
-            </div>
           </div>
         </div>
         <div class="col-12 px-0">
