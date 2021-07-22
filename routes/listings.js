@@ -10,6 +10,7 @@ var mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
 var mapboxToken = process.env.MAPBOX_TOKEN;
 var geocodingClient = mbxGeocoding({accessToken:mapboxToken});
 var multer = require('multer');
+var moment = require('moment');
 const axios = require('axios').default;
 var storage = multer.diskStorage({
   filename: function(req, file, callback) {
@@ -460,7 +461,10 @@ router.get("/listings", function(req,res){
 				});	
 			}else {
 					// get all listings from DB
-					listing.find({$and: [{soldStatus: false}, {archiveStatus: false}] }).sort({createdAt: -1}).populate('author.id').exec(function (err, alllistings) {
+					listing.find({$and: [{soldStatus: false}, {archiveStatus: false}] })
+					.sort({createdAt: -1})
+					.populate('author.id')
+					.exec(function (err, alllistings) {
 							listing.count().exec(function (err, count) {
 									if (err) {
 											console.log(err);
@@ -473,7 +477,7 @@ router.get("/listings", function(req,res){
 											async function postCount (id) {
 												await countApi("/hit/3dpropertylistingsg/" +  id + "-click").then(success => {
 												// console.log("https://api.countapi.xyz/hit/3dpropertylistingsg/" + id + "-click");
-												console.log("id: " + id + "success: " + success.data.value);
+												// console.log("id: " + id + "success: " + success.data.value);
 											});
 											}
 											postCount(id)
@@ -484,7 +488,8 @@ router.get("/listings", function(req,res){
 											search: false,
 											largestPrice: largestPrice,
 											largestSize: largestSize,
-											data: req.query
+											data: req.query,
+											moment : moment
 										});
 									}
 							});
