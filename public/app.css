@@ -604,6 +604,72 @@ body {
   opacity: 0.7;
 }
 
+.search-dropdown {
+  border: 1px solid rgba(223, 223, 223, 0.904);
+  border-radius: 3px;
+  background-color: rgb(247,247,247);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  font-weight: 300;
+  margin: 10px 0 10px;
+}
+
+.dropdown-label-wrap label {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.search-dropdown-select select {
+  border: 1px solid rgba(223, 223, 223, 0.904);
+  border-radius: 3px;
+  background-color: rgb(247,247,247);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 13px 10px 13px 10px;
+  font-weight: 300;
+  margin: 10px 0 10px;
+  width: 100%;
+  font-family: "Poppins", sans-serif;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  /* background: transparent; */
+  background-image: url("data:image/svg+xml;utf8,<svg fill='black' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
+  background-repeat: no-repeat;
+  background-position-x: 99.1%;
+  background-position-y: 10px;
+}
+
+.search-dropdown-select select:focus {
+  outline: none;
+}
+
+.filter-Btn input[type=submit] {
+  border: 2px solid #3725c0;
+  background-color: #3725c0;
+  color: white;
+  border-radius: 5px;
+  transition: 0.3s;
+  font-weight: 500;
+  font-family: "Poppins", sans-serif;
+  padding: 10px 15px 10px 15px;
+  margin-right: 10px;
+}
+
+.filter-Btn input[type=button] {
+  background-color: transparent;
+  color: #3725c0;
+  border: 2px solid #3725c0;
+  border-radius: 5px;
+  transition: 0.3s;
+  font-weight: 500;
+  font-family: "Poppins", sans-serif;
+  padding: 10px 15px 10px 15px;
+  margin-right: 10px;
+}
+
 
 /* Login */
 .login-card {
@@ -2784,12 +2850,12 @@ nav a{
 .seperateFilter {
   display: inline-block;
   width: 100%;
-  border-top: 1px solid rgb(114, 114, 114);
+  border-top: 1px solid rgba(223, 223, 223, 0.904);
 }
 .fa-caret-down {
   float: right;
 }
-.dropdownPType-content {
+/* .dropdownPType-content {
   display: none;
 }
 .dropdownDistrict-content {
@@ -2809,7 +2875,7 @@ nav a{
 }
 .showOptions {
   display: block;
-}
+} */
 
 #upldForm-form label{
   font-size: 0.9em;
