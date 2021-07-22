@@ -118,7 +118,7 @@ router.get("/listings", function(req,res){
 			}
 			if(req.query.search) {
 					const regex = new RegExp(escapeRegex(req.query.search), 'gi');
-					listing.find({$or: [{name: regex}, {description: regex}, {"author.username":regex}]}).exec(function (err, alllistings) {
+					listing.find({$or: [{name: regex}, {description: regex}, {"author.username":regex}]}).populate('author.id').exec(function (err, alllistings) {
 							listing.count({name: regex}).exec(function (err, count) {
 									if (err) {
 											console.log(err);
@@ -136,7 +136,7 @@ router.get("/listings", function(req,res){
 												async function postCount (id) {
 													await countApi("/hit/3dpropertylistingsg/" +  id + "-click").then(success => {
 													// console.log("https://api.countapi.xyz/hit/3dpropertylistingsg/" + id + "-click");
-													console.log("id: " + id + "success: " + success.data.value);
+													// console.log("id: " + id + "success: " + success.data.value);
 													});
 												}
 												postCount(id);
@@ -424,7 +424,7 @@ router.get("/listings", function(req,res){
 				console.log('passed in archive check: ',regexArchive)
 				console.log('all parameters passed to mongo: '+minPrice+', '+maxPrice+', '+regexDistrict+', '+regexType+', '+minSize+', '+maxSize+', '+regexRooms);
 
-				listing.find({$and: [ {price: {$gte: minPrice, $lte: maxPrice}}, {district: {$in : regexDistrict}}, {type: {$in: regexType}}, {size: {$gte: minSize, $lte: maxSize}}, {bedrooms: {$in: regexRooms}}, {bathrooms: {$in: regexbathRooms}}, {tenure: {$in: regexTenure}}, {soldStatus: {$in: regexSold}}, {archiveStatus: {$in: regexArchive}} ] }).sort(sortOptions).exec(function (err, alllistings) {
+				listing.find({$and: [ {price: {$gte: minPrice, $lte: maxPrice}}, {district: {$in : regexDistrict}}, {type: {$in: regexType}}, {size: {$gte: minSize, $lte: maxSize}}, {bedrooms: {$in: regexRooms}}, {bathrooms: {$in: regexbathRooms}}, {tenure: {$in: regexTenure}}, {soldStatus: {$in: regexSold}}, {archiveStatus: {$in: regexArchive}} ] }).sort(sortOptions).populate('author.id').exec(function (err, alllistings) {
 					listing.count({price: minPrice}).exec(function (err, count) {
 						if (err) {
 							console.log(err);
@@ -440,7 +440,7 @@ router.get("/listings", function(req,res){
 								async function postCount (id) {
 									await countApi("/hit/3dpropertylistingsg/" +  id + "-click").then(success => {
 									// console.log("https://api.countapi.xyz/hit/3dpropertylistingsg/" + id + "-click");
-									console.log("id: " + id + "success: " + success.data.value);
+									// console.log("id: " + id + "success: " + success.data.value);
 								});
 								}
 								postCount(id)
@@ -500,7 +500,7 @@ router.get("/listings", function(req,res){
 
 	//counts number of times homepage has been visited
 	countApi("/hit/3dpropertylistingsg/visits").then(success => {
-		console.log(success.data.value);
+		// console.log(success.data.value);
 	});
 });
 
