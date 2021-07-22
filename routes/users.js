@@ -845,13 +845,11 @@ router.get("/dashboard/listings", function(req,res){
 		var regexArchive = [];
 		if(soldCheck){ //if sold is check, show sold and not sold only
 			regexSold.push(true);
-			regexSold.push(false);
 		}else {
 			regexSold.push(false);
 		}
 		if(archiveCheck){
 			regexArchive.push(true);
-			regexArchive.push(false);
 		}else {
 			regexArchive.push(false);
 		}

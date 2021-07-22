@@ -410,13 +410,11 @@ router.get("/listings", function(req,res){
 				var regexArchive = [];
 				if(soldCheck){ //if sold is check, show sold and not sold only
 					regexSold.push(true);
-					regexSold.push(false);
 				}else {
 					regexSold.push(false);
 				}
 				if(archiveCheck){
 					regexArchive.push(true);
-					regexArchive.push(false);
 				}else {
 					regexArchive.push(false);
 				}
@@ -1032,6 +1030,8 @@ router.put("/listings/:id", middleware.checklistingOwnership, uploadMultiple, fu
 			req.flash("error", err.message);
 			res.redirect("back");
 		} else{
+			console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa: ',req.files);
+			console.log('bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb: ',req.body);
 			//if thumbnail is provided
 			if(req.files.listingThumbnail) {
 				var listingThumbnail = req.files.listingThumbnail;
