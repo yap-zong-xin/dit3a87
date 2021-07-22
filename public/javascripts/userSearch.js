@@ -39,11 +39,11 @@ function loadData(rs,loadObj) {
                         <em>No reviews found.</em>
                     </div>
                 </div>
-                <div class="col-md-4 col-6 m-0 py-4 px-5 align-items-center d-flex">
+                <div class="col-md-4 col-6 m-0 py-4 px-4 align-items-center d-flex">
                     <div class="col-md-12">
                         <p style="font-size:1em; font-weight:650;" class="mb-3">Agent Details</p>
                         <div class="contact-row pb-1">
-                            <ion-icon name="mail-outline" style="font-size:1.3em;"></ion-icon>
+                            <ion-icon name="mail-outline" style="font-size:1.3em!important;"></ion-icon>
                             <a href="mailto:` + resultSet[i].email + `" class="pl-4" style="color: black; font-size: 1em;">
                             ` + resultSet[i].email + `</a>
                         </div>
@@ -90,11 +90,11 @@ function loadData(rs,loadObj) {
                                 <span class="fa fa-star"></span>
                             </div>
                         </div>
-                        <div class="col-md-4 col-6 m-0 py-4 px-5 align-items-center d-flex">
+                        <div class="col-md-4 col-6 m-0 py-4 px-4 align-items-center d-flex">
                             <div class="col-md-12">
                                 <p style="font-size:1em; font-weight:650;" class="mb-3">Agent Details</p>
                                 <div class="contact-row pb-1">
-                                    <ion-icon name="mail-outline" style="font-size:1.3em;"></ion-icon>
+                                    <ion-icon name="mail-outline" style="font-size:1.3em!important;"></ion-icon>
                                     <a href="mailto:` + resultSet[i].email + `" class="pl-4" style="color: black; font-size: 1em;">
                                     ` + resultSet[i].email + `</a>
                                 </div>
@@ -126,11 +126,11 @@ function loadData(rs,loadObj) {
                                 <span class="fa fa-star"></span>
                             </div>
                         </div>
-                        <div class="col-md-4 col-6 m-0 py-4 px-5 align-items-center d-flex">
+                        <div class="col-md-4 col-6 m-0 py-4 px-4 align-items-center d-flex">
                             <div class="col-md-12">
                                 <p style="font-size:1em; font-weight:650;" class="mb-3">Agent Details</p>
                                 <div class="contact-row pb-1">
-                                    <ion-icon name="mail-outline" style="font-size:1.3em;"></ion-icon>
+                                    <ion-icon name="mail-outline" style="font-size:1.3em!important;"></ion-icon>
                                     <a href="mailto:` + resultSet[i].email + `" class="pl-4" style="color: black; font-size: 1em;">
                                     ` + resultSet[i].email + `</a>
                                 </div>
@@ -162,11 +162,11 @@ function loadData(rs,loadObj) {
                                 <span class="fa fa-star"></span>
                             </div>
                         </div>
-                        <div class="col-md-4 col-6 m-0 py-4 px-5 align-items-center d-flex">
+                        <div class="col-md-4 col-6 m-0 py-4 px-4 align-items-center d-flex">
                             <div class="col-md-12">
                                 <p style="font-size:1em; font-weight:650;" class="mb-3">Agent Details</p>
                                 <div class="contact-row pb-1">
-                                    <ion-icon name="mail-outline" style="font-size:1.3em;"></ion-icon>
+                                    <ion-icon name="mail-outline" style="font-size:1.3em!important;"></ion-icon>
                                     <a href="mailto:` + resultSet[i].email + `" class="pl-4" style="color: black; font-size: 1em;">
                                     ` + resultSet[i].email + `</a>
                                 </div>
@@ -198,11 +198,11 @@ function loadData(rs,loadObj) {
                                 <span class="fa fa-star"></span>
                             </div>
                         </div>
-                        <div class="col-md-4 col-6 m-0 py-4 px-5 align-items-center d-flex">
+                        <div class="col-md-4 col-6 m-0 py-4 px-4 align-items-center d-flex">
                             <div class="col-md-12">
                                 <p style="font-size:1em; font-weight:650;" class="mb-3">Agent Details</p>
                                 <div class="contact-row pb-1">
-                                    <ion-icon name="mail-outline" style="font-size:1.3em;"></ion-icon>
+                                    <ion-icon name="mail-outline" style="font-size:1.3em!important;"></ion-icon>
                                     <a href="mailto:` + resultSet[i].email + `" class="pl-4" style="color: black; font-size: 1em;">
                                     ` + resultSet[i].email + `</a>
                                 </div>
@@ -234,11 +234,11 @@ function loadData(rs,loadObj) {
                                             <span class="fa fa-star checked"></span>
                                         </div>
                                     </div>
-                                    <div class="col-md-4 col-6 m-0 py-4 px-5 align-items-center d-flex">
+                                    <div class="col-md-4 col-6 m-0 py-4 px-4 align-items-center d-flex">
                                         <div class="col-md-12">
                                             <p style="font-size:1em; font-weight:650;" class="mb-3">Agent Details</p>
                                             <div class="contact-row pb-1">
-                                                <ion-icon name="mail-outline" style="font-size:1.3em;"></ion-icon>
+                                                <ion-icon name="mail-outline" style="font-size:1.3em!important;"></ion-icon>
                                                 <a href="mailto:` + resultSet[i].email + `" class="pl-4" style="color: black; font-size: 1em;">
                                                 ` + resultSet[i].email + `</a>
                                             </div>
@@ -270,11 +270,11 @@ function loadData(rs,loadObj) {
                                 <span class="fa fa-star"></span>
                             </div>
                         </div>
-                        <div class="col-md-4 col-6 m-0 py-4 px-5 align-items-center d-flex">
+                        <div class="col-md-4 col-6 m-0 py-4 px-4 align-items-center d-flex">
                             <div class="col-md-12">
                                 <p style="font-size:1em; font-weight:650;" class="mb-3">Agent Details</p>
                                 <div class="contact-row pb-1">
-                                    <ion-icon name="mail-outline" style="font-size:1.3em;"></ion-icon>
+                                    <ion-icon name="mail-outline" style="font-size:1.3em!important;"></ion-icon>
                                     <a href="mailto:` + resultSet[i].email + `" class="pl-4" style="color: black; font-size: 1em;">
                                     ` + resultSet[i].email + `</a>
                                 </div>
