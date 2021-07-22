@@ -155,17 +155,14 @@
         <div class="col-md-12 explore" data-aos="fade-up" data-aos-once="true"> 
             <p class="row">Latest Listings</p>
         </div>   
-        <!--Add Old Listing code here--> 
         <div class="col-md-12 m-0 p-0">
             <div class="all-listing-card">
                 <div class="all-listing-card-container">
                     <div class="row">
-                        <% listings.forEach(function(listing) { 
-                            var date = moment(listing.createdAt).fromNow();
-                            %>
+                        <% listings.forEach(function(listing) { %>
                             <div class="col-lg-12 col-xl-6">
-                                <div class="listingHover" style="display: flex; align-items: center; justify-content: center; flex-direction: column; margin: 10px; padding: 10px; transition: 0.3s; " data-aos="fade-up" data-aos-once="true">
-                                    <div class="row col-md-12 p-0">
+                                <div class="listingHoverMain" style="display: flex; align-items: center; justify-content: center; flex-direction: column; margin: 10px; transition: 0.3s; " data-aos="fade-up" data-aos-once="true">
+                                    <div class="row col-md-12">
                                         <% if(listing.soldStatus==true){ %>
                                             <div class="col-md-12 m-0 p-0 justify-content-center d-flex">
                                                 <span class="text-center" id="soldBanner-list">
@@ -181,22 +178,40 @@
                                             </div>
                                         <% } %>
 
-                                        <div class="row col-md-12 d-flex justify-content-between align-items-center" style="margin-top: 10px; margin-bottom: 10px; ">
+                                        <div class="row col-md-12 m-0 d-flex justify-content-between align-items-center" style="padding: 0 0 10px 0;">
                                             <div class="d-flex flex-direction-row align-items-center justify-content-center" style="font-size: 15px; cursor: pointer; " onClick=" window.location='/user/<%=listing.author.id._id %>'">
-                                                <img src="<%= listing.author.id.image%>" style="width:35px;height:35px ;border-radius: 50%; margin: auto;object-fit: cover;">
+                                                <img src="<%= listing.author.id.image%>" style="width:35px; height:35px ;border-radius: 50%; margin: auto;object-fit: cover;">
                                                 <div class="d-flex flex-column" style="margin-left: 10px;">
                                                     <div class="d-flex flex-direction-row">
                                                         <%= listing.author.id.firstName%>
                                                         <%= listing.author.id.lastName%>
                                                     </div>
                                                     <div style="font-size: 12px;">
-                                                        <%= date%>
+                                                        <%= moment(listing.createdAt).fromNow()%>
                                                     </div>
                                                 </div>
                                             </div>
-
-                                            <%if(currentUser&&listing.author.id.equals(currentUser._id)||currentUser&&currentUser.isAdmin){%>
-                                                <div>
+                                            
+                                            <div class="d-flex flex-direction-row">
+                                                <div class="d-flex align-items-center justify-content-end">
+                                                    <form action="/listings/<%= listing._id %>/like" method="POST" class="likeBtn">
+                                                        <div>
+                                                            <% if (currentUser && listing.likes.some(function (like) { return like.equals(currentUser._id) })) { %>
+                                                                <button class="p-0" id="filledHeart">
+                                                                    <i class="fas fa-heart filledHeart"></i>
+                                                                    <%= listing.likes.length %>
+                                                                </button>
+                                                            <% } else { %>
+                                                                <button class="p-0" id="emptyHeart">
+                                                                    <i class="far fa-heart emptyHeart"></i>
+                                                                    <%= listing.likes.length %>
+                                                                </button>
+                                                            <% } %>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                                    
+                                                <%if(currentUser&&listing.author.id.equals(currentUser._id)||currentUser&&currentUser.isAdmin){%>
                                                     <div class="dropdown">
                                                         <button type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: transparent; border: none">
                                                             <i class="fas fa-ellipsis-v"></i>
@@ -223,14 +238,14 @@
                                                             <% } %>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            <% } %>
+                                                <% } %>
+                                            </div>
                                         </div>
 
                                         <!--Left of Listing-->
-                                        <div class="col-sm-4 col-md-4 p-0 list-left d-flex justify-content-center align-items-center" style="border: 1px solid rgb(196, 196, 196)">
-                                            <a href="/listings/<%= listing.id %>" style="text-decoration: none; color: black;">
-                                                <img class="img-fluid shadow" src="<%= listing.thumbnail %>" style="width: 100%; height: 180px; object-fit: cover; margin: auto;">
+                                        <div class="col-sm-4 col-md-4 p-0 m-0 list-left d-flex justify-content-center align-items-center ">
+                                            <a class="p-0 m-0" href="/listings/<%= listing.id %>" style="text-decoration: none; color: black">
+                                                <img class="img-fluid shadow" src="<%= listing.thumbnail %>" style="width: 100%; height: 130px; object-fit: cover; text-align: center">
                                             </a>
                                         </div>
 
@@ -238,7 +253,7 @@
                                         <div class="col-sm-8 col-md-8 list-right" > 
                                             <a href="/listings/<%= listing.id %>" style="text-decoration: none; color: black;">       
                                                 <!--Name-->
-                                                <div class="col-12 listing-detail d-flex justify-content-between" id="listing-name">
+                                                <div class="col-12 listing-detail d-flex justify-content-between" id="listing-name" >
                                                     <% if(listing.name.length<14){ %>
                                                         <%= listing.name.substring(0, 14) %>
                                                     <% } else { %>
@@ -279,7 +294,7 @@
                                                     </div>
                                                 </div>
                                                 <!--Tags-->
-                                                <div class="col-md-12 listing-tag-wrapper" style="display: flex; flex-direction: row;">
+                                                <div class="col-md-12 listing-tag-wrapper" style="display: flex; flex-direction: row;"> 
                                                     <div class="col-md-4 p-0">
                                                         <div class="listing-tag">
                                                             <span>
@@ -307,25 +322,6 @@
                                                     </div>
                                                 </div>
                                             </a>
-                                            <div class="col-md-12" style="margin-top: 10px; margin-bottom: 10px;">
-                                                <div class="justify-content-start d-flex">
-                                                    <form action="/listings/<%= listing._id %>/like" method="POST" class="likeBtn">
-                                                        <div>
-                                                            <% if (currentUser && listing.likes.some(function (like) { return like.equals(currentUser._id) })) { %>
-                                                                <button class="px-0" id="filledHeart">
-                                                                    <i class="fas fa-heart filledHeart"></i>
-                                                                    <%= listing.likes.length %>
-                                                                </button>
-                                                            <% } else { %>
-                                                                <button class="px-0" id="emptyHeart">
-                                                                    <i class="far fa-heart emptyHeart"></i>
-                                                                    <%= listing.likes.length %>
-                                                                </button>
-                                                            <% } %>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>

@@ -463,6 +463,7 @@ router.get("/listings", function(req,res){
 					// get all listings from DB
 					listing.find({$and: [{soldStatus: false}, {archiveStatus: false}] })
 					.sort({createdAt: -1})
+					.limit(10)
 					.populate('author.id')
 					.exec(function (err, alllistings) {
 							listing.count().exec(function (err, count) {

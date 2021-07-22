@@ -385,10 +385,13 @@ body {
   position: relative;
   text-align: center;
   color: white;
-  transition: 0.3s;
   cursor: pointer;
+  
 }
 
+.owl-carousel .item:hover p {
+  transform: scale(1.1);
+}
 
 .owl-carousel img {
   box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2);
@@ -409,6 +412,7 @@ body {
   font-size: 28px;
   font-weight: 700;
   text-shadow: 2px 2px 8px #000000ea;
+  transition: 0.3s;
 }
 
 .owl-dots {
@@ -485,9 +489,6 @@ body {
   margin: 5px 0 5px;
 }
 
-.list-left {
-  padding: 10px
-}
 
 .list-right{ 
   margin: 0;
@@ -534,13 +535,15 @@ body {
 }
 
 
-.listingHover {
+.listingHoverMain {
   background-color: #fff;
   border: 1px solid rgb(196, 196, 196);
   border-radius: 3px;
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 
-.listingHover:hover{
+.listingHoverMain:hover{
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.08), 0 6px 20px 0 rgba(0, 0, 0, 0.08);
   /* border-radius: 10px; */
 }
