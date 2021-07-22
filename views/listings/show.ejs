@@ -41,9 +41,32 @@
               <% } %>
             </div>
             <div class="pl-1">
-              <button class="btn btn-outline-dark">
+              
+              <button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#listingShare">
                 <ion-icon name="share-outline"></ion-icon>
               </button>
+              <!-- Modal -->
+              <div id="listingShare" class="modal fade" role="dialog">
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header justify-content-between d-flex">
+                      <span class="modal-title" style="font-size: 1.5em; font-weight: 600;">Share Modal</span>
+                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body" style="height: 230px!important;">
+                      <p>Share this listing via</p>
+                      <ul class="icons pl-0">
+                        <a href="#" class="left"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="left right"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="left right"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="left right"><i class="fab fa-whatsapp"></i></a>
+                        <a href="#" class="right"><i class="fab fa-telegram-plane"></i></a>
+                      </ul>
+                      <p>Or copy link</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
               <a href="mailto:<%= listing.author.email %>" style="color: black; text-decoration: none;">
                 <button class="btn btn-outline-dark">
                   <ion-icon name="mail-outline"></ion-icon>
@@ -190,38 +213,30 @@
         </div>
         <!-- Modal -->
         <div id="listingLikes" class="modal fade" role="dialog">
-          <div class="modal-dialog">
+          <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-              <div class="modal-header">
+              <div class="modal-header justify-content-between d-flex">
+                <h4 class="modal-title">Likes: <%= listing.likes.length %></h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">listing likes: <%= listing.likes.length %>
-                </h4>
               </div>
               <div class="modal-body">
-                <table class="table table-striped">
-                  <thead>
-                    <tr>
-                      <th>Liked by:</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <% listing.likes.forEach(function(like) { %>
+                <% listing.likes.forEach(function(like) { %>
+                  <div class="row">
+                    <div class="col-12 mb-3">
                       <tr>
-                        <td><span class="badge"><i class="fas fa-user"></i></span>
-                          <%= like.username %>
+                        <td>
+                          <img src="<%= like.image %>" alt="" style="width: 55px; border-radius: 50%;">
+                          <span class="ml-2"><%= like.username %></span>
                         </td>
                       </tr>
-                    <% }); %>
-                    <% if (listing.likes.length===0) { %>
-                      <tr>
-                        <td><em>No likes yet.</em></td>
-                      </tr>
-                    <% } %>
-                  </tbody>
-                </table>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                <% }); %>
+                <% if (listing.likes.length===0) { %>
+                  <tr>
+                    <td style="color: grey;"><em>No likes yet.</em></td>
+                  </tr>
+                <% } %>
               </div>
             </div>
           </div>
