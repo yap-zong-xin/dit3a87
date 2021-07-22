@@ -211,6 +211,7 @@
                             <% if(currentUser && currentUser.isAdmin || currentUser && currentUser.isAgent && currentUser.agentStatus){ %>
                             <option value="Sold" <% if(data.sort == 'Sold') {%> selected <%} %>>Sold</option>
                             <option value="NotSold" <% if(data.sort == 'NotSold') {%> selected <%} %>>Not Sold</option>
+                            <option value="Archive" <% if(data.sort == 'Archive') {%> selected <%} %>>Archive</option>
                             <option value="NotArchive" <% if(data.sort == 'NotArchive') {%> selected <%} %>>Not Archive</option>
                             <% } %>
                         </select>

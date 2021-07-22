@@ -804,60 +804,124 @@ router.get("/dashboard/listings", function(req,res){
 		});
 
 	// filter
-	// } else if(req.query.Apply) {
-	// 	// Sort object (to be passed into .sort)
-	// 	var sortOptions = {};
-	// 	// Sort by popular
-	// 	var sortPop = req.query.sortPop;
-	// 	console.log('sort pop type: '+sortPop)	
-	// 	if(sortPop == 'LeastPop') {
-	// 		sortOptions.likes = 1;
-	// 	}else if(sortPop == 'MostPop') {
-	// 		sortOptions.likes = -1 ;
-	// 	}
-	// 	// Sort by date
-	// 	var sortDate = req.query.sortDate;
-	// 	console.log('sort date type: '+sortDate)	
-	// 	if(sortDate == 'Oldest') {
-	// 		sortOptions.createdAt = 1;
-	// 	}else if(sortDate == 'Recent') {
-	// 		sortOptions.createdAt = -1 ;
-	// 	}
+	} else if(req.query.Apply) {
+		// Sort object (to be passed into .sort)
+		var sortOptions = {};
+		// Sort options
+		var sort = req.query.sort;
+		if(sort == 'LowestPrice') {
+			sortOptions.price = 1;
+		}else if(sort == 'HighestPrice') {
+			sortOptions.price = -1 ;
+		}else if(sort == 'Recent') {
+			sortOptions.createdAt = -1;
+		}else if(sort == 'Oldest') {
+			sortOptions.createdAt = 1;
+		}else if(sort == 'Sold') {
+			sortOptions.soldStatus = -1;
+		}else if(sort == 'NotSold') {
+			sortOptions.soldStatus = 1;
+		}else if(sort == 'Archive') {
+			sortOptions.archiveStatus = -1;
+		}else if(sort == 'NotArchive') {
+			sortOptions.archiveStatus = 1;
+		}else if(sort == 'MostPop') {
+			sortOptions.likes = -1;
+		}else if(sort == 'LeastPop') {
+			sortOptions.likes = 1;
+		}
 
-	// 	//if no sort is selected
-	// 	if(Object.keys(sortOptions).length == 0) {
-	// 		sortOptions.createdAt = -1
-	// 	}
+		//if no sort is selected
+		if(Object.keys(sortOptions).length == 0) {
+			sortOptions.createdAt = 1
+		}
 
-	// 	listing.find({}).populate("comments likes").sort(sortOptions).exec(function(err, foundlisting){
-	// 		if(err){
-	// 			console.log(err);
-	// 			res.redirect("back");
-	// 		} else{
-	// 			for (var i = 0; i < foundlisting.length; i++) {
-	// 				//id
-	// 				var id = foundlisting[i]._id;
-	// 				console.log(foundlisting[i]._id);
+		//Sold/Archive Checkbox
+		const soldCheck = req.query.soldCheck;
+		const archiveCheck = req.query.archiveCheck;
+		console.log('sold check: '+soldCheck);
+		console.log('archive check: '+archiveCheck);
+		var regexSold = [];
+		var regexArchive = [];
+		if(soldCheck){ //if sold is check, show sold and not sold only
+			regexSold.push(true);
+			regexSold.push(false);
+		}else {
+			regexSold.push(false);
+		}
+		if(archiveCheck){
+			regexArchive.push(true);
+			regexArchive.push(false);
+		}else {
+			regexArchive.push(false);
+		}
 
-	// 				async function postCount (id) {
-	// 					await countApi("/hit/3dpropertylistingsg/" +  id + "-click").then(success => {
-	// 					console.log("https://api.countapi.xyz/hit/3dpropertylistingsg/" + id + "-click");
-	// 					console.log("id: " + id + "success: " + success.data.value);
-	// 					});
-	// 				}
-	// 				postCount(id);
-	// 			}		
-	// 			res.render("dashboards/listings/index.ejs", {
-	// 				listings:foundlisting,
-	// 				noMatch: noMatch,
-	// 				data: req.query,
-	// 				current: pageNumber,
-	// 				pages: Math.ceil(count / perPage),
-	// 				search: false
-	// 			});
-	// 		}
-	// 	});
+		// Filter: Property Type
+		const hdbType = req.query.hdbType;
+		const condoType = req.query.condoType;
+		const landedType = req.query.landedType;
+		var allType = []
+		allType.push(hdbType, condoType, landedType);
+		console.log('all type: '+allType);
+		var typeArr=[];
+		var regexType;
+		var typeCount = 0;
+		for(let i=0; i<allType.length; i++) {
+			if(typeof allType[i]=='undefined'){
+				console.log('counting type')
+				typeCount++;
+			}
+		}
+		if(typeCount == 3){
+			allType = [ 'hdb', 'condo', 'landed' ];
+			regexType = allType.map(function(e){return new RegExp(e, "gi");});
+			console.log('inside type all empty: '+regexType);
+		}else {
+			for(let i=0; i<allType.length; i++) {
+				if(!(typeof allType[i] == 'undefined')) { //contains value does not contain undefined
+					console.log('all type at i: '+allType[i]);
+					typeArr[i] = allType[i];
+					console.log('inside type: '+typeArr);
+					var typeArrRegex = typeArr.map(function(e){return new RegExp(e, "gi");});
+					regexType = typeArrRegex.filter(function(eli){
+						return eli != null && eli != '';
+					})
+					console.log('regexType: '+regexType)
+				}
 
+			}
+		}
+		//QUERY
+		listing.find({$and: [{type: {$in: regexType}}, {soldStatus: {$in: regexSold}}, {archiveStatus: {$in: regexArchive}}]}).sort(sortOptions).skip((perPage * pageNumber) - perPage).limit(perPage).populate("comments likes").exec(function(err, foundlisting){
+			listing.count().exec(function (err, count) {
+			if(err){
+				console.log(err);
+				res.redirect("back");
+			} else{
+				for (var i = 0; i < foundlisting.length; i++) {
+					//id
+					var id = foundlisting[i]._id;
+					console.log(foundlisting[i]._id);
+
+					async function postCount (id) {
+						await countApi("/hit/3dpropertylistingsg/" +  id + "-click").then(success => {
+						console.log("https://api.countapi.xyz/hit/3dpropertylistingsg/" + id + "-click");
+						console.log("id: " + id + "success: " + success.data.value);
+						});
+					}
+					postCount(id);
+				}		
+				res.render("dashboards/listings/index.ejs", {
+					listings:foundlisting,
+					noMatch: noMatch,
+					data: req.query,
+					current: pageNumber,
+					pages: Math.ceil(count / perPage),
+					search: false
+				});
+			}
+			});
+		});
 	} else {
 		listing.find({}).skip((perPage * pageNumber) - perPage).limit(perPage).populate("comments likes").exec(function(err, foundlisting){
 			listing.count().exec(function (err, count) {
