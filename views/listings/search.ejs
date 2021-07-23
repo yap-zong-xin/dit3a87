@@ -202,7 +202,7 @@
                             </div>  
                         </div>
         
-                        <span class="seperateFilter"></span>
+                        <span class="seperateFilter" style="margin: 10px 0 10px;"></span>
 
                         <!-- Filter: Price Slider -->
                         <div class="price-slider">
@@ -210,14 +210,14 @@
                             <div class="slider-inputs">
                                 <div class="slide-wrapper">
                                     Min. Price:
-                                    <div class="slide">
+                                    <div class="slide-search">
                                         S$
                                         <input type="number" value="0" min="0" max="<%= largestPrice %>" name="minPrice" id="minPrice"/>
                                     </div>
                                 </div>
                                 <div class="slide-wrapper">
                                     Max. Price:
-                                    <div class="slide">
+                                    <div class="slide-search">
                                         S$
                                         <input type="number" value="<%= largestPrice %>" min="0" max="<%= largestPrice %>" name="maxPrice" id="maxPrice"/>
                                     </div>
@@ -229,7 +229,7 @@
                             </div>
                         </div>
         
-                        <span class="seperateFilter"></span>
+                        <span class="seperateFilter" style="margin: 10px 0 10px;"></span>
         
                         <!-- Filter: Size Slider -->
                         <div class="size-slider">
@@ -237,14 +237,14 @@
                             <div class="slider-inputs">
                                 <div class="slide-wrapper">
                                     Min. Area:
-                                    <div class="slide" style="font-size: 14px;">
+                                    <div class="slide-search" style="font-size: 14px;">
                                         <input type="number" value="0" min="0" max="<%= largestSize %>" name="minSize" id="minSize" />
                                         sqft
                                     </div>
                                 </div>
                                 <div class="slide-wrapper">
                                     Max. Area:
-                                    <div class="slide" style="font-size: 14px">
+                                    <div class="slide-search" style="font-size: 14px">
                                         <input type="number" value="<%= largestSize %>" min="0" max="<%= largestSize %>" name="maxSize" id="maxSize" />
                                         sqft
                                     </div>
@@ -261,7 +261,7 @@
 
                         <!-- Filter: for admin/agent to view sold/archived listing -->
                         <% if(currentUser && currentUser.isAdmin || currentUser && currentUser.isAgent && currentUser.agentStatus){ %>
-                            <span class="seperateFilter" style="margin: 0 0 15px;"></span>
+                            <span class="seperateFilter" style="margin: 0 0 10px;"></span>
                             <!-- sold -->
                             <div class="dropdownSold">
                                 <div class="dropdownSold-content" id="dropdownSold-content">
@@ -273,7 +273,7 @@
                             </div>
                         <% } %>
         
-                        <span class="seperateFilter" style="margin: 15px 0 15px;"></span>
+                        <span class="seperateFilter" style="margin: 10px 0 10px;"></span>
 
                         <div class="filter-Btn">
                             <input type="button" onclick="resetForm()" value="Reset" >

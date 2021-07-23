@@ -1,5 +1,4 @@
 function createHTML(rs) {
-    console.log(rs.soldStatus)
     //format inputs
     var id = rs._id;
     var author_id = rs.author.id._id;
