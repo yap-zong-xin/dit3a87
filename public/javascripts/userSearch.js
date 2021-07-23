@@ -31,27 +31,29 @@ function loadData(rs,loadObj) {
         if (resultSet[i].rating === 0) {
             html = `<div class="col-md-12" data-aos="fade-up" data-aos-once="true">
             <div class="col-md-12 user-result" onClick="window.location='/user/` + resultSet[i]._id + `'" style="border-top: 0.5px solid lightgray;">
-                <div class="row col-md-8 col-6 m-0 py-4 px-5 user-detail align-items-center d-flex">
+                <div class="row col-md-8 col-6 mx-0 py-0 my-2 px-5 user-detail align-items-center d-flex">
                     <img src="` + resultSet[i].image + `" style="width: 150px; height: 150px;">
                     <div class="caption-result">
                         <p class="mb-0" style="font-size:1.6em; font-weight:600;">` + resultSet[i].firstName + ` ` + resultSet[i].lastName + `</p>
                         <p class="px-3 mt-0 mb-2" style="font-size:0.9em!important; border-radius:15px; font-weight:400!important; border: 1px solid #4632DA;">CEA ` + resultSet[i].cea + `</p>
-                        <em>No reviews found.</em>
+                        <a href="/user/` + resultSet[i]._id + `/reviews" style="text-decoration: none; color: black;">
+                            <em>No reviews found.</em>
+                        </a>
                     </div>
                 </div>
-                <div class="col-md-4 col-6 m-0 py-4 px-4 align-items-center d-flex">
+                <div class="col-md-4 col-6 m-0 py-0 my-2 px-4 align-items-center d-flex" style="border-left:1px solid gray;">
                     <div class="col-md-12">
-                        <p style="font-size:1em; font-weight:650;" class="mb-3">Agent Details</p>
-                        <div class="contact-row pb-1">
-                            <ion-icon name="mail-outline" style="font-size:1.3em!important;"></ion-icon>
+                        <p style="font-size:1em; font-weight:650;" class="mb-2">Agent Details</p>
+                        <div class="contact-row pb-1 align-items-center d-flex">
+                            <ion-icon name="mail-outline" style="font-size:1.4em!important;"></ion-icon>
                             <a href="mailto:` + resultSet[i].email + `" class="pl-4" style="color: black; font-size: 1em;">
                             ` + resultSet[i].email + `</a>
                         </div>
-                        <div class="contact-row pb-1">
+                        <div class="contact-row py-0 align-items-center d-flex">
                             <ion-icon name="call-outline" style="font-size:1.3em;"></ion-icon>
                             <p style="font-size:1em;" class="pl-4">` + resultSet[i].phone + `</p>
                         </div>
-                        <div class="contact-row pb-1">
+                        <div class="contact-row py-0 align-items-center d-flex">
                             <ion-icon name="male-female-outline" style="font-size:1.3em;"></ion-icon>
                             <p style="font-size:1em;" class="pl-4">` + resultSet[i].gender + `</p>
                         </div>
@@ -78,31 +80,35 @@ function loadData(rs,loadObj) {
                 case 0:
                     html = `<div class="col-md-12" data-aos="fade-up" data-aos-once="true">
                     <div class="col-md-12 user-result" onClick="window.location='/user/` + resultSet[i]._id + `'" style="border-top: 0.5px solid lightgray;">
-                        <div class="row col-md-8 col-6 m-0 py-4 px-5 user-detail align-items-center d-flex">
+                        <div class="row col-md-8 col-6 mx-0 py-0 my-2 px-5 user-detail align-items-center d-flex">
                             <img src="` + resultSet[i].image + `" style="width: 150px; height: 150px;">
                             <div class="caption-result">
                                 <p class="mb-0" style="font-size:1.6em; font-weight:600;">` + resultSet[i].firstName + ` ` + resultSet[i].lastName + `</p>
                                 <p class="px-3 mt-0 mb-2" style="font-size:0.9em!important; border-radius:15px; font-weight:400!important; border: 1px solid #4632DA;">CEA ` + resultSet[i].cea + `</p>
-                                <span class="fa fa-star checked"></span>
-                                <span class="fa fa-star"></span>
-                                <span class="fa fa-star"></span>
-                                <span class="fa fa-star"></span>
-                                <span class="fa fa-star"></span>
+                                <a href="/user/` + resultSet[i]._id + `/reviews" style="text-decoration: none; color: black;">
+                                    <span>` + resultSet[i].rating.toFixed(2) + `</span>
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                    <span style="font-size:0.95em;">(` + resultSet[i].reviews.length + `)</span>
+                                </a>
                             </div>
                         </div>
-                        <div class="col-md-4 col-6 m-0 py-4 px-4 align-items-center d-flex">
+                        <div class="col-md-4 col-6 m-0 py-0 my-2 px-4 align-items-center d-flex" style="border-left:1px solid gray;">
                             <div class="col-md-12">
-                                <p style="font-size:1em; font-weight:650;" class="mb-3">Agent Details</p>
-                                <div class="contact-row pb-1">
-                                    <ion-icon name="mail-outline" style="font-size:1.3em!important;"></ion-icon>
+                                <p style="font-size:1em; font-weight:650;" class="mb-2">Agent Details</p>
+                                <div class="contact-row pb-1 align-items-center d-flex">
+                                    <ion-icon name="mail-outline" style="font-size:1.4em!important;"></ion-icon>
                                     <a href="mailto:` + resultSet[i].email + `" class="pl-4" style="color: black; font-size: 1em;">
                                     ` + resultSet[i].email + `</a>
                                 </div>
-                                <div class="contact-row pb-1">
+                                <div class="contact-row py-0 align-items-center d-flex">
                                     <ion-icon name="call-outline" style="font-size:1.3em;"></ion-icon>
                                     <p style="font-size:1em;" class="pl-4">` + resultSet[i].phone + `</p>
                                 </div>
-                                <div class="contact-row pb-1">
+                                <div class="contact-row py-0 align-items-center d-flex">
                                     <ion-icon name="male-female-outline" style="font-size:1.3em;"></ion-icon>
                                     <p style="font-size:1em;" class="pl-4">` + resultSet[i].gender + `</p>
                                 </div>
@@ -114,31 +120,35 @@ function loadData(rs,loadObj) {
                 case 1:
                     html = `<div class="col-md-12" data-aos="fade-up" data-aos-once="true">
                     <div class="col-md-12 user-result" onClick="window.location='/user/` + resultSet[i]._id + `'" style="border-top: 0.5px solid lightgray;">
-                        <div class="row col-md-8 col-6 m-0 py-4 px-5 user-detail align-items-center d-flex">
+                        <div class="row col-md-8 col-6 mx-0 py-0 my-2 px-5 user-detail align-items-center d-flex">
                             <img src="` + resultSet[i].image + `" style="width: 150px; height: 150px;">
                             <div class="caption-result">
                                 <p class="mb-0" style="font-size:1.6em; font-weight:600;">` + resultSet[i].firstName + ` ` + resultSet[i].lastName + `</p>
                                 <p class="px-3 mt-0 mb-2" style="font-size:0.9em!important; border-radius:15px; font-weight:400!important; border: 1px solid #4632DA;">CEA ` + resultSet[i].cea + `</p>
-                                <span class="fa fa-star checked"></span>
-                                <span class="fa fa-star checked"></span>
-                                <span class="fa fa-star"></span>
-                                <span class="fa fa-star"></span>
-                                <span class="fa fa-star"></span>
+                                <a href="/user/` + resultSet[i]._id + `/reviews" style="text-decoration: none; color: black;">
+                                    <span>` + resultSet[i].rating.toFixed(2) + `</span>
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                    <span style="font-size:0.95em;">(` + resultSet[i].reviews.length + `)</span>
+                                </a>
                             </div>
                         </div>
-                        <div class="col-md-4 col-6 m-0 py-4 px-4 align-items-center d-flex">
+                        <div class="col-md-4 col-6 m-0 py-0 my-2 px-4 align-items-center d-flex" style="border-left:1px solid gray;">
                             <div class="col-md-12">
-                                <p style="font-size:1em; font-weight:650;" class="mb-3">Agent Details</p>
-                                <div class="contact-row pb-1">
-                                    <ion-icon name="mail-outline" style="font-size:1.3em!important;"></ion-icon>
+                                <p style="font-size:1em; font-weight:650;" class="mb-2">Agent Details</p>
+                                <div class="contact-row pb-1 align-items-center d-flex">
+                                    <ion-icon name="mail-outline" style="font-size:1.4em!important;"></ion-icon>
                                     <a href="mailto:` + resultSet[i].email + `" class="pl-4" style="color: black; font-size: 1em;">
                                     ` + resultSet[i].email + `</a>
                                 </div>
-                                <div class="contact-row pb-1">
+                                <div class="contact-row py-0 align-items-center d-flex">
                                     <ion-icon name="call-outline" style="font-size:1.3em;"></ion-icon>
                                     <p style="font-size:1em;" class="pl-4">` + resultSet[i].phone + `</p>
                                 </div>
-                                <div class="contact-row pb-1">
+                                <div class="contact-row py-0 align-items-center d-flex">
                                     <ion-icon name="male-female-outline" style="font-size:1.3em;"></ion-icon>
                                     <p style="font-size:1em;" class="pl-4">` + resultSet[i].gender + `</p>
                                 </div>
@@ -150,31 +160,35 @@ function loadData(rs,loadObj) {
                 case 2:
                     html = `<div class="col-md-12" data-aos="fade-up" data-aos-once="true">
                     <div class="col-md-12 user-result" onClick="window.location='/user/` + resultSet[i]._id + `'" style="border-top: 0.5px solid lightgray;">
-                        <div class="row col-md-8 col-6 m-0 py-4 px-5 user-detail align-items-center d-flex">
+                        <div class="row col-md-8 col-6 mx-0 py-0 my-2 px-5 user-detail align-items-center d-flex">
                             <img src="` + resultSet[i].image + `" style="width: 150px; height: 150px;">
                             <div class="caption-result">
                                 <p class="mb-0" style="font-size:1.6em; font-weight:600;">` + resultSet[i].firstName + ` ` + resultSet[i].lastName + `</p>
                                 <p class="px-3 mt-0 mb-2" style="font-size:0.9em!important; border-radius:15px; font-weight:400!important; border: 1px solid #4632DA;">CEA ` + resultSet[i].cea + `</p>
-                                <span class="fa fa-star checked"></span>
-                                <span class="fa fa-star checked"></span>
-                                <span class="fa fa-star checked"></span>
-                                <span class="fa fa-star"></span>
-                                <span class="fa fa-star"></span>
+                                <a href="/user/` + resultSet[i]._id + `/reviews" style="text-decoration: none; color: black;">
+                                    <span>` + resultSet[i].rating.toFixed(2) + `</span>
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                    <span style="font-size:0.95em;">(` + resultSet[i].reviews.length + `)</span>
+                                </a>
                             </div>
                         </div>
-                        <div class="col-md-4 col-6 m-0 py-4 px-4 align-items-center d-flex">
+                        <div class="col-md-4 col-6 m-0 py-0 my-2 px-4 align-items-center d-flex" style="border-left:1px solid gray;">
                             <div class="col-md-12">
-                                <p style="font-size:1em; font-weight:650;" class="mb-3">Agent Details</p>
-                                <div class="contact-row pb-1">
-                                    <ion-icon name="mail-outline" style="font-size:1.3em!important;"></ion-icon>
+                                <p style="font-size:1em; font-weight:650;" class="mb-2">Agent Details</p>
+                                <div class="contact-row pb-1 align-items-center d-flex">
+                                    <ion-icon name="mail-outline" style="font-size:1.4em!important;"></ion-icon>
                                     <a href="mailto:` + resultSet[i].email + `" class="pl-4" style="color: black; font-size: 1em;">
                                     ` + resultSet[i].email + `</a>
                                 </div>
-                                <div class="contact-row pb-1">
+                                <div class="contact-row py-0 align-items-center d-flex">
                                     <ion-icon name="call-outline" style="font-size:1.3em;"></ion-icon>
                                     <p style="font-size:1em;" class="pl-4">` + resultSet[i].phone + `</p>
                                 </div>
-                                <div class="contact-row pb-1">
+                                <div class="contact-row py-0 align-items-center d-flex">
                                     <ion-icon name="male-female-outline" style="font-size:1.3em;"></ion-icon>
                                     <p style="font-size:1em;" class="pl-4">` + resultSet[i].gender + `</p>
                                 </div>
@@ -186,31 +200,35 @@ function loadData(rs,loadObj) {
                 case 3:
                     html = `<div class="col-md-12" data-aos="fade-up" data-aos-once="true">
                     <div class="col-md-12 user-result" onClick="window.location='/user/` + resultSet[i]._id + `'" style="border-top: 0.5px solid lightgray;">
-                        <div class="row col-md-8 col-6 m-0 py-4 px-5 user-detail align-items-center d-flex">
+                        <div class="row col-md-8 col-6 mx-0 py-0 my-2 px-5 user-detail align-items-center d-flex">
                             <img src="` + resultSet[i].image + `" style="width: 150px; height: 150px;">
                             <div class="caption-result">
                                 <p class="mb-0" style="font-size:1.6em; font-weight:600;">` + resultSet[i].firstName + ` ` + resultSet[i].lastName + `</p>
                                 <p class="px-3 mt-0 mb-2" style="font-size:0.9em!important; border-radius:15px; font-weight:400!important; border: 1px solid #4632DA;">CEA ` + resultSet[i].cea + `</p>
-                                <span class="fa fa-star checked"></span>
-                                <span class="fa fa-star checked"></span>
-                                <span class="fa fa-star checked"></span>
-                                <span class="fa fa-star checked"></span>
-                                <span class="fa fa-star"></span>
+                                <a href="/user/` + resultSet[i]._id + `/reviews" style="text-decoration: none; color: black;">
+                                    <span>` + resultSet[i].rating.toFixed(2) + `</span>
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star"></span>
+                                    <span style="font-size:0.95em;">(` + resultSet[i].reviews.length + `)</span>
+                                </a>
                             </div>
                         </div>
-                        <div class="col-md-4 col-6 m-0 py-4 px-4 align-items-center d-flex">
+                        <div class="col-md-4 col-6 m-0 py-0 my-2 px-4 align-items-center d-flex" style="border-left:1px solid gray;">
                             <div class="col-md-12">
-                                <p style="font-size:1em; font-weight:650;" class="mb-3">Agent Details</p>
-                                <div class="contact-row pb-1">
-                                    <ion-icon name="mail-outline" style="font-size:1.3em!important;"></ion-icon>
+                                <p style="font-size:1em; font-weight:650;" class="mb-2">Agent Details</p>
+                                <div class="contact-row pb-1 align-items-center d-flex">
+                                    <ion-icon name="mail-outline" style="font-size:1.4em!important;"></ion-icon>
                                     <a href="mailto:` + resultSet[i].email + `" class="pl-4" style="color: black; font-size: 1em;">
                                     ` + resultSet[i].email + `</a>
                                 </div>
-                                <div class="contact-row pb-1">
+                                <div class="contact-row py-0 align-items-center d-flex">
                                     <ion-icon name="call-outline" style="font-size:1.3em;"></ion-icon>
                                     <p style="font-size:1em;" class="pl-4">` + resultSet[i].phone + `</p>
                                 </div>
-                                <div class="contact-row pb-1">
+                                <div class="contact-row py-0 align-items-center d-flex">
                                     <ion-icon name="male-female-outline" style="font-size:1.3em;"></ion-icon>
                                     <p style="font-size:1em;" class="pl-4">` + resultSet[i].gender + `</p>
                                 </div>
@@ -222,31 +240,35 @@ function loadData(rs,loadObj) {
                 case 4:
                     html = `<div class="col-md-12" data-aos="fade-up" data-aos-once="true">
                                 <div class="col-md-12 user-result" onClick="window.location='/user/` + resultSet[i]._id + `'" style="border-top: 0.5px solid lightgray;">
-                                    <div class="row col-md-8 col-6 m-0 py-4 px-5 user-detail align-items-center d-flex">
+                                    <div class="row col-md-8 col-6 mx-0 py-0 my-2 px-5 user-detail align-items-center d-flex">
                                         <img src="` + resultSet[i].image + `" style="width: 150px; height: 150px;">
                                         <div class="caption-result">
                                             <p class="mb-0" style="font-size:1.6em; font-weight:600;">` + resultSet[i].firstName + ` ` + resultSet[i].lastName + `</p>
                                             <p class="px-3 mt-0 mb-2" style="font-size:0.9em!important; border-radius:15px; font-weight:400!important; border: 1px solid #4632DA;">CEA ` + resultSet[i].cea + `</p>
-                                            <span class="fa fa-star checked"></span>
-                                            <span class="fa fa-star checked"></span>
-                                            <span class="fa fa-star checked"></span>
-                                            <span class="fa fa-star checked"></span>
-                                            <span class="fa fa-star checked"></span>
+                                            <a href="/user/` + resultSet[i]._id + `/reviews" style="text-decoration: none; color: black;">
+                                                <span>` + resultSet[i].rating.toFixed(2) + `</span>
+                                                <span class="fa fa-star checked"></span>
+                                                <span class="fa fa-star checked"></span>
+                                                <span class="fa fa-star checked"></span>
+                                                <span class="fa fa-star checked"></span>
+                                                <span class="fa fa-star checked"></span>
+                                                <span style="font-size:0.95em;">(` + resultSet[i].reviews.length + `)</span>
+                                            </a>
                                         </div>
                                     </div>
-                                    <div class="col-md-4 col-6 m-0 py-4 px-4 align-items-center d-flex">
+                                    <div class="col-md-4 col-6 m-0 py-0 my-2 px-4 align-items-center d-flex" style="border-left:1px solid gray;">
                                         <div class="col-md-12">
-                                            <p style="font-size:1em; font-weight:650;" class="mb-3">Agent Details</p>
-                                            <div class="contact-row pb-1">
-                                                <ion-icon name="mail-outline" style="font-size:1.3em!important;"></ion-icon>
+                                            <p style="font-size:1em; font-weight:650;" class="mb-2">Agent Details</p>
+                                            <div class="contact-row pb-1 align-items-center d-flex">
+                                                <ion-icon name="mail-outline" style="font-size:1.4em!important;"></ion-icon>
                                                 <a href="mailto:` + resultSet[i].email + `" class="pl-4" style="color: black; font-size: 1em;">
                                                 ` + resultSet[i].email + `</a>
                                             </div>
-                                            <div class="contact-row pb-1">
+                                            <div class="contact-row py-0 align-items-center d-flex">
                                                 <ion-icon name="call-outline" style="font-size:1.3em;"></ion-icon>
                                                 <p style="font-size:1em;" class="pl-4">` + resultSet[i].phone + `</p>
                                             </div>
-                                            <div class="contact-row pb-1">
+                                            <div class="contact-row py-0 align-items-center d-flex">
                                                 <ion-icon name="male-female-outline" style="font-size:1.3em;"></ion-icon>
                                                 <p style="font-size:1em;" class="pl-4">` + resultSet[i].gender + `</p>
                                             </div>
@@ -258,31 +280,35 @@ function loadData(rs,loadObj) {
                 default:
                     html = `<div class="col-md-12" data-aos="fade-up" data-aos-once="true">
                     <div class="col-md-12 user-result" onClick="window.location='/user/` + resultSet[i]._id + `'" style="border-top: 0.5px solid lightgray;">
-                        <div class="row col-md-8 col-6 m-0 py-4 px-5 user-detail align-items-center d-flex">
+                        <div class="row col-md-8 col-6 mx-0 py-0 my-2 px-5 user-detail align-items-center d-flex">
                             <img src="` + resultSet[i].image + `" style="width: 150px; height: 150px;">
                             <div class="caption-result">
                                 <p class="mb-0" style="font-size:1.6em; font-weight:600;">` + resultSet[i].firstName + ` ` + resultSet[i].lastName + `</p>
                                 <p class="px-3 mt-0 mb-2" style="font-size:0.9em!important; border-radius:15px; font-weight:400!important; border: 1px solid #4632DA;">CEA ` + resultSet[i].cea + `</p>
-                                <span class="fa fa-star"></span>
-                                <span class="fa fa-star"></span>
-                                <span class="fa fa-star"></span>
-                                <span class="fa fa-star"></span>
-                                <span class="fa fa-star"></span>
+                                <a href="/user/` + resultSet[i]._id + `/reviews" style="text-decoration: none; color: black;">
+                                    <span>` + resultSet[i].rating.toFixed(2) + `</span>
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                    <span style="font-size:0.95em;">(` + resultSet[i].reviews.length + `)</span>
+                                </a>
                             </div>
                         </div>
-                        <div class="col-md-4 col-6 m-0 py-4 px-4 align-items-center d-flex">
+                        <div class="col-md-4 col-6 m-0 py-0 my-2 px-4 align-items-center d-flex" style="border-left:1px solid gray;">
                             <div class="col-md-12">
-                                <p style="font-size:1em; font-weight:650;" class="mb-3">Agent Details</p>
-                                <div class="contact-row pb-1">
-                                    <ion-icon name="mail-outline" style="font-size:1.3em!important;"></ion-icon>
+                                <p style="font-size:1em; font-weight:650;" class="mb-2">Agent Details</p>
+                                <div class="contact-row pb-1 align-items-center d-flex">
+                                    <ion-icon name="mail-outline" style="font-size:1.4em!important;"></ion-icon>
                                     <a href="mailto:` + resultSet[i].email + `" class="pl-4" style="color: black; font-size: 1em;">
                                     ` + resultSet[i].email + `</a>
                                 </div>
-                                <div class="contact-row pb-1">
+                                <div class="contact-row py-0 align-items-center d-flex">
                                     <ion-icon name="call-outline" style="font-size:1.3em;"></ion-icon>
                                     <p style="font-size:1em;" class="pl-4">` + resultSet[i].phone + `</p>
                                 </div>
-                                <div class="contact-row pb-1">
+                                <div class="contact-row py-0 align-items-center d-flex">
                                     <ion-icon name="male-female-outline" style="font-size:1.3em;"></ion-icon>
                                     <p style="font-size:1em;" class="pl-4">` + resultSet[i].gender + `</p>
                                 </div>
