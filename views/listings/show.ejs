@@ -472,7 +472,7 @@
               Joined on <span style="font-weight: 600; font-size: 1.15em;"><%= moment(listing.author.createdAt).format('MMM DD, YYYY') %></span>
             </p>
             <% if(currentUser){ %>
-              <form action="/conversation/<%= currentUser._id %>/<%= listing.author.id %>" method="POST">
+              <form action="/conversation/<%= currentUser._id %>/<%= listing.author.id %>/<%=listing._id %>" method="POST">
                 <button type="submit" class="btn btn-dark" style="width: 100%;">
                   Chat
                 </button>

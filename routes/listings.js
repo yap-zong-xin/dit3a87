@@ -1207,6 +1207,18 @@ router.get("/listings/:id/unarchive", middleware.checklistingOwnership, function
 	});
 });
 
+//Get Listing for chat
+router.get('/listing/:listingId', async function(req, res) {
+	const id = req.params.listingId
+	try {
+		const listing1 = await listing.findById(id)
+		res.status(200).json(listing1);
+		// console.log(user)
+	  } catch (err) {
+		res.status(500).json(err);
+	  }
+});
+
 function uploadToCloudinary(file) {
 	return new Promise((resolve, reject) => {
 		cloudinary.v2.uploader.upload(file, { resource_type: "auto" }, (err, result) => {

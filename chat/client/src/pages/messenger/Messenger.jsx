@@ -154,6 +154,7 @@ export default function Messenger() {
         <div className="chatOnline">
           <div className="chatOnlineWrapper">
             <ChatOnline
+              conv={currentChat}
               currentId={friendId}
             />
           </div>

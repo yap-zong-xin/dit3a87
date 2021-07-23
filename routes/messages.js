@@ -31,4 +31,19 @@ router.get("/messages/:conversationId", async (req, res) => {
   }
 });
 
+
+router.get("/message/latest/:conversationId", async (req, res) => {
+  try {
+    const message = await Message.find({
+      conversationId: req.params.conversationId,
+    }).sort({'_id':-1}).limit(1);
+
+    res.status(200).json(message);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+
+
 module.exports = router;
