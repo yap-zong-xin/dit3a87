@@ -30,7 +30,7 @@
                     <div class="col-md-6">
                         <div class="search-input">
                             <i class="fas fa-map-marker-alt"></i>
-                            <input type="text" class="form-control" name="search" placeholder="Search for Properties" style="width: 100%">
+                            <input type="text" class="form-control" name="searchindex" placeholder="Search for Properties" style="width: 100%">
                         </div>                            
                     </div>
                     <div class="col-md-2">
@@ -38,7 +38,7 @@
                             <label for="propertyType">Property Type</label> 
                             <select name="propertyType" id="propertyType">
                                 <!-- <option id="placeholder" name="placeholder" value="placeholder" selected hidden>Property Type</option> -->
-                                <option id="any" name="any" value="any" selected >Any</option>
+                                <option id="any" name="allType" value="allType" selected >All</option>
                                 <option id="hdb" name="hdbType" value="hdb">HDB</option>
                                 <option id="condo" name="condoType" value="condo">Condominium</option>
                                 <option id="landed" name="landedType" value="landed">Landed Property</option>
@@ -50,7 +50,7 @@
                             <label for="numofRooms">Rooms</label> 
                             <select name="numofRooms" id="numofRooms" style="background-color: #fff;">
                                 <!-- <option id="placeholder" name="placeholder" value="placeholder" selected hidden>No. of Bedrooms</option> -->
-                                <option id="any" name="any" value="any" selected >Any</option>
+                                <option id="any" name="allrooms" value="allrooms" selected >All</option>
                                 <option id="1" name="onerooms" value="1">1</option>
                                 <option id="2" name="tworooms" value="2" value="2">2</option>
                                 <option id="3" name="threerooms" value="3" value="3">3</option>
@@ -66,11 +66,11 @@
                             <select name="sortBy" id="sortBy" style="background-color: #fff;">
                                 <!-- <option id="placeholder" name="placeholder" value="placeholder" selected hidden>Sort By</option> -->
                                 <option value="MostPop" <% if(data.sortBy == 'MostPop') {%> selected <%} %>>Most Popular</option>
+                                <option value="LeastPop" <% if(data.sortBy == 'LeastPop') {%> selected <%} %>>Least Popular</option>
                                 <option value="HighestPrice" <% if(data.sortBy == 'HighestPrice') {%> selected <%} %>>Highest Price</option>
                                 <option value="LowestPrice" <% if(data.sortBy == 'LowestPrice') {%> selected <%} %>>Lowest Price</option>
                                 <option value="Recent" <% if(data.sortBy == 'Recent') {%> selected <%} %>>Recent</option>
                                 <option value="Oldest" <% if(data.sortBy == 'Oldest') {%> selected <%} %>>Oldest</option>
-                                <option value="LeastPop" <% if(data.sortBy == 'LeastPop') {%> selected <%} %>>Least Popular</option>
                             </select>
                         </div>
                     </div>
@@ -106,7 +106,7 @@
                         <p class="search-btn showHideBtn" id="showHideBtn">More Options</p>
                     </div>
                     <div class="search-btn float-right" style="padding: 0 15px 0 15px;">
-                        <button type="submit">Show Listings</button>
+                        <button type="submit" value="searchindexBtn" name="searchindexBtn">Show Listings</button>
                     </div>
                 </div>
             </form>

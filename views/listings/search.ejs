@@ -22,7 +22,7 @@
                             <i class="fas fa-map-marker-alt"></i>
                             <input type="text" class="form-control" name="search" placeholder="Search for Properties">
                         </div>
-                        <button type="submit" class="btn btn-info d-flex justify-content-center align-items-center" style="padding: 7x 12px;" >Go</button>
+                        <button name="searchListing" value="searchListing" type="submit" class="btn btn-info d-flex justify-content-center align-items-center" style="padding: 7x 12px;" >Go</button>
                     </div>    
                 </form>
             </div>
@@ -230,9 +230,9 @@
                             <div class="dropdownSold">
                                 <div class="dropdownSold-content" id="dropdownSold-content">
                                     <input type="checkbox" id="sold" name="soldCheck" value="sold" <% if(data.soldCheck) {%> checked <%} %>>
-                                    <label for="sold">Exclude Sold Listing</label><br>
+                                    <label for="sold">Show Sold Listing</label><br>
                                     <input type="checkbox" id="archive" name="archiveCheck" value="archive" <% if(data.archiveCheck) {%> checked <%} %>>
-                                    <label for="archive">Exclude Archive listing</label><br>
+                                    <label for="archive">Show Archived listing</label><br>
                                 </div>  
                             </div>
                         <% } %>

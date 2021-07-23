@@ -117,9 +117,131 @@ router.get("/listings", function(req,res){
 			}else {
 				largestSize = foundLargestSize[0].size
 			}
-			if(req.query.search) {
+			console.log('jfkd: ', req.query)
+			//listing index page - Main page
+			if(req.query.searchindexBtn) {
+					//search box	
+					const regex = new RegExp(escapeRegex(req.query.searchindex), 'gi');
+					//Property Type
+					var propType = req.query.propertyType;
+					var propTypeArr = ['hdb', 'condo', 'landed'];
+					if(propType == 'hdb') {
+						propTypeArr = ['hdb']
+					}else if(propType == 'condo') {
+						propTypeArr = ['condo']
+					}else if(propType == 'landed') {
+						propTypeArr = ['landed']
+					}else{
+						propTypeArr = ['hdb', 'condo', 'landed'];
+					}
+					regexType = propTypeArr.map(function(e){return new RegExp(e, "gi");});
+					//Number of rooms
+					var numofRooms = Number(req.query.numofRooms);
+					var numofRoomsArr = [1,2,3,4,5,6];
+					if(numofRooms == 1) {
+						numofRoomsArr = [1]
+					}else if(numofRooms == 2) {
+						numofRoomsArr = [2]
+					}else if(numofRooms == 3) {
+						numofRoomsArr = [3]
+					}else if(numofRooms == 4) {
+						numofRoomsArr = [4]
+					}else if(numofRooms == 5) {
+						numofRoomsArr = [5]
+					}else if(numofRooms == 6) {
+						numofRoomsArr = [6]
+					}else {
+						numofRoomsArr = [1,2,3,4,5,6];
+					}
+					regexRooms = numofRoomsArr;
+					//MIN & MAX Price
+					var minPrice = 0;
+					var maxPrice = largestPrice;
+					var minSize = 0;
+					var maxSize = largestSize;
+					if(req.query.minPrice) {
+						minPrice = Number(req.query.minPrice);
+					}
+					if(req.query.maxPrice) {
+						maxPrice = Number(req.query.maxPrice);
+					}
+					console.log("minPrice: "+minPrice);
+					console.log("maxPrice: "+maxPrice);
+					//MIN & MAX Size
+					if(req.query.minSize) {
+						minSize = Number(req.query.minSize);
+					}
+					if(req.query.maxSize) {
+						maxSize = Number(req.query.maxSize);
+					}
+					console.log("minSize: "+minSize);
+					console.log("minSize: "+maxSize);
+
+					// Sort object (to be passed into .sort)
+					var sortOptions = {};
+					// Sort options
+					var sort = req.query.sortBy;
+					if(sort == 'LowestPrice') {
+						sortOptions.price = 1;
+					}else if(sort == 'HighestPrice') {
+						sortOptions.price = -1 ;
+					}else if(sort == 'Recent') {
+						sortOptions.createdAt = -1;
+					}else if(sort == 'Oldest') {
+						sortOptions.createdAt = 1;
+					}else if(sort == 'MostPop') {
+						sortOptions.likes = -1;
+					}else if(sort == 'LeastPop') {
+						sortOptions.likes = 1;
+					}
+
+					//if no sort is selected
+					if(Object.keys(sortOptions).length == 0) {
+						sortOptions.createdAt = 1
+					}
+
+					//QUERY
+					listing.find({ $and: [{type: {$in: regexType}}, {bedrooms: {$in: regexRooms}}, {price: {$gte: minPrice, $lte: maxPrice}}, {size: {$gte: minSize, $lte: maxSize}}, {soldStatus: false}, {archiveStatus: false}, {$or: [{name: regex}, {description: regex}, {"author.username":regex}]} ] }).populate('author.id').sort(sortOptions).exec(function (err, alllistings) {
+						listing.count({name: regex}).exec(function (err, count) {
+								if (err) {
+										console.log(err);
+										res.redirect("back");
+								} else {
+										if(alllistings.length < 1) {
+												noMatch = "result: '" + req.query.searchindex + "' not found";
+										}
+										//====== for listing analytics
+										for (var i = 0; i < alllistings.length; i++) {
+											//id
+											var id = alllistings[i]._id;
+											console.log(alllistings[i]._id);
+
+											async function postCount (id) {
+												await countApi("/hit/3dpropertylistingsg/" +  id + "-click").then(success => {
+												// console.log("https://api.countapi.xyz/hit/3dpropertylistingsg/" + id + "-click");
+												// console.log("id: " + id + "success: " + success.data.value);
+												});
+											}
+											postCount(id);
+										}
+										res.render("listings/search.ejs", {
+												listings: alllistings,
+												noMatch: noMatch,
+												search: req.query.searchindex,
+												largestPrice: largestPrice,
+												largestSize: largestSize,
+												data: req.query
+										});
+								}
+						});
+				});
+
+			//all listing page - 2nd page 
+			}else if(req.query.searchListing) {
+				console.log('dearch shtigna: ', req.query.search);
 					const regex = new RegExp(escapeRegex(req.query.search), 'gi');
-					listing.find({$or: [{name: regex}, {description: regex}, {"author.username":regex}]}).populate('author.id').exec(function (err, alllistings) {
+					console.log('regex input: ',regex)
+					listing.find({ $and: [{soldStatus: false}, {archiveStatus: false}, {$or: [{name: regex}, {description: regex}, {"author.username":regex}]} ] }).populate('author.id').exec(function (err, alllistings) {
 						listing.count({name: regex}).exec(function (err, count) {
 								if (err) {
 										console.log(err);
@@ -153,21 +275,9 @@ router.get("/listings", function(req,res){
 								}
 						});
 				});
-
-					
-			} else if (req.query.Apply) {
+			//Filter
+			}  else if (req.query.Apply) {
 				// Property Type
-				// var type = req.query.type;
-				// console.log('inputted type: '+type);
-				// var regexType;
-				// if(typeof type == 'undefined'){
-				// 	var allType = [ 'HDB', 'Condo', 'Landed' ];
-				// 	regexType = allType.map(function(e){return new RegExp(e, "gi");});
-				// 	console.log('inside type: '+regexType);
-				// }else {
-				// 	regexType = new RegExp(type, "gi");
-				// 	console.log('new regex for type: '+regexType);
-				// }
 				const hdbType = req.query.hdbType;
 				const condoType = req.query.condoType;
 				const landedType = req.query.landedType;
@@ -244,24 +354,14 @@ router.get("/listings", function(req,res){
 				const maxPrice = Number(req.query.maxPrice);
 				console.log("minPrice: "+minPrice);
 				console.log("maxPrice: "+maxPrice);
+
 				// Size
 				const minSize = Number(req.query.minSize);
 				const maxSize = Number(req.query.maxSize);
 				console.log("minSize: "+minSize);
 				console.log("minSize: "+maxSize);
+				
 				// Number of rooms 
-				// var numofRooms = new Array(); 
-				// numofRooms.push(req.query.numofRooms);
-				// var newnumofRooms;
-				// for(let i=0; i<numofRooms.length; i++){
-				// 	if(typeof numofRooms[i] == 'undefined') {
-				// 		newnumofRooms = [ 1, 2, 3, 4, 5, 6 ];
-				// 		// console.log('inside rooms: '+newnumofRooms);
-				// 	}else {
-				// 		newnumofRooms = numofRooms;
-				// 		console.log('totototot: '+newnumofRooms)
-				// 	}
-				// }
 				const onerooms = req.query.onerooms;
 				const tworooms = req.query.tworooms;
 				const threerooms = req.query.threerooms;
@@ -282,7 +382,6 @@ router.get("/listings", function(req,res){
 				}
 				if(roomCount == 6){
 					regexRooms = [ 1, 2, 3, 4, 5, 6 ];
-					// regexRooms = allRooms.map(function(e){return new RegExp(e, "gi");});
 					console.log('inside room all empty: '+typeof regexRooms[1]);
 				}else {
 					for(let i=0; i<allRooms.length; i++) {
@@ -290,7 +389,6 @@ router.get("/listings", function(req,res){
 							console.log('rooms at i: '+allRooms[i]);
 							roomsArr[i] = Number(allRooms[i]);
 							console.log('inside rooms: '+roomsArr);
-							// var roomsArrRegex = roomsArr.map(function(e){return new RegExp(e, "gi");});
 							regexRooms = roomsArr.filter(function(elt){
 								return elt != null && elt != '';
 							})
@@ -299,6 +397,7 @@ router.get("/listings", function(req,res){
 
 					}
 				}
+
 				//number of bath rooms
 				const onebathrooms = req.query.onebathrooms;
 				const twobathrooms = req.query.twobathrooms;
@@ -332,6 +431,7 @@ router.get("/listings", function(req,res){
 
 					}
 				}
+				
 				//Tenure
 				const freehold = req.query.freehold;
 				const NinetyNineYL = req.query.NinetyNineYL;
@@ -406,17 +506,13 @@ router.get("/listings", function(req,res){
 				const archiveCheck = req.query.archiveCheck;
 				console.log('sold check: '+soldCheck);
 				console.log('archive check: '+archiveCheck);
-				var regexSold = [];
-				var regexArchive = [];
+				var regexSold = [false];
+				var regexArchive = [false];
 				if(soldCheck){ //if sold is check, show sold and not sold only
-					regexSold.push(true);
-				}else {
-					regexSold.push(false);
+					regexSold = [true];
 				}
 				if(archiveCheck){
-					regexArchive.push(true);
-				}else {
-					regexArchive.push(false);
+					regexArchive = [true];
 				}
 
 
@@ -460,43 +556,45 @@ router.get("/listings", function(req,res){
 						}
 					});
 				});	
-			} else if (req.query.search == "") {
-					// get all listings from DB
-					listing.find({$and: [{soldStatus: false}, {archiveStatus: false}] })
-					.sort({createdAt: -1})
-					.populate('author.id')
-					.exec(function (err, alllistings) {
-							listing.count().exec(function (err, count) {
-									if (err) {
-											console.log(err);
-									} else {
-										for (var i = 0; i < alllistings.length; i++) {
-											//id
-											var id = alllistings[i]._id;
-											// console.log(alllistings[i]._id);
+			} 
+			// else if (req.query.search == "") {
+			// 		// get all listings from DB
+			// 		listing.find({$and: [{soldStatus: false}, {archiveStatus: false}] })
+			// 		.sort({createdAt: -1})
+			// 		.populate('author.id')
+			// 		.exec(function (err, alllistings) {
+			// 				listing.count().exec(function (err, count) {
+			// 						if (err) {
+			// 								console.log(err);
+			// 						} else {
+			// 							for (var i = 0; i < alllistings.length; i++) {
+			// 								//id
+			// 								var id = alllistings[i]._id;
+			// 								// console.log(alllistings[i]._id);
 
-											async function postCount (id) {
-												await countApi("/hit/3dpropertylistingsg/" +  id + "-click").then(success => {
-												// console.log("https://api.countapi.xyz/hit/3dpropertylistingsg/" + id + "-click");
-												// console.log("id: " + id + "success: " + success.data.value);
-											});
-											}
-											postCount(id)
-										}
-										res.render("listings/search.ejs", {
-											listings: alllistings,
-											noMatch: noMatch,
-											search: false,
-											largestPrice: largestPrice,
-											largestSize: largestSize,
-											data: req.query,
-											moment : moment
-										});
-									}
-							});
-					});
+			// 								async function postCount (id) {
+			// 									await countApi("/hit/3dpropertylistingsg/" +  id + "-click").then(success => {
+			// 									// console.log("https://api.countapi.xyz/hit/3dpropertylistingsg/" + id + "-click");
+			// 									// console.log("id: " + id + "success: " + success.data.value);
+			// 								});
+			// 								}
+			// 								postCount(id)
+			// 							}
+			// 							res.render("listings/search.ejs", {
+			// 								listings: alllistings,
+			// 								noMatch: noMatch,
+			// 								search: false,
+			// 								largestPrice: largestPrice,
+			// 								largestSize: largestSize,
+			// 								data: req.query,
+			// 								moment : moment
+			// 							});
+			// 						}
+			// 				});
+			// 		});
 			
-			} else {
+			// } 
+			else {
 					// get all listings from DB
 					listing.find({$and: [{soldStatus: false}, {archiveStatus: false}] })
 					.sort({createdAt: -1})
