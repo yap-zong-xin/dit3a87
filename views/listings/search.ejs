@@ -59,12 +59,20 @@
             </div>
         </div>
     </div>
-    <div class="row col-md-12 p-0 m-0">
-        <div class="col-md-4 p-0 m-0">
-            <div class="form-card">
+    <div class="row col-lg-12 p-0 m-0">
+        <div class="col-md-4 col-lg-4 p-0 m-0 d-flex flex-column">
+            <strong class="filter-header">Filter</strong>
+            <div class="search-dropdown filterDropDownBtn">
+                <div class="dropdown-label-wrap">
+                    <label class="dropdownPType-label">All Filters</label>
+                </div>
+                <i class="fas fa-caret-down"></i>    
+            </div>
+
+            <div class="form-card filterDropDownMenu">
                 <div class="form-card-container p-0">
                     <form class="d-flex flex-column" action="/listings" method="GET" id="filterForm">
-                        <strong>Filter</strong>
+                        
                         <!-- Filter: Sort -->
                         <div class="search-dropdown-select">
                             <select name="sort" id="sort">
@@ -194,40 +202,58 @@
                             </div>  
                         </div>
         
-                        <span class="seperateFilter" style="margin: 15px 0 15px;"></span>
+                        <span class="seperateFilter"></span>
 
                         <!-- Filter: Price Slider -->
                         <div class="price-slider">
-                            <span>
-                                Price: 
-                                <input type="number" value="0" min="0" max="<%= largestPrice %>" name="minPrice" /> to
-                                <input type="number" value="<%= largestPrice %>" min="0" max="<%= largestPrice %>" name="maxPrice" />
-                            </span>
-                            <input type="range" value="0" min="0" max="<%= largestPrice %>" step="500" />
-                            <input type="range" value="<%= largestPrice %>" min="0" max="<%= largestPrice %>" step="500" />
-                            <!-- <svg width="100%" height="24"> -->
-                                <!-- <line x1="4" y1="0" x2="300" y2="0" stroke="#212121" stroke-width="12"
-                                    stroke-dasharray="1 28">
-                                </line> -->
-                            <!-- </svg> -->
+                            <p>Price</p>
+                            <div class="slider-inputs">
+                                <div class="slide-wrapper">
+                                    Min. Price:
+                                    <div class="slide">
+                                        S$
+                                        <input type="number" value="0" min="0" max="<%= largestPrice %>" name="minPrice" id="minPrice"/>
+                                    </div>
+                                </div>
+                                <div class="slide-wrapper">
+                                    Max. Price:
+                                    <div class="slide">
+                                        S$
+                                        <input type="number" value="<%= largestPrice %>" min="0" max="<%= largestPrice %>" name="maxPrice" id="maxPrice"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slider-range">
+                                <input type="range" value="0" min="0" max="<%= largestPrice %>" step="500" place/>
+                                <input type="range" value="<%= largestPrice %>" min="0" max="<%= largestPrice %>" step="500" />
+                            </div>
                         </div>
         
                         <span class="seperateFilter"></span>
         
                         <!-- Filter: Size Slider -->
                         <div class="size-slider">
-                            <span>
-                                Size: 
-                                <input type="number" value="0" min="0" max="<%= largestSize %>" name="minSize" /> to
-                                <input type="number" value="<%= largestSize %>" min="0" max="<%= largestSize %>" name="maxSize" />
-                            </span>
-                            <input type="range" value="0" min="0" max="<%= largestSize %>" step="500" />
-                            <input type="range" value="<%= largestSize %>" min="0" max="<%= largestSize %>" step="500" />
-                            <!-- <svg width="100%" height="24"> -->
-                                <!-- <line x1="4" y1="0" x2="300" y2="0" stroke="#212121" stroke-width="12"
-                                    stroke-dasharray="1 28">
-                                </line> -->
-                            <!-- </svg> -->
+                            <p>Area</p>
+                            <div class="slider-inputs">
+                                <div class="slide-wrapper">
+                                    Min. Area:
+                                    <div class="slide" style="font-size: 14px;">
+                                        <input type="number" value="0" min="0" max="<%= largestSize %>" name="minSize" id="minSize" />
+                                        sqft
+                                    </div>
+                                </div>
+                                <div class="slide-wrapper">
+                                    Max. Area:
+                                    <div class="slide" style="font-size: 14px">
+                                        <input type="number" value="<%= largestSize %>" min="0" max="<%= largestSize %>" name="maxSize" id="maxSize" />
+                                        sqft
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slider-range">
+                                <input type="range" value="0" min="0" max="<%= largestSize %>" step="500" />
+                                <input type="range" value="<%= largestSize %>" min="0" max="<%= largestSize %>" step="500" />
+                            </div> 
                         </div>
         
                         
@@ -235,7 +261,7 @@
 
                         <!-- Filter: for admin/agent to view sold/archived listing -->
                         <% if(currentUser && currentUser.isAdmin || currentUser && currentUser.isAgent && currentUser.agentStatus){ %>
-                            <span class="seperateFilter" style="margin: 15px 0 15px;"></span>
+                            <span class="seperateFilter" style="margin: 0 0 15px;"></span>
                             <!-- sold -->
                             <div class="dropdownSold">
                                 <div class="dropdownSold-content" id="dropdownSold-content">
@@ -250,14 +276,14 @@
                         <span class="seperateFilter" style="margin: 15px 0 15px;"></span>
 
                         <div class="filter-Btn">
-                            <input type="submit" value="Apply" name="Apply" id="applyFilter">
                             <input type="button" onclick="resetForm()" value="Reset" >
+                            <input type="submit" value="Apply" name="Apply" id="applyFilter">
                         </div>
                     </form>
                 </div>
             </div>
         </div>
-        <div class="col-md-8" style="padding: 20px 0 20px 0;">
+        <div class="col-md-8 col-lg-8 p-0 m-0" style="padding: 20px 0 20px 0;">
             <div id="loadProperty"></div>
             <div class="d-flex justify-content-center">
                 <button class="loadMoreBtn" type="button" id="loadMoreBtn">Load More</button>
@@ -267,6 +293,42 @@
 </div>
 
 <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js'></script>
+<script>
+
+$('#minPrice').attr('placeholder', 'Min. Price');
+$('#maxPrice').attr('placeholder', 'Max. Price');
+
+                $('.filterDropDownBtn').click(function() {
+                var $this = $(this);
+                $('.filterDropDownMenu').slideToggle('slow', function() {
+                });
+            });
+(function($) {
+
+	function mediaSize() { 
+
+		if (window.matchMedia('(max-width: 768px)').matches) {
+            //hide btn
+            $('.filter-header').hide();
+            //show dropdown btn
+            $('.filterDropDownBtn').show();
+            //hide menu
+            $('.filterDropDownMenu').hide();
+
+		} else {
+			$('.filter-header').show();
+            $('.filterDropDownBtn').hide();
+            $('.filterDropDownMenu').show();
+		}
+	};
+	
+	/* Call the function */
+  mediaSize();
+  /* Attach the function to the resize event listener */
+	window.addEventListener('resize', mediaSize, false);  
+	
+})(jQuery);
+</script>
 <script> 
     var loadObj;
     loadObj = loadFirstFive(resultSet);
@@ -274,9 +336,6 @@
     $('.loadMoreBtn').click(function() {
         loadData(resultSet,loadObj);
     });
-
-    
-
 </script>
 
 <script>
@@ -286,7 +345,8 @@
     if (resultSearch == "") {
       document.getElementById("search-result").innerHTML = 'Latest Listings';
     }
-  </script>
+</script>
+
 <script>
     (function () {
         var parent = document.querySelector(".price-slider");

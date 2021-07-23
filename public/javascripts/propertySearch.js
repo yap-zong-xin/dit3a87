@@ -1,4 +1,5 @@
 function createHTML(rs) {
+    console.log(rs.soldStatus)
     //format inputs
     var id = rs._id;
     var author_id = rs.author.id._id;
@@ -42,8 +43,9 @@ function createHTML(rs) {
 
     //if sold/archive
     var insertSoldArchive = "";
-    if (rs.soldStatus==true) {
-        insertSold = `<div class="col-md-12 m-0 p-0 justify-content-center d-flex">
+    
+    if (rs.soldStatus == true) {
+        insertSoldArchive = `<div class="col-md-12 m-0 p-0 justify-content-center d-flex">
                         <span class="text-center" id="soldBanner-list">
                             Sold
                         </span>
@@ -61,12 +63,12 @@ function createHTML(rs) {
     if (currentUser && rs.likes.some(function (like) { return like == (currentUser._id) })) {
         insertLikeUnlike = `<button class="p-0" id="filledHeart">
                                 <i class="fas fa-heart filledHeart"></i>
-                                ` + rs.likes.length +  `
+                                ` + likes +  `
                             </button>`
     } else {
         insertLikeUnlike = `<button class="p-0" id="emptyHeart">
                                 <i class="far fa-heart emptyHeart"></i>
-                            ` + rs.likes.length + `
+                            ` + likes + `
                             </button>`
     }
 
@@ -76,6 +78,7 @@ function createHTML(rs) {
     var listUnArchive = "";
     var listMarkAvail = "";
     var insertManageListEnd = ""
+    
     if(currentUser&&(author_id == currentUser._id)||currentUser&&currentUser.isAdmin) {
         insertManageListStart =  `<div class="dropdown">
                                     <button type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: transparent; border: none">
