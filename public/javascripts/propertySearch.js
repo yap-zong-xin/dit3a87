@@ -19,8 +19,6 @@ function createHTML(rs) {
     var type= rs.type;
     var tenure = rs.tenure;
   
-    console.log(id)
-
     //Listing Name
     if(listing_name.length<14){
         listing_name = listing_name.substring(0, 14);
@@ -233,7 +231,7 @@ function loadData (rs,loadObj) {
     //loadObj
     var totalRem = loadObj.totalRem;
     var sectionRem = loadObj.sectionRem;
-    var remainUser = loadObj.remainUser;
+    var remainList = loadObj.remainList;
     var startIndex = loadObj.startIndex;
     var endIndex;
 
@@ -242,12 +240,12 @@ function loadData (rs,loadObj) {
     var i;
 
     if (sectionRem == 0) {
-        endIndex = startIndex + remainUser;
+        endIndex = startIndex + remainList ;
         //remaining minus 5 (as it has already been loaded)
         loadObj.totalRem = 0;
         //section minus 1 (as it has already been loaded)
         loadObj.sectionRem = 0;
-        //remainUser remains the same
+        //remainList remains the same
         loadObj.remainList = 0;
         //end index becomes start index
         loadObj.startIndex = 0;
@@ -255,38 +253,26 @@ function loadData (rs,loadObj) {
         endIndex = startIndex + 5;
     }
 
+    console.log("start: ", startIndex, endIndex, remainList)
     for (i = startIndex; i < endIndex; i++) {
         var html = createHTML(rs[i]);
-        console.log(html)
         insertDiv.insertAdjacentHTML("beforeend", html);
     }
-    
 
      //update object
     //if section is not done
     if (sectionRem != 0) {
-        //remaining minus 5 (as it has already been loaded)
         loadObj.totalRem = loadObj.totalRem - 5;
-        //section minus 1 (as it has already been loaded)
         loadObj.sectionRem = loadObj.sectionRem - 1;
-        //remainUser remains the same
-        //loadObj[2]
-        //end index becomes start index
         loadObj.startIndex = endIndex;
     } else {
-        //remaining minus 5 (as it has already been loaded)
-        loadObj.totalRem = loadObj.remainUser;
-        //section minus 1 (as it has already been loaded)
+        loadObj.totalRem = loadObj.remainList;
         loadObj.sectionRem = 0;
-        //remainUser remains the same
-        //loadObj[2]
-        //end index becomes start index
         loadObj.startIndex = endIndex;
-        //remove loadMore button
         
     }
+    console.log("end: ", startIndex, endIndex, remainList)
 
-    console.log(loadObj)
     return loadObj;
 }
 
