@@ -4,6 +4,7 @@
   <script>
     //Get search result set
     var resultSet = `<%- JSON.stringify(users) %>`
+    
     var queryString = window.location.search;
     var urlParams = new URLSearchParams(queryString);
     var resultSearch = urlParams.get('search');
