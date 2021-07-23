@@ -520,7 +520,7 @@
                 <em>No reviews found.</em>
               </span>
               <% } else { %>
-                <a href="/user/<%= listing.author._id %>/reviews" id="mainReview">
+                <a href="/user/<%= listing.author.id %>/reviews" id="mainReview">
                   <p class="pt-3 mb-2" style="font-size: 1em; font-weight: 600;">
                     <span class="fa fa-star checked"></span>
                     <span class="fa fa-star <% if (listing.author.rating > 1.5) { %> checked <% } %>"></span>
