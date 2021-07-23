@@ -196,7 +196,7 @@
                                                 <div class="d-flex align-items-center justify-content-end">
                                                     <form action="/listings/<%= listing._id %>/like" method="POST" class="likeBtn">
                                                         <div>
-                                                            <% if (currentUser && listing.likes.some(function (like) { return like.equals(currentUser._id) })) { %>
+                                                            <% if (currentUser && listing.likes.some(function (like) { console.log("like", like); return like.equals(currentUser._id) })) { %>
                                                                 <button class="p-0" id="filledHeart">
                                                                     <i class="fas fa-heart filledHeart"></i>
                                                                     <%= listing.likes.length %>

@@ -594,6 +594,7 @@ body {
   font-family: "Poppins", sans-serif;
 }
 
+.loadMoreBtn:focus,
 .search-bar-result input[type=text]:focus,
 .search-bar-result button:focus {
   outline: none;
@@ -658,7 +659,8 @@ body {
   margin-right: 10px;
 }
 
-.filter-Btn input[type=button] {
+.filter-Btn input[type=button],
+.loadMoreBtn {
   background-color: transparent;
   color: #3725c0;
   border: 2px solid #3725c0;
@@ -668,6 +670,11 @@ body {
   font-family: "Poppins", sans-serif;
   padding: 10px 15px 10px 15px;
   margin-right: 10px;
+}
+
+.loadMoreBtn {
+  color: rgb(150, 150, 150);
+  border: 1px solid rgb(196, 196, 196);
 }
 
 

@@ -58,10 +58,10 @@ function createHTML(rs) {
 
     //if like/unlike
     var insertLikeUnlike = "";
-    if (currentUser && rs.likes.some(function () { return rs.likes == (currentUser._id) })) {
+    if (currentUser && rs.likes.some(function (like) { return like == (currentUser._id) })) {
         insertLikeUnlike = `<button class="p-0" id="filledHeart">
                                 <i class="fas fa-heart filledHeart"></i>
-                                ` + rs.likes.length + `
+                                ` + rs.likes.length +  `
                             </button>`
     } else {
         insertLikeUnlike = `<button class="p-0" id="emptyHeart">
@@ -253,7 +253,6 @@ function loadData (rs,loadObj) {
         endIndex = startIndex + 5;
     }
 
-    console.log("start: ", startIndex, endIndex, remainList)
     for (i = startIndex; i < endIndex; i++) {
         var html = createHTML(rs[i]);
         insertDiv.insertAdjacentHTML("beforeend", html);
@@ -269,9 +268,8 @@ function loadData (rs,loadObj) {
         loadObj.totalRem = loadObj.remainList;
         loadObj.sectionRem = 0;
         loadObj.startIndex = endIndex;
-        
+        document.getElementById("loadMoreBtn").remove();
     }
-    console.log("end: ", startIndex, endIndex, remainList)
 
     return loadObj;
 }
