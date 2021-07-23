@@ -32,9 +32,9 @@ function loadData(rs,loadObj) {
             html = `<div class="col-md-12" data-aos="fade-up" data-aos-once="true">
             <div class="col-md-12 user-result" onClick="window.location='/user/` + resultSet[i]._id + `'" style="border-top: 0.5px solid lightgray;">
                 <div class="row col-md-8 col-6 mx-0 py-0 my-2 px-5 user-detail align-items-center d-flex">
-                    <img src="` + resultSet[i].image + `" style="width: 150px; height: 150px;">
+                    <img src="` + resultSet[i].image + `" style="width: 155px; height: 155px;">
                     <div class="caption-result">
-                        <p class="mb-0" style="font-size:1.6em; font-weight:600;">` + resultSet[i].firstName + ` ` + resultSet[i].lastName + `</p>
+                        <p class="mb-0" style="font-size:1.6em; font-weight:600;">` + resultSet[i].username + `</p>
                         <p class="px-3 mt-0 mb-2" style="font-size:0.9em!important; border-radius:15px; font-weight:400!important; border: 1px solid #4632DA;">CEA ` + resultSet[i].cea + `</p>
                         <a href="/user/` + resultSet[i]._id + `/reviews" style="text-decoration: none; color: black;">
                             <em>No reviews found.</em>
@@ -81,9 +81,9 @@ function loadData(rs,loadObj) {
                     html = `<div class="col-md-12" data-aos="fade-up" data-aos-once="true">
                     <div class="col-md-12 user-result" onClick="window.location='/user/` + resultSet[i]._id + `'" style="border-top: 0.5px solid lightgray;">
                         <div class="row col-md-8 col-6 mx-0 py-0 my-2 px-5 user-detail align-items-center d-flex">
-                            <img src="` + resultSet[i].image + `" style="width: 150px; height: 150px;">
+                            <img src="` + resultSet[i].image + `" style="width: 155px; height: 155px;">
                             <div class="caption-result">
-                                <p class="mb-0" style="font-size:1.6em; font-weight:600;">` + resultSet[i].firstName + ` ` + resultSet[i].lastName + `</p>
+                                <p class="mb-0" style="font-size:1.6em; font-weight:600;">` + resultSet[i].username + `</p>
                                 <p class="px-3 mt-0 mb-2" style="font-size:0.9em!important; border-radius:15px; font-weight:400!important; border: 1px solid #4632DA;">CEA ` + resultSet[i].cea + `</p>
                                 <a href="/user/` + resultSet[i]._id + `/reviews" style="text-decoration: none; color: black;">
                                     <span>` + resultSet[i].rating.toFixed(2) + `</span>
@@ -92,7 +92,6 @@ function loadData(rs,loadObj) {
                                     <span class="fa fa-star"></span>
                                     <span class="fa fa-star"></span>
                                     <span class="fa fa-star"></span>
-                                    <span style="font-size:0.95em;">(` + resultSet[i].reviews.length + `)</span>
                                 </a>
                             </div>
                         </div>
@@ -121,9 +120,9 @@ function loadData(rs,loadObj) {
                     html = `<div class="col-md-12" data-aos="fade-up" data-aos-once="true">
                     <div class="col-md-12 user-result" onClick="window.location='/user/` + resultSet[i]._id + `'" style="border-top: 0.5px solid lightgray;">
                         <div class="row col-md-8 col-6 mx-0 py-0 my-2 px-5 user-detail align-items-center d-flex">
-                            <img src="` + resultSet[i].image + `" style="width: 150px; height: 150px;">
+                            <img src="` + resultSet[i].image + `" style="width: 155px; height: 155px;">
                             <div class="caption-result">
-                                <p class="mb-0" style="font-size:1.6em; font-weight:600;">` + resultSet[i].firstName + ` ` + resultSet[i].lastName + `</p>
+                                <p class="mb-0" style="font-size:1.6em; font-weight:600;">` + resultSet[i].username + `</p>
                                 <p class="px-3 mt-0 mb-2" style="font-size:0.9em!important; border-radius:15px; font-weight:400!important; border: 1px solid #4632DA;">CEA ` + resultSet[i].cea + `</p>
                                 <a href="/user/` + resultSet[i]._id + `/reviews" style="text-decoration: none; color: black;">
                                     <span>` + resultSet[i].rating.toFixed(2) + `</span>
@@ -132,7 +131,6 @@ function loadData(rs,loadObj) {
                                     <span class="fa fa-star"></span>
                                     <span class="fa fa-star"></span>
                                     <span class="fa fa-star"></span>
-                                    <span style="font-size:0.95em;">(` + resultSet[i].reviews.length + `)</span>
                                 </a>
                             </div>
                         </div>
@@ -161,9 +159,9 @@ function loadData(rs,loadObj) {
                     html = `<div class="col-md-12" data-aos="fade-up" data-aos-once="true">
                     <div class="col-md-12 user-result" onClick="window.location='/user/` + resultSet[i]._id + `'" style="border-top: 0.5px solid lightgray;">
                         <div class="row col-md-8 col-6 mx-0 py-0 my-2 px-5 user-detail align-items-center d-flex">
-                            <img src="` + resultSet[i].image + `" style="width: 150px; height: 150px;">
+                            <img src="` + resultSet[i].image + `" style="width: 155px; height: 155px;">
                             <div class="caption-result">
-                                <p class="mb-0" style="font-size:1.6em; font-weight:600;">` + resultSet[i].firstName + ` ` + resultSet[i].lastName + `</p>
+                                <p class="mb-0" style="font-size:1.6em; font-weight:600;">` + resultSet[i].username + `</p>
                                 <p class="px-3 mt-0 mb-2" style="font-size:0.9em!important; border-radius:15px; font-weight:400!important; border: 1px solid #4632DA;">CEA ` + resultSet[i].cea + `</p>
                                 <a href="/user/` + resultSet[i]._id + `/reviews" style="text-decoration: none; color: black;">
                                     <span>` + resultSet[i].rating.toFixed(2) + `</span>
@@ -172,7 +170,6 @@ function loadData(rs,loadObj) {
                                     <span class="fa fa-star checked"></span>
                                     <span class="fa fa-star"></span>
                                     <span class="fa fa-star"></span>
-                                    <span style="font-size:0.95em;">(` + resultSet[i].reviews.length + `)</span>
                                 </a>
                             </div>
                         </div>
@@ -201,9 +198,9 @@ function loadData(rs,loadObj) {
                     html = `<div class="col-md-12" data-aos="fade-up" data-aos-once="true">
                     <div class="col-md-12 user-result" onClick="window.location='/user/` + resultSet[i]._id + `'" style="border-top: 0.5px solid lightgray;">
                         <div class="row col-md-8 col-6 mx-0 py-0 my-2 px-5 user-detail align-items-center d-flex">
-                            <img src="` + resultSet[i].image + `" style="width: 150px; height: 150px;">
+                            <img src="` + resultSet[i].image + `" style="width: 155px; height: 155px;">
                             <div class="caption-result">
-                                <p class="mb-0" style="font-size:1.6em; font-weight:600;">` + resultSet[i].firstName + ` ` + resultSet[i].lastName + `</p>
+                                <p class="mb-0" style="font-size:1.6em; font-weight:600;">` + resultSet[i].username + `</p>
                                 <p class="px-3 mt-0 mb-2" style="font-size:0.9em!important; border-radius:15px; font-weight:400!important; border: 1px solid #4632DA;">CEA ` + resultSet[i].cea + `</p>
                                 <a href="/user/` + resultSet[i]._id + `/reviews" style="text-decoration: none; color: black;">
                                     <span>` + resultSet[i].rating.toFixed(2) + `</span>
@@ -212,7 +209,6 @@ function loadData(rs,loadObj) {
                                     <span class="fa fa-star checked"></span>
                                     <span class="fa fa-star checked"></span>
                                     <span class="fa fa-star"></span>
-                                    <span style="font-size:0.95em;">(` + resultSet[i].reviews.length + `)</span>
                                 </a>
                             </div>
                         </div>
@@ -241,9 +237,9 @@ function loadData(rs,loadObj) {
                     html = `<div class="col-md-12" data-aos="fade-up" data-aos-once="true">
                                 <div class="col-md-12 user-result" onClick="window.location='/user/` + resultSet[i]._id + `'" style="border-top: 0.5px solid lightgray;">
                                     <div class="row col-md-8 col-6 mx-0 py-0 my-2 px-5 user-detail align-items-center d-flex">
-                                        <img src="` + resultSet[i].image + `" style="width: 150px; height: 150px;">
+                                        <img src="` + resultSet[i].image + `" style="width: 155px; height: 155px;">
                                         <div class="caption-result">
-                                            <p class="mb-0" style="font-size:1.6em; font-weight:600;">` + resultSet[i].firstName + ` ` + resultSet[i].lastName + `</p>
+                                            <p class="mb-0" style="font-size:1.6em; font-weight:600;">` + resultSet[i].username + `</p>
                                             <p class="px-3 mt-0 mb-2" style="font-size:0.9em!important; border-radius:15px; font-weight:400!important; border: 1px solid #4632DA;">CEA ` + resultSet[i].cea + `</p>
                                             <a href="/user/` + resultSet[i]._id + `/reviews" style="text-decoration: none; color: black;">
                                                 <span>` + resultSet[i].rating.toFixed(2) + `</span>
@@ -252,7 +248,6 @@ function loadData(rs,loadObj) {
                                                 <span class="fa fa-star checked"></span>
                                                 <span class="fa fa-star checked"></span>
                                                 <span class="fa fa-star checked"></span>
-                                                <span style="font-size:0.95em;">(` + resultSet[i].reviews.length + `)</span>
                                             </a>
                                         </div>
                                     </div>
@@ -281,9 +276,9 @@ function loadData(rs,loadObj) {
                     html = `<div class="col-md-12" data-aos="fade-up" data-aos-once="true">
                     <div class="col-md-12 user-result" onClick="window.location='/user/` + resultSet[i]._id + `'" style="border-top: 0.5px solid lightgray;">
                         <div class="row col-md-8 col-6 mx-0 py-0 my-2 px-5 user-detail align-items-center d-flex">
-                            <img src="` + resultSet[i].image + `" style="width: 150px; height: 150px;">
+                            <img src="` + resultSet[i].image + `" style="width: 155px; height: 155px;">
                             <div class="caption-result">
-                                <p class="mb-0" style="font-size:1.6em; font-weight:600;">` + resultSet[i].firstName + ` ` + resultSet[i].lastName + `</p>
+                                <p class="mb-0" style="font-size:1.6em; font-weight:600;">` + resultSet[i].username + `</p>
                                 <p class="px-3 mt-0 mb-2" style="font-size:0.9em!important; border-radius:15px; font-weight:400!important; border: 1px solid #4632DA;">CEA ` + resultSet[i].cea + `</p>
                                 <a href="/user/` + resultSet[i]._id + `/reviews" style="text-decoration: none; color: black;">
                                     <span>` + resultSet[i].rating.toFixed(2) + `</span>
@@ -292,7 +287,6 @@ function loadData(rs,loadObj) {
                                     <span class="fa fa-star"></span>
                                     <span class="fa fa-star"></span>
                                     <span class="fa fa-star"></span>
-                                    <span style="font-size:0.95em;">(` + resultSet[i].reviews.length + `)</span>
                                 </a>
                             </div>
                         </div>
