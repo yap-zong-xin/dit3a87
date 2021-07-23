@@ -58,7 +58,7 @@ function createHTML(rs) {
 
     //if like/unlike
     var insertLikeUnlike = "";
-    if (currentUser && rs.likes.some(function (like) { return rs.like.equals(currentUser._id) })) {
+    if (currentUser && rs.likes.some(function () { return rs.likes == (currentUser._id) })) {
         insertLikeUnlike = `<button class="p-0" id="filledHeart">
                                 <i class="fas fa-heart filledHeart"></i>
                                 ` + rs.likes.length + `
