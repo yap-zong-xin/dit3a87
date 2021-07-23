@@ -161,7 +161,7 @@
             <% } %>
             <% users.forEach(function(user){ %>
               <tr onclick="window.location='/user/<%= user._id %>';">
-                <td><img src="<%= user.image %>" alt="" style="border-radius: 50%; width: 50px; height:50px;"></td>
+                <td><img src="<%= user.image %>" alt="" style="border-radius: 50%; width: 50px; height:50px; object-fit: cover;"></td>
                 <td class="pt-4"><%= user.username %></td>
                 <td class="pt-4"><%= user.firstName + " " + user.lastName %></td>
                 <td class="pt-4">

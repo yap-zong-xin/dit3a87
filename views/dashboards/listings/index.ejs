@@ -186,7 +186,7 @@
               <tr>
                 <td onclick="window.location='/listings/<%= listing._id %>';">
                   <a href="/listings/<%= listing._id %>">
-                    <img src="<%= listing.thumbnail %>" alt="" style="border-radius: 10px; width: 50px; height:50px;">
+                    <img src="<%= listing.thumbnail %>" alt="" style="border-radius: 10px; width: 50px; height:50px; object-fit: cover;">
                   </a>
                 </td>
                 <td class="pt-4" onclick="window.location='/listings/<%= listing._id %>';">
@@ -245,7 +245,7 @@
                               <a href="/listings/<%= listing._id %>" style="text-decoration: none; color: black; font-size: 0.95em;">
                                 <div class="row">
                                   <div class="col-2">
-                                    <img src="<%= listing.thumbnail %>" style="background-size: cover; width: 100%; object-fit: cover; background-position: center center; border-radius: 10px;">
+                                    <img src="<%= listing.thumbnail %>" style="background-size: cover; width: 55px; height:55px; object-fit: cover; background-position: center center; border-radius: 10px;">
                                   </div>
                                   <div class="col-10">
                                     <div class="row">
@@ -256,7 +256,7 @@
                                               <%= listing.name.substring(0, 40) + " ..." %>
                                                 <% } %>
                                       </div>
-                                      <div class="col-12">
+                                      <div class="col-12 pt-1">
                                         <span style="color: rgb(145, 145, 145);">
                                           <%= " - Listed on " + moment(listing.createdAt).format('MMM DD, YYYY') %>
                                         </span>
