@@ -8,7 +8,7 @@
       <div>
         <div class="left pb-3">
           <!-- suspend account-->
-          <% if(currentUser && user.isAdmin!=true){ %>
+          <% if(currentUser && !user.isAdmin==true){ %>
             <form action="/suspend/<%= user.id %>?_method=PUT" method="POST" class="text-center" style="position:relative; top: 10px;">
               <% if(user.suspend==false){ %>
                 <button type="submit" name="user[suspend]" value="true" class="btn approveBtn"
@@ -553,27 +553,29 @@
                                   <div class="modal-body" style="height: 245px!important;">
                                     <div class="row">
                                       <div class="col-12 pb-3" style="border-bottom: 1px lightgray solid;">
-                                        <div class="row">
-                                          <div class="col-2">
-                                            <img src="<%= listing.thumbnail %>" style="background-size: cover; width: 100%; object-fit: cover; background-position: center center; border-radius: 10px;">
-                                          </div>
-                                          <div class="col-10">
-                                            <div class="row">
-                                              <div class="col-12" style="font-weight: 600;">
-                                                <% if(listing.name.length<40){ %>
-                                                  <%= listing.name.substring(0, 40) %>
-                                                    <% } else { %>
-                                                      <%= listing.name.substring(0, 40) + " ..." %>
-                                                        <% } %>
-                                              </div>
-                                              <div class="col-12">
-                                                <span style="color: rgb(145, 145, 145);">
-                                                  <%= " - Listed on " + moment(listing.createdAt).format('MMM DD, YYYY') %>
-                                                </span>
+                                        <a href="/listings/<%= listing._id %>" style="text-decoration: none; color: black; font-size: 0.95em;">
+                                          <div class="row">
+                                            <div class="col-2">
+                                              <img src="<%= listing.thumbnail %>" style="background-size: cover; width: 100%; object-fit: cover; background-position: center center; border-radius: 10px;">
+                                            </div>
+                                            <div class="col-10">
+                                              <div class="row">
+                                                <div class="col-12" style="font-weight: 600;">
+                                                  <% if(listing.name.length<40){ %>
+                                                    <%= listing.name.substring(0, 40) %>
+                                                      <% } else { %>
+                                                        <%= listing.name.substring(0, 40) + " ..." %>
+                                                          <% } %>
+                                                </div>
+                                                <div class="col-12">
+                                                  <span style="color: rgb(145, 145, 145);">
+                                                    <%= " - Listed on " + moment(listing.createdAt).format('MMM DD, YYYY') %>
+                                                  </span>
+                                                </div>
                                               </div>
                                             </div>
                                           </div>
-                                        </div>
+                                        </a>
                                       </div>
                                       <div class="col-12 pt-3">
                                         <p style="font-weight:600; font-size: 0.85em;">Overall Insights</p>

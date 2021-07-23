@@ -804,60 +804,90 @@ router.get("/dashboard/listings", function(req,res){
 		});
 
 	// filter
-	// } else if(req.query.Apply) {
-	// 	// Sort object (to be passed into .sort)
-	// 	var sortOptions = {};
-	// 	// Sort by popular
-	// 	var sortPop = req.query.sortPop;
-	// 	console.log('sort pop type: '+sortPop)	
-	// 	if(sortPop == 'LeastPop') {
-	// 		sortOptions.likes = 1;
-	// 	}else if(sortPop == 'MostPop') {
-	// 		sortOptions.likes = -1 ;
-	// 	}
-	// 	// Sort by date
-	// 	var sortDate = req.query.sortDate;
-	// 	console.log('sort date type: '+sortDate)	
-	// 	if(sortDate == 'Oldest') {
-	// 		sortOptions.createdAt = 1;
-	// 	}else if(sortDate == 'Recent') {
-	// 		sortOptions.createdAt = -1 ;
-	// 	}
+	} else if(req.query.Apply) {
+		// Sort object (to be passed into .sort)
+		var sortOptions = {};
+		// Sort options
+		var sort = req.query.sort;
+		if(sort == 'LowestPrice') {
+			sortOptions.price = 1;
+		}else if(sort == 'HighestPrice') {
+			sortOptions.price = -1 ;
+		}else if(sort == 'Recent') {
+			sortOptions.createdAt = -1;
+		}else if(sort == 'Oldest') {
+			sortOptions.createdAt = 1;
+		}else if(sort == 'Sold') {
+			sortOptions.soldStatus = -1;
+		}else if(sort == 'NotSold') {
+			sortOptions.soldStatus = 1;
+		}else if(sort == 'Archive') {
+			sortOptions.archiveStatus = -1;
+		}else if(sort == 'NotArchive') {
+			sortOptions.archiveStatus = 1;
+		}else if(sort == 'MostPop') {
+			sortOptions.likes = -1;
+		}else if(sort == 'LeastPop') {
+			sortOptions.likes = 1;
+		}
 
-	// 	//if no sort is selected
-	// 	if(Object.keys(sortOptions).length == 0) {
-	// 		sortOptions.createdAt = -1
-	// 	}
+		//if no sort is selected
+		if(Object.keys(sortOptions).length == 0) {
+			sortOptions.createdAt = 1
+		}
 
-	// 	listing.find({}).populate("comments likes").sort(sortOptions).exec(function(err, foundlisting){
-	// 		if(err){
-	// 			console.log(err);
-	// 			res.redirect("back");
-	// 		} else{
-	// 			for (var i = 0; i < foundlisting.length; i++) {
-	// 				//id
-	// 				var id = foundlisting[i]._id;
-	// 				console.log(foundlisting[i]._id);
+		//Sold/Archive Checkbox
+		var filterPropType = req.query.filterPropType;
+		var regexSold = [true, false];
+		var regexArchive = [true, false];
+		var regexType;
+		var slcType = ['hdb', 'condo', 'landed']
+		if(filterPropType == 'sold') {
+			regexSold = [true];
+		}else if(filterPropType == 'archive') {
+			regexArchive = [true];
+		}else if(filterPropType == 'hdb') {
+			slcType = ['hdb'];
+		}else if(filterPropType == 'condo') {
+			slcType = ['condo'];
+		}else if(filterPropType == 'landed') {
+			slcType = ['landed'];
+		}else if(filterPropType == 'all') {
+			slcType = ['hdb', 'condo', 'landed'];
+		}
+		regexType = slcType.map(function(e){return new RegExp(e, "gi");});
+		
+		//QUERY
+		listing.find({$and: [{type: {$in: regexType}}, {soldStatus: {$in: regexSold}}, {archiveStatus: {$in: regexArchive}}]}).sort(sortOptions).skip((perPage * pageNumber) - perPage).limit(perPage).populate("comments likes").exec(function(err, foundlisting){
+			listing.count().exec(function (err, count) {
+			if(err){
+				console.log(err);
+				res.redirect("back");
+			} else{
+				for (var i = 0; i < foundlisting.length; i++) {
+					//id
+					var id = foundlisting[i]._id;
+					console.log(foundlisting[i]._id);
 
-	// 				async function postCount (id) {
-	// 					await countApi("/hit/3dpropertylistingsg/" +  id + "-click").then(success => {
-	// 					console.log("https://api.countapi.xyz/hit/3dpropertylistingsg/" + id + "-click");
-	// 					console.log("id: " + id + "success: " + success.data.value);
-	// 					});
-	// 				}
-	// 				postCount(id);
-	// 			}		
-	// 			res.render("dashboards/listings/index.ejs", {
-	// 				listings:foundlisting,
-	// 				noMatch: noMatch,
-	// 				data: req.query,
-	// 				current: pageNumber,
-	// 				pages: Math.ceil(count / perPage),
-	// 				search: false
-	// 			});
-	// 		}
-	// 	});
-
+					async function postCount (id) {
+						await countApi("/hit/3dpropertylistingsg/" +  id + "-click").then(success => {
+						console.log("https://api.countapi.xyz/hit/3dpropertylistingsg/" + id + "-click");
+						console.log("id: " + id + "success: " + success.data.value);
+						});
+					}
+					postCount(id);
+				}		
+				res.render("dashboards/listings/index.ejs", {
+					listings:foundlisting,
+					noMatch: noMatch,
+					data: req.query,
+					current: pageNumber,
+					pages: Math.ceil(count / perPage),
+					search: false
+				});
+			}
+			});
+		});
 	} else {
 		listing.find({}).skip((perPage * pageNumber) - perPage).limit(perPage).populate("comments likes").exec(function(err, foundlisting){
 			listing.count().exec(function (err, count) {

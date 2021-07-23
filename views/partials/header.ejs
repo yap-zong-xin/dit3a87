@@ -28,6 +28,11 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" />
+  <meta property="og:url" content="https://www.your-domain.com/your-page.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Your Website Title" />
+  <meta property="og:description" content="Your description" />
+  <meta property="og:image" content="https://www.your-domain.com/path/image.jpg" />
 
   <title>3D Property Listing</title>
 </head>
@@ -67,11 +72,11 @@
                     <a class="nav-link" href="#">Connect</a>
                   </li>
                 </div>
-                <li class="nav-item active px-2" style="border: 1.7px #4632DA solid;">
-                  <a class="nav-link py-1" href="/login">Login</a>
+                <li class="nav-item active px-2" style="background:#003580;">
+                  <a class="nav-link py-1" href="/login" style="color: white;">Login</a>
                 </li>
-                <li class="nav-item active px-2 ml-2" style="border: 1.7px #4632DA solid;">
-                  <a class="nav-link py-1" href="/register">Register</a>
+                <li class="nav-item active px-2 ml-2" style="background:#003580;">
+                  <a class="nav-link py-1" href="/register" style="color: white;">Register</a>
                 </li>
             <% } else{ %>
               <div class="d-md-none">
@@ -148,9 +153,12 @@
                 </a>
                 <ul class="dropdown-menu p-3 dropdown-menu dropdown-menu-right" style="width: 350px; height: 370px; overflow-y: auto;">
                   <% if(notifications==0){ %>
-                    <li>
-                      <p style="font-weight: 500; font-size: 0.85em;" class="m-0">No Notifications</p>
+                    <li class="mb-2">
+                      <p style="font-weight: 500; font-size: 0.85em;" class="m-0">Notifications</p>
                     </li>
+                    <span class="pt-3 pb-1" style="font-size: 0.85em; color: gray;">
+                      <em>No notifications yet.</em>
+                    </span>
                     <% } else { %>
                       <p style="font-weight: 500; font-size: 0.9em;">Notifications</p>
                       <% notifications.forEach(function(notification) { %>
@@ -158,7 +166,7 @@
                         <li>
                           <div class="row align-items-center d-flex">
                             <div class="col-3">
-                              <img src="<%= notification.image %>" style="width: 60px; border-radius: 50%;">
+                              <img src="<%= notification.image %>" style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover!important;">
                             </div>
                             <div class="col-9">
                               <a href="/notifications/<%= notification.id %>">

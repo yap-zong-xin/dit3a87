@@ -1,5 +1,17 @@
 <%- include("../partials/header") %>
 
+  <!-- Load Facebook SDK for JavaScript -->
+  <div id="fb-root"></div>
+  <script>
+    (function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+  </script>
+
   <% if(listing.archiveStatus==true && listing.soldStatus==false) { %>
     <div class="text-center fixed-top py-1" style="background: #4632DA; color: white; top: 102px; font-weight: 600; font-size: 0.9em;">
       <span>Archived</span>
@@ -41,9 +53,62 @@
               <% } %>
             </div>
             <div class="pl-1">
-              <button class="btn btn-outline-dark">
+              
+              <button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#listingShare">
                 <ion-icon name="share-outline"></ion-icon>
               </button>
+              <!-- Modal -->
+              <div id="listingShare" class="modal fade" role="dialog">
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header justify-content-between d-flex">
+                      <span class="modal-title" style="font-size: 1.5em; font-weight: 600;">Share Listing</span>
+                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body" style="height: 260px!important;">
+
+                      <div class="row">
+                        <div class="col-12 mb-3">
+                          <p class="mb-2" style="font-weight: 500; font-size: 0.95em;">Share this listing</p>
+                          <!-- Your share button code -->
+                          <div class="fb-share-button align-items-start d-flex left" 
+                            data-href="https://www.hatchdev.asia/" 
+                            data-layout="button_count">
+                          </div>
+                          <a class="twitter-share-button right" style="text-decoration: none; border-radius: 3px; border: solid 1px #1DA1F2; background: #1DA1F2; color: white; font-size: 0.8em; font-weight: 600; padding: 0 17px;"
+                            href="https://twitter.com/intent/tweet?text=Check out this property! https://sap-dit3a87.herokuapp.com/listings/<%= listing._id %>" target="_blank">
+                            <ion-icon name="logo-twitter"></ion-icon> Tweet
+                          </a>
+                        </div>
+                        <div class="col-12 mb-3">
+                          <p class="mb-2" style="font-weight: 500; font-size: 0.95em;">Find us at</p>
+                          <div class="icons">
+                            <a href="#" class="left fb-share-button" data-href="https://www.hatchdev.asia/"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" class="left right"><i class="fab fa-twitter"></i></a>
+                            <a href="#" class="left right"><i class="fab fa-instagram"></i></a>
+                          </div>
+                        </div>
+                        <div class="col-12">
+                          <p class="mb-2" style="font-weight: 500; font-size: 0.95em;">Copy this link</p>
+                          <div class="input-group">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text" style="background:white;">
+                                <i class="fas fa-link"></i>
+                              </span>
+                            </div>
+                            <input type="text" class="form-control" value="https://sap-dit3a87.herokuapp.com/listings/<%= listing._id %>" id="myInput">
+                            <div class="input-group-append">
+                              <span class="input-group-text py-1" style="background: #4632DA;">
+                                <button onclick="addToClipboard()" class="btn p-0 m-0" style="color: white;">Copy</button>
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
               <a href="mailto:<%= listing.author.email %>" style="color: black; text-decoration: none;">
                 <button class="btn btn-outline-dark">
                   <ion-icon name="mail-outline"></ion-icon>
@@ -190,38 +255,30 @@
         </div>
         <!-- Modal -->
         <div id="listingLikes" class="modal fade" role="dialog">
-          <div class="modal-dialog">
+          <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-              <div class="modal-header">
+              <div class="modal-header justify-content-between d-flex">
+                <h4 class="modal-title">Likes: <%= listing.likes.length %></h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">listing likes: <%= listing.likes.length %>
-                </h4>
               </div>
               <div class="modal-body">
-                <table class="table table-striped">
-                  <thead>
-                    <tr>
-                      <th>Liked by:</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <% listing.likes.forEach(function(like) { %>
+                <% listing.likes.forEach(function(like) { %>
+                  <div class="row">
+                    <div class="col-12 mb-3">
                       <tr>
-                        <td><span class="badge"><i class="fas fa-user"></i></span>
-                          <%= like.username %>
+                        <td>
+                          <img src="<%= like.image %>" alt="" style="width: 55px; border-radius: 50%;">
+                          <span class="ml-2"><%= like.username %></span>
                         </td>
                       </tr>
-                    <% }); %>
-                    <% if (listing.likes.length===0) { %>
-                      <tr>
-                        <td><em>No likes yet.</em></td>
-                      </tr>
-                    <% } %>
-                  </tbody>
-                </table>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                <% }); %>
+                <% if (listing.likes.length===0) { %>
+                  <tr>
+                    <td style="color: grey;"><em>No likes yet.</em></td>
+                  </tr>
+                <% } %>
               </div>
             </div>
           </div>
@@ -229,7 +286,6 @@
 
         <hr>
         <p style="font-weight: 600; font-size: 1.3em;">Description</p>
-        <p style="font-size: 1.05em;"><%= listing.descriptionTitle %></p>
         <p class="pb-3"><%= listing.description %></p>
         <hr>
         <p style="font-weight: 600; font-size: 1.3em;">Property Details</p>
@@ -239,7 +295,15 @@
             <span><%= listing.district %></span>
           </div>
           <div class="col-6 pb-3">
-            <span style="font-size: 0.9em; font-weight:650;">Location</span><br>
+            <span style="font-size: 0.9em; font-weight:650;">Street Address</span><br>
+            <span><%= listing.street %></span>
+          </div>
+          <div class="col-6 pb-3">
+            <span style="font-size: 0.9em; font-weight:650;">Unit Number</span><br>
+            <span><%= listing.unitNumber %></span>
+          </div>
+          <div class="col-6 pb-3">
+            <span style="font-size: 0.9em; font-weight:650;">Postal Code</span><br>
             <span><%= listing.location %></span>
           </div>
           <div class="col-6 pb-3">
@@ -272,60 +336,63 @@
           </div>
         </div>
         <hr>
-        <p style="font-weight: 600; font-size: 1.3em;">Facilities & Amenities</p>
-        <p style="font-size: 1.05em;">
-          <div class="row">
-            <% if(listing.carpark==true){ %>
-              <div class="col-6 pb-3">
-                <img src="/img/carpark.svg" alt="" style="width:22px;">
-                <span class="pl-2">Nearby carpark</span><br>
-              </div>
-            <% } %>
-            <% if(listing.pool==true){ %>
-              <div class="col-6 pb-3">
-                <img src="/img/swimmingpool.svg" alt="" style="width:30px;">
-                <span style="font-size: 0.9em;" class="pl-2">Nearby swimming pool</span><br>
-              </div>
-            <% } %>
-            <% if(listing.gym==true){ %>
-              <div class="col-6 pb-3">
-                <img src="/img/gym.svg" alt="" style="width:25px;">
-                <span style="font-size: 0.9em;" class="pl-2">Nearby gym</span><br>
-              </div>
-            <% } %>
-            <% if(listing.playground==true){ %>
-              <div class="col-6 pb-3">
-                <img src="/img/playground.svg" alt="" style="width:22px;">
-                <span style="font-size: 0.9em;" class="pl-2">Nearby playground</span><br>
-              </div>
-            <% } %>
-            <% if(listing.hall==true){ %>
-              <div class="col-6 pb-3">
-                <img src="/img/hall.svg" alt="" style="width:22px;">
-                <span style="font-size: 0.9em;" class="pl-2">Nearby multi-purpose hall</span><br>
-              </div>
-            <% } %>
-            <% if(listing.mall==true){ %>
-              <div class="col-6 pb-3">
-                <img src="/img/shopping.svg" alt="" style="width:20px;">
-                <span style="font-size: 0.9em;" class="pl-2">Nearby shopping mall</span><br>
-              </div>
-            <% } %>
-            <% if(listing.intercom==true){ %>
-              <div class="col-6 pb-3">
-                <img src="/img/intercom.svg" alt="" style="width:22px;">
-                <span style="font-size: 0.9em;" class="pl-2">Intercom</span><br>
-              </div>
-            <% } %>
-            <% if(listing.security==true){ %>
-              <div class="col-6 pb-3">
-                <img src="/img/security.svg" alt="" style="width:22px;">
-                <span style="font-size: 0.9em;" class="pl-2">24 hours security</span><br>
-              </div>
-            <% } %>
-          </div>
-        </p>
-        <hr>
+        <% if(listing.carpark!=true && listing.pool!=true && listing.gym!=true && listing.playground!=true && listing.hall!=true && listing.mall!=true && listing.intercom!=true && listing.security!=true){ %>
+        <% } else { %>
+          <p style="font-weight: 600; font-size: 1.3em;">Facilities & Amenities</p>
+          <p style="font-size: 1.05em;">
+            <div class="row">
+              <% if(listing.carpark==true){ %>
+                <div class="col-6 pb-3">
+                  <img src="/img/carpark.svg" alt="" style="width:22px;">
+                  <span class="pl-2">Nearby carpark</span><br>
+                </div>
+              <% } %>
+              <% if(listing.pool==true){ %>
+                <div class="col-6 pb-3">
+                  <img src="/img/swimmingpool.svg" alt="" style="width:30px;">
+                  <span style="font-size: 0.9em;" class="pl-2">Nearby swimming pool</span><br>
+                </div>
+              <% } %>
+              <% if(listing.gym==true){ %>
+                <div class="col-6 pb-3">
+                  <img src="/img/gym.svg" alt="" style="width:25px;">
+                  <span style="font-size: 0.9em;" class="pl-2">Nearby gym</span><br>
+                </div>
+              <% } %>
+              <% if(listing.playground==true){ %>
+                <div class="col-6 pb-3">
+                  <img src="/img/playground.svg" alt="" style="width:22px;">
+                  <span style="font-size: 0.9em;" class="pl-2">Nearby playground</span><br>
+                </div>
+              <% } %>
+              <% if(listing.hall==true){ %>
+                <div class="col-6 pb-3">
+                  <img src="/img/hall.svg" alt="" style="width:22px;">
+                  <span style="font-size: 0.9em;" class="pl-2">Nearby multi-purpose hall</span><br>
+                </div>
+              <% } %>
+              <% if(listing.mall==true){ %>
+                <div class="col-6 pb-3">
+                  <img src="/img/shopping.svg" alt="" style="width:20px;">
+                  <span style="font-size: 0.9em;" class="pl-2">Nearby shopping mall</span><br>
+                </div>
+              <% } %>
+              <% if(listing.intercom==true){ %>
+                <div class="col-6 pb-3">
+                  <img src="/img/intercom.svg" alt="" style="width:22px;">
+                  <span style="font-size: 0.9em;" class="pl-2">Intercom</span><br>
+                </div>
+              <% } %>
+              <% if(listing.security==true){ %>
+                <div class="col-6 pb-3">
+                  <img src="/img/security.svg" alt="" style="width:22px;">
+                  <span style="font-size: 0.9em;" class="pl-2">24 hours security</span><br>
+                </div>
+              <% } %>
+            </div>
+          </p>
+          <hr>
+        <% } %>
         <p style="font-weight: 600; font-size: 1.3em;">Other Nearby Facilities</p>
         <p style="font-size: 1.05em;">
           <div id='map1' style="height: 300px!important; width: 100%!important;" class="m-0 pb-3"></div>
@@ -437,7 +504,7 @@
           <div class="item shark-3 text-center p-4" style="border: 1.5px lightgray solid; border-radius: 10px;">
         <% } %>
           <a href="/user/<%= listing.author.id %>">
-            <img src="<%= listing.author.image %>" alt="" style="width: 30%; border-radius: 50%;">
+            <img src="<%= listing.author.image %>" alt="" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover!important;">
           </a>
           <div>
             <a href="/user/<%= listing.author.id %>" style="color: black;">
@@ -472,11 +539,20 @@
               Joined on <span style="font-weight: 600; font-size: 1.15em;"><%= moment(listing.author.createdAt).format('MMM DD, YYYY') %></span>
             </p>
             <% if(currentUser){ %>
-              <form action="/conversation/<%= currentUser._id %>/<%= listing.author.id %>/<%=listing._id %>" method="POST">
-                <button type="submit" class="btn btn-dark" style="width: 100%;">
-                  Chat
-                </button>
-              </form>
+              <div class="row">
+                <div class="col-6 px-1">
+                  <form action="/conversation/<%= currentUser._id %>/<%= listing.author.id %>/<%=listing._id %>" method="POST">
+                    <button type="submit" class="btn btn-dark" style="width: 100%; font-size: 0.95em;">
+                      Chat
+                    </button>
+                  </form>
+                </div>
+                <div class="col-6 px-1">
+                  <button type="submit" class="btn btn-success" style="width: 100%; font-size: 0.95em;" onclick="window.open('https:\/\/wa.me/65<%= listing.author.phone %>/?text=')">
+                    Whatsapp
+                  </button>
+                </div>
+              </div>
             <% } %>
           </div>
         </div>
@@ -491,6 +567,19 @@
   <script src="/javascripts/showPageMap.js"></script>
   <script>
     cloudinary
+  </script>
+  <script>
+    function addToClipboard() {
+    /* Get the text field */
+    var copyText = document.getElementById("myInput");
+
+    /* Select the text field */
+    copyText.select();
+    copyText.setSelectionRange(0, 99999); /* For mobile devices */
+
+    /* Copy the text inside the text field */
+    document.execCommand("copy");
+  }
   </script>
 
 <%- include("../partials/footer") %>

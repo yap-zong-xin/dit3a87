@@ -49,69 +49,86 @@
       </div>
     </div>
     <div class="col-9">
-      <div class="container">
-        <div class="row dashboardOverview">
-          <div class="col-3">
-            <a href="/dashboard/accounts">
-              <span class="align-items-center justify-content-center d-flex">
-                <%= users.length %>
-                  <% if(users.length<2){ %>
-                    Account
-                    <% } else { %>
-                      Accounts
-                      <% } %>
-              </span>
-            </a>
-          </div>
-          <div class="col-3">
-            <a href="/dashboard/listings">
-              <span class="align-items-center justify-content-center d-flex">
-                <%= listings.length %>
-                  <% if(listings.length<2){ %>
-                    Listing
-                    <% } else { %>
-                      Listings
-                      <% } %>
-              </span>
-            </a>
-          </div>
-          <div class="col-3">
-            <a href="/dashboard/comments">
-              <span class="align-items-center justify-content-center d-flex">
-                <%= comments.length %>
-                  <% if(comments.length<2){ %>
-                    Comment
-                    <% } else { %>
-                      Comments
-                      <% } %>
-              </span>
-            </a>
-          </div>
-          <div class="col-3">
-            <a href="/dashboard/reviews">
-              <span class="align-items-center justify-content-center d-flex">
-                <%= reviews.length %>
-                  <% if(reviews.length<2){ %>
-                    Review
-                    <% } else { %>
-                      Reviews
-                      <% } %>
-              </span>
-            </a>
-          </div>
-          <!-- <div class="col-12 px-0">
-            <div class="container">
-              <div class="col-12">
-                <canvas id="myChart"></canvas>
-              </div>
-              <div class="col-12">
-                <div class="live-counter text-center">
-                  <a><b>Total Seen: </b></a>
-                  <a id="liveCount"></a>
-                </div>
-              </div>
+      <div class="row mr-5">
+        <div class="col-12 mb-2">
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-1">
+              <li class="breadcrumb-item"><a href="/listings">Home</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Dashboard</a></li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+      <div class="row mr-5">
+        <div class="col-12">
+          <p class="mb-0 pt-2" style="font-weight: 550; font-size: 1.2em;">Statistics</p>
+        </div>
+        <div class="col-2">
+          <div style="padding-top: 22px; font-size: 0.95em;">Accounts</div>
+          <div style="padding-top: 19px; font-size: 0.95em;">Listings</div>
+          <div style="padding-top: 19px; font-size: 0.95em;">Comments</div>
+          <div style="padding-top: 19px; font-size: 0.95em;">Reviews</div>
+        </div>
+        <div class="col-10">
+          <div class="progress my-4" style="height: 15px;">
+            <div class="progress-bar bg-danger" role="progressbar" style="width: <%= users.length/(users.length + listings.length + comments.length + reviews.length)*100 %>%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+              <%= (users.length/(users.length + listings.length + comments.length + reviews.length)*100).toFixed(2) %>%
             </div>
-          </div> -->
+          </div>
+          <div class="progress my-4" style="height: 15px;">
+            <div class="progress-bar bg-warning" role="progressbar" style="width: <%= listings.length/(users.length + listings.length + comments.length + reviews.length)*100 %>%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+              <%= (listings.length/(users.length + listings.length + comments.length + reviews.length)*100).toFixed(2) %>%
+            </div>
+          </div>
+          <div class="progress my-4" style="height: 15px;">
+            <div class="progress-bar bg-info" role="progressbar" style="width: <%= comments.length/(users.length + listings.length + comments.length + reviews.length)*100 %>%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+              <%= (comments.length/(users.length + listings.length + comments.length + reviews.length)*100).toFixed(2) %>%
+            </div>      
+          </div>
+          <div class="progress my-4" style="height: 15px;">
+            <div class="progress-bar bg-dark" role="progressbar" style="width: <%= reviews.length/(users.length + listings.length + comments.length + reviews.length)*100 %>%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+              <%= (reviews.length/(users.length + listings.length + comments.length + reviews.length)*100).toFixed(2) %>%
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mr-5">
+        <div class="col-4 pt-4">
+          <div class="dashboardOverview">
+            <span style="font-weight: 550; font-size: 1.2em;">Overview</span>
+            <a href="/dashboard/accounts">
+              <div class="justify-content-between align-items-center px-3 d-flex mt-4 mb-3">
+                <span>Accounts</span>
+                <span class="badge badge-danger align-items-center justify-content-center d-flex"><%= users.length %></span>
+              </div>
+            </a>
+            <a href="/dashboard/listings">
+              <div class="justify-content-between align-items-center px-3 d-flex mb-3">
+                <span>Listings</span>
+                <span class="badge badge-warning align-items-center justify-content-center d-flex"><%= listings.length %></span>
+              </div>
+            </a>
+            <a href="/dashboard/comments">
+              <div class="justify-content-between align-items-center px-3 d-flex mb-3">
+                <span>Comments</span>
+                <span class="badge badge-info align-items-center justify-content-center d-flex"><%= comments.length %></span>
+              </div>
+            </a>
+            <a href="/dashboard/reviews">
+              <div class="justify-content-between align-items-center px-3 d-flex mb-3">
+                <span>Review</span>
+                <span class="badge badge-dark align-items-center justify-content-center d-flex"><%= reviews.length %></span>
+              </div>
+            </a>
+          </div>
+        </div>
+        <div class="col-8">
+            <canvas id="myChart"></canvas>
+            <div class="live-counter text-center">
+              <a style="font-size: 0.95em; font-weight: 650;">Total visitors:</a>
+              <a id="liveCount"></a>
+            </div>
         </div>
       </div>
     </div>
