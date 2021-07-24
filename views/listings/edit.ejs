@@ -24,7 +24,7 @@
             <div class="dropText">
               <label class="fileBtn" for="galleryFileArray">Select Files</label>
               <p style="margin-top: 0;">or drag and drop here</p>
-              <input type="file" name="listingGallery" id="galleryFileArray" multiple accept="image/*, video/*" value="<%= listingGallery %>" onchange="handleGalleryFiles(this.files)" required>
+              <input type="file" name="listingGallery" id="galleryFileArray" multiple accept="image/*, video/*" onchange="handleGalleryFiles(this.files)" required>
             </div>
           </div>
         </div>
@@ -719,7 +719,6 @@
       thumbnailFiles.files = list.files;
     }
 </script>
-
 
 <footer class="container-fluid mt-5 "id="footer" style="background-color: #292b2c; color: white">
 </footer>
