@@ -1,29 +1,788 @@
 <%- include("../partials/header") %>
 
-  <h1>Edit <%= listing.name %>
-  </h1>
-  <form action="/listings/<%= listing._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
-    <input type="text" name="listing[name]" value="<%= listing.name %>" placeholder="name">
-    <input type="file" name="thumbnail" accept="image/*">
-    <input type="file" name="image" accept="image/*" multiple>
-    <input type="text" name="listing[description]" value="<%= listing.description %>" placeholder="description">
-    <input type="text" name="listing[zone]" value="<%= listing.zone %>" placeholder="zone">
-    <input type="text" name="listing[type]" value="<%= listing.type %>" placeholder="type">
-    <input type="text" name="listing[price]" value="<%= listing.price %>" placeholder="price">
-    <input type="text" name="listing[size]" value="<%= listing.size %>" placeholder="size">
-    <input type="number" name="listing[numofRooms]" value="<%= listing.numofRooms %>" placeholder="number of rooms">
-    <input type="text" name="listing[location]" value="<%= listing.location %>" placeholder="location">
-    <input type="file" name="video" accept="video/*" multiple>
-    <button>submit</button>
-  </form>
+  <div style="margin: 0 130px;">
+    <div class="container pt-3">
+      <div class="row">
+        <div class="col-12">
+          <span style="font-size: 1.4em; font-weight: 600;" class="align-items-center d-flex">
+            <a href="/listings/<%= listing._id %>" style="text-decoration: none; color: black">
+              <ion-icon name="close-outline" style="font-size: 1.3em;" class="pr-2"></ion-icon>
+            </a>
+            Edit <%= listing.name %>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
 
-  <% if(currentUser && listing.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
-    <a class="btn btn-warning" href="/listings/<%= listing._id %>/edit">Edit</a>
-    <form action="/listings/<%= listing._id %>?_method=DELETE" method="POST">
-      <button class="btn btn-danger">DELETE</button>
+  <div class="container pt-3 mb-0">
+    <form action="/listings/<%= listing._id %>?_method=PUT" method="POST" enctype="multipart/form-data" name="editListingForm">
+      <!-- drag and drop upload listing files -->
+      <div class="row">
+        <div class="offset-1 col-10">
+          <div id="drop-area">
+            <div class="dropText">
+              <label class="fileBtn" for="galleryFileArray">Select Files</label>
+              <p style="margin-top: 0;">or drag and drop here</p>
+              <input type="file" name="listingGallery" id="galleryFileArray" multiple accept="image/*, video/*" value="<%= listingGallery %>" onchange="handleGalleryFiles(this.files)" required>
+            </div>
+          </div>
+        </div>
+        <div class="offset-1 col-10">
+          <!-- additional image/video gallery drag and drop -->
+          <div id="add-drop-area">
+            <div class="dropText">
+              <p style="font-size: 0.95em;" id="listGalleryCount"></p>
+              <label class="fileBtn" for="additionalGallery">Upload More Files</label>
+              <p>or drag and drop here</p>
+              <input style="display: none;" type="file" name="additionalGallery" id="additionalGallery" multiple accept="image/*, video/*" onchange="additionalUpdateGallery(this.files)">
+            </div>
+          </div>
+
+          <div class="col-12 mt-4 px-0">
+            <div class="row">
+              <div class="col-2 pr-0">
+                <div id="thumbnail-drop-area" class="m-0">
+                  <div id="thumbnail-gallery" style="pointer-events: none!important;"></div>
+                  <div class="thumbnailSlctText">
+                    <input name="listingThumbnail" style="opacity: 0;" type="file" id="thumbnailFile" accept="image/*" onchange="handleThumbnailFile(this.files)" required>
+                    <span style="background: black; color: white; font-size: 0.9em; font-weight: 600; padding: 1px 29px 1px 29px;">Thumbnail</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-10 px-0">
+                <div id="image-gallery"></div>
+                <div id="video-gallery"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="offset-1 col-10 mt-4 pt-3">
+          <div id="upldForm-form" style="display: block;">
+            <span style="font-weight: 600; font-size: 1.7em;">Property Details</span>
+            <div class="form-row my-2">
+              <div class="form-group col-4">
+                <label for="name">Property Name</label>
+                <input type="text" name="listing[name]" class="form-control" id="name" value="<%= listing.name %>" required>
+              </div>
+              <div class="form-group col-4">
+                <label for="price">Price (in SGD)</label>
+                <input type="number" name="listing[price]" class="form-control" id="price" value="<%= listing.price %>" required>
+              </div>
+              <div class="form-group col-4">
+                <label for="size">Size</label>
+                <input type="number" name="listing[size]" class="form-control" id="size" value="<%= listing.size %>" required>
+              </div>
+              <div class="form-group col-4">
+                <% var typeOption = listing.type %>
+                <label for="type">Category</label>
+                <select name="listing[type]" class="form-control" id="type" required>
+                  <option></option>
+                  <option value="hdb" <% if(typeOption == 'hdb') {%>selected<%} %>>HDB</option>
+                  <option value="condo" <% if(typeOption == 'condo') {%>selected<%} %>>Condo</option>
+                  <option value="landed" <% if(typeOption == 'landed') {%>selected<%} %>>Landed</option>
+                </select>
+              </div>
+              <div class="form-group col-4">
+                <% var bedOption = listing.bedrooms %>
+                <label for="bedrooms">Bedroom</label>
+                <select name="listing[bedrooms]" class="form-control" id="bedrooms" required>
+                  <option></option>
+                  <option value="1" <% if(bedOption == '1') {%>selected<%} %>>1</option>
+                  <option value="2" <% if(bedOption == '2') {%>selected<%} %>>2</option>
+                  <option value="3" <% if(bedOption == '3') {%>selected<%} %>>3</option>
+                  <option value="4" <% if(bedOption == '4') {%>selected<%} %>>4</option>
+                  <option value="5" <% if(bedOption == '5') {%>selected<%} %>>5</option>
+                  <option value="6" <% if(bedOption == '6') {%>selected<%} %>>6</option>
+                </select>
+              </div>
+              <div class="form-group col-4">
+                <% var bathOption = listing.bathrooms %>
+                <label for="bathrooms">Bathroom</label>
+                <select name="listing[bathrooms]" class="form-control" id="bathrooms" required>
+                  <option></option>
+                  <option value="1" <% if(bathOption == '1') {%>selected<%} %>>1</option>
+                  <option value="2" <% if(bathOption == '2') {%>selected<%} %>>2</option>
+                  <option value="3" <% if(bathOption == '3') {%>selected<%} %>>3</option>
+                </select>
+              </div>
+              <div class="form-group col-4">
+                <% var tenureOption = listing.tenure %>
+                <label for="tenure">Tenure</label>
+                <select name="listing[tenure]" class="form-control" id="tenure" required>
+                  <option></option>
+                  <option value="unknown" <% if(tenureOption == 'unknown') {%>selected<%} %>>Unknown</option>
+                  <option value="ninetynine" <% if(tenureOption == 'ninetynine') {%>selected<%} %>>99-Year Leasehold</option>
+                  <option value="hundredthree" <% if(tenureOption == 'hundredthree') {%>selected<%} %>>103-Year Leasehold</option>
+                  <option value="hundredten" <% if(tenureOption == 'hundredten') {%>selected<%} %>>110-Year Leasehold</option>
+                  <option value="ninehundrednine" <% if(tenureOption == 'ninehundrednine') {%>selected<%} %>>999-Year Leasehold</option>
+                  <option value="freehold" <% if(tenureOption == 'freehold') {%>selected<%} %>>Freehold</option>
+                </select>
+              </div>
+              <div class="form-group col-4">
+                <% var districtOption = listing.district %>
+                <label for="district">District</label>
+                <select name="listing[district]" class="form-control" id="district" required>
+                  <option></option>
+                  <option value="north" <% if(districtOption == 'north') {%>selected<%} %>>North</option>
+                  <option value="south" <% if(districtOption == 'south') {%>selected<%} %>>South</option>
+                  <option value="east"  <% if(districtOption == 'east') {%>selected<%} %>>East</option>
+                  <option value="west"  <% if(districtOption == 'west') {%>selected<%} %>>West</option>
+                </select>
+              </div>
+              <div class="form-group col-4">
+                <label for="street">Street Address</label>
+                <input type="text" name="listing[street]" class="form-control" id="street" value="<%= listing.street %>" required>
+              </div>
+              <div class="form-group col-4">
+                <label for="unitNumber">Unit Number</label>
+                <input type="text" name="listing[unitNumber]" class="form-control" id="unitNumber" value="<%= listing.unitNumber %>" required>
+              </div>
+              <div class="form-group col-4">
+                <label for="location">Postal Code</label>
+                <input type="number" name="listing[location]" class="form-control" id="location" value="<%= listing.location %>" required>
+              </div>
+              <div class="form-group col-4">
+                <label for="threeDImage">3D Image Link</label>
+                <input type="text" name="listing[threeDImage]" class="form-control" id="threeDImage" value="<%= listing.threeDImage %>" required>
+              </div>
+              <div class="form-group col-12">
+                <label for="description">Description</label>
+                <textarea name="listing[description]" class="form-control" id="description" cols="30" rows="3"><%= listing.description %></textarea>
+              </div>
+            </div>
+
+            <span style="font-weight: 600; font-size: 1.7em;">Facilities & Amenities</span>
+            <div class="row pt-2">
+              <div class="col-6">
+                <ul class="typeOfFacilities">
+                  <div class="left">
+                    <img src="/img/carpark.svg" alt="" style="width:22px;" class="pr-2">
+                    Nearby Carkpark: 
+                  </div>
+                  <div class="right justify-content-end d-flex text-center">
+                    <% var CPChecked = listing.carpark %>
+                    <li>
+                      <input type="radio" id="carparkTrue" name="listing[carpark]" value="true" <% if(CPChecked == true) {%> checked="checked" <%} %>/>
+                      <label for="carparkTrue">
+                        <ion-icon name="checkmark-outline"></ion-icon>
+                      </label>
+                    </li>
+                    <li>
+                      <input type="radio" id="carparkFalse" name="listing[carpark]" value="false" <% if(CPChecked == false) {%> checked="checked" <%} %>/>
+                      <label for="carparkFalse">
+                        <ion-icon name="close-outline"></ion-icon>
+                      </label>
+                    </li>
+                  </div>
+                </ul>
+              </div>
+              <div class="col-6">
+                <ul class="typeOfFacilities">
+                  <div class="left">
+                    <img src="/img/swimmingpool.svg" alt="" style="width:30px;" class="pr-2">
+                    Nearby Swimming Pool: 
+                  </div>
+                  <div class="right justify-content-end d-flex text-center">
+                    <% var PoolChecked = listing.pool %>
+                    <li>
+                      <input type="radio" id="poolTrue" name="listing[pool]" value="true" <% if(PoolChecked == true) {%> checked="checked" <%} %>/>
+                      <label for="poolTrue">
+                        <ion-icon name="checkmark-outline"></ion-icon>
+                      </label>
+                    </li>
+                    <li>
+                      <input type="radio" id="poolFalse" name="listing[pool]" value="false" <% if(PoolChecked == false) {%> checked="checked" <%} %>/>
+                      <label for="poolFalse">
+                        <ion-icon name="close-outline"></ion-icon>
+                      </label>
+                    </li>
+                  </div>
+                </ul>
+              </div>
+              <div class="col-6">
+                <ul class="typeOfFacilities">
+                  <div class="left">
+                    <img src="/img/gym.svg" alt="" style="width:25px;" class="pr-2">
+                    Nearby Gym: 
+                  </div>
+                  <div class="right justify-content-end d-flex text-center">
+                    <% var GymChecked = listing.gym %>
+                    <li>
+                      <input type="radio" id="gymTrue" name="listing[gym]" value="true" <% if(GymChecked == true) {%> checked="checked" <%} %>/>
+                      <label for="gymTrue">
+                        <ion-icon name="checkmark-outline"></ion-icon>
+                      </label>
+                    </li>
+                    <li>
+                      <input type="radio" id="gymFalse" name="listing[gym]" value="false" <% if(GymChecked == false) {%> checked="checked" <%} %>/>
+                      <label for="gymFalse">
+                        <ion-icon name="close-outline"></ion-icon>
+                      </label>
+                    </li>
+                  </div>
+                </ul>
+              </div>
+              <div class="col-6">
+                <ul class="typeOfFacilities">
+                  <div class="left">
+                    <img src="/img/playground.svg" alt="" style="width:22px;" class="pr-2">
+                    Nearby Playground: 
+                  </div>
+                  <div class="right justify-content-end d-flex text-center">
+                    <% var PGChecked = listing.playground %>
+                    <li>
+                      <input type="radio" id="playgroundTrue" name="listing[playground]" value="true" <% if(PGChecked == true) {%> checked="checked" <%} %>/>
+                      <label for="playgroundTrue">
+                        <ion-icon name="checkmark-outline"></ion-icon>
+                      </label>
+                    </li>
+                    <li>
+                      <input type="radio" id="playgroundFalse" name="listing[playground]" value="false" <% if(PGChecked == false) {%> checked="checked" <%} %>/>
+                      <label for="playgroundFalse">
+                        <ion-icon name="close-outline"></ion-icon>
+                      </label>
+                    </li>
+                  </div>
+                </ul>
+              </div>
+              <div class="col-6">
+                <ul class="typeOfFacilities">
+                  <div class="left">
+                    <img src="/img/hall.svg" alt="" style="width:22px;" class="pr-2">
+                    Nearby Multi-purpose Hall: 
+                  </div>
+                  <div class="right justify-content-end d-flex text-center">
+                    <% var HallChecked = listing.hall %>
+                    <li>
+                      <input type="radio" id="hallTrue" name="listing[hall]" value="true" <% if(HallChecked == true) {%> checked="checked" <%} %>/>
+                      <label for="hallTrue">
+                        <ion-icon name="checkmark-outline"></ion-icon>
+                      </label>
+                    </li>
+                    <li>
+                      <input type="radio" id="hallFalse" name="listing[hall]" value="false" <% if(HallChecked == false) {%> checked="checked" <%} %>/>
+                      <label for="hallFalse">
+                        <ion-icon name="close-outline"></ion-icon>
+                      </label>
+                    </li>
+                  </div>
+                </ul>
+              </div>
+              <div class="col-6">
+                <ul class="typeOfFacilities">
+                  <div class="left">
+                    <img src="/img/shopping.svg" alt="" style="width:20px;" class="pr-2">
+                    Nearby Shopping Mall: 
+                  </div>
+                  <div class="right justify-content-end d-flex text-center">
+                    <% var MallChecked = listing.mall %>
+                    <li>
+                      <input type="radio" id="mallTrue" name="listing[mall]" value="true" <% if(MallChecked == true) {%> checked="checked" <%} %>/>
+                      <label for="mallTrue">
+                        <ion-icon name="checkmark-outline"></ion-icon>
+                      </label>
+                    </li>
+                    <li>
+                      <input type="radio" id="mallFalse" name="listing[mall]" value="false" <% if(MallChecked == false) {%> checked="checked" <%} %>/>
+                      <label for="mallFalse">
+                        <ion-icon name="close-outline"></ion-icon>
+                      </label>
+                    </li>
+                  </div>
+                </ul>
+              </div>
+              <div class="col-6">
+                <ul class="typeOfFacilities">
+                  <div class="left">
+                    <img src="/img/intercom.svg" alt="" style="width:22px;" class="pr-2">
+                    Intercom: 
+                  </div>
+                  <div class="right justify-content-end d-flex text-center">
+                    <% var ICChecked = listing.intercom %>
+                    <li>
+                      <input type="radio" id="intercomTrue" name="listing[intercom]" value="true" <% if(ICChecked == true) {%> checked="checked" <%} %>/>
+                      <label for="intercomTrue">
+                        <ion-icon name="checkmark-outline"></ion-icon>
+                      </label>
+                    </li>
+                    <li>
+                      <input type="radio" id="intercomFalse" name="listing[intercom]" value="false" <% if(ICChecked == false) {%> checked="checked" <%} %>/>
+                      <label for="intercomFalse">
+                        <ion-icon name="close-outline"></ion-icon>
+                      </label>
+                    </li>
+                  </div>
+                </ul>
+              </div>
+              <div class="col-6">
+                <ul class="typeOfFacilities">
+                  <div class="left">
+                    <img src="/img/security.svg" alt="" style="width:22px;" class="pr-2">
+                    Security: 
+                  </div>
+                  <div class="right justify-content-end d-flex text-center">
+                    <% var SecurityChecked = listing.security %>
+                    <li>
+                      <input type="radio" id="securityTrue" name="listing[security]" value="true" <% if(SecurityChecked == true) {%> checked="checked" <%} %>/>
+                      <label for="securityTrue">
+                        <ion-icon name="checkmark-outline"></ion-icon>
+                      </label>
+                    </li>
+                    <li>
+                      <input type="radio" id="securityFalse" name="listing[security]" value="false" <% if(SecurityChecked == false) {%> checked="checked" <%} %>/>
+                      <label for="securityFalse">
+                        <ion-icon name="close-outline"></ion-icon>
+                      </label>
+                    </li>
+                  </div>
+                </ul>
+              </div>
+            </div>
+            <div class="justify-content-center d-flex pt-2">
+              <input class="btn btn-dark px-5 py-1" type="submit" value="List now">
+            </div>
+          </div>
+        </div>
+      </div>
     </form>
-    <% } %>
+  </div>
 
-      <a href="/listings">Go Back</a>
+  <script>
+    let dropArea = document.getElementById("drop-area");
 
-      <%- include("../partials/footer") %>
+    // Prevent default drag behaviors
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+      dropArea.addEventListener(eventName, preventDefaults, false)   
+      document.body.addEventListener(eventName, preventDefaults, false)
+    });
+
+    // Highlight drop area when item is dragged over it
+    ['dragenter', 'dragover'].forEach(eventName => {
+      dropArea.addEventListener(eventName, highlight, false)
+    });
+    ['dragleave', 'drop'].forEach(eventName => {
+      dropArea.addEventListener(eventName, unhighlight, false)
+    });
+
+    // Handle dropped files
+    dropArea.addEventListener('drop', handleDrop, false);
+
+    function preventDefaults (e) {
+      e.preventDefault()
+      e.stopPropagation()
+    }
+
+    function highlight(e) {
+      dropArea.classList.add('highlight')
+    }
+
+    function unhighlight(e) {
+      dropArea.classList.remove('highlight')
+    }
+
+    function handleDrop(e) {
+      var dt = e.dataTransfer
+      var files = dt.files
+      console.log('hdisfas: ', files);
+      handleGalleryFiles(files);
+    }
+
+    function handleGalleryFiles(files) {
+        files = [...files];
+        console.log('aaaaaaaa: ', files);
+        updateGallery(files);
+        previewGallery(files);
+        var currentGallery = document.getElementById("galleryFileArray");
+        if(currentGallery.files.length != 0) {
+          document.getElementById("drop-area").style.display = "none"
+          document.getElementById("add-drop-area").style.display = "block"
+          document.getElementById("thumbnail-drop-area").style.display = "block"
+        }else if (currentGallery.files.length == 0) {
+          document.getElementById("drop-area").style.display = "block"
+          document.getElementById("add-drop-area").style.display = "none"
+        }
+    }
+
+    function drag(ev) {
+      ev.dataTransfer.setData("text", ev.target.id);
+    }
+
+    function deleteItem(id) {
+      //remove from preview
+      document.getElementById("galleryItem"+id).style.display = "none";
+      //remove from file input
+      var fileList = document.getElementById('galleryFileArray');
+      var list = new DataTransfer();
+      for(let i=0; i<fileList.files.length; i++) {
+        if(i != id) {
+          console.log('adding new')
+          console.log('new fle: ',fileList.files[i])
+          list.items.add(fileList.files[i]);
+        }
+      }
+      fileList.files = list.files;
+      document.getElementById('listGalleryCount').innerHTML = "(" + fileList.files.length + ' Media Uploaded)'
+
+    }
+
+    function previewGallery(files) {
+        console.log('given gallery files: ', files);
+        var imageGallery = document.getElementById("image-gallery")
+        while(imageGallery.firstChild) {
+          imageGallery.removeChild(imageGallery.firstChild)
+        }
+        var videoGallery = document.getElementById("video-gallery")
+        while(videoGallery.firstChild) {
+          videoGallery.removeChild(videoGallery.firstChild)
+        }
+        var currentThumbnail = document.getElementById("thumbnailFile");
+        for(let i=0; i<files.length; i++) {
+            let reader = new FileReader();
+            reader.readAsDataURL(files[i]);
+            reader.onloadend = function() {
+              if(files[i].type.includes('image')) {
+                //img div to contain img and btn
+                  var imgDiv = document.createElement('div');
+                  imgDiv.classList.add('listingImage'); 
+                  imgDiv.setAttribute("id", "galleryItem"+i);
+                  //image src + file
+                  var img = document.createElement('img');
+                  img.src = reader.result;
+                  img.setAttribute("id", "imageItem"+i);
+                  img.classList.add("image-gallery-style");
+                  img.setAttribute("draggable", true);
+                  img.setAttribute("ondragstart", "drag(event)");
+                  //delete image btn
+                  var dltItemBtn = document.createElement('span');
+                  dltItemBtn.classList.add('deleteItemFromGallery');
+                  dltItemBtn.innerHTML= "&times;";
+                  dltItemBtn.setAttribute("onclick", "deleteItem("+i+")");
+                  //add img and btn to div
+                  imgDiv.appendChild(img);
+                  imgDiv.appendChild(dltItemBtn);
+                  document.getElementById('image-gallery').appendChild(imgDiv);
+                  if(currentThumbnail.files.length == 0){
+                    updateThumbnail(files[i])
+                    imgDiv.childNodes[1].style.display = "none"
+                    document.getElementById('thumbnail-gallery').appendChild(imgDiv);
+                  }
+              }else if(files[i].type.includes('video')) {
+                console.log('files at i', files[i])
+                console.log('iiiiiii: ',i);
+                //video div to contain video and button
+                  var vidDiv = document.createElement('div');
+                  vidDiv.classList.add('listingVideo'); 
+                  vidDiv.setAttribute("id", "galleryItem"+i);
+                  //video src + file
+                  var vid = document.createElement('iframe');
+                  vid.src  = reader.result;
+                  vid.setAttribute("id", "videoItem"+i);
+                  vid.classList.add("video-gallery-style");
+                  //delete video btn
+                  var dltItemBtn = document.createElement('span');
+                  dltItemBtn.classList.add('deleteItemFromGallery');
+                  dltItemBtn.innerHTML= "&times;";
+                  dltItemBtn.setAttribute("onclick", "deleteItem("+i+")");
+                  //add img and btn to div
+                  vidDiv.appendChild(vid);
+                  vidDiv.appendChild(dltItemBtn);
+                  document.getElementById('video-gallery').appendChild(vidDiv);
+              }
+            }
+        }   
+        //show how many media selected
+        var galleryFiles = document.getElementById("galleryFileArray");
+        document.getElementById('listGalleryCount').innerHTML = "(" + galleryFiles.files.length + ' Media Uploaded)'
+    }
+
+    function updateGallery(files) {
+        var galleryFiles = document.getElementById("galleryFileArray");
+        console.log('insidei: ',galleryFiles.files.length);
+        var list = new DataTransfer();
+        var additionalFiles = document.getElementById("additionalGallery");
+        for(let i=0; i<additionalFiles.files.length; i++) {
+          list.items.add(additionalFiles.files[i]);
+        }
+        if(files.length == 0) {
+        for(let i=0; i<galleryFiles.files.length; i++) {
+          list.items.add(galleryFiles.files[i]);
+        }
+        }
+        for(let i=0; i<files.length; i++) {
+          list.items.add(files[i]);
+        }
+        console.log('galsadjhkadfs: ', list.files);
+        galleryFiles.files = list.files;
+        //if thumbnail file is empty, populate with first image in gallery
+        var thumbnailFile = document.getElementById("thumbnailFile");
+        console.log('the files in thumbnail file side: ', thumbnailFile.files.length);
+        console.log('teypsadl: ', list.files[0].type)
+    }
+  </script>
+  <!-- additional drag and drop image/video -->
+  <script>
+        let addDropArea = document.getElementById("add-drop-area");
+
+    // Prevent default drag behaviors
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+      addDropArea.addEventListener(eventName, preventDefaults, false)   
+      document.body.addEventListener(eventName, preventDefaults, false)
+    });
+
+    // Highlight drop area when item is dragged over it
+    ['dragenter', 'dragover'].forEach(eventName => {
+      addDropArea.addEventListener(eventName, highlight, false)
+    });
+    ['dragleave', 'drop'].forEach(eventName => {
+      addDropArea.addEventListener(eventName, unhighlight, false)
+    });
+
+    // Handle dropped files
+    addDropArea.addEventListener('drop', handleAddDrop, false);
+
+    function preventDefaults (e) {
+      e.preventDefault()
+      e.stopPropagation()
+    }
+
+    function highlight(e) {
+      addDropArea.classList.add('highlight')
+    }
+
+    function unhighlight(e) {
+      addDropArea.classList.remove('highlight')
+    }
+
+    function handleAddDrop(e) {
+      var dt = e.dataTransfer
+      var files = dt.files
+      console.log('hdisfas: ', files);
+      additionalUpdateGallery(files);
+    }
+
+    function handleAddGallery() {
+      var galleryFiles = document.getElementById("galleryFileArray");
+      console.log('sdasdasdsadsadsad: ',galleryFiles.files)
+      return galleryFiles.files
+    }
+
+    function additionalUpdateGallery(files) {
+      var galleryFiles = handleAddGallery();
+      console.log('hhhhh: ',galleryFiles)
+      files = [...files]//convert files to array
+      var list = new DataTransfer();
+      console.log('tttttttt: ', galleryFiles.length)
+      for(let i=0; i<galleryFiles.length; i++) {
+        list.items.add(galleryFiles[i]);
+      }
+      console.log('ppppppp: ', files.length)
+      for(let i=0; i<files.length; i++) {
+        list.items.add(files[i]);
+      }
+      var fileList = document.getElementById('galleryFileArray');
+      fileList.files = list.files;
+      var previousThumbnail = document.getElementById('thumbnail-gallery');
+      console.log('previous thumbnail in gallery: ',previousThumbnail.childNodes[0].classList.value)
+      if(previousThumbnail.childNodes[0].classList.value == 'listingImage') {
+        console.log('checks out: ', previousThumbnail.childNodes[0].id);
+        document.getElementById("thumbnailFile").value="";
+        document.getElementById("thumbnail-gallery").removeChild(document.getElementById("thumbnail-gallery").firstChild);
+      }
+      previewGallery(list.files);
+    }
+  </script>
+  <!-- Choose Thumbnail drag and drop -->
+  <script>
+    let thumbnailDropArea = document.getElementById("thumbnail-drop-area");
+    // Prevent default drag behaviors
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+        thumbnailDropArea.addEventListener(eventName, preventDefaults, false)   
+        document.body.addEventListener(eventName, preventDefaults, false)
+    });
+    // Highlight drop area when item is dragged over it
+    ['dragenter', 'dragover'].forEach(eventName => {
+        thumbnailDropArea.addEventListener(eventName, highlight, false)
+    });
+    ['dragleave', 'drop'].forEach(eventName => {
+        thumbnailDropArea.addEventListener(eventName, unhighlight, false)
+    });
+    // Handle dropped file
+    thumbnailDropArea.addEventListener('drop', handleThumbDrop, false);
+    function preventDefaults (e) {
+        e.preventDefault()
+        e.stopPropagation()
+    }
+    function highlight(e) {
+        thumbnailDropArea.classList.add('highlight')
+    }
+    function unhighlight(e) {
+        thumbnailDropArea.classList.remove('highlight')
+    }
+    function dataURLtoFile(dataurl, filename) {
+      var arr = dataurl.split(','),
+          mime = arr[0].match(/:(.*?);/)[1],
+          bstr = atob(arr[1]), 
+          n = bstr.length, 
+          u8arr = new Uint8Array(n);
+      while(n--){
+          u8arr[n] = bstr.charCodeAt(n);
+      }
+      return new File([u8arr], filename, {type:mime});
+    }
+    function handleThumbDrop(e) {
+      var thumbnailGallery = document.getElementById("thumbnail-gallery")
+      var previousThumbnail = document.getElementById("thumbnailFile");
+      var imageGallery = document.getElementById("image-gallery");
+      console.log('the err thianka: ', thumbnailGallery.firstChild.childNodes[1]);
+      previousThumbnail.value ="";
+      thumbnailGallery.firstChild.childNodes[1].style.display = "block"
+      imageGallery.appendChild(document.getElementById("thumbnail-gallery").firstChild);
+      var dt = e.dataTransfer;
+      console.log('dt provi: ',dt.getData("text"));
+      console.log('dfgsdf: ', dt)
+      var files;
+      console.log('dtgetdata: ', dt.getData('text'))
+      var slctEle = document.getElementById(dt.getData("text"));
+      console.log('slcele: ', slctEle)
+      if(slctEle != null) {
+        files = dataURLtoFile(slctEle.src, "thumbnailImage");
+        console.log('typ of fiel: ',files);
+        updateThumbnail(files)
+        slctEle.parentNode.childNodes[1].style.display = "none"
+        console.log('mmcvmcvmc: ',thumbnailGallery)
+        document.getElementById("thumbnail-gallery").appendChild(slctEle.parentNode);
+        console.log('mmcvmcvmc: ',thumbnailGallery)
+      }else{
+        files = dt.files;
+        console.log('drop: ', files)
+        updateThumbnail(files)
+        previewThumbnail(files);
+      }
+    }
+    function handleThumbnailFile(files) {
+      var imageGallery = document.getElementById("image-gallery");
+        files = [...files];
+        console.log('inside thumb: ',files)
+        var previousThumbnail = document.getElementById("thumbnailFile");
+        console.log('previousds length: ', previousThumbnail.files.length)
+        if(previousThumbnail.files.length > 0) {
+          previousThumbnail.value ="";
+          imageGallery.appendChild(document.getElementById("thumbnail-gallery").firstChild);
+        }
+        updateThumbnail(files)
+        previewThumbnail(files);
+    }
+    function previewThumbnail(files) {
+      var thumbnailGallery = document.getElementById("thumbnail-gallery")
+      var imageGallery = document.getElementById("image-gallery")
+      console.log('thumbnaisda: ',files)
+      var file;
+      if(typeof files.length == 'undefined'){
+        var list = new DataTransfer();
+        list.items.add(files);
+        file = list.files[list.files.length - 1];
+        console.log('drag file: ', file);
+        if(thumbnailGallery.firstChild) {
+          imageGallery.appendChild(thumbnailGallery.firstChild);
+        }
+      }else {
+        file = files[files.length - 1];
+        console.log('select file', file);
+        let reader = new FileReader();
+        console.log('reader file: ', file);
+        reader.readAsDataURL(file); 
+        reader.onloadend = function() {
+          console.log('given thumbnail file: ',file);
+          var img = document.createElement('img');
+          img.src = reader.result;
+          img.classList.add("thumbnail-gallery-style");
+          thumbnailGallery.appendChild(img);
+        }
+      }
+    }
+    function updateThumbnail(files) {
+      console.log('chosen file: ',typeof files.length)
+      console.log('chosen thumnail: ', files)
+      var file;
+      if(typeof files.length == 'undefined'){
+        file = files
+      }else {
+        file = files[files.length - 1];
+      }
+      var thumbnailFiles = document.getElementById("thumbnailFile");
+      console.log('thumbnail files length: ',thumbnailFiles.files.length);
+      var list = new DataTransfer();
+      console.log('check for multiple thumbnail: ',file)
+      list.items.add(file);
+      thumbnailFiles.files = list.files;
+    }
+</script>
+
+
+<footer class="container-fluid mt-5 "id="footer" style="background-color: #292b2c; color: white">
+</footer>
+<script src="https://use.fontawesome.com/releases/v5.15.3/js/all.js" data-auto-replace-svg="nest"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="/javascripts/owl.carousel.min.js"></script>
+<script src="/javascripts/jquer.js"></script>
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script>
+<script>
+$(window).on('load', function(){
+  $(".loader").fadeOut(1000);
+});
+</script>
+<script>
+function sortTableByColumn(table, column, asc = true) {
+    const dirModifier = asc ? 1 : -1;
+    const tBody = table.tBodies[0];
+    const rows = Array.from(tBody.querySelectorAll("tr"));
+
+    // Sort each row
+    const sortedRows = rows.sort((a, b) => {
+        const aColText = a.querySelector(`td:nth-child(${ column + 1 })`).textContent.trim();
+        const bColText = b.querySelector(`td:nth-child(${ column + 1 })`).textContent.trim();
+
+        return aColText > bColText ? (1 * dirModifier) : (-1 * dirModifier);
+    });
+
+    // Remove all existing TRs from the table
+    while (tBody.firstChild) {
+        tBody.removeChild(tBody.firstChild);
+    }
+
+    // Re-add the newly sorted rows
+    tBody.append(...sortedRows);
+
+    // Remember how the column is currently sorted
+    table.querySelectorAll("th").forEach(th => th.classList.remove("th-sort-asc", "th-sort-desc"));
+    table.querySelector(`th:nth-child(${ column + 1})`).classList.toggle("th-sort-asc", asc);
+    table.querySelector(`th:nth-child(${ column + 1})`).classList.toggle("th-sort-desc", !asc);
+}
+
+document.querySelectorAll(".table-sortable th").forEach(headerCell => {
+    headerCell.addEventListener("click", () => {
+        const tableElement = headerCell.parentElement.parentElement.parentElement;
+        const headerIndex = Array.prototype.indexOf.call(headerCell.parentElement.children, headerCell);
+        const currentIsAscending = headerCell.classList.contains("th-sort-asc");
+
+        sortTableByColumn(tableElement, headerIndex, !currentIsAscending);
+    });
+});
+</script>
+<script>
+AOS.init();
+</script>
+</body>
+
+</html>
