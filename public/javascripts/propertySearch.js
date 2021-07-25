@@ -284,7 +284,7 @@ function loadData (rs,loadObj) {
         loadObj.sectionRem = 0;
         loadObj.startIndex = endIndex;
         document.getElementById("loadMoreBtn").remove();
-        var finalMsg = `<p id="endOfResult">End of Search Results</p>`
+        var finalMsg = `<p id="endOfResult">End of Search Result</p>`
         try {
             document.getElementById("loadMoreDiv").insertAdjacentHTML("beforeend", finalMsg);
         } catch(e){}
