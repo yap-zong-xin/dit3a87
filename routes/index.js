@@ -416,4 +416,9 @@ router.get("/logout", middleware.isLoggedIn, function(req, res){
 	res.redirect("/login");
 });
 
+//About Route
+router.get("/about", function(req, res){
+	res.render("about.ejs");
+});
+
 module.exports = router;

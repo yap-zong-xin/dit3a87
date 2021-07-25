@@ -97,6 +97,8 @@ async function countApi(url) {
 
 //Index Route
 router.get("/", function(req,res){
+	//counts number of times homepage has been visited
+	countApi("/hit/3dpropertylistingsg/visits");
 	res.render("listings/landing.ejs"); 
 });
 
@@ -210,20 +212,7 @@ router.get("/listings", function(req,res){
 										if(alllistings.length < 1) {
 												noMatch = "result: '" + req.query.searchindex + "' not found";
 										}
-										//====== for listing analytics
-										for (var i = 0; i < alllistings.length; i++) {
-											//id
-											var id = alllistings[i]._id;
-											console.log(alllistings[i]._id);
 
-											async function postCount (id) {
-												await countApi("/hit/3dpropertylistingsg/" +  id + "-click").then(success => {
-												// console.log("https://api.countapi.xyz/hit/3dpropertylistingsg/" + id + "-click");
-												// console.log("id: " + id + "success: " + success.data.value);
-												});
-											}
-											postCount(id);
-										}
 										res.render("listings/search.ejs", {
 												listings: alllistings,
 												noMatch: noMatch,
@@ -250,20 +239,7 @@ router.get("/listings", function(req,res){
 										if(alllistings.length < 1) {
 												noMatch = "result: '" + req.query.search + "' not found";
 										}
-										//====== for listing analytics
-										for (var i = 0; i < alllistings.length; i++) {
-											//id
-											var id = alllistings[i]._id;
-											console.log(alllistings[i]._id);
 
-											async function postCount (id) {
-												await countApi("/hit/3dpropertylistingsg/" +  id + "-click").then(success => {
-												// console.log("https://api.countapi.xyz/hit/3dpropertylistingsg/" + id + "-click");
-												// console.log("id: " + id + "success: " + success.data.value);
-												});
-											}
-											postCount(id);
-										}
 										res.render("listings/search.ejs", {
 												listings: alllistings,
 												noMatch: noMatch,
@@ -611,10 +587,7 @@ router.get("/listings", function(req,res){
 											// console.log(alllistings[i]._id);
 
 											async function postCount (id) {
-												await countApi("/hit/3dpropertylistingsg/" +  id + "-click").then(success => {
-												// console.log("https://api.countapi.xyz/hit/3dpropertylistingsg/" + id + "-click");
-												// console.log("id: " + id + "success: " + success.data.value);
-											});
+												await countApi("/hit/3dpropertylistingsg/" +  id + "-click")
 											}
 											postCount(id)
 										}
@@ -634,10 +607,6 @@ router.get("/listings", function(req,res){
 		});
 	});
 
-	//counts number of times homepage has been visited
-	countApi("/hit/3dpropertylistingsg/visits").then(success => {
-		// console.log(success.data.value);
-	});
 });
 
 function escapeRegex(text) {
@@ -1130,83 +1099,58 @@ router.put("/listings/:id", middleware.checklistingOwnership, uploadMultiple, fu
 		} else{
 			console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa: ',req.files);
 			console.log('bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb: ',req.body);
-			//if thumbnail is provided
-			if(req.files.listingThumbnail) {
-				var listingThumbnail = req.files.listingThumbnail;
-				try{
-					console.log('check for: '+listing.thumbnailId);
-					await cloudinary.v2.uploader.destroy(listing.thumbnailId);
-					console.log('paht check: '+listingThumbnail[0].path);
-					var result = await cloudinary.v2.uploader.upload(listingThumbnail[0].path, { resource_type: "auto" });
-					listing.thumbnail = result.secure_url;
-					listing.thumbnailId = result.public_id;
-				}catch(err) {
-					req.flash("error", err.message);
-					return res.redirect("back");
-				}
+			//Thumbnail
+			var listingThumbnail = req.files.listingThumbnail;
+			try{
+				console.log('check for thumbnail: '+listing.thumbnailId);
+				await cloudinary.v2.uploader.destroy(listing.thumbnailId);
+				console.log('thumbnail path check: '+listingThumbnail[0].path);
+				var result = await uploadToCloudinary(listingThumbnail[0].path);
+				listing.thumbnail = result.secure_url;
+				listing.thumbnailId = result.public_id;
+			}catch(err) {
+				req.flash("error", err.message);
+				return res.redirect("back");
 			}
-			if(req.files.listingGallery) {
-				console.log('new edit listing gallery: ', req.files.listingGallery);
-			}	
-			// //Image
-			// var newImage = req.files.image;
-			// var newImageArray = [];
-			// for(let a=0; a<newImage.length; a++) {
-			// 	newImageArray.push(newImage[a]);
-			// }
-			// // console.log('new image array length: ',newImageArray.length);
-			// // console.log('new image stuff: ',newImageArray[0].path);
-			// var newImageSecureUrlArray = [];
-			// var newImagePublicIdArray = [];
-			// try{
-			// 	// console.log('check for: '+listing.imageId[0]);
-			// 	for(let b=0; b<listing.imageId.length; b++) {
-			// 		await cloudinary.v2.uploader.destroy(listing.imageId[b]);
-			// 	}
-				
-			// 	for(let c=0; c<newImageArray.length; c++) {
-			// 		console.log('image paht check: ',newImageArray[c].path);
-			// 		var result = await cloudinary.v2.uploader.upload(newImageArray[c].path, { resource_type: "auto" });
-			// 		newImageSecureUrlArray.push(result.secure_url);
-			// 		newImagePublicIdArray.push(result.public_id);
-			// 		listing.image = newImageSecureUrlArray;
-			// 		listing.imageId = newImagePublicIdArray;
-			// 	}
-			// }catch(err) {
-			// 	req.flash("error", err.message);
-			// 	return res.redirect("back");
-			// }
-				
-			// //Video
-			// var newVideo = req.files.video;
-			// var newVideoArray = [];
-			// for(let d=0; d<newVideo.length; d++) {
-			// 	newVideoArray.push(newVideo[d]);
-			// }
-			// // console.log('new video array length: ',newVideoArray.length);
-			// // console.log('new video stuff: ',newVideoArray[0].path);
-			// var newVideoSecureUrlArray = [];
-			// var newVideoPublicIdArray = [];
-			// try{
-			// 	// console.log('check for: '+listing.videoId[0]);
-			// 	for(let p=0; p<listing.videoId.length; p++) {
-			// 		await cloudinary.v2.uploader.destroy(listing.videoId[p]);
-			// 	}
-				
-			// 	for(let k=0; k<newVideoArray.length; k++) {
-			// 		console.log('vide paht check: ',newVideoArray[k].path);
-			// 		var result = await cloudinary.v2.uploader.upload(newVideoArray[k].path, { resource_type: "auto" });
-			// 		newVideoSecureUrlArray.push(result.secure_url);
-			// 		newVideoPublicIdArray.push(result.public_id);
-			// 		listing.video = newVideoSecureUrlArray;
-			// 		listing.videoId = newVideoPublicIdArray;
-			// 	}
-			// }catch(err) {
-			// 	req.flash("error", err.message);
-			// 	return res.redirect("back");
-			// }
-				
-			//location and save
+			//Image & Video Gallery
+			var listingGallery = req.files.listingGallery;
+			console.log('new upda gallery: ', listingGallery);
+			var newImageSecureUrlArray = [];
+			var newImagePublicIdArray = [];
+			var newVideoSecureUrlArray = [];
+			var newVideoPublicIdArray = [];
+			try{
+				//Destroy Image
+				console.log('check for image: '+listing.imageId);
+				for(let i=0; i<listing.imageId.length; i++) {
+					await cloudinary.v2.uploader.destroy(listing.imageId[i]);
+				}
+				//Destroy Video
+				console.log('check for video: '+listing.videoId);
+				for(let i=0; i<listing.videoId.length; i++) {
+					await cloudinary.v2.uploader.destroy(listing.videoId[i]);
+				}
+				//Upload Image & Video
+				for(let i=0; i<listingGallery.length; i++) {
+					if(listingGallery[i].mimetype.includes('image')) {
+						var result = await uploadToCloudinary(listingGallery[i].path);
+						newImageSecureUrlArray.push(result.secure_url);
+						newImagePublicIdArray.push(result.public_id);
+					}else if(listingGallery[i].mimetype.includes('video')) {
+						var result = await uploadToCloudinary(listingGallery[i].path);
+						newVideoSecureUrlArray.push(result.secure_url);
+						newVideoPublicIdArray.push(result.public_id);
+					}
+				}
+				listing.image = newImageSecureUrlArray;
+				listing.imageId = newImagePublicIdArray;
+				listing.video = newVideoSecureUrlArray;
+				listing.videoId = newVideoPublicIdArray;		
+			}catch(err) {
+				req.flash("error", err.message);
+				return res.redirect("back");
+			}
+			//location information
 			if(req.body.listing.location !== listing.location){
 				console.log(req.body.location)
 				console.log(listing.location)
@@ -1225,13 +1169,30 @@ router.put("/listings/:id", middleware.checklistingOwnership, uploadMultiple, fu
 						res.redirect('back');
 				}
 			}
+			//Get all the information
 			listing.name = req.body.listing.name;
-			listing.description = req.body.listing.description;
-			listing.zone = req.body.listing.zone;
 			listing.price = req.body.listing.price;
 			listing.size = req.body.listing.size;
 			listing.type = req.body.listing.type;
-			listing.bedrooms = req.body.listing.bedrooms;
+			listing.bedrooms = Number(req.body.listing.bedrooms);
+			listing.bathrooms = Number(req.body.listing.bathrooms);
+			listing.tenure = req.body.listing.tenure;
+			listing.district = req.body.listing.district;
+			listing.street = req.body.listing.street;
+			listing.unitNumber = req.body.listing.unitNumber;
+			listing.location = req.body.listing.location;
+			listing.threeDImage = req.body.listing.threeDImage;
+			listing.description = req.body.listing.description;
+			//radio buttons input (true/false)
+			listing.carpark = req.body.listing.carpark;
+			listing.pool = req.body.listing.pool;
+			listing.gym = req.body.listing.gym;
+			listing.playground = req.body.listing.playground;
+			listing.hall = req.body.listing.hall;
+			listing.mall = req.body.listing.mall;
+			listing.intercom = req.body.listing.intercom;
+			listing.security = req.body.listing.security;
+			//save new listing information
 			listing.save();
 			console.log(listing)
 			req.flash("success", "You have successfully updated a listing.");
