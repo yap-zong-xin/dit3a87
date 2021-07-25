@@ -571,16 +571,27 @@ body {
   justify-content: center;
   align-items: center;
   border-radius: 3px;
+  width: 100%;
+}
+
+.search-bar-result-input {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .search-bar-result i {
   color: rgb(136, 136, 136);
-  padding: 0 5px 0 5px;
+  margin: 5px;
+  font-size: 18px;
 }
 
 .search-bar-result input[type=text] {
   border: none;
   font-family: "Poppins", sans-serif;
+  width: 100%;
+  margin: 0 5px 0 5px;
 }
 
 .search-bar-result button {
@@ -594,8 +605,9 @@ body {
   font-family: "Poppins", sans-serif;
 }
 
+
 .loadMoreBtn:focus,
-.search-bar-result input[type=text]:focus,
+.search-bar-result-input input[type=text]:focus,
 .search-bar-result button:focus {
   outline: none;
 }
@@ -681,6 +693,11 @@ body {
 .loadMoreBtn {
   color: rgb(150, 150, 150);
   border: 1px solid rgb(196, 196, 196);
+}
+
+#endOfResult {
+  margin: 25px 0 25px;
+  color: rgb(150, 150, 150);
 }
 
 /* Slider */

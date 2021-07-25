@@ -97,6 +97,8 @@ async function countApi(url) {
 
 //Index Route
 router.get("/", function(req,res){
+	//counts number of times homepage has been visited
+	countApi("/hit/3dpropertylistingsg/visits");
 	res.render("listings/landing.ejs"); 
 });
 
@@ -210,20 +212,7 @@ router.get("/listings", function(req,res){
 										if(alllistings.length < 1) {
 												noMatch = "result: '" + req.query.searchindex + "' not found";
 										}
-										//====== for listing analytics
-										for (var i = 0; i < alllistings.length; i++) {
-											//id
-											var id = alllistings[i]._id;
-											console.log(alllistings[i]._id);
 
-											async function postCount (id) {
-												await countApi("/hit/3dpropertylistingsg/" +  id + "-click").then(success => {
-												// console.log("https://api.countapi.xyz/hit/3dpropertylistingsg/" + id + "-click");
-												// console.log("id: " + id + "success: " + success.data.value);
-												});
-											}
-											postCount(id);
-										}
 										res.render("listings/search.ejs", {
 												listings: alllistings,
 												noMatch: noMatch,
@@ -250,20 +239,7 @@ router.get("/listings", function(req,res){
 										if(alllistings.length < 1) {
 												noMatch = "result: '" + req.query.search + "' not found";
 										}
-										//====== for listing analytics
-										for (var i = 0; i < alllistings.length; i++) {
-											//id
-											var id = alllistings[i]._id;
-											console.log(alllistings[i]._id);
 
-											async function postCount (id) {
-												await countApi("/hit/3dpropertylistingsg/" +  id + "-click").then(success => {
-												// console.log("https://api.countapi.xyz/hit/3dpropertylistingsg/" + id + "-click");
-												// console.log("id: " + id + "success: " + success.data.value);
-												});
-											}
-											postCount(id);
-										}
 										res.render("listings/search.ejs", {
 												listings: alllistings,
 												noMatch: noMatch,
@@ -611,10 +587,7 @@ router.get("/listings", function(req,res){
 											// console.log(alllistings[i]._id);
 
 											async function postCount (id) {
-												await countApi("/hit/3dpropertylistingsg/" +  id + "-click").then(success => {
-												// console.log("https://api.countapi.xyz/hit/3dpropertylistingsg/" + id + "-click");
-												// console.log("id: " + id + "success: " + success.data.value);
-											});
+												await countApi("/hit/3dpropertylistingsg/" +  id + "-click")
 											}
 											postCount(id)
 										}
@@ -634,10 +607,6 @@ router.get("/listings", function(req,res){
 		});
 	});
 
-	//counts number of times homepage has been visited
-	countApi("/hit/3dpropertylistingsg/visits").then(success => {
-		// console.log(success.data.value);
-	});
 });
 
 function escapeRegex(text) {

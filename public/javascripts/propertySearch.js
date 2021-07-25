@@ -1,5 +1,16 @@
+async function countApi(url) {
+	const host = "https://api.countapi.xyz"
+	try {
+		return await axios.get(host + url);
+	} catch (err) {
+		console.log('error', err)
+	}
+}
+
 function createHTML(rs) {
     //format inputs
+
+    console.log(rs)
     var id = rs._id;
     var author_id = rs.author.id._id;
     var auther_id_img = rs.author.id.image;
@@ -78,6 +89,8 @@ function createHTML(rs) {
     var listMarkAvail = "";
     var insertManageListEnd = ""
     
+    countApi("/hit/3dpropertylistingsg/" +  id + "-click");
+
     if(currentUser&&(author_id == currentUser._id)||currentUser&&currentUser.isAdmin) {
         insertManageListStart =  `<div class="dropdown">
                                     <button type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: transparent; border: none">
@@ -109,7 +122,7 @@ function createHTML(rs) {
                                     </div>`
     }
 
-    var html = `<div class="col-md-12 m-0 p-0">
+    var html = `<div class="col-md-12 m-0 p-0" data-aos="fade-up" data-aos-once="true">
                     <div class="listingHoverMain" style="display: flex; align-items: center; justify-content: center; flex-direction: column; margin: 10px; transition: 0.3s; " >
                         <div class="row col-md-12">
 
@@ -271,6 +284,11 @@ function loadData (rs,loadObj) {
         loadObj.sectionRem = 0;
         loadObj.startIndex = endIndex;
         document.getElementById("loadMoreBtn").remove();
+        var finalMsg = `<p id="endOfResult">End of Search Results</p>`
+        try {
+            document.getElementById("loadMoreDiv").insertAdjacentHTML("beforeend", finalMsg);
+        } catch(e){}
+        
     }
 
     return loadObj;
