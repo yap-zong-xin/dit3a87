@@ -90,7 +90,8 @@ body {
 .landing-overlay {
   position:relative;
   z-index:10;
-  background: white;
+  background: fff;
+  color: #000;
   padding: 30px;
 }
 
@@ -111,7 +112,7 @@ body {
 .benefit-landing-txt {
   background-color: transparent;
   border: none;
-  color: white;
+  color: #000;
   font-size: 22px;
   font-weight: 500;
   margin: 15px;
@@ -133,7 +134,7 @@ body {
 }
 
 .desc-insert {
-  color: white;
+  color: #000;
   font-size: 16px;
   font-weight: 100;
   letter-spacing: 0.5px;
@@ -3160,7 +3161,6 @@ footer {
 
 .footer {
   color: #fff;
-  border-top: solid gray 1px;
   background-color: #003580;
   font-size: 0.9em;
   padding-top: 60px;
