@@ -3091,11 +3091,15 @@ footer {
   display: block;
 }
 
-
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 991px) {
   .hide-nav, #loginRegisterNav {
     display: none !important;
   }
+}
+
+
+@media only screen and (max-width: 767px) {
+
 
   #search-border {
     border: none;
