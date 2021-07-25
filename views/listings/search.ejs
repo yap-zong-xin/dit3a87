@@ -15,6 +15,7 @@
     var urlParams = new URLSearchParams(queryString);
     var resultSearch = urlParams.get('search');
     var searchindex = urlParams.get('searchindex');
+    var quickSearch = urlParams.get('quickSearch');
 </script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
 
@@ -366,8 +367,20 @@ $('#maxPrice').attr('placeholder', 'Max. Price');
     if (resultSearch == "") {
       document.getElementById("search-result").innerHTML = 'All Listings';
     }
-</script>
 
+    if (quickSearch == "5rm") {
+        document.getElementById("search-result").innerHTML = '5 Room HDB Listings';
+    } else if (quickSearch == "4rm") {
+        document.getElementById("search-result").innerHTML = '4 Room HDB Listings';
+    } else if (quickSearch == "3rm") {
+        document.getElementById("search-result").innerHTML = '3 Room HDB Listings';
+    } else if (quickSearch == "condo") {
+        document.getElementById("search-result").innerHTML = 'Condominium Listings';
+    } else if (quickSearch == "landed") {
+        document.getElementById("search-result").innerHTML = 'Landed Property Listings';
+    }
+
+</script>
 <script>
     (function () {
         var parent = document.querySelector(".price-slider");

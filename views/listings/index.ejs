@@ -125,23 +125,24 @@
             <p class="row">Explore Categories</p>
             <div class="row">
                 <div class="owl-carousel owl-theme" >
-                    <div class="item">
+                    <!--/listings?searchindex=&propertyType=hdb&numofRooms=5&sortBy=MostPop&minPrice=&maxPrice=&minSize=&maxSize=&searchindexBtn=searchindexBtn-->
+                    <div class="item" onClick="window.location='/listings?searchindex=&propertyType=hdb&numofRooms=5&sortBy=MostPop&minPrice=&maxPrice=&minSize=&maxSize=&searchindexBtn=searchindexBtn&quickSearch=5rm'">
                         <img src="/img/5rm-img.jpg">
                         <div class="item-text"><p>5 Room<br>HDB Flats</p></div>
                     </div>
-                    <div class="item">
+                    <div class="item" onClick="window.location='/listings?searchindex=&propertyType=hdb&numofRooms=4&sortBy=MostPop&minPrice=&maxPrice=&minSize=&maxSize=&searchindexBtn=searchindexBt&quickSearch=4rm'">
                         <img src="/img/4rm-img.jpg">
                         <div class="item-text"><p>4 Room<br>HDB Flats</p></div>
                     </div>
-                    <div class="item">
+                    <div class="item" onClick="window.location='/listings?searchindex=&propertyType=hdb&numofRooms=3&sortBy=MostPop&minPrice=&maxPrice=&minSize=&maxSize=&searchindexBtn=searchindexBtn&quickSearch=3rm'">
                         <img src="/img/3rm-img.jpg">
                         <div class="item-text"><p>3 Room<br>HDB Flats</p></div>
                     </div>
-                    <div class="item">
+                    <div class="item" onClick="window.location='/listings?searchindex=&propertyType=condo&numofRooms=allrooms&sortBy=MostPop&minPrice=&maxPrice=&minSize=&maxSize=&searchindexBtn=searchindexBtn&quickSearch=condo'">
                         <img src="/img/condo-img.jpg">
                         <div class="item-text"><p>Condominium<br>Flats</p></div>
                     </div>
-                    <div class="item">
+                    <div class="item" onClick="window.location='/listings?searchindex=&propertyType=landed&numofRooms=allrooms&sortBy=MostPop&minPrice=&maxPrice=&minSize=&maxSize=&searchindexBtn=searchindexBtn&quickSearch=landed'">
                         <img src="/img/landed-img.jpg">
                         <div class="item-text"><p>Landed<br>Properties</p></div>
                     </div>
@@ -329,7 +330,7 @@
                         <% }); %>
                     </div>
                     <div class="col-md-12 d-flex justify-content-center align-items-center loadMore" style="margin-top: 10px; margin-bottom: 10px;" data-aos="zoom-in" data-aos-once="true">
-                        <button type="button">Show More</button>
+                        <button type="button" onClick="reDirectRecent()">Show More</button>
                     </div>
                 </div>
             </div>
@@ -342,6 +343,11 @@
     <script src="/javascripts/clusterMap.js"></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js'></script>
     <!-- <script type="text/javascript" src="https://livejs.com/live.js"></script> -->
+    <script>
+        function reDirectRecent() {
+            window.location='/listings?searchindex=&propertyType=allType&numofRooms=allrooms&sortBy=Recent&minPrice=&maxPrice=&minSize=&maxSize=&searchindexBtn=searchindexBtn'
+        }
+    </script>
     <script>
         $(".hide-row" ).hide();
         $('.showHideBtn').click(function() {
