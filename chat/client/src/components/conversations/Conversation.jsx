@@ -9,7 +9,6 @@ export default function Conversation({ conversation, currentUser }) {
   useEffect(() => {
     const friendId = conversation.members.find((m) => m !== currentUser);
     console.log(friendId)
-
     const getUser = async () => {
       try {
         const res = await axios("/users/" + friendId);
@@ -25,9 +24,6 @@ export default function Conversation({ conversation, currentUser }) {
 
   return (
     <div>
-      <hr style={{
-        height: .4
-      }}></hr>
       <div className="conversation">
 
         <img

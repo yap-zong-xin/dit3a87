@@ -1,6 +1,6 @@
 .container {
   align-items:center;
-  flex: 1;
+  flex-direction: row;
   background-color: "grey";
   border-width: 5;
   border-top-left-radius: 500px;
@@ -21,11 +21,12 @@
 }
 
 .chatOnlineImg {
-  width: 200px;
-  height: 200px;
+  width: 75px;
+  height: 75px;
   border-radius: 50%;
   object-fit: cover;
   border: 1px solid white;
+  margin-right: 20px;
 }
 .listingImg {
   width: 50px;
@@ -33,7 +34,14 @@
   border-radius: 50%;
   object-fit: cover;
   border: 1px solid white;
+  float:left;
 }
+
+.userInfo {
+  float:left;
+  margin-right: 200px;
+}
+
 
 .chatOnlineBadge {
   width: 10px;
@@ -46,13 +54,23 @@
 }
 
 
+.offerButton {
+margin-left: 10px
+}
 
-.offerBtn {
-  margin-top: 10px;
-  display: flex;
+.sign {
+  float:left;
+}
+.inputBox {
+  float:right;
 }
 .offerInput {
   margin-top: 10px;
+}
+
+.acceptBtn {
+  margin-left: 20px;
+  margin-right: 20px;
 }
 
 
