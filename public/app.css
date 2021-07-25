@@ -1409,64 +1409,6 @@ input[type=range]::-ms-thumb {
   100% { transform: rotate(360deg); }
 }
 
-@media only screen and (max-height: 750px) {
-  .input-field {
-    height: 35px;
-    border-radius: 35px;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .input-field-select {
-    height: 35px;
-    border-radius: 35px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .input-field i, .input-field-select i {
-    padding-left: 5px;
-  }
-  
-  .input-field input, .input-field-select select, .input-field-select option {
-    height: 25px;
-    line-height: 1;
-    font-weight: 600;
-    color: #333;
-    padding: 0 5px 0 5px;
-    width: 100%;
-  }
-  
-  /* .btn, .btn.transparent{
-    height: 30px;
-    text-align: center;
-  } */
-
-  /* .btn.transparent {
-    padding: 0 0 1px;
-  } */
-
-  #upload {
-    display: flex;
-    flex-direction: column;
-    color: #333;
-    justify-content: center;
-    align-items: center;
-    border-radius: 5px;
-  }
-  
-  .input-field input[type=file] {
-    padding: 0 15px 0 15px;
-    width: 203px;
-  }
-}
-
-
-
 
 /* ===============Card [app.css onwards] ==================*/
 .form-card{
@@ -2412,114 +2354,6 @@ input[type=range]::-ms-thumb {
   box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2);
 }
 
-@media only screen and (min-width: 768px) and (max-width: 1199px) {
-  .user-result-contact {
-    text-align: center;
-  }
-
-  .contact-row {
-    flex-direction: column;
-  }
-
-  .contact-row p {
-    font-size: 12px;
-  }
-
-  .contact-row i {
-    font-size: 12px;
-  }
-}
-
-.hide-nav {
-  display: block;
-}
-
-
-@media only screen and (max-width: 767px) {
-  .hide-nav, #loginRegisterNav {
-    display: none !important;
-  }
-
-  #search-border {
-    border: none;
-  }
-
-  .contact-row p {
-    font-size: 14px;
-  }
-
-  .contact-row i {
-    font-size: 14px;
-  }
-
-  .user-detail {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 30px;
-  }
-
-  .caption-result {
-    padding: 15px;
-  }
-
-}
-
-@media only screen and (max-width: 500px) {
-  .user-result img {
-    width: 150px;
-    height: 150px;
-  }
-}
-
-@media only screen and (max-width: 478px) {
-  .contact-row {
-    flex-direction: column;
-  }
-  .user-result-contact {
-    text-align: center;
-  }
-}
-
-@media only screen and (max-width: 471px) {
-  .contact-row p {
-    font-size: 12px;
-    overflow-wrap: break-word;
-  }
-
-  .contact-row i {
-    font-size: 12px;
-  }
-
-  .user-detail h4 {
-    font-size: 16px;
-  }
-
-  .user-detail h6 {
-    font-size: 14px;
-  }
-
-  .location-result i, .location-result p {
-    font-size: 12px;
-  }
-
-  .user-detail span {
-    font-size: 10px;
-  }
-
-}
-
-@media only screen and (max-width: 388px) {
-  .user-result img {
-    width: 100px;
-    height: 100px;
-  }
-}
-
-
-
 @keyframes fadein {
   from { opacity: 0; }
   to   { opacity: 1; }
@@ -3184,4 +3018,159 @@ footer {
 .footer-social i {
   margin-left: 20px;
   margin-right: 20px;
+}
+
+/* Media Queries: Height */
+@media only screen and (max-height: 750px) {
+  .input-field {
+    height: 35px;
+    border-radius: 35px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .input-field-select {
+    height: 35px;
+    border-radius: 35px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .input-field i, .input-field-select i {
+    padding-left: 5px;
+  }
+  
+  .input-field input, .input-field-select select, .input-field-select option {
+    height: 25px;
+    line-height: 1;
+    font-weight: 600;
+    color: #333;
+    padding: 0 5px 0 5px;
+    width: 100%;
+  }
+
+  #upload {
+    display: flex;
+    flex-direction: column;
+    color: #333;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+  }
+  
+  .input-field input[type=file] {
+    padding: 0 15px 0 15px;
+    width: 203px;
+  }
+}
+
+/* Media Queries: Width */
+@media only screen and (min-width: 768px) and (max-width: 1199px) {
+  .user-result-contact {
+    text-align: center;
+  }
+
+  .contact-row {
+    flex-direction: column;
+  }
+
+  .contact-row p {
+    font-size: 12px;
+  }
+
+  .contact-row i {
+    font-size: 12px;
+  }
+}
+
+.hide-nav {
+  display: block;
+}
+
+
+@media only screen and (max-width: 767px) {
+  .hide-nav, #loginRegisterNav {
+    display: none !important;
+  }
+
+  #search-border {
+    border: none;
+  }
+
+  .contact-row p {
+    font-size: 14px;
+  }
+
+  .contact-row i {
+    font-size: 14px;
+  }
+
+  .user-detail {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 30px;
+  }
+
+  .caption-result {
+    padding: 15px;
+  }
+
+}
+
+@media only screen and (max-width: 500px) {
+  .user-result img {
+    width: 150px;
+    height: 150px;
+  }
+}
+
+@media only screen and (max-width: 478px) {
+  .contact-row {
+    flex-direction: column;
+  }
+  .user-result-contact {
+    text-align: center;
+  }
+}
+
+@media only screen and (max-width: 471px) {
+  .contact-row p {
+    font-size: 12px;
+    overflow-wrap: break-word;
+  }
+
+  .contact-row i {
+    font-size: 12px;
+  }
+
+  .user-detail h4 {
+    font-size: 16px;
+  }
+
+  .user-detail h6 {
+    font-size: 14px;
+  }
+
+  .location-result i, .location-result p {
+    font-size: 12px;
+  }
+
+  .user-detail span {
+    font-size: 10px;
+  }
+
+}
+
+@media only screen and (max-width: 388px) {
+  .user-result img {
+    width: 100px;
+    height: 100px;
+  }
 }
