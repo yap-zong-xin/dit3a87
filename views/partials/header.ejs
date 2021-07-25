@@ -11,6 +11,11 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="icon" type="image/png" href="https://zeus3d.sg/wp-content/uploads/2021/06/ZEUS-3d-Fav-16x16-1.png">
+  <link rel="apple-touch-icon" href="https://zeus3d.sg/wp-content/uploads/2021/06/ZEUS-3d-Fav-16x16-1.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="https://zeus3d.sg/wp-content/uploads/2021/06/ZEUS-3d-Fav-76x76-1.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="https://zeus3d.sg/wp-content/uploads/2021/06/ZEUS-3d-Fav-120x120-1.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="https://zeus3d.sg/wp-content/uploads/2021/06/ZEUS-3d-Fav-156x156-1.png">
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <script src="https://kit.fontawesome.com/64d58efce2.js" crossorigin="anonymous"></script>
@@ -34,7 +39,7 @@
   <meta property="og:description" content="Your description" />
   <meta property="og:image" content="https://www.your-domain.com/path/image.jpg" />
 
-  <title>3D Property Listing</title>
+  <title>Zeus 3D Singapore</title>
 </head>
 
 <body>
@@ -44,21 +49,23 @@
   <div class="loader" id="mainLoader"></div>
   <nav class="navbar navbar-expand-md sticky-top py-0" style="border-bottom: solid gray 1px; z-index:94; top: 35px;">
     <div class="container px-0">
-      <a href="/" class="mr-4 p-4" style="text-decoration: none;">Logo</a>
+      <a href="/" class="mr-4" style="text-decoration: none; padding: 24px 24px 24px 0;" id="nav-logo">
+        ZEUS 3D
+      </a>
       <a class="nav-link d-none d-md-block pr-2" href="/listings">Properties</a>
       <a class="nav-link d-none d-md-block pr-2" href="/user">Find Agents</a>
       <a class="nav-link d-none d-md-block pr-2" href="#">About Us</a>
       <a class="nav-link d-none d-md-block pr-2" href="#">Connect</a>
 
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      <button class="navbar-toggler custom-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
   
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav ml-auto align-items-center d-flex">
+        <ul class="navbar-nav ml-auto d-flex align-items-start">
           <% if(!currentUser){ %>
-                <div class="d-md-none">
+                <div class="d-md-none" style="padding-bottom: 20px;">
                   <li class="nav-item active">
                     <a class="nav-link" href="/listings">Properties</a>
                   </li>
@@ -71,13 +78,24 @@
                   <li class="nav-item active">
                     <a class="nav-link" href="#">Connect</a>
                   </li>
+                  <div class="dropdown-divider"></div>
+                  <li class="nav-item active">
+                    <a class="nav-link" href="/login" style="color: #000; font-weight: 800;">Sign In</a>
+                  </li>
+                  <li class="nav-item active">
+                    <a class="nav-link" href="/register" style="color: #000; font-weight: 800;">Sign Up For Free</a>
+                  </li>
                 </div>
-                <li class="nav-item active px-2" style="background:#003580;">
-                  <a class="nav-link py-1" href="/login" style="color: white;">Login</a>
-                </li>
-                <li class="nav-item active px-2 ml-2" style="background:#003580;">
-                  <a class="nav-link py-1" href="/register" style="color: white;">Register</a>
-                </li>
+
+                <div class="d-flex align-items-center">
+                  <li class="nav-item active px-2 hide-nav" >
+                    <a class="nav-link py-1" href="/login" style="color: #000; font-weight: 800;">Sign In</a>
+                  </li>
+                  <li class="nav-item active px-2 ml-2" style="background:#003580;" id="loginRegisterNav">
+                    <a class="nav-link py-1" href="/register"  style="color: white; font-weight: 500;">Sign Up For Free</a>
+                  </li>
+                </div>
+
             <% } else{ %>
               <div class="d-md-none">
                 <li class="nav-item active">
@@ -195,7 +213,7 @@
     </div>
   </nav>
 
-  <div class="container flashMessage">
+  <div class="container flashMessage" style="margin-top: 20px;">
     <% if(error && error.length> 0){ %>
       <div class="alert alert-danger alert-dismissible fade show" role="alert">
         <%= error %>

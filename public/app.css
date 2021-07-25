@@ -670,8 +670,10 @@ body {
 }
 
 .filter-Btn input[type=submit] {
-  border: 2px solid rgb(196, 196, 196);
-  background-color: rgb(196, 196, 196);
+  /* border: 2px solid rgb(196, 196, 196); */
+  /* background-color: rgb(196, 196, 196); */
+  border: 2px solid #3725c0;
+  background-color: #3725c0;
   color: white;
   border-radius: 5px;
   transition: 0.3s;
@@ -684,8 +686,10 @@ body {
 .filter-Btn input[type=button],
 .loadMoreBtn {
   background-color: transparent;
-  color: rgb(196, 196, 196);
-  border: 2px solid rgb(196, 196, 196);
+  /* color: rgb(196, 196, 196); */
+  /* border: 2px solid rgb(196, 196, 196); */
+  color: #3725c0;
+  border: 2px solid #3725c0;
   border-radius: 5px;
   transition: 0.3s;
   font-weight: 500;
@@ -797,19 +801,19 @@ input[type=range]:focus {
   outline: none;
 }
 input[type=range]:focus::-webkit-slider-runnable-track {
-  background: rgb(150, 150, 150);
+  background: #3725c0;
 }
 input[type=range]:focus::-ms-fill-lower {
-  background: rgb(196, 196, 196);
+  background: #3725c0;
 }
 input[type=range]:focus::-ms-fill-upper {
-  background: rgb(196, 196, 196);
+  background: #3725c0;
 }
 input[type=range]::-webkit-slider-runnable-track {
   width: 100%;
   height: 5px;
   cursor: pointer;
-  background: rgb(150, 150, 150);
+  background: #3725c0;
   border-radius: 1px;
   box-shadow: none;
   border: 0;
@@ -818,11 +822,11 @@ input[type=range]::-webkit-slider-thumb {
   z-index: 2;
   position: relative;
   box-shadow: 0px 0px 0px #000;
-  border: 1px solid rgb(196, 196, 196);
+  border: 1px solid #3725c0;
   height: 18px;
   width: 18px;
   border-radius: 25px;
-  background: rgb(196, 196, 196);
+  background: #fff;
   cursor: pointer;
   -webkit-appearance: none;
   margin-top: -7px;
@@ -840,7 +844,7 @@ input[type=range]::-moz-range-thumb {
   z-index: 2;
   position: relative;
   box-shadow: 0px 0px 0px #000;
-  border: 1px solid rgb(196, 196, 196);
+  border: 1px solid #3725c0;
   height: 18px;
   width: 18px;
   border-radius: 25px;
@@ -866,7 +870,7 @@ input[type=range]::-ms-thumb {
   z-index: 2;
   position: relative;
   box-shadow: 0px 0px 0px #000;
-  border: 1px solid rgb(196, 196, 196);
+  border: 1px solid #3725c0;
   height: 18px;
   width: 18px;
   border-radius: 25px;
@@ -2425,11 +2429,20 @@ input[type=range]::-ms-thumb {
   }
 }
 
+.hide-nav {
+  display: block;
+}
+
 
 @media only screen and (max-width: 767px) {
+  .hide-nav, #loginRegisterNav {
+    display: none !important;
+  }
+
   #search-border {
     border: none;
   }
+
   .contact-row p {
     font-size: 14px;
   }
@@ -2538,6 +2551,39 @@ nav{
 nav a{
   color: black;
 }
+
+#nav-logo {
+  font-weight: 900;
+  font-size: 28px;
+  color: #003580;
+  letter-spacing: 0.5px;
+  font-family: "Poppins", sans-serif;
+}
+
+#loginRegisterNav {
+  height: 45px;
+  width: 150px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 45px;
+}
+
+.custom-toggler.navbar-toggler {
+  border: 1px solid #003580;
+  border-color: #003580;
+}
+
+.custom-toggler .navbar-toggler-icon {
+  background-image: url(
+"data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgb(0, 53, 128)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
+}
+
+.custom-toggler:focus {
+  outline:none;
+}
+
 
 .item {
   position: sticky;
