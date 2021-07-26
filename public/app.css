@@ -1401,7 +1401,7 @@ input[type=range]::-ms-thumb {
 /* flash message */
 .flashMessage{
   position: fixed;
-  top: 115px;
+  top: 100px;
   z-index: 90;
   left: 50%;
   transform: translateX(-50%);
@@ -2108,6 +2108,7 @@ input[type=range]::-ms-thumb {
 }
 .user-result:hover{
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.05);
+  transform: scale(1.03)
 }
 
 .contact-row {

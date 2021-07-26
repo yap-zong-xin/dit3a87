@@ -30,18 +30,16 @@ function loadData(rs,loadObj) {
         var html;
         if (resultSet[i].rating === 0) {
             html = `<div class="col-md-12" data-aos="fade-up" data-aos-once="true">
-            <div class="col-md-12 user-result" onClick="window.location='/user/` + resultSet[i]._id + `'" style="border-top: 0.5px solid lightgray;">
-                <div class="row col-md-8 col-6 mx-0 py-0 my-2 px-5 user-detail align-items-center d-flex">
-                    <img src="` + resultSet[i].image + `" style="width: 160px; height: 160px;">
+            <div class="col-md-12 p-0 my-2 user-result shadow" onClick="window.location='/user/` + resultSet[i]._id + `'" >
+                <div class="row col-md-8 col-6 mx-0 py-4 px-5 user-detail align-items-center d-flex" style="background: rgba(243,243,243,0.5);">
+                    <img src="` + resultSet[i].image + `" style="width: 150px; height: 150px;">
                     <div class="caption-result">
                         <p class="mb-0" style="font-size:1.6em; font-weight:600;">` + resultSet[i].username + `</p>
                         <p class="px-3 mt-0 mb-2" style="font-size:0.9em!important; border-radius:15px; font-weight:400!important; border: 1px solid #4632DA;">CEA ` + resultSet[i].cea + `</p>
-                        <a href="/user/` + resultSet[i]._id + `/reviews" style="text-decoration: none; color: black;">
-                            <em>No reviews found.</em>
-                        </a>
+                        <em>No reviews found.</em>
                     </div>
                 </div>
-                <div class="col-md-4 col-6 m-0 py-0 my-2 px-4 align-items-center d-flex" style="border-left:1px solid gray;">
+                <div class="col-md-4 col-6 m-0 py-0 px-4 align-items-center d-flex" style="background: rgba(170,190,215,0.3);">
                     <div class="col-md-12">
                         <p style="font-size:1em; font-weight:650;" class="mb-2">Agent Details</p>
                         <div class="contact-row pb-1 align-items-center d-flex">
@@ -79,9 +77,9 @@ function loadData(rs,loadObj) {
             switch (arrNum) {
                 case 0:
                     html = `<div class="col-md-12" data-aos="fade-up" data-aos-once="true">
-                    <div class="col-md-12 user-result" onClick="window.location='/user/` + resultSet[i]._id + `'" style="border-top: 0.5px solid lightgray;">
-                        <div class="row col-md-8 col-6 mx-0 py-0 my-2 px-5 user-detail align-items-center d-flex">
-                            <img src="` + resultSet[i].image + `" style="width: 160px; height: 160px;">
+                    <div class="col-md-12 p-0 my-2 user-result shadow" onClick="window.location='/user/` + resultSet[i]._id + `'" >
+                        <div class="row col-md-8 col-6 mx-0 py-4 px-5 user-detail align-items-center d-flex" style="background: rgba(243,243,243,0.5);">
+                            <img src="` + resultSet[i].image + `" style="width: 150px; height: 150px;">
                             <div class="caption-result">
                                 <p class="mb-0" style="font-size:1.6em; font-weight:600;">` + resultSet[i].username + `</p>
                                 <p class="px-3 mt-0 mb-2" style="font-size:0.9em!important; border-radius:15px; font-weight:400!important; border: 1px solid #4632DA;">CEA ` + resultSet[i].cea + `</p>
@@ -95,7 +93,7 @@ function loadData(rs,loadObj) {
                                 </a>
                             </div>
                         </div>
-                        <div class="col-md-4 col-6 m-0 py-0 my-2 px-4 align-items-center d-flex" style="border-left:1px solid gray;">
+                        <div class="col-md-4 col-6 m-0 py-0 px-4 align-items-center d-flex" style="background: rgba(170,190,215,0.3);">
                             <div class="col-md-12">
                                 <p style="font-size:1em; font-weight:650;" class="mb-2">Agent Details</p>
                                 <div class="contact-row pb-1 align-items-center d-flex">
@@ -118,9 +116,9 @@ function loadData(rs,loadObj) {
                 break;
                 case 1:
                     html = `<div class="col-md-12" data-aos="fade-up" data-aos-once="true">
-                    <div class="col-md-12 user-result" onClick="window.location='/user/` + resultSet[i]._id + `'" style="border-top: 0.5px solid lightgray;">
-                        <div class="row col-md-8 col-6 mx-0 py-0 my-2 px-5 user-detail align-items-center d-flex">
-                            <img src="` + resultSet[i].image + `" style="width: 160px; height: 160px;">
+                    <div class="col-md-12 p-0 my-2 user-result shadow" onClick="window.location='/user/` + resultSet[i]._id + `'" >
+                        <div class="row col-md-8 col-6 mx-0 py-4 px-5 user-detail align-items-center d-flex" style="background: rgba(243,243,243,0.5);">
+                            <img src="` + resultSet[i].image + `" style="width: 150px; height: 150px;">
                             <div class="caption-result">
                                 <p class="mb-0" style="font-size:1.6em; font-weight:600;">` + resultSet[i].username + `</p>
                                 <p class="px-3 mt-0 mb-2" style="font-size:0.9em!important; border-radius:15px; font-weight:400!important; border: 1px solid #4632DA;">CEA ` + resultSet[i].cea + `</p>
@@ -134,7 +132,7 @@ function loadData(rs,loadObj) {
                                 </a>
                             </div>
                         </div>
-                        <div class="col-md-4 col-6 m-0 py-0 my-2 px-4 align-items-center d-flex" style="border-left:1px solid gray;">
+                        <div class="col-md-4 col-6 m-0 py-0 px-4 align-items-center d-flex" style="background: rgba(170,190,215,0.3);">
                             <div class="col-md-12">
                                 <p style="font-size:1em; font-weight:650;" class="mb-2">Agent Details</p>
                                 <div class="contact-row pb-1 align-items-center d-flex">
@@ -157,9 +155,9 @@ function loadData(rs,loadObj) {
                 break;
                 case 2:
                     html = `<div class="col-md-12" data-aos="fade-up" data-aos-once="true">
-                    <div class="col-md-12 user-result" onClick="window.location='/user/` + resultSet[i]._id + `'" style="border-top: 0.5px solid lightgray;">
-                        <div class="row col-md-8 col-6 mx-0 py-0 my-2 px-5 user-detail align-items-center d-flex">
-                            <img src="` + resultSet[i].image + `" style="width: 160px; height: 160px;">
+                    <div class="col-md-12 p-0 my-2 user-result shadow" onClick="window.location='/user/` + resultSet[i]._id + `'" >
+                        <div class="row col-md-8 col-6 mx-0 py-4 px-5 user-detail align-items-center d-flex" style="background: rgba(243,243,243,0.5);">
+                            <img src="` + resultSet[i].image + `" style="width: 150px; height: 150px;">
                             <div class="caption-result">
                                 <p class="mb-0" style="font-size:1.6em; font-weight:600;">` + resultSet[i].username + `</p>
                                 <p class="px-3 mt-0 mb-2" style="font-size:0.9em!important; border-radius:15px; font-weight:400!important; border: 1px solid #4632DA;">CEA ` + resultSet[i].cea + `</p>
@@ -173,7 +171,7 @@ function loadData(rs,loadObj) {
                                 </a>
                             </div>
                         </div>
-                        <div class="col-md-4 col-6 m-0 py-0 my-2 px-4 align-items-center d-flex" style="border-left:1px solid gray;">
+                        <div class="col-md-4 col-6 m-0 py-0 px-4 align-items-center d-flex" style="background: rgba(170,190,215,0.3);">
                             <div class="col-md-12">
                                 <p style="font-size:1em; font-weight:650;" class="mb-2">Agent Details</p>
                                 <div class="contact-row pb-1 align-items-center d-flex">
@@ -196,9 +194,9 @@ function loadData(rs,loadObj) {
                 break;
                 case 3:
                     html = `<div class="col-md-12" data-aos="fade-up" data-aos-once="true">
-                    <div class="col-md-12 user-result" onClick="window.location='/user/` + resultSet[i]._id + `'" style="border-top: 0.5px solid lightgray;">
-                        <div class="row col-md-8 col-6 mx-0 py-0 my-2 px-5 user-detail align-items-center d-flex">
-                            <img src="` + resultSet[i].image + `" style="width: 160px; height: 160px;">
+                    <div class="col-md-12 p-0 my-2 user-result shadow" onClick="window.location='/user/` + resultSet[i]._id + `'" >
+                        <div class="row col-md-8 col-6 mx-0 py-4 px-5 user-detail align-items-center d-flex" style="background: rgba(243,243,243,0.5);">
+                            <img src="` + resultSet[i].image + `" style="width: 150px; height: 150px;">
                             <div class="caption-result">
                                 <p class="mb-0" style="font-size:1.6em; font-weight:600;">` + resultSet[i].username + `</p>
                                 <p class="px-3 mt-0 mb-2" style="font-size:0.9em!important; border-radius:15px; font-weight:400!important; border: 1px solid #4632DA;">CEA ` + resultSet[i].cea + `</p>
@@ -212,7 +210,7 @@ function loadData(rs,loadObj) {
                                 </a>
                             </div>
                         </div>
-                        <div class="col-md-4 col-6 m-0 py-0 my-2 px-4 align-items-center d-flex" style="border-left:1px solid gray;">
+                        <div class="col-md-4 col-6 m-0 py-0 px-4 align-items-center d-flex" style="background: rgba(170,190,215,0.3);">
                             <div class="col-md-12">
                                 <p style="font-size:1em; font-weight:650;" class="mb-2">Agent Details</p>
                                 <div class="contact-row pb-1 align-items-center d-flex">
@@ -235,9 +233,9 @@ function loadData(rs,loadObj) {
                 break;
                 case 4:
                     html = `<div class="col-md-12" data-aos="fade-up" data-aos-once="true">
-                                <div class="col-md-12 user-result" onClick="window.location='/user/` + resultSet[i]._id + `'" style="border-top: 0.5px solid lightgray;">
-                                    <div class="row col-md-8 col-6 mx-0 py-0 my-2 px-5 user-detail align-items-center d-flex">
-                                        <img src="` + resultSet[i].image + `" style="width: 160px; height: 160px;">
+                                <div class="col-md-12 p-0 my-2 user-result shadow" onClick="window.location='/user/` + resultSet[i]._id + `'" >
+                                    <div class="row col-md-8 col-6 mx-0 py-4 px-5 user-detail align-items-center d-flex" style="background: rgba(243,243,243,0.5);">
+                                        <img src="` + resultSet[i].image + `" style="width: 150px; height: 150px;">
                                         <div class="caption-result">
                                             <p class="mb-0" style="font-size:1.6em; font-weight:600;">` + resultSet[i].username + `</p>
                                             <p class="px-3 mt-0 mb-2" style="font-size:0.9em!important; border-radius:15px; font-weight:400!important; border: 1px solid #4632DA;">CEA ` + resultSet[i].cea + `</p>
@@ -251,7 +249,7 @@ function loadData(rs,loadObj) {
                                             </a>
                                         </div>
                                     </div>
-                                    <div class="col-md-4 col-6 m-0 py-0 my-2 px-4 align-items-center d-flex" style="border-left:1px solid gray;">
+                                    <div class="col-md-4 col-6 m-0 py-0 px-4 align-items-center d-flex" style="background: rgba(170,190,215,0.3);">
                                         <div class="col-md-12">
                                             <p style="font-size:1em; font-weight:650;" class="mb-2">Agent Details</p>
                                             <div class="contact-row pb-1 align-items-center d-flex">
@@ -274,9 +272,9 @@ function loadData(rs,loadObj) {
                 break;
                 default:
                     html = `<div class="col-md-12" data-aos="fade-up" data-aos-once="true">
-                    <div class="col-md-12 user-result" onClick="window.location='/user/` + resultSet[i]._id + `'" style="border-top: 0.5px solid lightgray;">
-                        <div class="row col-md-8 col-6 mx-0 py-0 my-2 px-5 user-detail align-items-center d-flex">
-                            <img src="` + resultSet[i].image + `" style="width: 160px; height: 160px;">
+                    <div class="col-md-12 p-0 my-2 user-result shadow" onClick="window.location='/user/` + resultSet[i]._id + `'" >
+                        <div class="row col-md-8 col-6 mx-0 py-4 px-5 user-detail align-items-center d-flex" style="background: rgba(243,243,243,0.5);">
+                            <img src="` + resultSet[i].image + `" style="width: 150px; height: 150px;">
                             <div class="caption-result">
                                 <p class="mb-0" style="font-size:1.6em; font-weight:600;">` + resultSet[i].username + `</p>
                                 <p class="px-3 mt-0 mb-2" style="font-size:0.9em!important; border-radius:15px; font-weight:400!important; border: 1px solid #4632DA;">CEA ` + resultSet[i].cea + `</p>
@@ -290,7 +288,7 @@ function loadData(rs,loadObj) {
                                 </a>
                             </div>
                         </div>
-                        <div class="col-md-4 col-6 m-0 py-0 my-2 px-4 align-items-center d-flex" style="border-left:1px solid gray;">
+                        <div class="col-md-4 col-6 m-0 py-0 px-4 align-items-center d-flex" style="background: rgba(170,190,215,0.3);">
                             <div class="col-md-12">
                                 <p style="font-size:1em; font-weight:650;" class="mb-2">Agent Details</p>
                                 <div class="contact-row pb-1 align-items-center d-flex">
