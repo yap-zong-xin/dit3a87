@@ -14,7 +14,7 @@
     </div>
 
     <!--Search Bar-->
-    <div class="container" data-aos="zoom-in" data-aos-once="true" style="margin-top: -170px; margin-bottom: 50px;">
+    <div class="container mb-5" data-aos="zoom-in" data-aos-once="true" style="margin-top: -170px; margin-bottom: 50px;">
         <div class="col-md-12 listing-header d-flex flex-column fade-in">
             <p>Find your Property.</p>
         </div>    
@@ -97,7 +97,7 @@
                 </div>
                 <div class="row col-md-12 search-row">
                     <div class="float-left" style="padding: 0 15px 0 15px;">
-                        <p class="search-btn showHideBtn" id="showHideBtn">More Options▼</p>
+                        <p class="search-btn showHideBtn" id="showHideBtn">More Options▾</p>
                     </div>
                     <div class="search-btn float-right" style="padding: 0 15px 0 15px;">
                         <button type="submit" value="searchindexBtn" name="searchindexBtn" style="border-radius: 5px!important;">Show Listings</button>
@@ -108,15 +108,11 @@
     </div>
 
     <!--Map-->
-    <div class="container" style="padding-bottom: 200px;">
-        <!-- <div class="col-md-12 explore" data-aos="fade-up" data-aos-once="true">
-            <p class="row">Explore Listings</p>
-        </div> -->
+    <div class="container mb-4">
         <div class="col-md-12 explore" data-aos="fade-up" data-aos-once="true">
-            <p class="row">Explore Categories</p>
+            <p style="font-weight:600; font-size: 1.3em;">Explore Categories</p>
             <div class="row">
                 <div class="owl-carousel owl-theme" >
-                    <!--/listings?searchindex=&propertyType=hdb&numofRooms=5&sortBy=MostPop&minPrice=&maxPrice=&minSize=&maxSize=&searchindexBtn=searchindexBtn-->
                     <div class="item" onClick="window.location='/listings?searchindex=&propertyType=hdb&numofRooms=5&sortBy=MostPop&minPrice=&maxPrice=&minSize=&maxSize=&searchindexBtn=searchindexBtn&quickSearch=5rm'">
                         <img src="/img/5rm-img.jpg">
                         <div class="item-text"><p>5 Room<br>HDB Flats</p></div>
@@ -140,23 +136,29 @@
                 </div>
             </div>
         </div>
+        <div class="col-md-12 px-0 mt-5">
+            <div class="col-12 px-0">
+                <div class="col-md-12 p-0 explore-map" data-aos="fade-up" data-aos-once="true">
+                    <div class="shadow" id="map" style="max-width: 1110px; height: 250px; border-radius: 0px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container d-flex align-items-center justify-content-center" style="position:relative; top: 60px; height:70px; width: 1000px; background: #3F51B5;">
+        <span class="left" style="color: white; font-size: 1.25em; font-weight: 600;">Find The Best Property In Half The Time</span>
     </div>
 
     <!--Listings -->
-    <div style="background: #F3F3F3;">
-        <div class="container" style="margin-top: 50px;" id="listing-add">
-            <div class="col-12 px-0" style="max-width: 1110px; position: absolute; top: 850px;">
-                <div class="col-md-12 p-0 explore-map" data-aos="fade-up" data-aos-once="true">
-                    <div class="shadow" id="map" style="max-width: 1110px; height: 300px; border-radius: 0px;"></div>
-                </div>
-            </div>
+    <div style="background: #F3F3F3; margin-top: 20px;">
+        <div class="container" style="margin-top: 90px;" id="listing-add">
             <div class="col-md-12 m-0 p-0">
                 <div class="all-listing-card">
                     <div class="all-listing-card-container">
-                        <div class="row" style="margin-top: 200px;">
+                        <div class="row">
                             <% listings.forEach(function(listing) { %>
                                 <div class="col-lg-12 col-xl-6 px-0">
-                                    <div class="listingHoverMain" style="display: flex; align-items: center; justify-content: center; flex-direction: column; margin: 10px; transition: 0.3s; " data-aos="fade-up" data-aos-once="true">
+                                    <div class="listingHoverMain pt-3" style="display: flex; align-items: center; justify-content: center; flex-direction: column; margin: 9px; transition: 0.3s; " data-aos="fade-up" data-aos-once="true">
                                         <div class="row col-md-12">
                                             <% if(listing.soldStatus==true){ %>
                                                 <div class="col-md-12 m-0 p-0 justify-content-center d-flex">
@@ -240,7 +242,7 @@
                                             <!--Left of Listing-->
                                             <div class="col-sm-4 col-md-4 p-0 m-0 list-left d-flex justify-content-center align-items-center ">
                                                 <a class="p-0 m-0" href="/listings/<%= listing.id %>" style="text-decoration: none; color: black">
-                                                    <img class="img-fluid shadow" src="<%= listing.thumbnail %>" style="width: 100%; height: 130px; object-fit: cover; text-align: center">
+                                                    <img class="img-fluid shadow" src="<%= listing.thumbnail %>" style="width: 100%; height: 140px; object-fit: cover; border-radius: 5px;">
                                                 </a>
                                             </div>
     
@@ -255,6 +257,11 @@
                                                             <%= listing.name.substring(0, 14) + " ..." %>
                                                         <% } %>
                                                     </div>
+                                                    <!--Price-->
+                                                    <div class="col-12 listing-detail" id="listing-price">
+                                                        <p style="margin-bottom: 0">S$ </p>
+                                                        <span><%= listing.price %></span>
+                                                    </div>
                                                     <!--Street-->
                                                     <div class="col-12 listing-detail" id="listing-street">
                                                         <% if(listing.location.length<25){ %>
@@ -263,57 +270,43 @@
                                                             <%= listing.location.substring(0, 25) + "..." %>
                                                         <% } %>
                                                     </div>
-                                                    <!--Price-->
-                                                    <div class="col-12 listing-detail" id="listing-price">
-                                                        <p style="margin-bottom: 0">S$ </p>
-                                                        <span><%=listing.price %></span>
-                                                    </div>
                                                     <!--Property Details-->
-                                                    <div class="col-md-12 prop-detail">
-                                                        <div class="prop-tag">
-                                                            <i class="fas fa-bed"></i>
+                                                    <div class="col-md-12 align-items-center d-flex">
+                                                        <div class="left">
                                                             <span><%=listing.bedrooms%></span>
+                                                            <img class="pl-1" src="/img/bed-solid-svgrepo-com.svg" alt="" style="width:26px!important;">
                                                         </div>
-                                                        <div class="prop-sep">
-                                                            <i class="fas fa-circle"></i>
-                                                        </div>
-                                                        <div class="prop-tag">
-                                                            <i class="fas fa-toilet"></i>
+                                                        <div class="left right">
                                                             <span><%=listing.bathrooms%></span>
+                                                            <img class="pl-1" src="/img/wc-toilet-svgrepo-com.svg" alt="" style="width:20px!important;">
                                                         </div>
-                                                        <div class="prop-sep">
-                                                            <i class="fas fa-circle"></i>
+                                                        <div class="left right">
+                                                            <i style="font-size:0.26em!important;" class="fas fa-circle"></i>
                                                         </div>
-                                                        <div class="prop-tag">
-                                                            <span><%=listing.size%> sqft</span>
+                                                        <div class="right">
+                                                            <span><%= listing.size %> sqft</span>
                                                         </div>
                                                     </div>
                                                     <!--Tags-->
-                                                    <div class="col-md-12 listing-tag-wrapper" style="display: flex; flex-direction: row;"> 
-                                                        <div class="col-md-4 p-0">
-                                                            <div class="listing-tag">
-                                                                <span>
-                                                                    <%= listing.district %>
-                                                                </span>
-                                                            </div>
+                                                    <div class="col-md-12">
+                                                        <div class="left pt-2 pb-1">
+                                                            <span class="px-3 py-0" style="color: #4632DA; border: 1px solid #4632DA;">
+                                                                <%= listing.district %>
+                                                            </span>
                                                         </div>
-                                                        <div class="col-md-4 p-0">
-                                                            <div class="listing-tag">
-                                                                <span>
-                                                                    <%= listing.type %>
-                                                                </span>
-                                                            </div>
+                                                        <div class="left right pt-2 pb-1">
+                                                            <span class="px-3 py-0" style="color: #4632DA; border: 1px solid #4632DA;">
+                                                                <%= listing.type %>
+                                                            </span>
                                                         </div>
-                                                        <div class="col-md-4 p-0">
-                                                            <div class="listing-tag">
-                                                                <span>
-                                                                    <% if(listing.tenure.length<5){ %>
-                                                                        <%= listing.tenure.substring(0, 5) %>
-                                                                    <% } else { %>
-                                                                        <%= listing.tenure.substring(0, 5) + "..." %>
-                                                                    <% } %>
-                                                                </span>
-                                                            </div>
+                                                        <div class="left right pt-2 pb-1">
+                                                            <span class="px-3 py-0" style="color: #4632DA; border: 1px solid #4632DA;">
+                                                                <% if(listing.tenure.length<5){ %>
+                                                                    <%= listing.tenure.substring(0, 5) %>
+                                                                <% } else { %>
+                                                                    <%= listing.tenure.substring(0, 5) + "..." %>
+                                                                <% } %>
+                                                            </span>
                                                         </div>
                                                     </div>
                                                 </a>
@@ -349,9 +342,9 @@
                 var $this = $(this);
                 $this.toggleClass('showHideBtn');
                 if($this.hasClass('showHideBtn')){
-                    $this.text('More Options▼');	       
+                    $this.text('More Options▾');	       
                 } else {
-                    $this.text('Less Option▲');
+                    $this.text('Less Option▴');
                 }
                 $('.hide-row').slideToggle('slow', function() {
             });
