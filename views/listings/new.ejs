@@ -628,8 +628,13 @@
         var imageGallery = document.getElementById("image-gallery");
         console.log('the err thianka: ', thumbnailGallery.firstChild.childNodes[1]);
         previousThumbnail.value ="";
-        thumbnailGallery.firstChild.childNodes[1].style.display = "block"
-        imageGallery.appendChild(document.getElementById("thumbnail-gallery").firstChild);
+        if(thumbnailGallery.firstChild.childNodes[1]) {
+          thumbnailGallery.firstChild.childNodes[1].style.display = "block"
+          imageGallery.appendChild(document.getElementById("thumbnail-gallery").firstChild);
+        }else {
+          document.getElementById("thumbnail-gallery").removeChild(document.getElementById("thumbnail-gallery").childNodes[0])
+
+        }
         var dt = e.dataTransfer;
         console.log('dt provi: ',dt.getData("text"));
         console.log('dfgsdf: ', dt)
