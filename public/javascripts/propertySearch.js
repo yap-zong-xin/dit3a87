@@ -191,47 +191,41 @@ function createHTML(rs) {
                                         
                                     </div>
                                     <!--Property Details-->
-                                    <div class="col-md-12 prop-detail">
-                                        <div class="prop-tag">
-                                            <i class="fas fa-bed"></i>
+                                    <div class="col-md-12 align-items-center d-flex">
+                                        <div class="left">
+                                            <img class="pl-1" src="/img/bed-solid-svgrepo-com.svg" alt="" style="width:26px!important;">
                                             <span>`+ bedrooms +`</span>
                                         </div>
-                                        <div class="prop-sep">
-                                            <i class="fas fa-circle"></i>
-                                        </div>
-                                        <div class="prop-tag">
-                                            <i class="fas fa-toilet"></i>
+
+                                        <div class="left right">
+                                            <img class="pl-1" src="/img/wc-toilet-svgrepo-com.svg" alt="" style="width:20px!important;">
                                             <span>`+ bathrooms +`</span>
                                         </div>
-                                        <div class="prop-sep">
-                                            <i class="fas fa-circle"></i>
+
+                                        <div class="left right">
+                                            <i style="font-size:0.26em!important;" class="fas fa-circle"></i>
                                         </div>
-                                        <div class="prop-tag">
+
+                                        <div class="right">
                                             <span>`+ size +` sqft</span>
                                         </div>
                                     </div>
                                     <!--Tags-->
-                                    <div class="col-md-12 listing-tag-wrapper" style="display: flex; flex-direction: row;"> 
-                                        <div class="col-md-4 p-0">
-                                            <div class="listing-tag">
-                                                <span>
+                                    <div class="col-md-12"> 
+                                        <div class="left pt-2 pb-1">
+                                            <span class="px-3 py-0" style="color: #4632DA; border: 1px solid #4632DA;">
                                                     `+ district +`
-                                                </span>
-                                            </div>
+                                            </span>
                                         </div>
-                                        <div class="col-md-4 p-0">
-                                            <div class="listing-tag">
-                                                <span>
+                                        <div class="left right pt-2 pb-1">
+                                            <span class="px-3 py-0" style="color: #4632DA; border: 1px solid #4632DA;">
                                                     `+ type +`
-                                                </span>
-                                            </div>
+                                            </span>
                                         </div>
-                                        <div class="col-md-4 p-0">
-                                            <div class="listing-tag">
-                                                <span>
+                                        <div class="left right pt-2 pb-1">
+                                            <span class="px-3 py-0" style="color: #4632DA; border: 1px solid #4632DA;">
                                                     `+ tenure +`
-                                                </span>
-                                            </div>
+                                            </span>
                                         </div>
                                     </div>
                                 </a>
