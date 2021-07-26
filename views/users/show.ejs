@@ -131,15 +131,6 @@
       </div>
       <% if(user.isAgent==true){ %>
         <div class="right">
-          <span id="ceaNum">
-            <span class="pr-1" style="letter-spacing: -0.15em;">CEA</span>
-            <%= user.cea %>
-          </span>
-          <br>
-        </div>
-      <% } %>
-      <% if(user.isAgent==true){ %>
-        <div class="right">
           <span id="userActive">
             <% if ( moment(user.lastLogin).format('DD MM YYYY hh:mm:ss') > moment().subtract(7,'days').format('DD MM YYYY hh:mm:ss'))  {%>
             <span class="pr-1"><i class="fas fa-bolt"></i> Active</span>
