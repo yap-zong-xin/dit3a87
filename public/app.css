@@ -436,17 +436,17 @@ body {
 }
 
 #listing-name {
-  font-size: 1.2em;
+  font-size: 1.15em;
   font-weight: 650;
 }
 
 #listing-price {
-  font-weight: 500;
+  font-weight: 400;
 }
 
 #listing-street, 
 #listing-price {
-  font-size: 1.1em;
+  font-size: 1.2em;
 }
 .list-right{ 
   margin: 0;
@@ -2910,13 +2910,11 @@ nav a{
   content: "I just love it ";
 }
 
-.reviewForm div header{
-  width: 100%;
+.reviewForm header{
   font-size: 25px;
-  color: #fe7;
+  color: #4632DA;
   font-weight: 500;
   margin: 5px 0 20px 0;
-  text-align: center;
   transition: all 0.2s ease;
 }
 

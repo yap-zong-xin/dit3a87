@@ -138,7 +138,7 @@
     </div>
     <div class="col-md-12 justify-content-center align-items-center d-flex" style="margin-top: 50px;">
         <a href="/user" style="color: black; text-decoration: none;">
-            <div class="justify-content-center align-items-center d-flex" style="background: #2c2469; width: 800px; height: 50px;">
+            <div class="justify-content-center align-items-center d-flex" style="background: #2c2469; width: 900px; height: 50px;">
                 <span class="align-items-center d-flex" style="color: white; font-size: 1.15em; font-weight: 600;">
                     Find The Right Agent In Half The Time
                     <ion-icon class="pl-2" name="arrow-forward-outline"></ion-icon>
@@ -267,20 +267,12 @@
                                                     <% } %>
                                                 </div>
                                                 <!--Price-->
-                                                <div class="col-12 listing-detail" id="listing-price">
+                                                <div class="col-12 listing-detail mt-1" id="listing-price">
                                                     <p style="margin-bottom: 0">S$ </p>
                                                     <span><%= listing.price %></span>
                                                 </div>
-                                                <!--Street-->
-                                                <div class="col-12 listing-detail" id="listing-street">
-                                                    <% if(listing.location.length<25){ %>
-                                                        <%= listing.location.substring(0, 25) %>
-                                                    <% } else { %>
-                                                        <%= listing.location.substring(0, 25) + "..." %>
-                                                    <% } %>
-                                                </div>
                                                 <!--Property Details-->
-                                                <div class="col-md-12 align-items-center d-flex">
+                                                <div class="col-md-12 align-items-center d-flex mt-2">
                                                     <div class="left">
                                                         <span><%=listing.bedrooms%></span>
                                                         <img class="pl-1" src="/img/bed-solid-svgrepo-com.svg" alt="" style="width:26px!important;">
