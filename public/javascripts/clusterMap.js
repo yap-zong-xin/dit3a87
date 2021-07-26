@@ -3,7 +3,7 @@ const map = new mapboxgl.Map({
   container: 'map',
   // style: 'mapbox://styles/mapbox/outdoors-v11',
   // style: 'mapbox://styles/yapzongxin/ckqfoo795012p17vmvkfxtu8t',
-  style: 'mapbox://styles/yapzongxin/ckqky44ku0chw18nv3buheltf',
+  style: 'mapbox://styles/yapzongxin/ckrkhjq8o0nh417llgk8otqxn',
   // style: 'mapbox://styles/mapbox/navigation-night-v1',
   // Singapore
   center: [103.808052586332, 1.3516161224392],

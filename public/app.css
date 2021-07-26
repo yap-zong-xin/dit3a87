@@ -250,35 +250,40 @@ body {
 
 .listing-banner-img {
   width: 100%; 
-  height: 500px;
-  background-image: url('/img/listings-banner.jpg');
+  height: 300px;
+  background-image: url('/img/listing.webp');
+  background-repeat: no-repeat/repeat-x;
+	background-size: cover;
+  background-position: center center;
 }
 
 .listing-header {
   display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
+  justify-content: start;
+  text-align: left;
+  color: white;
+  font-weight: 600;
+  display: flex;;
 }
 
 .listing-header p {
-  font-size: 48px;
+  font-size: 2.3em;
   font-weight: 700;
   color: white;
   line-height: 1;
-  margin: 0 0 30px 0;
-  color: #fff;
+  margin: 30px 0 30px;
 }
 
 .search-container {
   background-color: #fff;
-  border-radius: 10px;
+  border-radius: 5px;
   padding: 15px;
 }
 
 .search-row {
   display: flex;
   justify-content: space-between;
-  margin: 10px 0 10px;
+  margin: 5px 0;
 }
 
 .search-input {
@@ -373,9 +378,6 @@ body {
   display: none;
 }
 
-.explore-map {
-  margin: 0 0 50px;
-}
 
 .owl-carousel .item {
   border-radius: 15px;
@@ -543,7 +545,7 @@ body {
 .listingHoverMain {
   background-color: #fff;
   border: 1px solid rgb(196, 196, 196);
-  border-radius: 3px;
+  border-radius: 10px;
   padding-top: 20px;
   padding-bottom: 20px;
 }
@@ -2119,21 +2121,6 @@ input[type=range]::-ms-thumb {
   animation: fadein 3s;
 }
 
-.user-header {
-  color: white;
-  /* position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%); */
-  font-weight: 600;
-  /* height: 100%; */
-  /* width: 100%; */
-  /* backdrop-filter: blur(10px); */
-  display: flex;;
-  justify-content: center;
-  align-items: center;
-}
-
 .fade-in {
   -webkit-animation: fadein 1s;
   -moz-animation: fadein 1s;
@@ -2146,16 +2133,19 @@ input[type=range]::-ms-thumb {
   display: flex;
   justify-content: start;
   text-align: left;
+  color: white;
+  font-weight: 600;
+  display: flex;;
+  justify-content: center;
+  align-items: center;
 }
 
 .user-header p {
   font-size: 2.3em;
   font-weight: 700;
-  /* text-transform: uppercase; */
   color: white;
   line-height: 1;
   margin: 30px 0 30px;
-  /* text-shadow: 2px 2px 5px black */
 }
 
 .user-result {
