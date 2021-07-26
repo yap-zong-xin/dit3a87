@@ -31,7 +31,7 @@ function loadData(rs,loadObj) {
         if (resultSet[i].rating === 0) {
             html = `<div class="col-md-12" data-aos="fade-up" data-aos-once="true">
             <div class="col-md-12 p-0 my-2 user-result shadow" onClick="window.location='/user/` + resultSet[i]._id + `'" >
-                <div class="row col-md-8 col-6 mx-0 py-4 px-5 user-detail align-items-center d-flex" style="background: rgba(243,243,243,0.5);">
+                <div class="row col-md-8 col-6 mx-0 py-4 px-5 user-detail align-items-center d-flex" style="background: rgba(243,243,243,0.1);">
                     <img src="` + resultSet[i].image + `" style="width: 150px; height: 150px;">
                     <div class="caption-result">
                         <p class="mb-0" style="font-size:1.6em; font-weight:600;">` + resultSet[i].username + `</p>
@@ -78,7 +78,7 @@ function loadData(rs,loadObj) {
                 case 0:
                     html = `<div class="col-md-12" data-aos="fade-up" data-aos-once="true">
                     <div class="col-md-12 p-0 my-2 user-result shadow" onClick="window.location='/user/` + resultSet[i]._id + `'" >
-                        <div class="row col-md-8 col-6 mx-0 py-4 px-5 user-detail align-items-center d-flex" style="background: rgba(243,243,243,0.5);">
+                        <div class="row col-md-8 col-6 mx-0 py-4 px-5 user-detail align-items-center d-flex" style="background: rgba(243,243,243,0.1);">
                             <img src="` + resultSet[i].image + `" style="width: 150px; height: 150px;">
                             <div class="caption-result">
                                 <p class="mb-0" style="font-size:1.6em; font-weight:600;">` + resultSet[i].username + `</p>
@@ -117,7 +117,7 @@ function loadData(rs,loadObj) {
                 case 1:
                     html = `<div class="col-md-12" data-aos="fade-up" data-aos-once="true">
                     <div class="col-md-12 p-0 my-2 user-result shadow" onClick="window.location='/user/` + resultSet[i]._id + `'" >
-                        <div class="row col-md-8 col-6 mx-0 py-4 px-5 user-detail align-items-center d-flex" style="background: rgba(243,243,243,0.5);">
+                        <div class="row col-md-8 col-6 mx-0 py-4 px-5 user-detail align-items-center d-flex" style="background: rgba(243,243,243,0.1);">
                             <img src="` + resultSet[i].image + `" style="width: 150px; height: 150px;">
                             <div class="caption-result">
                                 <p class="mb-0" style="font-size:1.6em; font-weight:600;">` + resultSet[i].username + `</p>
@@ -156,7 +156,7 @@ function loadData(rs,loadObj) {
                 case 2:
                     html = `<div class="col-md-12" data-aos="fade-up" data-aos-once="true">
                     <div class="col-md-12 p-0 my-2 user-result shadow" onClick="window.location='/user/` + resultSet[i]._id + `'" >
-                        <div class="row col-md-8 col-6 mx-0 py-4 px-5 user-detail align-items-center d-flex" style="background: rgba(243,243,243,0.5);">
+                        <div class="row col-md-8 col-6 mx-0 py-4 px-5 user-detail align-items-center d-flex" style="background: rgba(243,243,243,0.1);">
                             <img src="` + resultSet[i].image + `" style="width: 150px; height: 150px;">
                             <div class="caption-result">
                                 <p class="mb-0" style="font-size:1.6em; font-weight:600;">` + resultSet[i].username + `</p>
@@ -195,7 +195,7 @@ function loadData(rs,loadObj) {
                 case 3:
                     html = `<div class="col-md-12" data-aos="fade-up" data-aos-once="true">
                     <div class="col-md-12 p-0 my-2 user-result shadow" onClick="window.location='/user/` + resultSet[i]._id + `'" >
-                        <div class="row col-md-8 col-6 mx-0 py-4 px-5 user-detail align-items-center d-flex" style="background: rgba(243,243,243,0.5);">
+                        <div class="row col-md-8 col-6 mx-0 py-4 px-5 user-detail align-items-center d-flex" style="background: rgba(243,243,243,0.1);">
                             <img src="` + resultSet[i].image + `" style="width: 150px; height: 150px;">
                             <div class="caption-result">
                                 <p class="mb-0" style="font-size:1.6em; font-weight:600;">` + resultSet[i].username + `</p>
@@ -234,7 +234,7 @@ function loadData(rs,loadObj) {
                 case 4:
                     html = `<div class="col-md-12" data-aos="fade-up" data-aos-once="true">
                                 <div class="col-md-12 p-0 my-2 user-result shadow" onClick="window.location='/user/` + resultSet[i]._id + `'" >
-                                    <div class="row col-md-8 col-6 mx-0 py-4 px-5 user-detail align-items-center d-flex" style="background: rgba(243,243,243,0.5);">
+                                    <div class="row col-md-8 col-6 mx-0 py-4 px-5 user-detail align-items-center d-flex" style="background: rgba(243,243,243,0.1);">
                                         <img src="` + resultSet[i].image + `" style="width: 150px; height: 150px;">
                                         <div class="caption-result">
                                             <p class="mb-0" style="font-size:1.6em; font-weight:600;">` + resultSet[i].username + `</p>
@@ -273,7 +273,7 @@ function loadData(rs,loadObj) {
                 default:
                     html = `<div class="col-md-12" data-aos="fade-up" data-aos-once="true">
                     <div class="col-md-12 p-0 my-2 user-result shadow" onClick="window.location='/user/` + resultSet[i]._id + `'" >
-                        <div class="row col-md-8 col-6 mx-0 py-4 px-5 user-detail align-items-center d-flex" style="background: rgba(243,243,243,0.5);">
+                        <div class="row col-md-8 col-6 mx-0 py-4 px-5 user-detail align-items-center d-flex" style="background: rgba(243,243,243,0.1);">
                             <img src="` + resultSet[i].image + `" style="width: 150px; height: 150px;">
                             <div class="caption-result">
                                 <p class="mb-0" style="font-size:1.6em; font-weight:600;">` + resultSet[i].username + `</p>
