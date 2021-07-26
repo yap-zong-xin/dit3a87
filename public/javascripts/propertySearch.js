@@ -193,13 +193,13 @@ function createHTML(rs) {
                                     <!--Property Details-->
                                     <div class="col-md-12 align-items-center d-flex">
                                         <div class="left">
-                                            <img class="pl-1" src="/img/bed-solid-svgrepo-com.svg" alt="" style="width:26px!important;">
                                             <span>`+ bedrooms +`</span>
+                                            <img class="pl-1" src="/img/bed-solid-svgrepo-com.svg" alt="" style="width:26px!important;">
                                         </div>
 
                                         <div class="left right">
-                                            <img class="pl-1" src="/img/wc-toilet-svgrepo-com.svg" alt="" style="width:20px!important;">
                                             <span>`+ bathrooms +`</span>
+                                            <img class="pl-1" src="/img/wc-toilet-svgrepo-com.svg" alt="" style="width:20px!important;">
                                         </div>
 
                                         <div class="left right">
