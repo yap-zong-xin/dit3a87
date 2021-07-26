@@ -103,82 +103,82 @@ body {
   /* height: 650px; */
 }
 
-.benefit-landing {
-  text-align: center;
-  display: flex;
-  justify-content: space-between;
-}
-
-.benefit-landing-txt {
-  background-color: transparent;
-  border: none;
+/* About Us */
+.about-top {
+  background-color: rgb(247, 247, 247);
   color: #000;
-  font-size: 22px;
-  font-weight: 500;
-  margin: 15px;
-  text-transform: capitalize;
 }
 
-.benefit-landing-txt:focus {
-  outline:none;
+.about-top .carousel-indicators li {
+  background-color: #003580;
+}
+
+.service-img img {
+  width: 100%;
+}
+
+.about-card {
+  margin-top: 25px;
+  margin-bottom: 25px;
+  background-color: rgb(247,247,247);
+  padding: 25px;
+  border-radius: 10px;
+}
+
+.about-card i {
+  font-size: 38px;
+}
+
+.about-card h4 {
+  font-weight: 700;
+}
+
+
+#title-insert {
+  font-weight: 400;
+}
+
+#title-insert span {
+  font-weight: 700;
 }
 
 .benefit-desc {
-  margin: 150px 0 150px;
-  padding: 0 190px 0 190px;
-}
-
-.title-insert {
-  letter-spacing: 0.5px;
-  padding-left: 80px;
-}
-
-.desc-insert {
-  color: #000;
-  font-size: 16px;
-  font-weight: 100;
-  letter-spacing: 0.5px;
-  line-height: 2;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-}
-
-.desc-insert h2 {
-  font-size: 42px;
+  height: 650px;
 }
 
 .tp-red {
-  border-top: 15px solid #ff5d5d;
+  /* border-top: 15px solid #ff5d5d; */
+  background-color: #ff5d5d;
+  height: 100%;
+  color: #fff;
 }
 
 .tp-blue {
-  border-top: 15px solid #705dff;
+  /* border-top: 15px solid #705dff; */
+  background-color: #705dff;
+  height: 100%;
+  color: #fff;
 }
 
 .tp-gold {
-  border-top: 15px solid #ffde5d;
+  /* border-top: 15px solid #ffde5d; */
+  background-color: #ffde5d;
+  height: 100%;
+  color: #fff;
 }
 
 #top-border {
   border-radius: 10px;
   padding-top: 50px;
-  margin: 20px 0 20px;
 }
 
 #top-border h4 {
   font-weight: 700;
-  padding-bottom: 45px;
+  padding-bottom: 10px;
 }
 
 #top-border i {
   font-size: 80px;
-}
-
-.wwd-desc p {
-  letter-spacing: 0.5px;
-  line-height: 2;
 }
 
 .wwd-desc {
@@ -187,6 +187,7 @@ body {
   transition: top ease 0.5s;
 }
 
+/* Login */
 .login-card .carousel-item {
   height: 400px;
   color: white;
@@ -223,8 +224,9 @@ body {
 }
 
 #text-wrapper {
-  margin-left: 70px;
-  margin-right: 70px;
+  padding: 6px;
+  margin-top: 10px;
+  margin-bottom: 50px;
 }
 
 .text-area-contact textarea:focus {
