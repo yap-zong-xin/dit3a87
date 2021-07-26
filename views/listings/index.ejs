@@ -3,494 +3,495 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
 
-    <button class="my_bttn">
-        <i class="fa fa-arrow-up"></i>
-    </button>
-    <!--Top Banner-->
-    <div class="container-fluid m-0 p-0">
-        <div class="container-fluid m-0 p-0 listing-banner-img listing-banner shadow fade-in">
-            <div class="blur-div m-0 p-0"></div>
-        </div>
+<button class="my_bttn">
+    <i class="fa fa-arrow-up"></i>
+</button>
+<!--Top Banner-->
+<div class="container-fluid m-0 p-0">
+    <div class="container-fluid m-0 p-0 listing-banner-img listing-banner shadow fade-in">
+        <div class="blur-div m-0 p-0"></div>
     </div>
+</div>
 
-    <!--Search Bar-->
-    <div class="container mb-5" data-aos="zoom-in" data-aos-once="true" style="margin-top: -170px; margin-bottom: 50px;">
-        <div class="col-md-12 listing-header d-flex flex-column fade-in">
-            <p>Find your Property.</p>
-        </div>    
-        <div class="col-md-12 m-0 search-container shadow">
-            <form action="/listings" method="GET" class="form-inline" style="font-family: 'Poppins', sans-serif;">
-                <div class="row col-md-12 search-row">
-                    <div class="col-md-6">
-                        <div class="search-input">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <input type="text" class="form-control" name="searchindex" placeholder="Search for Properties" style="width: 100%">
-                        </div>                            
-                    </div>
-                    <div class="col-md-2">
-                        <div class="search-input flex-column">
-                            <label for="propertyType">Property Type</label> 
-                            <select name="propertyType" id="propertyType">
-                                <!-- <option id="placeholder" name="placeholder" value="placeholder" selected hidden>Property Type</option> -->
-                                <option id="any" name="allType" value="allType" selected >All</option>
-                                <option id="hdb" name="hdbType" value="hdb">HDB</option>
-                                <option id="condo" name="condoType" value="condo">Condominium</option>
-                                <option id="landed" name="landedType" value="landed">Landed Property</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        <div class="search-input flex-column">
-                            <label for="numofRooms">Rooms</label> 
-                            <select name="numofRooms" id="numofRooms" style="background-color: #fff;">
-                                <!-- <option id="placeholder" name="placeholder" value="placeholder" selected hidden>No. of Bedrooms</option> -->
-                                <option id="any" name="allrooms" value="allrooms" selected >All</option>
-                                <option id="1" name="onerooms" value="1">1</option>
-                                <option id="2" name="tworooms" value="2" value="2">2</option>
-                                <option id="3" name="threerooms" value="3" value="3">3</option>
-                                <option id="4" name="fourrooms" value="4">4</option>
-                                <option id="5" name="fiverooms" value="5" value="5">5</option>
-                                <option id="6" name="sixrooms" value="6">6</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        <div class="search-input flex-column">
-                            <label for="sortBy">Sort By</label> 
-                            <select name="sortBy" id="sortBy" style="background-color: #fff;">
-                                <!-- <option id="placeholder" name="placeholder" value="placeholder" selected hidden>Sort By</option> -->
-                                <option value="MostPop" <% if(data.sortBy == 'MostPop') {%> selected <%} %>>Most Popular</option>
-                                <option value="LeastPop" <% if(data.sortBy == 'LeastPop') {%> selected <%} %>>Least Popular</option>
-                                <option value="HighestPrice" <% if(data.sortBy == 'HighestPrice') {%> selected <%} %>>Highest Price</option>
-                                <option value="LowestPrice" <% if(data.sortBy == 'LowestPrice') {%> selected <%} %>>Lowest Price</option>
-                                <option value="Recent" <% if(data.sortBy == 'Recent') {%> selected <%} %>>Recent</option>
-                                <option value="Oldest" <% if(data.sortBy == 'Oldest') {%> selected <%} %>>Oldest</option>
-                            </select>
-                        </div>
+<!--Search Bar-->
+<div class="container mb-5" data-aos="zoom-in" data-aos-once="true" style="margin-top: -170px; margin-bottom: 50px;">
+    <div class="col-md-12 listing-header d-flex flex-column fade-in">
+        <p>Find your Property.</p>
+    </div>    
+    <div class="col-md-12 m-0 search-container shadow">
+        <form action="/listings" method="GET" class="form-inline" style="font-family: 'Poppins', sans-serif;">
+            <div class="row col-md-12 search-row">
+                <div class="col-md-6">
+                    <div class="search-input">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <input type="text" class="form-control" name="searchindex" placeholder="Search for Properties" style="width: 100%">
+                    </div>                            
+                </div>
+                <div class="col-md-2">
+                    <div class="search-input flex-column">
+                        <label for="propertyType">Property Type</label> 
+                        <select name="propertyType" id="propertyType">
+                            <!-- <option id="placeholder" name="placeholder" value="placeholder" selected hidden>Property Type</option> -->
+                            <option id="any" name="allType" value="allType" selected >All</option>
+                            <option id="hdb" name="hdbType" value="hdb">HDB</option>
+                            <option id="condo" name="condoType" value="condo">Condominium</option>
+                            <option id="landed" name="landedType" value="landed">Landed Property</option>
+                        </select>
                     </div>
                 </div>
-                <div class="row col-md-12 search-row hide-row" id="hide-row">
-                    <div class="col-md-3">
-                        <div class= "search-input">
-                            <p>S$</p>
-                            <input type="number" min="0" max="<%= largestPrice %>" name="minPrice" placeholder="Min. Price"/>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class= "search-input">
-                            <p>S$</p>
-                            <input type="number" min="0" max="<%= largestPrice %>" name="maxPrice" placeholder="Max. Price" />
-                        </div> 
-                    </div>
-                    <div class="col-md-3">
-                        <div class="search-input">
-                            <input type="number" min="0" max="<%= largestSize %>" name="minSize" placeholder="Min. Area" />
-                            <p style="font-size: 14px">sqft</p>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="search-input">
-                            <input type="number" min="0" max="<%= largestSize %>" name="maxSize" placeholder="Max. Area" />
-                            <p style="font-size: 14px">sqft</p>
-                        </div>
+                <div class="col-md-2">
+                    <div class="search-input flex-column">
+                        <label for="numofRooms">Rooms</label> 
+                        <select name="numofRooms" id="numofRooms" style="background-color: #fff;">
+                            <!-- <option id="placeholder" name="placeholder" value="placeholder" selected hidden>No. of Bedrooms</option> -->
+                            <option id="any" name="allrooms" value="allrooms" selected >All</option>
+                            <option id="1" name="onerooms" value="1">1</option>
+                            <option id="2" name="tworooms" value="2" value="2">2</option>
+                            <option id="3" name="threerooms" value="3" value="3">3</option>
+                            <option id="4" name="fourrooms" value="4">4</option>
+                            <option id="5" name="fiverooms" value="5" value="5">5</option>
+                            <option id="6" name="sixrooms" value="6">6</option>
+                        </select>
                     </div>
                 </div>
-                <div class="row col-md-12 search-row">
-                    <div class="float-left" style="padding: 0 15px 0 15px;">
-                        <p class="search-btn showHideBtn" id="showHideBtn">More Options▾</p>
-                    </div>
-                    <div class="search-btn float-right" style="padding: 0 15px 0 15px;">
-                        <button type="submit" value="searchindexBtn" name="searchindexBtn" style="border-radius: 5px!important;">Show Listings</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!--Map-->
-    <div class="container mb-4">
-        <div class="col-md-12 explore" data-aos="fade-up" data-aos-once="true">
-            <p style="font-weight:600; font-size: 1.3em;">Explore Categories</p>
-            <div class="row">
-                <div class="owl-carousel owl-theme" >
-                    <div class="item" onClick="window.location='/listings?searchindex=&propertyType=hdb&numofRooms=5&sortBy=MostPop&minPrice=&maxPrice=&minSize=&maxSize=&searchindexBtn=searchindexBtn&quickSearch=5rm'">
-                        <img src="/img/5rm-img.jpg">
-                        <div class="item-text"><p>5 Room<br>HDB Flats</p></div>
-                    </div>
-                    <div class="item" onClick="window.location='/listings?searchindex=&propertyType=hdb&numofRooms=4&sortBy=MostPop&minPrice=&maxPrice=&minSize=&maxSize=&searchindexBtn=searchindexBt&quickSearch=4rm'">
-                        <img src="/img/4rm-img.jpg">
-                        <div class="item-text"><p>4 Room<br>HDB Flats</p></div>
-                    </div>
-                    <div class="item" onClick="window.location='/listings?searchindex=&propertyType=hdb&numofRooms=3&sortBy=MostPop&minPrice=&maxPrice=&minSize=&maxSize=&searchindexBtn=searchindexBtn&quickSearch=3rm'">
-                        <img src="/img/3rm-img.jpg">
-                        <div class="item-text"><p>3 Room<br>HDB Flats</p></div>
-                    </div>
-                    <div class="item" onClick="window.location='/listings?searchindex=&propertyType=condo&numofRooms=allrooms&sortBy=MostPop&minPrice=&maxPrice=&minSize=&maxSize=&searchindexBtn=searchindexBtn&quickSearch=condo'">
-                        <img src="/img/condo-img.jpg">
-                        <div class="item-text"><p>Condominium<br>Flats</p></div>
-                    </div>
-                    <div class="item" onClick="window.location='/listings?searchindex=&propertyType=landed&numofRooms=allrooms&sortBy=MostPop&minPrice=&maxPrice=&minSize=&maxSize=&searchindexBtn=searchindexBtn&quickSearch=landed'">
-                        <img src="/img/landed-img.jpg">
-                        <div class="item-text"><p>Landed<br>Properties</p></div>
+                <div class="col-md-2">
+                    <div class="search-input flex-column">
+                        <label for="sortBy">Sort By</label> 
+                        <select name="sortBy" id="sortBy" style="background-color: #fff;">
+                            <!-- <option id="placeholder" name="placeholder" value="placeholder" selected hidden>Sort By</option> -->
+                            <option value="MostPop" <% if(data.sortBy == 'MostPop') {%> selected <%} %>>Most Popular</option>
+                            <option value="LeastPop" <% if(data.sortBy == 'LeastPop') {%> selected <%} %>>Least Popular</option>
+                            <option value="HighestPrice" <% if(data.sortBy == 'HighestPrice') {%> selected <%} %>>Highest Price</option>
+                            <option value="LowestPrice" <% if(data.sortBy == 'LowestPrice') {%> selected <%} %>>Lowest Price</option>
+                            <option value="Recent" <% if(data.sortBy == 'Recent') {%> selected <%} %>>Recent</option>
+                            <option value="Oldest" <% if(data.sortBy == 'Oldest') {%> selected <%} %>>Oldest</option>
+                        </select>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col-md-12 px-0 mt-5">
-            <div class="col-12 px-0">
-                <div class="col-md-12 p-0 explore-map" data-aos="fade-up" data-aos-once="true">
-                    <div class="shadow" id="map" style="max-width: 1110px; height: 250px; border-radius: 0px;"></div>
+            <div class="row col-md-12 search-row hide-row" id="hide-row">
+                <div class="col-md-3">
+                    <div class= "search-input">
+                        <p>S$</p>
+                        <input type="number" min="0" max="<%= largestPrice %>" name="minPrice" placeholder="Min. Price"/>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class= "search-input">
+                        <p>S$</p>
+                        <input type="number" min="0" max="<%= largestPrice %>" name="maxPrice" placeholder="Max. Price" />
+                    </div> 
+                </div>
+                <div class="col-md-3">
+                    <div class="search-input">
+                        <input type="number" min="0" max="<%= largestSize %>" name="minSize" placeholder="Min. Area" />
+                        <p style="font-size: 14px">sqft</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="search-input">
+                        <input type="number" min="0" max="<%= largestSize %>" name="maxSize" placeholder="Max. Area" />
+                        <p style="font-size: 14px">sqft</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row col-md-12 search-row">
+                <div class="float-left" style="padding: 0 15px 0 15px;">
+                    <p class="search-btn showHideBtn" id="showHideBtn">More Options▾</p>
+                </div>
+                <div class="search-btn float-right" style="padding: 0 15px 0 15px;">
+                    <button type="submit" value="searchindexBtn" name="searchindexBtn" style="border-radius: 5px!important;">Show Listings</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!--Map-->
+<div class="container mb-4">
+    <div class="col-md-12 explore" data-aos="fade-up" data-aos-once="true">
+        <p style="font-weight:600; font-size: 1.3em;">Explore Categories</p>
+        <div class="row">
+            <div class="owl-carousel owl-theme" >
+                <div class="item" onClick="window.location='/listings?searchindex=&propertyType=hdb&numofRooms=5&sortBy=MostPop&minPrice=&maxPrice=&minSize=&maxSize=&searchindexBtn=searchindexBtn&quickSearch=5rm'">
+                    <img src="/img/5rm-img.jpg">
+                    <div class="item-text"><p>5 Room<br>HDB Flats</p></div>
+                </div>
+                <div class="item" onClick="window.location='/listings?searchindex=&propertyType=hdb&numofRooms=4&sortBy=MostPop&minPrice=&maxPrice=&minSize=&maxSize=&searchindexBtn=searchindexBt&quickSearch=4rm'">
+                    <img src="/img/4rm-img.jpg">
+                    <div class="item-text"><p>4 Room<br>HDB Flats</p></div>
+                </div>
+                <div class="item" onClick="window.location='/listings?searchindex=&propertyType=hdb&numofRooms=3&sortBy=MostPop&minPrice=&maxPrice=&minSize=&maxSize=&searchindexBtn=searchindexBtn&quickSearch=3rm'">
+                    <img src="/img/3rm-img.jpg">
+                    <div class="item-text"><p>3 Room<br>HDB Flats</p></div>
+                </div>
+                <div class="item" onClick="window.location='/listings?searchindex=&propertyType=condo&numofRooms=allrooms&sortBy=MostPop&minPrice=&maxPrice=&minSize=&maxSize=&searchindexBtn=searchindexBtn&quickSearch=condo'">
+                    <img src="/img/condo-img.jpg">
+                    <div class="item-text"><p>Condominium<br>Flats</p></div>
+                </div>
+                <div class="item" onClick="window.location='/listings?searchindex=&propertyType=landed&numofRooms=allrooms&sortBy=MostPop&minPrice=&maxPrice=&minSize=&maxSize=&searchindexBtn=searchindexBtn&quickSearch=landed'">
+                    <img src="/img/landed-img.jpg">
+                    <div class="item-text"><p>Landed<br>Properties</p></div>
                 </div>
             </div>
         </div>
     </div>
-
-    <div class="container d-flex align-items-center justify-content-center" style="position:relative; top: 60px; height:70px; width: 1000px; background: #3F51B5;">
-        <span class="left" style="color: white; font-size: 1.25em; font-weight: 600;">Find The Best Property In Half The Time</span>
+    <div class="col-md-12 px-0 mt-5">
+        <div class="col-12 px-0">
+            <div class="col-md-12 p-0 explore-map" data-aos="fade-up" data-aos-once="true">
+                <div class="shadow" id="map" style="max-width: 1110px; height: 250px; border-radius: 0px;"></div>
+            </div>
+        </div>
     </div>
+</div>
 
-    <!--Listings -->
-    <div style="background: #F3F3F3; margin-top: 20px;">
-        <div class="container" style="margin-top: 90px;" id="listing-add">
-            <div class="col-md-12 m-0 p-0">
-                <div class="all-listing-card">
-                    <div class="all-listing-card-container">
-                        <div class="row">
-                            <% listings.forEach(function(listing) { %>
-                                <div class="col-lg-12 col-xl-6 px-0">
-                                    <div class="listingHoverMain pt-3" style="display: flex; align-items: center; justify-content: center; flex-direction: column; margin: 9px; transition: 0.3s; " data-aos="fade-up" data-aos-once="true">
-                                        <div class="row col-md-12">
-                                            <% if(listing.soldStatus==true){ %>
-                                                <div class="col-md-12 m-0 p-0 justify-content-center d-flex">
-                                                    <span class="text-center" id="soldBanner-list">
-                                                        Sold
-                                                    </span>
-                                                </div>
-                                            <% } %>
-                                            <% if(listing.archiveStatus==true){ %>
-                                                <div class="col-md-12 m-0 p-0 justify-content-center d-flex">
-                                                    <span class="text-center" id="archiveBanner-list">
-                                                        Archived
-                                                    </span>
-                                                </div>
-                                            <% } %>
-    
-                                            <div class="row col-md-12 m-0 d-flex justify-content-between align-items-center" style="padding: 0 0 10px 0;">
-                                                <div class="d-flex flex-direction-row align-items-center justify-content-center" style="font-size: 15px; cursor: pointer; " onClick=" window.location='/user/<%=listing.author.id._id %>'">
-                                                    <img src="<%= listing.author.id.image%>" style="width:35px; height:35px ;border-radius: 50%; margin: auto;object-fit: cover;">
-                                                    <div class="d-flex flex-column" style="margin-left: 10px;">
-                                                        <div class="d-flex flex-direction-row">
-                                                            <%= listing.author.id.firstName%>
-                                                            <%= listing.author.id.lastName%>
-                                                        </div>
-                                                        <div style="font-size: 12px;">
-                                                            <%= moment(listing.createdAt).fromNow()%>
-                                                        </div>
+<div class="container d-flex align-items-center justify-content-center my-0" style="position:relative; top: 80px; height:60px; width: 900px; background: #3F51B5;">
+    <span class="left" style="color: white; font-size: 1.25em; font-weight: 600;">Find The Best Property In Half The Time</span>
+</div>
+
+<!--Listings -->
+<div style="background: #F3F3F3; margin-top: 50px;">
+    <div class="container" style="margin-top: 70px;" id="listing-add">
+        <div class="col-md-12 m-0 p-0">
+            <div class="all-listing-card">
+                <div class="all-listing-card-container">
+                    <div class="row">
+                        <% listings.forEach(function(listing) { %>
+                            <div class="col-lg-12 col-xl-6 px-0">
+                                <div class="listingHoverMain pt-3" style="display: flex; align-items: center; justify-content: center; flex-direction: column; margin: 9px; transition: 0.3s; " data-aos="fade-up" data-aos-once="true">
+                                    <div class="row col-md-12">
+                                        <% if(listing.soldStatus==true){ %>
+                                            <div class="col-md-12 m-0 p-0 justify-content-center d-flex">
+                                                <span class="text-center" id="soldBanner-list">
+                                                    Sold
+                                                </span>
+                                            </div>
+                                        <% } %>
+                                        <% if(listing.archiveStatus==true){ %>
+                                            <div class="col-md-12 m-0 p-0 justify-content-center d-flex">
+                                                <span class="text-center" id="archiveBanner-list">
+                                                    Archived
+                                                </span>
+                                            </div>
+                                        <% } %>
+
+                                        <div class="row col-md-12 m-0 d-flex justify-content-between align-items-center" style="padding: 0 0 10px 0;">
+                                            <div class="d-flex flex-direction-row align-items-center justify-content-center" style="font-size: 15px; cursor: pointer; " onClick=" window.location='/user/<%=listing.author.id._id %>'">
+                                                <img src="<%= listing.author.id.image%>" style="width:35px; height:35px ;border-radius: 50%; margin: auto;object-fit: cover;">
+                                                <div class="d-flex flex-column" style="margin-left: 10px;">
+                                                    <div class="d-flex flex-direction-row">
+                                                        <%= listing.author.id.firstName%>
+                                                        <%= listing.author.id.lastName%>
+                                                    </div>
+                                                    <div style="font-size: 12px;">
+                                                        <%= moment(listing.createdAt).fromNow()%>
                                                     </div>
                                                 </div>
-                                                
-                                                <div class="d-flex flex-direction-row">
-                                                    <div class="d-flex align-items-center justify-content-end">
-                                                        <form action="/listings/<%= listing._id %>/like" method="POST" class="likeBtn">
-                                                            <div>
-                                                                <% if (currentUser && listing.likes.some(function (like) { return like.equals(currentUser._id) })) { %>
-                                                                    <button class="p-0" id="filledHeart">
-                                                                        <i class="fas fa-heart filledHeart"></i>
-                                                                        <%= listing.likes.length %>
-                                                                    </button>
-                                                                <% } else { %>
-                                                                    <button class="p-0" id="emptyHeart">
-                                                                        <i class="far fa-heart emptyHeart"></i>
-                                                                        <%= listing.likes.length %>
-                                                                    </button>
-                                                                <% } %>
-                                                            </div>
-                                                        </form>
-                                                    </div>
-                                                        
-                                                    <%if(currentUser&&listing.author.id.equals(currentUser._id)||currentUser&&currentUser.isAdmin){%>
-                                                        <div class="dropdown ml-1">
-                                                            <button type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: transparent; border: none">
-                                                                <i class="fas fa-ellipsis-v"></i>
-                                                            </button>
-                                                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                                                                <a class="dropdown-item" href="/listings/<%= listing._id %>/edit">
-                                                                    Edit
+                                            </div>
+                                            
+                                            <div class="d-flex flex-direction-row">
+                                                <div class="d-flex align-items-center justify-content-end">
+                                                    <form action="/listings/<%= listing._id %>/like" method="POST" class="likeBtn">
+                                                        <div>
+                                                            <% if (currentUser && listing.likes.some(function (like) { return like.equals(currentUser._id) })) { %>
+                                                                <button class="p-0" id="filledHeart">
+                                                                    <i class="fas fa-heart filledHeart"></i>
+                                                                    <%= listing.likes.length %>
+                                                                </button>
+                                                            <% } else { %>
+                                                                <button class="p-0" id="emptyHeart">
+                                                                    <i class="far fa-heart emptyHeart"></i>
+                                                                    <%= listing.likes.length %>
+                                                                </button>
+                                                            <% } %>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                                    
+                                                <%if(currentUser&&listing.author.id.equals(currentUser._id)||currentUser&&currentUser.isAdmin){%>
+                                                    <div class="dropdown ml-1">
+                                                        <button type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: transparent; border: none">
+                                                            <i class="fas fa-ellipsis-v"></i>
+                                                        </button>
+                                                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                                                            <a class="dropdown-item" href="/listings/<%= listing._id %>/edit">
+                                                                Edit
+                                                            </a>
+                                                            <% if(listing.archiveStatus==false && listing.soldStatus==false){ %>
+                                                                <a class="dropdown-item" href="/listings/<%= listing._id %>/archive">
+                                                                    Archive
                                                                 </a>
-                                                                <% if(listing.archiveStatus==false && listing.soldStatus==false){ %>
-                                                                    <a class="dropdown-item" href="/listings/<%= listing._id %>/archive">
-                                                                        Archive
-                                                                    </a>
-                                                                    <a class="dropdown-item" href="/listings/<%= listing._id %>/sold">
-                                                                        Mark as Sold
-                                                                    </a>
-                                                                <% } else if(listing.archiveStatus==true&& listing.soldStatus==false) { %>
-                                                                    <a class="dropdown-item" href="/listings/<%= listing._id %>/unarchive">
-                                                                        Unarchive
-                                                                    </a>
-                                                                <% } else { %>
-                                                                    <a class="dropdown-item" href="/listings/<%= listing._id %>/unsold">
-                                                                        Mark as Available
-                                                                    </a>
-                                                                <% } %>
-                                                            </div>
+                                                                <a class="dropdown-item" href="/listings/<%= listing._id %>/sold">
+                                                                    Mark as Sold
+                                                                </a>
+                                                            <% } else if(listing.archiveStatus==true&& listing.soldStatus==false) { %>
+                                                                <a class="dropdown-item" href="/listings/<%= listing._id %>/unarchive">
+                                                                    Unarchive
+                                                                </a>
+                                                            <% } else { %>
+                                                                <a class="dropdown-item" href="/listings/<%= listing._id %>/unsold">
+                                                                    Mark as Available
+                                                                </a>
+                                                            <% } %>
                                                         </div>
+                                                    </div>
+                                                <% } %>
+                                            </div>
+                                        </div>
+
+                                        <!--Left of Listing-->
+                                        <div class="col-sm-4 col-md-4 p-0 m-0 list-left d-flex justify-content-center align-items-center ">
+                                            <a class="p-0 m-0" href="/listings/<%= listing.id %>" style="text-decoration: none; color: black">
+                                                <img class="img-fluid shadow" src="<%= listing.thumbnail %>" style="width: 100%; height: 140px; object-fit: cover; border-radius: 5px;">
+                                            </a>
+                                        </div>
+
+                                        <!--Right of Listing-->
+                                        <div class="col-sm-8 col-md-8 list-right" > 
+                                            <a href="/listings/<%= listing.id %>" style="text-decoration: none; color: black;">       
+                                                <!--Name-->
+                                                <div class="col-12 listing-detail d-flex justify-content-between" id="listing-name" >
+                                                    <% if(listing.name.length<14){ %>
+                                                        <%= listing.name.substring(0, 14) %>
+                                                    <% } else { %>
+                                                        <%= listing.name.substring(0, 14) + " ..." %>
                                                     <% } %>
                                                 </div>
-                                            </div>
-    
-                                            <!--Left of Listing-->
-                                            <div class="col-sm-4 col-md-4 p-0 m-0 list-left d-flex justify-content-center align-items-center ">
-                                                <a class="p-0 m-0" href="/listings/<%= listing.id %>" style="text-decoration: none; color: black">
-                                                    <img class="img-fluid shadow" src="<%= listing.thumbnail %>" style="width: 100%; height: 140px; object-fit: cover; border-radius: 5px;">
-                                                </a>
-                                            </div>
-    
-                                            <!--Right of Listing-->
-                                            <div class="col-sm-8 col-md-8 list-right" > 
-                                                <a href="/listings/<%= listing.id %>" style="text-decoration: none; color: black;">       
-                                                    <!--Name-->
-                                                    <div class="col-12 listing-detail d-flex justify-content-between" id="listing-name" >
-                                                        <% if(listing.name.length<14){ %>
-                                                            <%= listing.name.substring(0, 14) %>
-                                                        <% } else { %>
-                                                            <%= listing.name.substring(0, 14) + " ..." %>
-                                                        <% } %>
+                                                <!--Price-->
+                                                <div class="col-12 listing-detail" id="listing-price">
+                                                    <p style="margin-bottom: 0">S$ </p>
+                                                    <span><%= listing.price %></span>
+                                                </div>
+                                                <!--Street-->
+                                                <div class="col-12 listing-detail" id="listing-street">
+                                                    <% if(listing.location.length<25){ %>
+                                                        <%= listing.location.substring(0, 25) %>
+                                                    <% } else { %>
+                                                        <%= listing.location.substring(0, 25) + "..." %>
+                                                    <% } %>
+                                                </div>
+                                                <!--Property Details-->
+                                                <div class="col-md-12 align-items-center d-flex">
+                                                    <div class="left">
+                                                        <span><%=listing.bedrooms%></span>
+                                                        <img class="pl-1" src="/img/bed-solid-svgrepo-com.svg" alt="" style="width:26px!important;">
                                                     </div>
-                                                    <!--Price-->
-                                                    <div class="col-12 listing-detail" id="listing-price">
-                                                        <p style="margin-bottom: 0">S$ </p>
-                                                        <span><%= listing.price %></span>
+                                                    <div class="left right">
+                                                        <span><%=listing.bathrooms%></span>
+                                                        <img class="pl-1" src="/img/wc-toilet-svgrepo-com.svg" alt="" style="width:20px!important;">
                                                     </div>
-                                                    <!--Street-->
-                                                    <div class="col-12 listing-detail" id="listing-street">
-                                                        <% if(listing.location.length<25){ %>
-                                                            <%= listing.location.substring(0, 25) %>
-                                                        <% } else { %>
-                                                            <%= listing.location.substring(0, 25) + "..." %>
-                                                        <% } %>
+                                                    <div class="left right">
+                                                        <i style="font-size:0.26em!important;" class="fas fa-circle"></i>
                                                     </div>
-                                                    <!--Property Details-->
-                                                    <div class="col-md-12 align-items-center d-flex">
-                                                        <div class="left">
-                                                            <span><%=listing.bedrooms%></span>
-                                                            <img class="pl-1" src="/img/bed-solid-svgrepo-com.svg" alt="" style="width:26px!important;">
-                                                        </div>
-                                                        <div class="left right">
-                                                            <span><%=listing.bathrooms%></span>
-                                                            <img class="pl-1" src="/img/wc-toilet-svgrepo-com.svg" alt="" style="width:20px!important;">
-                                                        </div>
-                                                        <div class="left right">
-                                                            <i style="font-size:0.26em!important;" class="fas fa-circle"></i>
-                                                        </div>
-                                                        <div class="right">
-                                                            <span><%= listing.size %> sqft</span>
-                                                        </div>
+                                                    <div class="right">
+                                                        <span><%= listing.size %> sqft</span>
                                                     </div>
-                                                    <!--Tags-->
-                                                    <div class="col-md-12">
-                                                        <div class="left pt-2 pb-1">
-                                                            <span class="px-3 py-0" style="color: #4632DA; border: 1px solid #4632DA;">
-                                                                <%= listing.district %>
-                                                            </span>
-                                                        </div>
-                                                        <div class="left right pt-2 pb-1">
-                                                            <span class="px-3 py-0" style="color: #4632DA; border: 1px solid #4632DA;">
-                                                                <%= listing.type %>
-                                                            </span>
-                                                        </div>
-                                                        <div class="left right pt-2 pb-1">
-                                                            <span class="px-3 py-0" style="color: #4632DA; border: 1px solid #4632DA;">
-                                                                <% if(listing.tenure.length<5){ %>
-                                                                    <%= listing.tenure.substring(0, 5) %>
-                                                                <% } else { %>
-                                                                    <%= listing.tenure.substring(0, 5) + "..." %>
-                                                                <% } %>
-                                                            </span>
-                                                        </div>
+                                                </div>
+                                                <!--Tags-->
+                                                <div class="col-md-12">
+                                                    <div class="left pt-2 pb-1">
+                                                        <span class="px-3 py-0" style="color: #4632DA; border: 1px solid #4632DA;">
+                                                            <%= listing.district %>
+                                                        </span>
                                                     </div>
-                                                </a>
-                                            </div>
+                                                    <div class="left right pt-2 pb-1">
+                                                        <span class="px-3 py-0" style="color: #4632DA; border: 1px solid #4632DA;">
+                                                            <%= listing.type %>
+                                                        </span>
+                                                    </div>
+                                                    <div class="left right pt-2 pb-1">
+                                                        <span class="px-3 py-0" style="color: #4632DA; border: 1px solid #4632DA;">
+                                                            <% if(listing.tenure.length<5){ %>
+                                                                <%= listing.tenure.substring(0, 5) %>
+                                                            <% } else { %>
+                                                                <%= listing.tenure.substring(0, 5) + "..." %>
+                                                            <% } %>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
-                            <% }); %>
-                        </div>
-                        <div class="col-md-12 d-flex justify-content-center align-items-center loadMore" style="margin-top: 10px; margin-bottom: 10px;" data-aos="zoom-in" data-aos-once="true">
-                            <button type="button" onClick="reDirectRecent()">Show More</button>
-                        </div>
+                            </div>
+                        <% }); %>
+                    </div>
+                    <div class="col-md-12 d-flex justify-content-center align-items-center loadMore" style="margin-top: 10px; margin-bottom: 10px;" data-aos="zoom-in" data-aos-once="true">
+                        <button type="button" onClick="reDirectRecent()">Show More</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <script>
-        const mapToken = '<%- process.env.MAPBOX_TOKEN %>'
-        const listings = { features: <%- JSON.stringify(listings) %> }
-    </script>
-    <script src="/javascripts/clusterMap.js"></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js'></script>
-    <!-- <script type="text/javascript" src="https://livejs.com/live.js"></script> -->
-    <script>
-        function reDirectRecent() {
-            window.location='/listings?searchindex=&propertyType=allType&numofRooms=allrooms&sortBy=Recent&minPrice=&maxPrice=&minSize=&maxSize=&searchindexBtn=searchindexBtn'
-        }
-    </script>
-    <script>
-        $(".hide-row" ).hide();
-        $('.showHideBtn').click(function() {
-                var $this = $(this);
-                $this.toggleClass('showHideBtn');
-                if($this.hasClass('showHideBtn')){
-                    $this.text('More Options▾');	       
-                } else {
-                    $this.text('Less Option▴');
-                }
-                $('.hide-row').slideToggle('slow', function() {
-            });
-        });
-        </script>
-    <script>
-        (function () {
-            var parent = document.querySelector(".price-slider");
-            if (!parent) return;
-            var
-                rangeS = parent.querySelectorAll("input[type=range]"),
-                numberS = parent.querySelectorAll("input[type=number]");
-            rangeS.forEach(function (el) {
-                el.oninput = function () {
-                    var slide1 = parseFloat(rangeS[0].value),
-                        slide2 = parseFloat(rangeS[1].value);
-                    if (slide1 > slide2) {
-                        [slide1, slide2] = [slide2, slide1];
-                    }
-                    numberS[0].value = slide1;
-                    numberS[1].value = slide2;
-                }
-            });
-
-            numberS.forEach(function (el) {
-                el.oninput = function () {
-                    var number1 = parseFloat(numberS[0].value),
-                        number2 = parseFloat(numberS[1].value);
-                    if (number1 > number2) {
-                        var tmp = number1;
-                        numberS[0].value = number2;
-                        numberS[1].value = tmp;
-                    }
-                    rangeS[0].value = number1;
-                    rangeS[1].value = number2;
-                }
-            });
-        })();
-    </script>
-    <script>
-        (function () {
-            var parent = document.querySelector(".size-slider");
-            if (!parent) return;
-            var
-                rangeS = parent.querySelectorAll("input[type=range]"),
-                numberS = parent.querySelectorAll("input[type=number]");
-            rangeS.forEach(function (el) {
-                el.oninput = function () {
-                    var slide1 = parseFloat(rangeS[0].value),
-                        slide2 = parseFloat(rangeS[1].value);
-                    if (slide1 > slide2) {
-                        [slide1, slide2] = [slide2, slide1];
-                    }
-                    numberS[0].value = slide1;
-                    numberS[1].value = slide2;
-                }
-            });
-            numberS.forEach(function (el) {
-                el.oninput = function () {
-                    var number1 = parseFloat(numberS[0].value),
-                        number2 = parseFloat(numberS[1].value);
-                    if (number1 > number2) {
-                        var tmp = number1;
-                        numberS[0].value = number2;
-                        numberS[1].value = tmp;
-                    }
-                    rangeS[0].value = number1;
-                    rangeS[1].value = number2;
-                }
-            });
-        })();
-    </script>
-    <script>                               
-        function resetForm() {
-            //document.getElementById("formFilter").resetForm()
-            //property type
-            document.getElementById("hdb").checked=false;
-            document.getElementById("condo").checked=false;
-            document.getElementById("landed").checked=false;
-            //District type
-            document.getElementById("north").checked=false;
-            document.getElementById("south").checked=false;
-            document.getElementById("east").checked=false;
-            document.getElementById("west").checked=false;
-            //rooms
-            document.getElementById("1").checked=false;
-            document.getElementById("2").checked=false;
-            document.getElementById("3").checked=false;
-            document.getElementById("4").checked=false;
-            document.getElementById("5").checked=false;
-            document.getElementById("6").checked=false;
-            //sort by price
-            document.getElementById("sortPrice").value="";
-            //sort by date
-            document.getElementById("sortDate").value="";
-            //sort by popularity
-            document.getElementById("sortPop").value="";
-            //sold/archive
-            // document.getElementById("sold").checked=false;
-            // document.getElementById("notsold").checked=false;
-            // document.getElementById("archive").checked=false;
-            // document.getElementById("notarchive").checked=false;
-            //sort by sold
-            document.getElementById("sortSold").value="";
-            //sort by archive
-            document.getElementById("sortArchive").value="";
-        }                
-    </script>
-      <script>
-        $(document).ready(function(){
-        $(window).scroll(function(){
-            //shows up when scroll over 300
-            if($(window).scrollTop()>300){
-            $('.my_bttn').fadeIn(250);
-        }
-        else{
-            $('.my_bttn').fadeOut(250);
-        }
-        });
-        //back to top
-        $('.my_bttn').click(function(){
-        //scroll speed(400) scroll range left(0)
-        $('html,body').animate(
-            {scrollTop:0},400
-        );
+</div>
+<script>
+    const mapToken = '<%- process.env.MAPBOX_TOKEN %>'
+    const listings = { features: <%- JSON.stringify(listings) %> }
+</script>
+<script src="/javascripts/clusterMap.js"></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js'></script>
+<!-- <script type="text/javascript" src="https://livejs.com/live.js"></script> -->
+<script>
+    function reDirectRecent() {
+        window.location='/listings?searchindex=&propertyType=allType&numofRooms=allrooms&sortBy=Recent&minPrice=&maxPrice=&minSize=&maxSize=&searchindexBtn=searchindexBtn'
+    }
+</script>
+<script>
+    $(".hide-row" ).hide();
+    $('.showHideBtn').click(function() {
+            var $this = $(this);
+            $this.toggleClass('showHideBtn');
+            if($this.hasClass('showHideBtn')){
+                $this.text('More Options▾');	       
+            } else {
+                $this.text('Less Option▴');
+            }
+            $('.hide-row').slideToggle('slow', function() {
         });
     });
-      </script>
-    <script>
-        function openPType() {
-            document.getElementById("dropdownPType-content").classList.toggle("showOptions");
-        }
-        function openDistrict() {
-            document.getElementById("dropdownDistrict-content").classList.toggle("showOptions");
-        }
-        function openBedroom() {
-            document.getElementById("dropdownBedroom-content").classList.toggle("showOptions");
-        }
-        function openBathroom() {
-            document.getElementById("dropdownBathroom-content").classList.toggle("showOptions");
-        }
-        function openTenure() {
-            document.getElementById("dropdownTenure-content").classList.toggle("showOptions");
-        }
-        function openSold() {
-            document.getElementById("dropdownSold-content").classList.toggle("showOptions");
-        }
     </script>
+<script>
+    (function () {
+        var parent = document.querySelector(".price-slider");
+        if (!parent) return;
+        var
+            rangeS = parent.querySelectorAll("input[type=range]"),
+            numberS = parent.querySelectorAll("input[type=number]");
+        rangeS.forEach(function (el) {
+            el.oninput = function () {
+                var slide1 = parseFloat(rangeS[0].value),
+                    slide2 = parseFloat(rangeS[1].value);
+                if (slide1 > slide2) {
+                    [slide1, slide2] = [slide2, slide1];
+                }
+                numberS[0].value = slide1;
+                numberS[1].value = slide2;
+            }
+        });
+
+        numberS.forEach(function (el) {
+            el.oninput = function () {
+                var number1 = parseFloat(numberS[0].value),
+                    number2 = parseFloat(numberS[1].value);
+                if (number1 > number2) {
+                    var tmp = number1;
+                    numberS[0].value = number2;
+                    numberS[1].value = tmp;
+                }
+                rangeS[0].value = number1;
+                rangeS[1].value = number2;
+            }
+        });
+    })();
+</script>
+<script>
+    (function () {
+        var parent = document.querySelector(".size-slider");
+        if (!parent) return;
+        var
+            rangeS = parent.querySelectorAll("input[type=range]"),
+            numberS = parent.querySelectorAll("input[type=number]");
+        rangeS.forEach(function (el) {
+            el.oninput = function () {
+                var slide1 = parseFloat(rangeS[0].value),
+                    slide2 = parseFloat(rangeS[1].value);
+                if (slide1 > slide2) {
+                    [slide1, slide2] = [slide2, slide1];
+                }
+                numberS[0].value = slide1;
+                numberS[1].value = slide2;
+            }
+        });
+        numberS.forEach(function (el) {
+            el.oninput = function () {
+                var number1 = parseFloat(numberS[0].value),
+                    number2 = parseFloat(numberS[1].value);
+                if (number1 > number2) {
+                    var tmp = number1;
+                    numberS[0].value = number2;
+                    numberS[1].value = tmp;
+                }
+                rangeS[0].value = number1;
+                rangeS[1].value = number2;
+            }
+        });
+    })();
+</script>
+<script>                               
+    function resetForm() {
+        //document.getElementById("formFilter").resetForm()
+        //property type
+        document.getElementById("hdb").checked=false;
+        document.getElementById("condo").checked=false;
+        document.getElementById("landed").checked=false;
+        //District type
+        document.getElementById("north").checked=false;
+        document.getElementById("south").checked=false;
+        document.getElementById("east").checked=false;
+        document.getElementById("west").checked=false;
+        //rooms
+        document.getElementById("1").checked=false;
+        document.getElementById("2").checked=false;
+        document.getElementById("3").checked=false;
+        document.getElementById("4").checked=false;
+        document.getElementById("5").checked=false;
+        document.getElementById("6").checked=false;
+        //sort by price
+        document.getElementById("sortPrice").value="";
+        //sort by date
+        document.getElementById("sortDate").value="";
+        //sort by popularity
+        document.getElementById("sortPop").value="";
+        //sold/archive
+        // document.getElementById("sold").checked=false;
+        // document.getElementById("notsold").checked=false;
+        // document.getElementById("archive").checked=false;
+        // document.getElementById("notarchive").checked=false;
+        //sort by sold
+        document.getElementById("sortSold").value="";
+        //sort by archive
+        document.getElementById("sortArchive").value="";
+    }                
+</script>
+    <script>
+    $(document).ready(function(){
+    $(window).scroll(function(){
+        //shows up when scroll over 300
+        if($(window).scrollTop()>300){
+        $('.my_bttn').fadeIn(250);
+    }
+    else{
+        $('.my_bttn').fadeOut(250);
+    }
+    });
+    //back to top
+    $('.my_bttn').click(function(){
+    //scroll speed(400) scroll range left(0)
+    $('html,body').animate(
+        {scrollTop:0},400
+    );
+    });
+});
+    </script>
+<script>
+    function openPType() {
+        document.getElementById("dropdownPType-content").classList.toggle("showOptions");
+    }
+    function openDistrict() {
+        document.getElementById("dropdownDistrict-content").classList.toggle("showOptions");
+    }
+    function openBedroom() {
+        document.getElementById("dropdownBedroom-content").classList.toggle("showOptions");
+    }
+    function openBathroom() {
+        document.getElementById("dropdownBathroom-content").classList.toggle("showOptions");
+    }
+    function openTenure() {
+        document.getElementById("dropdownTenure-content").classList.toggle("showOptions");
+    }
+    function openSold() {
+        document.getElementById("dropdownSold-content").classList.toggle("showOptions");
+    }
+</script>
+
 <%- include("../partials/footer") %>
