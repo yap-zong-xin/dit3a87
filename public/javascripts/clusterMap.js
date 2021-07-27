@@ -5,7 +5,9 @@ const map = new mapboxgl.Map({
   // Singapore
   center: [103.808052586332, 1.3516161224392],
   zoom: 10,
-  attributionControl: false
+  attributionControl: false,
+  // pitch: 35, 
+  bearing: -10, // bearing in degrees
 });
  
 // Add zoom and rotation controls to the map.

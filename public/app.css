@@ -2607,7 +2607,7 @@ nav a{
   position: relative;
   height: 100vh;
   /* width: 70px; */
-  width: 70px;
+  width: 80px;
   box-shadow: 10px 0 0 white;
   background: #4a565f;
   border-left: 10px solid #4a565f;
@@ -3307,6 +3307,12 @@ footer {
   .editTextMobile{
     position: relative;
     top: 15px;
+  }
+  .commentTextSection{
+    width: 100%!important;
+  }
+  .commentAuthorSection{
+    min-width: 150px!important;
   }
 }
 @media (min-width: 1200px) {

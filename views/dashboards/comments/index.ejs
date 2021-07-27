@@ -1,6 +1,6 @@
 <%- include("../../partials/header") %>
 
-<div style="overflow-x: hidden;" class="mb-4">
+<div style="overflow-x: hidden;" class="mb-5">
   <div class="row">
     <div class="col-3">
       <div class="navigation sticky-top">
@@ -87,7 +87,7 @@
             <% } %>
           </em>
         </div>
-        <table class="table table-sortable">
+        <table class="table table-sortable d-none d-lg-block">
           <thead>
             <tr>
               <th style="pointer-events: none;" class="justify-content-start d-flex">
@@ -113,18 +113,17 @@
             <% } %>
             <% comments.forEach(function(comment){ %>
               <tr onclick="window.location='/listings/<%= comment.author.listingId %>';">
-                  <td>
-                    <a href="/user/<%= comment.author.id %>">
-                      <img src="<%= comment.author.image %>" alt="" style="border-radius: 50%; width: 50px; height:50px; object-fit: cover;">
-                    </a>
-                  </td>
-                  <td class="pt-4">
-                    <a href="/user/<%= comment.author.id %>" style="text-decoration: none; color: black; font-size: 0.95em;">
-                      <%= comment.author.username %>
-                    </a>
-                  </td>
-                </a>
-                <td class="pt-4" style="min-width:450px!important; max-width:450px!important; white-space: pre-wrap;"><%= comment.text %></td>
+                <td>
+                  <a href="/user/<%= comment.author.id %>">
+                    <img src="<%= comment.author.image %>" alt="" style="border-radius: 50%; width: 50px; height:50px; object-fit: cover;">
+                  </a>
+                </td>
+                <td class="pt-4 commentAuthorSection">
+                  <a href="/user/<%= comment.author.id %>" style="text-decoration: none; color: black; font-size: 0.95em;">
+                    <%= comment.author.username %>
+                  </a>
+                </td>
+                <td class="pt-4 commentTextSection" style="white-space: pre-wrap;"><%= comment.text %></td>
                 <td class="justify-content-start d-flex pt-2">
                   <a href="/listings/<%= comment.author.listingId %>" class="btn dashboardManageBtn" style="border-radius: 0%!important;">
                     <ion-icon name="eye-outline" class="showBtn"></ion-icon>
@@ -133,6 +132,54 @@
                     <ion-icon name="create-outline" class="editBtn"></ion-icon>
                   </a>
                   <form action="/listings/<%= comment.author.listingId %>/comments/<%= comment._id %>/dashboard?_method=DELETE" method="POST">
+                    <button class="btn dashboardManageBtn">
+                      <ion-icon name="trash-outline" class="trashBtn"></ion-icon>
+                    </button>
+                  </form>
+                </td>
+              </tr>
+            <% }); %>
+          </tbody>
+        </table>
+        <table class="table table-sortable d-lg-none">
+          <thead>
+            <tr>
+              <th style="pointer-events: none;" class="justify-content-start d-flex">
+                <i class="fas fa-sort"></i>
+              </th>
+              <th>Comment Given</th>
+              <th class="d-none d-md-block" style="pointer-events: none!important;">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if(comments.length==0){ %>
+              <tr>
+                <% if(noMatch !== undefined){ %>
+                  <td><em><%= noMatch %></em></td>
+                <% } else { %>
+                  <td><em>No users yet.</em></td>
+                <% } %>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+            <% } %>
+            <% comments.forEach(function(comment){ %>
+              <tr onclick="window.location='/listings/<%= comment.author.listingId %>';">
+                <td>
+                  <a href="/user/<%= comment.author.id %>">
+                    <img src="<%= comment.author.image %>" alt="" style="border-radius: 50%; width: 50px; height:50px; object-fit: cover;">
+                  </a>
+                </td>
+                <td class="pt-4" style="width:100%!important; white-space: pre-wrap;"><%= comment.text %></td>
+                <td class="justify-content-start d-flex pt-2">
+                  <a href="/listings/<%= comment.author.listingId %>" class="d-none d-md-block btn dashboardManageBtn" style="border-radius: 0%!important;">
+                    <ion-icon name="eye-outline" class="showBtn"></ion-icon>
+                  </a>
+                  <a href="/listings/<%= comment.author.listingId %>/comments/<%= comment._id %>/edit/dashboard" class="d-none d-md-block btn dashboardManageBtn">
+                    <ion-icon name="create-outline" class="editBtn"></ion-icon>
+                  </a>
+                  <form action="/listings/<%= comment.author.listingId %>/comments/<%= comment._id %>/dashboard?_method=DELETE" class="d-none d-md-block " method="POST">
                     <button class="btn dashboardManageBtn">
                       <ion-icon name="trash-outline" class="trashBtn"></ion-icon>
                     </button>
