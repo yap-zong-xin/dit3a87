@@ -259,7 +259,8 @@ body {
   font-size: 26px;
 }
 
-.contact-us-landing button {
+.contact-us-landing button,
+#resetPwd {
   background-color: #003580;
   border: none;
   border-radius: 45px;
@@ -269,6 +270,38 @@ body {
   height: 45px;
   width: 120px;
 }
+
+/* Reset Password */
+.reset-wrapper {
+  background-color: #fff;
+  width: 400px;
+  padding: 50px;
+  text-align: center;
+}
+
+.reset-wrapper h3 {
+  font-weight: 600;
+  margin-bottom: 50px;
+}
+
+.reset-top {
+  border: 5px solid #003580;
+  height: 100px;
+  width: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 50px;
+}
+
+.reset-top i {
+  font-size: 50px;
+  color: #003580;
+}
+
 
 /* Login */
 .login-card .carousel-item {
