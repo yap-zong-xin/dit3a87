@@ -574,23 +574,22 @@ router.get("/listings", function(req,res){
 					// get all listings from DB
 					listing.find({$and: [{soldStatus: false}, {archiveStatus: false}] })
 					.sort({createdAt: -1})
-					.limit(10)
 					.populate('author.id')
 					.exec(function (err, alllistings) {
 							listing.count().exec(function (err, count) {
 									if (err) {
 											console.log(err);
 									} else {
-										for (var i = 0; i < alllistings.length; i++) {
-											//id
-											var id = alllistings[i]._id;
-											// console.log(alllistings[i]._id);
+										// for (var i = 0; i < alllistings.length; i++) {
+										// 	//id
+										// 	var id = alllistings[i]._id;
+										// 	// console.log(alllistings[i]._id);
 
-											async function postCount (id) {
-												await countApi("/hit/3dpropertylistingsg/" +  id + "-click")
-											}
-											postCount(id)
-										}
+										// 	async function postCount (id) {
+										// 		await countApi("/hit/3dpropertylistingsg/" +  id + "-click")
+										// 	}
+										// 	postCount(id)
+										// }
 										res.render("listings/index.ejs", {
 											listings: alllistings,
 											noMatch: noMatch,
