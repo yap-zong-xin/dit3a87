@@ -52,24 +52,31 @@
           <div class="col-12">
             <div class="row">
               <!-- profile pic  -->
+              <!-- profile pic  -->
               <div class="col-12" style="height: 240px;">
                 <p style="font-weight: 600;">Profile Photo</p>
                 <div class="row">
-                  <div class="col-4">
+                  <div class="col-6 col-sm-5 col-md-4 editImageMobile">
                     <img src="<%= user.image %>" class="profilePicEdit">
                     <img id="outputProfile" class="profilePicEdit" />
                   </div>
-                  <div class="col-8" style="position: relative; top: 20px;">
+                  <div class="col-6 col-sm-7 col-md-8 d-lg-none editImageMobile" style="padding-top: 30px;">
+                    <label for="profile-upload" class="btn btn-outline-dark customImageUpload px-3 py-1">
+                      Upload
+                    </label>
+                  </div>
+                  <div class="col-12 col-lg-8 editTextMobile">
                     <p style="font-weight: 350; font-size: 0.95em;">
                       Clear frontal face photos are an important way for buyers and sellers to learn about each other.
                     </p>
-                    <label for="profile-upload" class="btn btn-outline-dark customImageUpload px-3 py-1">
-                      Upload a Picture
+                    <label for="profile-upload" class="d-none d-lg-inline btn btn-outline-dark customImageUpload px-3 py-1">
+                      Upload
                     </label>
                     <input type="file" id="profile-upload" name="profileImage" onchange="loadProfileFile(event)" accept="image/*">
                   </div>
                 </div>
               </div>
+
               <!-- banner pic  -->
               <div class="col-12" style="height: 240px;">
                 <p style="font-weight: 600;">Profile Banner</p>
@@ -78,14 +85,20 @@
                     <img src="<%= user.banner %>" class="profileBannerEdit">
                     <img id="outputBanner" class="profileBannerEdit" />
                   </div>
-                  <div class="col-8" style="position: relative; top: 40px;">
+                  <div class="col-12 col-lg-8" style="position: relative; top: 20px;">
                     <p style="font-weight: 350; font-size: 0.95em;">
                       A profile banner will often be the first impression users have on you, so show your creativity into your banner by personalising it.
                     </p>
-                    <label for="banner-upload" class="btn btn-outline-dark customImageUpload px-3 py-1">
-                      Upload a banner
+                    <label for="banner-upload" class="d-none d-lg-inline btn btn-outline-dark customImageUpload px-3 py-1">
+                      Upload
                     </label>
                     <input type="file" id="banner-upload" name="bannerImage" onchange="loadBannerFile(event)" accept="image/*">
+                  </div>
+                  
+                  <div class="col-6 col-sm-7 col-md-8 d-lg-none mt-3" style="padding-top: 35px;">
+                    <label for="banner-upload" class="btn btn-outline-dark customImageUpload px-3 py-1">
+                      Upload
+                    </label>
                   </div>
                 </div>
               </div>

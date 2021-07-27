@@ -1550,18 +1550,18 @@ input[type=range]::-ms-thumb {
 .profileEditSubmit, .profileResetPassword{
   font-size: 0.95em;
   background:#4632da;
-  border-radius: 25px;
+  border-radius: 5px;
 }
 .profileDeleteBtn{
   font-size: 0.95em;
-  border-radius: 25px;
+  border-radius: 5px;
 }
 .profileEditSubmit:hover, .profileResetPassword:hover{
   background:#0d28b1;
 }
 .profileEditCancel{
   font-size: 0.95em;
-  border-radius: 25px;
+  border-radius: 5px;
 }
 
 .profileImage{
@@ -3076,6 +3076,16 @@ footer {
   margin-right: 20px;
 }
 
+
+.editImageMobile{
+  position: relative;
+  top: 70px;
+}
+.editTextMobile{
+  position: relative;
+  top: -65px;
+}
+
 /* Media Queries: Height */
 @media only screen and (max-height: 750px) {
   .input-field {
@@ -3243,10 +3253,6 @@ footer {
     width: 120px;
     height: 120px;
   }
-  .profilePicEdit{
-    width: 120px;
-    height: 120px;
-  }
 }
 @media (min-width: 992px) { 
   .navigation{
@@ -3259,6 +3265,14 @@ footer {
   .profilePicEdit{
     width: 150px;
     height: 150px;
+  }
+  .editImageMobile{
+    position: relative;
+    top: 0px;
+  }
+  .editTextMobile{
+    position: relative;
+    top: 0px;
   }
 }
 @media (min-width: 1200px) {
