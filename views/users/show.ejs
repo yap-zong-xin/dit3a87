@@ -223,7 +223,7 @@
   </div>
 
   <!-- overview -->
-  <div class="container overview text-center mt-4 pb-3">
+  <div class="container overview text-center mt-4 pb-3 d-none d-sm-block">
     <div class="row">
       <% if(currentUser && user._id.equals(currentUser._id)){ %>
         <div class="col-6 col-sm-3 first my-2 justify-content-center d-flex align-items-center">
@@ -319,6 +319,114 @@
           </a>
         </div>
       <% } %>
+    </div>
+  </div>
+
+  <p class="justify-content-center d-flex d-sm-none mt-2">
+    <a class="btn" style="font-size: 0.95em; font-weight: 600; background: white; color: #003580;" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+      Overview ▾
+    </a>
+  </p>
+  <div class="collapse d-sm-none" id="collapseExample">
+    <div class="card card-body">
+      <div class="container overview text-center">
+        <div class="row">
+          <% if(currentUser && user._id.equals(currentUser._id)){ %>
+            <div class="col-6 col-sm-3 p-3 justify-content-center d-flex align-items-center" style="background: rgb(250, 250, 250); border-bottom: white 5px solid; border-right: white 5px solid;">
+              <a href="/user/<%= user._id %>" class="p-0">
+                <span>
+                  <%= listings.length %>
+                  <br class="d-lg-none">
+                    <% if(listings.length<2){ %>
+                      Listing
+                      <% } else { %>
+                        Listings
+                        <% } %>
+                </span>
+              </a>
+            </div>
+            <div class="col-6 col-sm-3 p-3 justify-content-center d-flex align-items-center" style="background: rgb(250, 250, 250); border-bottom: white 5px solid;">
+              <a href="/user/<%= user._id %>/reviews" class="p-0">
+                <span>
+                  <%= user.reviews.length %>
+                  <br class="d-lg-none">
+                    <% if(user.reviews.length<2){ %>
+                      Review
+                      <% } else { %>
+                        Reviews
+                        <% } %>
+                </span>
+              </a>
+            </div>
+            <div class="col-6 col-sm-3 p-3 justify-content-center d-flex align-items-center" style="background: rgb(250, 250, 250); border-right: white 5px solid;">
+              <a href="" class="p-0" data-toggle="modal" data-target="#notificationTarget">
+                <span>
+                  <%= allNotifications.length %>
+                  <br class="d-lg-none">
+                  <% if(allNotifications.length<2){ %>
+                    Notification
+                    <% } else { %>
+                      Notifications
+                      <% } %>
+                </span>
+              </a>
+            </div>
+            <div class="col-6 col-sm-3 p-3 justify-content-center d-flex align-items-center" style="background: rgb(250, 250, 250);">
+              <a href="" class="p-0" data-toggle="modal" data-target="#followerTarget">
+                <span>
+                  <%= allFollowers.length %>
+                  <br class="d-lg-none">
+                  <% if(allFollowers.length<2){ %>
+                    Follower
+                    <% } else { %>
+                      Followers
+                      <% } %>
+                </span>
+              </a>
+            </div>
+          <% } else { %>
+            <div class="col-4 my-2 justify-content-center d-flex align-items-center">
+              <a href="/user/<%= user._id %>">
+                <span>
+                  <%= listings.length %>
+                  <br class="d-lg-none">
+                  <% if(listings.length<2){ %>
+                    Listing
+                  <% } else { %>
+                    Listings
+                  <% } %>
+                </span>
+              </a>
+            </div>
+            <div class="col-4 my-2 justify-content-center d-flex align-items-center">
+              <a href="/user/<%= user._id %>/reviews">
+                <span>
+                  <%= user.reviews.length %>
+                  <br class="d-lg-none">
+                  <% if(user.reviews.length<2){ %>
+                    Review
+                  <% } else { %>
+                    Reviews
+                  <% } %>
+                </span>
+              </a>
+            </div>
+            <div class="col-4 my-2 justify-content-center d-flex align-items-center">
+              <a href="" data-toggle="modal" data-target="#followerTarget">
+                <span>
+                  <%= allFollowers.length %>
+                  <br class="d-lg-none">
+                  <% if(allFollowers.length<2){ %>
+                    Follower
+                    <% } else { %>
+                      Followers
+                      <% } %>
+                </span>
+              </a>
+            </div>
+          <% } %>
+        </div>
+      </div>
     </div>
   </div>
   
@@ -500,7 +608,7 @@
                           <a href="/listings/<%= listing.id %>" style="text-decoration: none; color: black;">
                             <div class="col-12">
                                 <img src="<%= listing.thumbnail %>"
-                                  style="background-size: cover; width: 100%; height: 140px; object-fit: cover; background-position: center center;">
+                                  style="background-size: cover; width: 100%!important; height: 140px; object-fit: cover; background-position: center center;">
                             </div>
                             <% if(listing.soldStatus==true){ %>
                               <div class="justify-content-center d-flex">
@@ -621,7 +729,7 @@
                                         <a href="/listings/<%= listing._id %>" style="text-decoration: none; color: black; font-size: 0.95em;">
                                           <div class="row">
                                             <div class="col-2">
-                                              <img src="<%= listing.thumbnail %>" style="background-size: cover; width: 100%; object-fit: cover; background-position: center center; border-radius: 10px;">
+                                              <img src="<%= listing.thumbnail %>" style="background-size: cover; width: 100%; height: 50px; object-fit: cover; background-position: center center; border-radius: 5px;">
                                             </div>
                                             <div class="col-10">
                                               <div class="row">
