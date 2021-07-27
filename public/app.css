@@ -1617,7 +1617,6 @@ input[type=range]::-ms-thumb {
   width: 100px;
   height: 100px;
   border: 6px solid white;
-  border-radius: 20px;
   object-fit: cover;
   position: absolute;
 }
@@ -3112,6 +3111,7 @@ footer {
   position: relative;
   top: 70px;
 }
+
 .editTextMobile{
   position: relative;
   top: -65px;
@@ -3280,10 +3280,6 @@ footer {
 
 }
 @media (min-width: 768px) {
-  .profileBannerEdit{
-    width: 120px;
-    height: 120px;
-  }
 }
 @media (min-width: 992px) { 
   .navigation{
@@ -3303,7 +3299,7 @@ footer {
   }
   .editTextMobile{
     position: relative;
-    top: 0px;
+    top: 15px;
   }
 }
 @media (min-width: 1200px) {
@@ -3312,6 +3308,10 @@ footer {
     height: 170px;
   }
   .profilePicEdit{
+    width: 170px;
+    height: 170px;
+  }
+  .profileBannerEdit{
     width: 170px;
     height: 170px;
   }

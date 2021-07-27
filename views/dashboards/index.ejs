@@ -63,29 +63,33 @@
         <div class="col-12">
           <p class="mb-0 pt-2" style="font-weight: 550; font-size: 1.2em;">Statistics</p>
         </div>
-        <div class="col-2">
+        <div class="col-2 d-none d-md-inline">
           <div style="padding-top: 22px; font-size: 0.95em;">Accounts</div>
           <div style="padding-top: 19px; font-size: 0.95em;">Listings</div>
           <div style="padding-top: 19px; font-size: 0.95em;">Comments</div>
           <div style="padding-top: 19px; font-size: 0.95em;">Reviews</div>
         </div>
-        <div class="col-10">
-          <div class="progress my-4" style="height: 15px;">
+        <div class="col-12 col-md-10">
+          <span class="d-md-none" style="font-size: 0.95em;">Accounts</span>
+          <div class="progress mt-1 mb-2 my-md-4" style="height: 15px;">
             <div class="progress-bar bg-danger" role="progressbar" style="width: <%= users.length/(users.length + listings.length + comments.length + reviews.length)*100 %>%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
               <%= (users.length/(users.length + listings.length + comments.length + reviews.length)*100).toFixed(2) %>%
             </div>
           </div>
-          <div class="progress my-4" style="height: 15px;">
+          <span class="d-md-none" style="font-size: 0.95em;">Listings</span>
+          <div class="progress mt-1 mb-2 my-md-4" style="height: 15px;">
             <div class="progress-bar bg-warning" role="progressbar" style="width: <%= listings.length/(users.length + listings.length + comments.length + reviews.length)*100 %>%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
               <%= (listings.length/(users.length + listings.length + comments.length + reviews.length)*100).toFixed(2) %>%
             </div>
           </div>
-          <div class="progress my-4" style="height: 15px;">
+          <span class="d-md-none" style="font-size: 0.95em;">Comments</span>
+          <div class="progress mt-1 mb-2 my-md-4" style="height: 15px;">
             <div class="progress-bar bg-info" role="progressbar" style="width: <%= comments.length/(users.length + listings.length + comments.length + reviews.length)*100 %>%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
               <%= (comments.length/(users.length + listings.length + comments.length + reviews.length)*100).toFixed(2) %>%
             </div>      
           </div>
-          <div class="progress my-4" style="height: 15px;">
+          <span class="d-md-none" style="font-size: 0.95em;">Reviews</span>
+          <div class="progress mt-1 mb-2 my-md-4" style="height: 15px;">
             <div class="progress-bar bg-dark" role="progressbar" style="width: <%= reviews.length/(users.length + listings.length + comments.length + reviews.length)*100 %>%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
               <%= (reviews.length/(users.length + listings.length + comments.length + reviews.length)*100).toFixed(2) %>%
             </div>
@@ -94,7 +98,7 @@
       </div>
 
       <div class="row mr-5">
-        <div class="col-4 pt-4">
+        <div class="col-12 col-lg-4 pt-4">
           <div class="dashboardOverview">
             <span style="font-weight: 550; font-size: 1.2em;">Overview</span>
             <a href="/dashboard/accounts">
@@ -123,7 +127,7 @@
             </a>
           </div>
         </div>
-        <div class="col-8">
+        <div class="col-8 d-none d-md-block">
             <canvas id="myChart"></canvas>
             <div class="live-counter text-center">
               <a style="font-size: 0.95em; font-weight: 650;">Total visitors:</a>
