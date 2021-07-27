@@ -1,9 +1,5 @@
 <%- include("partials/header") %>
-<style>
-    .footer-wrapper {
-      margin-top: 0;
-    }
-</style>
+
   <!--Slide Show-->
   <div class="container-fluid about-top">
     <div class="container"  data-aos="zoom-in" data-aos-once="true">
@@ -18,8 +14,8 @@
           </ol>
           <div class="carousel-inner">
             <div class="carousel-item active">
-              <div class="row col-md-12 d-flex flex-direction-row benefit-desc">
-                <div class="col-md-6 m-0 d-flex justify-content-center align-items-center">
+              <div class="row col-md-12 m-0 d-flex flex-direction-row benefit-desc">
+                <div class="col-md-6 m-0 d-flex justify-content-center align-items-center ">
                   <div>
                     <h2 id="title-insert">
                       <span>Realest</span> Experience.
@@ -149,13 +145,13 @@
     </div>
 
   <!--Services-->
-  <div class="container-fluid" style="margin-top: 50px; background-color: rgb(247,247,247);padding-top: 50px; padding-bottom: 50px;">
+  <div class="container-fluid" style="margin-top: 50px; background-color: rgb(247,247,247);padding-top: 150px; padding-bottom: 150px;">
     <div class="container" >
-      <div class="col-md-12 d-flex justify-content-center align-items-center text-center" style="margin-top: 25px; margin-bottom: 25px;"  data-aos="zoom-in-down" data-aos-once="true">
+      <div class="col-md-12 d-flex justify-content-center align-items-center text-center" style="margin-bottom: 25px;"  data-aos="zoom-in-down" data-aos-once="true">
         <h1 style="font-weight: 700; color: #000">Services <span style="color: #000; border-bottom: 2px solid #000; font-weight: 400;">We Provide</span></h1>
       </div>
       <div class="row col-md-12 m-0 text-center" style="margin-top: 35px; margin-bottom: 35px;">
-        <div class="col-md-4 wwd-desc">
+        <div class="col-lg-4 wwd-desc">
           <div class="tp-red" id="top-border" data-aos="fade-up" data-aos-anchor-placement="top-bottom" data-aos-once="true">
             <i class="fas fa-street-view" style="color: #fff"></i>
             <h4 style="color: #fff">360 Degree View</h4>
@@ -166,7 +162,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-4 wwd-desc">
+        <div class="col-lg-4 wwd-desc">
           <div class="tp-blue" id="top-border" data-aos="fade-up" data-aos-anchor-placement="top-bottom" data-aos-once="true">
             <i class="fas fa-video" style="color: #fff"></i>
             <h4 style="color: #fff">Video Production</h4>
@@ -177,7 +173,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-4 wwd-desc">
+        <div class="col-lg-4 wwd-desc">
           <div class="tp-gold" id="top-border" data-aos="fade-up" data-aos-anchor-placement="top-bottom" data-aos-once="true">
             <i class="fas fa-vr-cardboard" style="color: #fff"></i>
             <h4 style="color: #fff">Virtual Experience</h4>
@@ -193,40 +189,12 @@
 
 
   <!--Contact Form-->
-  <div class="container-fluid" id="gradient-bg" >
+  <div class="container-fluid contact-service">
     <div data-aos="fade-up" data-aos-anchor-placement="top-bottom" data-aos-once="true">
       <div class="col-md-12 m-0 p-0 text-center" style="color: #fff;">
-        <h1 style="margin-bottom: 5px; font-weight: 600;">Have some questions?</h1>
-        <a style="font-size: 20px; letter-spacing: 0.5px;">Drop us a quick message and we'll get back to you ASAP.</a>
-      </div>
-      <div class="container">
-        <div class="row col-md-12 m-0 d-flex flex-direction-row" style="padding-top: 50px;">
-          <div class="col-md-6">
-          </div>
-          <div class="col-md-6">
-            <form class="contact-us-landing" action="#">
-              <div class="input-field">
-                <i class="fas fa-user"></i>
-                <input type="text" placeholder="First Name" id="firstName" name="firstName" required />
-              </div>
-              <div class="input-field">
-                <i class="fas fa-user"></i>
-                <input type="text" placeholder="Last Name" id="lastName" name="lastName" required />
-              </div>
-              <div class="input-field">
-                <i class="fas fa-envelope"></i>
-                <input type="text" placeholder="Email" id="email" name="email" required />
-              </div>
-              <div class="input-field d-flex justify-content-center text-area-contact"
-                style="height: 200px; border-radius: 12px; padding: 10px">
-                <textarea style="background-color: transparent; border: none; resize: none;" rows="4" cols="50"
-                  placeholder="Say Hi!" required></textarea>
-              </div>
-              <button class="btn" style="border: 2px solid white">Submit</button>
-            </form>
-
-          </div>
-        </div>
+        <h1 style="margin-bottom: 5px; font-weight: 600; font-size: 24px;">Have some questions?</h1>
+        <p style="font-size: 18px; letter-spacing: 0.5px; font-weight: 300;">Drop us a quick message and we'll get back to you ASAP.</p>
+        <button type="button" onclick="window.location=`/connect`;">Contact Us</button>
       </div>
     </div>
   </div>

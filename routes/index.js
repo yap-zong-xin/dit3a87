@@ -422,4 +422,10 @@ router.get("/service", function(req, res){
 	res.render("service.ejs");
 });
 
+//About Route
+router.get("/connect", function(req, res){
+	res.render("connect.ejs");
+});
+
+
 module.exports = router;

@@ -71,7 +71,7 @@ body {
   font-weight: 500;
 }
 
-.viewport-header button, .contact-us-landing button {
+.viewport-header button {
   margin: 10px 0 10px;
   color: white;
   background-color: #186aff;
@@ -185,6 +185,89 @@ body {
   position: relative;
   top: 0;
   transition: top ease 0.5s;
+  padding: 15px;
+}
+
+.contact-service {
+  padding-top: 150px;
+  padding-bottom: 150px;
+  background-color: #fff;
+}
+
+.contact-service h1,
+.contact-service p {
+  color: #000;
+}
+
+.contact-service button {
+  background-color: #003580;
+  border: none;
+  border-radius: 45px;
+  padding: 10px 15px 10px 15px;
+  font-weight: 400;
+  color: #fff;
+  height: 45px;
+  width: 120px;
+}
+
+.contact-service button:focus {
+  outline: none;
+}
+
+/* Connect with Us */
+.connect-top {
+  background-color: rgb(247,247,247);
+  padding: 70px 0 150px 0;
+}
+
+.connect-top h1 {
+  font-weight: 700;
+}
+
+.connect-top p {
+  font-weight: 300;
+}
+
+.connect-form-wrapper {
+  padding: 20px;
+  text-align: center;
+  background-color: #fff;
+}
+
+.contact {
+  width: 200px;
+  padding: 10px 0 10px;
+}
+
+.connect-form-wrapper h3 {
+  margin-top: 30px;
+  font-weight: 700;
+}
+
+.connect-form-wrapper p {
+  margin-bottom: 30px;
+}
+
+.connect-top iframe {
+  width: 100%;
+  height: 400px;
+  margin-top: 25px;
+  margin-bottom: 25px;
+}
+
+.social-links i {
+  font-size: 26px;
+}
+
+.contact-us-landing button {
+  background-color: #003580;
+  border: none;
+  border-radius: 45px;
+  padding: 10px 15px 10px 15px;
+  font-weight: 400;
+  color: #fff;
+  height: 45px;
+  width: 120px;
 }
 
 /* Login */
@@ -224,7 +307,7 @@ body {
 }
 
 #text-wrapper {
-  padding: 6px;
+  padding: 15px;
   margin-top: 10px;
   margin-bottom: 50px;
 }
