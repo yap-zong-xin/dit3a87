@@ -15,7 +15,7 @@ new mapboxgl.Marker()
 mapboxgl.accessToken = mapToken;
 var map = new mapboxgl.Map({
   container: 'map1', // container ID
-  style: 'mapbox://styles/yapzongxin/ckqky44ku0chw18nv3buheltf',
+  style: 'mapbox://styles/yapzongxin/ckrkvwarf9o5a17nybkpyvtho',
   center: listing.geometry.coordinates, // starting position [lng, lat]
   zoom: 13 // starting zoom
 });

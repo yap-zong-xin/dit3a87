@@ -225,7 +225,7 @@
   <div class="container overview text-center mt-4 pb-3">
     <div class="row">
       <% if(currentUser && user._id.equals(currentUser._id)){ %>
-        <div class="col-3 first my-2 justify-content-center d-flex align-items-center">
+        <div class="col-6 col-sm-3 first my-2 justify-content-center d-flex align-items-center">
           <a href="/user/<%= user._id %>" class="p-0">
             <span>
               <%= listings.length %>
@@ -238,7 +238,7 @@
             </span>
           </a>
         </div>
-        <div class="col-3 second my-2 justify-content-center d-flex align-items-center">
+        <div class="col-6 col-sm-3 second my-2 justify-content-center d-flex align-items-center">
           <a href="/user/<%= user._id %>/reviews" class="p-0">
             <span>
               <%= user.reviews.length %>
@@ -251,7 +251,7 @@
             </span>
           </a>
         </div>
-        <div class="col-3 third my-2 justify-content-center d-flex align-items-center">
+        <div class="col-6 col-sm-3 third my-2 justify-content-center d-flex align-items-center">
           <a href="" class="p-0" data-toggle="modal" data-target="#notificationTarget">
             <span>
               <%= allNotifications.length %>
@@ -264,7 +264,7 @@
             </span>
           </a>
         </div>
-        <div class="col-3 forth my-2 justify-content-center d-flex align-items-center">
+        <div class="col-6 col-sm-3 forth my-2 justify-content-center d-flex align-items-center">
           <a href="" class="p-0" data-toggle="modal" data-target="#followerTarget">
             <span>
               <%= allFollowers.length %>
@@ -326,7 +326,7 @@
       <div class="row">
         <!-- profile details & followers & notifictions -->
         <div class="col-12 col-lg-4">
-          <div class="row item shark-1">
+          <div class="row item shark-1 px-3 px-lg-0">
             <!-- profile details -->
             <div class="col-12 borderStyle mt-3">
               <div class="align-items-center d-flex pl-4 pr-2 py-2 mb-4 justify-content-between headerStyle">
@@ -436,7 +436,7 @@
         </div>
 
         <!-- listings & reviews -->
-        <div class="col-12 col-lg-8 px-0 pr-lg-0 pl-lg-3">
+        <div class="col-12 col-lg-8 pr-lg-0 pl-lg-3">
           <% if(listings.length==0){ %>
           <% } else{ %>
             <div class="col-12 borderStyle mt-3">
@@ -446,7 +446,7 @@
           <!-- listings -->
           <div class="col-12 borderStyle mt-3 pb-4">
             <div class="row">
-              <div class="col-5 col-sm-4 col-md-3 col-lg-4 col-xl-3">
+              <div class="col-12 col-sm-4 col-md-3 col-lg-4 col-xl-3 mb-4 pb-2 mb-sm-0">
                 <a href="/user/<%= user._id %>" style="color: black; text-decoration: none;">
                   <span class="profileHeader my-0 pb-3" id="listingHover"
                     style="border-bottom: 2px #4632da solid; color: #4632da; font-weight: 600;">Listings</span>
@@ -455,7 +455,7 @@
                   <span class="profileHeader my-0 pl-3" id="reviewHover">Reviews</span>
                 </a>
               </div>
-              <div class="col-6 col-sm-7 col-md-8 col-lg-7 col-xl-8">
+              <div class="col-11 col-sm-7 col-md-8 col-lg-7 col-xl-8 pr-0 pr-sm-2">
                 <% if(noMatch !== undefined){ %>
                   <form action="/user/<%= user._id %>" method="GET">
                     <div class="input-group mb-3">
@@ -466,11 +466,10 @@
                         </button>
                       </div>
                     </div>
-                    
                   </form>
                 <% } %>
               </div>
-              <div class="col-1 px-0">
+              <div class="col-1 pl-0">
                 <% if(currentUser && user._id.equals(currentUser._id)){ %>
                   <a href="/listings/new" class="pl-1" style="text-decoration: none;">
                     <ion-icon class="iconHeader" name="add-outline"></ion-icon>
@@ -488,7 +487,7 @@
                 <% } else { %>
                   <div class="row px-2">
                     <% var idArr = []; listings.reverse().forEach(function(listing) { var id = listing._id; idArr.push(id);%>
-                      <div class="col-6 col-sm-4 col-md-3 col-lg-4 col-xl-3 p-3 listingHover">
+                      <div class="col-6 col-sm-4 col-md-3 col-lg-4 col-xl-3 p-1 p-sm-3 listingHover">
                         <div class="row">
                           <a href="/listings/<%= listing.id %>" style="text-decoration: none; color: black;">
                             <div class="col-12">
