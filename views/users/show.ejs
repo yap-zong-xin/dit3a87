@@ -129,7 +129,7 @@
               <% if ( moment(user.lastLogin).format('DD MM YYYY hh:mm:ss') > moment().subtract(7,'days').format('DD MM YYYY hh:mm:ss'))  {%>
                 <span class="pr-1"><i class="fas fa-bolt"></i> Active</span>
               <% } else { %>
-                <span class="pr-1"><img src="/img/snooze.svg"><img src="/img/snooze.svg" style="width: 12%;">Inactive</span>
+                <span class="pr-1"><img src="/img/snooze.svg" style="width: 12%;"> Inactive</span>
               <% } %>
             </span>
             <br>
@@ -148,6 +148,12 @@
             <a class="btn btn-outline-dark profileOverviewBtn" href="/user/<%= user._id %>/edit">
               <ion-icon name="create-outline"></ion-icon>
             </a>
+            <% if(currentUser && user._id.equals(currentUser._id) || currentUser && user.isAdmin){ %>
+              <a href="/listings/new" class="ml-2 btn btn-outline-dark profileOverviewBtn" style="text-decoration: none;">
+                <ion-icon name="add-outline"></ion-icon>
+              </a>
+            <% } %>
+
           <% } else { %>
             <% var currentFollow = false; for(let i=0; i<user.followers.length; i++) { if(user.followers[i]._id.equals(currentUser._id)) { currentFollow = true; } } %>
             <% if(currentFollow == false) { %>
@@ -219,10 +225,11 @@
   <div class="container overview text-center mt-4 pb-3">
     <div class="row">
       <% if(currentUser && user._id.equals(currentUser._id)){ %>
-        <div class="col-3 first my-2">
-          <a href="/user/<%= user._id %>">
+        <div class="col-3 first my-2 justify-content-center d-flex align-items-center">
+          <a href="/user/<%= user._id %>" class="p-0">
             <span>
               <%= listings.length %>
+              <br class="d-lg-none">
                 <% if(listings.length<2){ %>
                   Listing
                   <% } else { %>
@@ -231,10 +238,11 @@
             </span>
           </a>
         </div>
-        <div class="col-3 second my-2">
-          <a href="/user/<%= user._id %>/reviews">
+        <div class="col-3 second my-2 justify-content-center d-flex align-items-center">
+          <a href="/user/<%= user._id %>/reviews" class="p-0">
             <span>
               <%= user.reviews.length %>
+              <br class="d-lg-none">
                 <% if(user.reviews.length<2){ %>
                   Review
                   <% } else { %>
@@ -243,10 +251,11 @@
             </span>
           </a>
         </div>
-        <div class="col-3 third my-2">
-          <a href="" data-toggle="modal" data-target="#notificationTarget">
+        <div class="col-3 third my-2 justify-content-center d-flex align-items-center">
+          <a href="" class="p-0" data-toggle="modal" data-target="#notificationTarget">
             <span>
               <%= allNotifications.length %>
+              <br class="d-lg-none">
               <% if(allNotifications.length<2){ %>
                 Notification
                 <% } else { %>
@@ -255,10 +264,11 @@
             </span>
           </a>
         </div>
-        <div class="col-3 forth my-2">
-          <a href="" data-toggle="modal" data-target="#followerTarget">
+        <div class="col-3 forth my-2 justify-content-center d-flex align-items-center">
+          <a href="" class="p-0" data-toggle="modal" data-target="#followerTarget">
             <span>
               <%= allFollowers.length %>
+              <br class="d-lg-none">
               <% if(allFollowers.length<2){ %>
                 Follower
                 <% } else { %>
@@ -434,9 +444,9 @@
             </div>
           <% } %>
           <!-- listings -->
-          <div class="col-12 borderStyle mt-3">
-            <div class="d-flex p-2 mb-0 justify-content-between headerStyle">
-              <div class="left pb-4">
+          <div class="col-12 borderStyle mt-3 pb-4">
+            <div class="row">
+              <div class="col-5 col-sm-4 col-md-3 col-lg-4 col-xl-3">
                 <a href="/user/<%= user._id %>" style="color: black; text-decoration: none;">
                   <span class="profileHeader my-0 pb-3" id="listingHover"
                     style="border-bottom: 2px #4632da solid; color: #4632da; font-weight: 600;">Listings</span>
@@ -445,22 +455,31 @@
                   <span class="profileHeader my-0 pl-3" id="reviewHover">Reviews</span>
                 </a>
               </div>
-              <div class="right">
-                <div class="box justify-content-end d-flex">
-                  <% if(noMatch !== undefined){ %>
-                    <form action="/user/<%= user._id %>" method="GET" class="form-inline">
-                      <input type="text" name="search" placeholder="Search Listings">
-                      <button><i class="fas fa-search"></i></button>
-                    </form>
-                  <% } %>
-                  <% if(currentUser && user._id.equals(currentUser._id)){ %>
-                    <a href="/listings/new" class="pl-1" style="text-decoration: none;">
-                      <ion-icon class="iconHeader" name="add-outline"></ion-icon>
-                    </a>
-                  <% } %>
-                </div>
+              <div class="col-6 col-sm-7 col-md-8 col-lg-7 col-xl-8">
+                <% if(noMatch !== undefined){ %>
+                  <form action="/user/<%= user._id %>" method="GET">
+                    <div class="input-group mb-3">
+                      <input type="text" class="form-control" name="search" placeholder="Search Listings">
+                      <div class="input-group-append">
+                        <button class="input-group-text btn btn-dark" style="background: rgb(52,58,64); color: white;">
+                          <i class="fas fa-search"></i>
+                        </button>
+                      </div>
+                    </div>
+                    
+                  </form>
+                <% } %>
+              </div>
+              <div class="col-1 px-0">
+                <% if(currentUser && user._id.equals(currentUser._id)){ %>
+                  <a href="/listings/new" class="pl-1" style="text-decoration: none;">
+                    <ion-icon class="iconHeader" name="add-outline"></ion-icon>
+                  </a>
+                <% } %>
               </div>
             </div>
+              
+              
             <% if(user.isAgent==true || user.isAdmin==true){ %>
               <% if(listings==0){ %>
                 <p class="px-2">
@@ -469,7 +488,7 @@
                 <% } else { %>
                   <div class="row px-2">
                     <% var idArr = []; listings.reverse().forEach(function(listing) { var id = listing._id; idArr.push(id);%>
-                      <div class="col-3 p-3 listingHover">
+                      <div class="col-6 col-sm-4 col-md-3 col-lg-4 col-xl-3 p-3 listingHover">
                         <div class="row">
                           <a href="/listings/<%= listing.id %>" style="text-decoration: none; color: black;">
                             <div class="col-12">
