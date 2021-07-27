@@ -50,7 +50,6 @@
             </div>
           <% } %> -->
           <div class="col-12">
-            <p class="my-0" style="font-weight: 600;">Profile Details</p>
             <div class="row">
               <!-- profile pic  -->
               <div class="col-12" style="height: 240px;">
@@ -60,7 +59,7 @@
                     <img src="<%= user.image %>" class="profilePicEdit">
                     <img id="outputProfile" class="profilePicEdit" />
                   </div>
-                  <div class="col-8" style="position: relative; top: 40px;">
+                  <div class="col-8" style="position: relative; top: 20px;">
                     <p style="font-weight: 350; font-size: 0.95em;">
                       Clear frontal face photos are an important way for buyers and sellers to learn about each other.
                     </p>
@@ -73,7 +72,7 @@
               </div>
               <!-- banner pic  -->
               <div class="col-12" style="height: 240px;">
-                <p style="font-weight: 600;">Banner Photo</p>
+                <p style="font-weight: 600;">Profile Banner</p>
                 <div class="row">
                   <div class="col-4">
                     <img src="<%= user.banner %>" class="profileBannerEdit">
@@ -81,7 +80,7 @@
                   </div>
                   <div class="col-8" style="position: relative; top: 40px;">
                     <p style="font-weight: 350; font-size: 0.95em;">
-                      New profile banner!
+                      A profile banner will often be the first impression users have on you, so show your creativity into your banner by personalising it.
                     </p>
                     <label for="banner-upload" class="btn btn-outline-dark customImageUpload px-3 py-1">
                       Upload a banner
@@ -92,6 +91,7 @@
               </div>
               <!-- form -->
               <div class="col-12">
+                <p class="my-2" style="font-weight: 600; ">Profile Details</p>
                 <label class="custom-field one">
                   <input type="text" name="user[username]" value="<%= user.username %>" placeholder=" "
                     required />

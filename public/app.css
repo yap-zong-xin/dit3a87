@@ -1500,16 +1500,16 @@ input[type=range]::-ms-thumb {
 }
 
 .profileBannerEdit{
-  width: 175px;
-  height: 175px;
+  width: 100px;
+  height: 100px;
   border: 6px solid white;
-  border-radius: 50%;
+  border-radius: 20px;
   object-fit: cover;
   position: absolute;
 }
 .profilePicEdit{
-  width: 175px;
-  height: 175px;
+  width: 100px;
+  height: 100px;
   border: 6px solid white;
   border-radius: 50%;
   object-fit: cover;
@@ -2494,7 +2494,7 @@ nav a{
   position: relative;
   height: 100vh;
   /* width: 70px; */
-  width: 21%;
+  width: 70px;
   box-shadow: 10px 0 0 white;
   background: #4a565f;
   border-left: 10px solid #4a565f;
@@ -3149,5 +3149,42 @@ footer {
   .user-result img {
     width: 100px;
     height: 100px;
+  }
+}
+
+@media (min-width: 576px) {
+
+}
+@media (min-width: 768px) {
+  .profileBannerEdit{
+    width: 120px;
+    height: 120px;
+  }
+  .profilePicEdit{
+    width: 120px;
+    height: 120px;
+  }
+}
+@media (min-width: 992px) { 
+  .navigation{
+    width: 21%;
+  }
+  .profileBannerEdit{
+    width: 150px;
+    height: 150px;
+  }
+  .profilePicEdit{
+    width: 150px;
+    height: 150px;
+  }
+}
+@media (min-width: 1200px) {
+  .profileBannerEdit{
+    width: 170px;
+    height: 170px;
+  }
+  .profilePicEdit{
+    width: 170px;
+    height: 170px;
   }
 }

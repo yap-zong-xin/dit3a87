@@ -8,14 +8,14 @@
       <div>
         <div class="left pb-3">
           <!-- suspend account-->
-          <% if(currentUser && user.isAdmin!=true){ %>
+          <% if(currentUser && !user.isAdmin==true){ %>
             <form action="/suspend/<%= user.id %>?_method=PUT" method="POST" class="text-center" style="position:relative; top: 10px;">
               <% if(user.suspend==false){ %>
                 <button type="submit" name="user[suspend]" value="true" class="btn approveBtn"
-                  style="background: #FFC107; color: white; font-weight: 600; font-size: 0.9em;">Suspend User</button>
+                  style="background: #FFC107; color: white; font-weight: 600; font-size: 0.9em;">Suspend<span class="d-none d-md-inline"> User</span></button>
               <% } else{ %>
                 <button type="submit" name="user[suspend]" value="false" class="btn approveBtn"
-                  style="background: #17A2B8; color: white; font-weight: 600; font-size: 0.9em;">Unsuspend User</button>
+                  style="background: #17A2B8; color: white; font-weight: 600; font-size: 0.9em;">Unsuspend<span class="d-none d-md-inline"> User</span></button>
               <% } %>
             </form>
           <% } %>
@@ -26,10 +26,10 @@
             <form action="/agentStatus/<%= user._id %>?_method=PUT" method="POST" class="text-center" style="position:relative; top: 10px;">
               <% if(user.agentStatus==false){ %>
                 <button type="submit" name="user[agentStatus]" value="true" class="btn approveBtn"
-                  style="background: #41e792; color: white; font-weight: 600; font-size: 0.9em;">Approve Agent</button>
+                  style="background: #41e792; color: white; font-weight: 600; font-size: 0.9em;">Approve<span class="d-none d-md-inline"> Agent</span></button>
               <% } else{ %>
                 <button type="submit" name="user[agentStatus]" value="false" class="btn approveBtn"
-                  style="background: #DC3545; color: white; font-weight: 600; font-size: 0.9em;">Remove Agent</button>
+                  style="background: #DC3545; color: white; font-weight: 600; font-size: 0.9em;">Remove<span class="d-none d-md-inline"> Agent</span></button>
               <% } %>
             </form>
           <% } %>
@@ -38,8 +38,7 @@
       <div>
         <!-- upload banner button -->
         <% if(currentUser && user._id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
-          <form action="/user/<%=user._id %>/banner?_method=PUT" method="POST" enctype="multipart/form-data"
-            id="bannerForm">
+          <form action="/user/<%=user._id %>/banner?_method=PUT" method="POST" enctype="multipart/form-data" id="bannerForm">
             <span class="justify-content-end d-flex">
               <label for="file-upload" class="customBannerUpload px-3">
                 <i class="fas fa-camera"></i>
@@ -48,9 +47,9 @@
                 accept="image/*">
             </span>
           </form>
-          <% } else { %>
-            <div class="py-4"></div>
-            <% } %>
+        <% } else { %>
+          <div class="py-4 px-3"></div>
+        <% } %>
       </div>
     </div>
 
@@ -60,96 +59,144 @@
     </span>
     <% if(currentUser && user._id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
       <!-- upload profile image button -->
-      <form action="/user/<%=user._id %>/image?_method=PUT" method="POST" enctype="multipart/form-data" id="imageForm"
-        class="text-center">
+      <form action="/user/<%=user._id %>/image?_method=PUT" method="POST" enctype="multipart/form-data" id="imageForm" class="text-center">
         <label for="file-upload-image" class="customImageUpload px-3">
           <i class="fas fa-camera"></i>
         </label>
-        <input type="file" id="file-upload-image" name="image" onchange="this.form.submit()" id="imageUpload"
-          accept="image/*">
+        <input type="file" id="file-upload-image" name="image" onchange="this.form.submit()" id="imageUpload" accept="image/*">
       </form>
-      <% } %>
+    <% } %>
   </div>
 
   <!-- follow & chat & edit profile -->
-  <div class="container align-items-center justify-content-between d-flex mt-3 px-4">
-    <div>
-      <% if(!currentUser){ %>
-        <a href="/follow/<%= user.id %>">
-          <button class="btn btn-dark followBtn">Follow</button>
-        </a>
-        <% } else { %>
-          <% if(user._id.equals(currentUser._id)){ %>
-            <a class="btn btn-dark profileOverviewBtn" href="/user/<%= user._id %>/edit">
-              <span>Edit Profile</span>
+  <div class="container d-lg-none mt-5 pt-1">
+    <p id="profileUsername" class="text-center pt-2 pt-lg-1 my-0">
+      <%= user.username %>
+    </p>
+    <% if (user.rating===0) { %>
+      <span class="justify-content-center d-flex pb-2 my-0" style="font-size: 0.9em; color: gray;">
+        <em>No reviews found.</em>
+      </span>
+      <% } else { %>
+        <div class="justify-content-center d-flex">
+          <div class="mb-3 text-center" style="width: 400px;">
+            <a href="/user/<%= user._id %>/reviews" id="mainReview">
+              <p class="m-0">
+                <%= user.rating.toFixed(2) %>
+                  <span class="fa fa-star checked"></span>
+                  <span class="fa fa-star <% if (user.rating > 1.5) { %> checked <% } %>"></span>
+                  <span class="fa fa-star <% if (user.rating > 2.5) { %> checked <% } %>"></span>
+                  <span class="fa fa-star <% if (user.rating > 3.5) { %> checked <% } %>"></span>
+                  <span class="fa fa-star <% if (user.rating > 4.5) { %> checked <% } %>"></span>
+                  (<%= user.reviews.length %>)
+              </p>
             </a>
-            <% } else { %>
-              <div class="left">
-                <a href="/follow/<%= user.id %>">
-                  <button class="btn btn-dark followBtn">Follow</button>
-                </a>
-              </div>
-              <div class="left right">
-                <form action="http://localhost:8800/api/conversations/<%= currentUser._id %>/<%= user.id %>"
-                  method="POST">
-                  <button type="submit" class="btn btn-dark chatBtn">Message</button>
-                </form>
-              </div>
-              <% } %>
-                <% } %>
-    </div>
-    <div class="justify-content-center d-flex py-2">
-      <div class="left">
-        <span id="userRole">
-          <i class="fas fa-user pr-1"></i>
-          <% if(user.isAgent==true){ %>
-            Agent
+          </div>
+        </div>
+        <% } %>
+  </div>
+
+  <div class="container mt-0 mt-lg-3 px-4">
+    <div class="row mt-2 mt-lg-0">
+      <div class="col-12 col-lg-6 justify-content-center justify-content-lg-start align-items-center d-flex">
+        <div class="left">
+          <span id="userRole">
+            <i class="fas fa-user pr-1"></i>
+            <% if(user.isAgent==true){ %>
+              Agent
             <% } else if(user.isAdmin==true){ %>
               Admin
-              <% } else { %>
-                Seeker
-                <% } %>
-        </span>
-      </div>
-      <div class="left right">
-        <span>
-          <% if(user.agentStatus==true || user.isAdmin==true){ %>
-            <span id="userStatus"><i class="fas fa-check pr-1"></i>Verified</span>
+            <% } else { %>
+              Seeker
+            <% } %>
+          </span>
+        </div>
+        <div class="left right">
+          <span>
+            <% if(user.agentStatus==true || user.isAdmin==true){ %>
+              <span id="userStatus"><i class="fas fa-check pr-1"></i>Verified</span>
             <% } else { %>
               <% if(user.isAgent==true){ %>
                 <span id="userStatus"><i class="fas fa-clock pr-1"></i>Pending</span>
-                <% } else { %>
-                  <% } %>
-                    <% } %>
-        </span>
-      </div>
-      <% if(user.isAgent==true){ %>
-        <div class="right">
-          <span id="ceaNum">
-            <span class="pr-1" style="letter-spacing: -0.15em;">CEA</span>
-            <%= user.cea %>
-          </span>
-          <br>
-        </div>
-      <% } %>
-      <% if(user.isAgent==true){ %>
-        <div class="right">
-          <span id="userActive">
-            <% if ( moment(user.lastLogin).format('DD MM YYYY hh:mm:ss') > moment().subtract(7,'days').format('DD MM YYYY hh:mm:ss'))  {%>
-            <span class="pr-1"><i class="fas fa-bolt"></i> Active</span>
-            <% } else { %>
-              <span class="pr-1"><img src="/img/snooze.svg"><img src="/img/snooze.svg" style="width: 12%;">Inactive</span>
+              <% } else { %>
               <% } %>
+            <% } %>
           </span>
-          <br>
         </div>
-      <% } %>
+        <% if(user.isAgent==true){ %>
+          <div class="right">
+            <span id="userActive">
+              <% if ( moment(user.lastLogin).format('DD MM YYYY hh:mm:ss') > moment().subtract(7,'days').format('DD MM YYYY hh:mm:ss'))  {%>
+                <span class="pr-1"><i class="fas fa-bolt"></i> Active</span>
+              <% } else { %>
+                <span class="pr-1"><img src="/img/snooze.svg" style="width: 12%;"> Inactive</span>
+              <% } %>
+            </span>
+            <br>
+          </div>
+        <% } %>
+      </div>
+      <div class="col-12 col-lg-6 d-none d-lg-block pt-3 pt-lg-0">
+        <div class="justify-content-lg-end align-items-center d-flex">
+          <% if(!currentUser){ %>
+            <form action="/followSingle/<%= user.id %>" method="POST">
+              <button class="btn btn-outline-dark followBtn">
+                <ion-icon name="person-add-outline"></ion-icon>
+              </button>
+            </form>
+          <% } else { %>
+            <% if(user._id.equals(currentUser._id)){ %>
+              <a class="btn btn-outline-dark profileOverviewBtn" href="/user/<%= user._id %>/edit">
+                <ion-icon name="create-outline"></ion-icon>
+              </a>
+              <% if(currentUser && user._id.equals(currentUser._id) || currentUser && user.isAdmin){ %>
+                <a href="/listings/new" class="ml-2 btn btn-outline-dark profileOverviewBtn" style="text-decoration: none;">
+                  <ion-icon name="add-outline"></ion-icon>
+                </a>
+              <% } %>
+            <% } else { %>
+              <% var currentFollow = false; for(let i=0; i<user.followers.length; i++) { if(user.followers[i]._id.equals(currentUser._id)) { currentFollow = true; } } %>
+              <% if(currentFollow == false) { %>
+                <div class="left">
+                  <form action="/followSingle/<%= user.id %>" method="POST">
+                    <button class="btn btn-outline-dark followBtn">
+                      <ion-icon name="person-add-outline"></ion-icon>
+                    </button>
+                  </form>
+                </div>
+              <% } else { %>
+                <div class="left">
+                  <form action="/followSingle/<%= user.id %>" method="POST">
+                    <button class="btn btn-outline-dark followBtn">
+                      <ion-icon name="person-remove-outline"></ion-icon>
+                    </button>
+                  </form>
+                </div>
+              <% } %>
+              <div class="left right">
+                <form action="/conversation/<%= currentUser._id %>/<%= user.id %>"
+                  method="POST">
+                  <button type="submit" class="btn btn-outline-dark chatBtn">
+                    <ion-icon name="chatbubble-outline"></ion-icon>
+                  </button>
+                </form>
+              </div>
+              <a class="mr-2 btn btn-outline-dark emailBtn" href="mailto:<%= user.email %>">
+                <ion-icon name="mail-outline"></ion-icon>
+              </a>
+              <button type="submit" class="mr-2 btn btn-outline-dark whatsappBtn" onclick="window.open('https:\/\/wa.me/65<%= user.phone %>/?text=')">
+                <ion-icon name="logo-whatsapp"></ion-icon>
+              </button>
+            <% } %>
+          <% } %>
+        </div>
+      </div>
     </div>
   </div>
 
   <!-- user details -->
-  <div class="container">
-    <p id="profileUsername" class="text-center pt-1 my-0">
+  <div class="container d-none d-lg-block">
+    <p id="profileUsername" class="text-center pt-2 pt-lg-1 my-0">
       <%= user.username %>
     </p>
     <% if (user.rating===0) { %>
@@ -179,10 +226,11 @@
   <div class="container overview text-center mt-4 pb-3">
     <div class="row">
       <% if(currentUser && user._id.equals(currentUser._id)){ %>
-        <div class="col-3 first my-2">
-          <a href="/user/<%= user._id %>">
+        <div class="col-6 col-sm-3 first my-2 justify-content-center d-flex align-items-center">
+          <a href="/user/<%= user._id %>" class="p-0">
             <span>
               <%= listings.length %>
+              <br class="d-lg-none">
                 <% if(listings.length<2){ %>
                   Listing
                   <% } else { %>
@@ -191,10 +239,11 @@
             </span>
           </a>
         </div>
-        <div class="col-3 second my-2" style="cursor: default;">
-          <a href="/user/<%= user._id %>/reviews">
+        <div class="col-6 col-sm-3 second my-2 justify-content-center d-flex align-items-center">
+          <a href="/user/<%= user._id %>/reviews" class="p-0">
             <span>
               <%= user.reviews.length %>
+              <br class="d-lg-none">
                 <% if(user.reviews.length<2){ %>
                   Review
                   <% } else { %>
@@ -203,10 +252,11 @@
             </span>
           </a>
         </div>
-        <div class="col-3 third my-2">
-          <a href="" data-toggle="modal" data-target="#notificationTarget">
+        <div class="col-6 col-sm-3 third my-2 justify-content-center d-flex align-items-center">
+          <a href="" class="p-0" data-toggle="modal" data-target="#notificationTarget">
             <span>
               <%= allNotifications.length %>
+              <br class="d-lg-none">
               <% if(allNotifications.length<2){ %>
                 Notification
                 <% } else { %>
@@ -215,10 +265,11 @@
             </span>
           </a>
         </div>
-        <div class="col-3 forth my-2">
-          <a href="" data-toggle="modal" data-target="#followerTarget">
+        <div class="col-6 col-sm-3 forth my-2 justify-content-center d-flex align-items-center">
+          <a href="" class="p-0" data-toggle="modal" data-target="#followerTarget">
             <span>
               <%= allFollowers.length %>
+              <br class="d-lg-none">
               <% if(allFollowers.length<2){ %>
                 Follower
                 <% } else { %>
@@ -228,32 +279,37 @@
           </a>
         </div>
       <% } else { %>
-        <div class="col-4 first my-2">
+        <div class="col-4 first my-2 justify-content-center d-flex align-items-center">
           <a href="/user/<%= user._id %>">
             <span>
               <%= listings.length %>
-                <% if(listings.length<2){ %>
-                  Listing
-                  <% } else { %>
-                    Listings
-                    <% } %>
+              <br class="d-lg-none">
+              <% if(listings.length<2){ %>
+                Listing
+              <% } else { %>
+                Listings
+              <% } %>
             </span>
           </a>
         </div>
-        <div class="col-4 second my-2" style="cursor: default;">
-          <span>
-            <%= user.reviews.length %>
+        <div class="col-4 second my-2 justify-content-center d-flex align-items-center">
+          <a href="/user/<%= user._id %>/reviews">
+            <span>
+              <%= user.reviews.length %>
+              <br class="d-lg-none">
               <% if(user.reviews.length<2){ %>
                 Review
-                <% } else { %>
-                  Reviews
-                  <% } %>
-          </span>
+              <% } else { %>
+                Reviews
+              <% } %>
+            </span>
+          </a>
         </div>
-        <div class="col-4 forth my-2">
+        <div class="col-4 forth my-2 justify-content-center d-flex align-items-center">
           <a href="" data-toggle="modal" data-target="#followerTarget">
             <span>
               <%= allFollowers.length %>
+              <br class="d-lg-none">
               <% if(allFollowers.length<2){ %>
                 Follower
                 <% } else { %>
@@ -270,8 +326,8 @@
     <div class="container">
       <div class="row">
         <!-- profile details & followers & notifictions -->
-        <div class="col-4">
-          <div class="row">
+        <div class="col-12 col-lg-4">
+          <div class="row item shark-1 px-3 px-lg-0">
             <!-- profile details -->
             <div class="col-12 borderStyle mt-3">
               <div class="align-items-center d-flex pl-4 pr-2 py-2 mb-4 justify-content-between headerStyle">
@@ -295,6 +351,14 @@
                     <%= moment(user.createdAt).format('DD MMMM YYYY, h:mm:ss a'); %>
                   </p>
                 </div>
+                <!-- <div class="col-3">
+                  <span>Last Login:</span>
+                </div>
+                <div class="col-9">
+                  <p>
+                    <%= moment(user.lastLogin).format('DD MMMM YYYY, h:mm:ss a'); %>
+                  </p>
+                </div> -->
                 <div class="col-3">
                   <span>Role:</span>
                 </div>
@@ -327,7 +391,7 @@
                     </a>
                   </p>
                 </div>
-                <% if(user.isAgent==true){ %>
+                <% if(currentUser && user.isAgent==true){ %>
                   <div class="col-3">
                     <span>CEA:</span>
                   </div>
@@ -373,7 +437,7 @@
         </div>
 
         <!-- listings & reviews -->
-        <div class="col-8">
+        <div class="col-12 col-lg-8">
           <% if(user.reviews.length==0){ %>
           <% } else{ %>
             <div class="col-12 borderStyle mt-3">
@@ -386,9 +450,9 @@
             </div>
           <% } %>
           <!-- listings -->
-          <div class="col-12 borderStyle mt-3">
-            <div class="d-flex p-2 mb-0 justify-content-between headerStyle">
-              <div class="left pb-4">
+          <div class="col-12 borderStyle mt-3 pb-4">
+            <div class="row">
+              <div class="col-6 mb-4 pb-2 mb-sm-3">
                 <a href="/user/<%= user._id %>" style="color: black; text-decoration: none;">
                   <span id="listingHover" class="profileHeader my-0">Listings</span>
                 </a>
@@ -398,16 +462,17 @@
                     id="reviewHover">Reviews</span>
                 </a>
               </div>
-              <div>
+              <div class="col-6 justify-content-end d-flex mb-4 pb-2 mb-sm-3">
                 <% if(currentUser && currentUser.isAgent){ %>
                   <% } else { %>
                     <a class="btn btn-outline-dark reviewBtn <% if (currentUser && user.reviews.some(function (review) {return review.author.id.equals(currentUser._id)})) { %> disabled <% } %>"
                       href="/user/<%= user._id %>/reviews/new">
                       Write a Review
                     </a>
-                    <% } %>
+                  <% } %>
               </div>
             </div>
+
             <% if(user.isAgent==true || user.isAdmin==true){ %>
               <% if(user.reviews==0){ %>
                 <p class="px-2">
@@ -416,17 +481,17 @@
                 <% } else { %>
                   <div class="row px-2">
                     <% user.reviews.forEach(function(review){ %>
-                        <div class="col-12 mb-3">
+                        <div class="col-12">
                           <div class="row">
-                            <div class="col-2 text-center">
+                            <div class="col-3 col-md-2 text-center">
                               <a href="/user/<%=user._id %>">
                                 <img src="<%= review.author.image %>"
-                                  style="width: 75px; height: 75px; border-radius: 50%; border: 1px solid gray; object-fit: cover;">
+                                  style="width: 60px; height: 60px; border-radius: 50%; border: 1px solid gray; object-fit: cover;">
                               </a>
                             </div>
-                            <div class="col-10">
-                              <div class="row align-items-center d-flex">
-                                <div class="col-8">
+                            <div class="col-9 col-md-10" style="margin-top: 12px;">
+                              <div class="row">
+                                <div class="col-8 px-0">
                                   <p class="mb-0">
                                     <a href="/user/<%=user._id %>" style="color: black;">
                                       <%= review.author.username %>
@@ -461,6 +526,8 @@
                                     <% } %>
                                 </div>
                               </div>
+                            </div>
+                            <div class="col-12 mt-2">
                               <p style="text-align: justify; white-space: pre-wrap;" class="mb-0 pt-2"><%=review.text%></p>
                             </div>
                           </div>
