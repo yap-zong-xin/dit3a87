@@ -31,6 +31,8 @@ var imageFilter = function (req, file, cb) {
     cb(null, true);
 };
 var upload = multer({ storage: storage, fileFilter: imageFilter})
+var uploadMultiple = upload.fields([ { name: 'profileImage', maxCount: 1 }, { name: 'bannerImage', maxCount: 1 } ]);
+
 var cloudinary = require('cloudinary');
 const { filter } = require('async');
 cloudinary.config({ 
@@ -1099,7 +1101,7 @@ router.get("/user/:id/manage", middleware.checkUserOwnership, function(req, res)
 });
 
 //Update Route
-router.put("/user/:id", middleware.checkUserOwnership, upload.single("image"), function(req, res){
+router.put("/user/:id", middleware.checkUserOwnership, uploadMultiple, function(req, res){
 	User.findById(req.params.id, async function(err, user){
 		console.log(user)
 		console.log(user.reviews)
@@ -1107,16 +1109,26 @@ router.put("/user/:id", middleware.checkUserOwnership, upload.single("image"), f
 			req.flash("error", err.message);
 			res.redirect("back");
 		} else{
-			if(req.file){
+			if(req.files){
 				try{
-					if(user.imageId!=null){
-						await cloudinary.v2.uploader.destroy(user.imageId);
-					}
-						var result = await cloudinary.v2.uploader.upload(req.file.path);
+					if(req.files.profileImage){
+						if(user.imageId != null) {
+							await cloudinary.v2.uploader.destroy(user.imageId);
+						}
+						var result = await cloudinary.v2.uploader.upload(req.files.profileImage[0].path);
 						user.image = result.secure_url;
 						user.imageId = result.public_id;
+					}
+					if(req.files.bannerImage) {
+						if(user.bannerId != null) {
+							await cloudinary.v2.uploader.destroy(user.bannerId);
+						}
+						var result = await cloudinary.v2.uploader.upload(req.files.bannerImage[0].path);
+						user.banner = result.secure_url;
+						user.bannerId = result.public_id;
+					}
 				} catch(err){
-						req.flash("error", err.message);
+						req.flash("error", 'try catch g: ',err.message);
 						return res.redirect("back");
 				}
 			}

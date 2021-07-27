@@ -1499,6 +1499,23 @@ input[type=range]::-ms-thumb {
   position: absolute;
 }
 
+.profileBannerEdit{
+  width: 175px;
+  height: 175px;
+  border: 6px solid white;
+  border-radius: 50%;
+  object-fit: cover;
+  position: absolute;
+}
+.profilePicEdit{
+  width: 175px;
+  height: 175px;
+  border: 6px solid white;
+  border-radius: 50%;
+  object-fit: cover;
+  position: absolute;
+}
+
 #profileUsername{
   font-weight: 600;
   font-size: 1.8em;
@@ -1849,6 +1866,12 @@ input[type=range]::-ms-thumb {
   width: 130px;
 }
 .video-gallery {
+  width: 130px;
+}
+.prev-image-gallery {
+  width: 130px;
+}
+.prev-video-gallery {
   width: 130px;
 }
 .listingImage{

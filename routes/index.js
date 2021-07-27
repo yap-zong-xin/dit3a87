@@ -124,6 +124,7 @@ router.post("/register", middleware.notLoggedIn, upload.single('image'), functio
 			// add cloudinary url for the image to the listing object under image property
 			req.body.image = result.secure_url;
 			newUser.image = req.body.image
+			newUser.imageId = result.public_id;
 			// add image's public_id to listing object
 			req.body.imageId = result.public_id;
 			

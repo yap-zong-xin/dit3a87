@@ -8,7 +8,7 @@
       <div>
         <div class="left pb-3">
           <!-- suspend account-->
-          <% if(currentUser && !user.isAdmin==true){ %>
+          <% if(currentUser && currentUser.isAdmin){ %>
             <form action="/suspend/<%= user.id %>?_method=PUT" method="POST" class="text-center" style="position:relative; top: 10px;">
               <% if(user.suspend==false){ %>
                 <button type="submit" name="user[suspend]" value="true" class="btn approveBtn"

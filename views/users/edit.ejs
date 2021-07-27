@@ -28,7 +28,7 @@
       <form action="/user/<%= user._id %>?_method=PUT" method="POST" enctype="multipart/form-data"
         id="profileEditForm">
         <div class="row">
-          <% if(user.isAgent==false || currentUser && currentUser.isAdmin){ %>
+          <!-- <% if(user.isAgent==false || currentUser && currentUser.isAdmin){ %>
             <div class="col-12" style="height: 240px;">
               <p style="font-weight: 600;">Profile Photo</p>
               <div class="row">
@@ -48,10 +48,49 @@
                 </div>
               </div>
             </div>
-          <% } %>
+          <% } %> -->
           <div class="col-12">
             <p class="my-0" style="font-weight: 600;">Profile Details</p>
             <div class="row">
+              <!-- profile pic  -->
+              <div class="col-12" style="height: 240px;">
+                <p style="font-weight: 600;">Profile Photo</p>
+                <div class="row">
+                  <div class="col-4">
+                    <img src="<%= user.image %>" class="profilePicEdit">
+                    <img id="outputProfile" class="profilePicEdit" />
+                  </div>
+                  <div class="col-8" style="position: relative; top: 40px;">
+                    <p style="font-weight: 350; font-size: 0.95em;">
+                      Clear frontal face photos are an important way for buyers and sellers to learn about each other.
+                    </p>
+                    <label for="profile-upload" class="btn btn-outline-dark customImageUpload px-3 py-1">
+                      Upload a Picture
+                    </label>
+                    <input type="file" id="profile-upload" name="profileImage" onchange="loadProfileFile(event)" accept="image/*">
+                  </div>
+                </div>
+              </div>
+              <!-- banner pic  -->
+              <div class="col-12" style="height: 240px;">
+                <p style="font-weight: 600;">Banner Photo</p>
+                <div class="row">
+                  <div class="col-4">
+                    <img src="<%= user.banner %>" class="profileBannerEdit">
+                    <img id="outputBanner" class="profileBannerEdit" />
+                  </div>
+                  <div class="col-8" style="position: relative; top: 40px;">
+                    <p style="font-weight: 350; font-size: 0.95em;">
+                      New profile banner!
+                    </p>
+                    <label for="banner-upload" class="btn btn-outline-dark customImageUpload px-3 py-1">
+                      Upload a banner
+                    </label>
+                    <input type="file" id="banner-upload" name="bannerImage" onchange="loadBannerFile(event)" accept="image/*">
+                  </div>
+                </div>
+              </div>
+              <!-- form -->
               <div class="col-12">
                 <label class="custom-field one">
                   <input type="text" name="user[username]" value="<%= user.username %>" placeholder=" "
@@ -131,11 +170,21 @@
 
 <!-- profile upload -->
 <script>
-  var loadFile = function (event) {
-    var output = document.getElementById('output');
-    output.src = URL.createObjectURL(event.target.files[0]);
-    output.onload = function () {
-      URL.revokeObjectURL(output.src) // free memory
+  var loadProfileFile = function (event) {
+    var profileoutput = document.getElementById('outputProfile');
+    profileoutput.src = URL.createObjectURL(event.target.files[0]);
+    profileoutput.onload = function () {
+      URL.revokeObjectURL(profileoutput.src) // free memory
+    }
+  };
+</script>
+<!-- banner upload -->
+<script>
+  var loadBannerFile = function (event) {
+    var banneroutput = document.getElementById('outputBanner');
+    banneroutput.src = URL.createObjectURL(event.target.files[0]);
+    banneroutput.onload = function () {
+      URL.revokeObjectURL(banneroutput.src) // free memory
     }
   };
 </script>
