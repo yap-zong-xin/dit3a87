@@ -1508,15 +1508,10 @@ input[type=range]::-ms-thumb {
   font-weight: 600;
 }
 
-.followBtn, .chatBtn{
-  width: 130px;
-  border-radius: 50px;
-  font-size: 0.95em;
-}
-.profileOverviewBtn{
-  width: 160px;
-  border-radius: 50px;
-  font-size: 0.95em;
+.followBtn, .chatBtn, .profileOverviewBtn, .emailBtn, .whatsappBtn{
+  border-radius: 10px;
+  font-size: 1.1em;
+  padding: 10px 15px;
 }
 .approveBtn{
   width: 160px;
