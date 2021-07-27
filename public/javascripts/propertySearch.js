@@ -475,21 +475,15 @@ function createHTMLListing(rs) {
                                         ` + listing_name + `
 
                                     </div>
-                                    <!--Street-->
-                                    <div class="col-12 listing-detail" id="listing-street">
-
-                                        ` + location + `
-
-                                    </div>
                                     <!--Price-->
-                                    <div class="col-12 listing-detail" id="listing-price">
+                                    <div class="col-12 listing-detail mt-1" id="listing-price">
                                         <p style="margin-bottom: 0">S$ </p>
 
                                         <span>` + price + `</span>
                                         
                                     </div>
                                     <!--Property Details-->
-                                    <div class="col-md-12 align-items-center d-flex">
+                                    <div class="col-md-12 align-items-center d-flex mt-2">
                                         <div class="left">
                                             <span>`+ bedrooms +`</span>
                                             <img class="pl-1" src="/img/bed-solid-svgrepo-com.svg" alt="" style="width:26px!important;">
