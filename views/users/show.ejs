@@ -136,59 +136,60 @@
           </div>
         <% } %>
       </div>
-      <div class="col-12 col-lg-6 justify-content-center justify-content-lg-end align-items-center d-flex pt-3 pt-lg-0">
-        <% if(!currentUser){ %>
-          <form action="/followSingle/<%= user.id %>" method="POST">
-            <button class="btn btn-outline-dark followBtn">
-              <ion-icon name="person-add-outline"></ion-icon>
-            </button>
-          </form>
-        <% } else { %>
-          <% if(user._id.equals(currentUser._id)){ %>
-            <a class="btn btn-outline-dark profileOverviewBtn" href="/user/<%= user._id %>/edit">
-              <ion-icon name="create-outline"></ion-icon>
-            </a>
-            <% if(currentUser && user._id.equals(currentUser._id) || currentUser && user.isAdmin){ %>
-              <a href="/listings/new" class="ml-2 btn btn-outline-dark profileOverviewBtn" style="text-decoration: none;">
-                <ion-icon name="add-outline"></ion-icon>
-              </a>
-            <% } %>
-
+      <div class="col-12 col-lg-6 d-none d-lg-block pt-3 pt-lg-0">
+        <div class="justify-content-lg-end align-items-center d-flex">
+          <% if(!currentUser){ %>
+            <form action="/followSingle/<%= user.id %>" method="POST">
+              <button class="btn btn-outline-dark followBtn">
+                <ion-icon name="person-add-outline"></ion-icon>
+              </button>
+            </form>
           <% } else { %>
-            <% var currentFollow = false; for(let i=0; i<user.followers.length; i++) { if(user.followers[i]._id.equals(currentUser._id)) { currentFollow = true; } } %>
-            <% if(currentFollow == false) { %>
-              <div class="left">
-                <form action="/followSingle/<%= user.id %>" method="POST">
-                  <button class="btn btn-outline-dark followBtn">
-                    <ion-icon name="person-add-outline"></ion-icon>
-                  </button>
-                </form>
-              </div>
+            <% if(user._id.equals(currentUser._id)){ %>
+              <a class="btn btn-outline-dark profileOverviewBtn" href="/user/<%= user._id %>/edit">
+                <ion-icon name="create-outline"></ion-icon>
+              </a>
+              <% if(currentUser && user._id.equals(currentUser._id) || currentUser && user.isAdmin){ %>
+                <a href="/listings/new" class="ml-2 btn btn-outline-dark profileOverviewBtn" style="text-decoration: none;">
+                  <ion-icon name="add-outline"></ion-icon>
+                </a>
+              <% } %>
             <% } else { %>
-              <div class="left">
-                <form action="/followSingle/<%= user.id %>" method="POST">
-                  <button class="btn btn-outline-dark followBtn">
-                    <ion-icon name="person-remove-outline"></ion-icon>
+              <% var currentFollow = false; for(let i=0; i<user.followers.length; i++) { if(user.followers[i]._id.equals(currentUser._id)) { currentFollow = true; } } %>
+              <% if(currentFollow == false) { %>
+                <div class="left">
+                  <form action="/followSingle/<%= user.id %>" method="POST">
+                    <button class="btn btn-outline-dark followBtn">
+                      <ion-icon name="person-add-outline"></ion-icon>
+                    </button>
+                  </form>
+                </div>
+              <% } else { %>
+                <div class="left">
+                  <form action="/followSingle/<%= user.id %>" method="POST">
+                    <button class="btn btn-outline-dark followBtn">
+                      <ion-icon name="person-remove-outline"></ion-icon>
+                    </button>
+                  </form>
+                </div>
+              <% } %>
+              <div class="left right">
+                <form action="/conversation/<%= currentUser._id %>/<%= user.id %>"
+                  method="POST">
+                  <button type="submit" class="btn btn-outline-dark chatBtn">
+                    <ion-icon name="chatbubble-outline"></ion-icon>
                   </button>
                 </form>
               </div>
+              <a class="mr-2 btn btn-outline-dark emailBtn" href="mailto:<%= user.email %>">
+                <ion-icon name="mail-outline"></ion-icon>
+              </a>
+              <button type="submit" class="mr-2 btn btn-outline-dark whatsappBtn" onclick="window.open('https:\/\/wa.me/65<%= user.phone %>/?text=')">
+                <ion-icon name="logo-whatsapp"></ion-icon>
+              </button>
             <% } %>
-            <div class="left right">
-              <form action="/conversation/<%= currentUser._id %>/<%= user.id %>"
-                method="POST">
-                <button type="submit" class="btn btn-outline-dark chatBtn">
-                  <ion-icon name="chatbubble-outline"></ion-icon>
-                </button>
-              </form>
-            </div>
-            <a class="mr-2 btn btn-outline-dark emailBtn" href="mailto:<%= user.email %>">
-              <ion-icon name="mail-outline"></ion-icon>
-            </a>
-            <button type="submit" class="mr-2 btn btn-outline-dark whatsappBtn" onclick="window.open('https:\/\/wa.me/65<%= user.phone %>/?text=')">
-              <ion-icon name="logo-whatsapp"></ion-icon>
-            </button>
           <% } %>
-        <% } %>
+        </div>
       </div>
     </div>
   </div>
@@ -446,7 +447,7 @@
           <!-- listings -->
           <div class="col-12 borderStyle mt-3 pb-4">
             <div class="row">
-              <div class="col-12 col-sm-4 col-md-3 col-lg-4 col-xl-3 mb-4 pb-2 mb-sm-0">
+              <div class="col-8 col-sm-5 col-md-4 col-xl-3 mb-4 pb-2 mb-sm-0">
                 <a href="/user/<%= user._id %>" style="color: black; text-decoration: none;">
                   <span class="profileHeader my-0 pb-3" id="listingHover"
                     style="border-bottom: 2px #4632da solid; color: #4632da; font-weight: 600;">Listings</span>
@@ -455,7 +456,14 @@
                   <span class="profileHeader my-0 pl-3" id="reviewHover">Reviews</span>
                 </a>
               </div>
-              <div class="col-11 col-sm-7 col-md-8 col-lg-7 col-xl-8 pr-0 pr-sm-2">
+              <div class="col-4 justify-content-end d-flex d-sm-none">
+                <% if(currentUser && user._id.equals(currentUser._id)){ %>
+                  <a href="/listings/new" class="pl-1" style="text-decoration: none;">
+                    <ion-icon class="iconHeader" name="add-outline"></ion-icon>
+                  </a>
+                <% } %>
+              </div>
+              <div class="col-12 col-sm-6 col-md-7 col-xl-8">
                 <% if(noMatch !== undefined){ %>
                   <form action="/user/<%= user._id %>" method="GET">
                     <div class="input-group mb-3">
@@ -469,7 +477,7 @@
                   </form>
                 <% } %>
               </div>
-              <div class="col-1 pl-0">
+              <div class="col-1 pl-0 d-none d-sm-block">
                 <% if(currentUser && user._id.equals(currentUser._id)){ %>
                   <a href="/listings/new" class="pl-1" style="text-decoration: none;">
                     <ion-icon class="iconHeader" name="add-outline"></ion-icon>
@@ -487,7 +495,7 @@
                 <% } else { %>
                   <div class="row px-2">
                     <% var idArr = []; listings.reverse().forEach(function(listing) { var id = listing._id; idArr.push(id);%>
-                      <div class="col-6 col-sm-4 col-md-3 col-lg-4 col-xl-3 p-1 p-sm-3 listingHover">
+                      <div class="col-6 col-sm-4 col-md-3 col-lg-4 col-xl-3 p-3 listingHover">
                         <div class="row">
                           <a href="/listings/<%= listing.id %>" style="text-decoration: none; color: black;">
                             <div class="col-12">
