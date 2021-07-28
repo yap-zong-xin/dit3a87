@@ -41,6 +41,19 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
+//Email
+var nodemailer = require("nodemailer");
+
+var { google } = require('googleapis');
+const user = require('../models/user');
+const CLIENT_ID = '476773105287-ojgudstsf7bv4rvb572b7pequt1ng6r2.apps.googleusercontent.com';
+const CLIENT_SECRET = 'l7vmthxIvR0r4cAdCAl3oC_R';
+const REDIRECT_URI = 'https://developers.google.com/oauthplayground';
+const REFRESH_TOKEN = '1//04cfP4D4yBv7hCgYIARAAGAQSNwF-L9IrXQZe6ioFhiEfJOjHq34eHsvkK7I1TgqugbVazQXNy84LuKVToaMZqInSToGwk7P8YTg';
+
+const oAuth2Client = new google.auth.OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI);
+oAuth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
+
 function escapeRegex(text) {
 	return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
 };
@@ -1338,15 +1351,52 @@ router.put("/suspend/:id", function(req, res){
 			console.log(err)
 			return res.redirect('back');
 		} else{
+			//Handling
 			var successMsg = "";
 			var choiceSus = JSON.parse(req.body.user.suspend);
+			var suspendOption = "";
 			if(choiceSus == true) {
 				successMsg = " has been suspended."
+				suspendOption = " SUSPENDED."
 			}else {
 				successMsg = " has been unsuspended."
+				suspendOption = " UNSUSPENDED."
 			}
-			req.flash("success", suspendUser.username+successMsg);
-			res.redirect("/user/" + req.params.id);
+			//Email
+			async function sendMail() {
+				try {
+					const accessToken = await oAuth2Client.getAccessToken()
+
+					const transport = nodemailer.createTransport({
+						service: 'gmail',
+						auth: {
+							type: 'OAuth2',
+							user: 'jptestingsku@gmail.com',
+							clientId: CLIENT_ID,
+							clientSecret: CLIENT_SECRET,
+							refreshToken: REFRESH_TOKEN,
+							accessToken: accessToken
+						}
+					});
+
+					const mailOptions = {
+						from: '3D Property Website <jptestingsku@gmail.com>',
+						to: suspendUser.email,
+						subject: 'Account suspension',
+						html : "Hello <strong>" + suspendUser.username + "</strong>,<br><br>Your Account is now "+suspendOption+"<br><br>"
+					};
+
+					const result = await transport.sendMail(mailOptions);
+					return result; 
+				}catch (error) {
+					return error;
+				}
+			}
+			sendMail()
+			.then(result => console.log('Suspension Email Sent...', result))
+			.then(req.flash("success", 'Email sent. '+suspendUser.username+successMsg))
+			.then(res.redirect("/user/" + req.params.id))
+			.catch(error => console.log(error.message))
 		}
 	});
 });
