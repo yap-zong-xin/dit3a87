@@ -1662,8 +1662,8 @@ input[type=range]::-ms-thumb {
 
 .followBtn, .chatBtn, .profileOverviewBtn, .emailBtn, .whatsappBtn{
   border-radius: 10px;
-  font-size: 1.1em;
   padding: 7px 10px;
+  font-size: 1em;
 }
 .approveBtn{
   width: 160px;

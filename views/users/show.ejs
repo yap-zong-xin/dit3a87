@@ -141,17 +141,17 @@
           <% if(!currentUser){ %>
             <form action="/followSingle/<%= user.id %>" method="POST">
               <button class="btn btn-outline-dark followBtn">
-                <ion-icon name="person-add-outline"></ion-icon>
+                <img src="/img/follow.svg" style="width:21px;" alt=""> Follow
               </button>
             </form>
           <% } else { %>
             <% if(user._id.equals(currentUser._id)){ %>
-              <a class="btn btn-outline-dark profileOverviewBtn" href="/user/<%= user._id %>/edit">
-                <ion-icon name="create-outline"></ion-icon>
+              <a class="btn btn-outline-dark profileOverviewBtn align-items-center d-flex" href="/user/<%= user._id %>/edit">
+                <ion-icon name="create-outline" style="font-size: 1.3em;" class="pr-1"></ion-icon>Edit Profile
               </a>
               <% if(currentUser && user._id.equals(currentUser._id) || currentUser && user.isAdmin){ %>
-                <a href="/listings/new" class="ml-2 btn btn-outline-dark profileOverviewBtn" style="text-decoration: none;">
-                  <ion-icon name="add-outline"></ion-icon>
+                <a href="/listings/new" class="ml-2 btn btn-outline-dark profileOverviewBtn align-items-center d-flex" style="text-decoration: none;">
+                  <ion-icon name="add-circle-outline" style="font-size: 1.3em;" class="pr-1"></ion-icon>Add Listing
                 </a>
               <% } %>
             <% } else { %>
@@ -160,7 +160,7 @@
                 <div class="left">
                   <form action="/followSingle/<%= user.id %>" method="POST">
                     <button class="btn btn-outline-dark followBtn">
-                      <ion-icon name="person-add-outline"></ion-icon>
+                      <img src="/img/follow.svg" style="width:21px;" alt=""> Follow
                     </button>
                   </form>
                 </div>
@@ -168,7 +168,7 @@
                 <div class="left">
                   <form action="/followSingle/<%= user.id %>" method="POST">
                     <button class="btn btn-outline-dark followBtn">
-                      <ion-icon name="person-remove-outline"></ion-icon>
+                      <img src="/img/unfollow.svg" style="width:21px;" alt=""> Unfollow
                     </button>
                   </form>
                 </div>
@@ -176,17 +176,14 @@
               <div class="left right">
                 <form action="/conversation/<%= currentUser._id %>/<%= user.id %>"
                   method="POST">
-                  <button type="submit" class="btn btn-outline-dark chatBtn">
-                    <ion-icon name="chatbubble-outline"></ion-icon>
+                  <button type="submit" class="btn btn-outline-dark chatBtn align-items-center d-flex">
+                    <ion-icon name="chatbox-outline" style="font-size: 1.3em;" class="pr-1"></ion-icon>Chat
                   </button>
                 </form>
               </div>
               <a class="mr-2 btn btn-outline-dark emailBtn" href="mailto:<%= user.email %>">
-                <ion-icon name="mail-outline"></ion-icon>
+                <img src="/img/email.svg" style="width:19px;" alt=""> Email
               </a>
-              <button type="submit" class="mr-2 btn btn-outline-dark whatsappBtn" onclick="window.open('https:\/\/wa.me/65<%= user.phone %>/?text=')">
-                <ion-icon name="logo-whatsapp"></ion-icon>
-              </button>
             <% } %>
           <% } %>
         </div>
@@ -322,6 +319,56 @@
     </div>
   </div>
 
+  <div class="align-items-center justify-content-center d-flex d-sm-none mt-2">
+    <% if(!currentUser){ %>
+      <form action="/followSingle/<%= user.id %>" method="POST">
+        <button class="btn btn-outline-dark followBtn">
+          <img src="/img/follow.svg" style="width:21px;" alt=""> Follow
+        </button>
+      </form>
+    <% } else { %>
+      <% if(user._id.equals(currentUser._id)){ %>
+        <a class="btn btn-outline-dark profileOverviewBtn align-items-center d-flex" href="/user/<%= user._id %>/edit">
+          <ion-icon name="create-outline" style="font-size: 1.3em;" class="pr-1"></ion-icon>Edit Profile
+        </a>
+        <% if(currentUser && user._id.equals(currentUser._id) || currentUser && user.isAdmin){ %>
+          <a href="/listings/new" class="ml-2 btn btn-outline-dark profileOverviewBtn align-items-center d-flex" style="text-decoration: none;">
+            <ion-icon name="add-circle-outline" style="font-size: 1.3em;" class="pr-1"></ion-icon>Add Listing
+          </a>
+        <% } %>
+      <% } else { %>
+        <% var currentFollow = false; for(let i=0; i<user.followers.length; i++) { if(user.followers[i]._id.equals(currentUser._id)) { currentFollow = true; } } %>
+        <% if(currentFollow == false) { %>
+          <div class="left">
+            <form action="/followSingle/<%= user.id %>" method="POST">
+              <button class="btn btn-outline-dark followBtn">
+                <img src="/img/follow.svg" style="width:21px;" alt=""> Follow
+              </button>
+            </form>
+          </div>
+        <% } else { %>
+          <div class="left">
+            <form action="/followSingle/<%= user.id %>" method="POST">
+              <button class="btn btn-outline-dark followBtn">
+                <img src="/img/unfollow.svg" style="width:21px;" alt=""> Unfollow
+              </button>
+            </form>
+          </div>
+        <% } %>
+        <div class="left right">
+          <form action="/conversation/<%= currentUser._id %>/<%= user.id %>"
+            method="POST">
+            <button type="submit" class="btn btn-outline-dark chatBtn align-items-center d-flex">
+              <ion-icon name="chatbox-outline" style="font-size: 1.3em;" class="pr-1"></ion-icon>Chat
+            </button>
+          </form>
+        </div>
+        <a class="mr-2 btn btn-outline-dark emailBtn" href="mailto:<%= user.email %>">
+          <img src="/img/email.svg" style="width:19px;" alt=""> Email
+        </a>
+      <% } %>
+    <% } %>
+  </div>
   <p class="justify-content-center d-flex d-sm-none mt-2">
     <a class="btn" style="font-size: 0.95em; font-weight: 600; background: white; color: #003580;" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
       Overview ▾
@@ -565,35 +612,51 @@
                 </a>
               </div>
               <div class="col-4 justify-content-end d-flex d-sm-none">
-                <% if(currentUser && user._id.equals(currentUser._id)){ %>
+                <% if(currentUser && user._id.equals(currentUser._id) && currentUser.isAdmin || currentUser && user._id.equals(currentUser._id) && currentUser.isAgent){ %>
                   <a href="/listings/new" class="pl-1" style="text-decoration: none;">
                     <ion-icon class="iconHeader" name="add-outline"></ion-icon>
                   </a>
                 <% } %>
               </div>
-              <div class="col-12 col-sm-6 col-md-7 col-xl-8">
-                <% if(noMatch !== undefined){ %>
-                  <form action="/user/<%= user._id %>" method="GET">
-                    <div class="input-group mb-3">
-                      <input type="text" class="form-control" name="search" placeholder="Search Listings">
-                      <div class="input-group-append">
-                        <button class="input-group-text btn btn-dark" style="background: rgb(52,58,64); color: white;">
-                          <i class="fas fa-search"></i>
-                        </button>
+              <% if(currentUser && user._id.equals(currentUser._id) && currentUser.isAdmin || currentUser && user._id.equals(currentUser._id) && currentUser.isAgent){ %>
+                <div class="col-12 col-sm-6 col-md-7 col-xl-8">
+                  <% if(noMatch !== undefined){ %>
+                    <form action="/user/<%= user._id %>" method="GET">
+                      <div class="input-group mb-3">
+                        <input type="text" class="form-control" name="search" placeholder="Search Listings">
+                        <div class="input-group-append">
+                          <button class="input-group-text btn btn-dark" style="background: rgb(52,58,64); color: white;">
+                            <i class="fas fa-search"></i>
+                          </button>
+                        </div>
                       </div>
-                    </div>
-                  </form>
-                <% } %>
-              </div>
+                    </form>
+                  <% } %>
+                </div>
+              <% } else { %>
+                <div class="col-12 col-sm-7 col-md-8 col-xl-9">
+                  <% if(noMatch !== undefined){ %>
+                    <form action="/user/<%= user._id %>" method="GET">
+                      <div class="input-group mb-3">
+                        <input type="text" class="form-control" name="search" placeholder="Search Listings">
+                        <div class="input-group-append">
+                          <button class="input-group-text btn btn-dark" style="background: rgb(52,58,64); color: white;">
+                            <i class="fas fa-search"></i>
+                          </button>
+                        </div>
+                      </div>
+                    </form>
+                  <% } %>
+                </div>
+              <% } %>
               <div class="col-1 pl-0 d-none d-sm-block">
-                <% if(currentUser && user._id.equals(currentUser._id)){ %>
+                <% if(currentUser && user._id.equals(currentUser._id) && currentUser.isAdmin || currentUser && user._id.equals(currentUser._id) && currentUser.isAgent){ %>
                   <a href="/listings/new" class="pl-1" style="text-decoration: none;">
                     <ion-icon class="iconHeader" name="add-outline"></ion-icon>
                   </a>
                 <% } %>
               </div>
             </div>
-              
               
             <% if(user.isAgent==true || user.isAdmin==true){ %>
               <% if(listings==0){ %>
@@ -863,23 +926,6 @@
                       <%= followers.username %>
                     </a>
                   </div>
-                  <!-- follow button -->
-                  <% if(currentUser && currentUser._id.equals(followers._id)){ %>
-                  <% } else { %>
-                    <%if(currentFollow == false) {%>
-                      <div class="col-3 justify-content-end d-flex">
-                        <form action="/followAny/<%= followers._id %>" method="POST">
-                          <button class="btn btn-dark followBtn">Follow</button>
-                        </form>
-                      </div>
-                    <% } else { %>
-                      <div class="col-3 justify-content-end d-flex">
-                        <form action="/followAny/<%= followers._id %>" method="POST">
-                          <button class="btn btn-dark followBtn">Unfollow</button>
-                        </form>
-                      </div>
-                    <% } %>
-                  <% } %>
                 </div>
               </div>
             <% }); %>

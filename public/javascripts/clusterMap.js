@@ -34,19 +34,14 @@ map.on('load', function () {
     source: 'listings',
     filter: ['has', 'point_count'],
     paint: {
-      // Use step expressions (https://docs.mapbox.com/mapbox-gl-js/style-spec/#expressions-step)
-      // with three steps to implement three types of circles:
-      //   * Blue, 20px circles when point count is less than 100
-      //   * Yellow, 30px circles when point count is between 100 and 750
-      //   * Pink, 40px circles when point count is greater than or equal to 750
       'circle-color': [
         'step',
         ['get', 'point_count'],
-        '#AABED7',
+        '#FA7E7A',
         3,
-        '#AABED7',
+        '#FA7E7A',
         4,
-        '#AABED7'
+        '#FA7E7A'
       ],
       'circle-radius': [
         'step',

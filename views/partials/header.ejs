@@ -92,8 +92,7 @@
                     <a class="nav-link py-1" href="/register"  style="color: white; font-weight: 500;">Sign Up For Free</a>
                   </li>
                 </div>
-
-            <% } else{ %>
+            <% } else { %>
               <div class="d-lg-none">
                 <li class="nav-item active">
                   <a class="nav-link" href="/listings">Properties</a>
@@ -108,7 +107,7 @@
                   <a class="nav-link" href="/connect">Connect</a>
                 </li>
               </div>
-              <li class="nav-item active currentUserNav mb-2">
+              <li class="nav-item active currentUserNav">
                 <a class="nav-link p-1" href="/user/<%= currentUser.id %>">
                   <img src="<%= currentUser.image %>" style="width: 30px; height:30px; object-fit: cover; border-radius: 50%;">
                   <span style="font-size: 0.9em;">
@@ -116,19 +115,22 @@
                   </span>
                 </a>
               </li>
-              <li class="dropdown pl-2">
-                <a href="#" data-toggle="dropdown" role="button" aria-haspopup="true"
-                aria-expanded="false" style="text-decoration: none;">
-                  <ion-icon class="iconHeader" name="add-outline"></ion-icon>
-                </a>
-                <ul class="dropdown-menu" style="font-size: 0.95em; width: 250px;">
-                  <% if(currentUser && currentUser.isAdmin || currentUser && currentUser.isAgent){ %>
-                    <li class="nav-item active">
-                      <a class="nav-link" href="/listings/new">Add Listing</a>
-                    </li>
-                  <% } %>
-                </ul>
-              </li>
+              <% if(currentUser.isAdmin==false && currentUser.isAgent==false){ %>
+              <% } else { %>
+                <li class="dropdown pl-2">
+                  <a href="#" data-toggle="dropdown" role="button" aria-haspopup="true"
+                  aria-expanded="false" style="text-decoration: none;">
+                    <ion-icon class="iconHeader" name="add-outline"></ion-icon>
+                  </a>
+                  <ul class="dropdown-menu" style="font-size: 0.95em; width: 250px;">
+                    <% if(currentUser && currentUser.isAdmin || currentUser && currentUser.isAgent){ %>
+                      <li class="nav-item active">
+                        <a class="nav-link" href="/listings/new">Add Listing</a>
+                      </li>
+                    <% } %>
+                  </ul>
+                </li>
+              <% } %>
               <li class="dropdown pl-2">
                 <a href="#" data-toggle="dropdown" role="button" aria-haspopup="true"
                   aria-expanded="false" style="text-decoration: none;">

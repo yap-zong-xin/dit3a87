@@ -141,7 +141,7 @@
           <% if(!currentUser){ %>
             <form action="/followSingle/<%= user.id %>" method="POST">
               <button class="btn btn-outline-dark followBtn">
-                <ion-icon name="person-add-outline"></ion-icon>
+                <img src="/img/follow.svg" style="width:21px;" alt=""> Follow
               </button>
             </form>
           <% } else { %>
@@ -160,7 +160,7 @@
                 <div class="left">
                   <form action="/followSingle/<%= user.id %>" method="POST">
                     <button class="btn btn-outline-dark followBtn">
-                      <ion-icon name="person-add-outline"></ion-icon>
+                      <img src="/img/follow.svg" style="width:21px;" alt=""> Follow
                     </button>
                   </form>
                 </div>
@@ -168,7 +168,7 @@
                 <div class="left">
                   <form action="/followSingle/<%= user.id %>" method="POST">
                     <button class="btn btn-outline-dark followBtn">
-                      <ion-icon name="person-remove-outline"></ion-icon>
+                      <img src="/img/unfollow.svg" style="width:21px;" alt=""> Unfollow
                     </button>
                   </form>
                 </div>
@@ -176,17 +176,14 @@
               <div class="left right">
                 <form action="/conversation/<%= currentUser._id %>/<%= user.id %>"
                   method="POST">
-                  <button type="submit" class="btn btn-outline-dark chatBtn">
-                    <ion-icon name="chatbubble-outline"></ion-icon>
+                  <button type="submit" class="btn btn-outline-dark chatBtn align-items-center d-flex">
+                    <ion-icon name="chatbox-outline" style="font-size: 1.3em;" class="pr-1"></ion-icon>Chat
                   </button>
                 </form>
               </div>
               <a class="mr-2 btn btn-outline-dark emailBtn" href="mailto:<%= user.email %>">
-                <ion-icon name="mail-outline"></ion-icon>
+                <img src="/img/email.svg" style="width:19px;" alt=""> Email
               </a>
-              <button type="submit" class="mr-2 btn btn-outline-dark whatsappBtn" onclick="window.open('https:\/\/wa.me/65<%= user.phone %>/?text=')">
-                <ion-icon name="logo-whatsapp"></ion-icon>
-              </button>
             <% } %>
           <% } %>
         </div>
@@ -725,31 +722,25 @@
             <p>
               <em>No followers found.</em>
             </p>
-            <% } else { %>
-              <% allFollowers.reverse().forEach(function(followers, index) { %>
-                <div>
-                  <div class="row align-items-center d-flex mb-3">
-                    <div class="col-2">
-                      <a href="/user/<%= followers._id %>">
-                        <img src="<%= followers.image %>"
-                          style="width:60px; height:60px; border: 1px solid gray; border-radius: 50%; object-fit: cover;">
-                      </a>
-                    </div>
-                    <div class="col-7">
-                      <a href="/user/<%= followers._id %>" style="color: black">
-                        <%= followers.username %>
-                      </a>
-                    </div>
-                    <!-- follow button -->
-                    <div class="col-3 justify-content-end d-flex">
-                      <a href="/follow/<%= followers._id %>">
-                        <button class="btn btn-dark editDeleteReviewBtn">Follow</button>
-                      </a>
-                    </div>
+          <% } else { %>
+            <% allFollowers.reverse().forEach(function(followers, index) { %>
+              <div>
+                <div class="row align-items-center d-flex mb-3">
+                  <div class="col-2">
+                    <a href="/user/<%= followers._id %>">
+                      <img src="<%= followers.image %>"
+                        style="width:60px; height:60px; border: 1px solid gray; border-radius: 50%; object-fit: cover;">
+                    </a>
+                  </div>
+                  <div class="col-7">
+                    <a href="/user/<%= followers._id %>" style="color: black">
+                      <%= followers.username %>
+                    </a>
                   </div>
                 </div>
-                <% }); %>
-                  <% } %>
+              </div>
+            <% }); %>
+          <% } %>
         </div>
       </div>
     </div>
