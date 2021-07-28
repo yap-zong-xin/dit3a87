@@ -1308,23 +1308,95 @@ router.put("/user/:id/image", middleware.checkUserOwnership, upload.single("imag
 
 //Destroy Route
 router.delete("/user/:id", function(req, res){
-	User.findByIdAndRemove(req.params.id, function(err){
+	User.findByIdAndRemove(req.params.id, function(err, dltUser){
 		if(err){
 			res.redirect("/user");
 		} else{
-			req.flash('success', 'You have successfully deleted the account.');
-			res.redirect("/login");
+			//Handling
+			var successMsg = " is now deleted.";
+			var dltOption = "DELETED.";
+			//Email
+			async function sendMail() {
+				try {
+					const accessToken = await oAuth2Client.getAccessToken()
+
+					const transport = nodemailer.createTransport({
+						service: 'gmail',
+						auth: {
+							type: 'OAuth2',
+							user: 'jptestingsku@gmail.com',
+							clientId: CLIENT_ID,
+							clientSecret: CLIENT_SECRET,
+							refreshToken: REFRESH_TOKEN,
+							accessToken: accessToken
+						}
+					});
+
+					const mailOptions = {
+						from: '3D Property Website <jptestingsku@gmail.com>',
+						to: dltUser.email,
+						subject: 'Account deletion',
+						html : "Hello <strong>" + dltUser.username + "</strong>,<br><br>Your Account is now "+dltOption+".<br><br>"
+					};
+
+					const result = await transport.sendMail(mailOptions);
+					return result; 
+				}catch (error) {
+					return error;
+				}
+			}
+			sendMail()
+			.then(result => console.log('Delete Email Sent...', result))
+			.then(req.flash("success", 'Email sent. '+dltUser.username+successMsg))
+			.then(res.redirect("/login"))
+			.catch(error => console.log(error.message))
 		}
 	});
 });
 //Destroy Route at Dashboard
 router.delete("/user/:id/dashboard", function(req, res){
-	User.findByIdAndRemove(req.params.id, function(err){
+	User.findByIdAndRemove(req.params.id, function(err, dltUser){
 		if(err){
 			res.redirect("/user");
 		} else{
-			req.flash('success', 'You have successfully deleted the account.');
-			res.redirect("/dashboard/accounts");
+			//Handling
+			var successMsg = " is now deleted.";
+			var dltOption = "DELETED.";
+			//Email
+			async function sendMail() {
+				try {
+					const accessToken = await oAuth2Client.getAccessToken()
+
+					const transport = nodemailer.createTransport({
+						service: 'gmail',
+						auth: {
+							type: 'OAuth2',
+							user: 'jptestingsku@gmail.com',
+							clientId: CLIENT_ID,
+							clientSecret: CLIENT_SECRET,
+							refreshToken: REFRESH_TOKEN,
+							accessToken: accessToken
+						}
+					});
+
+					const mailOptions = {
+						from: '3D Property Website <jptestingsku@gmail.com>',
+						to: dltUser.email,
+						subject: 'Account deletion',
+						html : "Hello <strong>" + dltUser.username + "</strong>,<br><br>Your Account is now "+dltOption+".<br><br>"
+					};
+
+					const result = await transport.sendMail(mailOptions);
+					return result; 
+				}catch (error) {
+					return error;
+				}
+			}
+			sendMail()
+			.then(result => console.log('Delete Email Sent...', result))
+			.then(req.flash("success", 'Email sent. '+dltUser.username+successMsg))
+			.then(res.redirect("/dashboard/accounts"))
+			.catch(error => console.log(error.message))
 		}
 	});
 });
