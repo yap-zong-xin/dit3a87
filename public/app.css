@@ -367,7 +367,7 @@ body {
 
 .listing-banner-img {
   width: 100%; 
-  height: 400px;
+  height: 620px;
   background-image: url('/img/listing.webp');
   background-repeat: no-repeat/repeat-x;
 	background-size: cover;
@@ -403,6 +403,7 @@ body {
   cursor: pointer;
   border-radius: 5px 5px 0 0;
   transition: 0.3s;
+  background-color: #fff;
 }
 
 .list-type input {
@@ -411,14 +412,15 @@ body {
 
 .list-type label {
   background-color: rgb(235, 235, 235);
-  padding: 10px 23px 10px 23px;
+  padding: 10px 20px 10px 20px;
   cursor: pointer;
   font-weight: 600;
   transition: 0.3s;
+  margin: 0;
 }
 
 .activeList label {
-  background-color: #fff;
+  background: rgb(255, 255, 255) !important;
 }
 
 #listType-1,
@@ -483,6 +485,11 @@ body {
   color: rgb(136, 136, 136);
   font-family: "Poppins", sans-serif;
   font-size: 1em;
+}
+
+.left span {
+  font-size: 12px;
+  margin-right: 5px;
 }
 
 #showHideBtn {
@@ -2318,6 +2325,10 @@ input[type=range]::-ms-thumb {
   padding: 2px;
 }
 
+.contact-row a {
+  padding-left: 4px;
+}
+
 #resultDiv {
   transition: .2s;
 }
@@ -3216,9 +3227,15 @@ footer {
     font-size: 12px;
   }
 
+  #agent-info {
+    text-align: center;
+  }
+
   .contact-row i {
     font-size: 12px;
   }
+
+
 }
 
 .hide-nav {
@@ -3274,6 +3291,15 @@ footer {
   .user-result-contact {
     text-align: center;
   }
+  
+  #agent-info {
+    text-align: center;
+    margin-top: 10px;
+  }
+
+  .user-result {
+    flex-direction: column;
+  }
 }
 
 @media only screen and (max-width: 471px) {
@@ -3298,9 +3324,9 @@ footer {
     font-size: 12px;
   }
 
-  .user-detail span {
+  /* .user-detail span {
     font-size: 10px;
-  }
+  } */
 
 }
 
@@ -3308,6 +3334,10 @@ footer {
   .user-result img {
     width: 100px;
     height: 100px;
+  }
+
+  .left span {
+    font-size: 12px;
   }
 }
 
