@@ -31,6 +31,8 @@ var imageFilter = function (req, file, cb) {
     cb(null, true);
 };
 var upload = multer({ storage: storage, fileFilter: imageFilter})
+var uploadMultiple = upload.fields([ { name: 'profileImage', maxCount: 1 }, { name: 'bannerImage', maxCount: 1 } ]);
+
 var cloudinary = require('cloudinary');
 const { filter } = require('async');
 cloudinary.config({ 
@@ -39,13 +41,26 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
+//Email
+var nodemailer = require("nodemailer");
+
+var { google } = require('googleapis');
+const user = require('../models/user');
+const CLIENT_ID = '476773105287-ojgudstsf7bv4rvb572b7pequt1ng6r2.apps.googleusercontent.com';
+const CLIENT_SECRET = 'l7vmthxIvR0r4cAdCAl3oC_R';
+const REDIRECT_URI = 'https://developers.google.com/oauthplayground';
+const REFRESH_TOKEN = '1//04cfP4D4yBv7hCgYIARAAGAQSNwF-L9IrXQZe6ioFhiEfJOjHq34eHsvkK7I1TgqugbVazQXNy84LuKVToaMZqInSToGwk7P8YTg';
+
+const oAuth2Client = new google.auth.OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI);
+oAuth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
+
 function escapeRegex(text) {
 	return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
 };
 
 //Dashboard
 //Get Route - Overview Dashboard
-router.get("/dashboard", function(req,res){
+router.get("/dashboard", middleware.isAdmin, function(req,res){
 	User.find({}, function(err, allUsers){
 		if(err){
 			console.log(err);
@@ -74,7 +89,7 @@ router.get("/dashboard", function(req,res){
 });
 
 //Get Route - Manage Accounts Dashboard
-router.get("/dashboard/accounts", function(req, res){
+router.get("/dashboard/accounts", middleware.isAdmin, function(req, res){
 	var perPage = 8;
 	var pageQuery = parseInt(req.query.page);
 	var pageNumber = pageQuery ? pageQuery : 1;
@@ -563,32 +578,120 @@ router.get("/dashboard/accounts", function(req, res){
 });
 
 //Put Route - Manage Agent Application at Profile Page
-router.put("/agentStatus/:id", function(req, res){
+router.put("/agentStatus/:id", middleware.isAdmin, function(req, res){
 //can straight away use req.body.listing without having to define due to "listing[]" in the form name attributes
 	User.findByIdAndUpdate(req.params.id, req.body.user, function(err, updatedUser){
 		if(err){
 			res.redirect("/listings");
 		} else{
-			req.flash("success", "You have succesfully updated the agent status.")
-			res.redirect("/user/" + req.params.id);
+			//Handling
+			var successMsg = "";
+			var choiceAgent = JSON.parse(req.body.user.agentStatus)
+			var agentOption = "";
+			if(choiceAgent == true) {
+				successMsg = " has been approved."
+				agentOption = " APPROVED"
+			}else {
+				successMsg = " has been disapproved."
+				agentOption = " DISAPPROVED"
+			}
+			//Email
+			async function sendMail() {
+				try {
+					const accessToken = await oAuth2Client.getAccessToken()
+
+					const transport = nodemailer.createTransport({
+						service: 'gmail',
+						auth: {
+							type: 'OAuth2',
+							user: 'jptestingsku@gmail.com',
+							clientId: CLIENT_ID,
+							clientSecret: CLIENT_SECRET,
+							refreshToken: REFRESH_TOKEN,
+							accessToken: accessToken
+						}
+					});
+
+					const mailOptions = {
+						from: '3D Property Website <jptestingsku@gmail.com>',
+						to: updatedUser.email,
+						subject: 'Agent Account Approval',
+						html : "Hello <strong>" + updatedUser.username + "</strong>,<br><br>Your Account is now "+agentOption+" as a agent.<br><br>"
+					};
+
+					const result = await transport.sendMail(mailOptions);
+					return result; 
+				}catch (error) {
+					return error;
+				}
+			}
+			sendMail()
+			.then(result => console.log('Suspension Email Sent...', result))
+			.then(req.flash("success", 'Email sent. '+updatedUser.username+successMsg))
+			.then(res.redirect("/user/" + req.params.id))
+			.catch(error => console.log(error.message))
 		}
 	});
 });
 //Put Route - Manage Agent Application at Dashboard Agent Page
-router.put("/dashboardAgent/agents/:id", function(req, res){
+router.put("/dashboardAgent/agents/:id", middleware.isAdmin, function(req, res){
 //can straight away use req.body.listing without having to define due to "listing[]" in the form name attributes
 	User.findByIdAndUpdate(req.params.id, req.body.user, function(err, updatedUser){
 		if(err){
 			res.redirect("/listings");
 		} else{
-			req.flash("success", "You have succesfully updated the agent status.")
-			res.redirect("/dashboard/accounts/agent");
+			//Handling
+			var successMsg = "";
+			var choiceAgent = JSON.parse(req.body.user.agentStatus)
+			var agentOption = "";
+			if(choiceAgent == true) {
+				successMsg = " has been approved."
+				agentOption = " APPROVED"
+			}else {
+				successMsg = " has been disapproved."
+				agentOption = " DISAPPROVED"
+			}
+			//Email
+			async function sendMail() {
+				try {
+					const accessToken = await oAuth2Client.getAccessToken()
+
+					const transport = nodemailer.createTransport({
+						service: 'gmail',
+						auth: {
+							type: 'OAuth2',
+							user: 'jptestingsku@gmail.com',
+							clientId: CLIENT_ID,
+							clientSecret: CLIENT_SECRET,
+							refreshToken: REFRESH_TOKEN,
+							accessToken: accessToken
+						}
+					});
+
+					const mailOptions = {
+						from: '3D Property Website <jptestingsku@gmail.com>',
+						to: updatedUser.email,
+						subject: 'Agent Account Approval',
+						html : "Hello <strong>" + updatedUser.username + "</strong>,<br><br>Your Account is now "+agentOption+" as a agent.<br><br>"
+					};
+
+					const result = await transport.sendMail(mailOptions);
+					return result; 
+				}catch (error) {
+					return error;
+				}
+			}
+			sendMail()
+			.then(result => console.log('Suspension Email Sent...', result))
+			.then(req.flash("success", 'Email sent. '+updatedUser.username+successMsg))
+			.then(res.redirect("/dashboard/accounts/agent"))
+			.catch(error => console.log(error.message))
 		}
 	});
 });
 
 //Get Route - Manage Comment Dashboard
-router.get("/dashboard/comments", function(req, res){
+router.get("/dashboard/comments", middleware.isAdmin, function(req, res){
 	var perPage = 8;
 	var pageQuery = parseInt(req.query.page);
 	var pageNumber = pageQuery ? pageQuery : 1;
@@ -635,7 +738,7 @@ router.get("/dashboard/comments", function(req, res){
 });
 
 //Get Route - Manage Review Dashboard
-router.get("/dashboard/reviews", function(req, res){
+router.get("/dashboard/reviews", middleware.isAdmin, function(req, res){
 	var perPage = 8;
 	var pageQuery = parseInt(req.query.page);
 	var pageNumber = pageQuery ? pageQuery : 1;
@@ -762,7 +865,7 @@ router.get("/dashboard/reviews", function(req, res){
 // 	});
 // });
 
-router.get("/dashboard/listings", function(req,res){
+router.get("/dashboard/listings", middleware.isAdmin, function(req,res){
 	var perPage = 8;
 	var pageQuery = parseInt(req.query.page);
 	var pageNumber = pageQuery ? pageQuery : 1;
@@ -1099,7 +1202,7 @@ router.get("/user/:id/manage", middleware.checkUserOwnership, function(req, res)
 });
 
 //Update Route
-router.put("/user/:id", middleware.checkUserOwnership, upload.single("image"), function(req, res){
+router.put("/user/:id", middleware.checkUserOwnership, uploadMultiple, function(req, res){
 	User.findById(req.params.id, async function(err, user){
 		console.log(user)
 		console.log(user.reviews)
@@ -1107,16 +1210,26 @@ router.put("/user/:id", middleware.checkUserOwnership, upload.single("image"), f
 			req.flash("error", err.message);
 			res.redirect("back");
 		} else{
-			if(req.file){
+			if(req.files){
 				try{
-					if(user.imageId!=null){
-						await cloudinary.v2.uploader.destroy(user.imageId);
-					}
-						var result = await cloudinary.v2.uploader.upload(req.file.path);
+					if(req.files.profileImage){
+						if(user.imageId != null) {
+							await cloudinary.v2.uploader.destroy(user.imageId);
+						}
+						var result = await cloudinary.v2.uploader.upload(req.files.profileImage[0].path);
 						user.image = result.secure_url;
 						user.imageId = result.public_id;
+					}
+					if(req.files.bannerImage) {
+						if(user.bannerId != null) {
+							await cloudinary.v2.uploader.destroy(user.bannerId);
+						}
+						var result = await cloudinary.v2.uploader.upload(req.files.bannerImage[0].path);
+						user.banner = result.secure_url;
+						user.bannerId = result.public_id;
+					}
 				} catch(err){
-						req.flash("error", err.message);
+						req.flash("error", 'try catch g: ',err.message);
 						return res.redirect("back");
 				}
 			}
@@ -1194,24 +1307,96 @@ router.put("/user/:id/image", middleware.checkUserOwnership, upload.single("imag
 });
 
 //Destroy Route
-router.delete("/user/:id", function(req, res){
-	User.findByIdAndRemove(req.params.id, function(err){
+router.delete("/user/:id", middleware.checkUserOwnership, function(req, res){
+	User.findByIdAndRemove(req.params.id, function(err, dltUser){
 		if(err){
 			res.redirect("/user");
 		} else{
-			req.flash('success', 'You have successfully deleted the account.');
-			res.redirect("/login");
+			//Handling
+			var successMsg = " is now deleted.";
+			var dltOption = "DELETED.";
+			//Email
+			async function sendMail() {
+				try {
+					const accessToken = await oAuth2Client.getAccessToken()
+
+					const transport = nodemailer.createTransport({
+						service: 'gmail',
+						auth: {
+							type: 'OAuth2',
+							user: 'jptestingsku@gmail.com',
+							clientId: CLIENT_ID,
+							clientSecret: CLIENT_SECRET,
+							refreshToken: REFRESH_TOKEN,
+							accessToken: accessToken
+						}
+					});
+
+					const mailOptions = {
+						from: '3D Property Website <jptestingsku@gmail.com>',
+						to: dltUser.email,
+						subject: 'Account deletion',
+						html : "Hello <strong>" + dltUser.username + "</strong>,<br><br>Your Account is now "+dltOption+".<br><br>"
+					};
+
+					const result = await transport.sendMail(mailOptions);
+					return result; 
+				}catch (error) {
+					return error;
+				}
+			}
+			sendMail()
+			.then(result => console.log('Delete Email Sent...', result))
+			.then(req.flash("success", 'Email sent. '+dltUser.username+successMsg))
+			.then(res.redirect("/login"))
+			.catch(error => console.log(error.message))
 		}
 	});
 });
 //Destroy Route at Dashboard
-router.delete("/user/:id/dashboard", function(req, res){
-	User.findByIdAndRemove(req.params.id, function(err){
+router.delete("/user/:id/dashboard", middleware.isAdmin, function(req, res){
+	User.findByIdAndRemove(req.params.id, function(err, dltUser){
 		if(err){
 			res.redirect("/user");
 		} else{
-			req.flash('success', 'You have successfully deleted the account.');
-			res.redirect("/dashboard/accounts");
+			//Handling
+			var successMsg = " is now deleted.";
+			var dltOption = "DELETED.";
+			//Email
+			async function sendMail() {
+				try {
+					const accessToken = await oAuth2Client.getAccessToken()
+
+					const transport = nodemailer.createTransport({
+						service: 'gmail',
+						auth: {
+							type: 'OAuth2',
+							user: 'jptestingsku@gmail.com',
+							clientId: CLIENT_ID,
+							clientSecret: CLIENT_SECRET,
+							refreshToken: REFRESH_TOKEN,
+							accessToken: accessToken
+						}
+					});
+
+					const mailOptions = {
+						from: '3D Property Website <jptestingsku@gmail.com>',
+						to: dltUser.email,
+						subject: 'Account deletion',
+						html : "Hello <strong>" + dltUser.username + "</strong>,<br><br>Your Account is now "+dltOption+".<br><br>"
+					};
+
+					const result = await transport.sendMail(mailOptions);
+					return result; 
+				}catch (error) {
+					return error;
+				}
+			}
+			sendMail()
+			.then(result => console.log('Delete Email Sent...', result))
+			.then(req.flash("success", 'Email sent. '+dltUser.username+successMsg))
+			.then(res.redirect("/dashboard/accounts"))
+			.catch(error => console.log(error.message))
 		}
 	});
 });
@@ -1320,21 +1505,58 @@ router.get('/users/:userId', async function(req, res) {
 });
 
 //suspend/unsuspend account
-router.put("/suspend/:id", function(req, res){
+router.put("/suspend/:id", middleware.isAdmin, function(req, res){
 	User.findByIdAndUpdate(req.params.id, req.body.user, function(err, suspendUser){
 		if(err){
 			console.log(err)
 			return res.redirect('back');
 		} else{
+			//Handling
 			var successMsg = "";
 			var choiceSus = JSON.parse(req.body.user.suspend);
+			var suspendOption = "";
 			if(choiceSus == true) {
 				successMsg = " has been suspended."
+				suspendOption = " SUSPENDED."
 			}else {
 				successMsg = " has been unsuspended."
+				suspendOption = " UNSUSPENDED."
 			}
-			req.flash("success", suspendUser.username+successMsg);
-			res.redirect("/user/" + req.params.id);
+			//Email
+			async function sendMail() {
+				try {
+					const accessToken = await oAuth2Client.getAccessToken()
+
+					const transport = nodemailer.createTransport({
+						service: 'gmail',
+						auth: {
+							type: 'OAuth2',
+							user: 'jptestingsku@gmail.com',
+							clientId: CLIENT_ID,
+							clientSecret: CLIENT_SECRET,
+							refreshToken: REFRESH_TOKEN,
+							accessToken: accessToken
+						}
+					});
+
+					const mailOptions = {
+						from: '3D Property Website <jptestingsku@gmail.com>',
+						to: suspendUser.email,
+						subject: 'Account suspension',
+						html : "Hello <strong>" + suspendUser.username + "</strong>,<br><br>Your Account is now "+suspendOption+"<br><br>"
+					};
+
+					const result = await transport.sendMail(mailOptions);
+					return result; 
+				}catch (error) {
+					return error;
+				}
+			}
+			sendMail()
+			.then(result => console.log('Suspension Email Sent...', result))
+			.then(req.flash("success", 'Email sent. '+suspendUser.username+successMsg))
+			.then(res.redirect("/user/" + req.params.id))
+			.catch(error => console.log(error.message))
 		}
 	});
 });

@@ -1,6 +1,6 @@
 <%- include("../partials/header") %>
 
-<div style="overflow-x: hidden;">
+<div style="overflow-x: hidden; margin-top: 45px;" class="mb-4">
   <div class="row">
     <div class="col-3">
       <div class="navigation sticky-top">
@@ -63,29 +63,33 @@
         <div class="col-12">
           <p class="mb-0 pt-2" style="font-weight: 550; font-size: 1.2em;">Statistics</p>
         </div>
-        <div class="col-2">
+        <div class="col-2 d-none d-md-inline">
           <div style="padding-top: 22px; font-size: 0.95em;">Accounts</div>
           <div style="padding-top: 19px; font-size: 0.95em;">Listings</div>
           <div style="padding-top: 19px; font-size: 0.95em;">Comments</div>
           <div style="padding-top: 19px; font-size: 0.95em;">Reviews</div>
         </div>
-        <div class="col-10">
-          <div class="progress my-4" style="height: 15px;">
+        <div class="col-12 col-md-10">
+          <span class="d-md-none" style="font-size: 0.95em;">Accounts</span>
+          <div class="progress mt-1 mb-2 my-md-4" style="height: 15px;">
             <div class="progress-bar bg-danger" role="progressbar" style="width: <%= users.length/(users.length + listings.length + comments.length + reviews.length)*100 %>%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
               <%= (users.length/(users.length + listings.length + comments.length + reviews.length)*100).toFixed(2) %>%
             </div>
           </div>
-          <div class="progress my-4" style="height: 15px;">
+          <span class="d-md-none" style="font-size: 0.95em;">Listings</span>
+          <div class="progress mt-1 mb-2 my-md-4" style="height: 15px;">
             <div class="progress-bar bg-warning" role="progressbar" style="width: <%= listings.length/(users.length + listings.length + comments.length + reviews.length)*100 %>%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
               <%= (listings.length/(users.length + listings.length + comments.length + reviews.length)*100).toFixed(2) %>%
             </div>
           </div>
-          <div class="progress my-4" style="height: 15px;">
+          <span class="d-md-none" style="font-size: 0.95em;">Comments</span>
+          <div class="progress mt-1 mb-2 my-md-4" style="height: 15px;">
             <div class="progress-bar bg-info" role="progressbar" style="width: <%= comments.length/(users.length + listings.length + comments.length + reviews.length)*100 %>%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
               <%= (comments.length/(users.length + listings.length + comments.length + reviews.length)*100).toFixed(2) %>%
             </div>      
           </div>
-          <div class="progress my-4" style="height: 15px;">
+          <span class="d-md-none" style="font-size: 0.95em;">Reviews</span>
+          <div class="progress mt-1 mb-2 my-md-4" style="height: 15px;">
             <div class="progress-bar bg-dark" role="progressbar" style="width: <%= reviews.length/(users.length + listings.length + comments.length + reviews.length)*100 %>%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
               <%= (reviews.length/(users.length + listings.length + comments.length + reviews.length)*100).toFixed(2) %>%
             </div>
@@ -94,7 +98,7 @@
       </div>
 
       <div class="row mr-5">
-        <div class="col-4 pt-4">
+        <div class="col-12 col-lg-4 pt-4">
           <div class="dashboardOverview">
             <span style="font-weight: 550; font-size: 1.2em;">Overview</span>
             <a href="/dashboard/accounts">
@@ -123,7 +127,7 @@
             </a>
           </div>
         </div>
-        <div class="col-8">
+        <div class="col-8 d-none d-md-block">
             <canvas id="myChart"></canvas>
             <div class="live-counter text-center">
               <a style="font-size: 0.95em; font-weight: 650;">Total visitors:</a>
@@ -146,5 +150,66 @@
     list.forEach((item) => 
     item.addEventListener('click', activeLink));
 </script>
+<script src="https://use.fontawesome.com/releases/v5.15.3/js/all.js" data-auto-replace-svg="nest"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+  integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+  integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+  integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="/javascripts/owl.carousel.min.js"></script>
+<script src="/javascripts/jquer.js"></script>
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script>
+<script>
+  $(window).on('load', function(){
+    $(".loader").fadeOut(1000);
+});
+</script>
+<script>
+  function sortTableByColumn(table, column, asc = true) {
+      const dirModifier = asc ? 1 : -1;
+      const tBody = table.tBodies[0];
+      const rows = Array.from(tBody.querySelectorAll("tr"));
 
-  <%- include("../partials/footer") %>
+      // Sort each row
+      const sortedRows = rows.sort((a, b) => {
+          const aColText = a.querySelector(`td:nth-child(${ column + 1 })`).textContent.trim();
+          const bColText = b.querySelector(`td:nth-child(${ column + 1 })`).textContent.trim();
+
+          return aColText > bColText ? (1 * dirModifier) : (-1 * dirModifier);
+      });
+
+      // Remove all existing TRs from the table
+      while (tBody.firstChild) {
+          tBody.removeChild(tBody.firstChild);
+      }
+
+      // Re-add the newly sorted rows
+      tBody.append(...sortedRows);
+
+      // Remember how the column is currently sorted
+      table.querySelectorAll("th").forEach(th => th.classList.remove("th-sort-asc", "th-sort-desc"));
+      table.querySelector(`th:nth-child(${ column + 1})`).classList.toggle("th-sort-asc", asc);
+      table.querySelector(`th:nth-child(${ column + 1})`).classList.toggle("th-sort-desc", !asc);
+  }
+
+  document.querySelectorAll(".table-sortable th").forEach(headerCell => {
+      headerCell.addEventListener("click", () => {
+          const tableElement = headerCell.parentElement.parentElement.parentElement;
+          const headerIndex = Array.prototype.indexOf.call(headerCell.parentElement.children, headerCell);
+          const currentIsAscending = headerCell.classList.contains("th-sort-asc");
+
+          sortTableByColumn(tableElement, headerIndex, !currentIsAscending);
+      });
+  });
+</script>
+<script>
+  AOS.init();
+</script>
+</body>
+
+</html>

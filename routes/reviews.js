@@ -29,7 +29,6 @@ router.get("/user/:id/reviews/new", middleware.isLoggedIn, middleware.checkRevie
             return res.redirect("back");
         }
         res.render("reviews/new.ejs", {user: user});
-
     });
 });
 

@@ -43,19 +43,16 @@
 </head>
 
 <body>
-  <div class="sticky-top text-center py-2" style="background: #003580; color: white; font-size: 0.9em;">
-    Exceptional Properties. Exceptional Clients.
-  </div>
   <div class="loader" id="mainLoader"></div>
-  <nav class="navbar navbar-expand-md sticky-top py-0" style="border-bottom: solid gray 1px; z-index:94; top: 35px;">
+  <nav class="navbar navbar-expand-lg sticky-top py-0" style="border-bottom: solid gray 1px; z-index:94;">
     <div class="container px-0">
-      <a href="/" class="mr-4" style="text-decoration: none; padding: 24px 24px 24px 0;" id="nav-logo">
+      <a href="/" class="mr-4 py-3" style="text-decoration: none;" id="nav-logo">
         ZEUS 3D
       </a>
-      <a class="nav-link d-none d-md-block pr-2" href="/listings">Properties</a>
-      <a class="nav-link d-none d-md-block pr-2" href="/user">Find Agents</a>
-      <a class="nav-link d-none d-md-block pr-2" href="/about">About Us</a>
-      <a class="nav-link d-none d-md-block pr-2" href="#">Connect</a>
+      <a class="nav-link d-none d-lg-block pr-2" href="/listings">Properties</a>
+      <a class="nav-link d-none d-lg-block pr-2" href="/user">Find Agents</a>
+      <a class="nav-link d-none d-lg-block pr-2" href="/service">Services</a>
+      <a class="nav-link d-none d-lg-block pr-2" href="/connect">Connect</a>
 
       <button class="navbar-toggler custom-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -65,7 +62,7 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ml-auto d-flex align-items-start">
           <% if(!currentUser){ %>
-                <div class="d-md-none" style="padding-bottom: 20px;">
+                <div class="d-lg-none" style="padding-bottom: 20px;">
                   <li class="nav-item active">
                     <a class="nav-link" href="/listings">Properties</a>
                   </li>
@@ -73,31 +70,29 @@
                     <a class="nav-link" href="/user">Find Agents</a>
                   </li>
                   <li class="nav-item active">
-                    <a class="nav-link" href="/about">About Us</a>
+                    <a class="nav-link" href="/service">Services</a>
                   </li>
                   <li class="nav-item active">
-                    <a class="nav-link" href="#">Connect</a>
+                    <a class="nav-link" href="/connect">Connect</a>
                   </li>
                   <div class="dropdown-divider"></div>
                   <li class="nav-item active">
-                    <a class="nav-link" href="/login" style="color: #000; font-weight: 800;">Sign In</a>
+                    <a class="nav-link" href="/login" style="color: #000; font-weight: 650;">Sign In</a>
                   </li>
                   <li class="nav-item active">
                     <a class="nav-link" href="/register" style="color: #000; font-weight: 800;">Sign Up For Free</a>
                   </li>
                 </div>
-
                 <div class="d-flex align-items-center">
                   <li class="nav-item active px-2 hide-nav" >
-                    <a class="nav-link py-1" href="/login" style="color: #000; font-weight: 800;">Sign In</a>
+                    <a class="nav-link py-1" href="/login" style="color: #000; font-weight: 650;">Sign In</a>
                   </li>
                   <li class="nav-item active px-2 ml-2" style="background:#003580;" id="loginRegisterNav">
                     <a class="nav-link py-1" href="/register"  style="color: white; font-weight: 500;">Sign Up For Free</a>
                   </li>
                 </div>
-
-            <% } else{ %>
-              <div class="d-md-none">
+            <% } else { %>
+              <div class="d-lg-none">
                 <li class="nav-item active">
                   <a class="nav-link" href="/listings">Properties</a>
                 </li>
@@ -105,13 +100,13 @@
                   <a class="nav-link" href="/user">Find Agents</a>
                 </li>
                 <li class="nav-item active">
-                  <a class="nav-link" href="/about">About Us</a>
+                  <a class="nav-link" href="/service">Services</a>
                 </li>
                 <li class="nav-item active">
-                  <a class="nav-link" href="#">Connect</a>
+                  <a class="nav-link" href="/connect">Connect</a>
                 </li>
               </div>
-              <li class="nav-item active currentUserNav mb-2">
+              <li class="nav-item active currentUserNav">
                 <a class="nav-link p-1" href="/user/<%= currentUser.id %>">
                   <img src="<%= currentUser.image %>" style="width: 30px; height:30px; object-fit: cover; border-radius: 50%;">
                   <span style="font-size: 0.9em;">
@@ -119,19 +114,22 @@
                   </span>
                 </a>
               </li>
-              <li class="dropdown pl-2">
-                <a href="#" data-toggle="dropdown" role="button" aria-haspopup="true"
-                aria-expanded="false" style="text-decoration: none;">
-                  <ion-icon class="iconHeader" name="add-outline"></ion-icon>
-                </a>
-                <ul class="dropdown-menu" style="font-size: 0.95em; width: 250px;">
-                  <% if(currentUser && currentUser.isAdmin || currentUser && currentUser.isAgent){ %>
-                    <li class="nav-item active">
-                      <a class="nav-link" href="/listings/new">Add Listing</a>
-                    </li>
-                  <% } %>
-                </ul>
-              </li>
+              <% if(currentUser.isAdmin==false && currentUser.isAgent==false){ %>
+              <% } else { %>
+                <li class="dropdown pl-2">
+                  <a href="#" data-toggle="dropdown" role="button" aria-haspopup="true"
+                  aria-expanded="false" style="text-decoration: none;">
+                    <ion-icon class="iconHeader" name="add-outline"></ion-icon>
+                  </a>
+                  <ul class="dropdown-menu" style="font-size: 0.95em; width: 250px;">
+                    <% if(currentUser && currentUser.isAdmin || currentUser && currentUser.isAgent){ %>
+                      <li class="nav-item active">
+                        <a class="nav-link" href="/listings/new">Add Listing</a>
+                      </li>
+                    <% } %>
+                  </ul>
+                </li>
+              <% } %>
               <li class="dropdown pl-2">
                 <a href="#" data-toggle="dropdown" role="button" aria-haspopup="true"
                   aria-expanded="false" style="text-decoration: none;">
@@ -212,6 +210,9 @@
       </div>
     </div>
   </nav>
+  <div class="fixed-top text-center py-2" style="background: #003580; color: white; font-size: 0.9em; top:75px; z-index: 93;">
+    Exceptional Properties. Exceptional Clients.
+  </div>
 
   <div class="container flashMessage" style="margin-top: 20px;">
     <% if(error && error.length> 0){ %>
@@ -223,7 +224,7 @@
       </div>
       <% } %>
         <% if(success && success.length> 0){ %>
-          <div class="alert alert-success alert-dismissible fade show" role="alert">
+          <div class="alert alert-info  alert-dismissible fade show" role="alert">
             <%= success %>
               <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>

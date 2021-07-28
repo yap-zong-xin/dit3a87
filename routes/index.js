@@ -124,6 +124,7 @@ router.post("/register", middleware.notLoggedIn, upload.single('image'), functio
 			// add cloudinary url for the image to the listing object under image property
 			req.body.image = result.secure_url;
 			newUser.image = req.body.image
+			newUser.imageId = result.public_id;
 			// add image's public_id to listing object
 			req.body.imageId = result.public_id;
 			
@@ -298,43 +299,35 @@ router.post("/login", middleware.notLoggedIn, function (req, res, next) {
 });
 
 // forgot password
-router.get('/forgot', function(req, res) {
+router.get('/forgot', middleware.notLoggedIn, function(req, res) {
 	res.render('forgot.ejs');
-  });
-  
-  router.post('/forgot', function(req, res, next) {
+});
 
-
+router.post('/forgot', middleware.notLoggedIn, function(req, res, next) {
 	function tokenCode (size = 20) {
 		return crypto
 			.randomBytes(size)
 			.toString('hex') //hex for url safe string as base64 may contain forward slash
 			.slice(0, size)
 	}
-
 	var resetPwToken = tokenCode();
 
-
-		User.findOne({ email: req.body.email }, function(err, user) {
-		  if (!user) {
+	User.findOne({ email: req.body.email }, function(err, user) {
+		if (!user) {
 			req.flash('error', 'No account with that email address exists.');
 			return res.redirect('/forgot');
-		  }
-  
-		  user.resetPasswordToken = resetPwToken;
-		  user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
-		  user.save();
-		});
+		}
+		user.resetPasswordToken = resetPwToken;
+		user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
+		user.save();
+	});
 
-	  async function senMail(){
-
+	async function senMail(){
 		try {
 			var host = req.get('host');
 			var link = 'http://'+host+"/reset/"+resetPwToken;
 			console.log(link);
-
 			const accessToken = await oAuth2Client.getAccessToken()
-
 			const transport = nodemailer.createTransport({
 				service: 'gmail',
 				auth: {
@@ -346,18 +339,16 @@ router.get('/forgot', function(req, res) {
 					accessToken: accessToken
 				}
 			});
-
 			const mailOptions = {
 				from: '3D Property Website <jptestingsku@gmail.com>',
 				to: req.body.email,
 				subject: 'Password Reset',
 				html : "Hello,<br><br>You are receiving this email because you (or someone else) have requested the reset of the password for your account." +
-				 	   "<br><br><a href="+link+">Reset Password</a>"
+							"<br><br><a href="+link+">Reset Password</a>"
 			};
-
 			const result = await transport.sendMail(mailOptions);
-			return result; 
-		}catch (error) {
+				return result; 
+		} catch (error) {
 			return error;
 		}
 	}
@@ -367,47 +358,39 @@ router.get('/forgot', function(req, res) {
 	.then(req.flash('success','An e-mail has been sent to ' + req.body.email +' with further instructions.'))
 	.then(res.redirect('back'))
 	.catch(error => console.log(error.message))
-
-
-
-  });
+});
   
-  router.get('/reset/:token', function(req, res) {
+router.get('/reset/:token', middleware.notLoggedIn, function(req, res) {
 	User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function(err, user) {
-	  if (!user) {
+		if (!user) {
 		req.flash('error', 'Password reset token is invalid or has expired.');
 		return res.redirect('/login');
-	  }
-	  res.render('reset.ejs', {token: req.params.token});
+		}
+		res.render('reset.ejs', {token: req.params.token});
 	});
-  });
+});
   
-  router.post('/reset/:token', function(req, res) {
+router.post('/reset/:token', middleware.notLoggedIn, function(req, res) {
+	User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function(err, user) {
+		if (!user) {
+		req.flash('error', 'Password reset token is invalid or has expired.');
+		return res.redirect('back');
+		}
+		if(req.body.password === req.body.confirm) {
+		user.setPassword(req.body.password, function(err) {
+			user.resetPasswordToken = undefined;
+			user.resetPasswordExpires = undefined;
 
-
-		User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function(err, user) {
-		  if (!user) {
-			req.flash('error', 'Password reset token is invalid or has expired.');
+			user.save();
+			req.flash("success", "Success! Your password has been changed.");
+			res.redirect('/login');
+		})
+		} else {
+			req.flash("error", "Passwords do not match.");
 			return res.redirect('back');
-		  }
-		  if(req.body.password === req.body.confirm) {
-			user.setPassword(req.body.password, function(err) {
-			  user.resetPasswordToken = undefined;
-			  user.resetPasswordExpires = undefined;
-  
-			  user.save();
-			  req.flash("success", "Success! Your password has been changed.");
-			  res.redirect('/login');
-			})
-		  } else {
-			  req.flash("error", "Passwords do not match.");
-			  return res.redirect('back');
-		  }
-		});
-
-  });
-  
-
+		}
+	});
+});
 
 //Logout Route
 router.get("/logout", middleware.isLoggedIn, function(req, res){
@@ -417,8 +400,14 @@ router.get("/logout", middleware.isLoggedIn, function(req, res){
 });
 
 //About Route
-router.get("/about", function(req, res){
-	res.render("about.ejs");
+router.get("/service", function(req, res){
+	res.render("service.ejs");
 });
+
+//About Route
+router.get("/connect", function(req, res){
+	res.render("connect.ejs");
+});
+
 
 module.exports = router;

@@ -5,7 +5,7 @@ var Comment = require("../models/comment");
 var middleware = require('../middleware');
 
 //New Route
-router.get("/listings/:id/comments/new", function(req, res){
+router.get("/listings/:id/comments/new", middleware.isLoggedIn, function(req, res){
 	//find listing by id
 	listing.findById(req.params.id, function(err, listing){
 		if(err){
@@ -17,7 +17,7 @@ router.get("/listings/:id/comments/new", function(req, res){
 });
 
 //Post Route
-router.post("/listings/:id/comments", function(req, res){
+router.post("/listings/:id/comments", middleware.isLoggedIn, function(req, res){
 //lookup listing using ID first before posting the comments
 	listing.findById(req.params.id, function(err, listing){
 		if(err){

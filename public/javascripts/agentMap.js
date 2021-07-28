@@ -1,10 +1,7 @@
 mapboxgl.accessToken = mapToken;
 const map = new mapboxgl.Map({
   container: 'map',
-  // style: 'mapbox://styles/mapbox/outdoors-v11',
-  // style: 'mapbox://styles/yapzongxin/ckqfoo795012p17vmvkfxtu8t',
-  style: 'mapbox://styles/yapzongxin/ckqky44ku0chw18nv3buheltf',
-  // style: 'mapbox://styles/mapbox/navigation-night-v1',
+  style: 'mapbox://styles/yapzongxin/ckrnfc8e7c4mr17o5c6gai2ls',
   // Singapore
   center: [103.808052586332, 1.3516161224392],
   zoom: 9.5
@@ -42,11 +39,11 @@ map.on('load', function () {
       'circle-color': [
         'step',
         ['get', 'point_count'],
-        '#008089',
+        '#FA7E7A',
         3,
-        '#E1AA12',
+        '#FA7E7A',
         4,
-        '#C7839C'
+        '#FA7E7A'
       ],
       'circle-radius': [
         'step',

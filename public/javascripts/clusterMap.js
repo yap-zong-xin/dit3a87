@@ -1,14 +1,13 @@
 mapboxgl.accessToken = mapToken;
 const map = new mapboxgl.Map({
   container: 'map',
-  // style: 'mapbox://styles/mapbox/outdoors-v11',
-  // style: 'mapbox://styles/yapzongxin/ckqfoo795012p17vmvkfxtu8t',
-  style: 'mapbox://styles/yapzongxin/ckqky44ku0chw18nv3buheltf',
-  // style: 'mapbox://styles/mapbox/navigation-night-v1',
+  style: 'mapbox://styles/yapzongxin/ckrnfc8e7c4mr17o5c6gai2ls',
   // Singapore
   center: [103.808052586332, 1.3516161224392],
-  zoom: 10.5,
-  attributionControl: false
+  zoom: 10.1,
+  attributionControl: false,
+  // pitch: 35, 
+  // bearing: -10,
 });
  
 // Add zoom and rotation controls to the map.
@@ -35,19 +34,14 @@ map.on('load', function () {
     source: 'listings',
     filter: ['has', 'point_count'],
     paint: {
-      // Use step expressions (https://docs.mapbox.com/mapbox-gl-js/style-spec/#expressions-step)
-      // with three steps to implement three types of circles:
-      //   * Blue, 20px circles when point count is less than 100
-      //   * Yellow, 30px circles when point count is between 100 and 750
-      //   * Pink, 40px circles when point count is greater than or equal to 750
       'circle-color': [
         'step',
         ['get', 'point_count'],
-        '#008089',
+        '#FA7E7A',
         3,
-        '#E1AA12',
+        '#FA7E7A',
         4,
-        '#C7839C'
+        '#FA7E7A'
       ],
       'circle-radius': [
         'step',

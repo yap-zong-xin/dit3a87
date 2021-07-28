@@ -1,15 +1,14 @@
 const router = require("express").Router();
 const Message = require("../models/message");
+var middleware = require('../middleware');
 
 //add
-
-router.post("/message", async (req, res) => {
+router.post("/message", middleware.isLoggedIn, async (req, res) => {
   const newMessage = new Message({
     conversationId: req.body.conversationId,
     sender: req.body.sender,
     text: req.body.text
   });
-
   try {
     const savedMessage = await newMessage.save();
     res.status(200).json(savedMessage);
@@ -19,8 +18,7 @@ router.post("/message", async (req, res) => {
 });
 
 //get
-
-router.get("/messages/:conversationId", async (req, res) => {
+router.get("/messages/:conversationId", middleware.isLoggedIn, async (req, res) => {
   try {
     const messages = await Message.find({
       conversationId: req.params.conversationId,
@@ -31,19 +29,15 @@ router.get("/messages/:conversationId", async (req, res) => {
   }
 });
 
-
-router.get("/message/latest/:conversationId", async (req, res) => {
+router.get("/message/latest/:conversationId", middleware.isLoggedIn, async (req, res) => {
   try {
     const message = await Message.find({
       conversationId: req.params.conversationId,
     }).sort({'_id':-1}).limit(1);
-
     res.status(200).json(message);
   } catch (err) {
     res.status(500).json(err);
   }
 });
-
-
 
 module.exports = router;
