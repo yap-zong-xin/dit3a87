@@ -1,7 +1,7 @@
 mapboxgl.accessToken = mapToken;
 const map = new mapboxgl.Map({
   container: 'map',
-  style: 'mapbox://styles/yapzongxin/ckrkw6fyk9one19nzglsa7svu',
+  style: 'mapbox://styles/yapzongxin/ckrn3w9ui374p17mv388xg8nj',
   // Singapore
   center: [103.808052586332, 1.3516161224392],
   zoom: 10,
