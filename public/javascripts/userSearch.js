@@ -39,13 +39,15 @@ function loadData(rs,loadObj) {
                         <em>No reviews found.</em>
                     </div>
                 </div>
-                <div class="col-md-4 col-sm-6 m-0 py-0 px-4 align-items-center d-flex" style="background: rgba(170,190,215,0.3);">
-                    <div class="col-md-12">
+                <div class="col-md-4 col-sm-6 m-0 p-0 align-items-center d-flex agent-right" style="background: rgba(170,190,215,0.3);">
+                    <div class="col-md-12 m-0 p-0">
                         <p style="font-size:1em; font-weight:650;" class="mb-2" id="agent-info">Agent Details</p>
                         <div class="contact-row pb-1 align-items-center d-flex">
                             <ion-icon name="mail-outline" style="font-size:1.4em!important;"></ion-icon>
-                            <a href="mailto:` + resultSet[i].email + `"  style="color: black; font-size: 1em;">
-                            ` + resultSet[i].email + `</a>
+                            <li class="email-li">
+                                <a href="mailto:` + resultSet[i].email + `"  style="color: black; font-size: 1em;">
+                                ` + resultSet[i].email + `</a>
+                            </li>
                         </div>
                         <div class="contact-row py-0 align-items-center d-flex">
                             <ion-icon name="call-outline" style="font-size:1.3em;"></ion-icon>
@@ -93,13 +95,15 @@ function loadData(rs,loadObj) {
                                 </a>
                             </div>
                         </div>
-                        <div class="col-md-4 col-sm-6 m-0 py-0 px-4 align-items-center d-flex" style="background: rgba(170,190,215,0.3);">
-                            <div class="col-md-12">
+                        <div class="col-md-4 col-sm-6 m-0 p-0 align-items-center d-flex agent-right" style="background: rgba(170,190,215,0.3);">
+                            <div class="col-md-12 m-0 p-0">
                                 <p style="font-size:1em; font-weight:650;" class="mb-2" id="agent-info">Agent Details</p>
                                 <div class="contact-row pb-1 align-items-center d-flex">
                                     <ion-icon name="mail-outline" style="font-size:1.4em!important;"></ion-icon>
-                                    <a href="mailto:` + resultSet[i].email + `"  style="color: black; font-size: 1em;">
-                                    ` + resultSet[i].email + `</a>
+                                    <li class="email-li">
+                                        <a href="mailto:` + resultSet[i].email + `"  style="color: black; font-size: 1em;">
+                                        ` + resultSet[i].email + `</a>
+                                    <li>
                                 </div>
                                 <div class="contact-row py-0 align-items-center d-flex">
                                     <ion-icon name="call-outline" style="font-size:1.3em;"></ion-icon>
@@ -132,13 +136,15 @@ function loadData(rs,loadObj) {
                                 </a>
                             </div>
                         </div>
-                        <div class="col-md-4 col-sm-6 m-0 py-0 px-4 align-items-center d-flex" style="background: rgba(170,190,215,0.3);">
-                            <div class="col-md-12">
+                        <div class="col-md-4 col-sm-6 m-0 p-0 align-items-center d-flex agent-right" style="background: rgba(170,190,215,0.3);">
+                            <div class="col-md-12 m-0 p-0">
                                 <p style="font-size:1em; font-weight:650;" class="mb-2" id="agent-info">Agent Details</p>
                                 <div class="contact-row pb-1 align-items-center d-flex">
                                     <ion-icon name="mail-outline" style="font-size:1.4em!important;"></ion-icon>
-                                    <a href="mailto:` + resultSet[i].email + `" style="color: black; font-size: 1em;">
-                                    ` + resultSet[i].email + `</a>
+                                    <li class="email-li">
+                                        <a href="mailto:` + resultSet[i].email + `" style="color: black; font-size: 1em;">
+                                        ` + resultSet[i].email + `</a>
+                                    </li>
                                 </div>
                                 <div class="contact-row py-0 align-items-center d-flex">
                                     <ion-icon name="call-outline" style="font-size:1.3em;"></ion-icon>
@@ -171,13 +177,15 @@ function loadData(rs,loadObj) {
                                 </a>
                             </div>
                         </div>
-                        <div class="col-md-4 col-sm-6 m-0 py-0 px-4 align-items-center d-flex" style="background: rgba(170,190,215,0.3);">
-                            <div class="col-md-12">
+                        <div class="col-md-4 col-sm-6 m-0 p-0 align-items-center d-flex agent-right" style="background: rgba(170,190,215,0.3);">
+                            <div class="col-md-12 m-0 p-0">
                                 <p style="font-size:1em; font-weight:650;" class="mb-2" id="agent-info">Agent Details</p>
                                 <div class="contact-row pb-1 align-items-center d-flex">
                                     <ion-icon name="mail-outline" style="font-size:1.4em!important;"></ion-icon>
-                                    <a href="mailto:` + resultSet[i].email + `"  style="color: black; font-size: 1em;">
-                                    ` + resultSet[i].email + `</a>
+                                    <li class="email-li">
+                                        <a href="mailto:` + resultSet[i].email + `"  style="color: black; font-size: 1em;">
+                                        ` + resultSet[i].email + `</a>
+                                    </li>
                                 </div>
                                 <div class="contact-row py-0 align-items-center d-flex">
                                     <ion-icon name="call-outline" style="font-size:1.3em;"></ion-icon>
@@ -195,7 +203,7 @@ function loadData(rs,loadObj) {
                 case 3:
                     html = `<div class="col-md-12" data-aos="fade-up" data-aos-once="true">
                     <div class="col-md-12 p-0 my-2 user-result shadow" onClick="window.location='/user/` + resultSet[i]._id + `'" >
-                        <div class="row col-md-8col-sm-6 mx-0 py-4 px-5 user-detail align-items-center d-flex" style="background: rgba(243,243,243,0.1);">
+                        <div class="row col-md-8 col-sm-6 mx-0 py-4 px-5 user-detail align-items-center d-flex" style="background: rgba(243,243,243,0.1);">
                             <img src="` + resultSet[i].image + `" style="width: 150px; height: 150px;">
                             <div class="caption-result">
                                 <p class="mb-0" style="font-size:1.6em; font-weight:600;">` + resultSet[i].username + `</p>
@@ -210,13 +218,15 @@ function loadData(rs,loadObj) {
                                 </a>
                             </div>
                         </div>
-                        <div class="col-md-4 col-sm-6 m-0 py-0 px-4 align-items-center d-flex" style="background: rgba(170,190,215,0.3);">
-                            <div class="col-md-12">
+                        <div class="col-md-4 col-sm-6 m-0 p-0 align-items-center d-flex agent-right" style="background: rgba(170,190,215,0.3);">
+                            <div class="col-md-12 m-0 p-0">
                                 <p style="font-size:1em; font-weight:650;" class="mb-2" id="agent-info">Agent Details</p>
                                 <div class="contact-row pb-1 align-items-center d-flex">
                                     <ion-icon name="mail-outline" style="font-size:1.4em!important;"></ion-icon>
-                                    <a href="mailto:` + resultSet[i].email + `" style="color: black; font-size: 1em;">
-                                    ` + resultSet[i].email + `</a>
+                                    <li class="email-li">
+                                        <a href="mailto:` + resultSet[i].email + `" style="color: black; font-size: 1em;">
+                                        ` + resultSet[i].email + `</a>
+                                    </li>
                                 </div>
                                 <div class="contact-row py-0 align-items-center d-flex">
                                     <ion-icon name="call-outline" style="font-size:1.3em;"></ion-icon>
@@ -234,7 +244,7 @@ function loadData(rs,loadObj) {
                 case 4:
                     html = `<div class="col-md-12" data-aos="fade-up" data-aos-once="true">
                                 <div class="col-md-12 p-0 my-2 user-result shadow" onClick="window.location='/user/` + resultSet[i]._id + `'" >
-                                    <div class="row col-md-8 col-sm-6 mx-0 py-4 px-5 user-detail align-items-center d-flex" style="background: rgba(243,243,243,0.1);">
+                                    <div class="row col-md-8 col-sm-6 col-xs-12 mx-0 py-4 px-5 user-detail align-items-center d-flex" style="background: rgba(243,243,243,0.1);">
                                         <img src="` + resultSet[i].image + `" style="width: 150px; height: 150px;">
                                         <div class="caption-result">
                                             <p class="mb-0" style="font-size:1.6em; font-weight:600;">` + resultSet[i].username + `</p>
@@ -249,13 +259,15 @@ function loadData(rs,loadObj) {
                                             </a>
                                         </div>
                                     </div>
-                                    <div class="col-md-4 col-sm-6 m-0 py-0 px-4 align-items-center d-flex" style="background: rgba(170,190,215,0.3);">
-                                        <div class="col-md-12">
+                                    <div class="col-md-4 col-sm-6 col-xs-12 m-0 p-0 align-items-center d-flex agent-right" style="background: rgba(170,190,215,0.3);">
+                                        <div class="col-md-12 m-0 p-0">
                                             <p style="font-size:1em; font-weight:650;" class="mb-2" id="agent-info">Agent Details</p>
                                             <div class="contact-row pb-1 align-items-center d-flex">
                                                 <ion-icon name="mail-outline" style="font-size:1.4em!important;"></ion-icon>
-                                                <a href="mailto:` + resultSet[i].email + `"  style="color: black; font-size: 1em;">
-                                                ` + resultSet[i].email + `</a>
+                                                <li class="email-li">
+                                                    <a href="mailto:` + resultSet[i].email + `"  style="color: black; font-size: 1em;">
+                                                    ` + resultSet[i].email + `</a>
+                                                </li>
                                             </div>
                                             <div class="contact-row py-0 align-items-center d-flex">
                                                 <ion-icon name="call-outline" style="font-size:1.3em;"></ion-icon>
@@ -288,13 +300,15 @@ function loadData(rs,loadObj) {
                                 </a>
                             </div>
                         </div>
-                        <div class="col-md-4 col-sm-6 m-0 py-0 px-4 align-items-center d-flex" style="background: rgba(170,190,215,0.3);">
-                            <div class="col-md-12">
+                        <div class="col-md-4 col-sm-6 m-0 p-0 align-items-center d-flex agent-right" style="background: rgba(170,190,215,0.3);">
+                            <div class="col-md-12 m-0 p-0">
                                 <p style="font-size:1em; font-weight:650;" class="mb-2" id="agent-info">Agent Details</p>
                                 <div class="contact-row pb-1 align-items-center d-flex">
                                     <ion-icon name="mail-outline" style="font-size:1.4em!important;"></ion-icon>
-                                    <a href="mailto:` + resultSet[i].email + `" style="color: black; font-size: 1em;">
-                                    ` + resultSet[i].email + `</a>
+                                    <li class="email-li">
+                                        <a href="mailto:` + resultSet[i].email + `" style="color: black; font-size: 1em;">
+                                        ` + resultSet[i].email + `</a>
+                                    </li>
                                 </div>
                                 <div class="contact-row py-0 align-items-center d-flex">
                                     <ion-icon name="call-outline" style="font-size:1.3em;"></ion-icon>

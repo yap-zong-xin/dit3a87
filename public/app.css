@@ -2249,6 +2249,14 @@ input[type=range]::-ms-thumb {
   margin-top: -130px;
 }
 
+.agent-right {
+  padding: 30px !important;
+}
+
+.email-li {
+  list-style: none;
+}
+
 .blur-div {
   /* padding: 50px 0 50px 0;  */
   height: 100%;
@@ -3223,17 +3231,14 @@ footer {
     flex-direction: column;
   }
 
-  .contact-row p {
-    font-size: 12px;
+  .contact-row a {
+    font-size: 14px;
   }
 
   #agent-info {
     text-align: center;
   }
 
-  .contact-row i {
-    font-size: 12px;
-  }
 
 
 }
@@ -3258,8 +3263,13 @@ footer {
     font-size: 14px;
   }
 
-  .contact-row i {
-    font-size: 14px;
+
+  #agent-info {
+    text-align: center;
+  }
+
+  .contact-row {
+    flex-direction: column;
   }
 
   .user-detail {
@@ -3273,6 +3283,21 @@ footer {
 
   .caption-result {
     padding: 15px;
+  }
+
+}
+
+@media only screen and (max-width: 578px) {
+  .agent-right {
+    padding: 5px !important;
+  }
+
+  .contact-row {
+    font-size: 12px !important;
+  }
+
+  .email-li a {
+    -webkit-hyphens: manual !important;
   }
 
 }
