@@ -393,14 +393,37 @@ body {
 
 .search-container {
   background-color: #fff;
-  border-radius: 5px;
+  border-radius: 0 5px 5px 5px;
   padding: 15px;
+}
+
+.list-type {
+  background-color: #fff;
+  color: #000;
+  font-size: 16px;
+  padding: 10px 23px 10px 23px;
+  border-radius: 5px 5px 0 0;
+  font-weight: 600;
+}
+
+.list-type label {
+  background-color: #fff;
+}
+
+#listType-1,
+#listType-2{
+  display: none;
 }
 
 .search-row {
   display: flex;
   justify-content: space-between;
   margin: 5px 0;
+}
+
+.all-listing-card h2 {
+  font-size: 18px;
+  font-weight: 700;
 }
 
 .search-input {
@@ -569,7 +592,7 @@ body {
 }
 .list-right{ 
   margin: 0;
-  padding: 0;
+  padding: 10px;
   width: 100%;
 }
 
@@ -628,9 +651,8 @@ body {
 
 .listingHoverIndex {
   background-color: #fff;
-  border-radius: 10px;
-  padding-top: 20px;
-  padding-bottom: 20px;
+  /* border-radius: 10px; */
+  padding: 0 !important;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.08), 0 6px 20px 0 rgba(0, 0, 0, 0.08);
 }
 .listingHoverIndex:hover{
