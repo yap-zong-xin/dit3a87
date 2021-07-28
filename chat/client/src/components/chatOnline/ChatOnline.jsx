@@ -32,9 +32,9 @@ export default function ChatOnline({ currentId, conv }) {
     const getListing = async () => {
       try {
         const res = await axios("/listing/" + conv.offerListing);
-          setListing(res.data);
-          setOfferStatus(conv.offerStatus)
-          setOfferAmt1(conv.offerAmt)
+        setListing(res.data);
+        setOfferStatus(conv.offerStatus)
+        setOfferAmt1(conv.offerAmt)
       } catch (err) {
         setListing(null)
         setOfferStatus("")
@@ -49,7 +49,7 @@ export default function ChatOnline({ currentId, conv }) {
     //   setOfferStatus("")
     //   setOfferAmt1(null)
     // } else {
-      getListing();
+    getListing();
     // }
     getUser();
 
@@ -73,6 +73,7 @@ export default function ChatOnline({ currentId, conv }) {
         {(offerStatus === "pending") && <OfferAmount></OfferAmount>}
         {(offerStatus === "pending") && <AgentOfferStatus></AgentOfferStatus>}
         {(offerStatus === "accepted") && <Button color="danger" onClick={() => { rejectOffer() }}>Cancel</Button>}
+        {(offerStatus === "rejected") && <Button color="success" onClick={() => { acceptOffer() }}>Accept</Button>}
 
       </div>
     )
@@ -95,6 +96,7 @@ export default function ChatOnline({ currentId, conv }) {
     try {
       axios.post("/conversations/acceptOffer/" + conv._id)
       // refreshPage()
+      setOfferStatus("accepted")
     } catch (err) {
       console.log(err);
     }
@@ -103,7 +105,8 @@ export default function ChatOnline({ currentId, conv }) {
   function rejectOffer() {
     try {
       axios.post("/conversations/rejectOffer/" + conv._id)
-      refreshPage()
+      // refreshPage()
+      setOfferStatus("rejected")
     } catch (err) {
       console.log(err);
     }
@@ -122,11 +125,10 @@ export default function ChatOnline({ currentId, conv }) {
           {(offerStatus === "accepted") && <p className="text-success">Accepted</p>}
           {(offerStatus === "rejected") && <p className="text-danger">Rejected</p>}
           {(offerStatus !== undefined) && <OfferAmount></OfferAmount>}
-          {(offerStatus === "accepted") && <Button onClick={() => window.open("https://sap-dit3a87.herokuapp.com/user/" + user._id + "/reviews")}>Leave Review</Button>}
+          {(offerStatus === "accepted") && <Button onClick={() => window.open("https://sap-dit3a87.herokuapp.com/user/" + user._id + "/reviews/new")}>Leave Review</Button>}
         </div>
         {/* } */}
 
-        {(offerStatus !== "accepted") && <OfferBtn></OfferBtn>}
       </div>
     )
   }
@@ -140,6 +142,7 @@ export default function ChatOnline({ currentId, conv }) {
     try {
       axios.post("/conversations/offer/", conversation)
       setOfferAmt1(newOfferAmt)
+      // refreshPage()
     } catch (err) {
       console.log(err);
     }
@@ -157,29 +160,29 @@ export default function ChatOnline({ currentId, conv }) {
     }
   }
 
-  function OfferBtn() {
+  // function OfferBtn() {
 
-    return (
-      <div>
-        <div className="Offer">
-          <Form>
-            <div className="offerInput">
-              <InputGroup className="w-25">
-                <InputGroupAddon className="sign" addonType="prepend">$</InputGroupAddon>
-                <Input type="number" className="inputBox" name="offer" id="offerInput" placeholder="" value={newOfferAmt} onChange={(e) => setNewOfferAmt(e.target.value)} />
-                  {(offerStatus === undefined) && <Button className="offerButton" onClick={submitOffer}>Make Offer</Button>}
-                  {(offerStatus === "pending") && <Button className="offerButton" onClick={submitOffer}>Edit Offer</Button>}
-                  {(offerStatus === "accepted") && <Button className="offerButton" onClick={submitOffer}>Edit Offer</Button>}
-                  {(offerStatus === "rejected") && <Button onClick={submitOffer}>Make New Offer</Button>}
-              </InputGroup>
-            </div>
+  //   return (
+  //     <div>
+  //       <div className="Offer">
+  //         <Form>
+  //           <div className="offerInput">
+  //             <InputGroup className="w-25">
+  //               <InputGroupAddon className="sign" addonType="prepend">$</InputGroupAddon>
+  //               <Input type="number" className="w-25" name="offer" id="offerInput" placeholder="" value={newOfferAmt} onChange={(e) => setNewOfferAmt(e.target.value)} />
+  //               {(offerStatus === undefined) && <Button className="offerButton" onClick={submitOffer}>Make Offer</Button>}
+  //               {(offerStatus === "pending") && <Button className="offerButton" onClick={submitOffer}>Edit Offer</Button>}
+  //               {(offerStatus === "accepted") && <Button className="offerButton" onClick={submitOffer}>Edit Offer</Button>}
+  //               {(offerStatus === "rejected") && <Button onClick={submitOffer}>Make New Offer</Button>}
+  //             </InputGroup>
+  //           </div>
 
-          </Form>
-        </div>
+  //         </Form>
+  //       </div>
 
-      </div>
-    );
-  }
+  //     </div>
+  //   );
+  // }
 
 
 
@@ -208,13 +211,28 @@ export default function ChatOnline({ currentId, conv }) {
                     alt=""
                     onClick={() => window.open("https://sap-dit3a87.herokuapp.com/user/" + user._id)}
                   />
-                  <h1 class="display-6">{user.firstName} {user.lastName}</h1>
+                  <h1 className="display-6">{user.firstName} {user.lastName}</h1>
                   {(user.cea) && <p>Agent</p>}
                 </div>
 
                 <div className="offerInfo">
                   {(listing && !user.cea) && <AgentOfferInfo></AgentOfferInfo>}
                   {(listing && user.cea) && <ListingInfo></ListingInfo>}
+                  {(listing && user.cea && offerStatus !== "accepted") && 
+                    <div className="Offer">
+                      <Form>
+                        <div className="offerInput">
+                          <InputGroup className="w-25">
+                            <InputGroupAddon className="sign" addonType="prepend">$</InputGroupAddon>
+                            <Input type="number" className="w-25" name="offer" id="offerInput" placeholder="" value={newOfferAmt} onChange={(e) => setNewOfferAmt(e.target.value)} />
+                            {(offerStatus === undefined) && <Button className="offerButton" onClick={submitOffer}>Make Offer</Button>}
+                            {(offerStatus === "pending") && <Button className="offerButton" onClick={submitOffer}>Edit Offer</Button>}
+                            {(offerStatus === "accepted") && <Button className="offerButton" onClick={submitOffer}>Edit Offer</Button>}
+                            {(offerStatus === "rejected") && <Button onClick={submitOffer}>Make New Offer</Button>}
+                          </InputGroup>
+                        </div>
+                      </Form>
+                    </div>}
                 </div>
               </Container>
             </Jumbotron>

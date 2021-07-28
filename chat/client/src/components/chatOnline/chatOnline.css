@@ -54,15 +54,15 @@
 }
 
 
-.offerButton {
+/* .offerButton {
 margin-left: 10px
-}
+} */
 
 .sign {
   float:left;
 }
 .inputBox {
-  float:right;
+  width: 25%;
 }
 .offerInput {
   margin-top: 10px;
