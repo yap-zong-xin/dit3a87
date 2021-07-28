@@ -30,11 +30,11 @@
     <div class="col-md-12 m-0 p-0">
         <form action="/listings" method="GET" class="form-inline" style="font-family: 'Poppins', sans-serif;">
             <div class="row top-search m-0">
-                    <div class="list-type" style="margin-right: 5px;">
-                        <input type="radio" id="listType-1" name="listType" value="residential">
+                    <div class="list-type activeList" id="listRes" style="margin-right: 5px;">
+                        <input type="radio" id="listType-1" name="listType" value="residential" checked>
                         <label for="listType-1">Residential</label>
                     </div>
-                    <div class="list-type" style="margin-left: 5px;">
+                    <div class="list-type" id="listCom" style="margin-left: 5px;">
                         <input type="radio" id="listType-2" name="listType" value="commercial">
                         <label for="listType-2">Commercial</label>
                     </div>
@@ -210,9 +210,22 @@
     loadFeatured(resultSet);
 </script>
 <script>
-    function reDirectRecent() {
-        window.location='/listings?searchindex=&propertyType=allType&numofRooms=allrooms&sortBy=Recent&minPrice=&maxPrice=&minSize=&maxSize=&searchindexBtn=searchindexBtn'
+
+    
+$('input[name=listType]').on('change', function() {
+    var resi = document.getElementById("listRes");
+    var comm = document.getElementById("listCom");
+
+    if(document.getElementById('listType-1').checked) {
+        comm.classList.remove("activeList")
+        resi.classList.add("activeList")
+        
+    }else if(document.getElementById('listType-2').checked) {
+        resi.classList.remove("activeList");
+        comm.classList.add("activeList")
     }
+});
+
 </script>
 <script>
     $(".hide-row" ).hide();

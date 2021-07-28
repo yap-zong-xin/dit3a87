@@ -398,15 +398,26 @@ body {
 }
 
 .list-type {
-  background-color: #fff;
   color: #000;
   font-size: 16px;
-  padding: 10px 23px 10px 23px;
+  cursor: pointer;
   border-radius: 5px 5px 0 0;
-  font-weight: 600;
+  transition: 0.3s;
+}
+
+.list-type input {
+  background-color: #fff;
 }
 
 .list-type label {
+  background-color: rgb(235, 235, 235);
+  padding: 10px 23px 10px 23px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.activeList label {
   background-color: #fff;
 }
 
