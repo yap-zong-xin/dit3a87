@@ -584,8 +584,52 @@ router.put("/agentStatus/:id", function(req, res){
 		if(err){
 			res.redirect("/listings");
 		} else{
-			req.flash("success", "You have succesfully updated the agent status.")
-			res.redirect("/user/" + req.params.id);
+			//Handling
+			var successMsg = "";
+			var choiceAgent = JSON.parse(req.body.user.agentStatus)
+			var agentOption = "";
+			if(choiceAgent == true) {
+				successMsg = " has been approved."
+				agentOption = " APPROVED"
+			}else {
+				successMsg = " has been disapproved."
+				agentOption = " DISAPPROVED"
+			}
+			//Email
+			async function sendMail() {
+				try {
+					const accessToken = await oAuth2Client.getAccessToken()
+
+					const transport = nodemailer.createTransport({
+						service: 'gmail',
+						auth: {
+							type: 'OAuth2',
+							user: 'jptestingsku@gmail.com',
+							clientId: CLIENT_ID,
+							clientSecret: CLIENT_SECRET,
+							refreshToken: REFRESH_TOKEN,
+							accessToken: accessToken
+						}
+					});
+
+					const mailOptions = {
+						from: '3D Property Website <jptestingsku@gmail.com>',
+						to: updatedUser.email,
+						subject: 'Agent Account Approval',
+						html : "Hello <strong>" + updatedUser.username + "</strong>,<br><br>Your Account is now "+agentOption+" as a agent.<br><br>"
+					};
+
+					const result = await transport.sendMail(mailOptions);
+					return result; 
+				}catch (error) {
+					return error;
+				}
+			}
+			sendMail()
+			.then(result => console.log('Suspension Email Sent...', result))
+			.then(req.flash("success", 'Email sent. '+updatedUser.username+successMsg))
+			.then(res.redirect("/user/" + req.params.id))
+			.catch(error => console.log(error.message))
 		}
 	});
 });
@@ -596,8 +640,52 @@ router.put("/dashboardAgent/agents/:id", function(req, res){
 		if(err){
 			res.redirect("/listings");
 		} else{
-			req.flash("success", "You have succesfully updated the agent status.")
-			res.redirect("/dashboard/accounts/agent");
+			//Handling
+			var successMsg = "";
+			var choiceAgent = JSON.parse(req.body.user.agentStatus)
+			var agentOption = "";
+			if(choiceAgent == true) {
+				successMsg = " has been approved."
+				agentOption = " APPROVED"
+			}else {
+				successMsg = " has been disapproved."
+				agentOption = " DISAPPROVED"
+			}
+			//Email
+			async function sendMail() {
+				try {
+					const accessToken = await oAuth2Client.getAccessToken()
+
+					const transport = nodemailer.createTransport({
+						service: 'gmail',
+						auth: {
+							type: 'OAuth2',
+							user: 'jptestingsku@gmail.com',
+							clientId: CLIENT_ID,
+							clientSecret: CLIENT_SECRET,
+							refreshToken: REFRESH_TOKEN,
+							accessToken: accessToken
+						}
+					});
+
+					const mailOptions = {
+						from: '3D Property Website <jptestingsku@gmail.com>',
+						to: updatedUser.email,
+						subject: 'Agent Account Approval',
+						html : "Hello <strong>" + updatedUser.username + "</strong>,<br><br>Your Account is now "+agentOption+" as a agent.<br><br>"
+					};
+
+					const result = await transport.sendMail(mailOptions);
+					return result; 
+				}catch (error) {
+					return error;
+				}
+			}
+			sendMail()
+			.then(result => console.log('Suspension Email Sent...', result))
+			.then(req.flash("success", 'Email sent. '+updatedUser.username+successMsg))
+			.then(res.redirect("/dashboard/accounts/agent"))
+			.catch(error => console.log(error.message))
 		}
 	});
 });
