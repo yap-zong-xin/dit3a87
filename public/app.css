@@ -487,6 +487,11 @@ body {
   font-size: 1em;
 }
 
+.left span {
+  font-size: 12px;
+  margin-right: 5px;
+}
+
 #showHideBtn {
   background-color: transparent;
   border: none;
@@ -2320,6 +2325,10 @@ input[type=range]::-ms-thumb {
   padding: 2px;
 }
 
+.contact-row a {
+  padding-left: 4px;
+}
+
 #resultDiv {
   transition: .2s;
 }
@@ -3218,9 +3227,15 @@ footer {
     font-size: 12px;
   }
 
+  #agent-info {
+    text-align: center;
+  }
+
   .contact-row i {
     font-size: 12px;
   }
+
+
 }
 
 .hide-nav {
@@ -3276,6 +3291,15 @@ footer {
   .user-result-contact {
     text-align: center;
   }
+  
+  #agent-info {
+    text-align: center;
+    margin-top: 10px;
+  }
+
+  .user-result {
+    flex-direction: column;
+  }
 }
 
 @media only screen and (max-width: 471px) {
@@ -3300,9 +3324,9 @@ footer {
     font-size: 12px;
   }
 
-  .user-detail span {
+  /* .user-detail span {
     font-size: 10px;
-  }
+  } */
 
 }
 
@@ -3310,6 +3334,10 @@ footer {
   .user-result img {
     width: 100px;
     height: 100px;
+  }
+
+  .left span {
+    font-size: 12px;
   }
 }
 
