@@ -89,10 +89,16 @@
                   <span class="placeholder">Username</span>
                 </label>
               </div>
-              <div class="col-12">
+              <div class="col-12" style="display: none;">
                 <label class="custom-field one">
                   <input type="email" name="user[email]" value="<%= user.email %>" placeholder=" " required />
                   <span class="placeholder">Email</span>
+                </label>
+              </div>
+              <div class="col-12">
+                <label class="custom-field one">
+                  <input type="text" name="user[gender]" value="<%= user.gender %>" placeholder=" " required />
+                  <span class="placeholder">Gender</span>
                 </label>
               </div>
               <div class="col-12">
@@ -101,8 +107,8 @@
                   <span class="placeholder">Contact Number</span>
                 </label>
               </div>
-              <% if(currentUser && currentUser.isAdmin){ %>
-                <div class="col-12">
+              <% if(user.isAgent){ %>
+                <div class="col-12" style="display: none;">
                   <label class="custom-field one">
                     <input type="text" name="user[cea]" value="<%= user.cea %>" placeholder=" " required />
                     <span class="placeholder">CEA Number</span>

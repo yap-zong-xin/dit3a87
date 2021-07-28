@@ -1,23 +1,20 @@
 const router = require("express").Router();
 const Conversation = require("../models/conversation");
 const listing = require("../models/listing");
+var middleware = require('../middleware');
 
-
-router.post("/conversation/:senderId/:receiverId", async (req, res) => {
+router.post("/conversation/:senderId/:receiverId", middleware.isLoggedIn, async (req, res) => {
   const senderId = req.params.senderId
   const receiverId = req.params.receiverId
   console.log(senderId)
 
-
   const convExists = await Conversation.find({ members: [senderId, receiverId] })
   const convExists1 = await Conversation.find({ members: [receiverId, senderId] })
-
 
   if (convExists.length !== 0 || convExists1.length !== 0) {
     res.redirect("https://sap-dit3a87.herokuapp.com/chat/messenger/" + senderId);
   } else {
     try {
-
       const newConversation = new Conversation({
         members: [senderId, receiverId],
       });
@@ -27,22 +24,16 @@ router.post("/conversation/:senderId/:receiverId", async (req, res) => {
       res.status(500).json(err);
     }
   }
-
-
-
 });
 
 //new conv w listing
-
-router.post("/conversation/:senderId/:receiverId/:listingId", async (req, res) => {
+router.post("/conversation/:senderId/:receiverId/:listingId", middleware.isLoggedIn, async (req, res) => {
   const senderId = req.params.senderId
   const receiverId = req.params.receiverId
   const listingId = req.params.listingId
 
-
   const convExists = await Conversation.find({ members: [senderId, receiverId] })
   const convExists1 = await Conversation.find({ members: [receiverId, senderId] })
-
 
   if (convExists.length !== 0 || convExists1.length !== 0) {
     Conversation.findOneAndUpdate({ members: [senderId, receiverId] } || { members: [receiverId, senderId] }, { $set: { offerListing: listingId } }, function (err, updatedConv) {
@@ -50,7 +41,6 @@ router.post("/conversation/:senderId/:receiverId/:listingId", async (req, res) =
         console.log(err)
       }
     })
-
     res.redirect("https://sap-dit3a87.herokuapp.com/chat/messenger/" + senderId);
   } else {
     try {
@@ -64,14 +54,10 @@ router.post("/conversation/:senderId/:receiverId/:listingId", async (req, res) =
       res.status(500).json(err);
     }
   }
-
-
-
 });
 
 //get conv of a user
-
-router.get("/conversations/:userId", async (req, res) => {
+router.get("/conversations/:userId", middleware.isLoggedIn, async (req, res) => {
   try {
     const conversation = await Conversation.find({
       members: { $in: [req.params.userId] },
@@ -83,8 +69,7 @@ router.get("/conversations/:userId", async (req, res) => {
 });
 
 // get conv includes two userId
-
-router.get("/conversations/find/:firstUserId/:secondUserId", async (req, res) => {
+router.get("/conversations/find/:firstUserId/:secondUserId", middleware.isLoggedIn, async (req, res) => {
   try {
     const conversation = await Conversation.findOne({
       members: { $all: [req.params.firstUserId, req.params.secondUserId] },
@@ -95,7 +80,7 @@ router.get("/conversations/find/:firstUserId/:secondUserId", async (req, res) =>
   }
 });
 
-router.get("/conversations/findById/:id", async (req, res) => {
+router.get("/conversations/findById/:id", middleware.isLoggedIn, async (req, res) => {
   const convId = req.params.id
   try {
     const conv = await Conversation.findById(convId)
@@ -105,7 +90,7 @@ router.get("/conversations/findById/:id", async (req, res) => {
   }
 })
 
-router.post("/conversations/offer", async (req, res) => {
+router.post("/conversations/offer", middleware.isLoggedIn, async (req, res) => {
   const convId = req.body.id
   const offerAmt = req.body.offerAmt
   const offerStatus = req.body.offerStatus
@@ -122,7 +107,7 @@ router.post("/conversations/offer", async (req, res) => {
 
 })
 
-router.post("/conversations/acceptOffer/:id", async (req, res) => {
+router.post("/conversations/acceptOffer/:id", middleware.isLoggedIn, async (req, res) => {
   const convId = req.params.id
   Conversation.findByIdAndUpdate(convId, { $set: { offerStatus: "accepted" } }, function (err, doc) {
     if (err) {
@@ -134,11 +119,9 @@ router.post("/conversations/acceptOffer/:id", async (req, res) => {
       }
     }
   })
-
-
 })
 
-router.post("/conversations/rejectOffer/:id", async (req, res) => {
+router.post("/conversations/rejectOffer/:id", middleware.isLoggedIn, async (req, res) => {
   const convId = req.params.id
   Conversation.findByIdAndUpdate(convId, { $set: { offerStatus: "rejected" } }, function (err, doc) {
     if (err) {
@@ -150,8 +133,6 @@ router.post("/conversations/rejectOffer/:id", async (req, res) => {
       }
     }
   })
-
-
 })
 
 module.exports = router;

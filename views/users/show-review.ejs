@@ -144,14 +144,17 @@
                 <img src="/img/follow.svg" style="width:21px;" alt=""> Follow
               </button>
             </form>
+            <a class="ml-2 btn btn-outline-dark emailBtn" href="mailto:<%= user.email %>">
+              <img src="/img/email.svg" style="width:19px;" alt=""> Email
+            </a>
           <% } else { %>
             <% if(user._id.equals(currentUser._id)){ %>
-              <a class="btn btn-outline-dark profileOverviewBtn" href="/user/<%= user._id %>/edit">
-                <ion-icon name="create-outline"></ion-icon>
+              <a class="btn btn-outline-dark profileOverviewBtn align-items-center d-flex" href="/user/<%= user._id %>/edit">
+                <ion-icon name="create-outline" style="font-size: 1.3em;" class="pr-1"></ion-icon>Edit Profile
               </a>
               <% if(currentUser && user._id.equals(currentUser._id) || currentUser && user.isAdmin){ %>
-                <a href="/listings/new" class="ml-2 btn btn-outline-dark profileOverviewBtn" style="text-decoration: none;">
-                  <ion-icon name="add-outline"></ion-icon>
+                <a href="/listings/new" class="ml-2 btn btn-outline-dark profileOverviewBtn align-items-center d-flex" style="text-decoration: none;">
+                  <ion-icon name="add-circle-outline" style="font-size: 1.3em;" class="pr-1"></ion-icon>Add Listing
                 </a>
               <% } %>
             <% } else { %>
@@ -222,7 +225,7 @@
   <!-- overview -->
   <div class="container overview text-center mt-4 pb-3 d-none d-sm-block">
     <div class="row">
-      <% if(currentUser && user._id.equals(currentUser._id)){ %>
+      <% if(currentUser && user._id.equals(currentUser._id) && currentUser.isAdmin || currentUser && user._id.equals(currentUser._id) && currentUser.isAgent){ %>
         <div class="col-6 col-sm-3 first my-2 justify-content-center d-flex align-items-center">
           <a href="/user/<%= user._id %>" class="p-0">
             <span>
@@ -263,6 +266,33 @@
           </a>
         </div>
         <div class="col-6 col-sm-3 forth my-2 justify-content-center d-flex align-items-center">
+          <a href="" class="p-0" data-toggle="modal" data-target="#followerTarget">
+            <span>
+              <%= allFollowers.length %>
+              <br class="d-lg-none">
+              <% if(allFollowers.length<2){ %>
+                Follower
+                <% } else { %>
+                  Followers
+                  <% } %>
+            </span>
+          </a>
+        </div>
+      <% } else if (currentUser && user._id.equals(currentUser._id) && !currentUser.isAdmin && !currentUser.isAgent){ %>
+        <div class="col-6 my-2 justify-content-center d-flex align-items-center">
+          <a href="" class="p-0" data-toggle="modal" data-target="#notificationTarget">
+            <span>
+              <%= allNotifications.length %>
+              <br class="d-lg-none">
+              <% if(allNotifications.length<2){ %>
+                Notification
+                <% } else { %>
+                  Notifications
+                  <% } %>
+            </span>
+          </a>
+        </div>
+        <div class="col-6 forth my-2 justify-content-center d-flex align-items-center">
           <a href="" class="p-0" data-toggle="modal" data-target="#followerTarget">
             <span>
               <%= allFollowers.length %>
@@ -319,6 +349,59 @@
     </div>
   </div>
 
+  <div class="align-items-center justify-content-center d-flex d-sm-none mt-3">
+    <% if(!currentUser){ %>
+      <form action="/followSingle/<%= user.id %>" method="POST">
+        <button class="btn btn-outline-dark followBtn">
+          <img src="/img/follow.svg" style="width:21px;" alt=""> Follow
+        </button>
+      </form>
+      <a class="ml-2 btn btn-outline-dark emailBtn" href="mailto:<%= user.email %>">
+        <img src="/img/email.svg" style="width:19px;" alt=""> Email
+      </a>
+    <% } else { %>
+      <% if(user._id.equals(currentUser._id)){ %>
+        <a class="btn btn-outline-dark profileOverviewBtn align-items-center d-flex" href="/user/<%= user._id %>/edit">
+          <ion-icon name="create-outline" style="font-size: 1.3em;" class="pr-1"></ion-icon>Edit Profile
+        </a>
+        <% if(currentUser && user._id.equals(currentUser._id) || currentUser && user.isAdmin){ %>
+          <a href="/listings/new" class="ml-2 btn btn-outline-dark profileOverviewBtn align-items-center d-flex" style="text-decoration: none;">
+            <ion-icon name="add-circle-outline" style="font-size: 1.3em;" class="pr-1"></ion-icon>Add Listing
+          </a>
+        <% } %>
+      <% } else { %>
+        <% var currentFollow = false; for(let i=0; i<user.followers.length; i++) { if(user.followers[i]._id.equals(currentUser._id)) { currentFollow = true; } } %>
+        <% if(currentFollow == false) { %>
+          <div class="left">
+            <form action="/followSingle/<%= user.id %>" method="POST">
+              <button class="btn btn-outline-dark followBtn">
+                <img src="/img/follow.svg" style="width:21px;" alt=""> Follow
+              </button>
+            </form>
+          </div>
+        <% } else { %>
+          <div class="left">
+            <form action="/followSingle/<%= user.id %>" method="POST">
+              <button class="btn btn-outline-dark followBtn">
+                <img src="/img/unfollow.svg" style="width:21px;" alt=""> Unfollow
+              </button>
+            </form>
+          </div>
+        <% } %>
+        <div class="left right">
+          <form action="/conversation/<%= currentUser._id %>/<%= user.id %>"
+            method="POST">
+            <button type="submit" class="btn btn-outline-dark chatBtn align-items-center d-flex">
+              <ion-icon name="chatbox-outline" style="font-size: 1.3em;" class="pr-1"></ion-icon>Chat
+            </button>
+          </form>
+        </div>
+        <a class="mr-2 btn btn-outline-dark emailBtn" href="mailto:<%= user.email %>">
+          <img src="/img/email.svg" style="width:19px;" alt=""> Email
+        </a>
+      <% } %>
+    <% } %>
+  </div>
   <p class="justify-content-center d-flex d-sm-none mt-2">
     <a class="btn" style="font-size: 0.95em; font-weight: 600; background: white; color: #003580;" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
       Overview ▾
@@ -328,34 +411,8 @@
     <div class="card card-body">
       <div class="container overview text-center">
         <div class="row">
-          <% if(currentUser && user._id.equals(currentUser._id)){ %>
-            <div class="col-6 col-sm-3 p-3 justify-content-center d-flex align-items-center" style="background: rgb(238, 238, 238); border-bottom: white 5px solid; border-right: white 5px solid;">
-              <a href="/user/<%= user._id %>" class="p-0">
-                <span>
-                  <%= listings.length %>
-                  <br class="d-lg-none">
-                    <% if(listings.length<2){ %>
-                      Listing
-                      <% } else { %>
-                        Listings
-                        <% } %>
-                </span>
-              </a>
-            </div>
-            <div class="col-6 col-sm-3 p-3 justify-content-center d-flex align-items-center" style="background: rgb(238, 238, 238); border-bottom: white 5px solid;">
-              <a href="/user/<%= user._id %>/reviews" class="p-0">
-                <span>
-                  <%= user.reviews.length %>
-                  <br class="d-lg-none">
-                    <% if(user.reviews.length<2){ %>
-                      Review
-                      <% } else { %>
-                        Reviews
-                        <% } %>
-                </span>
-              </a>
-            </div>
-            <div class="col-6 col-sm-3 p-3 justify-content-center d-flex align-items-center" style="background: rgb(238, 238, 238); border-right: white 5px solid;">
+          <% if (currentUser && user._id.equals(currentUser._id) && !currentUser.isAdmin && !currentUser.isAgent){ %>
+            <div class="col-6 p-3 justify-content-center d-flex align-items-center" style="background: rgb(238, 238, 238); border-right: white 5px solid;">
               <a href="" class="p-0" data-toggle="modal" data-target="#notificationTarget">
                 <span>
                   <%= allNotifications.length %>
@@ -368,7 +425,7 @@
                 </span>
               </a>
             </div>
-            <div class="col-6 col-sm-3 p-3 justify-content-center d-flex align-items-center" style="background: rgb(238, 238, 238);">
+            <div class="col-6 p-3 justify-content-center d-flex align-items-center" style="background: rgb(238, 238, 238);">
               <a href="" class="p-0" data-toggle="modal" data-target="#followerTarget">
                 <span>
                   <%= allFollowers.length %>
@@ -381,10 +438,63 @@
                 </span>
               </a>
             </div>
+          <% } else if(currentUser && user._id.equals(currentUser._id)){ %>
+            <div class="col-6 col-sm-3 p-3 justify-content-center d-flex align-items-center" style="background: rgb(238, 238, 238); border-bottom: white 5px solid; border-right: white 5px solid;">
+              <a href="/user/<%= user._id %>" class="p-0">
+                <span class="p-0">
+                  <%= listings.length %>
+                  <br class="d-lg-none">
+                    <% if(listings.length<2){ %>
+                      Listing
+                      <% } else { %>
+                        Listings
+                        <% } %>
+                </span>
+              </a>
+            </div>
+            <div class="col-6 col-sm-3 p-3 justify-content-center d-flex align-items-center" style="background: rgb(238, 238, 238); border-bottom: white 5px solid;">
+              <a href="/user/<%= user._id %>/reviews" class="p-0">
+                <span class="p-0">
+                  <%= user.reviews.length %>
+                  <br class="d-lg-none">
+                    <% if(user.reviews.length<2){ %>
+                      Review
+                      <% } else { %>
+                        Reviews
+                        <% } %>
+                </span>
+              </a>
+            </div>
+            <div class="col-6 col-sm-3 p-3 justify-content-center d-flex align-items-center" style="background: rgb(238, 238, 238); border-right: white 5px solid;">
+              <a href="" class="p-0" data-toggle="modal" data-target="#notificationTarget">
+                <span class="p-0">
+                  <%= allNotifications.length %>
+                  <br class="d-lg-none">
+                  <% if(allNotifications.length<2){ %>
+                    Notification
+                    <% } else { %>
+                      Notifications
+                      <% } %>
+                </span>
+              </a>
+            </div>
+            <div class="col-6 col-sm-3 p-3 justify-content-center d-flex align-items-center" style="background: rgb(238, 238, 238);">
+              <a href="" class="p-0" data-toggle="modal" data-target="#followerTarget">
+                <span class="p-0">
+                  <%= allFollowers.length %>
+                  <br class="d-lg-none">
+                  <% if(allFollowers.length<2){ %>
+                    Follower
+                    <% } else { %>
+                      Followers
+                      <% } %>
+                </span>
+              </a>
+            </div>
           <% } else { %>
-            <div class="col-4 my-2 justify-content-center d-flex align-items-center">
+            <div class="col-4 my-2 justify-content-center d-flex align-items-center" style="background: rgb(238, 238, 238); border-right: white 5px solid;">
               <a href="/user/<%= user._id %>">
-                <span>
+                <span class="p-0">
                   <%= listings.length %>
                   <br class="d-lg-none">
                   <% if(listings.length<2){ %>
@@ -395,9 +505,9 @@
                 </span>
               </a>
             </div>
-            <div class="col-4 my-2 justify-content-center d-flex align-items-center">
+            <div class="col-4 my-2 justify-content-center d-flex align-items-center" style="background: rgb(238, 238, 238); border-right: white 5px solid;">
               <a href="/user/<%= user._id %>/reviews">
-                <span>
+                <span class="p-0">
                   <%= user.reviews.length %>
                   <br class="d-lg-none">
                   <% if(user.reviews.length<2){ %>
@@ -408,9 +518,9 @@
                 </span>
               </a>
             </div>
-            <div class="col-4 my-2 justify-content-center d-flex align-items-center">
+            <div class="col-4 my-2 justify-content-center d-flex align-items-center" style="background: rgb(238, 238, 238);">
               <a href="" data-toggle="modal" data-target="#followerTarget">
-                <span>
+                <span class="p-0">
                   <%= allFollowers.length %>
                   <br class="d-lg-none">
                   <% if(allFollowers.length<2){ %>

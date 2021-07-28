@@ -718,7 +718,7 @@ function escapeRegex(text) {
 // 		}
 // });
 
-router.post("/listings", middleware.isLoggedIn, uploadMultiple, async function(req,res){
+router.post("/listings", middleware.isAdminAgent, uploadMultiple, async function(req,res){
 	// uploadMultiple(req, res, function (err) {
 	// 	if (err instanceof multer.MulterError) {
 	// 	  // A Multer error occurred when uploading.
@@ -887,8 +887,7 @@ router.post("/listings", middleware.isLoggedIn, uploadMultiple, async function(r
 });
 
 //New Route
-router.get("/listings/new", middleware.isLoggedIn, function(req,res){
-
+router.get("/listings/new", middleware.isAdminAgent, function(req,res){
 	res.render("listings/new.ejs");
 });
 
@@ -1201,7 +1200,7 @@ router.put("/listings/:id", middleware.checklistingOwnership, uploadMultiple, fu
 });
 
 //Delete Route
-router.delete("/listings/:id", function(req, res){
+router.delete("/listings/:id", middleware.checklistingOwnership, function(req, res){
 	listing.findByIdAndRemove(req.params.id, function(err){
 		if(err){
 			res.redirect("/listings");
@@ -1212,7 +1211,7 @@ router.delete("/listings/:id", function(req, res){
 	});
 });
 //Delete Route at Dashboard
-router.delete("/listings/:id/dashboard", function(req, res){
+router.delete("/listings/:id/dashboard", middleware.checklistingOwnership, function(req, res){
 	listing.findByIdAndRemove(req.params.id, function(err){
 		if(err){
 			res.redirect("/listings");

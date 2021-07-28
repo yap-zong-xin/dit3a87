@@ -8,7 +8,7 @@
       <div>
         <div class="left pb-3">
           <!-- suspend account-->
-          <% if(currentUser && !user.isAdmin==true){ %>
+          <% if(user.isAgent && currentUser && currentUser.isAdmin || !user.isAdmin && !user.isAgent && currentUser && currentUser.isAdmin){ %>
             <form action="/suspend/<%= user.id %>?_method=PUT" method="POST" class="text-center" style="position:relative; top: 10px;">
               <% if(user.suspend==false){ %>
                 <button type="submit" name="user[suspend]" value="true" class="btn approveBtn"
@@ -144,6 +144,9 @@
                 <img src="/img/follow.svg" style="width:21px;" alt=""> Follow
               </button>
             </form>
+            <a class="ml-2 btn btn-outline-dark emailBtn" href="mailto:<%= user.email %>">
+              <img src="/img/email.svg" style="width:19px;" alt=""> Email
+            </a>
           <% } else { %>
             <% if(user._id.equals(currentUser._id)){ %>
               <a class="btn btn-outline-dark profileOverviewBtn align-items-center d-flex" href="/user/<%= user._id %>/edit">
@@ -353,6 +356,9 @@
           <img src="/img/follow.svg" style="width:21px;" alt=""> Follow
         </button>
       </form>
+      <a class="ml-2 btn btn-outline-dark emailBtn" href="mailto:<%= user.email %>">
+        <img src="/img/email.svg" style="width:19px;" alt=""> Email
+      </a>
     <% } else { %>
       <% if(user._id.equals(currentUser._id)){ %>
         <a class="btn btn-outline-dark profileOverviewBtn align-items-center d-flex" href="/user/<%= user._id %>/edit">
@@ -406,7 +412,7 @@
       <div class="container overview text-center">
         <div class="row">
           <% if (currentUser && user._id.equals(currentUser._id) && !currentUser.isAdmin && !currentUser.isAgent){ %>
-            <div class="col-6 my-2 justify-content-center d-flex align-items-center" style="background: rgb(238, 238, 238); border-right: white 5px solid;">
+            <div class="col-6 p-3 justify-content-center d-flex align-items-center" style="background: rgb(238, 238, 238); border-right: white 5px solid;">
               <a href="" class="p-0" data-toggle="modal" data-target="#notificationTarget">
                 <span>
                   <%= allNotifications.length %>
@@ -419,7 +425,7 @@
                 </span>
               </a>
             </div>
-            <div class="col-6 my-2 justify-content-center d-flex align-items-center" style="background: rgb(238, 238, 238);">
+            <div class="col-6 p-3 justify-content-center d-flex align-items-center" style="background: rgb(238, 238, 238);">
               <a href="" class="p-0" data-toggle="modal" data-target="#followerTarget">
                 <span>
                   <%= allFollowers.length %>
@@ -486,7 +492,7 @@
               </a>
             </div>
           <% } else { %>
-            <div class="col-4 my-2 justify-content-center d-flex align-items-center">
+            <div class="col-4 my-2 justify-content-center d-flex align-items-center" style="background: rgb(238, 238, 238); border-right: white 5px solid;">
               <a href="/user/<%= user._id %>">
                 <span class="p-0">
                   <%= listings.length %>
@@ -499,7 +505,7 @@
                 </span>
               </a>
             </div>
-            <div class="col-4 my-2 justify-content-center d-flex align-items-center">
+            <div class="col-4 my-2 justify-content-center d-flex align-items-center" style="background: rgb(238, 238, 238); border-right: white 5px solid;">
               <a href="/user/<%= user._id %>/reviews">
                 <span class="p-0">
                   <%= user.reviews.length %>
@@ -512,7 +518,7 @@
                 </span>
               </a>
             </div>
-            <div class="col-4 my-2 justify-content-center d-flex align-items-center">
+            <div class="col-4 my-2 justify-content-center d-flex align-items-center" style="background: rgb(238, 238, 238);">
               <a href="" data-toggle="modal" data-target="#followerTarget">
                 <span class="p-0">
                   <%= allFollowers.length %>

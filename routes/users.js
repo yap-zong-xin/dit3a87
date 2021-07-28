@@ -60,7 +60,7 @@ function escapeRegex(text) {
 
 //Dashboard
 //Get Route - Overview Dashboard
-router.get("/dashboard", function(req,res){
+router.get("/dashboard", middleware.isAdmin, function(req,res){
 	User.find({}, function(err, allUsers){
 		if(err){
 			console.log(err);
@@ -89,7 +89,7 @@ router.get("/dashboard", function(req,res){
 });
 
 //Get Route - Manage Accounts Dashboard
-router.get("/dashboard/accounts", function(req, res){
+router.get("/dashboard/accounts", middleware.isAdmin, function(req, res){
 	var perPage = 8;
 	var pageQuery = parseInt(req.query.page);
 	var pageNumber = pageQuery ? pageQuery : 1;
@@ -578,7 +578,7 @@ router.get("/dashboard/accounts", function(req, res){
 });
 
 //Put Route - Manage Agent Application at Profile Page
-router.put("/agentStatus/:id", function(req, res){
+router.put("/agentStatus/:id", middleware.isAdmin, function(req, res){
 //can straight away use req.body.listing without having to define due to "listing[]" in the form name attributes
 	User.findByIdAndUpdate(req.params.id, req.body.user, function(err, updatedUser){
 		if(err){
@@ -634,7 +634,7 @@ router.put("/agentStatus/:id", function(req, res){
 	});
 });
 //Put Route - Manage Agent Application at Dashboard Agent Page
-router.put("/dashboardAgent/agents/:id", function(req, res){
+router.put("/dashboardAgent/agents/:id", middleware.isAdmin, function(req, res){
 //can straight away use req.body.listing without having to define due to "listing[]" in the form name attributes
 	User.findByIdAndUpdate(req.params.id, req.body.user, function(err, updatedUser){
 		if(err){
@@ -691,7 +691,7 @@ router.put("/dashboardAgent/agents/:id", function(req, res){
 });
 
 //Get Route - Manage Comment Dashboard
-router.get("/dashboard/comments", function(req, res){
+router.get("/dashboard/comments", middleware.isAdmin, function(req, res){
 	var perPage = 8;
 	var pageQuery = parseInt(req.query.page);
 	var pageNumber = pageQuery ? pageQuery : 1;
@@ -738,7 +738,7 @@ router.get("/dashboard/comments", function(req, res){
 });
 
 //Get Route - Manage Review Dashboard
-router.get("/dashboard/reviews", function(req, res){
+router.get("/dashboard/reviews", middleware.isAdmin, function(req, res){
 	var perPage = 8;
 	var pageQuery = parseInt(req.query.page);
 	var pageNumber = pageQuery ? pageQuery : 1;
@@ -865,7 +865,7 @@ router.get("/dashboard/reviews", function(req, res){
 // 	});
 // });
 
-router.get("/dashboard/listings", function(req,res){
+router.get("/dashboard/listings", middleware.isAdmin, function(req,res){
 	var perPage = 8;
 	var pageQuery = parseInt(req.query.page);
 	var pageNumber = pageQuery ? pageQuery : 1;
@@ -1307,7 +1307,7 @@ router.put("/user/:id/image", middleware.checkUserOwnership, upload.single("imag
 });
 
 //Destroy Route
-router.delete("/user/:id", function(req, res){
+router.delete("/user/:id", middleware.checkUserOwnership, function(req, res){
 	User.findByIdAndRemove(req.params.id, function(err, dltUser){
 		if(err){
 			res.redirect("/user");
@@ -1354,7 +1354,7 @@ router.delete("/user/:id", function(req, res){
 	});
 });
 //Destroy Route at Dashboard
-router.delete("/user/:id/dashboard", function(req, res){
+router.delete("/user/:id/dashboard", middleware.isAdmin, function(req, res){
 	User.findByIdAndRemove(req.params.id, function(err, dltUser){
 		if(err){
 			res.redirect("/user");
@@ -1505,7 +1505,7 @@ router.get('/users/:userId', async function(req, res) {
 });
 
 //suspend/unsuspend account
-router.put("/suspend/:id", function(req, res){
+router.put("/suspend/:id", middleware.isAdmin, function(req, res){
 	User.findByIdAndUpdate(req.params.id, req.body.user, function(err, suspendUser){
 		if(err){
 			console.log(err)
