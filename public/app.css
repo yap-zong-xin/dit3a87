@@ -1743,7 +1743,7 @@ input[type=range]::-ms-thumb {
 }
 
 #userStatus{
-  font-size: 0.9em;
+  font-size: 1.1em;
   background: rgb(165, 154, 245);
   padding-top: 10px;
   padding-bottom: 10px;
@@ -1768,7 +1768,6 @@ input[type=range]::-ms-thumb {
   padding-bottom: 10px;
   padding-left: 20px;
   padding-right: 20px;
-  margin-left: 10px;
   font-weight: bold;
   font-size: 0.9em;
 }
@@ -2558,14 +2557,14 @@ nav a{
 }
 
 .shark-1 {
-  top: 102px;
+  top: 105px;
 }
 
 .shark-2 {
-  top: 140px;
+  top: 148px;
 }
 .shark-3 {
-  top: 115px;
+  top: 120px;
 }
 
 #soldBanner{
@@ -2797,11 +2796,12 @@ nav a{
 }
 
 .breadcrumb{
-  font-size: 0.85em;
-  background: #D7E4EF;
+  font-size: 1em;
+  background: none;
 }
 .breadcrumb a{
   text-decoration: none;
+  color: #4632DA!important;
 }
 .breadcrumb a:hover{
   color: #4632DA;
