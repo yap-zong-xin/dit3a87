@@ -13,19 +13,19 @@
   </script>
 
   <% if(listing.archiveStatus==true && listing.soldStatus==false) { %>
-    <div class="text-center fixed-top py-1" style="background: #4632DA; color: white; top: 102px; font-weight: 600; font-size: 0.9em;">
+    <div class="text-center fixed-top py-1" style="background: #4632DA; color: white; top: 110px; font-weight: 600; font-size: 0.9em;">
       <span>Archived</span>
     </div>
     <div class="mb-4 pb-3"></div>
   <% } else if(listing.archiveStatus==false && listing.soldStatus==true){ %>
-    <div class="text-center fixed-top py-1" style="background: #DB0000; color: white; top: 102px; font-weight: 600; font-size: 0.9em;">
+    <div class="text-center fixed-top py-1" style="background: #DB0000; color: white; top: 110px; font-weight: 600; font-size: 0.9em;">
       <span>Sold</span>
     </div>
     <div class="mb-4 pb-3"></div>
   <% } else { %>
   <% } %>
 
-  <div class="container pb-0 mt-4 pt-2">
+  <div class="container pb-0" style="margin-top: 45px;">
     <div class="row">
       <div class="col-12">
         <nav aria-label="breadcrumb">
@@ -342,7 +342,7 @@
 
   <div class="container pt-2 pb-5">
     <div class="row">
-      <div class="col-8">
+      <div class="col-12 col-md-7 col-lg-8">
         <p class="my-0" style="font-size: 2.6em; font-weight: 350;"><%= listing.name %></p>
         <p class="my-0" style="font-size: 1.5em; font-weight: 650;"><%= "S$" + listing.price %></p>
         <p class="pt-4 align-items-center d-flex" style="font-size: 1.05em;">
@@ -620,7 +620,7 @@
           </div>
         <% }) %>
       </div>
-      <div class="col-4">
+      <div class="col-12 col-md-5 col-lg-4 mt-4 mt-md-0">
         <% if(listing.archiveStatus==true || listing.soldStatus==true) { %>
           <div class="item shark-2 text-center p-4" style="border: 1.5px lightgray solid; border-radius: 10px;">
         <% } else { %>
