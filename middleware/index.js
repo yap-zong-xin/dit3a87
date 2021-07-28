@@ -30,7 +30,7 @@ middlewareObj.isAdmin = function(req, res, next){
 }
 
 middlewareObj.isAdminAgent = function(req, res, next){
-	if(req.isAuthenticated() && req.user.isAdmin && req.user.isAgent){
+	if(req.isAuthenticated() && req.user.isAdmin || req.user.isAgent){
 		return next();
 	} else {
 		req.flash("error", "You do not have permission to do that.");
