@@ -13,21 +13,21 @@
   </script>
 
   <% if(listing.archiveStatus==true && listing.soldStatus==false) { %>
-    <div class="text-center fixed-top py-1" style="background: #4632DA; color: white; top: 102px; font-weight: 600; font-size: 0.9em;">
+    <div class="text-center fixed-top py-1" style="background: #4632DA; color: white; top: 110px; font-weight: 600; font-size: 0.9em;">
       <span>Archived</span>
     </div>
     <div class="mb-4 pb-3"></div>
   <% } else if(listing.archiveStatus==false && listing.soldStatus==true){ %>
-    <div class="text-center fixed-top py-1" style="background: #DB0000; color: white; top: 102px; font-weight: 600; font-size: 0.9em;">
+    <div class="text-center fixed-top py-1" style="background: #DB0000; color: white; top: 110px; font-weight: 600; font-size: 0.9em;">
       <span>Sold</span>
     </div>
     <div class="mb-4 pb-3"></div>
   <% } else { %>
   <% } %>
 
-  <div class="container pb-0 mt-2">
+  <div class="container pb-0" style="margin-top: 45px;">
     <div class="row">
-      <div class="col-12 px-0">
+      <div class="col-12">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb mb-0">
             <li class="breadcrumb-item"><a href="/">Home</a></li>
@@ -40,7 +40,7 @@
         <div>
           <p class="my-0" style="font-size: 2.6em; font-weight: 350;"><%= listing.name %></p>
         </div>
-        <div>
+        <div class="d-none d-sm-block">
           <div class="justify-content-end d-flex">
             <div>
               <% if(!currentUser){ %>
@@ -53,7 +53,6 @@
               <% } %>
             </div>
             <div class="pl-1">
-              
               <button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#listingShare">
                 <ion-icon name="share-outline"></ion-icon>
               </button>
@@ -173,22 +172,146 @@
         <span class="badge badge-default badge-outlined"><%= listing.tenure %></span>
         <span class="badge badge-default badge-outlined"><%= listing.location %></span>
       </div>
+      <div class="col-12 d-sm-none mb-3">
+        <div class="left m-0 mr-1">
+          <% if(!currentUser){ %>
+          <% } else { %>
+            <form action="/conversation/<%= currentUser._id %>/<%= listing.author.id %>" method="POST">
+              <button type="submit" class="btn btn-outline-dark">
+                <ion-icon name="chatbox-outline"></ion-icon>
+              </button>
+            </form>
+          <% } %>
+        </div>
+        <div class="left right m-0 mr-1">
+          <button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#listingShare">
+            <ion-icon name="share-outline"></ion-icon>
+          </button>
+          <!-- Modal -->
+          <div id="listingShare" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header justify-content-between d-flex">
+                  <span class="modal-title" style="font-size: 1.5em; font-weight: 600;">Share Listing</span>
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body" style="height: 260px!important;">
+                  <div class="row">
+                    <div class="col-12 mb-3">
+                      <p class="mb-2" style="font-weight: 500; font-size: 0.95em;">Share this listing</p>
+                      <!-- Your share button code -->
+                      <div class="fb-share-button align-items-start d-flex left" 
+                        data-href="https://www.hatchdev.asia/" 
+                        data-layout="button_count">
+                      </div>
+                      <a class="twitter-share-button right" style="text-decoration: none; border-radius: 3px; border: solid 1px #1DA1F2; background: #1DA1F2; color: white; font-size: 0.8em; font-weight: 600; padding: 0 17px;"
+                        href="https://twitter.com/intent/tweet?text=Check out this property! https://sap-dit3a87.herokuapp.com/listings/<%= listing._id %>" target="_blank">
+                        <ion-icon name="logo-twitter"></ion-icon> Tweet
+                      </a>
+                    </div>
+                    <div class="col-12 mb-3">
+                      <p class="mb-2" style="font-weight: 500; font-size: 0.95em;">Find us at</p>
+                      <div class="icons">
+                        <a href="#" class="left fb-share-button" data-href="https://www.hatchdev.asia/"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="left right"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="left right"><i class="fab fa-instagram"></i></a>
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <p class="mb-2" style="font-weight: 500; font-size: 0.95em;">Copy this link</p>
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text" style="background:white;">
+                            <i class="fas fa-link"></i>
+                          </span>
+                        </div>
+                        <input type="text" class="form-control" value="https://sap-dit3a87.herokuapp.com/listings/<%= listing._id %>" id="myInput">
+                        <div class="input-group-append">
+                          <span class="input-group-text py-1" style="background: #4632DA;">
+                            <button onclick="addToClipboard()" class="btn p-0 m-0" style="color: white;">Copy</button>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <a href="mailto:<%= listing.author.email %>" style="color: black; text-decoration: none;">
+            <button class="btn btn-outline-dark">
+              <ion-icon name="mail-outline"></ion-icon>
+            </button>
+          </a>
+          <a href="/user/<%= listing.author.id %>" style="text-decoration: none;">
+            <button class="btn btn-outline-dark">
+              <ion-icon name="person-outline"></ion-icon>
+            </button>
+          </a>
+        </div>
+        <div class="left right m-0 mr-1">
+          <form action="/listings/<%= listing._id %>/like" method="POST">
+            <% if (currentUser && listing.likes.some(function (like) { return like.equals(currentUser._id) })) { %>
+              <button class="btn btn-outline-dark">
+                <i class="fas fa-heart filledHeart"></i>
+              </button>
+            <% } else { %>
+              <button class="btn btn-outline-dark">
+                <ion-icon name="heart-outline" class="pr-1"></ion-icon>
+              </button>
+            <% } %>
+          </form>
+        </div>
+        <% if(currentUser && listing.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
+          <div>
+            <div class="dropdown">
+              <button class="btn btn-outline-dark" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <ion-icon name="ellipsis-vertical-outline"></ion-icon>
+              </button>
+              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="/listings/<%= listing._id %>/edit">Edit</a>
+                <form action="/listings/<%= listing._id %>?_method=DELETE" method="POST">
+                  <button class="dropdown-item">Delete</button>
+                </form>
+                <% if(listing.archiveStatus==false && listing.soldStatus==false){ %>
+                  <a class="dropdown-item" href="/listings/<%= listing._id %>/archive">
+                    Archive
+                  </a>
+                  <a class="dropdown-item" href="/listings/<%= listing._id %>/sold">
+                    Mark as Sold
+                  </a>
+                <% } else if(listing.archiveStatus==true&& listing.soldStatus==false) { %>
+                  <a class="dropdown-item" href="/listings/<%= listing._id %>/unarchive">
+                    Unarchive
+                  </a>
+                <% } else { %>
+                  <a class="dropdown-item" href="/listings/<%= listing._id %>/unsold">
+                    Mark as Available
+                  </a>
+                <% } %>
+              </div>
+            </div>
+          </div>
+        <% } %>
+      </div>
     </div>
 
     <!-- gallery -->
     <div class="row">
-      <div class="col-12 p-0">
+      <div class="col-12">
         <%- listing.threeDImage %>
       </div>
-      <div class="col-8 p-0 galleryThumbnail">
-        <a data-fancybox="gallery" href="<%= listing.thumbnail %>" data-type="image">
-          <img src="<%= listing.thumbnail %>" class="img-fluid m-0" alt="">
-          <div class="mainToggleText">
-            <%= listing.image.length + listing.video.length + 1 + " +" %>
-          </div>
-        </a>
+      <div class="col-12 col-md-8 pr-md-1">
+        <div class="galleryThumbnail">
+          <a data-fancybox="gallery" href="<%= listing.thumbnail %>" data-type="image">
+            <img src="<%= listing.thumbnail %>" class="img-fluid m-0" alt="">
+            <div class="mainToggleText">
+              <%= listing.image.length + listing.video.length + 1 + " +" %>
+            </div>
+          </a>
+        </div>
       </div>
-      <div class="col-4 p-0 pl-1">
+      <div class="col-4 pl-1 d-none d-md-block">
         <div id='map' style="height: 300px!important; width: 100%!important;" class="m-0"></div>
       </div>
       <% for(let i=0; i<listing.image.length; i++){ %>
@@ -208,7 +331,7 @@
     </div>
   </div>
 
-  <div class="container px-0">
+  <div class="container">
     <p class="mb-1" style="font-size: 0.9em;">
       <em>
         Published <%= moment(listing.createdAt).fromNow() %> by 
@@ -219,7 +342,7 @@
 
   <div class="container pt-2 pb-5">
     <div class="row">
-      <div class="col-8">
+      <div class="col-12 col-md-7 col-lg-8">
         <p class="my-0" style="font-size: 2.6em; font-weight: 350;"><%= listing.name %></p>
         <p class="my-0" style="font-size: 1.5em; font-weight: 650;"><%= "S$" + listing.price %></p>
         <p class="pt-4 align-items-center d-flex" style="font-size: 1.05em;">
@@ -497,7 +620,7 @@
           </div>
         <% }) %>
       </div>
-      <div class="col-4">
+      <div class="col-12 col-md-5 col-lg-4 mt-4 mt-md-0">
         <% if(listing.archiveStatus==true || listing.soldStatus==true) { %>
           <div class="item shark-2 text-center p-4" style="border: 1.5px lightgray solid; border-radius: 10px;">
         <% } else { %>

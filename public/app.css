@@ -367,7 +367,7 @@ body {
 
 .listing-banner-img {
   width: 100%; 
-  height: 300px;
+  height: 400px;
   background-image: url('/img/listing.webp');
   background-repeat: no-repeat/repeat-x;
 	background-size: cover;
@@ -1561,8 +1561,8 @@ input[type=range]::-ms-thumb {
 }
 .customImageUpload .fa-camera{
   position: relative;
-  top: 105px;
-  font-size: 2.4em;
+  top: 100px;
+  font-size: 2.6em;
   cursor: pointer;
   border-radius: 50%;
   padding: 8px;
@@ -2200,7 +2200,7 @@ input[type=range]::-ms-thumb {
 
 .find-agent-div {
   background-image: url('/img/hunters-race-MYbhN8KaaEc-unsplash.jpg');
-  height: 300px;
+  height: 400px;
   background-position: right top;
   background-repeat: no-repeat;
 	background-size: cover;
@@ -2585,7 +2585,7 @@ nav a{
 
 #mainLoader{
   position: absolute;
-  top: 42px;
+  top: 10px;
   display: inline-block;
   border: 3.5px solid #f3f3f3;
   border-top: 5px solid #4632DA;
@@ -3117,6 +3117,10 @@ footer {
   top: -65px;
 }
 
+.custom-field input {
+  width: 100%;
+}
+
 /* Media Queries: Height */
 @media only screen and (max-height: 750px) {
   .input-field {
@@ -3196,8 +3200,6 @@ footer {
 
 
 @media only screen and (max-width: 767px) {
-
-
   #search-border {
     border: none;
   }
@@ -3281,11 +3283,16 @@ footer {
     position: relative;
     top: 70px;
   }
-}
+  .custom-field input {
+    width: 163%;
+  }
 @media (min-width: 768px) {
   .editImageMobile{
     position: relative;
     top: 50px;
+  }
+  .custom-field input {
+    width: 220%;
   }
 }
 @media (min-width: 992px) { 
@@ -3314,6 +3321,18 @@ footer {
   .commentAuthorSection{
     min-width: 150px!important;
   }
+  .reviewTextSection{
+    width: 100%!important;
+  }
+  .reviewAuthorSection{
+    min-width: 150px!important;
+  }
+  .reviewRatingSection{
+    min-width: 150px!important;
+  }
+  .custom-field input {
+    width: 300%;
+  }
 }
 @media (min-width: 1200px) {
   .profileBannerEdit{
@@ -3327,5 +3346,8 @@ footer {
   .profileBannerEdit{
     width: 170px;
     height: 170px;
+  }
+  .custom-field input {
+    width: 325%;
   }
 }

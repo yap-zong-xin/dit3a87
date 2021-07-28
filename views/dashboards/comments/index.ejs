@@ -1,6 +1,6 @@
 <%- include("../../partials/header") %>
 
-<div style="overflow-x: hidden;" class="mb-5">
+<div style="overflow-x: hidden; margin-top: 45px;" class="mb-5">
   <div class="row">
     <div class="col-3">
       <div class="navigation sticky-top">
@@ -90,8 +90,8 @@
         <table class="table table-sortable d-none d-lg-block">
           <thead>
             <tr>
-              <th style="pointer-events: none;" class="justify-content-start d-flex">
-                Image
+              <th style="pointer-events: none;">
+                User
               </th>
               <th><i class="fas fa-sort"></i> Username</th>
               <th><i class="fas fa-sort"></i> Comments Given</th>
@@ -141,11 +141,12 @@
             <% }); %>
           </tbody>
         </table>
+        
         <table class="table table-sortable d-lg-none">
           <thead>
             <tr>
               <th style="pointer-events: none;">
-                Profile
+                User
               </th>
               <th><i class="fas fa-sort"></i> Comments</th>
               <th class="d-none d-md-block" style="pointer-events: none!important;">Actions</th>
