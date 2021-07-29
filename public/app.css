@@ -1198,7 +1198,7 @@ input[type=range]::-ms-thumb {
   background-color: #fff;
   border-radius: 15px;
   padding: 25px;
-  height: 650px;
+  height: 550px;
 }
 
 .admin-reg form {
@@ -1206,8 +1206,6 @@ input[type=range]::-ms-thumb {
 }
 
 .admin-wrap {
-  padding: 25px;
-  margin: 25px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -1259,8 +1257,7 @@ input[type=range]::-ms-thumb {
 }
 
 .active-admin-prog {
-  color: #fff;
-  transform: scale(1.2); 
+  color: #fff; 
 }
 
 .admin-header p {
@@ -1314,7 +1311,7 @@ input[type=range]::-ms-thumb {
   border: 3px solid rgb(230,230,230);
   border-radius: 50%;
   margin: 10px;
-  padding: 10px;
+  padding: 14px;
   transition: 0.2s;
   width: 200px;
   height: 200px;
@@ -1322,6 +1319,9 @@ input[type=range]::-ms-thumb {
   position: relative;
   top: 0;
   transition: top ease 0.5s;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
 }
 
 .reg-role:hover {
@@ -3251,8 +3251,6 @@ footer {
     text-align: center;
   }
 
-
-
 }
 
 .hide-nav {
@@ -3375,6 +3373,62 @@ footer {
 
   .left span {
     font-size: 12px;
+  }
+
+  .reg-role {
+    width: 150px;
+    height: 150px;
+  }
+
+  .reg-role h5 {
+    font-weight: 700;
+    font-size: 14px;
+    margin-bottom: 3px !important;
+  }
+  
+  .reg-role p{
+    font-size: 10px !important;
+    margin: 0px 0px 0px 0px !important;
+  }
+  
+  .reg-role i {
+    font-size: 20px;
+  }
+
+  #selection h3 {
+    font-size: 20px;
+  }
+
+  #selection-p {
+    margin-top: 5px;
+    font-size: 12px;
+  }
+
+  .tab {
+    width: 280px;
+  }
+
+  .tab h3 {
+    font-size: 20px;
+  }
+
+  .tab p {
+    font-size: 14px;
+  }
+
+  #profile-drop-area {
+    width: 250px;
+  }
+
+  #profileFiles {
+    background-color: transparent !important;
+  }
+
+  .register-form .input-field,
+  .register-form .input-field-select {
+    max-width: 250px !important;
+    margin-left: auto;
+    margin-right: auto;
   }
 }
 

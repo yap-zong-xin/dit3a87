@@ -4,21 +4,15 @@
       background: linear-gradient(-45deg, #e73c7e, #4632da, #186aff, #04befe);
       background-size: 400% 400%;
       animation: gradient 15s ease infinite;
-      height: 100vh;
+      height: 100%;
       overflow-x: hidden; /* Hide horizontal scrollbar */
     }
-
-    footer,
-    nav {
-      display: none;
-    }
-
   </style>
 
   <div class="container-fluid">
-    <div class="row col-md-12" style="margin-top: 150px;">
-      <div class="col-md-6">
-        <div class="col-md-12 admin-header" style="height: 650px;">
+    <div class="row col-md-12  p-0" style="margin: 150px 0 0 0">
+      <div class="col-md-6 p-0 m-0">
+        <div class="col-md-12 p-0 m-0 admin-header" style="height: 650px;">
           <div>
             <h1>Administrator<br>Registration Form</h1>
             <div class="admin-prog"  id="prog-1">
@@ -48,7 +42,7 @@
           </div>
         </div>
       </div>
-      <div class="col-md-6 admin-reg shadow" data-aos="fade-left">
+      <div class="col-md-6 p-0 m-0 admin-reg shadow" data-aos="fade-left">
         <form action="/register" method="POST" enctype="multipart/form-data">
           <ul class="typeOfRole d-none">
             <li>
@@ -59,8 +53,7 @@
 
           <div class="admin-display-wrap hide admin-1" id="admin-1">
             <div class="admin-wrap">
-              <h3>Personal Details</h3>
-              <div class="col-md-12" style="width: 100%; border-bottom: 1px solid rgb(211, 211, 211); margin-top: 15px; margin-bottom: 15px;"></div>
+              <h3 style="margin-top: 20px;">Personal Details</h3>
               <div class="input-field">
                 <i class="fas fa-user"></i>
                 <input type="text" placeholder="First Name" id="firstName" name="firstName" required />
@@ -92,8 +85,7 @@
           <!--Address-->
           <div class="admin-display-wrap hide admin-2" id="admin-2">
             <div class="admin-wrap">
-              <h3>Personal Address</h3>
-              <div class="col-md-12" style="width: 100%; border-bottom: 1px solid rgb(211, 211, 211); margin-top: 15px; margin-bottom: 15px;"></div>
+              <h3 style="margin-top: 20px;">Personal Address</h3>
               <div class="input-field">
                 <i class="fas fa-map"></i>
                 <input type="text" placeholder="Address Line 1" id="address-ln1" name="streetName" required />
@@ -125,8 +117,7 @@
           <!--User Details-->
           <div class="admin-display-wrap hide admin-3" id="admin-3">
             <div class="admin-wrap">
-              <h3>Account Information</h3>
-              <div class="col-md-12" style="width: 100%; border-bottom: 1px solid rgb(211, 211, 211); margin-top: 15px; margin-bottom: 15px;"></div>
+              <h3 style="margin-top: 20px;">Account Information</h3>
               <div class="input-field">
                 <i class="fas fa-user"></i>
                 <input type="text" placeholder="Username" id="username" name="username" required />
@@ -149,9 +140,6 @@
             <button type="button" id="prevBtn" onclick="nextPrev(-1)" style="margin-right: 50px; visibility: hidden;">Back</button>
             <button type="button" id="nextBtn" onclick="nextPrev(1)" style="margin-left: 50px;">Next</button>
           </div>
-          <div class="d-flex justify-content-center align-items-center" style="height: 650px;">
-          </div>
-          
         </form>
       </div>
     </div>

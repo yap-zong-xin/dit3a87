@@ -112,18 +112,18 @@
 
         <div class="tab hide" id="selection" style="display: none; padding: 50px;">
           <h3 style="padding-top: 25px; padding-bottom: 0; margin-bottom: 0">Select your account type</h3>
-          <p style="margin-bottom: 25px;">You will not be able to change your account type after registration.</p>
+          <p id="selection-p" style="margin-bottom: 25px;">You will not be able to change your account type after registration.</p>
           <div class="row d-flex justify-content-center">
             <div class="reg-role" onClick="roleSelect(`agent`)" >
               <i class="fas fa-user-secret"></i>
               <h5>Property Agent</h5>
               <p><b>CEA Number required</b><br>
-                Subjected to Approval</p>
+                Subjected to<br>Approval</p>
             </div>
             <div class="reg-role" onClick="roleSelect(`seeker`)">
               <i class="fas fa-users"></i>
               <h5>Property Seeker</h5>
-              <p>CEA Number not required<br>Start browsing now!</p>
+              <p>CEA Number not required</p>
             </div>
           </div>
         </div>
@@ -133,7 +133,6 @@
           <!--Basic Details-->
           <div class="tab hide reg-tab-1" id="tab-1" style="width: 330px;">
             <h3>Basic Details</h3>
-            <div class="col-md-12" style="width: 100%; border-bottom: 1px solid rgb(211, 211, 211); margin-bottom: 30px;"></div>
             <div class="input-field">
               <i class="fas fa-user"></i>
               <input type="text" placeholder="First Name" id="firstName" name="firstName" required />
@@ -164,7 +163,6 @@
           <!--Address-->
           <div class="tab hide reg-tab-2" id="tab-2" style="width: 330px;">
             <h3>Address Information</h3>
-            <div class="col-md-12" style="width: 100%; border-bottom: 1px solid rgb(211, 211, 211); margin-bottom: 30px;"></div>
             <div class="input-field">
               <i class="fas fa-map"></i>
               <input type="text" placeholder="Address Line 1" id="address-ln1" name="streetName" required />
@@ -195,7 +193,6 @@
           <!--User Details-->
           <div class="tab hide reg-tab-3" id="tab-3" style="width: 330px;">
             <h3>Account Details</h3>
-            <div class="col-md-12" style="width: 100%; border-bottom: 1px solid rgb(211, 211, 211); margin-bottom: 30px;"></div>
             <div class="input-field">
               <i class="fas fa-user"></i>
               <input type="text" placeholder="Username" id="username" name="username" required />
