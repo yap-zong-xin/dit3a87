@@ -60,87 +60,73 @@
           </nav>
         </div>
       </div>
-      <div class="row accountTableHeading mr-5 px-4 mt-2">
+      <div class="row accountTableHeading mr-5 px-4">
         <div class="col-12 px-0">
-          <div class="justify-content-between d-flex">
+          <div class="justify-content-between d-flex flex-column">
+            <div class="col-12 p-0">
               <% if(noMatch !== undefined){ %>
-                <form action="/dashboard/listings" method="GET" class="form-inline">
-                  <!-- SORT -->
-
-
-                  
-                  <!-- <div class="dropdownSold">
-                    <div onclick="openSold()">
-                        <label class="dropdownSold-label">Sold/Archived</label>
-                        <i class="fas fa-caret-down"></i>    
-                    </div>
-                    <div class="dropdownSold-content" id="dropdownSold-content">
-                        <input type="checkbox" id="sold" name="soldCheck" value="sold" <% if(data.soldCheck) {%> checked <%} %>>
-                        <label for="sold">Sold Listing</label><br>
-                        <input type="checkbox" id="archive" name="archiveCheck" value="archive" <% if(data.archiveCheck) {%> checked <%} %>>
-                        <label for="archive">Archive listing</label><br>
-                    </div>  
-                  </div>
-                  <span class="seperateFilter"></span>
-                  <div class="dropdownPType">
-                      <div onclick="openPType()">
-                          <label class="dropdownPType-label">Property Type</label>
-                          <i class="fas fa-caret-down"></i>    
+                <form action="/dashboard/listings" method="GET">
+                  <div class="row">
+                    <div class="col-5">
+                      <div class="input-group mb-3 dashboardSearch">
+                        <input type="text" class="form-control rounded-0" name="search" placeholder="Search listings">
                       </div>
-                      <div class="dropdownPType-content" id="dropdownPType-content">
-                          <input type="checkbox" id="hdb" name="hdbType" value="hdb" <% if(data.hdbType) {%> checked <%} %>>
-                          <label for="hdb">HDB</label><br>
-                          <input type="checkbox" id="condo" name="condoType" value="condo"<% if(data.condoType) {%> checked <%} %>> 
-                          <label for="condo">Condo</label><br>
-                          <input type="checkbox" id="landed" name="landedType" value="landed" <% if(data.landedType) {%> checked <%} %>>
-                          <label for="landed">Landed</label><br>
-                      </div>  
-                  </div> -->
-                  <!-- Apply button -->
-                  <br><input type="submit" value="Apply" name="Apply" id="applyFilter">
-                </form>
-              <% } %>
-          </div>
-        </div>
-        <div class="col-12 px-0">
-          <div class="justify-content-between d-flex">
-            <div>
-              <p style="font-weight: 500; font-size: 1.1em;">Listings</p>
-            </div>
-            <div class="box justify-content-end d-flex pb-3">
-              <% if(noMatch !== undefined){ %>
-                <form action="/dashboard/listings" method="GET" class="form-inline">
-                  <label for="sort">Sort by: </label>
-                  <select class="custom-select" name="sort" id="sort">
-                    <option></option>
-                    <option value="HighestPrice" <% if(data.sort == 'HighestPrice') {%> selected <%} %>>Highest Price</option>
-                    <option value="LowestPrice" <% if(data.sort == 'LowestPrice') {%> selected <%} %>>Lowest Price</option>
-                    <option value="Recent" <% if(data.sort == 'Recent') {%> selected <%} %>>Recent</option>
-                    <option value="Oldest" <% if(data.sort == 'Oldest') {%> selected <%} %>>Oldest</option>
-                    <option value="MostPop" <% if(data.sort == 'MostPop') {%> selected <%} %>>Most Popular</option>
-                    <option value="LeastPop" <% if(data.sort == 'LeastPop') {%> selected <%} %>>Least Popular</option>
-                    <option value="Sold" <% if(data.sort == 'Sold') {%> selected <%} %>>Sold</option>
-                    <option value="NotSold" <% if(data.sort == 'NotSold') {%> selected <%} %>>Not Sold</option>
-                    <option value="Archive" <% if(data.sort == 'Archive') {%> selected <%} %>>Archive</option>
-                    <option value="NotArchive" <% if(data.sort == 'NotArchive') {%> selected <%} %>>Not Archive</option>
-                  </select>
-                  <!-- Filter: Sold/Archive -->
-                  <label for="filterPropType">Filter by: </label>
-                  <select class="custom-select" name="filterPropType" id="filterPropType">
-                    <option></option>
-                    <option value="sold" <% if(data.filterPropType == 'sold') {%> selected <%} %>>Sold Listing</option>
-                    <option value="archive" <% if(data.filterPropType == 'archive') {%> selected <%} %>>Archived Listing</option>
-                    <option value="hdb" <% if(data.filterPropType == 'hdb') {%> selected <%} %>>HDB</option>
-                    <option value="condo" <% if(data.filterPropType == 'condo') {%> selected <%} %>>Condo</option>
-                    <option value="landed" <% if(data.filterPropType == 'landed') {%> selected <%} %>>Landed</option>
-                    <option value="all" <% if(data.filterPropType == 'all') {%> selected <%} %>>All Listing</option>
-                  </select>
-                  <div class="form-group">
-                    <input type="text" name="search" placeholder="Search listings">
-                    <button><i class="fas fa-search"></i></button>
+                    </div>
+                    <div class="col-7 pl-0">
+                      <div class="row">
+                        <div class="col-5 px-0">
+                          <!-- sort input -->
+                          <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                              <label class="input-group-text" style="background: white; border: none; font-size: 1em;" for="sort">Sort by:</label>
+                            </div>
+                            <select class="custom-select" name="sort" id="sort">
+                              <option selected hidden disabled>Sort By</option>
+                              <option value="HighestPrice" <% if(data.sort == 'HighestPrice') {%> selected <%} %>>Highest Price</option>
+                              <option value="LowestPrice" <% if(data.sort == 'LowestPrice') {%> selected <%} %>>Lowest Price</option>
+                              <option value="Recent" <% if(data.sort == 'Recent') {%> selected <%} %>>Recent</option>
+                              <option value="Oldest" <% if(data.sort == 'Oldest') {%> selected <%} %>>Oldest</option>
+                              <option value="MostPop" <% if(data.sort == 'MostPop') {%> selected <%} %>>Most Popular</option>
+                              <option value="LeastPop" <% if(data.sort == 'LeastPop') {%> selected <%} %>>Least Popular</option>
+                              <option value="Sold" <% if(data.sort == 'Sold') {%> selected <%} %>>Sold</option>
+                              <option value="NotSold" <% if(data.sort == 'NotSold') {%> selected <%} %>>Not Sold</option>
+                              <option value="Archive" <% if(data.sort == 'Archive') {%> selected <%} %>>Archive</option>
+                              <option value="NotArchive" <% if(data.sort == 'NotArchive') {%> selected <%} %>>Not Archive</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="col-5 px-0">
+                            <!-- filter input -->
+                            <div class="input-group mb-3">
+                              <div class="input-group-prepend">
+                                <label class="input-group-text" style="background: white; border: none; font-size: 1em;" for="filterAccType">Filter by:</label>
+                              </div>
+                              <select class="custom-select" name="filterPropType" id="filterPropType">
+                                <option selected hidden disabled>Property Type</option>
+                                <option value="sold" <% if(data.filterPropType == 'sold') {%> selected <%} %>>Sold Listing</option>
+                                <option value="archive" <% if(data.filterPropType == 'archive') {%> selected <%} %>>Archived Listing</option>
+                                <option value="hdb" <% if(data.filterPropType == 'hdb') {%> selected <%} %>>HDB</option>
+                                <option value="condo" <% if(data.filterPropType == 'condo') {%> selected <%} %>>Condo</option>
+                                <option value="landed" <% if(data.filterPropType == 'landed') {%> selected <%} %>>Landed</option>
+                                <option value="all" <% if(data.filterPropType == 'all') {%> selected <%} %>>All Listing</option>
+                              </select>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                          <button type="submit" class="btn btn-dark rounded-0" style="width: 100%;">
+                            <ion-icon name="search"></ion-icon>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </form>
+
+               
               <% } %>
+            </div>
+            <div class="col-12">
+              <p class="m-0" style="font-weight: 500; font-size: 1.1em;">Listings</p>
             </div>
           </div>
         </div>
