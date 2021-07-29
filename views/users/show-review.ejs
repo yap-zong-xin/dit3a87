@@ -8,7 +8,7 @@
       <div>
         <div class="left pb-3">
           <!-- suspend account-->
-          <% if(currentUser && !user.isAdmin==true){ %>
+          <% if(user.isAgent && currentUser && currentUser.isAdmin || !user.isAdmin && !user.isAgent && currentUser && currentUser.isAdmin){ %>
             <form action="/suspend/<%= user.id %>?_method=PUT" method="POST" class="text-center" style="position:relative; top: 10px;">
               <% if(user.suspend==false){ %>
                 <button type="submit" name="user[suspend]" value="true" class="btn approveBtn"
@@ -575,20 +575,6 @@
                   </p>
                 </div> -->
                 <div class="col-3">
-                  <span>Role:</span>
-                </div>
-                <div class="col-9">
-                  <p>
-                    <% if(user.isAgent==true){ %>
-                      Agent
-                      <% } else if(user.isAdmin==true){ %>
-                        Admin
-                        <% } else { %>
-                          Seeker
-                          <% } %>
-                  </p>
-                </div>
-                <div class="col-3">
                   <span>Name:</span>
                 </div>
                 <div class="col-9">
@@ -637,7 +623,7 @@
                         <span>Address:</span>
                       </div>
                       <div class="col-9">
-                        <p>
+                        <p class="mb-0">
                           <%= user.streetName %><br>
                             <%= user.unitNumber %><br>
                               <%= user.country %><br>
@@ -693,64 +679,64 @@
                 <p class="px-2">
                   <em>No reviews found.</em>
                 </p>
-                <% } else { %>
-                  <div class="row px-2">
-                    <% user.reviews.forEach(function(review){ %>
-                        <div class="col-12">
-                          <div class="row">
-                            <div class="col-3 col-md-2 text-center">
-                              <a href="/user/<%=user._id %>">
-                                <img src="<%= review.author.image %>"
-                                  style="width: 60px; height: 60px; border-radius: 50%; border: 1px solid gray; object-fit: cover;">
-                              </a>
-                            </div>
-                            <div class="col-9 col-md-10" style="margin-top: 12px;">
-                              <div class="row">
-                                <div class="col-8 px-0">
-                                  <p class="mb-0">
-                                    <a href="/user/<%=user._id %>" style="color: black;">
-                                      <%= review.author.username %>
+              <% } else { %>
+                <div class="row px-2">
+                  <% user.reviews.forEach(function(review){ %>
+                      <div class="col-12">
+                        <div class="row">
+                          <div class="col-3 col-md-2 text-center">
+                            <a href="/user/<%=user._id %>">
+                              <img src="<%= review.author.image %>"
+                                style="width: 60px; height: 60px; border-radius: 50%; border: 1px solid gray; object-fit: cover;">
+                            </a>
+                          </div>
+                          <div class="col-9 col-md-10" style="margin-top: 12px;">
+                            <div class="row">
+                              <div class="col-8 px-0">
+                                <p class="mb-0">
+                                  <a href="/user/<%=user._id %>" style="color: black;">
+                                    <%= review.author.username %>
+                                  </a>
+                                </p>
+                                <p class="mb-0 pt-1">
+                                  <%- '<span class="fa fa-star checked"></span>' .repeat(review.rating) %>
+                                  <%- '<span class="fa fa-star"></span>' .repeat(5 - review.rating) %>
+                                  <em>
+                                    <span style="font-size: 0.9em;">
+                                      <%= "(" + moment(review.createdAt).fromNow() + ")" %>
+                                    </span>
+                                  </em>
+                                </p>
+                              </div>
+                              <div class="col-4 justify-content-end d-flex">
+                                <%if(currentUser&&review.author.id.equals(currentUser._id)||currentUser&&currentUser.isAdmin){%>
+                                  <div class="left">
+                                    <a href="/user/<%=user._id %>/reviews/<%=review._id %>/edit">
+                                      <ion-icon name="create-outline" class="editBtn py-1" style="font-size: 1.2em;"></ion-icon>
                                     </a>
-                                  </p>
-                                  <p class="mb-0 pt-1">
-                                    <%- '<span class="fa fa-star checked"></span>' .repeat(review.rating) %>
-                                      <%- '<span class="fa fa-star"></span>' .repeat(5 - review.rating) %>
-                                        <em>
-                                          <span style="font-size: 0.9em;">
-                                            <%= "(" + moment(review.createdAt).fromNow() + ")" %>
-                                          </span>
-                                        </em>
-                                  </p>
-                                </div>
-                                <div class="col-4 justify-content-end d-flex">
-                                  <%if(currentUser&&review.author.id.equals(currentUser._id)||currentUser&&currentUser.isAdmin){%>
-                                    <div class="left">
-                                      <a href="/user/<%=user._id %>/reviews/<%=review._id %>/edit">
-                                        <ion-icon name="create-outline" class="editBtn py-1" style="font-size: 1.2em;"></ion-icon>
-                                      </a>
-                                    </div>
-                                    <div class="right">
-                                      <form id="delete-form"
-                                        action="/user/<%=user._id %>/reviews/<%=review._id %>?_method=DELETE"
-                                        method="POST">
-                                        <button class="btn showListingManageBtn p-0">
-                                          <ion-icon name="trash-outline" class="trashBtn py-1"></ion-icon>
-                                        </button>
-                                      </form>
-                                    </div>
-                                    <% } %>
-                                </div>
+                                  </div>
+                                  <div class="right">
+                                    <form id="delete-form"
+                                      action="/user/<%=user._id %>/reviews/<%=review._id %>?_method=DELETE"
+                                      method="POST">
+                                      <button class="btn showListingManageBtn p-0">
+                                        <ion-icon name="trash-outline" class="trashBtn py-1"></ion-icon>
+                                      </button>
+                                    </form>
+                                  </div>
+                                <% } %>
                               </div>
                             </div>
-                            <div class="offset-3 col-9 offset-md-2 col-md-10 mt-2 px-0">
-                              <p style="text-align: justify; white-space: pre-wrap;" class="mb-0 pt-2"><%=review.text%></p>
-                            </div>
+                          </div>
+                          <div class="offset-3 col-9 offset-md-2 col-md-10 mt-2 px-0">
+                            <p style="text-align: justify; white-space: pre-wrap;" class="mb-0"><%=review.text%></p>
                           </div>
                         </div>
-                      <% }); %>
-                  </div>
-                  <% } %>
-                    <% } %>
+                      </div>
+                  <% }); %>
+                </div>
+              <% } %>
+            <% } %>
           </div>
         </div>
       </div>
