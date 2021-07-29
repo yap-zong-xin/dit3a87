@@ -99,7 +99,7 @@
   <div class="container mt-0 mt-lg-3 px-4">
     <div class="row mt-2 mt-lg-0">
       <div class="col-12 col-lg-6 justify-content-center justify-content-lg-start align-items-center d-flex">
-        <div class="left">
+        <div class="left m-0">
           <span id="userRole">
             <i class="fas fa-user pr-1"></i>
             <% if(user.isAgent==true){ %>
@@ -111,20 +111,20 @@
             <% } %>
           </span>
         </div>
-        <div class="left right">
+        <div class="left right m-0">
           <span>
             <% if(user.agentStatus==true || user.isAdmin==true){ %>
-              <span id="userStatus"><i class="fas fa-check pr-1"></i>Verified</span>
+              <span id="userStatus" class="m-0"><i class="fas fa-check pr-1"></i>Verified</span>
             <% } else { %>
               <% if(user.isAgent==true){ %>
-                <span id="userStatus"><i class="fas fa-clock pr-1"></i>Pending</span>
+                <span id="userStatus" class="m-0"><i class="fas fa-clock pr-1"></i>Pending</span>
               <% } else { %>
               <% } %>
             <% } %>
           </span>
         </div>
         <% if(user.isAgent==true){ %>
-          <div class="right">
+          <div class="right m-0">
             <span id="userActive">
               <% if ( moment(user.lastLogin).format('DD MM YYYY hh:mm:ss') > moment().subtract(7,'days').format('DD MM YYYY hh:mm:ss'))  {%>
                 <span class="pr-1"><i class="fas fa-bolt"></i> Active</span>
@@ -152,7 +152,7 @@
               <a class="btn btn-outline-dark profileOverviewBtn align-items-center d-flex" href="/user/<%= user._id %>/edit">
                 <ion-icon name="create-outline" style="font-size: 1.3em;" class="pr-1"></ion-icon>Edit Profile
               </a>
-              <% if(currentUser && user._id.equals(currentUser._id) || currentUser && user.isAdmin){ %>
+              <% if(currentUser && user.isAgent || currentUser && user.isAdmin){ %>
                 <a href="/listings/new" class="ml-2 btn btn-outline-dark profileOverviewBtn align-items-center d-flex" style="text-decoration: none;">
                   <ion-icon name="add-circle-outline" style="font-size: 1.3em;" class="pr-1"></ion-icon>Add Listing
                 </a>
@@ -293,17 +293,15 @@
         </div>
       <% } else if (currentUser && user._id.equals(currentUser._id) && !currentUser.isAdmin && !currentUser.isAgent){ %>
         <div class="col-4 p-3 justify-content-center d-flex align-items-center">
-          <a href="/user/<%= user._id %>/reviews" class="p-0">
-            <span class="p-0">
-              <%= user.reviews.length %>
-              <br class="d-lg-none">
-                <% if(user.reviews.length<2){ %>
-                  Review
-                  <% } else { %>
-                    Reviews
-                    <% } %>
-            </span>
-          </a>
+          <span class="p-0">
+            <%= user.reviews.length %>
+            <br class="d-lg-none">
+              <% if(user.reviews.length<2){ %>
+                Review
+                <% } else { %>
+                  Reviews
+                  <% } %>
+          </span>
         </div>
         <div class="col-4 forth my-2 justify-content-center d-flex align-items-center">
           <a href="" class="p-0" data-toggle="modal" data-target="#notificationTarget">
@@ -417,7 +415,7 @@
         <a class="btn btn-outline-dark profileOverviewBtn align-items-center d-flex" href="/user/<%= user._id %>/edit">
           <ion-icon name="create-outline" style="font-size: 1.3em;" class="pr-1"></ion-icon>Edit Profile
         </a>
-        <% if(currentUser && user._id.equals(currentUser._id) || currentUser && user.isAdmin){ %>
+        <% if(currentUser && user.isAgent || currentUser && user.isAdmin){ %>
           <a href="/listings/new" class="ml-2 btn btn-outline-dark profileOverviewBtn align-items-center d-flex" style="text-decoration: none;">
             <ion-icon name="add-circle-outline" style="font-size: 1.3em;" class="pr-1"></ion-icon>Add Listing
           </a>
@@ -466,17 +464,15 @@
         <div class="row">
           <% if (currentUser && user._id.equals(currentUser._id) && !currentUser.isAdmin && !currentUser.isAgent){ %>
             <div class="col-4 col-sm-3 p-3 justify-content-center d-flex align-items-center" style="background: rgb(238, 238, 238); border-right: white 5px solid;">
-              <a href="/user/<%= user._id %>/reviews" class="p-0">
-                <span class="p-0">
-                  <%= user.reviews.length %>
-                  <br class="d-lg-none">
-                    <% if(user.reviews.length<2){ %>
-                      Review
-                      <% } else { %>
-                        Reviews
-                        <% } %>
-                </span>
-              </a>
+              <span class="p-0">
+                <%= user.reviews.length %>
+                <br class="d-lg-none">
+                  <% if(user.reviews.length<2){ %>
+                    Review
+                    <% } else { %>
+                      Reviews
+                      <% } %>
+              </span>
             </div>
             <div class="col-4 p-3 justify-content-center d-flex align-items-center" style="background: rgb(238, 238, 238); border-right: white 5px solid;">
               <a href="" class="p-0" data-toggle="modal" data-target="#notificationTarget">
