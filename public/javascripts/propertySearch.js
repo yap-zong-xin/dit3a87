@@ -1,3 +1,5 @@
+var currentUser;
+
 async function countApi(url) {
 	const host = "https://api.countapi.xyz"
 	try {
@@ -570,8 +572,6 @@ function loadFeatured(rs) {
     for (var e = 0; e < 4; e++) {
        listHolderArr[e] = rs[e]
     }
- 
-    console.log(listHolderArr)
 
     var insertDiv = document.getElementById("loadFeaturedProperty");
  
@@ -579,4 +579,8 @@ function loadFeatured(rs) {
         var htmlListing = createHTMLListing(listHolderArr[i]);
         insertDiv.insertAdjacentHTML("beforeend", htmlListing);
     };
+ }
+
+ function transferCurrentUser(currentuser) {
+     currentUser = currentuser;
  }
