@@ -836,19 +836,48 @@
                                 </span>
                               </div>
                               <div class="col-12 mt-1" style="font-weight: 400;">
-                                <span style="font-size: 0.9em;">
+                                <span style="font-size: 0.9em; text-transform:capitalize">
                                   Zone: <%= listing.district %>
                                 </span>
                               </div>
                               <div class="col-12 my-0" style="font-weight: 400;">
-                                <span style="font-size: 0.9em;">
-                                  Type: <%= listing.type %>
-                                </span>
+                                  <% if (listing.type == "hdb") { %>
+                                    <span style="font-size: 0.9em;">
+                                      Type: HDB
+                                    </span>
+                                  <% } else if (listing.type == "condo") { %>
+                                    <span style="font-size: 0.9em;">
+                                      Type: Condominium
+                                    </span>
+                                  <% } else if (listing.type == "landed") { %>
+                                    <span style="font-size: 0.9em;">
+                                      Type: Landed
+                                    </span>
+                                  <% } %>
+                                
                               </div>
                               <div class="col-12 mb-1" style="font-weight: 400;">
+                                <% if (listing.tenure == "ninetynine") { %>
                                 <span style="font-size: 0.9em;">
-                                  Tenure: <%= listing.tenure %>
+                                  Tenure: 99-Year
                                 </span>
+                                <%} else if (listing.tenure == "hundredthree") { %>
+                                  <span style="font-size: 0.9em;">
+                                    Tenure: 103-Year
+                                  </span>
+                                <%} else if (listing.tenure == "hundredten") { %>
+                                  <span style="font-size: 0.9em;">
+                                    Tenure: 110-Year
+                                  </span>
+                                <%} else if (listing.tenure == "ninehundrednine") { %>
+                                  <span style="font-size: 0.9em;">
+                                    Tenure: 999-Year
+                                  </span>
+                                <%} else if (listing.tenure == "freehold") { %>
+                                  <span style="font-size: 0.9em;">
+                                    Tenure: Freehold
+                                  </span>
+                                <% } %>
                               </div>
                             </a>
                             <div class="col-12 mt-1">
