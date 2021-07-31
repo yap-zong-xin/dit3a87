@@ -2062,8 +2062,10 @@ input[type=range]::-ms-thumb {
   border-radius: 10px;
 }
 .video-gallery-style {
-  width: 130px;
-  height: 130px;
+  object-fit: cover;
+  width: 130px!important;
+  height: 130px!important;
+  border-radius: 10px;
 }
 .prev-image-gallery-style {
   object-fit: cover;

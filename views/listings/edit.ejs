@@ -125,7 +125,7 @@
               <%if(listingGallery[i].includes("video")) { %>
                 <div class="col-2">
                 <div class="prevlistingVideo" id="prevgalleryItem<%=i%>">
-                  <iframe src="<%= listingGallery[i] %>" id="<%= listingGalleryId[i] %>" class="prev-video-gallery-style"></iframe>
+                  <video controls controlslist="nodownload" src="<%= listingGallery[i] %>" id="<%= listingGalleryId[i] %>" class="prev-video-gallery-style"></video>
                   <span class="deleteItemFromGallery" onclick="deletePrevItem(<%= listingGalleryId[i] %>)">&times;</span>
                 </div>
               </div>
@@ -572,6 +572,7 @@
         // while(videoGallery.children[0]) {
         //   videoGallery.removeChild(videoGallery.children[0])
         // }
+        var previousFiles = document.getElementById("completeGallery").children.length;
         var currentThumbnail = document.getElementById("thumbnailFile");
         for(let i=0; i<files.length; i++) {
             let reader = new FileReader();
@@ -584,11 +585,11 @@
                 //img div to contain img and btn
                   var imgDiv = document.createElement('div');
                   imgDiv.classList.add('listingImage'); 
-                  imgDiv.setAttribute("id", "galleryItem"+i);
+                  imgDiv.setAttribute("id", "galleryItem"+(i+previousFiles));
                   //image src + file
                   var img = document.createElement('img');
                   img.src = reader.result;
-                  img.setAttribute("id", "imageItem"+i);
+                  img.setAttribute("id", "imageItem"+(i+previousFiles));
                   img.classList.add("image-gallery-style");
                   img.setAttribute("draggable", true);
                   img.setAttribute("ondragstart", "drag(event)");
@@ -596,7 +597,7 @@
                   var dltItemBtn = document.createElement('span');
                   dltItemBtn.classList.add('deleteItemFromGallery');
                   dltItemBtn.innerHTML= "&times;";
-                  dltItemBtn.setAttribute("onclick", "deleteItem("+i+")");
+                  dltItemBtn.setAttribute("onclick", "deleteItem("+(i+previousFiles)+")");
                   //add img and btn to div
                   imgDiv.appendChild(img);
                   imgDiv.appendChild(dltItemBtn);
@@ -617,17 +618,19 @@
                 //video div to contain video and button
                   var vidDiv = document.createElement('div');
                   vidDiv.classList.add('listingVideo'); 
-                  vidDiv.setAttribute("id", "galleryItem"+i);
+                  vidDiv.setAttribute("id", "galleryItem"+(i+previousFiles));
                   //video src + file
-                  var vid = document.createElement('iframe');
+                  var vid = document.createElement('video');
                   vid.src  = reader.result;
-                  vid.setAttribute("id", "videoItem"+i);
+                  vid.setAttribute("controls", "")
+                  vid.setAttribute("controlslist", "nodownload");
+                  vid.setAttribute("id", "videoItem"+(i+previousFiles));
                   vid.classList.add("video-gallery-style");
                   //delete video btn
                   var dltItemBtn = document.createElement('span');
                   dltItemBtn.classList.add('deleteItemFromGallery');
                   dltItemBtn.innerHTML= "&times;";
-                  dltItemBtn.setAttribute("onclick", "deleteItem("+i+")");
+                  dltItemBtn.setAttribute("onclick", "deleteItem("+(i+previousFiles)+")");
                   //add img and btn to div
                   vidDiv.appendChild(vid);
                   vidDiv.appendChild(dltItemBtn);
