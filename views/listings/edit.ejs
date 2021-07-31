@@ -33,19 +33,19 @@
       console.log('prev galery: ', prevGallery);
       %>
       <!-- id -->
-      <input type="text" name="prevThumbnailId" id="prevThumbnailId" value="<%= listing.thumbnailId %>">
-      <input type="text" name="prevImageId" id="prevImageId" value="<%= listing.imageId %>">
-      <input type="text" name="prevVideoId" id="prevVideoId" value="<%= listing.videoId %>">
-      <input type="text" name="dltPrevImageId" id="dltPrevImageId">
-      <input type="text" name="dltPrevVideoId" id="dltPrevVideoId">
+      <input type="text" style="display: none;" name="prevThumbnailId" id="prevThumbnailId" value="<%= listing.thumbnailId %>">
+      <input type="text" style="display: none;" name="prevImageId" id="prevImageId" value="<%= listing.imageId %>">
+      <input type="text" style="display: none;" name="prevVideoId" id="prevVideoId" value="<%= listing.videoId %>">
+      <input type="text" style="display: none;" name="dltPrevImageId" id="dltPrevImageId">
+      <input type="text" style="display: none;" name="dltPrevVideoId" id="dltPrevVideoId">
 
       <br>
       <!-- norm  -->
-      <input type="text" name="prevThumbnail" id="prevThumbnail" value="<%= listing.thumbnail  %>">
-      <input type="text" name="prevImage" id="prevImage" value="<%= listing.image %>">
-      <input type="text" name="prevVideo" id="prevVideo" value="<%= listing.video %>">
-      <input type="text" name="dltPrevImage" id="dltPrevImage">
-      <input type="text" name="dltPrevVideo" id="dltPrevVideo">
+      <input type="text" style="display: none;" name="prevThumbnail" id="prevThumbnail" value="<%= listing.thumbnail  %>">
+      <input type="text" style="display: none;" name="prevImage" id="prevImage" value="<%= listing.image %>">
+      <input type="text" style="display: none;" name="prevVideo" id="prevVideo" value="<%= listing.video %>">
+      <input type="text" style="display: none;" name="dltPrevImage" id="dltPrevImage">
+      <input type="text" style="display: none;" name="dltPrevVideo" id="dltPrevVideo">
 
 
       <%
@@ -71,7 +71,7 @@
       <!-- drag and drop upload listing files -->
       <div class="row">
         <div class="offset-1 col-10">
-          <div id="drop-area" style="display: block;">
+          <div id="drop-area" style="display: none;">
             <div class="dropText">
               <label class="fileBtn" for="galleryFileArray">Select Files</label>
               <p style="margin-top: 0;">or drag and drop here</p>
@@ -86,7 +86,7 @@
               <p style="font-size: 0.95em;" id="listGalleryCount">(<%= prevGallery.length %> Media Uploaded)</p>
               <label class="fileBtn" for="additionalGallery">Upload More Files</label>
               <p>or drag and drop here</p>
-              <input type="file" name="additionalGallery" id="additionalGallery" multiple accept="image/*, video/*" onchange="additionalUpdateGallery(this.files)">
+              <input type="file" style="display: none;" name="additionalGallery" id="additionalGallery" multiple accept="image/*, video/*" onchange="additionalUpdateGallery(this.files)">
             </div>
           </div>
         </div>
@@ -473,7 +473,7 @@
               </div>
             </div>
             <div class="justify-content-center d-flex pt-2">
-              <input class="btn btn-dark px-5 py-1" type="submit" value="List now">
+              <input class="btn btn-dark px-5 py-1" type="submit" value="Save">
             </div>
           </div>
         </div>
