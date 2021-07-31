@@ -45,7 +45,7 @@
             <div class="connect-form-wrapper shadow" data-aos="fade-left" data-aos-once="true">       
                 <h3>Leave us a Message</h3> 
                 <p>Fill up the form and we'll get back to you soon.</p>
-                <form class="contact-us-landing" action="#">
+                <form class="contact-us-landing" action="/connect" method="POST" id="contact-us">
                 <div class="input-field">
                   <i class="fas fa-user"></i>
                   <input type="text" placeholder="First Name" id="firstName" name="firstName" required />
@@ -62,10 +62,14 @@
                     <i class="fas fa-phone"></i>
                     <input type="text" placeholder="Phone" id="phone" name="phone" required />
                   </div>
+                  <div class="input-field">
+                    <i class="fas fa-envelope"></i>
+                    <input type="text" placeholder="Subject" id="subject" name="subject" required />
+                  </div>
                 <div class="input-field d-flex justify-content-center text-area-contact"
                   style="height: 200px; border-radius: 12px; padding: 10px">
                   <textarea style="background-color: transparent; border: none; resize: none;" rows="4" cols="50"
-                    placeholder="Say Hi!" required></textarea>
+                    placeholder="Say Hi!" id="emailText" name="emailText" form="contact-us" required></textarea>
                 </div>
                 <button type="submit" class="btn" style="border: 2px solid white">Submit</button>
               </form>

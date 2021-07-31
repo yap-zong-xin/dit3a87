@@ -409,5 +409,50 @@ router.get("/connect", function(req, res){
 	res.render("connect.ejs");
 });
 
+// Contact Us Form
+router.post("/connect", function(req, res){
+	async function senMail(){
+		try {
+			const text = req.body.emailText
+			const phone = req.body.phone
+			const email = req.body.email
+			const firstName = req.body.firstName
+			const lastName = req.body.lastName
+			const subject = req.body.subject
+			const accessToken = await oAuth2Client.getAccessToken()
+			const transport = nodemailer.createTransport({
+				service: 'gmail',
+				auth: {
+					type: 'OAuth2',
+					user: 'jptestingsku@gmail.com',
+					clientId: CLIENT_ID,
+					clientSecret: CLIENT_SECRET,
+					refreshToken: REFRESH_TOKEN,
+					accessToken: accessToken
+				}
+			});
+			const mailOptions = {
+				from: '3D Property Website <jptestingsku@gmail.com>',
+				to: "bagfullofav@gmail.com",
+				subject: subject,
+				html :'Message from '+firstName +" "+ lastName+ ":<br>"
+						+ text
+						+ "<br><br>Phone:" + phone
+						+ "<br>Email: " + email,
+			};
+			const result = await transport.sendMail(mailOptions);
+				return result; 
+		} catch (error) {
+			return error;
+		}
+	}
+
+	senMail()
+	.then(result => console.log('Email Sent...', result))
+	.then(req.flash('success','Your Email has been sent!'))
+	.then(res.redirect('back'))
+	.catch(error => console.log(error.message))
+});
+
 
 module.exports = router;
