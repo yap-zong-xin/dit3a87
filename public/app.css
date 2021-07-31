@@ -2008,33 +2008,48 @@ input[type=range]::-ms-thumb {
   border-radius: 10px;
   width: 130px;
   height: 130px;
-  background-color: white;
+  background-color: grey;
   display: none;
+  float: left;
+  text-align: center;
+  vertical-align: bottom;
+  position: relative;
 }
 #thumbnail-drop-area.highlight {
   border-color: #007BFF;
 }
-.image-gallery {
+/* .image-gallery {
   width: 130px;
 }
 .video-gallery {
   width: 130px;
-}
+} */
 .prev-image-gallery {
   width: 130px;
 }
 .prev-video-gallery {
   width: 130px;
 }
+.prevlistingImage{
+  display: flex;
+  float: left;
+}
+.prevlistingVideo{
+  display: flex;
+  float: left;
+}
 .listingImage{
+  display: flex;
   float: left;
 }
 .listingVideo{
+  display: flex;
   float: left;
 }
-.listingThumbnail{
+/* .listingThumbnail{
+  display: flex;
   float: left;
-}
+} */
 .thumbnail-gallery-style {
   border-radius: 10px;
   width: 130px;
@@ -2049,6 +2064,18 @@ input[type=range]::-ms-thumb {
 .video-gallery-style {
   width: 130px;
   height: 130px;
+}
+.prev-image-gallery-style {
+  object-fit: cover;
+  width: 130px!important;
+  height: 130px!important;
+  border-radius: 10px;
+}
+.prev-video-gallery-style {
+  object-fit: cover;
+  width: 130px!important;
+  height: 130px!important;
+  border-radius: 10px;
 }
 .fileBtn {
   display: inline-block;
@@ -2104,12 +2131,7 @@ input[type=range]::-ms-thumb {
   text-decoration: none;
   cursor: pointer;
 }
-.listingImage {
-  margin: 5px 0;
-}
-.listingVideo {
-  margin: 10px;
-}
+
 .deleteItemFromGallery {
   /* position: absolute;
   top: 10px;

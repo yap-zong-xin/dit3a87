@@ -17,46 +17,178 @@
 
   <div class="container pt-3 mb-0">
     <form action="/listings/<%= listing._id %>?_method=PUT" method="POST" enctype="multipart/form-data" name="editListingForm">
+      <!-- previous images -->
+      <%
+      var prevGallery = [];
+      //thumbnail
+      prevGallery.push(listing.thumbnailId);
+      //image gallery
+      for(let i=0; i<listing.imageId.length; i++) {
+        prevGallery.push(listing.imageId[i])
+      }
+      //video gallery
+      for(let i=0; i<listing.videoId.length; i++) {
+        prevGallery.push(listing.videoId[i])
+      }
+      console.log('prev galery: ', prevGallery);
+      %>
+      <!-- id -->
+      <input type="text" name="prevThumbnailId" id="prevThumbnailId" value="<%= listing.thumbnailId %>">
+      <input type="text" name="prevImageId" id="prevImageId" value="<%= listing.imageId %>">
+      <input type="text" name="prevVideoId" id="prevVideoId" value="<%= listing.videoId %>">
+      <input type="text" name="dltPrevImageId" id="dltPrevImageId">
+      <input type="text" name="dltPrevVideoId" id="dltPrevVideoId">
+
+      <br>
+      <!-- norm  -->
+      <input type="text" name="prevThumbnail" id="prevThumbnail" value="<%= listing.thumbnail  %>">
+      <input type="text" name="prevImage" id="prevImage" value="<%= listing.image %>">
+      <input type="text" name="prevVideo" id="prevVideo" value="<%= listing.video %>">
+      <input type="text" name="dltPrevImage" id="dltPrevImage">
+      <input type="text" name="dltPrevVideo" id="dltPrevVideo">
+
+
+      <%
+      var listingGallery = [];
+      for(let i=0; i<listing.image.length; i++) {
+        listingGallery.push(listing.image[i]);
+      }
+      for(let i=0; i<listing.video.length; i++) {
+        listingGallery.push(listing.video[i]);
+      }
+      console.log('items in gallery: ', listingGallery)
+
+      var listingGalleryId = [];
+      for(let i=0; i<listing.imageId.length; i++) {
+        listingGalleryId.push(listing.imageId[i]);
+      }
+      for(let i=0; i<listing.video.length; i++) {
+        listingGalleryId.push(listing.videoId[i]);
+      }
+      console.log('id gallery: ', listingGalleryId)
+      %>
+
       <!-- drag and drop upload listing files -->
       <div class="row">
         <div class="offset-1 col-10">
-          <div id="drop-area">
+          <div id="drop-area" style="display: block;">
             <div class="dropText">
               <label class="fileBtn" for="galleryFileArray">Select Files</label>
               <p style="margin-top: 0;">or drag and drop here</p>
-              <input type="file" name="listingGallery" id="galleryFileArray" multiple accept="image/*, video/*" onchange="handleGalleryFiles(this.files)" required>
+              <input type="file" name="listingGallery" id="galleryFileArray" multiple accept="image/*, video/*" onchange="handleGalleryFiles(this.files)">
             </div>
           </div>
         </div>
         <div class="offset-1 col-10">
           <!-- additional image/video gallery drag and drop -->
-          <div id="add-drop-area">
+          <div id="add-drop-area" style="display: block;">
             <div class="dropText">
-              <p style="font-size: 0.95em;" id="listGalleryCount"></p>
+              <p style="font-size: 0.95em;" id="listGalleryCount">(<%= prevGallery.length %> Media Uploaded)</p>
               <label class="fileBtn" for="additionalGallery">Upload More Files</label>
               <p>or drag and drop here</p>
-              <input style="display: none;" type="file" name="additionalGallery" id="additionalGallery" multiple accept="image/*, video/*" onchange="additionalUpdateGallery(this.files)">
+              <input type="file" name="additionalGallery" id="additionalGallery" multiple accept="image/*, video/*" onchange="additionalUpdateGallery(this.files)">
             </div>
           </div>
+        </div>
 
-          <div class="col-12 mt-4 px-0">
+        <div class="offset-1 col-10 mt-4">
+          <div class="row" id="completeGallery">
+
+            <div class="col-2">
+              <div id="thumbnail-drop-area" style="display: block;">
+                <div id="thumbnail-gallery">
+                  <!-- <i class="fa-4x fas fa-images" style="position: absolute; top: 25%; left: 25%; height: 10px; width: 10px"></i> -->
+                  <div class="phlistingImage">
+                    <img src="<%= listing.thumbnail %>" class="thumbnail-gallery-style" id="prevThumbnailIdImage">
+                  </div>
+                </div>
+                <div class="thumbnailSlctText">
+                  <input name="listingThumbnail" style="display: block;" type="file" id="thumbnailFile" accept="image/*" onchange="handleThumbnailFile(this.files)">
+                </div>
+                <span style="background: black; color: white; font-size: 0.9em; font-weight: 600; padding: 1px 29px 1px 29px; position: absolute; bottom: 0; right: 0; border-radius: 10px;">Thumbnail</span>
+              </div>
+            </div>
+
+            <% for(let i=0; i<listingGallery.length; i++) {%>
+              <%if(listingGallery[i].includes("image")) { %>
+                <div class="col-2">
+                  <div class="prevlistingImage" id="prevgalleryItem<%=i%>">
+                    <img src="<%= listingGallery[i] %>" id="<%= listingGalleryId[i] %>" class="prev-image-gallery-style" draggable="true" ondragstart="drag(event)">
+                    <span class="deleteItemFromGallery" onclick="deletePrevItem(<%= listingGalleryId[i] %>)">&times;</span>
+                  </div>
+                </div>
+              <%}%>
+            <%}%>
+            
+
+            <% for(let i=0; i<listingGallery.length; i++) {%>
+              <%if(listingGallery[i].includes("video")) { %>
+                <div class="col-2">
+                <div class="prevlistingVideo" id="prevgalleryItem<%=i%>">
+                  <iframe src="<%= listingGallery[i] %>" id="<%= listingGalleryId[i] %>" class="prev-video-gallery-style"></iframe>
+                  <span class="deleteItemFromGallery" onclick="deletePrevItem(<%= listingGalleryId[i] %>)">&times;</span>
+                </div>
+              </div>
+              <%}%>
+            <%}%>
+
+          </div>
+        </div>
+
+          <!-- <div class="col-12 mt-4 px-10">
             <div class="row">
               <div class="col-2 pr-0">
-                <div id="thumbnail-drop-area" class="m-0">
-                  <div id="thumbnail-gallery" style="pointer-events: none!important;"></div>
-                  <div class="thumbnailSlctText">
+                <div id="thumbnail-drop-area" class="m-0" style="display: block;">
+                  <div id="thumbnail-gallery" style="pointer-events: none!important;">
+                    <img src="<%= listing.thumbnail %>" class="thumbnail-gallery-style" id="prevThumbnailId">
+                  </div>
+                  <div class="prevthumbnailSlctText">
                     <input name="listingThumbnail" style="opacity: 0;" type="file" id="thumbnailFile" accept="image/*" onchange="handleThumbnailFile(this.files)" required>
                     <span style="background: black; color: white; font-size: 0.9em; font-weight: 600; padding: 1px 29px 1px 29px;">Thumbnail</span>
                   </div>
                 </div>
               </div>
               <div class="col-10 px-0">
-                <div id="image-gallery"></div>
-                <div id="video-gallery"></div>
+                  <%
+                  var listingGallery = [];
+                  for(let i=0; i<listing.image.length; i++) {
+                    listingGallery.push(listing.image[i]);
+                  }
+                  for(let i=0; i<listing.video.length; i++) {
+                    listingGallery.push(listing.video[i]);
+                  }
+                  console.log('items in gallery: ', listingGallery)
+                  %>
+                  <% for(let i=0; i<listingGallery.length; i++) {%>
+                    <%if(listingGallery[i].includes("image")) { %>
+                      <div id="prev-image-gallery">
+                        <div class="listingImage" id="prevgalleryItem<%=i%>">
+                          <img src="<%= listingGallery[i] %>" id="previmageItem<%=i%>" class="prev-image-gallery-style" draggable="true" ondragstart="drag(event)">
+                          <span class="deleteItemFromGallery" onclick="deletePrevItem(<%=i%>)">&times;</span>
+                        </div>
+                      </div>
+                    <%}%>
+                  <%}%>
+
+\                  <% for(let i=0; i<listingGallery.length; i++) {%>
+                    <%if(listingGallery[i].includes("video")) { %>
+                      <div id="prev-video-gallery">
+                        <div class="listingVideo" id="prevgalleryItem<%=i%>">
+                          <iframe src="<%= listingGallery[i] %>" id="prevvideoItem<%=i%>" class="prev-video-gallery-style"></iframe>
+                          <span class="deleteItemFromGallery" onclick="deletePrevItem(<%=i%>)">&times;</span>
+                        </div>
+                      </div>
+                    <%}%>
+                  <%}%>
+
+                <div class="row">
+                  <div id="image-gallery"></div>
+                  <div id="video-gallery"></div>
+                </div>
+
               </div>
             </div>
-          </div>
-        </div>
+          </div> -->
 
         <div class="offset-1 col-10 mt-4 pt-3">
           <div id="upldForm-form" style="display: block;">
@@ -394,15 +526,15 @@
         console.log('aaaaaaaa: ', files);
         updateGallery(files);
         previewGallery(files);
-        var currentGallery = document.getElementById("galleryFileArray");
-        if(currentGallery.files.length != 0) {
-          document.getElementById("drop-area").style.display = "none"
-          document.getElementById("add-drop-area").style.display = "block"
-          document.getElementById("thumbnail-drop-area").style.display = "block"
-        }else if (currentGallery.files.length == 0) {
-          document.getElementById("drop-area").style.display = "block"
-          document.getElementById("add-drop-area").style.display = "none"
-        }
+        // var currentGallery = document.getElementById("galleryFileArray");
+        // if(currentGallery.files.length != 0) {
+        //   document.getElementById("drop-area").style.display = "none"
+        //   document.getElementById("add-drop-area").style.display = "block"
+        // }else if (currentGallery.files.length == 0) {
+        //   document.getElementById("drop-area").style.display = "block"
+        //   document.getElementById("add-drop-area").style.display = "none"
+        // }
+        updateMediaCount();
     }
 
     function drag(ev) {
@@ -411,7 +543,7 @@
 
     function deleteItem(id) {
       //remove from preview
-      document.getElementById("galleryItem"+id).style.display = "none";
+      document.getElementById("completeGallery").removeChild(document.getElementById("galleryItem"+id).parentNode);
       //remove from file input
       var fileList = document.getElementById('galleryFileArray');
       var list = new DataTransfer();
@@ -423,26 +555,32 @@
         }
       }
       fileList.files = list.files;
-      document.getElementById('listGalleryCount').innerHTML = "(" + fileList.files.length + ' Media Uploaded)'
-
+      var oldFileLength = [];
+      oldFileLength.push(document.getElementById("prevThumbnailId"));
+      console.log(document.getElementById("prevImageId").length);
+      // document.getElementById('listGalleryCount').innerHTML = "(" + fileList.files.length + ' Media Uploaded)'
+      updateMediaCount();
     }
 
     function previewGallery(files) {
         console.log('given gallery files: ', files);
-        var imageGallery = document.getElementById("image-gallery")
-        while(imageGallery.firstChild) {
-          imageGallery.removeChild(imageGallery.firstChild)
-        }
-        var videoGallery = document.getElementById("video-gallery")
-        while(videoGallery.firstChild) {
-          videoGallery.removeChild(videoGallery.firstChild)
-        }
+        // var imageGallery = document.getElementById("image-gallery")
+        // while(imageGallery.children[0]) {
+        //   imageGallery.removeChild(imageGallery.children[0])
+        // }
+        // var videoGallery = document.getElementById("video-gallery")
+        // while(videoGallery.children[0]) {
+        //   videoGallery.removeChild(videoGallery.children[0])
+        // }
         var currentThumbnail = document.getElementById("thumbnailFile");
         for(let i=0; i<files.length; i++) {
             let reader = new FileReader();
             reader.readAsDataURL(files[i]);
             reader.onloadend = function() {
               if(files[i].type.includes('image')) {
+                //col-2
+                var imgColDiv = document.createElement('div');
+                imgColDiv.classList.add('col-2');
                 //img div to contain img and btn
                   var imgDiv = document.createElement('div');
                   imgDiv.classList.add('listingImage'); 
@@ -462,15 +600,20 @@
                   //add img and btn to div
                   imgDiv.appendChild(img);
                   imgDiv.appendChild(dltItemBtn);
-                  document.getElementById('image-gallery').appendChild(imgDiv);
-                  if(currentThumbnail.files.length == 0){
-                    updateThumbnail(files[i])
-                    imgDiv.childNodes[1].style.display = "none"
-                    document.getElementById('thumbnail-gallery').appendChild(imgDiv);
-                  }
+                  imgColDiv.appendChild(imgDiv)
+                  document.getElementById('completeGallery').appendChild(imgColDiv);
+                  // if(currentThumbnail.files.length == 0){
+                  //   updateThumbnail(files[i])
+                  //   imgDiv.childNodes[1].style.display = "none"
+                  //   document.getElementById('thumbnail-gallery').appendChild(imgDiv);
+                  // }
               }else if(files[i].type.includes('video')) {
                 console.log('files at i', files[i])
                 console.log('iiiiiii: ',i);
+                //col-2
+                var vidColDiv = document.createElement('div');
+                vidColDiv.classList.add('col-2');
+
                 //video div to contain video and button
                   var vidDiv = document.createElement('div');
                   vidDiv.classList.add('listingVideo'); 
@@ -488,13 +631,14 @@
                   //add img and btn to div
                   vidDiv.appendChild(vid);
                   vidDiv.appendChild(dltItemBtn);
-                  document.getElementById('video-gallery').appendChild(vidDiv);
+                  vidColDiv.appendChild(vidDiv)
+                  document.getElementById('completeGallery').appendChild(vidColDiv);
               }
             }
         }   
         //show how many media selected
         var galleryFiles = document.getElementById("galleryFileArray");
-        document.getElementById('listGalleryCount').innerHTML = "(" + galleryFiles.files.length + ' Media Uploaded)'
+        // document.getElementById('listGalleryCount').innerHTML = "(" + galleryFiles.files.length + ' Media Uploaded)'
     }
 
     function updateGallery(files) {
@@ -572,6 +716,8 @@
       var galleryFiles = handleAddGallery();
       console.log('hhhhh: ',galleryFiles)
       files = [...files]//convert files to array
+      previewGallery(files);
+      updateMediaCount();
       var list = new DataTransfer();
       console.log('tttttttt: ', galleryFiles.length)
       for(let i=0; i<galleryFiles.length; i++) {
@@ -584,13 +730,14 @@
       var fileList = document.getElementById('galleryFileArray');
       fileList.files = list.files;
       var previousThumbnail = document.getElementById('thumbnail-gallery');
-      console.log('previous thumbnail in gallery: ',previousThumbnail.childNodes[0].classList.value)
-      if(previousThumbnail.childNodes[0].classList.value == 'listingImage') {
-        console.log('checks out: ', previousThumbnail.childNodes[0].id);
-        document.getElementById("thumbnailFile").value="";
-        document.getElementById("thumbnail-gallery").removeChild(document.getElementById("thumbnail-gallery").firstChild);
-      }
-      previewGallery(list.files);
+      // console.log('previous thumbnail in gallery: ',previousThumbnail)
+      // if(previousThumbnail.childNodes[1].classList.value == 'listingImage') {
+      //   console.log('checks out: ', previousThumbnail.childNodes[0].id);
+      //   document.getElementById("thumbnailFile").value="";
+      //   document.getElementById("thumbnail-gallery").removeChild(document.getElementById("thumbnail-gallery").firstChild);
+      // }else {
+
+      // }
     }
   </script>
   <!-- Choose Thumbnail drag and drop -->
@@ -633,50 +780,82 @@
     }
     function handleThumbDrop(e) {
       var thumbnailGallery = document.getElementById("thumbnail-gallery")
-      var previousThumbnail = document.getElementById("thumbnailFile");
-      var imageGallery = document.getElementById("image-gallery");
-      console.log('the err thianka: ', thumbnailGallery.firstChild.childNodes[1]);
-      previousThumbnail.value ="";
-      thumbnailGallery.firstChild.childNodes[1].style.display = "block"
-      imageGallery.appendChild(document.getElementById("thumbnail-gallery").firstChild);
+      var completeGallery = document.getElementById("completeGallery");
       var dt = e.dataTransfer;
-      console.log('dt provi: ',dt.getData("text"));
-      console.log('dfgsdf: ', dt)
       var files;
       console.log('dtgetdata: ', dt.getData('text'))
       var slctEle = document.getElementById(dt.getData("text"));
-      console.log('slcele: ', slctEle)
-      if(slctEle != null) {
+      console.log('slcele: ', slctEle.classList.value)
+      //SET THUMBNAIL FILE (EITHER PREVIOUS LINK OR NEW FILE)
+      if(slctEle.classList.value == "prev-image-gallery-style") {
+        //clear file input file => use id instead of file when using previous listing images
+        document.getElementById("thumbnailFile").value="";
+        console.log('check thumbnail: ', thumbnailGallery.children[0])
+        //set value
+        document.getElementById("prevThumbnailId").value = dt.getData("text");
+        document.getElementById("prevThumbnail").value = slctEle.src;
+      }else if(slctEle.classList.value == "image-gallery-style") {
+        //clear previous listing images thumbnail
+        document.getElementById("prevThumbnailId").value="";
+        document.getElementById("prevThumbnail").value="";
+        //set files
         files = dataURLtoFile(slctEle.src, "thumbnailImage");
         console.log('typ of fiel: ',files);
         updateThumbnail(files)
-        slctEle.parentNode.childNodes[1].style.display = "none"
-        console.log('mmcvmcvmc: ',thumbnailGallery)
-        document.getElementById("thumbnail-gallery").appendChild(slctEle.parentNode);
-        console.log('mmcvmcvmc: ',thumbnailGallery)
-      }else{
-        files = dt.files;
-        console.log('drop: ', files)
-        updateThumbnail(files)
-        previewThumbnail(files);
+        console.log('peva: ', thumbnailGallery.children[0].classList.value);
       }
+      //PREVIEW GALLERY
+      if(thumbnailGallery.children[0].classList.value=="phlistingImage") {
+        console.log('a')
+        thumbnailGallery.removeChild(thumbnailGallery.children[0])
+        slctEle.parentNode.children[1].style.display = "none"
+        completeGallery.removeChild(slctEle.parentNode.parentNode)
+        thumbnailGallery.appendChild(slctEle.parentNode)
+      }else if(thumbnailGallery.children[0].classList.value=="prevlistingImage") {
+        console.log('b')
+        //thumbnail
+        slctEle.parentNode.children[1].style.display = "none"
+        completeGallery.removeChild(slctEle.parentNode.parentNode)
+        thumbnailGallery.appendChild(slctEle.parentNode)
+        //make col-2 and append back to gallery
+        console.log('sadf: ', thumbnailGallery.children[0].children[1])
+        thumbnailGallery.children[0].children[1].style.display = "block";
+        var coltwo = document.createElement('div');
+        coltwo.classList.add('col-2');
+        coltwo.appendChild(thumbnailGallery.children[0])
+        document.getElementById("completeGallery").appendChild(coltwo);
+      }else if(thumbnailGallery.children[0].classList.value=="listingImage") {
+        console.log('c')
+        //thumbnail
+        slctEle.parentNode.children[1].style.display = "none"
+        completeGallery.removeChild(slctEle.parentNode.parentNode)
+        thumbnailGallery.appendChild(slctEle.parentNode)
+        //make col-2 and append back to gallery
+        thumbnailGallery.children[0].children[1].style.display = "block";
+        var coltwo = document.createElement('div');
+        coltwo.classList.add('col-2');
+        coltwo.appendChild(thumbnailGallery.children[0])
+        document.getElementById("completeGallery").appendChild(coltwo);
+      }
+      updateMediaCount();
     }
     function handleThumbnailFile(files) {
-      var imageGallery = document.getElementById("image-gallery");
+      var imageGallery = document.getElementById("completeGallery");
         files = [...files];
         console.log('inside thumb: ',files)
         var previousThumbnail = document.getElementById("thumbnailFile");
         console.log('previousds length: ', previousThumbnail.files.length)
         if(previousThumbnail.files.length > 0) {
           previousThumbnail.value ="";
-          imageGallery.appendChild(document.getElementById("thumbnail-gallery").firstChild);
+          imageGallery.appendChild(document.getElementById("thumbnail-gallery").children[0]);
         }
         updateThumbnail(files)
         previewThumbnail(files);
+        updateMediaCount();
     }
     function previewThumbnail(files) {
       var thumbnailGallery = document.getElementById("thumbnail-gallery")
-      var imageGallery = document.getElementById("image-gallery")
+      var imageGallery = document.getElementById("completeGallery")
       console.log('thumbnaisda: ',files)
       var file;
       if(typeof files.length == 'undefined'){
@@ -684,8 +863,8 @@
         list.items.add(files);
         file = list.files[list.files.length - 1];
         console.log('drag file: ', file);
-        if(thumbnailGallery.firstChild) {
-          imageGallery.appendChild(thumbnailGallery.firstChild);
+        if(thumbnailGallery.children[0]) {
+          imageGallery.appendChild(thumbnailGallery.children[0]);
         }
       }else {
         file = files[files.length - 1];
@@ -698,6 +877,9 @@
           var img = document.createElement('img');
           img.src = reader.result;
           img.classList.add("thumbnail-gallery-style");
+          if(thumbnailGallery.children[0]) {
+            thumbnailGallery.removeChild(thumbnailGallery.children[0]);
+          }
           thumbnailGallery.appendChild(img);
         }
       }
@@ -718,6 +900,78 @@
       list.items.add(file);
       thumbnailFiles.files = list.files;
     }
+</script>
+<script>
+function deletePrevItem(i) {
+  console.log('passed i: ', i.id)
+  document.getElementById("completeGallery").removeChild(i.parentNode.parentNode);
+  if(i.parentNode.classList.value == "prevlistingImage") {
+    // ID
+    var prevImageIdArr = document.getElementById('prevImageId').value.split(",");
+    var newPrevImageIdArr = [];
+    for(let a=0; a<prevImageIdArr.length; a++) {
+      if(prevImageIdArr[a] != i.id) {
+        newPrevImageIdArr.push(prevImageIdArr[a]);
+      }
+    }
+    // Norm
+    var prevImageArr = document.getElementById('prevImage').value.split(",");
+    var newPrevImageArr = [];
+    for(let a=0; a<prevImageArr.length; a++) {
+      if(prevImageArr[a] != i.src) {
+        newPrevImageArr.push(prevImageArr[a]);
+      }
+    }
+    // Set
+    document.getElementById('prevImageId').value = newPrevImageIdArr;
+    document.getElementById('prevImage').value = newPrevImageArr;
+    document.getElementById('dltPrevImageId').value += i.id;
+    document.getElementById('dltPrevImage').value += i.src;
+
+  }else if(i.parentNode.classList.value == "prevlistingVideo") {
+    // ID
+    var prevVideoIdArr = document.getElementById('prevVideoId').value.split(",");
+    var newPrevVideoIdArr = [];
+    for(let a=0; a<prevVideoIdArr.length; a++) {
+      if(prevVideoIdArr[a] != i.id) {
+        newPrevVideoIdArr.push(prevVideoIdArr[a]);
+      }
+    }
+    // Norm
+    var prevVideoArr = document.getElementById('prevVideo').value.split(",");
+    var newPrevVideoArr = [];
+    for(let a=0; a<prevVideoArr.length; a++) {
+      if(prevVideoArr[a] != i.src) {
+        newPrevVideoArr.push(prevVideoArr[a]);
+      }
+    }
+    // Set
+    document.getElementById('prevVideoId').value = newPrevVideoIdArr;
+    document.getElementById('prevVideo').value = newPrevVideoArr;
+    document.getElementById('dltPrevVideoId').value += i.id;
+    document.getElementById('dltPrevVideo').value += i.src;
+  }
+  var oldFileLength = [];
+  oldFileLength.push(document.getElementById("prevThumbnailId"));
+  var arrLengthImage = document.getElementById("prevImageId").value.split(",")
+  for(let i=0; i<arrLengthImage.length; i++) {
+    oldFileLength.push(arrLengthImage[i]);
+  }
+  var arrLengthVideo = document.getElementById("prevVideoId").value.split(",")
+  for(let i=0; i<arrLengthVideo.length; i++) {
+    oldFileLength.push(arrLengthVideo[i]);
+  }
+  // document.getElementById('listGalleryCount').innerHTML = "(" + oldFileLength.length + ' Media Uploaded)'
+  updateMediaCount();
+
+}
+</script>
+<script>
+  function updateMediaCount() {
+    var filePreviewCount = document.getElementById("completeGallery").children.length;
+    document.getElementById('listGalleryCount').innerHTML = "("+filePreviewCount+" Media Uploaded)"
+    console.log('coresadJ: ', filePreviewCount)
+  }
 </script>
 
 <footer class="container-fluid mt-5 "id="footer" style="background-color: #292b2c; color: white">
@@ -756,8 +1010,8 @@ function sortTableByColumn(table, column, asc = true) {
     });
 
     // Remove all existing TRs from the table
-    while (tBody.firstChild) {
-        tBody.removeChild(tBody.firstChild);
+    while (tBody.children[0]) {
+        tBody.removeChild(tBody.children[0]);
     }
 
     // Re-add the newly sorted rows
@@ -785,3 +1039,4 @@ AOS.init();
 </body>
 
 </html>
+

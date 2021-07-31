@@ -1095,59 +1095,149 @@ router.put("/listings/:id", middleware.checklistingOwnership, uploadMultiple, fu
 			req.flash("error", err.message);
 			res.redirect("back");
 		} else{
-			console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa: ',req.files);
-			console.log('bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb: ',req.body);
 			//Thumbnail
-			var listingThumbnail = req.files.listingThumbnail;
-			try{
-				console.log('check for thumbnail: '+listing.thumbnailId);
-				await cloudinary.v2.uploader.destroy(listing.thumbnailId);
-				console.log('thumbnail path check: '+listingThumbnail[0].path);
-				var result = await uploadToCloudinary(listingThumbnail[0].path);
-				listing.thumbnail = result.secure_url;
-				listing.thumbnailId = result.public_id;
-			}catch(err) {
-				req.flash("error", err.message);
-				return res.redirect("back");
+			//File Input populated => new file
+			if(req.files.listingThumbnail) {
+				var listingThumbnail = req.files.listingThumbnail;
+				try{
+					console.log('check for thumbnail: '+listing.thumbnailId);
+					await cloudinary.v2.uploader.destroy(listing.thumbnailId);
+					console.log('thumbnail path check: '+listingThumbnail[0].path);
+					var result = await uploadToCloudinary(listingThumbnail[0].path);
+					listing.thumbnail = result.secure_url;
+					listing.thumbnailId = result.public_id;
+				}catch(err) {
+					req.flash("error", err.message);
+					return res.redirect("back");
+				}
+			}else {
+				if(req.body.prevThumbnail) {
+					listing.thumbnail = req.body.prevThumbnail;
+				}
+				if(req.body.prevThumbnailId) {
+					listing.thumbnailId = req.body.prevThumbnailId;
+				}
 			}
+
+			//Previous Image
+			var newListingImageIdArr = [];
+			if(req.body.prevImageId) {
+				var listingImageId = req.body.prevImageId.split(",");
+				for(let i=0; i<listingImageId.length; i++) {
+					newListingImageIdArr.push(listingImageId[i])
+				}
+			}
+			var newListingImageArr = [];
+			if(req.body.prevImage) {
+				var listingImage = req.body.prevImage.split(",");
+				for(let i=0; i<listingImage.length; i++) {
+					newListingImageArr.push(listingImage[i])
+				}		
+			}
+			//Previous Video		
+			var newListingVideoIdArr = [];
+			if(req.body.prevVideoId) {
+				var listingVideoId = req.body.prevVideoId.split(",");
+				for(let i=0; i<listingVideoId.length; i++) {
+					newListingVideoIdArr.push(listingVideoId[i])
+				}	
+			}
+			var newListingVideoArr = [];
+			if(req.body.prevVideo) {
+				var listingVideo = req.body.prevVideo.split(",");
+				for(let i=0; i<listingVideo.length; i++) {
+					newListingVideoArr.push(listingVideo[i])
+				}		
+			}
+			//Deleted Previous Image & Video ID
+			var deleteImageIdArr = [];
+			if(req.body.dltPrevImageId) {
+				var deleteImageId = req.body.dltPrevImageId.split(",");
+				for(let i=0; i<deleteImageId.length; i++) {
+					deleteImageIdArr.push(deleteImageId[i])
+				}	
+			}
+			var deleteVideoIdArr = [];
+			if(req.body.dltPrevVideoId) {
+				var deleteVideoId = req.body.dltPrevVideoId.split(",");
+				for(let i=0; i<deleteVideoId.length; i++) {
+					deleteVideoIdArr.push(deleteVideoId[i])
+				}	
+			}
+
 			//Image & Video Gallery
-			var listingGallery = req.files.listingGallery;
-			console.log('new upda gallery: ', listingGallery);
-			var newImageSecureUrlArray = [];
-			var newImagePublicIdArray = [];
-			var newVideoSecureUrlArray = [];
-			var newVideoPublicIdArray = [];
-			try{
-				//Destroy Image
-				console.log('check for image: '+listing.imageId);
-				for(let i=0; i<listing.imageId.length; i++) {
-					await cloudinary.v2.uploader.destroy(listing.imageId[i]);
-				}
-				//Destroy Video
-				console.log('check for video: '+listing.videoId);
-				for(let i=0; i<listing.videoId.length; i++) {
-					await cloudinary.v2.uploader.destroy(listing.videoId[i]);
-				}
-				//Upload Image & Video
-				for(let i=0; i<listingGallery.length; i++) {
-					if(listingGallery[i].mimetype.includes('image')) {
-						var result = await uploadToCloudinary(listingGallery[i].path);
-						newImageSecureUrlArray.push(result.secure_url);
-						newImagePublicIdArray.push(result.public_id);
-					}else if(listingGallery[i].mimetype.includes('video')) {
-						var result = await uploadToCloudinary(listingGallery[i].path);
-						newVideoSecureUrlArray.push(result.secure_url);
-						newVideoPublicIdArray.push(result.public_id);
+			if(req.files.listingGallery) {
+				var listingGallery = req.files.listingGallery;
+				console.log('new upda gallery: ', listingGallery);
+				var newImageSecureUrlArray = [];
+				var newImagePublicIdArray = [];
+				var newVideoSecureUrlArray = [];
+				var newVideoPublicIdArray = [];
+				try{
+					//Destroy Image
+					console.log('check for image: '+listing.imageId);
+					// for(let i=0; i<listing.imageId.length; i++) {
+					// 	await cloudinary.v2.uploader.destroy(listing.imageId[i]);
+					// }
+					for(let i=0; i<deleteImageIdArr.length; i++) {
+						await cloudinary.v2.uploader.destroy(deleteImageIdArr[i]);
 					}
+					//Destroy Video
+					console.log('check for video: '+listing.videoId);
+					// for(let i=0; i<listing.videoId.length; i++) {
+					// 	await cloudinary.v2.uploader.destroy(listing.videoId[i]);
+					// }
+					for(let i=0; i<deleteImageIdArr.length; i++) {
+						await cloudinary.v2.uploader.destroy(deleteImageIdArr[i]);
+					}
+
+					//Upload Image & Video
+					for(let i=0; i<listingGallery.length; i++) {
+						if(listingGallery[i].mimetype.includes('image')) {
+							var result = await uploadToCloudinary(listingGallery[i].path);
+							newImageSecureUrlArray.push(result.secure_url);
+							newImagePublicIdArray.push(result.public_id);
+						}else if(listingGallery[i].mimetype.includes('video')) {
+							var result = await uploadToCloudinary(listingGallery[i].path);
+							newVideoSecureUrlArray.push(result.secure_url);
+							newVideoPublicIdArray.push(result.public_id);
+						}
+					}
+					//Image
+					for(let i=0; i<newImageSecureUrlArray.length; i++) {
+						newListingImageArr.push(newImageSecureUrlArray[i])
+					}
+					for(let i=0; i<newImagePublicIdArray.length; i++) {
+						newListingImageIdArr.push(newImagePublicIdArray[i])
+					}
+					//Video
+					for(let i=0; i<newVideoSecureUrlArray.length; i++) {
+						newListingVideoArr.push(newVideoSecureUrlArray[i])
+					}
+					for(let i=0; i<newVideoPublicIdArray.length; i++) {
+						newListingVideoIdArr.push(newVideoPublicIdArray[i])
+					}
+					// listing.image = newImageSecureUrlArray;
+					// listing.imageId = newImagePublicIdArray;
+					// listing.video = newVideoSecureUrlArray;
+					// listing.videoId = newVideoPublicIdArray;		
+				}catch(err) {
+					req.flash("error", err.message);
+					return res.redirect("back");
 				}
-				listing.image = newImageSecureUrlArray;
-				listing.imageId = newImagePublicIdArray;
-				listing.video = newVideoSecureUrlArray;
-				listing.videoId = newVideoPublicIdArray;		
-			}catch(err) {
-				req.flash("error", err.message);
-				return res.redirect("back");
 			}
+			console.log('111111: ', newListingImageArr)
+			console.log('222222: ', newListingImageIdArr)
+			console.log('333333: ', newListingVideoArr)
+			console.log('444444: ', newListingVideoIdArr)
+
+			//Set Image and video id and stuff
+			listing.image = newListingImageArr;
+			listing.imageId = newListingImageIdArr;
+			listing.video = newListingVideoArr;
+			listing.videoId = newListingVideoIdArr;		
+
+			
 			//location information
 			if(req.body.listing.location !== listing.location){
 				console.log(req.body.location)
