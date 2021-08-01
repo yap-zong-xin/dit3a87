@@ -428,7 +428,7 @@ router.post("/connect", function(req, res){
 			});
 			const mailOptions = {
 				from: '3D Property Website <jptestingsku@gmail.com>',
-				to: "bagfullofav@gmail.com",
+				to: "avk03.19@ichat.sp.edu.sg,dereckzorca.18@ichat.sp.edu.sg,jingpng18.18@ichat.sp.edu.sg,yapzx.19@ichat.sp.edu.sg,ahkc.19@ichat.sp.edu.sg",
 				subject: subject,
 				html :'Message from '+firstName +" "+ lastName+ ":<br>"
 						+ text
