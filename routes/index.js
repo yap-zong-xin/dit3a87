@@ -298,12 +298,7 @@ router.post("/login", middleware.notLoggedIn, function (req, res, next) {
 	})
 });
 
-// forgot password
-router.get('/forgot', middleware.notLoggedIn, function(req, res) {
-	res.render('forgot.ejs');
-});
-
-router.post('/forgot', middleware.notLoggedIn, function(req, res, next) {
+router.post('/forgot', function(req, res, next) {
 	function tokenCode (size = 20) {
 		return crypto
 			.randomBytes(size)
@@ -360,7 +355,7 @@ router.post('/forgot', middleware.notLoggedIn, function(req, res, next) {
 	.catch(error => console.log(error.message))
 });
   
-router.get('/reset/:token', middleware.notLoggedIn, function(req, res) {
+router.get('/reset/:token', function(req, res) {
 	User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function(err, user) {
 		if (!user) {
 		req.flash('error', 'Password reset token is invalid or has expired.');
@@ -370,7 +365,7 @@ router.get('/reset/:token', middleware.notLoggedIn, function(req, res) {
 	});
 });
   
-router.post('/reset/:token', middleware.notLoggedIn, function(req, res) {
+router.post('/reset/:token', function(req, res) {
 	User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function(err, user) {
 		if (!user) {
 		req.flash('error', 'Password reset token is invalid or has expired.');
