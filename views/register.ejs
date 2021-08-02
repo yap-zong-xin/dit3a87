@@ -74,15 +74,15 @@
             <h3>Basic Details</h3>
             <div class="input-field">
               <i class="fas fa-user"></i>
-              <input type="text" placeholder="First Name" id="firstName" name="firstName" required />
+              <input type="text" placeholder="First Name" id="firstName" name="firstName" onChange="validateInput('firstName')" required />
             </div>
             <div class="input-field">
               <i class="fas fa-user"></i>
-              <input type="text" placeholder="Last Name" id="lastName" name="lastName" required />
+              <input type="text" placeholder="Last Name" id="lastName" name="lastName" onChange="validateInput('lastName')" required />
             </div>
             <div class="input-field-select">
               <i class="fas fa-venus-mars"></i>
-              <select name="gender" id="gender" id="gender" name="gender" required>
+              <select name="gender" id="gender" id="gender" name="gender" onChange="validateInput('gender')" required>
                 <option value="unselected" hidden selected>Select Gender</option>
                 <option value="male">Male</option>
                 <option value="female">Female</option>
@@ -91,11 +91,11 @@
             </div>
             <div class="input-field">
               <i class="fas fa-envelope"></i>
-              <input type="email" placeholder="Email" id="email" name="email" required />
+              <input type="email" placeholder="Email" id="email" name="email" onChange="validateInput('email')" required />
             </div>
             <div class="input-field">
               <i class="fas fa-phone"></i>
-              <input type="tel" placeholder="Phone Number" id="phone" name="phone" required />
+              <input type="tel" placeholder="Phone Number" id="phone" name="phone" onChange="validateInput('phone')" required />
             </div>
           </div>
 
@@ -104,19 +104,19 @@
             <h3>Address Information</h3>
             <div class="input-field">
               <i class="fas fa-map"></i>
-              <input type="text" placeholder="Address Line 1" id="address-ln1" name="streetName" required />
+              <input type="text" placeholder="Address Line 1" id="address-ln1" name="streetName" onChange="validateInput('address-ln1')" required />
             </div>
             <div class="input-field">
               <i class="fas fa-map"></i>
-              <input type="text" placeholder="Address Line 2" id="address-ln2" name="unitNumber" required />
+              <input type="text" placeholder="Address Line 2" id="address-ln2" name="unitNumber" onChange="validateInput('address-ln2')" required />
             </div>
             <div class="input-field">
               <i class="fas fa-city"></i>
-              <input type="text" placeholder="State/City" id="city" name="state" required />
+              <input type="text" placeholder="State/City" id="city" name="state" onChange="validateInput('city')" required />
             </div>
             <div class="input-field-select">
               <i class="fas fa-globe-asia"></i>
-              <select name="country" id="country" name="country" required>
+              <select name="country" id="country" name="country" onChange="validateInput('country')" required>
                 <option value="unselected" hidden selected>Select Country</option>
                 <option value="Singapore">Singapore</option>
                 <option value="Malaysia">Malaysia</option>
@@ -125,7 +125,7 @@
             </div>
             <div class="input-field">
               <i class="fas fa-map-marker-alt"></i>
-              <input type="text" placeholder="Postal" id="postal" name="postalCode" required />
+              <input type="text" placeholder="Postal" id="postal" name="postalCode" onChange="validateInput('postal')" required />
             </div>
           </div>
 
@@ -134,11 +134,15 @@
             <h3>Account Details</h3>
             <div class="input-field">
               <i class="fas fa-user"></i>
-              <input type="text" placeholder="Username" id="username" name="username" required />
+              <input type="text" placeholder="Username" id="username" name="username" onChange="validateInput('username')" required />
             </div>
             <div class="input-field">
               <i class="fas fa-lock"></i>
-              <input type="password" placeholder="Password" name="password" name="pwd" required />
+              <input type="password" placeholder="Password" name="password" id="password" onChange="validateInput('password')" required />
+            </div>
+            <div class="input-field">
+              <i class="fas fa-lock"></i>
+              <input type="password" placeholder="Re-Enter Password" id="password-2" name="pwd2" onChange="validateInput('password-2')" required />
             </div>
             <div class="m-0 p-0" id="cea-num"></div>
             <div id="profile-drop-area" style="background-color: #fff;">
@@ -283,13 +287,14 @@
       counter = counter + index;
 
       if (counter == 3) {
-        console.log("true")
-        var htmlBtn = `<button type="submit" onclick="validateSubmit(1)" id="submitBtn" style="margin-left: 50px;"><i
+        var htmlBtn = `<button type="button" onclick="validateSubmit(1)" id="submitBtn" style="margin-left: 50px;"><i
                 class="fas fa-arrow-right"></i></button>`
-        //remove old button
-        document.getElementById("nextBtn").remove();
-        //add new button
-        document.getElementById("prevNext").insertAdjacentHTML("beforeend", htmlBtn);
+                //remove old button
+                document.getElementById("nextBtn").remove();
+                //add new button
+                document.getElementById("prevNext").insertAdjacentHTML("beforeend", htmlBtn);
+        
+
       } else {
         //check if submit button is there
         if (document.getElementById("nextBtn") == undefined) {
@@ -354,6 +359,54 @@
       }
     }
 
+    function validateInput(id) {
+      var input = document.getElementById(id);
+      var div = document.getElementById(id).parentElement;
+
+      if (input.value == "" || input.value == "unselected") {
+        div.classList.remove("valid-input");
+        div.className += " invalid-input";
+      } else if (input.type == "email") { //if email
+            var regex = new RegExp ('^[^@]+@[^@]+\.[^@]+$')
+            var str = (input.value).toString();
+            if(RegExp(regex).test(str) == false) {
+              div.classList.remove("valid-input");
+              div.className += " invalid-input";
+            } else {
+              div.classList.remove("invalid-input")
+              div.className += " valid-input";
+            }
+      } else if (input.type == "tel") {
+        var regex = new RegExp ('^[0-9]+$')
+            var str = (input.value).toString();
+            if(RegExp(regex).test(str) == false) {
+              div.classList.remove("valid-input");
+              div.className += " invalid-input";
+            } else {
+              div.classList.remove("invalid-input");
+              div.className += " valid-input";
+            }
+      } else if (input.type == "password") {
+        var pwd1 = document.getElementById("password");
+        var pwd2 = document.getElementById("password-2");
+
+        if (pwd1.value != pwd2.value) {
+          pwd1.parentElement.classList.remove("valid-input");
+          pwd2.parentElement.classList.remove("valid-input");
+          pwd1.parentElement.className += " invalid-input";
+          pwd2.parentElement.className += " invalid-input";
+        } else {
+          pwd1.parentElement.classList.remove("invalid-input");
+          pwd2.parentElement.classList.remove("invalid-input");
+          pwd1.parentElement.className += " valid-input";
+          pwd2.parentElement.className += " valid-input";
+        }
+      } else {
+        div.classList.remove("invalid-input");
+        div.className += " valid-input";
+      }
+    }
+
     function validateForm() {
       var x, a, b, c, d, valid = true;
 
@@ -406,7 +459,19 @@
             } else {
               a[i].classList.remove("invalid-input");
             }
-          } else {
+          } else if (c[i].type == "password") {
+            //check if passwords are the same
+            var pwd1 = document.getElementById("password").value;
+            var pwd2 = document.getElementById("password-2").value;
+
+            if (pwd1 != pwd2) {
+              a[i].className += " invalid-input";
+              valid = false;
+            } else {
+              a[i].classList.remove("invalid-input");
+            }
+
+          }else {
             a[i].classList.remove("invalid-input");
           }
         }

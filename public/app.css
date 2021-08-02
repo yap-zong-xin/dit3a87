@@ -1486,6 +1486,10 @@ input[type=range]::-ms-thumb {
   background-color: #ffdddd;
 }
 
+.valid-input {
+  background-color: #c9fcb8;
+}
+
 .invalid-input-text {
   color: #d9534f;
   font-weight: 700;
