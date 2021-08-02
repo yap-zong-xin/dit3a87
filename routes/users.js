@@ -130,7 +130,10 @@ router.get("/dashboard/accounts", middleware.isAdmin, function(req, res){
 					.skip((perPage * pageNumber) - perPage)
 					.limit(perPage)
 					.exec(function (err, allUsers) {
-						User.count({$or: [{username: regex}, {firstName: regex}, {lastName: regex}], isAdmin: true}).exec(function (err, count) {
+						User.count(
+							{$or: [{username: regex}, {firstName: regex}, {lastName: regex}]
+							, isAdmin: true})
+							.exec(function (err, count) {
 							if (err) {
 								console.log(err);
 							} else {
@@ -213,13 +216,18 @@ router.get("/dashboard/accounts", middleware.isAdmin, function(req, res){
 					.skip((perPage * pageNumber) - perPage)
 					.limit(perPage)
 					.exec(function (err, allUsers) {
-						User.count({$or: [{username: regex}, {firstName: regex}, {lastName: regex}]}).exec(function (err, count) {
+						User.count(
+							{$or: [{username: regex}, {firstName: regex}, {lastName: regex}]})
+							.exec(function (err, count) {
 							if (err) {
 								console.log(err);
 							} else {
 								if(allUsers.length < 1) {
 									noMatch = "Result: '" + req.query.search + "' not found. Please try again.";
 								}
+								console.log("user.js current page number: " + pageNumber)
+								console.log("user.js total pages: " + Math.ceil(count / perPage))
+
 								res.render("dashboards/accounts/index.ejs", {
 									users: allUsers,
 									current: pageNumber,
@@ -934,7 +942,11 @@ router.get("/dashboard/listings", middleware.isAdmin, function(req,res){
 						soldStatus: {$in: regexSold}, 
 						archiveStatus: {$in: regexArchive}
 						})
-				.sort(sortOptions).skip((perPage * pageNumber) - perPage).limit(perPage).populate("comments likes").exec(function(err, foundlisting){
+				.sort(sortOptions)
+				.skip((perPage * pageNumber) - perPage)
+				.limit(perPage)
+				.populate("comments likes")
+				.exec(function(err, foundlisting){
 					listing.count({
 						$or: [{name: regex}, {district:regex}, {type: regex}], 
 							type: {$in: regexType}, 
@@ -945,22 +957,30 @@ router.get("/dashboard/listings", middleware.isAdmin, function(req,res){
 						console.log(err);
 						res.redirect("back");
 					} else{	
+
 						res.render("dashboards/listings/index.ejs", {
 							listings:foundlisting,
-							noMatch: noMatch,
-							data: req.query,
 							current: pageNumber,
 							pages: Math.ceil(count / perPage),
-							search: false
+							noMatch: noMatch,
+							search: req.query.search,
+							filterPropType: req.query.filterPropType,
+							sort: req.query.sort,
+							data: req.query,
 						});
 					}
-					});
+				});
 				});
 			} else {
 				//QUERY (for one dropdown)
 				// listing.find({
 				//$and: [{type: {$in: regexType}}, {soldStatus: {$in: regexSold}}, {archiveStatus: {$in: regexArchive}}]})
-				listing.find({})
+				listing.find({
+					$or: [{name: regex}, {district:regex}, {type: regex}], 
+						type: {$in: regexType}, 
+						soldStatus: {$in: regexSold}, 
+						archiveStatus: {$in: regexArchive}
+						})
 				.sort(sortOptions).skip((perPage * pageNumber) - perPage).limit(perPage).populate("comments likes").exec(function(err, foundlisting){
 					listing.count()
 					.exec(function (err, count) {
@@ -970,38 +990,106 @@ router.get("/dashboard/listings", middleware.isAdmin, function(req,res){
 					} else{
 						res.render("dashboards/listings/index.ejs", {
 							listings:foundlisting,
-							noMatch: noMatch,
-							data: req.query,
 							current: pageNumber,
 							pages: Math.ceil(count / perPage),
-							search: false
+							noMatch: noMatch,
+							search: req.query.search,
+							filterPropType: req.query.filterPropType,
+							sort: req.query.sort,
+							data: req.query,
 						});
 					}
 					});
 				});
 			}
 		} else {
-			listing.find({$or: [{name: regex}, {district:regex}, {type: regex}]}).skip((perPage * pageNumber) - perPage).limit(perPage).populate("comments likes").exec(function(err, foundlisting){
-				listing.count({name: regex}).exec(function (err, count) {
+			if (req.query.filterPropType) {
+				var filterPropType = req.query.filterPropType;
+				var regexSold = [true, false];
+				var regexArchive = [true, false];
+				var regexType;
+				var slcType = ['hdb', 'condo', 'landed']
+				if(filterPropType == 'sold') {
+					regexSold = [true];
+				}else if(filterPropType == 'archive') {
+					regexArchive = [true];
+				}else if(filterPropType == 'hdb') {
+					slcType = ['hdb'];
+				}else if(filterPropType == 'condo') {
+					slcType = ['condo'];
+				}else if(filterPropType == 'landed') {
+					slcType = ['landed'];
+				}else if(filterPropType == 'all') {
+					slcType = ['hdb', 'condo', 'landed'];
+				}
+				regexType = slcType.map(function(e){return new RegExp(e, "gi");});
+				
+				//QUERY (for both dropdown)
+				listing.find({
+					$or: [{name: regex}, {district:regex}, {type: regex}], 
+						type: {$in: regexType}, 
+						soldStatus: {$in: regexSold}, 
+						archiveStatus: {$in: regexArchive}
+						})
+				.sort(sortOptions)
+				.skip((perPage * pageNumber) - perPage)
+				.limit(perPage)
+				.populate("comments likes")
+				.exec(function(err, foundlisting){
+					listing.count({
+						$or: [{name: regex}, {district:regex}, {type: regex}], 
+							type: {$in: regexType}, 
+							soldStatus: {$in: regexSold}, 
+							archiveStatus: {$in: regexArchive}
+							}).exec(function (err, count) {
 					if(err){
 						console.log(err);
 						res.redirect("back");
-					} else{
-						if(foundlisting.length < 1) {
-							noMatch = "Result: '" + req.query.search + "' not found. Please try again.";
-						}			
+					} else{	
+
 						res.render("dashboards/listings/index.ejs", {
 							listings:foundlisting,
+							current: pageNumber,
+							pages: Math.ceil(count / perPage),
 							noMatch: noMatch,
 							search: req.query.search,
+							filterPropType: req.query.filterPropType,
+							sort: req.query.sort,
 							data: req.query,
-							current: pageNumber,
-							pages: Math.ceil(count / perPage)
 						});
 					}
 				});
-			});
-	
+				});
+			} else {
+				listing.find({
+					$or: [{name: regex}, {district:regex}, {type: regex}]})
+				.sort(sortOptions)
+				.skip((perPage * pageNumber) - perPage)
+				.limit(perPage)
+				.populate("comments likes")
+				.exec(function(err, foundlisting){
+					listing.count({
+						$or: [{name: regex}, {district:regex}, {type: regex}]
+							}).exec(function (err, count) {
+					if(err){
+						console.log(err);
+						res.redirect("back");
+					} else{	
+
+						res.render("dashboards/listings/index.ejs", {
+							listings:foundlisting,
+							current: pageNumber,
+							pages: Math.ceil(count / perPage),
+							noMatch: noMatch,
+							search: req.query.search,
+							filterPropType: req.query.filterPropType,
+							sort: req.query.sort,
+							data: req.query,
+						});
+					}
+				});
+				});
+			}
 		}
 
 
@@ -1069,11 +1157,13 @@ router.get("/dashboard/listings", middleware.isAdmin, function(req,res){
 					} else{	
 						res.render("dashboards/listings/index.ejs", {
 							listings:foundlisting,
-							noMatch: noMatch,
-							data: req.query,
 							current: pageNumber,
 							pages: Math.ceil(count / perPage),
-							search: false
+							noMatch: noMatch,
+							search: req.query.search,
+							filterPropType: req.query.filterPropType,
+							sort: req.query.sort,
+							data: req.query,
 						});
 					}
 					});
@@ -1092,11 +1182,13 @@ router.get("/dashboard/listings", middleware.isAdmin, function(req,res){
 					} else{
 						res.render("dashboards/listings/index.ejs", {
 							listings:foundlisting,
-							noMatch: noMatch,
-							data: req.query,
 							current: pageNumber,
 							pages: Math.ceil(count / perPage),
-							search: false
+							noMatch: noMatch,
+							search: req.query.search,
+							filterPropType: req.query.filterPropType,
+							sort: req.query.sort,
+							data: req.query,
 						});
 					}
 					});
@@ -1134,11 +1226,13 @@ router.get("/dashboard/listings", middleware.isAdmin, function(req,res){
 			} else{	
 				res.render("dashboards/listings/index.ejs", {
 					listings:foundlisting,
-					noMatch: noMatch,
-					data: req.query,
 					current: pageNumber,
 					pages: Math.ceil(count / perPage),
-					search: false
+					noMatch: noMatch,
+					search: req.query.search,
+					filterPropType: req.query.filterPropType,
+					sort: req.query.sort,
+					data: req.query,
 				});
 			}
 			});
@@ -1151,11 +1245,13 @@ router.get("/dashboard/listings", middleware.isAdmin, function(req,res){
 				} else{
 					res.render("dashboards/listings/index.ejs", {
 						listings:foundlisting,
-						noMatch: noMatch,
-						data: req.query,
 						current: pageNumber,
 						pages: Math.ceil(count / perPage),
-						search: false
+						noMatch: noMatch,
+						search: req.query.search,
+						filterPropType: req.query.filterPropType,
+						sort: req.query.sort,
+						data: req.query,
 					});
 				}
 			});

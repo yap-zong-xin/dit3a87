@@ -1,4 +1,7 @@
 <%- include("../../partials/header") %>
+<% 
+  console.log("sort total pages: " + sort)
+%>
 
 <div style="overflow-x: hidden; margin-top: 45px;" class="mb-4">
   <div class="row">
@@ -81,7 +84,7 @@
                               <label class="input-group-text" style="background: white; border: none; font-size: 1em;" for="sort">Sort by:</label>
                             </div>
                             <select class="custom-select" name="sort" id="sort">
-                              <option selected hidden disabled>Sort By</option>
+                              <option value="" disabled selected hidden></option>
                               <option value="HighestPrice" <% if(data.sort == 'HighestPrice') {%> selected <%} %>>Highest Price</option>
                               <option value="LowestPrice" <% if(data.sort == 'LowestPrice') {%> selected <%} %>>Lowest Price</option>
                               <option value="Recent" <% if(data.sort == 'Recent') {%> selected <%} %>>Recent</option>
@@ -102,7 +105,7 @@
                                 <label class="input-group-text" style="background: white; border: none; font-size: 1em;" for="filterAccType">Filter by:</label>
                               </div>
                               <select class="custom-select" name="filterPropType" id="filterPropType">
-                                <option selected hidden disabled>Property Type</option>
+                                <option value="" disabled selected hidden></option>
                                 <option value="sold" <% if(data.filterPropType == 'sold') {%> selected <%} %>>Sold Listing</option>
                                 <option value="archive" <% if(data.filterPropType == 'archive') {%> selected <%} %>>Archived Listing</option>
                                 <option value="hdb" <% if(data.filterPropType == 'hdb') {%> selected <%} %>>HDB</option>
@@ -292,13 +295,13 @@
               <% if (current == 1) { %>
                 <li class="disabled"><a class="border px-3 py-2">First</a></li>
               <% } else { %>
-                <li><a class="border px-3 py-2" href="/dashboard/listings<%if(search){%>?search=<%=search%><%}%>">First</a></li>
+                <li><a class="border px-3 py-2" href="/dashboard/listings<%if(search){%>?search=<%=search%><%}%><%if(sort){%>&sort=<%=sort%><%}%><%if(filterPropType){%>&filterPropType=<%=filterPropType%><%}%>">First</a></li>
               <% } %>
           
               <% if (current == 1) { %>
                 <li class="disabled"><a class="border px-3 py-2">«</a></li>
               <% } else { %>
-                <li><a class="border px-3 py-2" href="/dashboard/listings?page=<%= Number(current) - 1 %><%if(search){%>&search=<%=search%><%}%>">«</a></li>
+                <li><a class="border px-3 py-2" href="/dashboard/listings?page=<%= Number(current) - 1 %><%if(search){%>&search=<%=search%><%}%><%if(sort){%>&sort=<%=sort%><%}%><%if(filterPropType){%>&filterPropType=<%=filterPropType%><%}%>">«</a></li>
               <% } %>
           
               <% var i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
@@ -309,7 +312,7 @@
                 <% if (i == current) { %>
                   <li class="active"><a class="border px-3 py-2"><%= i %></a></li>
                 <% } else { %>
-                  <li><a class="border px-3 py-2" href="/dashboard/listings?page=<%= i %><%if(search){%>&search=<%=search%><%}%>"><%= i %></a></li>
+                  <li><a class="border px-3 py-2" href="/dashboard/listings?page=<%= i %><%if(search){%>&search=<%=search%><%}%><%if(sort){%>&sort=<%=sort%><%}%><%if(filterPropType){%>&filterPropType=<%=filterPropType%><%}%>"><%= i %></a></li>
                 <% } %>
                 <% if (i == Number(current) + 4 && i < pages) { %>
                   <li class="disabled"><a class="border px-3 py-2">...</a></li>
@@ -319,13 +322,13 @@
               <% if (current == pages) { %>
                 <li class="disabled"><a class="border px-3 py-2">»</a></li>
               <% } else { %>
-                <li><a class="border px-3 py-2" href="/dashboard/listings?page=<%= Number(current) + 1 %><%if(search){%>&search=<%=search%><%}%>">»</a></li>
+                <li><a class="border px-3 py-2" href="/dashboard/listings?page=<%= Number(current) + 1 %><%if(search){%>&search=<%=search%><%}%><%if(sort){%>&sort=<%=sort%><%}%><%if(filterPropType){%>&filterPropType=<%=filterPropType%><%}%>">»</a></li>
               <% } %>
           
               <% if (current == pages) { %>
                 <li class="disabled"><a class="border px-3 py-2">Last</a></li>
               <% } else { %>
-                <li><a class="border px-3 py-2" href="/dashboard/listings?page=<%= pages %><%if(search){%>&search=<%=search%><%}%>">Last</a></li>
+                <li><a class="border px-3 py-2" href="/dashboard/listings?page=<%= pages %><%if(search){%>&search=<%=search%><%}%><%if(sort){%>&sort=<%=sort%><%}%><%if(filterPropType){%>&filterPropType=<%=filterPropType%><%}%>">Last</a></li>
               <% } %>
             </ul>
           <% } %>
