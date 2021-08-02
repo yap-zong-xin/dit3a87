@@ -1560,6 +1560,7 @@ router.put("/user/:id/image", middleware.checkUserOwnership, upload.single("imag
 
 //Destroy Route
 router.delete("/user/:id", middleware.checkUserOwnership, function(req, res){
+	//Remove user 
 	User.findByIdAndRemove(req.params.id, function(err, dltUser){
 		if(err){
 			res.redirect("/user");
@@ -1604,9 +1605,35 @@ router.delete("/user/:id", middleware.checkUserOwnership, function(req, res){
 			.catch(error => console.log(error.message))
 		}
 	});
+
+	//Remove Users listing
+	listing.remove( { "author.id": req.params.id } ).populate('author.id').exec(function (err, dltListing) {
+		if(err) {
+			res.redirect("/user");
+		}else {
+			console.log('removed from listing: ', dltListing);
+		}
+	});
+	//Remove Users reviews
+	Review.remove( { "author.id": req.params.id } ).populate('author.id').exec(function (err, dltReview) {
+		if(err) {
+			res.redirect("/user");
+		}else {
+			console.log('removed from reviews: ', dltReview);
+		}
+	});
+	//Remove Users comments
+	Comment.remove( { "author.id": req.params.id } ).populate('author.id').exec(function (err, dltComment) {
+		if(err) {
+			res.redirect("/user");
+		}else {
+			console.log('removed from comments: ', dltComment);
+		}
+	});
 });
 //Destroy Route at Dashboard
 router.delete("/user/:id/dashboard", middleware.isAdmin, function(req, res){
+	//Remove user 
 	User.findByIdAndRemove(req.params.id, function(err, dltUser){
 		if(err){
 			res.redirect("/user");
@@ -1649,6 +1676,31 @@ router.delete("/user/:id/dashboard", middleware.isAdmin, function(req, res){
 			.then(req.flash("success", 'Email sent. '+dltUser.username+successMsg))
 			.then(res.redirect("/dashboard/accounts"))
 			.catch(error => console.log(error.message))
+		}
+	});
+	
+	//Remove Users listing
+	listing.remove( { "author.id": req.params.id } ).populate('author.id').exec(function (err, dltListing) {
+		if(err) {
+			res.redirect("/user");
+		}else {
+			console.log('removed from listing: ', dltListing);
+		}
+	});
+	//Remove Users reviews
+	Review.remove( { "author.id": req.params.id } ).populate('author.id').exec(function (err, dltReview) {
+		if(err) {
+			res.redirect("/user");
+		}else {
+			console.log('removed from reviews: ', dltReview);
+		}
+	});
+	//Remove Users comments
+	Comment.remove( { "author.id": req.params.id } ).populate('author.id').exec(function (err, dltComment) {
+		if(err) {
+			res.redirect("/user");
+		}else {
+			console.log('removed from comments: ', dltComment);
 		}
 	});
 });
