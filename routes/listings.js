@@ -1291,6 +1291,7 @@ router.put("/listings/:id", middleware.checklistingOwnership, uploadMultiple, fu
 
 //Delete Route
 router.delete("/listings/:id", middleware.checklistingOwnership, function(req, res){
+	//Delete Listing
 	listing.findByIdAndRemove(req.params.id, function(err){
 		if(err){
 			res.redirect("/listings");
@@ -1299,15 +1300,35 @@ router.delete("/listings/:id", middleware.checklistingOwnership, function(req, r
 			res.redirect("/listings");
 		}
 	});
+
+	//Remove Comments using listing id
+	Comment.remove( { "author.listingId": req.params.id } ).populate('author.listingId').exec(function (err, dltComment) {
+		if(err) {
+			res.redirect("/user");
+		}else {
+			console.log('removed from comments: ', dltComment);
+		}
+	});
+
 });
 //Delete Route at Dashboard
 router.delete("/listings/:id/dashboard", middleware.checklistingOwnership, function(req, res){
+	//Delete Listing
 	listing.findByIdAndRemove(req.params.id, function(err){
 		if(err){
 			res.redirect("/listings");
 		} else{
 			req.flash("success", "You have successfully deleted a listing.");
 			res.redirect("/dashboard/listings");
+		}
+	});
+	
+	//Remove Comments using listing id
+	Comment.remove( { "author.listingId": req.params.id } ).populate('author.listingId').exec(function (err, dltComment) {
+		if(err) {
+			res.redirect("/user");
+		}else {
+			console.log('removed from comments: ', dltComment);
 		}
 	});
 });
