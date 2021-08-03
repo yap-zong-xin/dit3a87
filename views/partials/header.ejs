@@ -57,10 +57,26 @@
       <% if(!currentUser){ %>
         <button class="navbar-toggler custom-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+          <span class="navbar-toggler-icon"></span>
+        </button>
       <% } else { %>
-        <div class="d-flex justify-content-center d-none">
+          <% if(currentUser.isAdmin==false && currentUser.isAgent==false){ %>
+          <% } else { %>
+          <div class="d-flex justify-content-center d-none">
+            <li class="dropdown d-lg-none mt-1 mr-2" style="list-style: none;">
+              <a href="#" data-toggle="dropdown" role="button" aria-haspopup="true"
+              aria-expanded="false" style="text-decoration: none;">
+                <ion-icon class="iconHeader" name="add-outline"></ion-icon>
+              </a>
+              <ul class="dropdown-menu dropdown-menu-right" style="font-size: 0.95em; width: 250px;">
+                <% if(currentUser && currentUser.isAdmin || currentUser && currentUser.isAgent){ %>
+                  <li class="nav-item active">
+                    <a class="nav-link" href="/listings/new">Add Listing</a>
+                  </li>
+                <% } %>
+              </ul>
+            </li>
+          <% } %>
           <li class="dropdown d-lg-none mt-1 mr-2" style="list-style: none;">
             <a href="#" data-toggle="dropdown" role="button" aria-haspopup="true"
               aria-expanded="false" style="text-decoration: none;">
@@ -94,7 +110,7 @@
                 </span>
               <% } %>
             </a>
-            <ul class="dropdown-menu p-3 dropdown-menu dropdown-menu-right" style="width: 300px; height: 370px; overflow-y: auto;">
+            <ul class="dropdown-menu p-3 dropdown-menu dropdown-menu-right" style="width: 260px; height: 370px; overflow-y: auto;">
               <% if(notifications==0){ %>
                 <li class="mb-2">
                   <p style="font-weight: 500; font-size: 0.85em;" class="m-0">Notifications</p>
@@ -182,14 +198,6 @@
               </li>
             </div>
             <!-- lg-none -->
-            <% if(currentUser.isAdmin==false && currentUser.isAgent==false){ %>
-            <% } else { %>
-              <% if(currentUser && currentUser.isAdmin || currentUser && currentUser.isAgent){ %>
-                <li class="nav-item active d-lg-none">
-                  <a class="nav-link" href="/listings/new">Add Listing</a>
-                </li>
-              <% } %>
-            <% } %>
             <li class="nav-item active d-lg-none py-2">
               <a class="nav-link py-0" href="/chat/messenger/<%= currentUser.id %>">
                 Chats

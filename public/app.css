@@ -2329,7 +2329,7 @@ input[type=range]::-ms-thumb {
 
 .user-result {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   /* background-color: #fff; */
   cursor: pointer;
   padding: 0px;
@@ -3214,6 +3214,15 @@ footer {
   width: 100%;
 }
 
+.user-detail {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 30px;
+}
+
 /* Media Queries: Height */
 @media only screen and (max-height: 750px) {
   .input-field {
@@ -3311,19 +3320,9 @@ footer {
     flex-direction: column;
   }
 
-  .user-detail {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 30px;
-  }
-
   .caption-result {
     padding: 15px;
   }
-
 }
 
 @media only screen and (max-width: 578px) {
@@ -3346,6 +3345,7 @@ footer {
     width: 150px;
     height: 150px;
   }
+  
 }
 
 @media only screen and (max-width: 478px) {
@@ -3361,9 +3361,6 @@ footer {
     margin-top: 10px;
   }
 
-  .user-result {
-    flex-direction: column;
-  }
 }
 
 @media only screen and (max-width: 471px) {
@@ -3469,6 +3466,7 @@ footer {
   .custom-field input {
     width: 163%;
   }
+}
 @media (min-width: 768px) {
   .editImageMobile{
     position: relative;
@@ -3477,8 +3475,14 @@ footer {
   .custom-field input {
     width: 220%;
   }
+  .user-detail {
+    flex-direction: row;
+  }
 }
 @media (min-width: 992px) { 
+  .user-result {
+    flex-direction: row;
+  }
   .navigation{
     width: 21%;
   }
