@@ -20,7 +20,7 @@
             </form>
           <% } %>
         </div>
-        <div class="right pb-3">
+        <div class="left right pb-3">
           <!-- approve/remove agent -->
           <% if(user.isAgent && currentUser && currentUser.isAdmin){ %>
             <form action="/agentStatus/<%= user._id %>?_method=PUT" method="POST" class="text-center" style="position:relative; top: 10px;">
