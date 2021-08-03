@@ -22,7 +22,7 @@ function createHTML(rs) {
     var likes = rs.likes.length;
     var thumbnail = rs.thumbnail;
     var listing_name = rs.name;
-    var location = rs.location;
+    var description = rs.description;
     var price = rs.price;
     var bedrooms = rs.bedrooms;
     var bathrooms = rs.bathrooms;
@@ -38,11 +38,11 @@ function createHTML(rs) {
         listing_name = listing_name.substring(0, 14) + "...";
     }
 
-    //Listing location
-    if(location.length<25){
-        location = location.substring(0, 25);
+    //Listing description
+    if(description.length<80){
+        description = description.substring(0, 80);
     } else {
-        location = location.substring(0, 25) + "...";
+        description = description.substring(0, 80) + "...";
     }
 
     //Listing tenure
@@ -93,7 +93,7 @@ function createHTML(rs) {
     countApi("/hit/3dpropertylistingsg/" +  id + "-click");
 
     if(currentUser&&(author_id == currentUser._id)||currentUser&&currentUser.isAdmin) {
-        insertManageListStart =  `<div class="dropdown">
+        insertManageListStart =  `<div class="dropdown pl-1">
                                     <button type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: transparent; border: none">
                                         <i class="fas fa-ellipsis-v"></i>
                                     </button>
@@ -178,10 +178,10 @@ function createHTML(rs) {
                                         ` + listing_name + `
 
                                     </div>
-                                    <!--Street-->
-                                    <div class="col-12 listing-detail" id="listing-street">
+                                    <!--Description-->
+                                    <div class="col-12 listing-detail" style="font-weight:350; font-size: 1.1em;" id="listing-street">
 
-                                        ` + location + `
+                                        ` + description + `
 
                                     </div>
                                     <!--Price-->
@@ -322,7 +322,7 @@ function createHTMLListing(rs) {
     var likes = rs.likes.length;
     var thumbnail = rs.thumbnail;
     var listing_name = rs.name;
-    var location = rs.location;
+    var description = rs.description;
     var price = rs.price;
     var bedrooms = rs.bedrooms;
     var bathrooms = rs.bathrooms;
@@ -337,11 +337,11 @@ function createHTMLListing(rs) {
         listing_name = listing_name.substring(0, 14) + "...";
     }
 
-    //Listing location
-    if(location.length<25){
-        location = location.substring(0, 25);
+    //Listing description
+    if(description.length<80){
+        description = description.substring(0, 80);
     } else {
-        location = location.substring(0, 25) + "...";
+        description = description.substring(0, 80) + "...";
     }
 
     //Listing tenure
@@ -392,7 +392,7 @@ function createHTMLListing(rs) {
     countApi("/hit/3dpropertylistingsg/" +  id + "-click");
 
     if(currentUser&&(author_id == currentUser._id)||currentUser&&currentUser.isAdmin) {
-        insertManageListStart =  `<div class="dropdown">
+        insertManageListStart =  `<div class="dropdown pl-1">
                                     <button type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: transparent; border: none">
                                         <i class="fas fa-ellipsis-v"></i>
                                     </button>
@@ -436,11 +436,10 @@ function createHTMLListing(rs) {
                             </div>
 
                             <!--Right of Listing-->
-                            <div class="col-sm-8 col-md-8 list-right" > 
-
-                                <div class="col-md-12 m-0 p-0">
+                            <div class="col-sm-8 col-md-8 list-right"> 
+                                <div class="col-md-12 m-0 pl-0 pr-2">
                                         <!--Name-->
-                                        <div class="row col-12 m-0 d-flex flex-direction-row align-items-center justify-content-between" style="padding-left: 15px; padding-right: 15px;">
+                                        <div class="row col-12 m-0 d-flex flex-direction-row align-items-center justify-content-between pr-0" style="padding-left: 15px;">
                                             <div onClick='window.location="/listings/` + id + `"' class="listing-detail d-flex justify-content-between" id="listing-name" style="cursor:pointer">
 
                                                 ` + listing_name + `
