@@ -271,13 +271,16 @@ router.post("/login", middleware.notLoggedIn, function (req, res, next) {
 			req.flash("error", "Account cannot be found. Please try again.")
 			return res.redirect("/login");
 		}else{
-			User.find({ email: inputEmail }, {"_id": 0, "isVerified": 1}, function(err, verified) {
+			User.find({ email: inputEmail }, function(err, existUser) {
 				if(err) {
 					return console.error(err);
 				}
-				//console.log(verified[0].isVerified);
-				if(!verified[0].isVerified) { 
+				console.log(existUser);
+				if(!existUser[0].isVerified) { 
 					req.flash("error", "Account is not verified. Please verify using the link sent to your email.")
+					res.redirect("/login");
+				}else if(existUser[0].suspend) {
+					req.flash("error", "Account is suspended.")
 					res.redirect("/login");
 				}else {
 					User.findOneAndUpdate({email:inputEmail}, {$set: {lastLogin: Date.now() }}, function(err, updatedUser) {

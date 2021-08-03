@@ -182,7 +182,7 @@
                                 <label for="HundredThreeYL">103-Year Leasehold</label><br>
                                 <input type="checkbox" id="HundredTenYL" name="HundredTenYL" value="hundredten" <% if(data.HundredTenYL) {%> checked <%} %>>
                                 <label for="HundredTenYL">110-Year Leasehold</label><br>
-                                <input type="checkbox" id="NineHundredNineYL" name="ninehundrednine" value="999"<% if(data.NineHundredNineYL) {%> checked <%} %>> 
+                                <input type="checkbox" id="NineHundredNineYL" name="NineHundredNineYL" value="999"<% if(data.NineHundredNineYL) {%> checked <%} %>> 
                                 <label for="NineHundredNineYL">999-Year Leasehold</label><br>
                                 <input type="checkbox" id="tenure" name="tenure" value="unknown" <% if(data.tenure) {%> checked <%} %>>
                                 <label for="tenure">Unknown Tenure</label><br>
@@ -199,20 +199,20 @@
                                     Min. Price:
                                     <div class="slide-search">
                                         S$
-                                        <input type="number" value="0" min="0" max="<%= largestPrice %>" name="minPrice" id="minPrice"/>
+                                        <input type="number" value=<%if(data.minPrice){%><%=data.minPrice%><%}else{%>0<%}%> min="0" max="<%= largestPrice %>" name="minPrice" id="minPrice"/>
                                     </div>
                                 </div>
                                 <div class="slide-wrapper">
                                     Max. Price:
                                     <div class="slide-search">
                                         S$
-                                        <input type="number" value="<%= largestPrice %>" min="0" max="<%= largestPrice %>" name="maxPrice" id="maxPrice"/>
+                                        <input type="number" value=<%if(data.maxPrice){%><%=data.maxPrice%><%}else{%><%=largestPrice%><%}%> min="0" max="<%= largestPrice %>" name="maxPrice" id="maxPrice"/>
                                     </div>
                                 </div>
                             </div>
                             <div class="slider-range">
-                                <input type="range" value="0" min="0" max="<%= largestPrice %>" step="500" place/>
-                                <input type="range" value="<%= largestPrice %>" min="0" max="<%= largestPrice %>" step="500" />
+                                <input type="range" value=<%if(data.minPrice){%><%=data.minPrice%><%}else{%>0<%}%> min="0" max="<%= largestPrice %>" step="500" id="minPriceSlider"/>
+                                <input type="range" value=<%if(data.maxPrice){%><%=data.maxPrice%><%}else{%><%=largestPrice%><%}%> min="0" max="<%= largestPrice %>" step="500" id="maxPriceSlider"/>
                             </div>
                         </div>
         
@@ -225,21 +225,21 @@
                                 <div class="slide-wrapper">
                                     Min. Area:
                                     <div class="slide-search" style="font-size: 14px;">
-                                        <input type="number" value="0" min="0" max="<%= largestSize %>" name="minSize" id="minSize" />
+                                        <input type="number" value=<%if(data.minSize){%><%=data.minSize%><%}else{%>0<%}%> min="0" max="<%= largestSize %>" name="minSize" id="minSize" />
                                         sqft
                                     </div>
                                 </div>
                                 <div class="slide-wrapper">
                                     Max. Area:
                                     <div class="slide-search" style="font-size: 14px">
-                                        <input type="number" value="<%= largestSize %>" min="0" max="<%= largestSize %>" name="maxSize" id="maxSize" />
+                                        <input type="number" value=<%if(data.maxSize){%><%=data.maxSize%><%}else{%><%=largestSize%><%}%> min="0" max="<%= largestSize %>" name="maxSize" id="maxSize" />
                                         sqft
                                     </div>
                                 </div>
                             </div>
                             <div class="slider-range">
-                                <input type="range" value="0" min="0" max="<%= largestSize %>" step="500" />
-                                <input type="range" value="<%= largestSize %>" min="0" max="<%= largestSize %>" step="500" />
+                                <input type="range" value=<%if(data.minSize){%><%=data.minSize%><%}else{%>0<%}%> min="0" max="<%= largestSize %>" step="500" id="minSizeSlider"/>
+                                <input type="range" value=<%if(data.maxSize){%><%=data.maxSize%><%}else{%><%=largestSize%><%}%> min="0" max="<%= largestSize %>" step="500" id="maxSizeSlider"/>
                             </div> 
                         </div>
 
@@ -431,6 +431,8 @@ $('#maxPrice').attr('placeholder', 'Max. Price');
 <script>                               
     function resetForm() {
         //document.getElementById("formFilter").resetForm()
+        //filter by
+        document.getElementById("sort").value="";
         //property type
         document.getElementById("hdb").checked=false;
         document.getElementById("condo").checked=false;
@@ -440,28 +442,37 @@ $('#maxPrice').attr('placeholder', 'Max. Price');
         document.getElementById("south").checked=false;
         document.getElementById("east").checked=false;
         document.getElementById("west").checked=false;
-        //rooms
+        //bedrooms
         document.getElementById("1").checked=false;
         document.getElementById("2").checked=false;
         document.getElementById("3").checked=false;
         document.getElementById("4").checked=false;
         document.getElementById("5").checked=false;
         document.getElementById("6").checked=false;
-        //sort by price
-        document.getElementById("sortPrice").value="";
-        //sort by date
-        document.getElementById("sortDate").value="";
-        //sort by popularity
-        document.getElementById("sortPop").value="";
-        //sold/archive
-        // document.getElementById("sold").checked=false;
-        // document.getElementById("notsold").checked=false;
-        // document.getElementById("archive").checked=false;
-        // document.getElementById("notarchive").checked=false;
-        //sort by sold
-        document.getElementById("sortSold").value="";
-        //sort by archive
-        document.getElementById("sortArchive").value="";
+        //bathrooms
+        document.getElementById("1bath").checked=false;
+        document.getElementById("2bath").checked=false;
+        document.getElementById("3bath").checked=false;
+        //Tenure
+        document.getElementById("freehold").checked=false;
+        document.getElementById("NinetyNineYL").checked=false;
+        document.getElementById("HundredThreeYL").checked=false;
+        document.getElementById("HundredTenYL").checked=false;
+        document.getElementById("NineHundredNineYL").checked=false;
+        document.getElementById("tenure").checked=false;
+        //price
+        document.getElementById("minPrice").value=0;
+        document.getElementById("minPriceSlider").value=0;
+        document.getElementById("maxPrice").value=document.getElementById("maxPrice").max;
+        document.getElementById("maxPriceSlider").value=document.getElementById("maxPriceSlider").max;
+        //size
+        document.getElementById("minSize").value=0;
+        document.getElementById("minSizeSlider").value=0;
+        document.getElementById("maxSize").value=document.getElementById("maxSize").max;
+        document.getElementById("maxSizeSlider").value=document.getElementById("maxSizeSlider").max;
+        //admin/agent show sold/archive listing
+        document.getElementById("sold").checked=false;
+        document.getElementById("archive").checked=false;
     }                
 </script>
 <script>
