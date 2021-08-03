@@ -27,7 +27,7 @@ function createHTML(rs) {
     var bedrooms = rs.bedrooms;
     var bathrooms = rs.bathrooms;
     var size = rs.size;
-    var district = rs.district;
+    var zone = rs.zone;
     var type= rs.type;
     var tenure = rs.tenure;
   
@@ -215,7 +215,7 @@ function createHTML(rs) {
                                     <div class="col-md-12"> 
                                         <div class="left pt-2 pb-1">
                                             <span class="px-3 py-0" style="color: #4632DA; border: 1px solid #4632DA;">
-                                                    `+ district +`
+                                                    `+ zone +`
                                             </span>
                                         </div>
                                         <div class="left right pt-2 pb-1">
@@ -327,7 +327,7 @@ function createHTMLListing(rs) {
     var bedrooms = rs.bedrooms;
     var bathrooms = rs.bathrooms;
     var size = rs.size;
-    var district = rs.district;
+    var zone = rs.zone;
     var type= rs.type;
     var tenure = rs.tenure;
     //Listing Name
@@ -431,7 +431,7 @@ function createHTMLListing(rs) {
                             <!--Left of Listing-->
                             <div class="col-sm-4 col-md-4 p-0 m-0 list-left d-flex justify-content-center align-items-center">
                                 <a class="p-0 m-0" href="/listings/` + id + `" style="text-decoration: none; color: black;">
-                                    <img class="img-fluid shadow" src="` + thumbnail +`" style="width: 100%; height: 200px; object-fit: cover;">
+                                    <img class="img-fluid" src="` + thumbnail +`" style="width: 100%; height: 200px; object-fit: cover;">
                                 </a>
                             </div>
 
@@ -499,7 +499,7 @@ function createHTMLListing(rs) {
                                         <div class="col-12 align-items-center d-flex"  onClick='window.location="/listings/` + id + `"' style="cursor:pointer"> 
                                             <div class="left pt-2 pb-1">
                                                 <span class="px-3 py-0" style="color: #4632DA; border: 1px solid #4632DA;">
-                                                        `+ district +`
+                                                        `+ zone +`
                                                 </span>
                                             </div>
                                             <div class="left right pt-2 pb-1">

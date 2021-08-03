@@ -170,7 +170,7 @@
 <!--Listings -->
 <div>
     <div class="container" id="listing-add">
-        <p data-aos="fade-up" data-aos-once="true" style="font-weight:600; font-size: 1.3em;">Featured Properties</p>
+        <p data-aos="fade-up" data-aos-once="true" style="font-weight:600; font-size: 1.3em;" class="mb-1">Featured Properties</p>
         <div class="col-md-12 m-0 p-0">
             <div class="all-listing-card">
                 <div class="all-listing-card-container">
@@ -181,7 +181,7 @@
                 </div>
             </div>
         </div>
-        <p data-aos="fade-up" data-aos-once="true" style="font-weight:600; font-size: 1.3em;">Popular Properties</p>
+        <p data-aos="fade-up" data-aos-once="true" style="font-weight:600; font-size: 1.3em;" class="mb-1">Popular Properties</p>
         <div class="col-md-12 m-0 p-0">
             <div class="all-listing-card">
                 <div class="all-listing-card-container">
@@ -315,7 +315,7 @@ $('input[name=listType]').on('change', function() {
         document.getElementById("hdb").checked=false;
         document.getElementById("condo").checked=false;
         document.getElementById("landed").checked=false;
-        //District type
+        //Zone type
         document.getElementById("north").checked=false;
         document.getElementById("south").checked=false;
         document.getElementById("east").checked=false;
@@ -368,8 +368,8 @@ $('input[name=listType]').on('change', function() {
     function openPType() {
         document.getElementById("dropdownPType-content").classList.toggle("showOptions");
     }
-    function openDistrict() {
-        document.getElementById("dropdownDistrict-content").classList.toggle("showOptions");
+    function openZone() {
+        document.getElementById("dropdownZone-content").classList.toggle("showOptions");
     }
     function openBedroom() {
         document.getElementById("dropdownBedroom-content").classList.toggle("showOptions");

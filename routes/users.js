@@ -937,7 +937,7 @@ router.get("/dashboard/listings", middleware.isAdmin, function(req,res){
 				//QUERY (for both dropdown)
 				listing
 				.find({
-					$or: [{name: regex}, {district:regex}, {type: regex}], 
+					$or: [{name: regex}, {zone:regex}, {type: regex}], 
 						type: {$in: regexType}, 
 						soldStatus: {$in: regexSold}, 
 						archiveStatus: {$in: regexArchive}
@@ -948,7 +948,7 @@ router.get("/dashboard/listings", middleware.isAdmin, function(req,res){
 				.populate("comments likes")
 				.exec(function(err, foundlisting){
 					listing.count({
-						$or: [{name: regex}, {district:regex}, {type: regex}], 
+						$or: [{name: regex}, {zone:regex}, {type: regex}], 
 							type: {$in: regexType}, 
 							soldStatus: {$in: regexSold}, 
 							archiveStatus: {$in: regexArchive}
@@ -976,7 +976,7 @@ router.get("/dashboard/listings", middleware.isAdmin, function(req,res){
 				// listing.find({
 				//$and: [{type: {$in: regexType}}, {soldStatus: {$in: regexSold}}, {archiveStatus: {$in: regexArchive}}]})
 				listing.find({
-					$or: [{name: regex}, {district:regex}, {type: regex}], 
+					$or: [{name: regex}, {zone:regex}, {type: regex}], 
 						type: {$in: regexType}, 
 						soldStatus: {$in: regexSold}, 
 						archiveStatus: {$in: regexArchive}
@@ -1026,7 +1026,7 @@ router.get("/dashboard/listings", middleware.isAdmin, function(req,res){
 				
 				//QUERY (for both dropdown)
 				listing.find({
-					$or: [{name: regex}, {district:regex}, {type: regex}], 
+					$or: [{name: regex}, {zone:regex}, {type: regex}], 
 						type: {$in: regexType}, 
 						soldStatus: {$in: regexSold}, 
 						archiveStatus: {$in: regexArchive}
@@ -1037,7 +1037,7 @@ router.get("/dashboard/listings", middleware.isAdmin, function(req,res){
 				.populate("comments likes")
 				.exec(function(err, foundlisting){
 					listing.count({
-						$or: [{name: regex}, {district:regex}, {type: regex}], 
+						$or: [{name: regex}, {zone:regex}, {type: regex}], 
 							type: {$in: regexType}, 
 							soldStatus: {$in: regexSold}, 
 							archiveStatus: {$in: regexArchive}
@@ -1062,14 +1062,14 @@ router.get("/dashboard/listings", middleware.isAdmin, function(req,res){
 				});
 			} else {
 				listing.find({
-					$or: [{name: regex}, {district:regex}, {type: regex}]})
+					$or: [{name: regex}, {zone:regex}, {type: regex}]})
 				.sort(sortOptions)
 				.skip((perPage * pageNumber) - perPage)
 				.limit(perPage)
 				.populate("comments likes")
 				.exec(function(err, foundlisting){
 					listing.count({
-						$or: [{name: regex}, {district:regex}, {type: regex}]
+						$or: [{name: regex}, {zone:regex}, {type: regex}]
 							}).exec(function (err, count) {
 					if(err){
 						console.log(err);

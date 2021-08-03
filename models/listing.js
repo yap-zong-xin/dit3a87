@@ -9,7 +9,7 @@ var listingSchema = new mongoose.Schema({
    image: [{type: String}],
    imageId: [{type: String}],
    description: String,
-   district: String,
+   zone: String,
    price: Number,
    size: Number,
    type: String,

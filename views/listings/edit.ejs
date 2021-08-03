@@ -198,14 +198,14 @@
                 </select>
               </div>
               <div class="form-group col-4">
-                <% var districtOption = listing.district %>
-                <label for="district">District</label>
-                <select name="listing[district]" class="form-control" id="district" required>
+                <% var zoneOption = listing.zone %>
+                <label for="zone">Zone</label>
+                <select name="listing[zone]" class="form-control" id="zone" required>
                   <option></option>
-                  <option value="north" <% if(districtOption == 'north') {%>selected<%} %>>North</option>
-                  <option value="south" <% if(districtOption == 'south') {%>selected<%} %>>South</option>
-                  <option value="east"  <% if(districtOption == 'east') {%>selected<%} %>>East</option>
-                  <option value="west"  <% if(districtOption == 'west') {%>selected<%} %>>West</option>
+                  <option value="north" <% if(zoneOption == 'north') {%>selected<%} %>>North</option>
+                  <option value="south" <% if(zoneOption == 'south') {%>selected<%} %>>South</option>
+                  <option value="east"  <% if(zoneOption == 'east') {%>selected<%} %>>East</option>
+                  <option value="west"  <% if(zoneOption == 'west') {%>selected<%} %>>West</option>
                 </select>
               </div>
               <div class="form-group col-4">
