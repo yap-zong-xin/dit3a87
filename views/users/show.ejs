@@ -757,13 +757,13 @@
                   </a>
                 </div>
                 <div class="col-4 justify-content-end d-flex d-sm-none">
-                  <% if(currentUser && user._id.equals(currentUser._id) && currentUser.isAdmin || currentUser && user._id.equals(currentUser._id) && currentUser.isAgent){ %>
+                  <% if(currentUser && user._id.equals(currentUser._id) && currentUser.isAdmin || currentUser && user._id.equals(currentUser._id) && currentUser.isAgent && currentUser.agentStatus==true){ %>
                     <a href="/listings/new" class="pl-1" style="text-decoration: none;">
                       <ion-icon class="iconHeader" name="add-outline"></ion-icon>
                     </a>
                   <% } %>
                 </div>
-                <% if(currentUser && user._id.equals(currentUser._id) && currentUser.isAdmin || currentUser && user._id.equals(currentUser._id) && currentUser.isAgent){ %>
+                <% if(currentUser && user._id.equals(currentUser._id) && currentUser.isAdmin || currentUser && user._id.equals(currentUser._id) && currentUser.isAgent && currentUser.agentStatus==true){ %>
                   <div class="col-12 col-sm-6 col-md-7 col-xl-8">
                     <% if(noMatch !== undefined){ %>
                       <form action="/user/<%= user._id %>" method="GET">
@@ -795,7 +795,7 @@
                   </div>
                 <% } %>
                 <div class="col-1 pl-0 d-none d-sm-block">
-                  <% if(currentUser && user._id.equals(currentUser._id) && currentUser.isAdmin || currentUser && user._id.equals(currentUser._id) && currentUser.isAgent){ %>
+                  <% if(currentUser && user._id.equals(currentUser._id) && currentUser.isAdmin || currentUser && user._id.equals(currentUser._id) && currentUser.isAgent && currentUser.agentStatus==true){ %>
                     <a href="/listings/new" class="pl-1" style="text-decoration: none;">
                       <ion-icon class="iconHeader" name="add-outline"></ion-icon>
                     </a>
