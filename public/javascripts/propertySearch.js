@@ -431,7 +431,7 @@ function createHTMLListing(rs) {
                             <!--Left of Listing-->
                             <div class="col-sm-4 col-md-4 p-0 m-0 list-left d-flex justify-content-center align-items-center">
                                 <a class="p-0 m-0" href="/listings/` + id + `" style="text-decoration: none; color: black;">
-                                    <img class="img-fluid" src="` + thumbnail +`" style="width: 100%; height: 200px; object-fit: cover;">
+                                    <img class="img-fluid" src="` + thumbnail +`" style="width: 2000px; height: 200px; object-fit: cover;">
                                 </a>
                             </div>
 
