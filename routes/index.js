@@ -381,7 +381,7 @@ router.post('/reset/:token', function(req, res) {
 
 			user.save();
 			req.flash("success", "Success! Your password has been changed.");
-			res.redirect('/login');
+			res.redirect('/user/'+user._id);
 		})
 		} else {
 			req.flash("error", "Passwords do not match.");
