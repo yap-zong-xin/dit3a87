@@ -124,7 +124,7 @@ function createHTML(rs) {
     }
 
     var html = `<div class="col-md-12 m-0 p-0" data-aos="fade-up" data-aos-once="true">
-                    <div class="listingHoverMain shadow" style="display: flex; align-items: center; justify-content: center; flex-direction: column; margin: 10px; transition: 0.3s; " >
+                    <div class="listingHoverMain listingHover" style="display: flex; align-items: center; justify-content: center; flex-direction: column; transition: 0.3s; border: 1px lightgray solid;">
                         <div class="row col-md-12">
 
                             ` + insertSoldArchive + `
@@ -423,14 +423,14 @@ function createHTMLListing(rs) {
     }
 
     var htmlListing = `<div class="col-lg-12 col-xl-6 px-0" data-aos="fade-up" data-aos-once="true">
-                    <div class="listingHoverIndex pt-3" style="display: flex; align-items: center; justify-content: center; flex-direction: column; margin: 10px; transition: 0.3s; " >
+                    <div class="listingHoverIndex pt-3" style="display: flex; align-items: center; justify-content: center; flex-direction: column; margin: 10px; transition: 0.3s;">
                         <div class="row col-md-12 m-0 p-0">
 
                         ` + insertSoldArchive + `
 
                             <!--Left of Listing-->
-                            <div class="col-sm-4 col-md-4 p-0 m-0 list-left d-flex justify-content-center align-items-center ">
-                                <a class="p-0 m-0" href="/listings/` + id + `" style="text-decoration: none; color: black">
+                            <div class="col-sm-4 col-md-4 p-0 m-0 list-left d-flex justify-content-center align-items-center">
+                                <a class="p-0 m-0" href="/listings/` + id + `" style="text-decoration: none; color: black;">
                                     <img class="img-fluid shadow" src="` + thumbnail +`" style="width: 100%; height: 200px; object-fit: cover;">
                                 </a>
                             </div>

@@ -33,7 +33,7 @@
                             </div>
                             <input type="text" class="form-control" name="search" placeholder="Search for Properties">
                         </div>
-                        <button name="searchListing" value="searchListing" type="submit" class="btn btn-info d-flex justify-content-center align-items-center" style="padding: 7x 12px;" >Go</button>
+                        <button name="searchListing" value="searchListing" type="submit" class="btn d-flex justify-content-center align-items-center" style="padding: 7x 12px;" >Go</button>
                     </div>    
                 </form>
             </div>
@@ -42,27 +42,12 @@
 </div>
 
 <div class="container">
-    <div class="col-md-12" data-aos="zoom-in" data-aos-once="true">
-        <div class="row">
-            <div class="col-12 px-0">
-                <nav aria-label="breadcrumb">
-                  <ol class="breadcrumb mb-0">
-                    <li class="breadcrumb-item"><a href="/">Home</a></li>
-                    <li class="breadcrumb-item"><a href="/listings">Listings</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Properties for Sale</li>
-                  </ol>
-                </nav>
-            </div>
-        </div>
-        <div class="row" style="padding-top: 20px; padding-bottom: 20px;">
-            <div class="d-flex flex-column">
-                <h3 id="search-result" style="font-size: 1.5em;"></h3>
-                <p>Found: <%= listings.length%> results</p>
-            </div>
-        </div>
-    </div>
     <div class="row col-lg-12 p-0 m-0">
         <div class="col-md-4 col-lg-4 p-0 m-0 d-flex flex-column" data-aos="fade-up" data-aos-once="true">
+            <div class="d-flex flex-column">
+                <h3 id="search-result" style="font-size: 1.5em;"></h3>
+                <p>Found: <%= listings.length%> results</em></p>
+            </div>
             <strong class="filter-header">Filter</strong>
             <div class="search-dropdown filterDropDownBtn">
                 <div class="dropdown-label-wrap">
@@ -73,7 +58,7 @@
 
             <div class="form-card filterDropDownMenu">
                 <div class="form-card-container p-0">
-                    <form class="d-flex flex-column" action="/listings" method="GET" id="filterForm">
+                    <form class="d-flex flex-column pr-md-3" action="/listings" method="GET" id="filterForm">
                         
                         <!-- Filter: Sort -->
                         <div class="search-dropdown-select">
@@ -257,9 +242,6 @@
                                 <input type="range" value="<%= largestSize %>" min="0" max="<%= largestSize %>" step="500" />
                             </div> 
                         </div>
-        
-                        
-
 
                         <!-- Filter: for admin/agent to view sold/archived listing -->
                         <% if(currentUser && currentUser.isAdmin || currentUser && currentUser.isAgent && currentUser.agentStatus){ %>
@@ -287,9 +269,9 @@
         </div>
         <div class="col-md-8 col-lg-8 p-0 m-0" style="padding: 20px 0 20px 0;">
             <div id="loadProperty"></div>
-            <div class="d-flex justify-content-center" id="loadPropertyLower" style="margin-top: 50px; margin-bottom: 150px;">
+            <div class="d-flex justify-content-center" id="loadPropertyLower" style="margin-top: 10px; margin-bottom: 150px;">
                 <div id="loadMoreDiv"></div>
-                <button class="loadMoreBtn" type="button" id="loadMoreBtn">Load More</button>
+                <button class="loadMoreBtn mt-2" type="button" id="loadMoreBtn">Load More</button>
             </div>
         </div>
     </div>
