@@ -1891,4 +1891,53 @@ router.put("/suspend/:id", middleware.isAdmin, function(req, res){
 // 	})
 // });
 
+//Put Route - Reject agent account, set account to seeker account
+router.put("/rejectAgent/:id", middleware.isAdmin, function(req, res){
+	//can straight away use req.body.listing without having to define due to "listing[]" in the form name attributes
+		User.findByIdAndUpdate(req.params.id, req.body.user, function(err, rejectedUser){
+			if(err){
+				res.redirect("/listings");
+			} else{
+				//Handling
+				var successMsg = " has been rejected.";
+				var choiceAgent = JSON.parse(req.body.user.isAgent)
+				//Email
+				async function sendMail() {
+					try {
+						const accessToken = await oAuth2Client.getAccessToken()
+	
+						const transport = nodemailer.createTransport({
+							service: 'gmail',
+							auth: {
+								type: 'OAuth2',
+								user: 'jptestingsku@gmail.com',
+								clientId: CLIENT_ID,
+								clientSecret: CLIENT_SECRET,
+								refreshToken: REFRESH_TOKEN,
+								accessToken: accessToken
+							}
+						});
+	
+						const mailOptions = {
+							from: '3D Property Website <jptestingsku@gmail.com>',
+							to: rejectedUser.email,
+							subject: 'Agent Account Rejected',
+							html : "Hello <strong>" + rejectedUser.username + "</strong>,<br><br>Your agent account has been REJECTED.<br><br>"
+						};
+	
+						const result = await transport.sendMail(mailOptions);
+						return result; 
+					}catch (error) {
+						return error;
+					}
+				}
+				sendMail()
+				.then(result => console.log('Suspension Email Sent...', result))
+				.then(req.flash("success", 'Email sent. '+rejectedUser.username+successMsg))
+				.then(res.redirect("/user/" + req.params.id))
+				.catch(error => console.log(error.message))
+			}
+		});
+	});
+
 module.exports = router;

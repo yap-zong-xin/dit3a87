@@ -34,6 +34,15 @@
             </form>
           <% } %>
         </div>
+        <div class="right pb-3">
+          <!-- reject agent -->
+          <% if(user.isAgent && currentUser && currentUser.isAdmin){ %>
+            <form action="/rejectAgent/<%= user._id %>?_method=PUT" method="POST" class="text-center" style="position:relative; top: 10px;">
+                <button type="submit" name="user[isAgent]" value="false" class="btn approveBtn"
+                style="background: #DC3545; color: white; font-weight: 600; font-size: 0.9em;">Reject<span class="d-none d-md-inline"> Agent</span></button>
+            </form>
+          <% } %>
+        </div>
       </div>
       <div>
         <!-- upload banner button -->
