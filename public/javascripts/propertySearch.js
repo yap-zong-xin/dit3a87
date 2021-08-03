@@ -124,7 +124,7 @@ function createHTML(rs) {
     }
 
     var html = `<div class="col-md-12 m-0 p-0" data-aos="fade-up" data-aos-once="true">
-                    <div class="listingHoverMain listingHover" style="display: flex; align-items: center; justify-content: center; flex-direction: column; transition: 0.3s; border: 1px lightgray solid;">
+                    <div class="listingHoverMain listingHover mb-2" style="display: flex; align-items: center; justify-content: center; flex-direction: column; transition: 0.3s; border: 1px lightgray solid;">
                         <div class="row col-md-12">
 
                             ` + insertSoldArchive + `
@@ -165,7 +165,7 @@ function createHTML(rs) {
                             <!--Left of Listing-->
                             <div class="col-sm-4 col-md-4 p-0 m-0 list-left d-flex justify-content-center align-items-center ">
                                 <a class="p-0 m-0" href="/listings/` + id + `" style="text-decoration: none; color: black">
-                                    <img class="img-fluid shadow" src="` + thumbnail +`" style="width: 100%; height: 130px; object-fit: cover; text-align: center">
+                                    <img class="img-fluid" src="` + thumbnail +`" style="width: 2000px; height: 180px; object-fit: cover; text-align: center">
                                 </a>
                             </div>
 
