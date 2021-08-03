@@ -347,9 +347,9 @@
         <p class="my-0" style="font-size: 1.5em; font-weight: 650;"><%= "S$" + listing.price %></p>
         <p class="pt-4 align-items-center d-flex" style="font-size: 1.05em;">
           <ion-icon name="business-outline"></ion-icon>
-          <span class="pl-2"><%= listing.type %></span>
+          <span class="pl-2" style="text-transform:capitalize"><%= listing.type %></span>
           <ion-icon class="pl-3" name="compass-outline"></ion-icon>
-          <span class="pl-2"><%= listing.district %></span>
+          <span class="pl-2" style="text-transform:capitalize"><%= listing.district %></span>
           <ion-icon class="pl-3" name="location-outline"></ion-icon>
           <span class="pl-2"><%= listing.location %></span>
         </p>
@@ -415,7 +415,7 @@
         <div class="row">
           <div class="col-6 pb-3">
             <span style="font-size: 0.9em; font-weight:650;">District</span><br>
-            <span><%= listing.district %></span>
+            <span style="text-transform:capitalize"><%= listing.district %></span>
           </div>
           <div class="col-6 pb-3">
             <span style="font-size: 0.9em; font-weight:650;">Street Address</span><br>
@@ -431,11 +431,33 @@
           </div>
           <div class="col-6 pb-3">
             <span style="font-size: 0.9em; font-weight:650;">Type</span><br>
-            <span><%= listing.type %></span>
+            <span style="text-transform:capitalize"><%= listing.type %></span>
           </div>
           <div class="col-6 pb-3">
             <span style="font-size: 0.9em; font-weight:650;">Tenure</span><br>
-            <span><%= listing.tenure %></span>
+            <span>
+              <% if (listing.tenure == "ninetynine") { %>
+                <span style="font-size: 0.9em;">
+                  99-Year
+                </span>
+              <%} else if (listing.tenure == "hundredthree") { %>
+                <span style="font-size: 0.9em;">
+                  103-Year
+                </span>
+              <%} else if (listing.tenure == "hundredten") { %>
+                <span style="font-size: 0.9em;">
+                  110-Year
+                </span>
+              <%} else if (listing.tenure == "ninehundrednine") { %>
+                <span style="font-size: 0.9em;">
+                  999-Year
+                </span>
+              <%} else if (listing.tenure == "freehold") { %>
+                <span style="font-size: 0.9em;">
+                 Freehold
+                </span>
+              <% } %>
+            </span>
           </div>
           <div class="col-6 pb-3">
             <span style="font-size: 0.9em; font-weight:650;">Floor Size</span><br>

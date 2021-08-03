@@ -216,15 +216,24 @@ body {
 
 /* Connect with Us */
 .connect-top {
-  background-color: rgb(247,247,247);
+  background-color: #3725C0;
+  color: white;
   padding: 70px 0 150px 0;
 }
-
 .connect-top h1 {
   font-weight: 700;
 }
-
 .connect-top p {
+  font-weight: 300;
+}
+.connect-bottom {
+  background-color: #f3f3f3;
+  padding: 70px 0 150px 0;
+}
+.connect-bottom h1 {
+  font-weight: 700;
+}
+.connect-bottom p {
   font-weight: 300;
 }
 
@@ -235,7 +244,7 @@ body {
 }
 
 .contact {
-  width: 200px;
+  width: 250px;
   padding: 10px 0 10px;
 }
 
@@ -248,7 +257,7 @@ body {
   margin-bottom: 30px;
 }
 
-.connect-top iframe {
+.connect-bottom iframe {
   width: 100%;
   height: 400px;
   margin-top: 25px;
@@ -263,12 +272,10 @@ body {
 #resetPwd {
   background-color: #003580;
   border: none;
-  border-radius: 45px;
-  padding: 10px 15px 10px 15px;
+  border-radius: 5px;
+  padding: 6px 20px 6px 20px;
   font-weight: 400;
   color: #fff;
-  height: 45px;
-  width: 120px;
 }
 
 /* Reset Password */
@@ -1455,7 +1462,7 @@ input[type=range]::-ms-thumb {
 .input-field, .input-field-select {
   max-width: 380px;
   width: 100%;
-  background-color: #f0f0f0;
+  background-color: #fbfbfb;
   margin: 10px 0;
   height: 55px;
   border-radius: 55px;
@@ -3216,8 +3223,8 @@ footer {
 /* Media Queries: Height */
 @media only screen and (max-height: 750px) {
   .input-field {
-    height: 35px;
-    border-radius: 35px;
+    height: 45px;
+    border-radius: 10px;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -3225,8 +3232,8 @@ footer {
   }
 
   .input-field-select {
-    height: 35px;
-    border-radius: 35px;
+    height: 40px;
+    border-radius: 10px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
