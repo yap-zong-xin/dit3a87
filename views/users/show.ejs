@@ -152,7 +152,7 @@
               <a class="btn btn-outline-dark profileOverviewBtn align-items-center d-flex" href="/user/<%= user._id %>/edit">
                 <ion-icon name="create-outline" style="font-size: 1.3em;" class="pr-1"></ion-icon>Edit Profile
               </a>
-              <% if(currentUser && user.isAgent || currentUser && user.isAdmin){ %>
+              <% if(currentUser && user.isAgent && currentUser.agentStatus==true || currentUser && user.isAdmin){ %>
                 <a href="/listings/new" class="ml-2 btn btn-outline-dark profileOverviewBtn align-items-center d-flex" style="text-decoration: none;">
                   <ion-icon name="add-circle-outline" style="font-size: 1.3em;" class="pr-1"></ion-icon>Add Listing
                 </a>
@@ -415,7 +415,7 @@
         <a class="btn btn-outline-dark profileOverviewBtn align-items-center d-flex" href="/user/<%= user._id %>/edit">
           <ion-icon name="create-outline" style="font-size: 1.3em;" class="pr-1"></ion-icon>Edit Profile
         </a>
-        <% if(currentUser && user.isAgent || currentUser && user.isAdmin){ %>
+        <% if(currentUser && user.isAgent && currentUser.agentStatus==true || currentUser && user.isAdmin){ %>
           <a href="/listings/new" class="ml-2 btn btn-outline-dark profileOverviewBtn align-items-center d-flex" style="text-decoration: none;">
             <ion-icon name="add-circle-outline" style="font-size: 1.3em;" class="pr-1"></ion-icon>Add Listing
           </a>
