@@ -54,10 +54,81 @@
       <a class="nav-link d-none d-lg-block pr-2" href="/service">Services</a>
       <a class="nav-link d-none d-lg-block pr-2" href="/connect">Connect</a>
 
-      <button class="navbar-toggler custom-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+      <% if(!currentUser){ %>
+      <% } else { %>
+        <div class="d-flex justify-content-center">
+          <li class="dropdown d-lg-none mt-1 mr-2" style="list-style: none;">
+            <a href="#" data-toggle="dropdown" role="button" aria-haspopup="true"
+              aria-expanded="false" style="text-decoration: none;">
+              <ion-icon class="iconHeader" name="person-outline"></ion-icon>
+            </a>
+            <ul class="dropdown-menu" style="font-size: 0.95em; width: 205px;">
+              <% if(currentUser && currentUser.isAdmin){ %>
+                <li class="nav-item active">
+                  <a class="nav-link" href="/dashboard">Dashboard</a>
+                </li>
+              <% } %>
+              <li class="nav-item active">
+                <a class="nav-link" href="/user/<%= currentUser.id %>">Profile</a>
+              </li>
+              <li class="nav-item active">
+                <a class="nav-link" href="/user/<%= currentUser.id %>/edit">Edit Profile</a>
+              </li>
+              <li class="nav-item active">
+                <a class="nav-link" href="/user/<%= currentUser.id %>/manage">Manage Account</a>
+              </li>
+            </ul>
+          </li>
+  
+          <li class="dropdown d-lg-none mt-1" style="list-style: none;">
+            <a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" class="mr-1">
+              <ion-icon class="iconHeader" name="notifications-outline"></ion-icon>
+              <% if(notifications.length<1){ %>
+              <% } else { %>
+                <span class="text-center" style="font-size: 0.75em; position: absolute; right: 0.5px; top: 0px; border-radius: 50%; width: 15px; background: #4632DA; text-decoration: none; color: white;">
+                  <%= notifications.length %>
+                </span>
+              <% } %>
+            </a>
+            <ul class="dropdown-menu p-3 dropdown-menu dropdown-menu-right" style="width: 350px; height: 370px; overflow-y: auto;">
+              <% if(notifications==0){ %>
+                <li class="mb-2">
+                  <p style="font-weight: 500; font-size: 0.85em;" class="m-0">Notifications</p>
+                </li>
+                <span class="pt-3 pb-1" style="font-size: 0.85em; color: gray;">
+                  <em>No notifications yet.</em>
+                </span>
+              <% } else { %>
+                <p style="font-weight: 500; font-size: 0.9em;">Notifications</p>
+                <% notifications.forEach(function(notification) { %>
+                  <hr class="py-0 my-2">
+                  <li>
+                    <div class="row align-items-center d-flex">
+                      <div class="col-3">
+                        <img src="<%= notification.image %>" style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover!important;">
+                      </div>
+                      <div class="col-9">
+                        <a href="/notifications/<%= notification.id %>">
+                          <span style="font-size: 0.9em;">
+                            <%= notification.username %> created a new listing
+                          </span>
+                        </a>
+                        <em style="font-size: 0.80em;">
+                          <%= moment(notification.createdAt).fromNow() %>
+                        </em>
+                      </div>
+                    </div>
+                  </li>
+                <% }); %>
+              <% } %>
+            </ul>
+          </li>
+          <button class="navbar-toggler custom-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        </div>
+      <% } %>
   
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ml-auto d-flex align-items-start">
@@ -115,73 +186,10 @@
                 </li>
               <% } %>
             <% } %>
-            <li class="dropdown d-lg-none py-2">
-              <a href="#" data-toggle="dropdown" role="button" aria-haspopup="true"
-                aria-expanded="false" style="text-decoration: none;">
-                Profile
-              </a>
-              <ul class="dropdown-menu" style="font-size: 0.95em; width: 205px;">
-                <% if(currentUser && currentUser.isAdmin){ %>
-                  <li class="nav-item active pl-3">
-                    <a class="nav-link" href="/dashboard">Dashboard</a>
-                  </li>
-                <% } %>
-                <li class="nav-item active pl-3">
-                  <a class="nav-link" href="/user/<%= currentUser.id %>">Profile</a>
-                </li>
-                <li class="nav-item active pl-3">
-                  <a class="nav-link" href="/user/<%= currentUser.id %>/edit">Edit Profile</a>
-                </li>
-                <li class="nav-item active pl-3">
-                  <a class="nav-link" href="/user/<%= currentUser.id %>/manage">Manage Account</a>
-                </li>
-              </ul>
-            </li>
             <li class="nav-item active d-lg-none py-2">
               <a class="nav-link py-0" href="/chat/messenger/<%= currentUser.id %>">
                 Chats
               </a>
-            </li>
-            <li class="dropdown d-lg-none py-2">
-              <a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" class="mr-1" style="text-decoration: none;">
-                Notification
-                <% if(notifications.length<1){ %>
-                <% } else { %>
-                  <%= notifications.length %>
-                <% } %>
-              </a>
-              <ul class="dropdown-menu p-3 dropdown-menu dropdown-menu-right" style="width: 350px; height: 370px; overflow-y: auto;">
-                <% if(notifications==0){ %>
-                  <li class="mb-2">
-                    <p style="font-weight: 500; font-size: 0.85em;" class="m-0">Notifications</p>
-                  </li>
-                  <span class="pt-3 pb-1" style="font-size: 0.85em; color: gray;">
-                    <em>No notifications yet.</em>
-                  </span>
-                <% } else { %>
-                  <p style="font-weight: 500; font-size: 0.9em;">Notifications</p>
-                  <% notifications.forEach(function(notification) { %>
-                    <hr class="py-0 my-2">
-                    <li>
-                      <div class="row align-items-center d-flex">
-                        <div class="col-3">
-                          <img src="<%= notification.image %>" style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover!important;">
-                        </div>
-                        <div class="col-9">
-                          <a href="/notifications/<%= notification.id %>">
-                            <span style="font-size: 0.9em;">
-                              <%= notification.username %> created a new listing
-                            </span>
-                          </a>
-                          <em style="font-size: 0.80em;">
-                            <%= moment(notification.createdAt).fromNow() %>
-                          </em>
-                        </div>
-                      </div>
-                    </li>
-                  <% }); %>
-                <% } %>
-              </ul>
             </li>
             <li class="nav-item active d-lg-none py-2">
               <a class="nav-link py-0" href="/logout" style="font-weight: 600;">

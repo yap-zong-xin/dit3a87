@@ -806,8 +806,8 @@
                           <div class="row">
                             <a href="/listings/<%= listing.id %>" style="text-decoration: none; color: black;">
                               <div class="col-12">
-                                  <img src="<%= listing.thumbnail %>"
-                                    style="background-size: cover; width: 100%!important; height: 140px; object-fit: cover; background-position: center center;">
+                                  <img src="<%= listing.thumbnail %>" class="img-fluid"
+                                    style="background-size: cover; width: 1000px!important; height: 140px; object-fit: cover; background-position: center center;">
                               </div>
                               <% if(listing.soldStatus==true){ %>
                                 <div class="justify-content-center d-flex">
