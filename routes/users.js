@@ -624,7 +624,7 @@ router.put("/agentStatus/:id", middleware.isAdmin, function(req, res){
 						from: '3D Property Website <jptestingsku@gmail.com>',
 						to: updatedUser.email,
 						subject: 'Agent Account Approval',
-						html : "Hello <strong>" + updatedUser.username + "</strong>,<br><br>Your Account is now "+agentOption+" as a agent.<br><br>"
+						html : "Hello <strong>" + updatedUser.username + "</strong>,<br><br>Your agent account has been "+agentOption+".<br><br>"
 					};
 
 					const result = await transport.sendMail(mailOptions);
@@ -680,7 +680,7 @@ router.put("/dashboardAgent/agents/:id", middleware.isAdmin, function(req, res){
 						from: '3D Property Website <jptestingsku@gmail.com>',
 						to: updatedUser.email,
 						subject: 'Agent Account Approval',
-						html : "Hello <strong>" + updatedUser.username + "</strong>,<br><br>Your Account is now "+agentOption+" as a agent.<br><br>"
+						html : "Hello <strong>" + updatedUser.username + "</strong>,<br><br>Your agent account has been "+agentOption+".<br><br>"
 					};
 
 					const result = await transport.sendMail(mailOptions);
@@ -1566,7 +1566,7 @@ router.delete("/user/:id", middleware.checkUserOwnership, function(req, res){
 			res.redirect("/user");
 		} else{
 			//Handling
-			var successMsg = " is now deleted.";
+			var successMsg = " has been deleted.";
 			var dltOption = "DELETED.";
 			//Email
 			async function sendMail() {
@@ -1589,7 +1589,7 @@ router.delete("/user/:id", middleware.checkUserOwnership, function(req, res){
 						from: '3D Property Website <jptestingsku@gmail.com>',
 						to: dltUser.email,
 						subject: 'Account deletion',
-						html : "Hello <strong>" + dltUser.username + "</strong>,<br><br>Your Account is now "+dltOption+".<br><br>"
+						html : "Hello <strong>" + dltUser.username + "</strong>,<br><br>Your account has been "+dltOption+".<br><br>"
 					};
 
 					const result = await transport.sendMail(mailOptions);
@@ -1639,7 +1639,7 @@ router.delete("/user/:id/dashboard", middleware.isAdmin, function(req, res){
 			res.redirect("/user");
 		} else{
 			//Handling
-			var successMsg = " is now deleted.";
+			var successMsg = " has been deleted.";
 			var dltOption = "DELETED.";
 			//Email
 			async function sendMail() {
@@ -1662,7 +1662,7 @@ router.delete("/user/:id/dashboard", middleware.isAdmin, function(req, res){
 						from: '3D Property Website <jptestingsku@gmail.com>',
 						to: dltUser.email,
 						subject: 'Account deletion',
-						html : "Hello <strong>" + dltUser.username + "</strong>,<br><br>Your Account is now "+dltOption+".<br><br>"
+						html : "Hello <strong>" + dltUser.username + "</strong>,<br><br>Your account has been "+dltOption+".<br><br>"
 					};
 
 					const result = await transport.sendMail(mailOptions);
@@ -1847,7 +1847,7 @@ router.put("/suspend/:id", middleware.isAdmin, function(req, res){
 						from: '3D Property Website <jptestingsku@gmail.com>',
 						to: suspendUser.email,
 						subject: 'Account suspension',
-						html : "Hello <strong>" + suspendUser.username + "</strong>,<br><br>Your Account is now "+suspendOption+"<br><br>"
+						html : "Hello <strong>" + suspendUser.username + "</strong>,<br><br>Your account has been "+suspendOption+"<br><br>"
 					};
 
 					const result = await transport.sendMail(mailOptions);

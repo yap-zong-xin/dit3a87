@@ -431,12 +431,13 @@ router.post("/connect", function(req, res){
 			});
 			const mailOptions = {
 				from: '3D Property Website <jptestingsku@gmail.com>',
-				to: "avk03.19@ichat.sp.edu.sg,dereckzorca.18@ichat.sp.edu.sg,jingpng18.18@ichat.sp.edu.sg,yapzx.19@ichat.sp.edu.sg,ahkc.19@ichat.sp.edu.sg",
+				to: "yapzx.19@ichat.sp.edu.sg",
 				subject: subject,
-				html :'Message from '+firstName +" "+ lastName+ ":<br>"
+				html :'<strong>User Details</strong><br>Name: ' + firstName + " " + lastName + "<br>"
+						+ "Phone: " + phone + "<br>"
+						+ "Email: " + email + "<br><br>"
+						+ "<strong>User Message</strong><br>"
 						+ text
-						+ "<br><br>Phone:" + phone
-						+ "<br>Email: " + email,
 			};
 			const result = await transport.sendMail(mailOptions);
 				return result; 
