@@ -131,7 +131,7 @@ function createHTML(rs) {
 
                             <div class="row col-md-12 m-0 d-flex justify-content-between align-items-center" style="padding: 0 0 10px 0;">
                                 <div class="d-flex flex-direction-row align-items-center justify-content-center" style="font-size: 15px; cursor: pointer; " onClick=" window.location='/user/` + author_id + `'">
-                                    <img src="` + auther_id_img + `" style="width:35px; height:35px ;border-radius: 50%; margin: auto;object-fit: cover;">
+                                    <img src="` + auther_id_img + `" style="width:35px; height:35px; border-radius: 50%; margin: auto; object-fit: cover;">
                                     <div class="d-flex flex-column" style="margin-left: 10px;">
                                         <div class="d-flex flex-direction-row">
                                             ` + first_name + `

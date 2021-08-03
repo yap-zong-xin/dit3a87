@@ -1,10 +1,10 @@
 <%- include("../partials/header") %>
 
-  <div style="margin: 0 130px; margin-top: 35px;">
+  <div style="margin-top: 35px;">
     <div class="container pt-3">
       <div class="row">
         <div class="col-12">
-          <span style="font-size: 1.4em; font-weight: 600;" class="align-items-center d-flex">
+          <span style="font-size: 1.2em; font-weight: 600;" class="justify-content-center align-items-center d-flex">
             <a href="/listings" style="text-decoration: none; color: black">
               <ion-icon name="close-outline" style="font-size: 1.3em;" class="pr-2"></ion-icon>
             </a>
@@ -63,19 +63,19 @@
           <div id="upldForm-form">
             <span style="font-weight: 600; font-size: 1.7em;">Property Details</span>
             <div class="form-row my-2">
-              <div class="form-group col-4">
+              <div class="form-group col-12 col-sm-6 col-md-4">
                 <label for="name">Property Name</label>
                 <input type="text" name="name" class="form-control" id="name" required>
               </div>
-              <div class="form-group col-4">
+              <div class="form-group col-12 col-sm-6 col-md-4">
                 <label for="price">Price (in SGD)</label>
                 <input type="number" name="price" class="form-control" id="price" required>
               </div>
-              <div class="form-group col-4">
+              <div class="form-group col-12 col-sm-6 col-md-4">
                 <label for="size">Size</label>
                 <input type="number" name="size" class="form-control" id="size" required>
               </div>
-              <div class="form-group col-4">
+              <div class="form-group col-12 col-sm-6 col-md-4">
                 <label for="type">Category</label>
                 <select name="type" class="form-control" id="type" required>
                   <option></option>
@@ -84,7 +84,7 @@
                   <option value="landed">Landed</option>
                 </select>
               </div>
-              <div class="form-group col-4">
+              <div class="form-group col-12 col-sm-6 col-md-4">
                 <label for="bedrooms">Bedroom</label>
                 <select name="bedrooms" class="form-control" id="bedrooms" required>
                   <option></option>
@@ -96,7 +96,7 @@
                   <option value="6">6</option>
                 </select>
               </div>
-              <div class="form-group col-4">
+              <div class="form-group col-12 col-sm-6 col-md-4">
                 <label for="bathrooms">Bathroom</label>
                 <select name="bathrooms" class="form-control" id="bathrooms" required>
                   <option></option>
@@ -105,7 +105,7 @@
                   <option value="3">3</option>
                 </select>
               </div>
-              <div class="form-group col-4">
+              <div class="form-group col-12 col-sm-6 col-md-4">
                 <label for="tenure">Tenure</label>
                 <select name="tenure" class="form-control" id="tenure" required>
                   <option></option>
@@ -117,7 +117,7 @@
                   <option value="freehold">Freehold</option>
                 </select>
               </div>
-              <div class="form-group col-4">
+              <div class="form-group col-12 col-sm-6 col-md-4">
                 <label for="zone">Zone</label>
                 <select name="zone" class="form-control" id="zone" required>
                   <option></option>
@@ -127,19 +127,19 @@
                   <option value="west">West</option>
                 </select>
               </div>
-              <div class="form-group col-4">
+              <div class="form-group col-12 col-sm-6 col-md-4">
                 <label for="street">Street Address</label>
                 <input type="text" name="street" class="form-control" id="street" required>
               </div>
-              <div class="form-group col-4">
+              <div class="form-group col-12 col-sm-6 col-md-4">
                 <label for="unitNumber">Unit Number</label>
                 <input type="text" name="unitNumber" class="form-control" id="unitNumber" required>
               </div>
-              <div class="form-group col-4">
+              <div class="form-group col-12 col-sm-6 col-md-4">
                 <label for="location">Postal Code</label>
                 <input type="number" name="location" class="form-control" id="location" required>
               </div>
-              <div class="form-group col-4">
+              <div class="form-group col-12 col-sm-6 col-md-4">
                 <label for="threeDImage">3D Image Link</label>
                 <input type="text" name="threeDImage" class="form-control" id="threeDImage" required>
               </div>
@@ -151,7 +151,7 @@
 
             <span style="font-weight: 600; font-size: 1.7em;">Facilities & Amenities</span>
             <div class="row pt-2">
-              <div class="col-6">
+              <div class="col-12 col-lg-6">
                 <ul class="typeOfFacilities">
                   <div class="left">
                     <img src="/img/carpark.svg" alt="" style="width:22px;" class="pr-2">
@@ -173,7 +173,7 @@
                   </div>
                 </ul>
               </div>
-              <div class="col-6">
+              <div class="col-12 col-lg-6">
                 <ul class="typeOfFacilities">
                   <div class="left">
                     <img src="/img/swimmingpool.svg" alt="" style="width:30px;" class="pr-2">
@@ -195,7 +195,7 @@
                   </div>
                 </ul>
               </div>
-              <div class="col-6">
+              <div class="col-12 col-lg-6">
                 <ul class="typeOfFacilities">
                   <div class="left">
                     <img src="/img/gym.svg" alt="" style="width:25px;" class="pr-2">
@@ -217,7 +217,7 @@
                   </div>
                 </ul>
               </div>
-              <div class="col-6">
+              <div class="col-12 col-lg-6">
                 <ul class="typeOfFacilities">
                   <div class="left">
                     <img src="/img/playground.svg" alt="" style="width:22px;" class="pr-2">
@@ -239,7 +239,7 @@
                   </div>
                 </ul>
               </div>
-              <div class="col-6">
+              <div class="col-12 col-lg-6">
                 <ul class="typeOfFacilities">
                   <div class="left">
                     <img src="/img/hall.svg" alt="" style="width:22px;" class="pr-2">
@@ -261,7 +261,7 @@
                   </div>
                 </ul>
               </div>
-              <div class="col-6">
+              <div class="col-12 col-lg-6">
                 <ul class="typeOfFacilities">
                   <div class="left">
                     <img src="/img/shopping.svg" alt="" style="width:20px;" class="pr-2">
@@ -283,7 +283,7 @@
                   </div>
                 </ul>
               </div>
-              <div class="col-6">
+              <div class="col-12 col-lg-6">
                 <ul class="typeOfFacilities">
                   <div class="left">
                     <img src="/img/intercom.svg" alt="" style="width:22px;" class="pr-2">
@@ -305,7 +305,7 @@
                   </div>
                 </ul>
               </div>
-              <div class="col-6">
+              <div class="col-12 col-lg-6">
                 <ul class="typeOfFacilities">
                   <div class="left">
                     <img src="/img/security.svg" alt="" style="width:22px;" class="pr-2">
