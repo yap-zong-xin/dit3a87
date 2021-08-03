@@ -153,15 +153,14 @@
         <table class="table table-sortable">
           <thead>
             <tr>
-              <th style="pointer-events: none;" class="justify-content-start d-flex">
-                <i class="fas fa-sort"></i>
+              <th style="pointer-events: none;">
+                User
               </th>
-              <th>Listing Name</th>
-              <th>Price</th>
-              <th>District</th>
-              <th>Type</th>
-              <th>Status</th>
-              <th>Analytics</th>
+              <th><i class="fas fa-sort"></i> Listing Name</th>
+              <th><i class="fas fa-sort"></i> Zone</th>
+              <th><i class="fas fa-sort"></i> Type</th>
+              <th><i class="fas fa-sort"></i> Status</th>
+              <th style="pointer-events: none;">Analytics</th>
               <th style="pointer-events: none!important;">Actions</th>
             </tr>
           </thead>
@@ -197,9 +196,6 @@
                       <%= listing.name.substring(0, 14) + " ..." %>
                     <% } %>
                   </a>
-                </td>
-                <td class="pt-4" onclick="window.location='/listings/<%= listing._id %>';">
-                  <span><%= "S$" + listing.price %></span>
                 </td>
                 <td class="pt-4" onclick="window.location='/listings/<%= listing._id %>';">
                   <span><%= listing.district %></span>
