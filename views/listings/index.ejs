@@ -127,19 +127,22 @@
 </div>
 
 <!--Map-->
-<div class="container">
+<div class="container d-flex align-items-center justify-content-center mt-3 mb-5">
+    <div class="col-md-12 px-0 mt-3 mb-2">
+        <div class="col-12 px-0">
+            <div class="col-md-12 p-0 explore-map" data-aos="fade-up" data-aos-once="true">
+                <div class="shadow" id="map" style="max-width: 1110px; height: 350px; border-radius: 0px;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Categories -->
+<div class="container mb-5">
     <p data-aos="fade-up" data-aos-once="true" style="font-weight:600; font-size: 1.3em;">Explore Categories</p>
     <div class="col-md-12 explore" data-aos="fade-up" data-aos-once="true">
         <div class="row">
             <div class="owl-carousel owl-theme" >
-                <div class="item" onClick="window.location='/listings?searchindex=&propertyType=hdb&numofRooms=5&sortBy=MostPop&minPrice=&maxPrice=&minSize=&maxSize=&searchindexBtn=searchindexBtn&quickSearch=5rm'">
-                    <img src="/img/5rm-img.jpg">
-                    <div class="item-text"><p>5 Room<br>HDB Flats</p></div>
-                </div>
-                <div class="item" onClick="window.location='/listings?searchindex=&propertyType=hdb&numofRooms=4&sortBy=MostPop&minPrice=&maxPrice=&minSize=&maxSize=&searchindexBtn=searchindexBt&quickSearch=4rm'">
-                    <img src="/img/4rm-img.jpg">
-                    <div class="item-text"><p>4 Room<br>HDB Flats</p></div>
-                </div>
                 <div class="item" onClick="window.location='/listings?searchindex=&propertyType=hdb&numofRooms=3&sortBy=MostPop&minPrice=&maxPrice=&minSize=&maxSize=&searchindexBtn=searchindexBtn&quickSearch=3rm'">
                     <img src="/img/3rm-img.jpg">
                     <div class="item-text"><p>3 Room<br>HDB Flats</p></div>
@@ -152,16 +155,14 @@
                     <img src="/img/landed-img.jpg">
                     <div class="item-text"><p>Landed<br>Properties</p></div>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="container d-flex align-items-center justify-content-center my-5">
-    <div class="col-md-12 px-0 mt-3 mb-2">
-        <div class="col-12 px-0">
-            <div class="col-md-12 p-0 explore-map" data-aos="fade-up" data-aos-once="true">
-                <div class="shadow" id="map" style="max-width: 1110px; height: 350px; border-radius: 0px;"></div>
+                <div class="item" onClick="window.location='/listings?searchindex=&propertyType=hdb&numofRooms=5&sortBy=MostPop&minPrice=&maxPrice=&minSize=&maxSize=&searchindexBtn=searchindexBtn&quickSearch=5rm'">
+                    <img src="/img/5rm-img.jpg">
+                    <div class="item-text"><p>5 Room<br>HDB Flats</p></div>
+                </div>
+                <div class="item" onClick="window.location='/listings?searchindex=&propertyType=hdb&numofRooms=4&sortBy=MostPop&minPrice=&maxPrice=&minSize=&maxSize=&searchindexBtn=searchindexBt&quickSearch=4rm'">
+                    <img src="/img/4rm-img.jpg">
+                    <div class="item-text"><p>4 Room<br>HDB Flats</p></div>
+                </div>
             </div>
         </div>
     </div>
@@ -177,7 +178,7 @@
                     <div class="row row-cols-2" id="loadFeaturedProperty"></div>
                 </div>
                 <div class="d-flex justify-content-end" data-aos="fade-up" data-aos-once="true">
-                    <button onClick="window.location='/listings?searchindex=&propertyType=allType&numofRooms=allrooms&sortBy=Recent&minPrice=&maxPrice=&minSize=&maxSize=&searchindexBtn=searchindexBtn'" style="margin-top: 10px; margin-bottom: 20px;" class="loadMoreBtn" type="button" id="loadMoreBtn">View All</button>
+                    <button onClick="window.location='/listings?searchindex=&propertyType=allType&numofRooms=allrooms&sortBy=Recent&minPrice=&maxPrice=&minSize=&maxSize=&searchindexBtn=searchindexBtn'" style="margin-top: 10px;" class="loadMoreBtn" type="button" id="loadMoreBtn">View All</button>
                 </div>
             </div>
         </div>
