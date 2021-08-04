@@ -1940,4 +1940,29 @@ router.put("/rejectAgent/:id", middleware.isAdmin, function(req, res){
 		});
 	});
 
+//Edit email Route from edit account
+router.get("/user/:id/editEmail", middleware.checkUserOwnership, function(req, res){
+	User.findById(req.params.id, function(err, foundUser){
+		if(err){
+			res.redirect("/user");
+		} else{
+			res.render("editEmail.ejs", {user: foundUser});
+		}
+	});
+});
+//Edit email
+router.put("/user/:id/editEmail", middleware.checkUserOwnership, function(req, res){
+	if(req.body.email != req.body.confirmEmail) {
+		req.flash("error", "Passwords do not match.");
+		return res.redirect('back');
+	}
+	User.findByIdAndUpdate(req.params.id, { email: req.body.email }, function(err, foundUser){
+		if(err){
+			res.redirect("/user");
+		} else{
+			req.flash("success", "Email Updated.");
+			res.redirect('/user/'+foundUser._id);
+		}
+	});
+});
 module.exports = router;
