@@ -1673,6 +1673,10 @@ input[type=range]::-ms-thumb {
   background:#4632da;
   border-radius: 5px;
 }
+.profileResetEmail{
+  font-size: 0.95em;
+  border-radius: 5px;
+}
 .profileDeleteBtn{
   font-size: 0.95em;
   border-radius: 5px;

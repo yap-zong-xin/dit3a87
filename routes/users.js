@@ -1953,7 +1953,7 @@ router.get("/user/:id/editEmail", middleware.checkUserOwnership, function(req, r
 //Edit email
 router.put("/user/:id/editEmail", middleware.checkUserOwnership, function(req, res){
 	if(req.body.email != req.body.confirmEmail) {
-		req.flash("error", "Passwords do not match.");
+		req.flash("error", "Email does not match. Please try again.");
 		return res.redirect('back');
 	}
 	User.findByIdAndUpdate(req.params.id, { email: req.body.email }, function(err, foundUser){

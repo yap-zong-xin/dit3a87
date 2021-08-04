@@ -383,7 +383,7 @@ router.post('/reset/:token', function(req, res) {
 			res.redirect('/user/'+user._id);
 		})
 		} else {
-			req.flash("error", "Passwords do not match.");
+			req.flash("error", "Password does not match. Please try again.");
 			return res.redirect('back');
 		}
 	});
