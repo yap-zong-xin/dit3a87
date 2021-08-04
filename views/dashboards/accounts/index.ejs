@@ -180,7 +180,7 @@
                   </a>
                 </td>
                 <td class="pt-4"><%= user.phone %></td>
-                <td class="pt-4" style="min-width: 150px!important;">
+                <td class="pt-4" style="min-width: 100px!important;">
                   <% if(user.isAdmin==true){ %>
                     <span class="badge badge-admin">Admin</span>
                   <% } else if(user.isAgent==true) { %>
@@ -188,11 +188,14 @@
                   <% } else { %>
                     <span class="badge badge-info">Seeker</span>
                   <% } %>
+
                   <% if(user.isAgent==true && user.agentStatus==false){ %>
-                    <span class="badge badge-danger">Pending</span>
-                  <% } else if(user.isAgent==true && user.agentStatus==true){ %>
+                    <span class="badge badge-admin">Pending</span>
+                  <% } if(user.isAgent==true && user.agentStatus==true){ %>
                     <span class="badge badge-success">Verified</span>
-                  <% } else { %>
+                  <% } %>
+                  <% if(user.suspend==true) { %>
+                    <span class="badge badge-danger">Suspended</span>
                   <% } %>
                 </td>
                 <td class="justify-content-start d-flex pt-2">
