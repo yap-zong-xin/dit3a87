@@ -11,11 +11,11 @@
           <% if(user.isAgent && currentUser && currentUser.isAdmin || !user.isAdmin && !user.isAgent && currentUser && currentUser.isAdmin){ %>
             <form action="/suspend/<%= user.id %>?_method=PUT" method="POST" class="text-center" style="position:relative; top: 10px;">
               <% if(user.suspend==false){ %>
-                <button type="submit" name="user[suspend]" value="true" class="btn approveBtn"
-                  style="background: #FFC107; color: white; font-weight: 600; font-size: 0.9em;">Suspend<span class="d-none d-md-inline"> User</span></button>
+                <button type="submit" name="user[suspend]" value="true" class="btn btn-danger approveBtn"
+                  style="font-weight: 600; font-size: 0.9em;">Suspend</button>
               <% } else{ %>
-                <button type="submit" name="user[suspend]" value="false" class="btn approveBtn"
-                  style="background: #17A2B8; color: white; font-weight: 600; font-size: 0.9em;">Unsuspend<span class="d-none d-md-inline"> User</span></button>
+                <button type="submit" name="user[suspend]" value="false" class="btn btn-info approveBtn"
+                  style="font-weight: 600; font-size: 0.9em;">Unsuspend</button>
               <% } %>
             </form>
           <% } %>
@@ -25,11 +25,11 @@
           <% if(user.isAgent && currentUser && currentUser.isAdmin){ %>
             <form action="/agentStatus/<%= user._id %>?_method=PUT" method="POST" class="text-center" style="position:relative; top: 10px;">
               <% if(user.agentStatus==false){ %>
-                <button type="submit" name="user[agentStatus]" value="true" class="btn approveBtn"
-                  style="background: #41e792; color: white; font-weight: 600; font-size: 0.9em;">Approve<span class="d-none d-md-inline"> Agent</span></button>
+                <button type="submit" name="user[agentStatus]" value="true" class="btn btn-info approveBtn"
+                  style="font-weight: 600; font-size: 0.9em;">Approve</button>
               <% } else{ %>
-                <button type="submit" name="user[agentStatus]" value="false" class="btn approveBtn"
-                  style="background: #DC3545; color: white; font-weight: 600; font-size: 0.9em;">Remove<span class="d-none d-md-inline"> Agent</span></button>
+                <button type="submit" name="user[agentStatus]" value="false" class="btn btn-danger approveBtn"
+                  style="font-weight: 600; font-size: 0.9em;">Remove</button>
               <% } %>
             </form>
           <% } %>
@@ -38,8 +38,8 @@
           <!-- reject agent -->
           <% if(user.isAgent && currentUser && currentUser.isAdmin){ %>
             <form action="/rejectAgent/<%= user._id %>?_method=PUT" method="POST" class="text-center" style="position:relative; top: 10px;">
-                <button type="submit" name="user[isAgent]" value="false" class="btn approveBtn"
-                style="background: #DC3545; color: white; font-weight: 600; font-size: 0.9em;">Reject<span class="d-none d-md-inline"> Agent</span></button>
+                <button type="submit" name="user[isAgent]" value="false" class="btn btn-danger approveBtn"
+                style="font-weight: 600; font-size: 0.9em;">Reject</button>
             </form>
           <% } %>
         </div>
