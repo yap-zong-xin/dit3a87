@@ -1689,13 +1689,13 @@ input[type=range]::-ms-thumb {
 }
 
 .followBtn, .chatBtn, .profileOverviewBtn, .emailBtn, .whatsappBtn{
-  border-radius: 10px;
+  border-radius: 5px;
   padding: 5px 10px;
   font-size: 1em;
 }
 .approveBtn{
-  width: 160px;
-  border-radius: 50px;
+  width: 120px;
+  border-radius: 5px;
   font-size: 0.95em;
 }
 .profileBtn{

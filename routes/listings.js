@@ -887,7 +887,7 @@ router.post("/listings", middleware.isAdminAgent, uploadMultiple, async function
 });
 
 //New Route
-router.get("/listings/new", middleware.isAdminAgent, function(req,res){
+router.get("/listings/new", middleware.isLoggedIn, middleware.isAdminAgent, function(req,res){
 	res.render("listings/new.ejs");
 });
 
