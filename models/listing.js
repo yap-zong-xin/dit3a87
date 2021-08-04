@@ -13,6 +13,7 @@ var listingSchema = new mongoose.Schema({
    price: Number,
    size: Number,
    type: String,
+   listingCategory: String,
    bedrooms: Number,
    bathrooms: Number,
    tenure: String,

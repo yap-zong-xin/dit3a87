@@ -788,6 +788,7 @@ router.post("/listings", middleware.isAdminAgent, uploadMultiple, async function
 	var bathrooms = Number(req.body.bathrooms);
 	var tenure = req.body.tenure;
 	var threeDImage = req.body.threeDImage;
+	var listingCategory = req.body.listingCategory;
 	var author = {
 		id: req.user._id,
 		username: req.user.username,
@@ -800,7 +801,7 @@ router.post("/listings", middleware.isAdminAgent, uploadMultiple, async function
 		rating: req.user.rating,
 		phone: req.user.phone,
 	};
-	var newlisting = {name:name, description:desc, author:author, location:location, unitNumber:unitNumber, street:street, zone:zone, price:price, size:size, type:type, bedrooms:bedrooms, bathrooms:bathrooms, tenure:tenure, threeDImage:threeDImage}
+	var newlisting = {name:name, description:desc, author:author, location:location, unitNumber:unitNumber, street:street, zone:zone, price:price, size:size, type:type, bedrooms:bedrooms, bathrooms:bathrooms, tenure:tenure, threeDImage:threeDImage, listingCategory:listingCategory}
 	if(req.body.carpark === 'true'){
 		newlisting.carpark = true;
 	}

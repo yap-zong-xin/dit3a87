@@ -61,6 +61,18 @@
 
         <div class="offset-1 col-10 mt-4 pt-3">
           <div id="upldForm-form">
+            <span style="font-weight: 600; font-size: 1.7em;">Listing Type</span><br>
+            <div class="form-row my-2">
+              <div class="form-group col-6 list-type-new" id="listRes">
+                <input type="radio" id="listType-1" name="listingCategory" value="residential">
+                <label class="list-type-res"  for="listType-1">Residential Property</label>
+              </div>
+              <div class="form-group col-6 list-type-new " id="listCom">
+                <input type="radio" id="listType-2" name="listingCategory" value="commercial">
+                <label class="list-type-com" for="listType-2">Commercial Property</label>
+              </div>
+            </div>
+
             <span style="font-weight: 600; font-size: 1.7em;">Property Details</span>
             <div class="form-row my-2">
               <div class="form-group col-12 col-sm-6 col-md-4">
@@ -76,7 +88,7 @@
                 <input type="number" name="size" class="form-control" id="size" required>
               </div>
               <div class="form-group col-12 col-sm-6 col-md-4">
-                <label for="type">Category</label>
+                <label for="type">Property Category</label>
                 <select name="type" class="form-control" id="type" required>
                   <option></option>
                   <option value="hdb">HDB</option>
@@ -338,6 +350,25 @@
     </form>
   </div>
 
+  <script>
+
+    
+    $('input[name=listingCategory]').on('change', function() {
+        var resi = document.getElementById("listRes");
+        var comm = document.getElementById("listCom");
+    
+        if(document.getElementById('listType-1').checked) {
+          resi.classList.remove("activeSelect");
+            comm.classList.add("activeSelect")
+
+            
+        }else if(document.getElementById('listType-2').checked) {
+          comm.classList.remove("activeSelect")
+            resi.classList.add("activeSelect")
+        }
+    });
+    
+    </script>
   <script>
     let dropArea = document.getElementById("drop-area");
 
