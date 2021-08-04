@@ -1694,7 +1694,7 @@ input[type=range]::-ms-thumb {
   font-size: 1em;
 }
 .approveBtn{
-  width: 120px;
+  width: 80px;
   border-radius: 5px;
   font-size: 0.95em;
 }
@@ -3465,6 +3465,11 @@ footer {
   .custom-field input {
     width: 163%;
   }
+  .approveBtn{
+    width: 120px;
+    border-radius: 5px;
+    font-size: 0.95em;
+  }
 }
 @media (min-width: 768px) {
   .editImageMobile{
@@ -3478,7 +3483,7 @@ footer {
     flex-direction: row;
   }
   #search-container {
-    margin-top: -150px;
+    margin-top: -143px;
   }
 }
 @media (min-width: 992px) { 
