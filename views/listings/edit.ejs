@@ -198,7 +198,7 @@
                 </select>
               </div>
               <div class="form-group col-12 col-sm-6 col-md-4">
-                <% var zoneOption = listing.zone %>
+                <!-- <% var zoneOption = listing.zone %>
                 <label for="zone">Zone</label>
                 <select name="listing[zone]" class="form-control" id="zone" required>
                   <option></option>
@@ -206,7 +206,9 @@
                   <option value="south" <% if(zoneOption == 'south') {%>selected<%} %>>South</option>
                   <option value="east"  <% if(zoneOption == 'east') {%>selected<%} %>>East</option>
                   <option value="west"  <% if(zoneOption == 'west') {%>selected<%} %>>West</option>
-                </select>
+                </select> -->
+                <label for="zone">District</label>
+                <input type="number" name="listing[zone]" min="1" max="28" class="form-control" id="zone" value="<%= listing.zone %>" required>
               </div>
               <div class="form-group col-12 col-sm-6 col-md-4">
                 <label for="street">Street Address</label>

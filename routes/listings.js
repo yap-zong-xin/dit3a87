@@ -290,41 +290,47 @@ router.get("/listings", function(req,res){
 				}
 				
 				// Zone 
-				const northZone = req.query.northZone;
-				const southZone = req.query.southZone;
-				const eastZone = req.query.eastZone;
-				const westZone = req.query.westZone;
-				var allZone = [];
-				allZone.push(northZone, southZone, eastZone, westZone);
-				console.log('all Zone: '+allZone);
-				var zoneArr=[];
-				var regexZone;
-				var count = 0;
-				for(let i=0; i<allZone.length; i++) {
-					if(typeof allZone[i]=='undefined'){
-						console.log('counting rooms')
-						count++;
-					}
-				}
-				if(count == 4){
-					allZone = [ 'north', 'south', 'east', 'west' ];
-					regexZone = allZone.map(function(e){return new RegExp(e, "gi");});
-					console.log('inside Zone all empty: '+regexZone);
-				}else {
-					for(let i=0; i<allZone.length; i++) {
-						if(!(typeof allZone[i] == 'undefined')) { //contains value does not contain undefined
-							console.log('zone at i: '+allZone[i]);
-							zoneArr[i] = allZone[i];
-							console.log('inside Zone: '+zoneArr);
-							var zoneArrRegex = zoneArr.map(function(e){return new RegExp(e, "gi");});
-							regexZone = zoneArrRegex.filter(function(el){
-								return el != null && el != '';
-							})
-							console.log('regexZone: '+regexZone)
-						}
+				// const northZone = req.query.northZone;
+				// const southZone = req.query.southZone;
+				// const eastZone = req.query.eastZone;
+				// const westZone = req.query.westZone;
+				// var allZone = [];
+				// allZone.push(northZone, southZone, eastZone, westZone);
+				// console.log('all Zone: '+allZone);
+				// var zoneArr=[];
+				// var regexZone;
+				// var count = 0;
+				// for(let i=0; i<allZone.length; i++) {
+				// 	if(typeof allZone[i]=='undefined'){
+				// 		console.log('counting rooms')
+				// 		count++;
+				// 	}
+				// }
+				// if(count == 4){
+				// 	allZone = [ 'north', 'south', 'east', 'west' ];
+				// 	regexZone = allZone.map(function(e){return new RegExp(e, "gi");});
+				// 	console.log('inside Zone all empty: '+regexZone);
+				// }else {
+				// 	for(let i=0; i<allZone.length; i++) {
+				// 		if(!(typeof allZone[i] == 'undefined')) { //contains value does not contain undefined
+				// 			console.log('zone at i: '+allZone[i]);
+				// 			zoneArr[i] = allZone[i];
+				// 			console.log('inside Zone: '+zoneArr);
+				// 			var zoneArrRegex = zoneArr.map(function(e){return new RegExp(e, "gi");});
+				// 			regexZone = zoneArrRegex.filter(function(el){
+				// 				return el != null && el != '';
+				// 			})
+				// 			console.log('regexZone: '+regexZone)
+				// 		}
 
-					}
+				// 	}
+				// }
+				var district = Number(req.query.zone);
+				if(district == '') {
+					district = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28 ]
 				}
+
+
 				// Price
 				const minPrice = Number(req.query.minPrice);
 				const maxPrice = Number(req.query.maxPrice);
@@ -495,9 +501,9 @@ router.get("/listings", function(req,res){
 				console.log('final sort option object: ',sortOptions);
 				console.log('passed in sold check: ',regexSold)
 				console.log('passed in archive check: ',regexArchive)
-				console.log('all parameters passed to mongo: '+minPrice+', '+maxPrice+', '+regexZone+', '+regexType+', '+minSize+', '+maxSize+', '+regexRooms);
+				// console.log('all parameters passed to mongo: '+minPrice+', '+maxPrice+', '+regexZone+', '+regexType+', '+minSize+', '+maxSize+', '+regexRooms);
 
-				listing.find({$and: [ {price: {$gte: minPrice, $lte: maxPrice}}, {zone: {$in : regexZone}}, {type: {$in: regexType}}, {size: {$gte: minSize, $lte: maxSize}}, {bedrooms: {$in: regexRooms}}, {bathrooms: {$in: regexbathRooms}}, {tenure: {$in: regexTenure}}, {soldStatus: {$in: regexSold}}, {archiveStatus: {$in: regexArchive}} ] }).sort(sortOptions).populate('author.id').exec(function (err, alllistings) {
+				listing.find({$and: [ {price: {$gte: minPrice, $lte: maxPrice}}, {zone: {$in: district}}, {type: {$in: regexType}}, {size: {$gte: minSize, $lte: maxSize}}, {bedrooms: {$in: regexRooms}}, {bathrooms: {$in: regexbathRooms}}, {tenure: {$in: regexTenure}}, {soldStatus: {$in: regexSold}}, {archiveStatus: {$in: regexArchive}} ] }).sort(sortOptions).populate('author.id').exec(function (err, alllistings) {
 					listing.count({price: minPrice}).exec(function (err, count) {
 						if (err) {
 							console.log(err);
