@@ -339,7 +339,7 @@ router.post('/forgot', function(req, res, next) {
 					from: '3D Property Website <jptestingsku@gmail.com>',
 					to: req.body.email,
 					subject: 'Password Reset',
-					html : "Hello "+user.username+",<br><br>You are receiving this email because you (or someone else) have requested the reset of the password for your account." +
+					html : "Hello <strong>"+user.username+"</strong>,<br><br>You are receiving this email because you (or someone else) have requested the reset of the password for your account." +
 								"<br><br><a href="+link+">Reset Password</a>"
 				};
 				const result = await transport.sendMail(mailOptions);
@@ -451,6 +451,5 @@ router.post("/connect", function(req, res){
 	.then(res.redirect('back'))
 	.catch(error => console.log(error.message))
 });
-
 
 module.exports = router;
