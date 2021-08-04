@@ -3,7 +3,7 @@
   <div style="margin: 0 130px; margin-top: 35px;">
     <div class="container pt-3">
       <div class="row">
-        <div class="col-12">
+        <div class="col-12 justify-content-center align-items-center d-flex">
           <span style="font-size: 1.4em; font-weight: 600;" class="align-items-center d-flex">
             <a href="/listings/<%= listing._id %>" style="text-decoration: none; color: black">
               <ion-icon name="close-outline" style="font-size: 1.3em;" class="pr-2"></ion-icon>
@@ -15,7 +15,7 @@
     </div>
   </div>
 
-  <div class="container pt-3 mb-0">
+  <div class="container pt-0 mb-0">
     <form action="/listings/<%= listing._id %>?_method=PUT" method="POST" enctype="multipart/form-data" name="editListingForm">
       <!-- previous images -->
       <%
@@ -99,7 +99,7 @@
                 <div id="thumbnail-gallery">
                   <!-- <i class="fa-4x fas fa-images" style="position: absolute; top: 25%; left: 25%; height: 10px; width: 10px"></i> -->
                   <div class="phlistingImage">
-                    <img src="<%= listing.thumbnail %>" class="thumbnail-gallery-style" id="prevThumbnailIdImage">
+                    <img src="<%= listing.thumbnail %>" class="thumbnail-gallery-style" id="prevThumbnailIdImage" style="object-fit: cover;">
                   </div>
                 </div>
                 <div class="thumbnailSlctText">
