@@ -857,30 +857,46 @@
                                     </span>
                                   <% } else if (listing.type == "condo") { %>
                                     <span style="font-size: 0.9em;">
-                                      Type: Condominium
+                                      Type: Condo
                                     </span>
                                   <% } else if (listing.type == "landed") { %>
                                     <span style="font-size: 0.9em;">
                                       Type: Landed
+                                    </span>
+                                  <% } else if (listing.type == "executivecondo") { %>
+                                    <span style="font-size: 0.9em;">
+                                      Type: Exe. Condo
+                                    </span>
+                                  <% } else if (listing.type == "terrace") { %>
+                                    <span style="font-size: 0.9em;">
+                                      Type: Terrace
+                                    </span>
+                                  <% } else if (listing.type == "semidetached") { %>
+                                    <span style="font-size: 0.9em;">
+                                      Type: Semi-Detached
+                                    </span>
+                                  <% } else if (listing.type == "detached") { %>
+                                    <span style="font-size: 0.9em;">
+                                      Type: Detached
                                     </span>
                                   <% } %>
                               </div>
                               <div class="col-12 mb-1" style="font-weight: 400;">
                                 <% if (listing.tenure == "ninetynine") { %>
                                 <span style="font-size: 0.9em;">
-                                  Tenure: 99-Year
+                                  Tenure: 99-Years
                                 </span>
                                 <%} else if (listing.tenure == "hundredthree") { %>
                                   <span style="font-size: 0.9em;">
-                                    Tenure: 103-Year
+                                    Tenure: 103-Years
                                   </span>
                                 <%} else if (listing.tenure == "hundredten") { %>
                                   <span style="font-size: 0.9em;">
-                                    Tenure: 110-Year
+                                    Tenure: 110-Years
                                   </span>
                                 <%} else if (listing.tenure == "ninehundrednine") { %>
                                   <span style="font-size: 0.9em;">
-                                    Tenure: 999-Year
+                                    Tenure: 999-Years
                                   </span>
                                 <%} else if (listing.tenure == "freehold") { %>
                                   <span style="font-size: 0.9em;">

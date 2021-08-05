@@ -156,9 +156,13 @@
                 <label for="type">Category</label>
                 <select name="listing[type]" class="form-control" id="type" required>
                   <option></option>
-                  <option value="hdb" <% if(typeOption == 'hdb') {%>selected<%} %>>HDB</option>
-                  <option value="condo" <% if(typeOption == 'condo') {%>selected<%} %>>Condo</option>
-                  <option value="landed" <% if(typeOption == 'landed') {%>selected<%} %>>Landed</option>
+                  <option value="hdb" <% if(typeOption == 'hdb') { %>selected<% } %>>HDB</option>
+                  <option value="condo" <% if(typeOption == 'cond'){ %>selected<%  }%>>Condo</option>
+                  <option value="executivecondo" <% if(typeOption == 'executivecondo'){ %>selected<% } %>>Executive Condominium</option>
+                  <option value="landed" <% if(typeOption == 'landed'){ %>selected<% } %>>Landed</option>
+                  <option value="terrace" <% if(typeOption == 'terrace') { %>selected<% } %>>Terrace</option>
+                  <option value="semidetached" <% if(typeOption == 'semidetached') { %>selected<% } %>>Semi-Detached</option>
+                  <option value="detached" <% if(typeOption == 'detached') { %>selected<% } %>>Detached</option>
                 </select>
               </div>
               <div class="form-group col-12 col-sm-6 col-md-4">
@@ -190,10 +194,10 @@
                 <select name="listing[tenure]" class="form-control" id="tenure" required>
                   <option></option>
                   <option value="unknown" <% if(tenureOption == 'unknown') {%>selected<%} %>>Unknown</option>
-                  <option value="ninetynine" <% if(tenureOption == 'ninetynine') {%>selected<%} %>>99-Year Leasehold</option>
-                  <option value="hundredthree" <% if(tenureOption == 'hundredthree') {%>selected<%} %>>103-Year Leasehold</option>
-                  <option value="hundredten" <% if(tenureOption == 'hundredten') {%>selected<%} %>>110-Year Leasehold</option>
-                  <option value="ninehundrednine" <% if(tenureOption == 'ninehundrednine') {%>selected<%} %>>999-Year Leasehold</option>
+                  <option value="ninetynine" <% if(tenureOption == 'ninetynine') {%>selected<%} %>>99-Years Leasehold</option>
+                  <option value="hundredthree" <% if(tenureOption == 'hundredthree') {%>selected<%} %>>103-Years Leasehold</option>
+                  <option value="hundredten" <% if(tenureOption == 'hundredten') {%>selected<%} %>>110-Years Leasehold</option>
+                  <option value="ninehundrednine" <% if(tenureOption == 'ninehundrednine') {%>selected<%} %>>999-Years Leasehold</option>
                   <option value="freehold" <% if(tenureOption == 'freehold') {%>selected<%} %>>Freehold</option>
                 </select>
               </div>

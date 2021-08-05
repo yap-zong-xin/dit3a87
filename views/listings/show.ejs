@@ -167,9 +167,61 @@
         </div>
       </div>
       <div class="col-12 pb-3" style="cursor: default;">
-        <span class="badge badge-default badge-outlined"><%= listing.type %></span>
-        <span class="badge badge-default badge-outlined"><%= listing.zone %></span>
-        <span class="badge badge-default badge-outlined"><%= listing.tenure %></span>
+        <span class="badge badge-default badge-outlined">
+          <% if (listing.type == "hdb") { %>
+            <span style="font-size: 1em;">
+              HDB
+            </span>
+          <% } else if (listing.type == "condo") { %>
+            <span style="font-size: 1em;">
+              Condo
+            </span>
+          <% } else if (listing.type == "landed") { %>
+            <span style="font-size: 1em;">
+              Landed
+            </span>
+          <% } else if (listing.type == "executivecondo") { %>
+            <span style="font-size: 1em;">
+              Exe. Condo
+            </span>
+          <% } else if (listing.type == "terrace") { %>
+            <span style="font-size: 1em;">
+              Terrace
+            </span>
+          <% } else if (listing.type == "semidetached") { %>
+            <span style="font-size: 1em;">
+              Semi-Detached
+            </span>
+          <% } else if (listing.type == "detached") { %>
+            <span style="font-size: 1em;">
+              Detached
+            </span>
+          <% } %>
+        </span>
+        <span class="badge badge-default badge-outlined" style="text-transform:capitalize"><%= listing.zone %></span>
+        <span class="badge badge-default badge-outlined">
+          <% if (listing.tenure == "ninetynine") { %>
+            <span style="font-size: 1em;">
+              99-Years
+            </span>
+          <%} else if (listing.tenure == "hundredthree") { %>
+            <span style="font-size: 1em;">
+              103-Years
+            </span>
+          <%} else if (listing.tenure == "hundredten") { %>
+            <span style="font-size: 1em;">
+              110-Years
+            </span>
+          <%} else if (listing.tenure == "ninehundrednine") { %>
+            <span style="font-size: 1em;">
+              999-Years
+            </span>
+          <%} else if (listing.tenure == "freehold") { %>
+            <span style="font-size: 1em;">
+              Freehold
+            </span>
+          <% } %>
+        </span>
         <span class="badge badge-default badge-outlined"><%= listing.location %></span>
       </div>
       <div class="col-12 d-sm-none mb-3">
@@ -347,7 +399,37 @@
         <p class="my-0" style="font-size: 1.5em; font-weight: 650;"><%= "S$" + listing.price %></p>
         <p class="pt-4 align-items-center d-flex" style="font-size: 1.05em;">
           <ion-icon name="business-outline"></ion-icon>
-          <span class="pl-2" style="text-transform:capitalize"><%= listing.type %></span>
+          <span class="pl-2" style="text-transform:capitalize">
+            <% if (listing.type == "hdb") { %>
+              <span style="font-size: 1em;">
+                HDB
+              </span>
+            <% } else if (listing.type == "condo") { %>
+              <span style="font-size: 1em;">
+                Condo
+              </span>
+            <% } else if (listing.type == "landed") { %>
+              <span style="font-size: 1em;">
+                Landed
+              </span>
+            <% } else if (listing.type == "executivecondo") { %>
+              <span style="font-size: 1em;">
+                Executive Condo
+              </span>
+            <% } else if (listing.type == "terrace") { %>
+              <span style="font-size: 1em;">
+                Terrace
+              </span>
+            <% } else if (listing.type == "semidetached") { %>
+              <span style="font-size: 1em;">
+                Semi-Detached
+              </span>
+            <% } else if (listing.type == "detached") { %>
+              <span style="font-size: 1em;">
+                Detached
+              </span>
+            <% } %>
+          </span>
           <ion-icon class="pl-3" name="compass-outline"></ion-icon>
           <span class="pl-2" style="text-transform:capitalize"><%= listing.zone %></span>
           <ion-icon class="pl-3" name="location-outline"></ion-icon>
@@ -435,41 +517,65 @@
           </div>
           <div class="col-6 pb-3">
             <span style="font-size: 0.9em; font-weight:650;">Type</span><br>
-            <span style="text-transform:capitalize"><%= listing.type %></span>
-          </div>
-          <div class="col-6 pb-3">
-            <span style="font-size: 0.9em; font-weight:650;">Tenure</span><br>
-            <span>
-              <% if (listing.tenure == "ninetynine") { %>
-                <span style="font-size: 0.9em;">
-                  99-Year
+            <span style="text-transform:capitalize">
+              <% if (listing.type == "hdb") { %>
+                <span style="font-size: 1em;">
+                  HDB
                 </span>
-              <%} else if (listing.tenure == "hundredthree") { %>
-                <span style="font-size: 0.9em;">
-                  103-Year
+              <% } else if (listing.type == "condo") { %>
+                <span style="font-size: 1em;">
+                  Condo
                 </span>
-              <%} else if (listing.tenure == "hundredten") { %>
-                <span style="font-size: 0.9em;">
-                  110-Year
+              <% } else if (listing.type == "landed") { %>
+                <span style="font-size: 1em;">
+                  Landed
                 </span>
-              <%} else if (listing.tenure == "ninehundrednine") { %>
-                <span style="font-size: 0.9em;">
-                  999-Year
+              <% } else if (listing.type == "executivecondo") { %>
+                <span style="font-size: 1em;">
+                  Executive Condo
                 </span>
-              <%} else if (listing.tenure == "freehold") { %>
-                <span style="font-size: 0.9em;">
-                 Freehold
+              <% } else if (listing.type == "terrace") { %>
+                <span style="font-size: 1em;">
+                  Terrace
+                </span>
+              <% } else if (listing.type == "semidetached") { %>
+                <span style="font-size: 1em;">
+                  Semi-Detached
+                </span>
+              <% } else if (listing.type == "detached") { %>
+                <span style="font-size: 1em;">
+                  Detached
                 </span>
               <% } %>
             </span>
           </div>
           <div class="col-6 pb-3">
-            <span style="font-size: 0.9em; font-weight:650;">Floor Size</span><br>
-            <span><%= listing.size %></span>
+            <span style="font-size: 0.9em; font-weight:650;">Tenure</span><br>
+              <% if (listing.tenure == "ninetynine") { %>
+                <span style="font-size: 1em;">
+                  99-Years
+                </span>
+              <%} else if (listing.tenure == "hundredthree") { %>
+                <span style="font-size: 1em;">
+                  103-Years
+                </span>
+              <%} else if (listing.tenure == "hundredten") { %>
+                <span style="font-size: 1em;">
+                  110-Years
+                </span>
+              <%} else if (listing.tenure == "ninehundrednine") { %>
+                <span style="font-size: 1em;">
+                  999-Years
+                </span>
+              <%} else if (listing.tenure == "freehold") { %>
+                <span style="font-size: 1em;">
+                  Freehold
+                </span>
+              <% } %>
           </div>
           <div class="col-6 pb-3">
-            <span style="font-size: 0.9em; font-weight:650;">Agent</span><br>
-            <span><%= listing.author.username %></span>
+            <span style="font-size: 0.9em; font-weight:650;">Floor Size</span><br>
+            <span><%= listing.size %></span>
           </div>
           <div class="col-6 pb-3">
             <span style="font-size: 0.9em; font-weight:650;">Bedrooms</span><br>
@@ -478,6 +584,10 @@
           <div class="col-6 pb-3">
             <span style="font-size: 0.9em; font-weight:650;">Bathrooms</span><br>
             <span><%= listing.bathrooms %></span>
+          </div>
+          <div class="col-6 pb-3">
+            <span style="font-size: 0.9em; font-weight:650;">Agent</span><br>
+            <span><%= listing.author.username %></span>
           </div>
           <div class="col-6 pb-3">
             <span style="font-size: 0.9em; font-weight:650;">Listed On</span><br>
