@@ -743,13 +743,31 @@
       var slctEle = document.getElementById(dt.getData("text"));
       console.log('slcele: ', slctEle)
       if(slctEle) {
-        if(slctEle.classList.value == "image-gallery-style") {
+        // if(slctEle.classList.value == "image-gallery-style") {
+        //   //set files
+        //   files = dataURLtoFile(slctEle.src, "thumbnailImage");
+        //   console.log('typ of fiel: ',files);
+        //   updateThumbnail(files)
+        //   console.log('peva: ', thumbnailGallery.children[0].classList.value);
+        // }
+          if(slctEle.classList.value == "prev-image-gallery-style") {
+          //clear file input file => use id instead of file when using previous listing images
+          document.getElementById("thumbnailFile").value="";
+          console.log('check thumbnail: ', thumbnailGallery.children[0])
+          //set value
+          document.getElementById("prevThumbnailId").value = dt.getData("text");
+          document.getElementById("prevThumbnail").value = slctEle.src;
+        }else if(slctEle.classList.value == "image-gallery-style") {
+          //clear previous listing images thumbnail
+          document.getElementById("prevThumbnailId").value="";
+          document.getElementById("prevThumbnail").value="";
           //set files
           files = dataURLtoFile(slctEle.src, "thumbnailImage");
           console.log('typ of fiel: ',files);
           updateThumbnail(files)
           console.log('peva: ', thumbnailGallery.children[0].classList.value);
         }
+
       
         //PREVIEW GALLERY
         if(thumbnailGallery.children[0].classList.value=="phlistingImage" || thumbnailGallery.children[0].classList.value=="thumbnail-gallery-style") {
@@ -785,6 +803,10 @@
           document.getElementById("completeGallery").appendChild(coltwo);
         }
       }else {
+        //clear previous listing images thumbnail
+        document.getElementById("prevThumbnailId").value="";
+        document.getElementById("prevThumbnail").value="";
+
         console.log('qwertyui')
         files=dt.files;
         updateThumbnail(files);
