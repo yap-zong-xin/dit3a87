@@ -741,57 +741,76 @@
       var files;
       console.log('dtgetdata: ', dt.getData('text'))
       var slctEle = document.getElementById(dt.getData("text"));
-      console.log('slcele: ', slctEle.classList.value)
-      //SET THUMBNAIL FILE (EITHER PREVIOUS LINK OR NEW FILE)
-      if(slctEle.classList.value == "prev-image-gallery-style") {
-        //clear file input file => use id instead of file when using previous listing images
-        document.getElementById("thumbnailFile").value="";
-        console.log('check thumbnail: ', thumbnailGallery.children[0])
-        //set value
-        document.getElementById("prevThumbnailId").value = dt.getData("text");
-        document.getElementById("prevThumbnail").value = slctEle.src;
-      }else if(slctEle.classList.value == "image-gallery-style") {
-        //clear previous listing images thumbnail
-        document.getElementById("prevThumbnailId").value="";
-        document.getElementById("prevThumbnail").value="";
-        //set files
-        files = dataURLtoFile(slctEle.src, "thumbnailImage");
-        console.log('typ of fiel: ',files);
-        updateThumbnail(files)
-        console.log('peva: ', thumbnailGallery.children[0].classList.value);
-      }
-      //PREVIEW GALLERY
-      if(thumbnailGallery.children[0].classList.value=="phlistingImage") {
-        console.log('a')
-        thumbnailGallery.removeChild(thumbnailGallery.children[0])
-        slctEle.parentNode.children[1].style.display = "none"
-        completeGallery.removeChild(slctEle.parentNode.parentNode)
-        thumbnailGallery.appendChild(slctEle.parentNode)
-      }else if(thumbnailGallery.children[0].classList.value=="prevlistingImage") {
-        console.log('b')
-        //thumbnail
-        slctEle.parentNode.children[1].style.display = "none"
-        completeGallery.removeChild(slctEle.parentNode.parentNode)
-        thumbnailGallery.appendChild(slctEle.parentNode)
-        //make col-2 and append back to gallery
-        console.log('sadf: ', thumbnailGallery.children[0].children[1])
-        thumbnailGallery.children[0].children[1].style.display = "block";
-        var coltwo = document.createElement('div');
-        coltwo.classList.add('col-2');
-        coltwo.appendChild(thumbnailGallery.children[0])
-        document.getElementById("completeGallery").appendChild(coltwo);
-      }else if(thumbnailGallery.children[0].classList.value=="listingImage") {
-        console.log('c')
-        //thumbnail
-        slctEle.parentNode.children[1].style.display = "none"
-        completeGallery.removeChild(slctEle.parentNode.parentNode)
-        thumbnailGallery.appendChild(slctEle.parentNode)
-        //make col-2 and append back to gallery
-        thumbnailGallery.children[0].children[1].style.display = "block";
-        var coltwo = document.createElement('div');
-        coltwo.classList.add('col-2');
-        coltwo.appendChild(thumbnailGallery.children[0])
-        document.getElementById("completeGallery").appendChild(coltwo);
+      console.log('slcele: ', slctEle)
+      if(slctEle) {
+        if(slctEle.classList.value == "image-gallery-style") {
+          //set files
+          files = dataURLtoFile(slctEle.src, "thumbnailImage");
+          console.log('typ of fiel: ',files);
+          updateThumbnail(files)
+          console.log('peva: ', thumbnailGallery.children[0].classList.value);
+        }
+      
+        //PREVIEW GALLERY
+        if(thumbnailGallery.children[0].classList.value=="phlistingImage" || thumbnailGallery.children[0].classList.value=="thumbnail-gallery-style") {
+          console.log('a')
+          thumbnailGallery.removeChild(thumbnailGallery.children[0])
+          slctEle.parentNode.children[1].style.display = "none"
+          completeGallery.removeChild(slctEle.parentNode.parentNode)
+          thumbnailGallery.appendChild(slctEle.parentNode)
+        }else if(thumbnailGallery.children[0].classList.value=="prevlistingImage") {
+          console.log('b')
+          //thumbnail
+          slctEle.parentNode.children[1].style.display = "none"
+          completeGallery.removeChild(slctEle.parentNode.parentNode)
+          thumbnailGallery.appendChild(slctEle.parentNode)
+          //make col-2 and append back to gallery
+          console.log('sadf: ', thumbnailGallery.children[0].children[1])
+          thumbnailGallery.children[0].children[1].style.display = "block";
+          var coltwo = document.createElement('div');
+          coltwo.classList.add('col-2');
+          coltwo.appendChild(thumbnailGallery.children[0])
+          document.getElementById("completeGallery").appendChild(coltwo);
+        }else if(thumbnailGallery.children[0].classList.value=="listingImage") {
+          console.log('c')
+          //thumbnail
+          slctEle.parentNode.children[1].style.display = "none"
+          completeGallery.removeChild(slctEle.parentNode.parentNode)
+          thumbnailGallery.appendChild(slctEle.parentNode)
+          //make col-2 and append back to gallery
+          thumbnailGallery.children[0].children[1].style.display = "block";
+          var coltwo = document.createElement('div');
+          coltwo.classList.add('col-2');
+          coltwo.appendChild(thumbnailGallery.children[0])
+          document.getElementById("completeGallery").appendChild(coltwo);
+        }
+      }else {
+        console.log('qwertyui')
+        files=dt.files;
+        updateThumbnail(files);
+        //PREVIEW GALLERY
+        if(thumbnailGallery.children[0].classList.value=="phlistingImage") {
+          console.log('a1')
+          thumbnailGallery.removeChild(thumbnailGallery.children[0])
+        }else if(thumbnailGallery.children[0].classList.value=="prevlistingImage") {
+          console.log('b1')
+          //make col-2 and append back to gallery
+          console.log('sadf: ', thumbnailGallery.children[0].children[1])
+          thumbnailGallery.children[0].children[1].style.display = "block";
+          var coltwo = document.createElement('div');
+          coltwo.classList.add('col-2');
+          coltwo.appendChild(thumbnailGallery.children[0])
+          document.getElementById("completeGallery").appendChild(coltwo);
+        }else if(thumbnailGallery.children[0].classList.value=="listingImage") {
+          console.log('c1')
+          //make col-2 and append back to gallery
+          thumbnailGallery.children[0].children[1].style.display = "block";
+          var coltwo = document.createElement('div');
+          coltwo.classList.add('col-2');
+          coltwo.appendChild(thumbnailGallery.children[0])
+          document.getElementById("completeGallery").appendChild(coltwo);
+        }
+        previewThumbnail(files)
       }
       updateMediaCount();
     }
