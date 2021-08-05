@@ -124,38 +124,27 @@ router.get("/listings", function(req,res){
 			if(req.query.searchindexBtn) {
 					//search box	
 					const regex = new RegExp(escapeRegex(req.query.searchindex), 'gi');
+
 					//Property Type
 					var propType = req.query.propertyType;
-					var propTypeArr = ['hdb', 'condo', 'landed'];
-					if(propType == 'hdb') {
-						propTypeArr = ['hdb']
-					}else if(propType == 'condo') {
-						propTypeArr = ['condo']
-					}else if(propType == 'landed') {
-						propTypeArr = ['landed']
-					}else{
-						propTypeArr = ['hdb', 'condo', 'landed'];
+					var propTypeArr = [];
+					if(propType == 'allType' || !propType) {
+						propTypeArr = ['hdb', 'condo', 'executivecondo', 'landed', 'terrace', 'semidetached', 'detached'];
+					}else {
+						propTypeArr.push(req.query.propertyType);
 					}
 					regexType = propTypeArr.map(function(e){return new RegExp(e, "gi");});
+
 					//Number of rooms
 					var numofRooms = Number(req.query.numofRooms);
-					var numofRoomsArr = [1,2,3,4,5,6];
-					if(numofRooms == 1) {
-						numofRoomsArr = [1]
-					}else if(numofRooms == 2) {
-						numofRoomsArr = [2]
-					}else if(numofRooms == 3) {
-						numofRoomsArr = [3]
-					}else if(numofRooms == 4) {
-						numofRoomsArr = [4]
-					}else if(numofRooms == 5) {
-						numofRoomsArr = [5]
-					}else if(numofRooms == 6) {
-						numofRoomsArr = [6]
-					}else {
+					var numofRoomsArr = [];
+					if(numofRooms == "allrooms" || !numofRooms) {
 						numofRoomsArr = [1,2,3,4,5,6];
+					}else {
+						numofRoomsArr.push(numofRooms)
 					}
 					regexRooms = numofRoomsArr;
+
 					//MIN & MAX Price
 					var minPrice = 0;
 					var maxPrice = largestPrice;
@@ -254,77 +243,96 @@ router.get("/listings", function(req,res){
 			//Filter
 			}  else if (req.query.Apply) {
 				// Property Type
-				const hdbType = req.query.hdbType;
-				const condoType = req.query.condoType;
-				const landedType = req.query.landedType;
-				var allType = []
-				allType.push(hdbType, condoType, landedType);
-				console.log('all type: '+allType);
-				var typeArr=[];
-				var regexType;
-				var typeCount = 0;
-				for(let i=0; i<allType.length; i++) {
-					if(typeof allType[i]=='undefined'){
-						console.log('counting type')
-						typeCount++;
-					}
-				}
-				if(typeCount == 3){
-					allType = [ 'hdb', 'condo', 'landed' ];
-					regexType = allType.map(function(e){return new RegExp(e, "gi");});
-					console.log('inside type all empty: '+regexType);
+				var propTypeArr = [];
+				if(typeof req.query.propType == 'object') {
+					for(let i=0; i<req.query.propType.length; i++) {
+						propTypeArr.push(req.query.propType[i]);
+					}	
 				}else {
-					for(let i=0; i<allType.length; i++) {
-						if(!(typeof allType[i] == 'undefined')) { //contains value does not contain undefined
-							console.log('all type at i: '+allType[i]);
-							typeArr[i] = allType[i];
-							console.log('inside type: '+typeArr);
-							var typeArrRegex = typeArr.map(function(e){return new RegExp(e, "gi");});
-							regexType = typeArrRegex.filter(function(eli){
-								return eli != null && eli != '';
-							})
-							console.log('regexType: '+regexType)
-						}
-
-					}
+					propTypeArr = ['hdb', 'condo', 'execondo', 'landed', 'terrace', 'semidetached', 'detached'];
 				}
+				var regexType = propTypeArr.map(function(e){return new RegExp(e, "gi");});
+
+				// const hdbType = req.query.hdbType;
+				// const condoType = req.query.condoType;
+				// const execondoType = req.query.execondoType;
+				// const landedType = req.query.landedType;
+				// var allType = []
+				// allType.push(hdbType, condoType, landedType);
+				// console.log('all type: '+allType);
+				// var typeArr=[];
+				// var regexType;
+				// var typeCount = 0;
+				// for(let i=0; i<allType.length; i++) {
+				// 	if(typeof allType[i]=='undefined'){
+				// 		console.log('counting type')
+				// 		typeCount++;
+				// 	}
+				// }
+				// if(typeCount == 3){
+				// 	allType = [ 'hdb', 'condo', 'landed' ];
+				// 	regexType = allType.map(function(e){return new RegExp(e, "gi");});
+				// 	console.log('inside type all empty: '+regexType);
+				// }else {
+				// 	for(let i=0; i<allType.length; i++) {
+				// 		if(!(typeof allType[i] == 'undefined')) { //contains value does not contain undefined
+				// 			console.log('all type at i: '+allType[i]);
+				// 			typeArr[i] = allType[i];
+				// 			console.log('inside type: '+typeArr);
+				// 			var typeArrRegex = typeArr.map(function(e){return new RegExp(e, "gi");});
+				// 			regexType = typeArrRegex.filter(function(eli){
+				// 				return eli != null && eli != '';
+				// 			})
+				// 			console.log('regexType: '+regexType)
+				// 		}
+
+				// 	}
+				// }
 				
 				// Zone 
-				const northZone = req.query.northZone;
-				const southZone = req.query.southZone;
-				const eastZone = req.query.eastZone;
-				const westZone = req.query.westZone;
-				var allZone = [];
-				allZone.push(northZone, southZone, eastZone, westZone);
-				console.log('all Zone: '+allZone);
-				var zoneArr=[];
-				var regexZone;
-				var count = 0;
-				for(let i=0; i<allZone.length; i++) {
-					if(typeof allZone[i]=='undefined'){
-						console.log('counting rooms')
-						count++;
-					}
-				}
-				if(count == 4){
-					allZone = [ 'north', 'south', 'east', 'west' ];
-					regexZone = allZone.map(function(e){return new RegExp(e, "gi");});
-					console.log('inside Zone all empty: '+regexZone);
+				var zoneArr = [];
+				if(typeof req.query.zone == 'object') {
+					for(let i=0; i<req.query.zone.length; i++) {
+						zoneArr.push(req.query.zone[i]);
+					}	
 				}else {
-					for(let i=0; i<allZone.length; i++) {
-						if(!(typeof allZone[i] == 'undefined')) { //contains value does not contain undefined
-							console.log('zone at i: '+allZone[i]);
-							zoneArr[i] = allZone[i];
-							console.log('inside Zone: '+zoneArr);
-							var zoneArrRegex = zoneArr.map(function(e){return new RegExp(e, "gi");});
-							regexZone = zoneArrRegex.filter(function(el){
-								return el != null && el != '';
-							})
-							console.log('regexZone: '+regexZone)
-						}
-
-					}
+					zoneArr = ['north', 'south', 'east', 'west'];
 				}
+				var regexZone = zoneArr.map(function(e){return new RegExp(e, "gi");});
+				// const northZone = req.query.northZone;
+				// const southZone = req.query.southZone;
+				// const eastZone = req.query.eastZone;
+				// const westZone = req.query.westZone;
+				// var allZone = [];
+				// allZone.push(northZone, southZone, eastZone, westZone);
+				// console.log('all Zone: '+allZone);
+				// var zoneArr=[];
+				// var regexZone;
+				// var count = 0;
+				// for(let i=0; i<allZone.length; i++) {
+				// 	if(typeof allZone[i]=='undefined'){
+				// 		count++;
+				// 	}
+				// }
+				// if(count == 4){
+				// 	allZone = [ 'north', 'south', 'east', 'west' ];
+				// 	regexZone = allZone.map(function(e){return new RegExp(e, "gi");});
+				// 	console.log('inside Zone all empty: '+regexZone);
+				// }else {
+				// 	for(let i=0; i<allZone.length; i++) {
+				// 		if(!(typeof allZone[i] == 'undefined')) { //contains value does not contain undefined
+				// 			console.log('zone at i: '+allZone[i]);
+				// 			zoneArr[i] = allZone[i];
+				// 			console.log('inside Zone: '+zoneArr);
+				// 			var zoneArrRegex = zoneArr.map(function(e){return new RegExp(e, "gi");});
+				// 			regexZone = zoneArrRegex.filter(function(el){
+				// 				return el != null && el != '';
+				// 			})
+				// 			console.log('regexZone: '+regexZone)
+				// 		}
+
+				// 	}
+				// }
 
 				//District
 				var district = Number(req.query.district);
@@ -346,114 +354,141 @@ router.get("/listings", function(req,res){
 				console.log("minSize: "+maxSize);
 				
 				// Number of rooms 
-				const onerooms = req.query.onerooms;
-				const tworooms = req.query.tworooms;
-				const threerooms = req.query.threerooms;
-				const fourrooms = req.query.fourrooms;
-				const fiverooms = req.query.fiverooms;
-				const sixrooms = req.query.sixrooms;
-				var allRooms = [];
-				allRooms.push(onerooms, tworooms, threerooms, fourrooms, fiverooms, sixrooms);
-				console.log('all rooms: '+allRooms);
-				var roomsArr=[];
-				var regexRooms;
-				var roomCount = 0;
-				for(let i=0; i<allRooms.length; i++) {
-					if(typeof allRooms[i]=='undefined'){
-						console.log('counting rooms')
-						roomCount++;
-					}
-				}
-				if(roomCount == 6){
-					regexRooms = [ 1, 2, 3, 4, 5, 6 ];
-					console.log('inside room all empty: '+typeof regexRooms[1]);
+				var bedroomsArr = [];
+				if(typeof req.query.bedrooms == 'object') {
+					for(let i=0; i<req.query.bedrooms.length; i++) {
+						bedroomsArr.push(Number(req.query.bedrooms[i]));
+					}	
 				}else {
-					for(let i=0; i<allRooms.length; i++) {
-						if(!(typeof allRooms[i] == 'undefined')) { //contains value does not contain undefined
-							console.log('rooms at i: '+allRooms[i]);
-							roomsArr[i] = Number(allRooms[i]);
-							console.log('inside rooms: '+roomsArr);
-							regexRooms = roomsArr.filter(function(elt){
-								return elt != null && elt != '';
-							})
-							console.log('regexRooms: '+regexRooms)
-						}
-
-					}
+					bedroomsArr = [ 1, 2, 3, 4, 5, 6 ];
 				}
+				var regexRooms = bedroomsArr;
+				// const onerooms = req.query.onerooms;
+				// const tworooms = req.query.tworooms;
+				// const threerooms = req.query.threerooms;
+				// const fourrooms = req.query.fourrooms;
+				// const fiverooms = req.query.fiverooms;
+				// const sixrooms = req.query.sixrooms;
+				// var allRooms = [];
+				// allRooms.push(onerooms, tworooms, threerooms, fourrooms, fiverooms, sixrooms);
+				// console.log('all rooms: '+allRooms);
+				// var roomsArr=[];
+				// var regexRooms;
+				// var roomCount = 0;
+				// for(let i=0; i<allRooms.length; i++) {
+				// 	if(typeof allRooms[i]=='undefined'){
+				// 		console.log('counting rooms')
+				// 		roomCount++;
+				// 	}
+				// }
+				// if(roomCount == 6){
+				// 	regexRooms = [ 1, 2, 3, 4, 5, 6 ];
+				// 	console.log('inside room all empty: '+typeof regexRooms[1]);
+				// }else {
+				// 	for(let i=0; i<allRooms.length; i++) {
+				// 		if(!(typeof allRooms[i] == 'undefined')) { //contains value does not contain undefined
+				// 			console.log('rooms at i: '+allRooms[i]);
+				// 			roomsArr[i] = Number(allRooms[i]);
+				// 			console.log('inside rooms: '+roomsArr);
+				// 			regexRooms = roomsArr.filter(function(elt){
+				// 				return elt != null && elt != '';
+				// 			})
+				// 			console.log('regexRooms: '+regexRooms)
+				// 		}
+
+				// 	}
+				// }
 
 				//number of bath rooms
-				const onebathrooms = req.query.onebathrooms;
-				const twobathrooms = req.query.twobathrooms;
-				const threebathrooms = req.query.threebathrooms;
-				var allbathRooms = [];
-				allbathRooms.push(onebathrooms, twobathrooms, threebathrooms);
-				console.log('all bath rooms: '+allbathRooms);
-				var bathroomsArr=[];
-				var regexbathRooms;
-				var bathroomCount = 0;
-				for(let i=0; i<allbathRooms.length; i++) {
-					if(typeof allbathRooms[i]=='undefined'){
-						console.log('counting bath rooms')
-						bathroomCount++;
-					}
-				}
-				if(bathroomCount == 3){
-					regexbathRooms = [ 1, 2, 3 ];
-					console.log('inside bath room all empty: '+typeof regexbathRooms[1]);
+				var bathroomsArr = [];
+				if(typeof req.query.bathrooms == 'object') {
+					for(let i=0; i<req.query.bathrooms.length; i++) {
+						bathroomsArr.push(Number(req.query.bathrooms[i]));
+					}	
 				}else {
-					for(let i=0; i<allbathRooms.length; i++) {
-						if(!(typeof allbathRooms[i] == 'undefined')) { //contains value does not contain undefined
-							console.log('line bath: '+allbathRooms[i]);
-							bathroomsArr[i] = allbathRooms[i];
-							console.log('inside bath rooms: '+bathroomsArr);
-							regexbathRooms = bathroomsArr.filter(function(elto){
-								return elto != null && elto != '';
-							})
-							console.log('regexbathRooms: '+regexbathRooms)
-						}
-
-					}
+					bathroomsArr = [ 1, 2, 3, 4, 5, 6 ];
 				}
+				var regexbathRooms = bathroomsArr;
+				// const onebathrooms = req.query.onebathrooms;
+				// const twobathrooms = req.query.twobathrooms;
+				// const threebathrooms = req.query.threebathrooms;
+				// var allbathRooms = [];
+				// allbathRooms.push(onebathrooms, twobathrooms, threebathrooms);
+				// console.log('all bath rooms: '+allbathRooms);
+				// var bathroomsArr=[];
+				// var regexbathRooms;
+				// var bathroomCount = 0;
+				// for(let i=0; i<allbathRooms.length; i++) {
+				// 	if(typeof allbathRooms[i]=='undefined'){
+				// 		console.log('counting bath rooms')
+				// 		bathroomCount++;
+				// 	}
+				// }
+				// if(bathroomCount == 3){
+				// 	regexbathRooms = [ 1, 2, 3 ];
+				// 	console.log('inside bath room all empty: '+typeof regexbathRooms[1]);
+				// }else {
+				// 	for(let i=0; i<allbathRooms.length; i++) {
+				// 		if(!(typeof allbathRooms[i] == 'undefined')) { //contains value does not contain undefined
+				// 			console.log('line bath: '+allbathRooms[i]);
+				// 			bathroomsArr[i] = allbathRooms[i];
+				// 			console.log('inside bath rooms: '+bathroomsArr);
+				// 			regexbathRooms = bathroomsArr.filter(function(elto){
+				// 				return elto != null && elto != '';
+				// 			})
+				// 			console.log('regexbathRooms: '+regexbathRooms)
+				// 		}
+
+				// 	}
+				// }
 				
 				//Tenure
-				const freehold = req.query.freehold;
-				const NinetyNineYL = req.query.NinetyNineYL;
-				const HundredThreeYL = req.query.HundredThreeYL;
-				const HundredTenYL = req.query.HundredTenYL;
-				const NineHundredNineYL = req.query.NineHundredNineYL;
-				const tenure = req.query.tenure;
-				var allTenure = [];
-				allTenure.push(freehold, NinetyNineYL, HundredThreeYL, HundredTenYL, NineHundredNineYL, tenure);
-				console.log('all tenure: '+allTenure);
-				var tenureArr=[];
-				var regexTenure;
-				var tenureCount = 0;
-				for(let i=0; i<allTenure.length; i++) {
-					if(typeof allTenure[i]=='undefined'){
-						console.log('counting tenure')
-						tenureCount++;
-					}
-				}
-				if(tenureCount == 6){
-					allTenure = [ 'freehold', 'ninetynine', 'hundredthree', 'hundredten', 'ninehundrednine', 'unknown' ];
-					regexTenure = allTenure.map(function(e){return new RegExp(e, "gi");});
-					console.log('inside Tenure all empty: '+regexTenure);
+				var tenureArr = [];
+				if(typeof req.query.tenure == 'object') {
+					for(let i=0; i<req.query.tenure.length; i++) {
+						tenureArr.push(req.query.tenure[i]);
+					}	
 				}else {
-					for(let i=0; i<allTenure.length; i++) {
-						if(!(typeof allTenure[i] == 'undefined')) { //contains value does not contain undefined
-							console.log('tenure at i: '+allTenure[i]);
-							tenureArr[i] = allTenure[i];
-							console.log('inside tenure: '+tenureArr);
-							var tenureArrRegex = tenureArr.map(function(e){return new RegExp(e, "gi");});
-							regexTenure = tenureArrRegex.filter(function(lp){
-								return lp != null && lp != '';
-							})
-							console.log('regex tenure: '+regexTenure)
-						}
-
-					}
+					tenureArr = ['freehold', 'ninetynine', 'hundredthree', 'hundredten', '999', 'unknown'];
 				}
+				var regexTenure = tenureArr.map(function(e){return new RegExp(e, "gi");});
+				// const freehold = req.query.freehold;
+				// const NinetyNineYL = req.query.NinetyNineYL;
+				// const HundredThreeYL = req.query.HundredThreeYL;
+				// const HundredTenYL = req.query.HundredTenYL;
+				// const NineHundredNineYL = req.query.NineHundredNineYL;
+				// const tenure = req.query.tenure;
+				// var allTenure = [];
+				// allTenure.push(freehold, NinetyNineYL, HundredThreeYL, HundredTenYL, NineHundredNineYL, tenure);
+				// console.log('all tenure: '+allTenure);
+				// var tenureArr=[];
+				// var regexTenure;
+				// var tenureCount = 0;
+				// for(let i=0; i<allTenure.length; i++) {
+				// 	if(typeof allTenure[i]=='undefined'){
+				// 		console.log('counting tenure')
+				// 		tenureCount++;
+				// 	}
+				// }
+				// if(tenureCount == 6){
+				// 	allTenure = [ 'freehold', 'ninetynine', 'hundredthree', 'hundredten', 'ninehundrednine', 'unknown' ];
+				// 	regexTenure = allTenure.map(function(e){return new RegExp(e, "gi");});
+				// 	console.log('inside Tenure all empty: '+regexTenure);
+				// }else {
+				// 	for(let i=0; i<allTenure.length; i++) {
+				// 		if(!(typeof allTenure[i] == 'undefined')) { //contains value does not contain undefined
+				// 			console.log('tenure at i: '+allTenure[i]);
+				// 			tenureArr[i] = allTenure[i];
+				// 			console.log('inside tenure: '+tenureArr);
+				// 			var tenureArrRegex = tenureArr.map(function(e){return new RegExp(e, "gi");});
+				// 			regexTenure = tenureArrRegex.filter(function(lp){
+				// 				return lp != null && lp != '';
+				// 			})
+				// 			console.log('regex tenure: '+regexTenure)
+				// 		}
+
+				// 	}
+				// }
 
 				// Sort object (to be passed into .sort)
 				var sortOptions = {};
