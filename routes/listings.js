@@ -290,42 +290,44 @@ router.get("/listings", function(req,res){
 				}
 				
 				// Zone 
-				// const northZone = req.query.northZone;
-				// const southZone = req.query.southZone;
-				// const eastZone = req.query.eastZone;
-				// const westZone = req.query.westZone;
-				// var allZone = [];
-				// allZone.push(northZone, southZone, eastZone, westZone);
-				// console.log('all Zone: '+allZone);
-				// var zoneArr=[];
-				// var regexZone;
-				// var count = 0;
-				// for(let i=0; i<allZone.length; i++) {
-				// 	if(typeof allZone[i]=='undefined'){
-				// 		console.log('counting rooms')
-				// 		count++;
-				// 	}
-				// }
-				// if(count == 4){
-				// 	allZone = [ 'north', 'south', 'east', 'west' ];
-				// 	regexZone = allZone.map(function(e){return new RegExp(e, "gi");});
-				// 	console.log('inside Zone all empty: '+regexZone);
-				// }else {
-				// 	for(let i=0; i<allZone.length; i++) {
-				// 		if(!(typeof allZone[i] == 'undefined')) { //contains value does not contain undefined
-				// 			console.log('zone at i: '+allZone[i]);
-				// 			zoneArr[i] = allZone[i];
-				// 			console.log('inside Zone: '+zoneArr);
-				// 			var zoneArrRegex = zoneArr.map(function(e){return new RegExp(e, "gi");});
-				// 			regexZone = zoneArrRegex.filter(function(el){
-				// 				return el != null && el != '';
-				// 			})
-				// 			console.log('regexZone: '+regexZone)
-				// 		}
+				const northZone = req.query.northZone;
+				const southZone = req.query.southZone;
+				const eastZone = req.query.eastZone;
+				const westZone = req.query.westZone;
+				var allZone = [];
+				allZone.push(northZone, southZone, eastZone, westZone);
+				console.log('all Zone: '+allZone);
+				var zoneArr=[];
+				var regexZone;
+				var count = 0;
+				for(let i=0; i<allZone.length; i++) {
+					if(typeof allZone[i]=='undefined'){
+						console.log('counting rooms')
+						count++;
+					}
+				}
+				if(count == 4){
+					allZone = [ 'north', 'south', 'east', 'west' ];
+					regexZone = allZone.map(function(e){return new RegExp(e, "gi");});
+					console.log('inside Zone all empty: '+regexZone);
+				}else {
+					for(let i=0; i<allZone.length; i++) {
+						if(!(typeof allZone[i] == 'undefined')) { //contains value does not contain undefined
+							console.log('zone at i: '+allZone[i]);
+							zoneArr[i] = allZone[i];
+							console.log('inside Zone: '+zoneArr);
+							var zoneArrRegex = zoneArr.map(function(e){return new RegExp(e, "gi");});
+							regexZone = zoneArrRegex.filter(function(el){
+								return el != null && el != '';
+							})
+							console.log('regexZone: '+regexZone)
+						}
 
-				// 	}
-				// }
-				var district = Number(req.query.zone);
+					}
+				}
+
+				//District
+				var district = Number(req.query.district);
 				if(district == '') {
 					district = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28 ]
 				}
@@ -503,7 +505,7 @@ router.get("/listings", function(req,res){
 				console.log('passed in archive check: ',regexArchive)
 				// console.log('all parameters passed to mongo: '+minPrice+', '+maxPrice+', '+regexZone+', '+regexType+', '+minSize+', '+maxSize+', '+regexRooms);
 
-				listing.find({$and: [ {price: {$gte: minPrice, $lte: maxPrice}}, {zone: {$in: district}}, {type: {$in: regexType}}, {size: {$gte: minSize, $lte: maxSize}}, {bedrooms: {$in: regexRooms}}, {bathrooms: {$in: regexbathRooms}}, {tenure: {$in: regexTenure}}, {soldStatus: {$in: regexSold}}, {archiveStatus: {$in: regexArchive}} ] }).sort(sortOptions).populate('author.id').exec(function (err, alllistings) {
+				listing.find({$and: [ {price: {$gte: minPrice, $lte: maxPrice}}, {zone: {$in: regexZone}}, {district: {$in: district}}, {type: {$in: regexType}}, {size: {$gte: minSize, $lte: maxSize}}, {bedrooms: {$in: regexRooms}}, {bathrooms: {$in: regexbathRooms}}, {tenure: {$in: regexTenure}}, {soldStatus: {$in: regexSold}}, {archiveStatus: {$in: regexArchive}} ] }).sort(sortOptions).populate('author.id').exec(function (err, alllistings) {
 					listing.count({price: minPrice}).exec(function (err, count) {
 						if (err) {
 							console.log(err);
@@ -619,157 +621,12 @@ function escapeRegex(text) {
 };
 
 //Post Route
-// router.post("/listings", middleware.isLoggedIn, uploadMultiple, async function(req,res){
-// 	var thumbnail = req.files.thumbnail;
-// 	console.log('thumbnail sdkadnfj: '+thumbnail[0].path);
-
-// 	var imageArray = req.files.image;
-
-// 	var fileArray = [];
-// 	for(let i = 0 ; i < imageArray.length; i++) {
-// 		fileArray.push(req.files.image[i]);
-// 	}
-// 	if (req.files.video) {
-// 		var videoArray = req.files.video;
-// 		for(let i = 0 ; i < videoArray.length; i++) {
-// 			fileArray.push(req.files.video[i]);
-// 		}
-// 	}
-
-// 	var imageSecureUrlArray = [];
-// 	var imagePublicIdArray = [];
-// 	var videoSecureUrlArray = [];
-// 	var videoPublicIdArray = [];
-
-// 	var name = req.body.name;
-// 	var desc = req.body.description;
-// 	var location = req.body.location;
-// 	var zone = req.body.zone;
-// 	var price = req.body.price;
-// 	var size = req.body.size;
-// 	var type = req.body.type;
-// 	var bedrooms = req.body.bedrooms;
-// 	var bathrooms = req.body.bathrooms;
-//   	var author = {
-// 		id: req.user._id,
-// 		username: req.user.username
-// 	};
-// 	var newlisting = {name:name, description:desc, author:author, location:location, zone:zone, price:price, size:size, type:type, bedrooms:bedrooms, bathrooms:bathrooms}
-// 	try {
-// 			var geoData = await geocodingClient.forwardGeocode({
-// 				query: location,
-// 				autocomplete: false,
-// 		    limit: 1
-// 		  })
-// 		  .send();
-// 			newlisting.geometry = geoData.body.features[0].geometry;
-// 			// console.log(newlisting.geometry);
-
-// 			//1 thumbnail image upload to cloudinary
-// 			var thumbnailUpload = await uploadToCloudinary(thumbnail[0].path, { resource_type: "auto" });
-// 			console.log('thumbnail upload await: ',thumbnailUpload);
-// 			var thumbnailSecureUrl = thumbnailUpload.secure_url;
-// 			var thumbnailPublicId = thumbnailUpload.public_id;
-// 			newlisting.thumbnail = thumbnailSecureUrl;
-// 			newlisting.thumbnailId = thumbnailPublicId;
-
-// 		  	//image/videos upload to cloudinary
-// 			for(let i=0; i<fileArray.length; i++) {
-// 				if(fileArray[i].fieldname == 'image') {
-// 					console.log('image uploading');
-// 					var imageUpload = await uploadToCloudinary(fileArray[i].path); 
-// 					imageSecureUrlArray.push(imageUpload.secure_url);
-// 					imagePublicIdArray.push(imageUpload.public_id);
-// 					newlisting.image = imageSecureUrlArray;
-// 					newlisting.imageId = imagePublicIdArray;
-// 					console.log('image info: ',newlisting.image,'imageid info:',newlisting.imageId)
-// 				}else if(fileArray[i].fieldname == 'video') {
-// 					console.log('video uploading');
-// 					var videoUpload = await uploadToCloudinary(fileArray[i].path); 
-// 					videoSecureUrlArray.push(videoUpload.secure_url);
-// 					videoPublicIdArray.push(videoUpload.public_id);
-// 					newlisting.video = videoSecureUrlArray;
-// 					newlisting.videoId = videoPublicIdArray;
-// 					console.log('video info: ',newlisting.video,'videoid info:',newlisting.videoId)
-// 				}
-// 			}
-
-// 			//create the listing
-// 			listing.create(newlisting, async function(err, newlyCreated){
-// 				if(err)
-// 				{
-// 					console.log(err);
-// 				} else {
-// 					let user = await User.findById(req.user._id).populate('followers').exec();
-// 					//console.log("id" + newlyCreated._id)
-// 					let newNotification = {
-// 						username: req.user.username,
-// 						image: req.user.image,
-// 						listingId: newlyCreated._id,
-// 						idUser: newlyCreated.author.id,
-// 						listingImage: newlyCreated.thumbnail
-// 					}
-// 					for(const follower of user.followers) {
-// 						let notification = await Notification.create(newNotification);
-// 						follower.notifications.push(notification);
-// 						follower.save();
-// 					}
-// 					req.flash("success", "You have successfully added a listing.");
-// 					res.redirect(`/listings/${newlyCreated._id}`);
-// 				}
-// 			});
-// 		} catch (err){
-// 			console.log('try catch error: ',err.message);
-// 			res.redirect('back');
-// 		}
-// });
-
 router.post("/listings", middleware.isAdminAgent, uploadMultiple, async function(req,res){
-	// uploadMultiple(req, res, function (err) {
-	// 	if (err instanceof multer.MulterError) {
-	// 	  // A Multer error occurred when uploading.
-	// 	  console.log('multer err: ', err instanceof multer.MulterError)
-	// 	} else if (err) {
-	// 	  // An unknown error occurred when uploading.
-	// 		console.log('unknow multer err: ',err)
-	// 	}
-	// 	console.log('fine');
-	// 	// Everything went fine.
-	//   })
-
-	// var fs = require('fs');
-	// console.log('fs files open: ',fs.open());
-	console.log('the files: ',req.files);//JSON.parse(JSON.stringify(req.files))
-	// if(req.files.listingThumbnail) {
-		var listingThumbnail = req.files.listingThumbnail;
-		console.log('listingThumbnail sdkadnfj: '+listingThumbnail[0].path);
-	// }
-	// if(req.files.listingGallery) {
-		var listingGallery = req.files.listingGallery;
-		console.log('files got what: ',listingGallery);
-	// }
-	// if(req.files.imageGallery) {
-	// 	var imageFiles = req.files.imageGallery;
-	// 	console.log('imagessssssssss: '+imageFiles);
-	// }
-	// if(req.files.videoGallery) {
-	// 	var videoFiles = req.files.videoGallery;
-	// 	console.log('videossssssssss: '+videoFiles);
-	// }
-
-	// var imageArray = req.files.image;
-
-	// var fileArray = [];
-	// for(let i = 0 ; i < imageArray.length; i++) {
-	// 	fileArray.push(req.files.image[i]);
-	// }
-	// if (req.files.video) {
-	// 	var videoArray = req.files.video;
-	// 	for(let i = 0 ; i < videoArray.length; i++) {
-	// 		fileArray.push(req.files.video[i]);
-	// 	}
-	// }
-
+	var listingThumbnail = req.files.listingThumbnail;
+	console.log('listingThumbnail sdkadnfj: '+listingThumbnail[0].path);
+	var listingGallery = req.files.listingGallery;
+	console.log('files got what: ',listingGallery);
+	
 	var imageSecureUrlArray = [];
 	var imagePublicIdArray = [];
 	var videoSecureUrlArray = [];
@@ -781,6 +638,7 @@ router.post("/listings", middleware.isAdminAgent, uploadMultiple, async function
 	var unitNumber = req.body.unitNumber;
 	var street = req.body.street;
 	var zone = req.body.zone;
+	var district = req.body.district;
 	var price = req.body.price;
 	var size = req.body.size;
 	var type = req.body.type;
@@ -801,7 +659,7 @@ router.post("/listings", middleware.isAdminAgent, uploadMultiple, async function
 		rating: req.user.rating,
 		phone: req.user.phone,
 	};
-	var newlisting = {name:name, description:desc, author:author, location:location, unitNumber:unitNumber, street:street, zone:zone, price:price, size:size, type:type, bedrooms:bedrooms, bathrooms:bathrooms, tenure:tenure, threeDImage:threeDImage, listingCategory:listingCategory}
+	var newlisting = {name:name, description:desc, author:author, location:location, unitNumber:unitNumber, street:street, zone:zone, district:district, price:price, size:size, type:type, bedrooms:bedrooms, bathrooms:bathrooms, tenure:tenure, threeDImage:threeDImage, listingCategory:listingCategory}
 	if(req.body.carpark === 'true'){
 		newlisting.carpark = true;
 	}
@@ -930,173 +788,6 @@ router.get("/listings/:id/edit", middleware.checklistingOwnership, function(req,
 });
 
 //Update Route
-// router.put("/listings/:id", middleware.checklistingOwnership, uploadMultiple, function(req, res){
-// 	listing.findById(req.params.id, async function(err, listing){
-// 		if(err){
-// 			req.flash("error", err.message);
-// 			res.redirect("back");
-// 		} else{
-// 			console.log(listing)
-// 			if(req.file){
-// 					try{
-// 							await cloudinary.v2.uploader.destroy(listing.imageId);
-// 							var result = await cloudinary.v2.uploader.upload(req.file.path);
-// 							listing.image = result.secure_url;
-// 							listing.imageId = result.public_id;
-// 					} catch(err){
-// 							req.flash("error", err.message);
-// 							return res.redirect("back");
-// 					}
-// 			}
-// 			if(req.body.listing.location !== listing.location){
-// 				console.log(req.body.location)
-// 				console.log(listing.location)
-// 				try {
-// 						var response = await geocodingClient
-// 								.forwardGeocode({
-// 										query: req.body.listing.location,
-// 										limit: 1,
-// 								})
-// 								.send();
-// 						listing.geometry = response.body.features[0].geometry;
-// 						listing.location = req.body.listing.location;
-// 						console.log(listing.geometry)
-// 				} catch (err) {
-// 						console.log(err.message);
-// 						res.redirect('back');
-// 				}
-// 			}
-// 			listing.name = req.body.listing.name;
-// 			listing.description = req.body.listing.description;
-// 			listing.zone = req.body.listing.zone;
-// 			listing.price = req.body.listing.price;
-// 			listing.size = req.body.listing.size;
-// 			listing.type = req.body.listing.type;
-// 			listing.numofRooms = req.body.listing.numofRooms;
-// 			listing.save();
-// 			console.log(listing)
-// 			req.flash("success", "listing successfully updated!");
-// 			res.redirect("/listings/" + listing._id);
-// 		}
-// 	});
-// });
-// router.put("/listings/:id", middleware.checklistingOwnership, uploadMultiple, function(req, res){
-// 	listing.findById(req.params.id, async function(err, listing){
-// 		if(err){
-// 			req.flash("error", err.message);
-// 			res.redirect("back");
-// 		} else{
-// 			// console.log(listing)
-// 			if(req.files){
-// 				//Thumbnail
-// 				if(req.files.thumbnail) {
-// 					var newThumbnail = req.files.thumbnail;
-// 					console.log('new thumbnail object: '+newThumbnail);
-// 					try{
-// 						console.log('check for: '+listing.thumbnailId);
-// 						await cloudinary.v2.uploader.destroy(listing.thumbnailId);
-// 						console.log('paht check: '+newThumbnail[0].path);
-// 						var result = await cloudinary.v2.uploader.upload(newThumbnail[0].path, { resource_type: "auto" });
-// 						listing.thumbnail = result.secure_url;
-// 						listing.thumbnailId = result.public_id;
-// 					}catch(err) {
-// 						req.flash("error", err.message);
-// 						return res.redirect("back");
-// 					}
-// 				}
-// 				//Image
-// 				if(req.files.image) {
-// 					var newImage = req.files.image;
-// 					var newImageArray = [];
-// 					for(let a=0; a<newImage.length; a++) {
-// 						newImageArray.push(newImage[a]);
-// 					}
-// 					// console.log('new image array length: ',newImageArray.length);
-// 					// console.log('new image stuff: ',newImageArray[0].path);
-// 					var newImageSecureUrlArray = [];
-// 					var newImagePublicIdArray = [];
-// 					try{
-// 						// console.log('check for: '+listing.imageId[0]);
-// 						for(let b=0; b<listing.imageId.length; b++) {
-// 							await cloudinary.v2.uploader.destroy(listing.imageId[b]);
-// 						}
-						
-// 						for(let c=0; c<newImageArray.length; c++) {
-// 							console.log('image paht check: ',newImageArray[c].path);
-// 							var result = await cloudinary.v2.uploader.upload(newImageArray[c].path, { resource_type: "auto" });
-// 							newImageSecureUrlArray.push(result.secure_url);
-// 							newImagePublicIdArray.push(result.public_id);
-// 							listing.image = newImageSecureUrlArray;
-// 							listing.imageId = newImagePublicIdArray;
-// 						}
-// 					}catch(err) {
-// 						req.flash("error", err.message);
-// 						return res.redirect("back");
-// 					}
-// 				}
-// 				//Video
-// 				if(req.files.video) {
-// 					var newVideo = req.files.video;
-// 					var newVideoArray = [];
-// 					for(let d=0; d<newVideo.length; d++) {
-// 						newVideoArray.push(newVideo[d]);
-// 					}
-// 					// console.log('new video array length: ',newVideoArray.length);
-// 					// console.log('new video stuff: ',newVideoArray[0].path);
-// 					var newVideoSecureUrlArray = [];
-// 					var newVideoPublicIdArray = [];
-// 					try{
-// 						// console.log('check for: '+listing.videoId[0]);
-// 						for(let p=0; p<listing.videoId.length; p++) {
-// 							await cloudinary.v2.uploader.destroy(listing.videoId[p]);
-// 						}
-						
-// 						for(let k=0; k<newVideoArray.length; k++) {
-// 							console.log('vide paht check: ',newVideoArray[k].path);
-// 							var result = await cloudinary.v2.uploader.upload(newVideoArray[k].path, { resource_type: "auto" });
-// 							newVideoSecureUrlArray.push(result.secure_url);
-// 							newVideoPublicIdArray.push(result.public_id);
-// 							listing.video = newVideoSecureUrlArray;
-// 							listing.videoId = newVideoPublicIdArray;
-// 						}
-// 					}catch(err) {
-// 						req.flash("error", err.message);
-// 						return res.redirect("back");
-// 					}
-// 				}
-// 			}
-// 			if(req.body.listing.location !== listing.location){
-// 				console.log(req.body.location)
-// 				console.log(listing.location)
-// 				try {
-// 						var response = await geocodingClient
-// 								.forwardGeocode({
-// 										query: req.body.listing.location,
-// 										limit: 1,
-// 								})
-// 								.send();
-// 						listing.geometry = response.body.features[0].geometry;
-// 						listing.location = req.body.listing.location;
-// 						console.log(listing.geometry)
-// 				} catch (err) {
-// 						console.log(err.message);
-// 						res.redirect('back');
-// 				}
-// 			}
-// 			listing.name = req.body.listing.name;
-// 			listing.description = req.body.listing.description;
-// 			listing.zone = req.body.listing.zone;
-// 			listing.price = req.body.listing.price;
-// 			listing.size = req.body.listing.size;
-// 			listing.type = req.body.listing.type;
-// 			listing.bedrooms = req.body.listing.bedrooms;
-// 			listing.save();
-// 			console.log(listing)
-// 			req.flash("success", "You have successfully updated a listing.");
-// 			res.redirect("/listings/" + listing._id);
-// 		}
-// 	});
-// });
 router.put("/listings/:id", middleware.checklistingOwnership, uploadMultiple, function(req, res){
 	listing.findById(req.params.id, async function(err, listing){
 		if(err){
@@ -1274,6 +965,7 @@ router.put("/listings/:id", middleware.checklistingOwnership, uploadMultiple, fu
 			listing.bathrooms = Number(req.body.listing.bathrooms);
 			listing.tenure = req.body.listing.tenure;
 			listing.zone = req.body.listing.zone;
+			listing.district = req.body.listing.district;
 			listing.street = req.body.listing.street;
 			listing.unitNumber = req.body.listing.unitNumber;
 			listing.location = req.body.listing.location;

@@ -102,7 +102,7 @@
 
         
                         <!-- Filter: Property zone -->
-                        <!-- <div class="dropdownZone">
+                        <div class="dropdownZone">
                             <div class="search-dropdown dropdownZone-content-onclick">
                                 <div class="dropdown-label-wrap">
                                     <label class="dropdownZone-label">Zone</label>
@@ -119,9 +119,11 @@
                                 <input type="checkbox" id="west" name="westZone" value="west" <% if(data.westZone) {%> checked <%} %>>
                                 <label for="west">West</label><br>
                             </div>  
-                        </div> -->
-                        <label for="zone">District</label>
-                        <input type="number" name="zone" min="1" max="28" class="form-control" id="zone" value="<%if(data.zone){%><%=data.zone%><%}%>">
+                        </div>
+
+                        <!-- Filter: District -->
+                        <!-- <label for="district">District</label> -->
+                        <input type="number" name="district" min="1" max="28" class="form-control" id="district" value="<%if(data.district){%><%=data.district%><%}%>" placeholder="District">
         
                         <!-- Filter: Number of rooms slider -->
                         <div class="dropdownBedroom">
@@ -439,11 +441,12 @@ $('#maxPrice').attr('placeholder', 'Max. Price');
         document.getElementById("condo").checked=false;
         document.getElementById("landed").checked=false;
         //Zone type
-        // document.getElementById("north").checked=false;
-        // document.getElementById("south").checked=false;
-        // document.getElementById("east").checked=false;
-        // document.getElementById("west").checked=false;
-        document.getElementById("zone").value="";
+        document.getElementById("north").checked=false;
+        document.getElementById("south").checked=false;
+        document.getElementById("east").checked=false;
+        document.getElementById("west").checked=false;
+        //District
+        document.getElementById("district").value="";
         //bedrooms
         document.getElementById("1").checked=false;
         document.getElementById("2").checked=false;
