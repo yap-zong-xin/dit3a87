@@ -133,7 +133,7 @@ router.post("/register", middleware.notLoggedIn, upload.single('image'), functio
 			User.register(newUser, req.body.password, function(err, user){
 				if(err){
 					console.log(err);
-					req.flash('error', err.message);
+					req.flash('error', 'A user with the email '+req.body.email+' is already registered.');
 					return res.redirect('/register');
 				}
 				async function sendMail() {
@@ -184,7 +184,7 @@ router.post("/register", middleware.notLoggedIn, upload.single('image'), functio
 		User.register(newUser, req.body.password, function(err, user){
 			if(err){
 				console.log(err);
-				req.flash('error', err.message);
+				req.flash('error', 'A user with the email '+req.body.email+' is already registered.');
 				return res.redirect('/register');
 			}
 			console.log(newUser.image)
