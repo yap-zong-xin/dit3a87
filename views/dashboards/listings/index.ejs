@@ -80,7 +80,7 @@
                   <div class="row">
                     <div class="col-5">
                       <div class="input-group mb-3 dashboardSearch">
-                        <input type="text" class="form-control rounded-0" name="search" placeholder="Search listings">
+                        <input type="text" class="form-control rounded-0" name="search" placeholder="Search listings" <%if(data.search) {%>value="<%= data.search %>"<%}%>>
                       </div>
                     </div>
                     <div class="col-7 pl-0">
@@ -91,18 +91,23 @@
                             <div class="input-group-prepend">
                               <label class="input-group-text" style="background: white; border: none; font-size: 1em;" for="sort">Sort by:</label>
                             </div>
+                            <%
+                              console.log('sddsfafa: ', data)
+                              var sortArr = [];
+                              sortArr.push(data.sort);
+                            %>
                             <select class="custom-select" name="sort" id="sort">
                               <option value="" disabled selected hidden></option>
-                              <option value="HighestPrice" <% if(data.sort == 'HighestPrice') {%> selected <%} %>>Highest Price</option>
-                              <option value="LowestPrice" <% if(data.sort == 'LowestPrice') {%> selected <%} %>>Lowest Price</option>
-                              <option value="Recent" <% if(data.sort == 'Recent') {%> selected <%} %>>Recent</option>
-                              <option value="Oldest" <% if(data.sort == 'Oldest') {%> selected <%} %>>Oldest</option>
-                              <option value="MostPop" <% if(data.sort == 'MostPop') {%> selected <%} %>>Most Popular</option>
-                              <option value="LeastPop" <% if(data.sort == 'LeastPop') {%> selected <%} %>>Least Popular</option>
-                              <option value="Sold" <% if(data.sort == 'Sold') {%> selected <%} %>>Sold</option>
-                              <option value="NotSold" <% if(data.sort == 'NotSold') {%> selected <%} %>>Not Sold</option>
-                              <option value="Archive" <% if(data.sort == 'Archive') {%> selected <%} %>>Archive</option>
-                              <option value="NotArchive" <% if(data.sort == 'NotArchive') {%> selected <%} %>>Not Archive</option>
+                              <option value="HighestPrice" <% if(sortArr.includes('HighestPrice')) {%> selected <%} %>>Highest Price</option>
+                              <option value="LowestPrice" <% if(sortArr.includes('LowestPrice')) {%> selected <%} %>>Lowest Price</option>
+                              <option value="Recent" <% if(sortArr.includes('Recent')) {%> selected <%} %>>Recent</option>
+                              <option value="Oldest" <% if(sortArr.includes('Oldest')) {%> selected <%} %>>Oldest</option>
+                              <option value="MostPop" <% if(sortArr.includes('MostPop')) {%> selected <%} %>>Most Popular</option>
+                              <option value="LeastPop" <% if(sortArr.includes('LeastPop')) {%> selected <%} %>>Least Popular</option>
+                              <option value="Sold" <% if(sortArr.includes('Sold')) {%> selected <%} %>>Sold</option>
+                              <option value="NotSold" <%  if(sortArr.includes('NotSold')) {%> selected <%} %>>Not Sold</option>
+                              <option value="Archive" <% if(sortArr.includes('Archive')) {%> selected <%} %>>Archive</option>
+                              <option value="NotArchive" <% if(sortArr.includes('NotArchive')) {%> selected <%} %>>Not Archive</option>
                             </select>
                           </div>
                         </div>
@@ -110,21 +115,27 @@
                             <!-- filter input -->
                             <div class="input-group mb-3">
                               <div class="input-group-prepend">
-                                <label class="input-group-text" style="background: white; border: none; font-size: 1em;" for="filterAccType">Filter by:</label>
+                                <label class="input-group-text" style="background: white; border: none; font-size: 1em;" for="propertyType">Filter by:</label>
                               </div>
-                              <select class="custom-select" name="filterPropType" id="filterPropType">
-                                <option value="" disabled selected hidden></option>
-                                <option value="sold" <% if(data.filterPropType == 'sold') {%> selected <%} %>>Sold Listing</option>
-                                <option value="archive" <% if(data.filterPropType == 'archive') {%> selected <%} %>>Archived Listing</option>
-                                <option value="hdb" <% if(data.filterPropType == 'hdb') {%> selected <%} %>>HDB</option>
-                                <option value="condo" <% if(data.filterPropType == 'condo') {%> selected <%} %>>Condo</option>
-                                <option value="landed" <% if(data.filterPropType == 'landed') {%> selected <%} %>>Landed</option>
-                                <option value="all" <% if(data.filterPropType == 'all') {%> selected <%} %>>All Listing</option>
+                              <%
+                                var propTypeArr = [];
+                                propTypeArr.push(data.propertyType);
+                              %>
+                              <select class="custom-select" name="propertyType" id="propertyType">
+                                  <!-- <option id="placeholder" name="placeholder" value="placeholder" selected hidden>Property Type</option> -->
+                                  <option id="any" name="allType" value="allType" <% if(propTypeArr.includes('allType')) {%> selected <%} %>>All</option>
+                                  <option id="hdb" name="hdbType" value="hdb" <% if(propTypeArr.includes('hdb')) {%> selected <%} %>>HDB</option>
+                                  <option id="condo" name="condoType" value="condo" <% if(propTypeArr.includes('condo')) {%> selected <%} %>>Condominium</option>
+                                  <option id="execondo" name="execondoType" value="execondo" <% if(propTypeArr.includes('execondo')) {%> selected <%} %>>Executive Condominium</option>
+                                  <option id="landed" name="landedType" value="landed" <% if(propTypeArr.includes('landed')) {%> selected <%} %>>Landed Property</option>
+                                  <option id="terrace" name="terraceType" value="terrace" <% if(propTypeArr.includes('terrace')) {%> selected <%} %>>Terrace</option>
+                                  <option id="semidetached" name="semidetachedType" value="semidetached" <% if(propTypeArr.includes('semidetached')) {%> selected <%} %>>Semi-Detached</option>
+                                  <option id="detached" name="detachedType" value="detached" <% if(propTypeArr.includes('detached')) {%> selected <%} %>>Detached</option>
                               </select>
-                            </div>
+                              </div>
                         </div>
                         <div class="col-2">
-                          <button type="submit" class="btn btn-dark rounded-0" style="width: 100%;">
+                          <button name="Apply" value="Apply" type="submit" class="btn btn-dark rounded-0" style="width: 100%;">
                             <ion-icon name="search"></ion-icon>
                           </button>
                         </div>
