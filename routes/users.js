@@ -880,6 +880,8 @@ router.get("/dashboard/listings", middleware.isAdmin, function(req,res){
 	var noMatch = null;
 
 	if(req.query.Apply) {
+		console.log('1')
+		console.log('wqer: ', typeof req.query.search)
 		//Search 
 		const regex = new RegExp(escapeRegex(req.query.search), 'gi');
 
@@ -915,18 +917,18 @@ router.get("/dashboard/listings", middleware.isAdmin, function(req,res){
 		}
 
 		//Filter 
-		var propType = req.query.propertyType;
+		var propType = req.query.filterPropType;
 		var propTypeArr = [];
 		if(propType == 'allType' || !propType) {
 			propTypeArr = ['hdb', 'condo', 'executivecondo', 'landed', 'terrace', 'semidetached', 'detached'];
 		}else {
-			propTypeArr.push(req.query.propertyType);
+			propTypeArr.push(req.query.filterPropType);
 		}
 		regexType = propTypeArr.map(function(e){return new RegExp(e, "gi");});
 
 		//Query
 		listing.find({$and: [ {$or: [ {name: regex}, {description: regex}, {"author.username":regex} ]}, {type: {$in: regexType}}]}).sort(sortOptions).skip((perPage * pageNumber) - perPage).limit(perPage).populate('author.id').populate("comments likes").exec(function(err, foundlisting){
-			listing.count({name: regex}).exec(function (err, count) {
+			listing.count({$and: [ {$or: [ {name: regex}, {description: regex}, {"author.username":regex} ]}, {type: {$in: regexType}}]}).exec(function (err, count) {
 				if(err){
 					console.log(err);
 				} else{
@@ -944,6 +946,7 @@ router.get("/dashboard/listings", middleware.isAdmin, function(req,res){
 			});
 		});
 	}else {
+		console.log('2')
 		//Load All Query
 		listing.find({}).skip((perPage * pageNumber) - perPage).limit(perPage).populate("comments likes").exec(function(err, foundlisting){
 			listing.count().exec(function (err, count) {

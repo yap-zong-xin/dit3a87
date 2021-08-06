@@ -1,6 +1,6 @@
 <%- include("../../partials/header") %>
 <% 
-  console.log("sort total pages: " + sort)
+  console.log("sort total pages: " + search)
 %>
 
 <div class="container d-lg-none p-5" style="margin-top: 50px;">
@@ -115,13 +115,13 @@
                             <!-- filter input -->
                             <div class="input-group mb-3">
                               <div class="input-group-prepend">
-                                <label class="input-group-text" style="background: white; border: none; font-size: 1em;" for="propertyType">Filter by:</label>
+                                <label class="input-group-text" style="background: white; border: none; font-size: 1em;" for="filterPropType">Filter by:</label>
                               </div>
                               <%
                                 var propTypeArr = [];
-                                propTypeArr.push(data.propertyType);
+                                propTypeArr.push(data.filterPropType);
                               %>
-                              <select class="custom-select" name="propertyType" id="propertyType">
+                              <select class="custom-select" name="filterPropType" id="filterPropType">
                                   <!-- <option id="placeholder" name="placeholder" value="placeholder" selected hidden>Property Type</option> -->
                                   <option id="any" name="allType" value="allType" <% if(propTypeArr.includes('allType')) {%> selected <%} %>>All</option>
                                   <option id="hdb" name="hdbType" value="hdb" <% if(propTypeArr.includes('hdb')) {%> selected <%} %>>HDB</option>
