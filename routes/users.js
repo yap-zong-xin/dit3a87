@@ -926,7 +926,7 @@ router.get("/dashboard/listings", middleware.isAdmin, function(req,res){
 
 		//Query
 		listing.find({$and: [ {$or: [ {name: regex}, {description: regex}, {"author.username":regex} ]}, {type: {$in: regexType}}]}).sort(sortOptions).skip((perPage * pageNumber) - perPage).limit(perPage).populate('author.id').populate("comments likes").exec(function(err, foundlisting){
-			listing.count().exec(function (err, count) {
+			listing.count({name: regex}).exec(function (err, count) {
 				if(err){
 					console.log(err);
 				} else{
