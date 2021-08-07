@@ -128,7 +128,7 @@ export default function ChatOnline({ currentId, conv }) {
 
           {(offerStatus === "accepted") && <p className="text-success">Accepted</p>}
           {(offerStatus === "rejected") && <p className="text-danger">Rejected</p>}
-          {(offerStatus !== undefined) && <OfferAmount></OfferAmount>}
+          {(offerStatus === "accepted") && <OfferAmount></OfferAmount>}
           {(offerStatus === "accepted") && <Button className="reviewBtn" onClick={() => window.open("https://sap-dit3a87.herokuapp.com/user/" + user._id + "/reviews/new")}>Leave Review</Button>}
         </div>
         {/* } */}
