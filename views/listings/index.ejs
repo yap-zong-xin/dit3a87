@@ -53,7 +53,7 @@
                                 <option id="any" name="allType" value="allType" selected >All</option>
                                 <option id="hdb" name="hdbType" value="hdb">HDB</option>
                                 <option id="condo" name="condoType" value="condo">Condominium</option>
-                                <option id="execondo" name="execondoType" value="execondo">Executive Condominium</option>
+                                <option id="executivecondo" name="execondoType" value="executivecondo">Executive Condominium</option>
                                 <option id="landed" name="landedType" value="landed">Landed Property</option>
                                 <option id="terrace" name="terraceType" value="terrace">Terrace</option>
                                 <option id="semidetached" name="semidetachedType" value="semidetached">Semi-Detached</option>
@@ -312,42 +312,6 @@ $('input[name=listType]').on('change', function() {
             }
         });
     })();
-</script>
-<script>                               
-    function resetForm() {
-        //document.getElementById("formFilter").resetForm()
-        //property type
-        document.getElementById("hdb").checked=false;
-        document.getElementById("condo").checked=false;
-        document.getElementById("landed").checked=false;
-        //Zone type
-        document.getElementById("north").checked=false;
-        document.getElementById("south").checked=false;
-        document.getElementById("east").checked=false;
-        document.getElementById("west").checked=false;
-        //rooms
-        document.getElementById("1").checked=false;
-        document.getElementById("2").checked=false;
-        document.getElementById("3").checked=false;
-        document.getElementById("4").checked=false;
-        document.getElementById("5").checked=false;
-        document.getElementById("6").checked=false;
-        //sort by price
-        document.getElementById("sortPrice").value="";
-        //sort by date
-        document.getElementById("sortDate").value="";
-        //sort by popularity
-        document.getElementById("sortPop").value="";
-        //sold/archive
-        // document.getElementById("sold").checked=false;
-        // document.getElementById("notsold").checked=false;
-        // document.getElementById("archive").checked=false;
-        // document.getElementById("notarchive").checked=false;
-        //sort by sold
-        document.getElementById("sortSold").value="";
-        //sort by archive
-        document.getElementById("sortArchive").value="";
-    }                
 </script>
     <script>
     $(document).ready(function(){

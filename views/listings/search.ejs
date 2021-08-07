@@ -105,8 +105,8 @@
                                 <label for="hdb">HDB</label><br>
                                 <input type="checkbox" id="condo" name="propType" value="condo"<% if(propTypeArr.includes('condo')) {%> checked <%} %>> 
                                 <label for="condo">Condominium</label><br>
-                                <input type="checkbox" id="execondo" name="propType" value="execondo"<% if(propTypeArr.includes('execondo')) {%> checked <%} %>> 
-                                <label for="execondo">Executive Condominium</label><br>
+                                <input type="checkbox" id="executivecondo" name="propType" value="executivecondo"<% if(propTypeArr.includes('executivecondo')) {%> checked <%} %>> 
+                                <label for="executivecondo">Executive Condominium</label><br>
                                 <input type="checkbox" id="landed" name="propType" value="landed" <% if(propTypeArr.includes('landed')) {%> checked <%} %>>
                                 <label for="landed">Landed Property</label><br>
                                 <input type="checkbox" id="terrace" name="propType" value="terrace" <% if(propTypeArr.includes('terrace')) {%> checked <%} %>>
@@ -497,7 +497,7 @@ $('#maxPrice').attr('placeholder', 'Max. Price');
         //property type
         document.getElementById("hdb").checked=false;
         document.getElementById("condo").checked=false;
-        document.getElementById("execondo").checked=false;
+        document.getElementById("executivecondo").checked=false;
         document.getElementById("landed").checked=false;
         document.getElementById("terrace").checked=false;
         document.getElementById("semidetached").checked=false;

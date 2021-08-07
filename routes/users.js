@@ -924,7 +924,8 @@ router.get("/dashboard/listings", middleware.isAdmin, function(req,res){
 		}else {
 			propTypeArr.push(req.query.filterPropType);
 		}
-		regexType = propTypeArr.map(function(e){return new RegExp(e, "gi");});
+		regexType = propTypeArr;
+		// regexType = propTypeArr.map(function(e){return new RegExp(e, "gi");});
 
 		//Query
 		listing.find({$and: [ {$or: [ {name: regex}, {description: regex}, {"author.username":regex} ]}, {type: {$in: regexType}}]}).sort(sortOptions).skip((perPage * pageNumber) - perPage).limit(perPage).populate('author.id').populate("comments likes").exec(function(err, foundlisting){
