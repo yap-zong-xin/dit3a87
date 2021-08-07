@@ -465,6 +465,10 @@
             reader.readAsDataURL(files[i]);
             reader.onloadend = function() {
               if(files[i].type.includes('image')) {
+                if(currentThumbnail.files.length == 0){
+                  previousFiles--;
+                }
+                console.log('countjdsfaL : ',(i+previousFiles))
                 //col-2
                 var imgColDiv = document.createElement('div');
                 imgColDiv.classList.add('col-2');
@@ -491,6 +495,7 @@
                   if(currentThumbnail.files.length == 0){
                     updateThumbnail(files[i])
                     imgDiv.childNodes[1].style.display = "none"
+                    console.log('1234: ', document.getElementById('thumbnail-gallery'))
                     document.getElementById('thumbnail-gallery').removeChild(document.getElementById('thumbnail-gallery').children[0])
                     document.getElementById('thumbnail-gallery').appendChild(imgDiv);
                   }else {
@@ -711,6 +716,7 @@
           console.log('c')
           //thumbnail
           slctEle.parentNode.children[1].style.display = "none"
+          console.log('asdfghjkl: ', slctEle.parentNode.parentNode)
           completeGallery.removeChild(slctEle.parentNode.parentNode)
           thumbnailGallery.appendChild(slctEle.parentNode)
           //make col-2 and append back to gallery
