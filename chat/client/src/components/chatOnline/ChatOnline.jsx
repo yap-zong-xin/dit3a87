@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { Button, Jumbotron, Container, Form, Input, InputGroup, InputGroupAddon } from "reactstrap"
+import { Button, Form, Input, InputGroup, InputGroupAddon } from "reactstrap"
 import "./chatOnline.css";
 
 export default function ChatOnline({ currentId, conv }) {
@@ -11,9 +11,9 @@ export default function ChatOnline({ currentId, conv }) {
   const [offerAmt1, setOfferAmt1] = useState(null)
   const [offerStatus, setOfferStatus] = useState("")
 
-  function refreshPage() {
-    window.location.reload();
-  }
+  // function refreshPage() {
+  //   window.location.reload();
+  // }
 
 
 
@@ -59,25 +59,7 @@ export default function ChatOnline({ currentId, conv }) {
 
   }, [currentId, conv])
 
-  function AgentOfferInfo() {
-    return (
-      <div>
-        {/* <hr /> */}
-        <p>
-          <img className="listingImg" src={listing.thumbnail}
-            alt="" />
-          {listing.name}</p>
 
-        {(offerStatus === "accepted") && <p className="text-success">You accepted this Offer</p>}
-        {(offerStatus === "rejected") && <p className="text-danger">You rejected this Offer</p>}
-        {(offerStatus === "pending") && <OfferAmount></OfferAmount>}
-        {(offerStatus === "pending") && <AgentOfferStatus></AgentOfferStatus>}
-        {(offerStatus === "accepted") && <Button color="danger" onClick={() => { rejectOffer() }}>Cancel</Button>}
-        {(offerStatus === "rejected") && <Button color="success" onClick={() => { acceptOffer() }}>Accept</Button>}
-
-      </div>
-    )
-  }
 
   function AgentOfferStatus() {
     return (
@@ -113,7 +95,28 @@ export default function ChatOnline({ currentId, conv }) {
   }
 
 
+  function AgentOfferInfo() {
+    return (
+      <div>
+        {/* <hr /> */}
 
+        <img className="listingImg" src={listing.thumbnail}
+          alt="" />
+        <div className="listingInfo">
+          <p>   {listing.name}</p>
+          {(offerStatus === "accepted") && <p className="text-success">You accepted this Offer</p>}
+          {(offerStatus === "rejected") && <p className="text-danger">You rejected this Offer</p>}
+          {(offerStatus !== undefined) && <OfferAmount></OfferAmount>}
+          {(offerStatus === "pending") && <AgentOfferStatus></AgentOfferStatus>}
+
+          {(offerStatus === "accepted") && <Button color="danger" onClick={() => { rejectOffer() }}>Cancel</Button>}
+          {(offerStatus === "rejected") && <Button color="success" onClick={() => { acceptOffer() }}>Accept</Button>}
+
+        </div>
+
+      </div>
+    )
+  }
   function ListingInfo() {
     return (
       <div>
@@ -122,10 +125,11 @@ export default function ChatOnline({ currentId, conv }) {
           alt="" />
         <div className="listingInfo">
           <p>{listing.name}</p>
+
           {(offerStatus === "accepted") && <p className="text-success">Accepted</p>}
           {(offerStatus === "rejected") && <p className="text-danger">Rejected</p>}
           {(offerStatus !== undefined) && <OfferAmount></OfferAmount>}
-          {(offerStatus === "accepted") && <Button onClick={() => window.open("https://sap-dit3a87.herokuapp.com/user/" + user._id + "/reviews/new")}>Leave Review</Button>}
+          {(offerStatus === "accepted") && <Button className="reviewBtn" onClick={() => window.open("https://sap-dit3a87.herokuapp.com/user/" + user._id + "/reviews/new")}>Leave Review</Button>}
         </div>
         {/* } */}
 
@@ -199,43 +203,46 @@ export default function ChatOnline({ currentId, conv }) {
       {user ? (
         <>
           <div>
-            <Jumbotron fluid>
-              <Container className="container" fluid>
-                <div className="userInfo">
+            <div className="userImg">
+              <img
+                className="chatOnlineImg"
+                src={
+                  user.image
+                }
+                alt=""
+                onClick={() => window.open("https://sap-dit3a87.herokuapp.com/user/" + user._id)}
+              />
+              <div className="userInfo">
+                <h1 className="display-6">{user.firstName} {user.lastName}</h1>
+                {(user.cea) && <p>Agent</p>}
+                {(!user.cea) && <p>Seeker</p>}
+              </div>
+            </div>
 
-                  <img
-                    className="chatOnlineImg"
-                    src={
-                      user.image
-                    }
-                    alt=""
-                    onClick={() => window.open("https://sap-dit3a87.herokuapp.com/user/" + user._id)}
-                  />
-                  <h1 className="display-6">{user.firstName} {user.lastName}</h1>
-                  {(user.cea) && <p>Agent</p>}
-                </div>
 
-                <div className="offerInfo">
-                  {(listing && !user.cea) && <AgentOfferInfo></AgentOfferInfo>}
-                  {(listing && user.cea) && <ListingInfo></ListingInfo>}
-                  {(listing && user.cea && offerStatus !== "accepted") && 
-                    <div className="Offer">
-                      <Form>
-                        <div className="offerInput">
-                          <InputGroup className="w-25">
-                            <InputGroupAddon className="sign" addonType="prepend">$</InputGroupAddon>
-                            <Input type="number" className="w-25" name="offer" id="offerInput" placeholder="" value={newOfferAmt} onChange={(e) => setNewOfferAmt(e.target.value)} />
-                            {(offerStatus === undefined) && <Button className="offerButton" onClick={submitOffer}>Make Offer</Button>}
-                            {(offerStatus === "pending") && <Button className="offerButton" onClick={submitOffer}>Edit Offer</Button>}
-                            {(offerStatus === "accepted") && <Button className="offerButton" onClick={submitOffer}>Edit Offer</Button>}
-                            {(offerStatus === "rejected") && <Button onClick={submitOffer}>Make New Offer</Button>}
-                          </InputGroup>
-                        </div>
-                      </Form>
-                    </div>}
-                </div>
-              </Container>
-            </Jumbotron>
+            <div className="offerInfo">
+              {(listing && !user.cea) && <AgentOfferInfo></AgentOfferInfo>}
+              {(listing && user.cea) && <ListingInfo></ListingInfo>}
+            </div>
+
+
+            {(listing && user.cea && offerStatus !== "accepted") &&
+              <div className="OfferForm">
+                {(offerStatus !== undefined) && <OfferAmount></OfferAmount>}
+                <Form>
+                  <div className="offerInput">
+                    <InputGroup>
+                      <InputGroupAddon className="sign" addonType="prepend">$</InputGroupAddon>
+                      <Input type="number" className="w-25" name="offer" id="offerInput" placeholder="" value={newOfferAmt} onChange={(e) => setNewOfferAmt(e.target.value)} />
+                      {(offerStatus === undefined) && <Button className="offerButton" onClick={submitOffer}>Make Offer</Button>}
+                      {(offerStatus === "pending") && <Button className="offerButton" onClick={submitOffer}>Edit Offer</Button>}
+                      {(offerStatus === "accepted") && <Button className="offerButton" onClick={submitOffer}>Edit Offer</Button>}
+                      {(offerStatus === "rejected") && <Button onClick={submitOffer}>Make New Offer</Button>}
+                    </InputGroup>
+                  </div>
+                </Form>
+              </div>}
+
           </div>
         </>
       ) : (
