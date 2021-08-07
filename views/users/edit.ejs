@@ -107,8 +107,8 @@
                   <span class="placeholder">Contact Number</span>
                 </label>
               </div>
-              <% if(user.isAgent){ %>
-                <div class="col-12" style="display: none;">
+              <% if(currentUser && currentUser.isAdmin && user.isAgent){ %>
+                <div class="col-12">
                   <label class="custom-field one">
                     <input type="text" name="user[cea]" value="<%= user.cea %>" placeholder=" " required />
                     <span class="placeholder">CEA Number</span>

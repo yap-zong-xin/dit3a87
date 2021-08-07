@@ -133,7 +133,7 @@ router.post("/register", middleware.notLoggedIn, upload.single('image'), functio
 			User.register(newUser, req.body.password, function(err, user){
 				if(err){
 					console.log(err);
-					req.flash('error', err.message);
+					req.flash('error', 'A user with the email '+req.body.email+' is already registered.');
 					return res.redirect('/register');
 				}
 				async function sendMail() {
@@ -184,7 +184,7 @@ router.post("/register", middleware.notLoggedIn, upload.single('image'), functio
 		User.register(newUser, req.body.password, function(err, user){
 			if(err){
 				console.log(err);
-				req.flash('error', err.message);
+				req.flash('error', 'A user with the email '+req.body.email+' is already registered.');
 				return res.redirect('/register');
 			}
 			console.log(newUser.image)
@@ -318,44 +318,43 @@ router.post('/forgot', function(req, res, next) {
 		user.resetPasswordToken = resetPwToken;
 		user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
 		user.save();
-	});
-
-	async function senMail(){
-		try {
-			var host = req.get('host');
-			var link = 'http://'+host+"/reset/"+resetPwToken;
-			console.log(link);
-			const accessToken = await oAuth2Client.getAccessToken()
-			const transport = nodemailer.createTransport({
-				service: 'gmail',
-				auth: {
-					type: 'OAuth2',
-					user: 'jptestingsku@gmail.com',
-					clientId: CLIENT_ID,
-					clientSecret: CLIENT_SECRET,
-					refreshToken: REFRESH_TOKEN,
-					accessToken: accessToken
-				}
-			});
-			const mailOptions = {
-				from: '3D Property Website <jptestingsku@gmail.com>',
-				to: req.body.email,
-				subject: 'Password Reset',
-				html : "Hello,<br><br>You are receiving this email because you (or someone else) have requested the reset of the password for your account." +
-							"<br><br><a href="+link+">Reset Password</a>"
-			};
-			const result = await transport.sendMail(mailOptions);
-				return result; 
-		} catch (error) {
-			return error;
+		async function senMail(){
+			try {
+				var host = req.get('host');
+				var link = 'http://'+host+"/reset/"+resetPwToken;
+				console.log(link);
+				const accessToken = await oAuth2Client.getAccessToken()
+				const transport = nodemailer.createTransport({
+					service: 'gmail',
+					auth: {
+						type: 'OAuth2',
+						user: 'jptestingsku@gmail.com',
+						clientId: CLIENT_ID,
+						clientSecret: CLIENT_SECRET,
+						refreshToken: REFRESH_TOKEN,
+						accessToken: accessToken
+					}
+				});
+				const mailOptions = {
+					from: '3D Property Website <jptestingsku@gmail.com>',
+					to: req.body.email,
+					subject: 'Password Reset',
+					html : "Hello <strong>"+user.username+"</strong>,<br><br>You are receiving this email because you (or someone else) have requested the reset of the password for your account." +
+								"<br><br><a href="+link+">Reset Password</a>"
+				};
+				const result = await transport.sendMail(mailOptions);
+					return result; 
+			} catch (error) {
+				return error;
+			}
 		}
-	}
-
-	senMail()
-	.then(result => console.log('Email Sent...', result))
-	.then(req.flash('success','An e-mail has been sent to ' + req.body.email +' with further instructions.'))
-	.then(res.redirect('back'))
-	.catch(error => console.log(error.message))
+	
+		senMail()
+		.then(result => console.log('Email Sent...', result))
+		.then(req.flash('success','An e-mail has been sent to ' + req.body.email +' with further instructions.'))
+		.then(res.redirect('back'))
+		.catch(error => console.log(error.message))
+	});
 });
   
 router.get('/reset/:token', function(req, res) {
@@ -384,7 +383,7 @@ router.post('/reset/:token', function(req, res) {
 			res.redirect('/user/'+user._id);
 		})
 		} else {
-			req.flash("error", "Passwords do not match.");
+			req.flash("error", "Password does not match. Please try again.");
 			return res.redirect('back');
 		}
 	});
@@ -452,6 +451,5 @@ router.post("/connect", function(req, res){
 	.then(res.redirect('back'))
 	.catch(error => console.log(error.message))
 });
-
 
 module.exports = router;

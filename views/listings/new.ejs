@@ -61,6 +61,18 @@
 
         <div class="offset-1 col-10 mt-4 pt-3">
           <div id="upldForm-form">
+            <span style="font-weight: 600; font-size: 1.7em;">Listing Type</span><br>
+            <div class="form-row my-2">
+              <div class="form-group col-6 list-type-new" id="listRes">
+                <input type="radio" id="listType-1" name="listingCategory" value="residential">
+                <label class="list-type-res"  for="listType-1">Residential Property</label>
+              </div>
+              <div class="form-group col-6 list-type-new " id="listCom">
+                <input type="radio" id="listType-2" name="listingCategory" value="commercial">
+                <label class="list-type-com" for="listType-2">Commercial Property</label>
+              </div>
+            </div>
+
             <span style="font-weight: 600; font-size: 1.7em;">Property Details</span>
             <div class="form-row my-2">
               <div class="form-group col-12 col-sm-6 col-md-4">
@@ -76,12 +88,16 @@
                 <input type="number" name="size" class="form-control" id="size" required>
               </div>
               <div class="form-group col-12 col-sm-6 col-md-4">
-                <label for="type">Category</label>
+                <label for="type">Property Category</label>
                 <select name="type" class="form-control" id="type" required>
                   <option></option>
                   <option value="hdb">HDB</option>
                   <option value="condo">Condo</option>
+                  <option value="executivecondo">Executive Condominium</option>
                   <option value="landed">Landed</option>
+                  <option value="terrace">Terrace</option>
+                  <option value="semidetached">Semi-Detached</option>
+                  <option value="detached">Detached</option>
                 </select>
               </div>
               <div class="form-group col-12 col-sm-6 col-md-4">
@@ -110,12 +126,16 @@
                 <select name="tenure" class="form-control" id="tenure" required>
                   <option></option>
                   <option value="unknown">Unknown</option>
-                  <option value="ninetynine">99-Year Leasehold</option>
-                  <option value="hundredthree">103-Year Leasehold</option>
-                  <option value="hundredten">110-Year Leasehold</option>
-                  <option value="ninehundrednine">999-Year Leasehold</option>
+                  <option value="ninetynine">99-Years Leasehold</option>
+                  <option value="hundredthree">103-Years Leasehold</option>
+                  <option value="hundredten">110-Years Leasehold</option>
+                  <option value="ninehundrednine">999-Years Leasehold</option>
                   <option value="freehold">Freehold</option>
                 </select>
+              </div>
+              <div class="form-group col-12 col-sm-6 col-md-4">
+                <label for="district">District</label>
+                <input type="number" name="district" min="1" max="28" class="form-control" id="district" required>
               </div>
               <div class="form-group col-12 col-sm-6 col-md-4">
                 <label for="zone">Zone</label>
@@ -337,6 +357,25 @@
     </form>
   </div>
 
+  <script>
+
+    
+    $('input[name=listingCategory]').on('change', function() {
+        var resi = document.getElementById("listRes");
+        var comm = document.getElementById("listCom");
+    
+        if(document.getElementById('listType-1').checked) {
+          resi.classList.remove("activeSelect");
+            comm.classList.add("activeSelect")
+
+            
+        }else if(document.getElementById('listType-2').checked) {
+          comm.classList.remove("activeSelect")
+            resi.classList.add("activeSelect")
+        }
+    });
+    
+    </script>
   <script>
     let dropArea = document.getElementById("drop-area");
 
@@ -638,46 +677,76 @@
       var files;
       console.log('dtgetdata: ', dt.getData('text'))
       var slctEle = document.getElementById(dt.getData("text"));
-      console.log('slcele: ', slctEle.classList.value)
-      if(slctEle.classList.value == "image-gallery-style") {
-        //set files
-        files = dataURLtoFile(slctEle.src, "thumbnailImage");
-        console.log('typ of fiel: ',files);
-        updateThumbnail(files)
-        console.log('peva: ', thumbnailGallery.children[0].classList.value);
-      }
-      //PREVIEW GALLERY
-      if(thumbnailGallery.children[0].classList.value=="phlistingImage") {
-        console.log('a')
-        thumbnailGallery.removeChild(thumbnailGallery.children[0])
-        slctEle.parentNode.children[1].style.display = "none"
-        completeGallery.removeChild(slctEle.parentNode.parentNode)
-        thumbnailGallery.appendChild(slctEle.parentNode)
-      }else if(thumbnailGallery.children[0].classList.value=="prevlistingImage") {
-        console.log('b')
-        //thumbnail
-        slctEle.parentNode.children[1].style.display = "none"
-        completeGallery.removeChild(slctEle.parentNode.parentNode)
-        thumbnailGallery.appendChild(slctEle.parentNode)
-        //make col-2 and append back to gallery
-        console.log('sadf: ', thumbnailGallery.children[0].children[1])
-        thumbnailGallery.children[0].children[1].style.display = "block";
-        var coltwo = document.createElement('div');
-        coltwo.classList.add('col-2');
-        coltwo.appendChild(thumbnailGallery.children[0])
-        document.getElementById("completeGallery").appendChild(coltwo);
-      }else if(thumbnailGallery.children[0].classList.value=="listingImage") {
-        console.log('c')
-        //thumbnail
-        slctEle.parentNode.children[1].style.display = "none"
-        completeGallery.removeChild(slctEle.parentNode.parentNode)
-        thumbnailGallery.appendChild(slctEle.parentNode)
-        //make col-2 and append back to gallery
-        thumbnailGallery.children[0].children[1].style.display = "block";
-        var coltwo = document.createElement('div');
-        coltwo.classList.add('col-2');
-        coltwo.appendChild(thumbnailGallery.children[0])
-        document.getElementById("completeGallery").appendChild(coltwo);
+      console.log('slcele: ', slctEle)
+      if(slctEle) {
+        if(slctEle.classList.value == "image-gallery-style") {
+          //set files
+          files = dataURLtoFile(slctEle.src, "thumbnailImage");
+          console.log('typ of fiel: ',files);
+          updateThumbnail(files)
+          console.log('peva: ', thumbnailGallery.children[0].classList.value);
+        }
+      
+        //PREVIEW GALLERY
+        if(thumbnailGallery.children[0].classList.value=="phlistingImage" || thumbnailGallery.children[0].classList.value=="thumbnail-gallery-style") {
+          console.log('a')
+          thumbnailGallery.removeChild(thumbnailGallery.children[0])
+          slctEle.parentNode.children[1].style.display = "none"
+          completeGallery.removeChild(slctEle.parentNode.parentNode)
+          thumbnailGallery.appendChild(slctEle.parentNode)
+        }else if(thumbnailGallery.children[0].classList.value=="prevlistingImage") {
+          console.log('b')
+          //thumbnail
+          slctEle.parentNode.children[1].style.display = "none"
+          completeGallery.removeChild(slctEle.parentNode.parentNode)
+          thumbnailGallery.appendChild(slctEle.parentNode)
+          //make col-2 and append back to gallery
+          console.log('sadf: ', thumbnailGallery.children[0].children[1])
+          thumbnailGallery.children[0].children[1].style.display = "block";
+          var coltwo = document.createElement('div');
+          coltwo.classList.add('col-2');
+          coltwo.appendChild(thumbnailGallery.children[0])
+          document.getElementById("completeGallery").appendChild(coltwo);
+        }else if(thumbnailGallery.children[0].classList.value=="listingImage") {
+          console.log('c')
+          //thumbnail
+          slctEle.parentNode.children[1].style.display = "none"
+          completeGallery.removeChild(slctEle.parentNode.parentNode)
+          thumbnailGallery.appendChild(slctEle.parentNode)
+          //make col-2 and append back to gallery
+          thumbnailGallery.children[0].children[1].style.display = "block";
+          var coltwo = document.createElement('div');
+          coltwo.classList.add('col-2');
+          coltwo.appendChild(thumbnailGallery.children[0])
+          document.getElementById("completeGallery").appendChild(coltwo);
+        }
+      }else {
+        console.log('qwertyui')
+        files=dt.files;
+        updateThumbnail(files);
+        //PREVIEW GALLERY
+        if(thumbnailGallery.children[0].classList.value=="phlistingImage") {
+          console.log('a1')
+          thumbnailGallery.removeChild(thumbnailGallery.children[0])
+        }else if(thumbnailGallery.children[0].classList.value=="prevlistingImage") {
+          console.log('b1')
+          //make col-2 and append back to gallery
+          console.log('sadf: ', thumbnailGallery.children[0].children[1])
+          thumbnailGallery.children[0].children[1].style.display = "block";
+          var coltwo = document.createElement('div');
+          coltwo.classList.add('col-2');
+          coltwo.appendChild(thumbnailGallery.children[0])
+          document.getElementById("completeGallery").appendChild(coltwo);
+        }else if(thumbnailGallery.children[0].classList.value=="listingImage") {
+          console.log('c1')
+          //make col-2 and append back to gallery
+          thumbnailGallery.children[0].children[1].style.display = "block";
+          var coltwo = document.createElement('div');
+          coltwo.classList.add('col-2');
+          coltwo.appendChild(thumbnailGallery.children[0])
+          document.getElementById("completeGallery").appendChild(coltwo);
+        }
+        previewThumbnail(files)
       }
       updateMediaCount();
     }
@@ -727,7 +796,6 @@
       }
     }
     function updateThumbnail(files) {
-      console.log('chosen file: ',typeof files.length)
       console.log('chosen thumnail: ', files)
       var file;
       if(typeof files.length == 'undefined'){

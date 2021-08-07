@@ -21,7 +21,7 @@
 </div>
 
 <!--Search Bar-->
-<div class="container mb-5" data-aos="zoom-in" data-aos-once="true" style="margin-top: -210px; margin-bottom: 50px;">
+<div class="container mb-5" data-aos="zoom-in" data-aos-once="true" style="margin-top: -320px; margin-bottom: 50px;">
     <div class="col-md-12 listing-header d-flex flex-column fade-in">
         <p>Find your Property.</p>
     </div>    
@@ -53,7 +53,11 @@
                                 <option id="any" name="allType" value="allType" selected >All</option>
                                 <option id="hdb" name="hdbType" value="hdb">HDB</option>
                                 <option id="condo" name="condoType" value="condo">Condominium</option>
+                                <option id="executivecondo" name="execondoType" value="executivecondo">Executive Condominium</option>
                                 <option id="landed" name="landedType" value="landed">Landed Property</option>
+                                <option id="terrace" name="terraceType" value="terrace">Terrace</option>
+                                <option id="semidetached" name="semidetachedType" value="semidetached">Semi-Detached</option>
+                                <option id="detached" name="detachedType" value="detached">Detached</option>
                             </select>
                         </div>
                     </div>
@@ -127,23 +131,22 @@
 </div>
 
 <!--Map-->
-<div class="container">
+<div class="container d-flex align-items-center justify-content-center mt-3 mb-5">
+    <div class="col-md-12 px-0 mt-3 mb-2">
+        <div class="col-12 px-0">
+            <div class="col-md-12 p-0 explore-map" data-aos="fade-up" data-aos-once="true">
+                <div class="shadow" id="map" style="max-width: 1110px; height: 350px; border-radius: 0px;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Categories -->
+<div class="container mb-5">
     <p data-aos="fade-up" data-aos-once="true" style="font-weight:600; font-size: 1.3em;">Explore Categories</p>
     <div class="col-md-12 explore" data-aos="fade-up" data-aos-once="true">
         <div class="row">
             <div class="owl-carousel owl-theme" >
-                <div class="item" onClick="window.location='/listings?searchindex=&propertyType=hdb&numofRooms=5&sortBy=MostPop&minPrice=&maxPrice=&minSize=&maxSize=&searchindexBtn=searchindexBtn&quickSearch=5rm'">
-                    <img src="/img/5rm-img.jpg">
-                    <div class="item-text"><p>5 Room<br>HDB Flats</p></div>
-                </div>
-                <div class="item" onClick="window.location='/listings?searchindex=&propertyType=hdb&numofRooms=4&sortBy=MostPop&minPrice=&maxPrice=&minSize=&maxSize=&searchindexBtn=searchindexBt&quickSearch=4rm'">
-                    <img src="/img/4rm-img.jpg">
-                    <div class="item-text"><p>4 Room<br>HDB Flats</p></div>
-                </div>
-                <div class="item" onClick="window.location='/listings?searchindex=&propertyType=hdb&numofRooms=3&sortBy=MostPop&minPrice=&maxPrice=&minSize=&maxSize=&searchindexBtn=searchindexBtn&quickSearch=3rm'">
-                    <img src="/img/3rm-img.jpg">
-                    <div class="item-text"><p>3 Room<br>HDB Flats</p></div>
-                </div>
                 <div class="item" onClick="window.location='/listings?searchindex=&propertyType=condo&numofRooms=allrooms&sortBy=MostPop&minPrice=&maxPrice=&minSize=&maxSize=&searchindexBtn=searchindexBtn&quickSearch=condo'">
                     <img src="/img/condo-img.jpg">
                     <div class="item-text"><p>Condominium<br>Flats</p></div>
@@ -152,16 +155,18 @@
                     <img src="/img/landed-img.jpg">
                     <div class="item-text"><p>Landed<br>Properties</p></div>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="container d-flex align-items-center justify-content-center my-5">
-    <div class="col-md-12 px-0 mt-3 mb-2">
-        <div class="col-12 px-0">
-            <div class="col-md-12 p-0 explore-map" data-aos="fade-up" data-aos-once="true">
-                <div class="shadow" id="map" style="max-width: 1110px; height: 350px; border-radius: 0px;"></div>
+                <div class="item" onClick="window.location='/listings?searchindex=&propertyType=hdb&numofRooms=3&sortBy=MostPop&minPrice=&maxPrice=&minSize=&maxSize=&searchindexBtn=searchindexBtn&quickSearch=3rm'">
+                    <img src="/img/3rm-img.jpg">
+                    <div class="item-text"><p>3 Room<br>HDB Flats</p></div>
+                </div>
+                <div class="item" onClick="window.location='/listings?searchindex=&propertyType=hdb&numofRooms=4&sortBy=MostPop&minPrice=&maxPrice=&minSize=&maxSize=&searchindexBtn=searchindexBt&quickSearch=4rm'">
+                    <img src="/img/4rm-img.jpg">
+                    <div class="item-text"><p>4 Room<br>HDB Flats</p></div>
+                </div>
+                <div class="item" onClick="window.location='/listings?searchindex=&propertyType=hdb&numofRooms=5&sortBy=MostPop&minPrice=&maxPrice=&minSize=&maxSize=&searchindexBtn=searchindexBtn&quickSearch=5rm'">
+                    <img src="/img/5rm-img.jpg">
+                    <div class="item-text"><p>5 Room<br>HDB Flats</p></div>
+                </div>
             </div>
         </div>
     </div>
@@ -177,7 +182,7 @@
                     <div class="row row-cols-2" id="loadFeaturedProperty"></div>
                 </div>
                 <div class="d-flex justify-content-end" data-aos="fade-up" data-aos-once="true">
-                    <button onClick="window.location='/listings?searchindex=&propertyType=allType&numofRooms=allrooms&sortBy=Recent&minPrice=&maxPrice=&minSize=&maxSize=&searchindexBtn=searchindexBtn'" style="margin-top: 10px; margin-bottom: 20px;" class="loadMoreBtn" type="button" id="loadMoreBtn">View All</button>
+                    <button onClick="window.location='/listings?searchindex=&propertyType=allType&numofRooms=allrooms&sortBy=Recent&minPrice=&maxPrice=&minSize=&maxSize=&searchindexBtn=searchindexBtn'" style="margin-top: 10px;" class="loadMoreBtn" type="button" id="loadMoreBtn">View All</button>
                 </div>
             </div>
         </div>
@@ -307,42 +312,6 @@ $('input[name=listType]').on('change', function() {
             }
         });
     })();
-</script>
-<script>                               
-    function resetForm() {
-        //document.getElementById("formFilter").resetForm()
-        //property type
-        document.getElementById("hdb").checked=false;
-        document.getElementById("condo").checked=false;
-        document.getElementById("landed").checked=false;
-        //Zone type
-        document.getElementById("north").checked=false;
-        document.getElementById("south").checked=false;
-        document.getElementById("east").checked=false;
-        document.getElementById("west").checked=false;
-        //rooms
-        document.getElementById("1").checked=false;
-        document.getElementById("2").checked=false;
-        document.getElementById("3").checked=false;
-        document.getElementById("4").checked=false;
-        document.getElementById("5").checked=false;
-        document.getElementById("6").checked=false;
-        //sort by price
-        document.getElementById("sortPrice").value="";
-        //sort by date
-        document.getElementById("sortDate").value="";
-        //sort by popularity
-        document.getElementById("sortPop").value="";
-        //sold/archive
-        // document.getElementById("sold").checked=false;
-        // document.getElementById("notsold").checked=false;
-        // document.getElementById("archive").checked=false;
-        // document.getElementById("notarchive").checked=false;
-        //sort by sold
-        document.getElementById("sortSold").value="";
-        //sort by archive
-        document.getElementById("sortArchive").value="";
-    }                
 </script>
     <script>
     $(document).ready(function(){

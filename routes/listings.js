@@ -124,38 +124,27 @@ router.get("/listings", function(req,res){
 			if(req.query.searchindexBtn) {
 					//search box	
 					const regex = new RegExp(escapeRegex(req.query.searchindex), 'gi');
+
 					//Property Type
 					var propType = req.query.propertyType;
-					var propTypeArr = ['hdb', 'condo', 'landed'];
-					if(propType == 'hdb') {
-						propTypeArr = ['hdb']
-					}else if(propType == 'condo') {
-						propTypeArr = ['condo']
-					}else if(propType == 'landed') {
-						propTypeArr = ['landed']
-					}else{
-						propTypeArr = ['hdb', 'condo', 'landed'];
+					var propTypeArr = [];
+					if(propType == 'allType' || !propType) {
+						propTypeArr = ['hdb', 'condo', 'executivecondo', 'landed', 'terrace', 'semidetached', 'detached'];
+					}else {
+						propTypeArr.push(req.query.propertyType);
 					}
-					regexType = propTypeArr.map(function(e){return new RegExp(e, "gi");});
+					var regexType = propTypeArr;
+
 					//Number of rooms
 					var numofRooms = Number(req.query.numofRooms);
-					var numofRoomsArr = [1,2,3,4,5,6];
-					if(numofRooms == 1) {
-						numofRoomsArr = [1]
-					}else if(numofRooms == 2) {
-						numofRoomsArr = [2]
-					}else if(numofRooms == 3) {
-						numofRoomsArr = [3]
-					}else if(numofRooms == 4) {
-						numofRoomsArr = [4]
-					}else if(numofRooms == 5) {
-						numofRoomsArr = [5]
-					}else if(numofRooms == 6) {
-						numofRoomsArr = [6]
-					}else {
+					var numofRoomsArr = [];
+					if(numofRooms == "allrooms" || !numofRooms) {
 						numofRoomsArr = [1,2,3,4,5,6];
+					}else {
+						numofRoomsArr.push(numofRooms)
 					}
 					regexRooms = numofRoomsArr;
+
 					//MIN & MAX Price
 					var minPrice = 0;
 					var maxPrice = largestPrice;
@@ -225,7 +214,7 @@ router.get("/listings", function(req,res){
 						});
 				});
 
-			//all listing page - 2nd page 
+			//search listing page - 2nd page 
 			}else if(req.query.searchListing) {
 				console.log('dearch shtigna: ', req.query.search);
 					const regex = new RegExp(escapeRegex(req.query.search), 'gi');
@@ -251,80 +240,35 @@ router.get("/listings", function(req,res){
 								}
 						});
 				});
-			//Filter
+			//Filter - 2nd page
 			}  else if (req.query.Apply) {
 				// Property Type
-				const hdbType = req.query.hdbType;
-				const condoType = req.query.condoType;
-				const landedType = req.query.landedType;
-				var allType = []
-				allType.push(hdbType, condoType, landedType);
-				console.log('all type: '+allType);
-				var typeArr=[];
-				var regexType;
-				var typeCount = 0;
-				for(let i=0; i<allType.length; i++) {
-					if(typeof allType[i]=='undefined'){
-						console.log('counting type')
-						typeCount++;
-					}
-				}
-				if(typeCount == 3){
-					allType = [ 'hdb', 'condo', 'landed' ];
-					regexType = allType.map(function(e){return new RegExp(e, "gi");});
-					console.log('inside type all empty: '+regexType);
+				var propTypeArr = [];
+				console.log('reqkj: ', req.query.propType)
+				if(typeof req.query.propType == 'object') {
+					for(let i=0; i<req.query.propType.length; i++) {
+						propTypeArr.push(req.query.propType[i]);
+					}	
+				}else if(typeof req.query.propType == 'string') {
+					propTypeArr.push(req.query.propType);
 				}else {
-					for(let i=0; i<allType.length; i++) {
-						if(!(typeof allType[i] == 'undefined')) { //contains value does not contain undefined
-							console.log('all type at i: '+allType[i]);
-							typeArr[i] = allType[i];
-							console.log('inside type: '+typeArr);
-							var typeArrRegex = typeArr.map(function(e){return new RegExp(e, "gi");});
-							regexType = typeArrRegex.filter(function(eli){
-								return eli != null && eli != '';
-							})
-							console.log('regexType: '+regexType)
-						}
-
-					}
+					propTypeArr = ['hdb', 'condo', 'executivecondo', 'landed', 'terrace', 'semidetached', 'detached'];
 				}
-				
+				var regexType = propTypeArr;
+
 				// Zone 
-				const northZone = req.query.northZone;
-				const southZone = req.query.southZone;
-				const eastZone = req.query.eastZone;
-				const westZone = req.query.westZone;
-				var allZone = [];
-				allZone.push(northZone, southZone, eastZone, westZone);
-				console.log('all Zone: '+allZone);
-				var zoneArr=[];
-				var regexZone;
-				var count = 0;
-				for(let i=0; i<allZone.length; i++) {
-					if(typeof allZone[i]=='undefined'){
-						console.log('counting rooms')
-						count++;
-					}
-				}
-				if(count == 4){
-					allZone = [ 'north', 'south', 'east', 'west' ];
-					regexZone = allZone.map(function(e){return new RegExp(e, "gi");});
-					console.log('inside Zone all empty: '+regexZone);
+				var zoneArr = [];
+				if(typeof req.query.zone == 'object') {
+					for(let i=0; i<req.query.zone.length; i++) {
+						zoneArr.push(req.query.zone[i]);
+					}	
+				}else if(typeof req.query.zone == 'string') {
+					zoneArr.push(req.query.zone);
 				}else {
-					for(let i=0; i<allZone.length; i++) {
-						if(!(typeof allZone[i] == 'undefined')) { //contains value does not contain undefined
-							console.log('zone at i: '+allZone[i]);
-							zoneArr[i] = allZone[i];
-							console.log('inside Zone: '+zoneArr);
-							var zoneArrRegex = zoneArr.map(function(e){return new RegExp(e, "gi");});
-							regexZone = zoneArrRegex.filter(function(el){
-								return el != null && el != '';
-							})
-							console.log('regexZone: '+regexZone)
-						}
-
-					}
+					zoneArr = ['north', 'south', 'east', 'west'];
 				}
+				var regexZone = zoneArr;
+
 				// Price
 				const minPrice = Number(req.query.minPrice);
 				const maxPrice = Number(req.query.maxPrice);
@@ -338,114 +282,43 @@ router.get("/listings", function(req,res){
 				console.log("minSize: "+maxSize);
 				
 				// Number of rooms 
-				const onerooms = req.query.onerooms;
-				const tworooms = req.query.tworooms;
-				const threerooms = req.query.threerooms;
-				const fourrooms = req.query.fourrooms;
-				const fiverooms = req.query.fiverooms;
-				const sixrooms = req.query.sixrooms;
-				var allRooms = [];
-				allRooms.push(onerooms, tworooms, threerooms, fourrooms, fiverooms, sixrooms);
-				console.log('all rooms: '+allRooms);
-				var roomsArr=[];
-				var regexRooms;
-				var roomCount = 0;
-				for(let i=0; i<allRooms.length; i++) {
-					if(typeof allRooms[i]=='undefined'){
-						console.log('counting rooms')
-						roomCount++;
-					}
-				}
-				if(roomCount == 6){
-					regexRooms = [ 1, 2, 3, 4, 5, 6 ];
-					console.log('inside room all empty: '+typeof regexRooms[1]);
+				var bedroomsArr = [];
+				if(typeof req.query.bedrooms == 'object') {
+					for(let i=0; i<req.query.bedrooms.length; i++) {
+						bedroomsArr.push(Number(req.query.bedrooms[i]));
+					}	
+				}else if(typeof req.query.bedrooms == 'string') {
+					bedroomsArr.push(Number(req.query.bedrooms));
 				}else {
-					for(let i=0; i<allRooms.length; i++) {
-						if(!(typeof allRooms[i] == 'undefined')) { //contains value does not contain undefined
-							console.log('rooms at i: '+allRooms[i]);
-							roomsArr[i] = Number(allRooms[i]);
-							console.log('inside rooms: '+roomsArr);
-							regexRooms = roomsArr.filter(function(elt){
-								return elt != null && elt != '';
-							})
-							console.log('regexRooms: '+regexRooms)
-						}
-
-					}
+					bedroomsArr = [ 1, 2, 3, 4, 5, 6 ];
 				}
+				var regexRooms = bedroomsArr;
 
 				//number of bath rooms
-				const onebathrooms = req.query.onebathrooms;
-				const twobathrooms = req.query.twobathrooms;
-				const threebathrooms = req.query.threebathrooms;
-				var allbathRooms = [];
-				allbathRooms.push(onebathrooms, twobathrooms, threebathrooms);
-				console.log('all bath rooms: '+allbathRooms);
-				var bathroomsArr=[];
-				var regexbathRooms;
-				var bathroomCount = 0;
-				for(let i=0; i<allbathRooms.length; i++) {
-					if(typeof allbathRooms[i]=='undefined'){
-						console.log('counting bath rooms')
-						bathroomCount++;
-					}
-				}
-				if(bathroomCount == 3){
-					regexbathRooms = [ 1, 2, 3 ];
-					console.log('inside bath room all empty: '+typeof regexbathRooms[1]);
+				var bathroomsArr = [];
+				if(typeof req.query.bathrooms == 'object') {
+					for(let i=0; i<req.query.bathrooms.length; i++) {
+						bathroomsArr.push(Number(req.query.bathrooms[i]));
+					}	
+				}else if(typeof req.query.bathrooms == 'string') {
+					bathroomsArr.push(Number(req.query.bathrooms));
 				}else {
-					for(let i=0; i<allbathRooms.length; i++) {
-						if(!(typeof allbathRooms[i] == 'undefined')) { //contains value does not contain undefined
-							console.log('line bath: '+allbathRooms[i]);
-							bathroomsArr[i] = allbathRooms[i];
-							console.log('inside bath rooms: '+bathroomsArr);
-							regexbathRooms = bathroomsArr.filter(function(elto){
-								return elto != null && elto != '';
-							})
-							console.log('regexbathRooms: '+regexbathRooms)
-						}
-
-					}
+					bathroomsArr = [ 1, 2, 3, 4, 5, 6 ];
 				}
-				
+				var regexbathRooms = bathroomsArr;
+
 				//Tenure
-				const freehold = req.query.freehold;
-				const NinetyNineYL = req.query.NinetyNineYL;
-				const HundredThreeYL = req.query.HundredThreeYL;
-				const HundredTenYL = req.query.HundredTenYL;
-				const NineHundredNineYL = req.query.NineHundredNineYL;
-				const tenure = req.query.tenure;
-				var allTenure = [];
-				allTenure.push(freehold, NinetyNineYL, HundredThreeYL, HundredTenYL, NineHundredNineYL, tenure);
-				console.log('all tenure: '+allTenure);
-				var tenureArr=[];
-				var regexTenure;
-				var tenureCount = 0;
-				for(let i=0; i<allTenure.length; i++) {
-					if(typeof allTenure[i]=='undefined'){
-						console.log('counting tenure')
-						tenureCount++;
-					}
-				}
-				if(tenureCount == 6){
-					allTenure = [ 'freehold', 'ninetynine', 'hundredthree', 'hundredten', 'ninehundrednine', 'unknown' ];
-					regexTenure = allTenure.map(function(e){return new RegExp(e, "gi");});
-					console.log('inside Tenure all empty: '+regexTenure);
+				var tenureArr = [];
+				if(typeof req.query.tenure == 'object') {
+					for(let i=0; i<req.query.tenure.length; i++) {
+						tenureArr.push(req.query.tenure[i]);
+					}	
+				}else if(typeof req.query.tenure == 'string') {
+					tenureArr.push(req.query.tenure);
 				}else {
-					for(let i=0; i<allTenure.length; i++) {
-						if(!(typeof allTenure[i] == 'undefined')) { //contains value does not contain undefined
-							console.log('tenure at i: '+allTenure[i]);
-							tenureArr[i] = allTenure[i];
-							console.log('inside tenure: '+tenureArr);
-							var tenureArrRegex = tenureArr.map(function(e){return new RegExp(e, "gi");});
-							regexTenure = tenureArrRegex.filter(function(lp){
-								return lp != null && lp != '';
-							})
-							console.log('regex tenure: '+regexTenure)
-						}
-
-					}
+					tenureArr = ['freehold', 'ninetynine', 'hundredthree', 'hundredten', '999', 'unknown'];
 				}
+				var regexTenure = tenureArr;
 
 				// Sort object (to be passed into .sort)
 				var sortOptions = {};
@@ -491,13 +364,14 @@ router.get("/listings", function(req,res){
 					regexArchive = [true];
 				}
 
+				console.log('1: ', regexType)
+				console.log('2: ', regexZone)
+				console.log('3: ', regexRooms)
+				console.log('4: ', regexbathRooms)
+				console.log('5: ', regexTenure)
 
-				console.log('final sort option object: ',sortOptions);
-				console.log('passed in sold check: ',regexSold)
-				console.log('passed in archive check: ',regexArchive)
-				console.log('all parameters passed to mongo: '+minPrice+', '+maxPrice+', '+regexZone+', '+regexType+', '+minSize+', '+maxSize+', '+regexRooms);
 
-				listing.find({$and: [ {price: {$gte: minPrice, $lte: maxPrice}}, {zone: {$in : regexZone}}, {type: {$in: regexType}}, {size: {$gte: minSize, $lte: maxSize}}, {bedrooms: {$in: regexRooms}}, {bathrooms: {$in: regexbathRooms}}, {tenure: {$in: regexTenure}}, {soldStatus: {$in: regexSold}}, {archiveStatus: {$in: regexArchive}} ] }).sort(sortOptions).populate('author.id').exec(function (err, alllistings) {
+				listing.find({$and: [ {price: {$gte: minPrice, $lte: maxPrice}}, {zone: {$in: regexZone}}, {type: {$in: regexType}}, {size: {$gte: minSize, $lte: maxSize}}, {bedrooms: {$in: regexRooms}}, {bathrooms: {$in: regexbathRooms}}, {tenure: {$in: regexTenure}}, {soldStatus: {$in: regexSold}}, {archiveStatus: {$in: regexArchive}} ] }).sort(sortOptions).populate('author.id').exec(function (err, alllistings) {
 					listing.count({price: minPrice}).exec(function (err, count) {
 						if (err) {
 							console.log(err);
@@ -532,45 +406,7 @@ router.get("/listings", function(req,res){
 						}
 					});
 				});	
-			} 
-			// else if (req.query.search == "") {
-			// 		// get all listings from DB
-			// 		listing.find({$and: [{soldStatus: false}, {archiveStatus: false}] })
-			// 		.sort({createdAt: -1})
-			// 		.populate('author.id')
-			// 		.exec(function (err, alllistings) {
-			// 				listing.count().exec(function (err, count) {
-			// 						if (err) {
-			// 								console.log(err);
-			// 						} else {
-			// 							for (var i = 0; i < alllistings.length; i++) {
-			// 								//id
-			// 								var id = alllistings[i]._id;
-			// 								// console.log(alllistings[i]._id);
-
-			// 								async function postCount (id) {
-			// 									await countApi("/hit/3dpropertylistingsg/" +  id + "-click").then(success => {
-			// 									// console.log("https://api.countapi.xyz/hit/3dpropertylistingsg/" + id + "-click");
-			// 									// console.log("id: " + id + "success: " + success.data.value);
-			// 								});
-			// 								}
-			// 								postCount(id)
-			// 							}
-			// 							res.render("listings/search.ejs", {
-			// 								listings: alllistings,
-			// 								noMatch: noMatch,
-			// 								search: false,
-			// 								largestPrice: largestPrice,
-			// 								largestSize: largestSize,
-			// 								data: req.query,
-			// 								moment : moment
-			// 							});
-			// 						}
-			// 				});
-			// 		});
-			
-			// } 
-			else {
+			}else {
 					// get all listings from DB
 					listing.find({$and: [{soldStatus: false}, {archiveStatus: false}] })
 					.sort({createdAt: -1})
@@ -613,157 +449,12 @@ function escapeRegex(text) {
 };
 
 //Post Route
-// router.post("/listings", middleware.isLoggedIn, uploadMultiple, async function(req,res){
-// 	var thumbnail = req.files.thumbnail;
-// 	console.log('thumbnail sdkadnfj: '+thumbnail[0].path);
-
-// 	var imageArray = req.files.image;
-
-// 	var fileArray = [];
-// 	for(let i = 0 ; i < imageArray.length; i++) {
-// 		fileArray.push(req.files.image[i]);
-// 	}
-// 	if (req.files.video) {
-// 		var videoArray = req.files.video;
-// 		for(let i = 0 ; i < videoArray.length; i++) {
-// 			fileArray.push(req.files.video[i]);
-// 		}
-// 	}
-
-// 	var imageSecureUrlArray = [];
-// 	var imagePublicIdArray = [];
-// 	var videoSecureUrlArray = [];
-// 	var videoPublicIdArray = [];
-
-// 	var name = req.body.name;
-// 	var desc = req.body.description;
-// 	var location = req.body.location;
-// 	var zone = req.body.zone;
-// 	var price = req.body.price;
-// 	var size = req.body.size;
-// 	var type = req.body.type;
-// 	var bedrooms = req.body.bedrooms;
-// 	var bathrooms = req.body.bathrooms;
-//   	var author = {
-// 		id: req.user._id,
-// 		username: req.user.username
-// 	};
-// 	var newlisting = {name:name, description:desc, author:author, location:location, zone:zone, price:price, size:size, type:type, bedrooms:bedrooms, bathrooms:bathrooms}
-// 	try {
-// 			var geoData = await geocodingClient.forwardGeocode({
-// 				query: location,
-// 				autocomplete: false,
-// 		    limit: 1
-// 		  })
-// 		  .send();
-// 			newlisting.geometry = geoData.body.features[0].geometry;
-// 			// console.log(newlisting.geometry);
-
-// 			//1 thumbnail image upload to cloudinary
-// 			var thumbnailUpload = await uploadToCloudinary(thumbnail[0].path, { resource_type: "auto" });
-// 			console.log('thumbnail upload await: ',thumbnailUpload);
-// 			var thumbnailSecureUrl = thumbnailUpload.secure_url;
-// 			var thumbnailPublicId = thumbnailUpload.public_id;
-// 			newlisting.thumbnail = thumbnailSecureUrl;
-// 			newlisting.thumbnailId = thumbnailPublicId;
-
-// 		  	//image/videos upload to cloudinary
-// 			for(let i=0; i<fileArray.length; i++) {
-// 				if(fileArray[i].fieldname == 'image') {
-// 					console.log('image uploading');
-// 					var imageUpload = await uploadToCloudinary(fileArray[i].path); 
-// 					imageSecureUrlArray.push(imageUpload.secure_url);
-// 					imagePublicIdArray.push(imageUpload.public_id);
-// 					newlisting.image = imageSecureUrlArray;
-// 					newlisting.imageId = imagePublicIdArray;
-// 					console.log('image info: ',newlisting.image,'imageid info:',newlisting.imageId)
-// 				}else if(fileArray[i].fieldname == 'video') {
-// 					console.log('video uploading');
-// 					var videoUpload = await uploadToCloudinary(fileArray[i].path); 
-// 					videoSecureUrlArray.push(videoUpload.secure_url);
-// 					videoPublicIdArray.push(videoUpload.public_id);
-// 					newlisting.video = videoSecureUrlArray;
-// 					newlisting.videoId = videoPublicIdArray;
-// 					console.log('video info: ',newlisting.video,'videoid info:',newlisting.videoId)
-// 				}
-// 			}
-
-// 			//create the listing
-// 			listing.create(newlisting, async function(err, newlyCreated){
-// 				if(err)
-// 				{
-// 					console.log(err);
-// 				} else {
-// 					let user = await User.findById(req.user._id).populate('followers').exec();
-// 					//console.log("id" + newlyCreated._id)
-// 					let newNotification = {
-// 						username: req.user.username,
-// 						image: req.user.image,
-// 						listingId: newlyCreated._id,
-// 						idUser: newlyCreated.author.id,
-// 						listingImage: newlyCreated.thumbnail
-// 					}
-// 					for(const follower of user.followers) {
-// 						let notification = await Notification.create(newNotification);
-// 						follower.notifications.push(notification);
-// 						follower.save();
-// 					}
-// 					req.flash("success", "You have successfully added a listing.");
-// 					res.redirect(`/listings/${newlyCreated._id}`);
-// 				}
-// 			});
-// 		} catch (err){
-// 			console.log('try catch error: ',err.message);
-// 			res.redirect('back');
-// 		}
-// });
-
 router.post("/listings", middleware.isAdminAgent, uploadMultiple, async function(req,res){
-	// uploadMultiple(req, res, function (err) {
-	// 	if (err instanceof multer.MulterError) {
-	// 	  // A Multer error occurred when uploading.
-	// 	  console.log('multer err: ', err instanceof multer.MulterError)
-	// 	} else if (err) {
-	// 	  // An unknown error occurred when uploading.
-	// 		console.log('unknow multer err: ',err)
-	// 	}
-	// 	console.log('fine');
-	// 	// Everything went fine.
-	//   })
-
-	// var fs = require('fs');
-	// console.log('fs files open: ',fs.open());
-	console.log('the files: ',req.files);//JSON.parse(JSON.stringify(req.files))
-	// if(req.files.listingThumbnail) {
-		var listingThumbnail = req.files.listingThumbnail;
-		console.log('listingThumbnail sdkadnfj: '+listingThumbnail[0].path);
-	// }
-	// if(req.files.listingGallery) {
-		var listingGallery = req.files.listingGallery;
-		console.log('files got what: ',listingGallery);
-	// }
-	// if(req.files.imageGallery) {
-	// 	var imageFiles = req.files.imageGallery;
-	// 	console.log('imagessssssssss: '+imageFiles);
-	// }
-	// if(req.files.videoGallery) {
-	// 	var videoFiles = req.files.videoGallery;
-	// 	console.log('videossssssssss: '+videoFiles);
-	// }
-
-	// var imageArray = req.files.image;
-
-	// var fileArray = [];
-	// for(let i = 0 ; i < imageArray.length; i++) {
-	// 	fileArray.push(req.files.image[i]);
-	// }
-	// if (req.files.video) {
-	// 	var videoArray = req.files.video;
-	// 	for(let i = 0 ; i < videoArray.length; i++) {
-	// 		fileArray.push(req.files.video[i]);
-	// 	}
-	// }
-
+	var listingThumbnail = req.files.listingThumbnail;
+	console.log('listingThumbnail sdkadnfj: '+listingThumbnail[0].path);
+	var listingGallery = req.files.listingGallery;
+	console.log('files got what: ',listingGallery);
+	
 	var imageSecureUrlArray = [];
 	var imagePublicIdArray = [];
 	var videoSecureUrlArray = [];
@@ -775,6 +466,7 @@ router.post("/listings", middleware.isAdminAgent, uploadMultiple, async function
 	var unitNumber = req.body.unitNumber;
 	var street = req.body.street;
 	var zone = req.body.zone;
+	var district = req.body.district;
 	var price = req.body.price;
 	var size = req.body.size;
 	var type = req.body.type;
@@ -782,6 +474,7 @@ router.post("/listings", middleware.isAdminAgent, uploadMultiple, async function
 	var bathrooms = Number(req.body.bathrooms);
 	var tenure = req.body.tenure;
 	var threeDImage = req.body.threeDImage;
+	var listingCategory = req.body.listingCategory;
 	var author = {
 		id: req.user._id,
 		username: req.user.username,
@@ -794,7 +487,7 @@ router.post("/listings", middleware.isAdminAgent, uploadMultiple, async function
 		rating: req.user.rating,
 		phone: req.user.phone,
 	};
-	var newlisting = {name:name, description:desc, author:author, location:location, unitNumber:unitNumber, street:street, zone:zone, price:price, size:size, type:type, bedrooms:bedrooms, bathrooms:bathrooms, tenure:tenure, threeDImage:threeDImage}
+	var newlisting = {name:name, description:desc, author:author, location:location, unitNumber:unitNumber, street:street, zone:zone, district:district, price:price, size:size, type:type, bedrooms:bedrooms, bathrooms:bathrooms, tenure:tenure, threeDImage:threeDImage, listingCategory:listingCategory}
 	if(req.body.carpark === 'true'){
 		newlisting.carpark = true;
 	}
@@ -863,13 +556,14 @@ router.post("/listings", middleware.isAdminAgent, uploadMultiple, async function
 					console.log(err);
 				} else {
 					let user = await User.findById(req.user._id).populate('followers').exec();
-					//console.log("id" + newlyCreated._id)
+					// console.log("id" + newlyCreated)
+					// console.log("listingThumbnail" + newlyCreated.thumbnail)
 					let newNotification = {
 						username: req.user.username,
 						image: req.user.image,
 						listingId: newlyCreated._id,
 						idUser: newlyCreated.author.id,
-						listingImage: newlyCreated.listingThumbnail
+						listingImage: newlyCreated.thumbnail
 					}
 					for(const follower of user.followers) {
 						let notification = await Notification.create(newNotification);
@@ -922,173 +616,6 @@ router.get("/listings/:id/edit", middleware.checklistingOwnership, function(req,
 });
 
 //Update Route
-// router.put("/listings/:id", middleware.checklistingOwnership, uploadMultiple, function(req, res){
-// 	listing.findById(req.params.id, async function(err, listing){
-// 		if(err){
-// 			req.flash("error", err.message);
-// 			res.redirect("back");
-// 		} else{
-// 			console.log(listing)
-// 			if(req.file){
-// 					try{
-// 							await cloudinary.v2.uploader.destroy(listing.imageId);
-// 							var result = await cloudinary.v2.uploader.upload(req.file.path);
-// 							listing.image = result.secure_url;
-// 							listing.imageId = result.public_id;
-// 					} catch(err){
-// 							req.flash("error", err.message);
-// 							return res.redirect("back");
-// 					}
-// 			}
-// 			if(req.body.listing.location !== listing.location){
-// 				console.log(req.body.location)
-// 				console.log(listing.location)
-// 				try {
-// 						var response = await geocodingClient
-// 								.forwardGeocode({
-// 										query: req.body.listing.location,
-// 										limit: 1,
-// 								})
-// 								.send();
-// 						listing.geometry = response.body.features[0].geometry;
-// 						listing.location = req.body.listing.location;
-// 						console.log(listing.geometry)
-// 				} catch (err) {
-// 						console.log(err.message);
-// 						res.redirect('back');
-// 				}
-// 			}
-// 			listing.name = req.body.listing.name;
-// 			listing.description = req.body.listing.description;
-// 			listing.zone = req.body.listing.zone;
-// 			listing.price = req.body.listing.price;
-// 			listing.size = req.body.listing.size;
-// 			listing.type = req.body.listing.type;
-// 			listing.numofRooms = req.body.listing.numofRooms;
-// 			listing.save();
-// 			console.log(listing)
-// 			req.flash("success", "listing successfully updated!");
-// 			res.redirect("/listings/" + listing._id);
-// 		}
-// 	});
-// });
-// router.put("/listings/:id", middleware.checklistingOwnership, uploadMultiple, function(req, res){
-// 	listing.findById(req.params.id, async function(err, listing){
-// 		if(err){
-// 			req.flash("error", err.message);
-// 			res.redirect("back");
-// 		} else{
-// 			// console.log(listing)
-// 			if(req.files){
-// 				//Thumbnail
-// 				if(req.files.thumbnail) {
-// 					var newThumbnail = req.files.thumbnail;
-// 					console.log('new thumbnail object: '+newThumbnail);
-// 					try{
-// 						console.log('check for: '+listing.thumbnailId);
-// 						await cloudinary.v2.uploader.destroy(listing.thumbnailId);
-// 						console.log('paht check: '+newThumbnail[0].path);
-// 						var result = await cloudinary.v2.uploader.upload(newThumbnail[0].path, { resource_type: "auto" });
-// 						listing.thumbnail = result.secure_url;
-// 						listing.thumbnailId = result.public_id;
-// 					}catch(err) {
-// 						req.flash("error", err.message);
-// 						return res.redirect("back");
-// 					}
-// 				}
-// 				//Image
-// 				if(req.files.image) {
-// 					var newImage = req.files.image;
-// 					var newImageArray = [];
-// 					for(let a=0; a<newImage.length; a++) {
-// 						newImageArray.push(newImage[a]);
-// 					}
-// 					// console.log('new image array length: ',newImageArray.length);
-// 					// console.log('new image stuff: ',newImageArray[0].path);
-// 					var newImageSecureUrlArray = [];
-// 					var newImagePublicIdArray = [];
-// 					try{
-// 						// console.log('check for: '+listing.imageId[0]);
-// 						for(let b=0; b<listing.imageId.length; b++) {
-// 							await cloudinary.v2.uploader.destroy(listing.imageId[b]);
-// 						}
-						
-// 						for(let c=0; c<newImageArray.length; c++) {
-// 							console.log('image paht check: ',newImageArray[c].path);
-// 							var result = await cloudinary.v2.uploader.upload(newImageArray[c].path, { resource_type: "auto" });
-// 							newImageSecureUrlArray.push(result.secure_url);
-// 							newImagePublicIdArray.push(result.public_id);
-// 							listing.image = newImageSecureUrlArray;
-// 							listing.imageId = newImagePublicIdArray;
-// 						}
-// 					}catch(err) {
-// 						req.flash("error", err.message);
-// 						return res.redirect("back");
-// 					}
-// 				}
-// 				//Video
-// 				if(req.files.video) {
-// 					var newVideo = req.files.video;
-// 					var newVideoArray = [];
-// 					for(let d=0; d<newVideo.length; d++) {
-// 						newVideoArray.push(newVideo[d]);
-// 					}
-// 					// console.log('new video array length: ',newVideoArray.length);
-// 					// console.log('new video stuff: ',newVideoArray[0].path);
-// 					var newVideoSecureUrlArray = [];
-// 					var newVideoPublicIdArray = [];
-// 					try{
-// 						// console.log('check for: '+listing.videoId[0]);
-// 						for(let p=0; p<listing.videoId.length; p++) {
-// 							await cloudinary.v2.uploader.destroy(listing.videoId[p]);
-// 						}
-						
-// 						for(let k=0; k<newVideoArray.length; k++) {
-// 							console.log('vide paht check: ',newVideoArray[k].path);
-// 							var result = await cloudinary.v2.uploader.upload(newVideoArray[k].path, { resource_type: "auto" });
-// 							newVideoSecureUrlArray.push(result.secure_url);
-// 							newVideoPublicIdArray.push(result.public_id);
-// 							listing.video = newVideoSecureUrlArray;
-// 							listing.videoId = newVideoPublicIdArray;
-// 						}
-// 					}catch(err) {
-// 						req.flash("error", err.message);
-// 						return res.redirect("back");
-// 					}
-// 				}
-// 			}
-// 			if(req.body.listing.location !== listing.location){
-// 				console.log(req.body.location)
-// 				console.log(listing.location)
-// 				try {
-// 						var response = await geocodingClient
-// 								.forwardGeocode({
-// 										query: req.body.listing.location,
-// 										limit: 1,
-// 								})
-// 								.send();
-// 						listing.geometry = response.body.features[0].geometry;
-// 						listing.location = req.body.listing.location;
-// 						console.log(listing.geometry)
-// 				} catch (err) {
-// 						console.log(err.message);
-// 						res.redirect('back');
-// 				}
-// 			}
-// 			listing.name = req.body.listing.name;
-// 			listing.description = req.body.listing.description;
-// 			listing.zone = req.body.listing.zone;
-// 			listing.price = req.body.listing.price;
-// 			listing.size = req.body.listing.size;
-// 			listing.type = req.body.listing.type;
-// 			listing.bedrooms = req.body.listing.bedrooms;
-// 			listing.save();
-// 			console.log(listing)
-// 			req.flash("success", "You have successfully updated a listing.");
-// 			res.redirect("/listings/" + listing._id);
-// 		}
-// 	});
-// });
 router.put("/listings/:id", middleware.checklistingOwnership, uploadMultiple, function(req, res){
 	listing.findById(req.params.id, async function(err, listing){
 		if(err){
@@ -1266,6 +793,7 @@ router.put("/listings/:id", middleware.checklistingOwnership, uploadMultiple, fu
 			listing.bathrooms = Number(req.body.listing.bathrooms);
 			listing.tenure = req.body.listing.tenure;
 			listing.zone = req.body.listing.zone;
+			listing.district = req.body.listing.district;
 			listing.street = req.body.listing.street;
 			listing.unitNumber = req.body.listing.unitNumber;
 			listing.location = req.body.listing.location;

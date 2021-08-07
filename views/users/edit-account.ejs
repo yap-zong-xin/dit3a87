@@ -26,9 +26,7 @@
       </div>
       <div class="col-7 col-lg-6 offset-1 mt-4">
         <p class="mb-1" style="font-size: 1.4em; font-weight: 700;">Reset Password</p>
-        <p class="mt-1" style="font-weight: 350; font-size: 0.95em;">Click on the link below and we'll send you a link
-          to get back
-          into your account.</p>
+        <p class="mt-1" style="font-weight: 350; font-size: 0.95em;">Click on the link below and we'll send you a link to get back into your account.</p>
         <!-- reset password btn -->
         <div class="row">
           <div class="col-12">
@@ -37,6 +35,16 @@
               <input type="submit" class="btn btn-primary profileResetPassword px-4" value="Reset Password">
             </form>
           </div>
+        </div>
+        <p class="mt-4 pt-2 mb-1" style="font-size: 1.4em; font-weight: 700;">Change Email</p>
+        <div class="px-0 col-12">
+          <!-- delete user button -->
+          <% if(currentUser && user._id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
+            <p class="mt-1" style="font-weight: 350; font-size: 0.95em;">Click on the link below to change your current email address.</p>
+            <a href="/user/<%= user._id %>/editEmail">
+              <span class="btn btn-info profileResetEmail px-4">Change Email</span>
+            </a>
+            <% } %>
         </div>
         <p class="mt-4 pt-2 mb-1" style="font-size: 1.4em; font-weight: 700;">Delete Account</p>
         <div class="px-0 col-12">

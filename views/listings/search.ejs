@@ -43,7 +43,7 @@
 
 <div class="container">
     <div class="row col-lg-12 p-0 m-0">
-        <div class="col-md-4 col-lg-4 p-0 m-0 d-flex flex-column" data-aos="fade-up" data-aos-once="true">
+        <div class="col-md-4 col-lg-4 p-0 m-0 d-flex flex-column">
             <div class="d-flex flex-column">
                 <h3 id="search-result" style="font-size: 1.5em;"></h3>
                 <p>Found: <%= listings.length%> results</em></p>
@@ -91,12 +91,30 @@
                             </div>
                             <div class="dropdownPType-content hide-row-PType" id="dropdownPType-content">
                                 <!-- <label for="propertyType">Choose a property type:</label><br> -->
-                                <input type="checkbox" id="hdb" name="hdbType" value="hdb" <% if(data.hdbType) {%> checked <%} %>>
+                                <%
+                                    var propTypeArr = [];
+                                    if(typeof data.propType == 'object') {
+                                        for(let i=0; i<data.propType.length; i++) {
+                                            propTypeArr.push(data.propType[i])
+                                        }
+                                    }else {
+                                        propTypeArr.push(data.propType);
+                                    }
+                                %>
+                                <input type="checkbox" id="hdb" name="propType" value="hdb" <% if(propTypeArr.includes('hdb')) {%> checked <%} %>>
                                 <label for="hdb">HDB</label><br>
-                                <input type="checkbox" id="condo" name="condoType" value="condo"<% if(data.condoType) {%> checked <%} %>> 
+                                <input type="checkbox" id="condo" name="propType" value="condo"<% if(propTypeArr.includes('condo')) {%> checked <%} %>> 
                                 <label for="condo">Condominium</label><br>
-                                <input type="checkbox" id="landed" name="landedType" value="landed" <% if(data.landedType) {%> checked <%} %>>
+                                <input type="checkbox" id="executivecondo" name="propType" value="executivecondo"<% if(propTypeArr.includes('executivecondo')) {%> checked <%} %>> 
+                                <label for="executivecondo">Executive Condominium</label><br>
+                                <input type="checkbox" id="landed" name="propType" value="landed" <% if(propTypeArr.includes('landed')) {%> checked <%} %>>
                                 <label for="landed">Landed Property</label><br>
+                                <input type="checkbox" id="terrace" name="propType" value="terrace" <% if(propTypeArr.includes('terrace')) {%> checked <%} %>>
+                                <label for="terrace">Terrace</label><br>
+                                <input type="checkbox" id="semidetached" name="propType" value="semidetached" <% if(propTypeArr.includes('semidetached')) {%> checked <%} %>>
+                                <label for="semidetached">Semi-Detached</label><br>
+                                <input type="checkbox" id="detached" name="propType" value="detached" <% if(propTypeArr.includes('detached')) {%> checked <%} %>>
+                                <label for="detached">Detached</label><br>
                             </div>  
                         </div>
 
@@ -110,17 +128,30 @@
                                 <i class="fas fa-caret-down"></i>    
                             </div>
                             <div class="dropdownZone-content hide-row-Zone" id="dropdownZone-content">
-                                <input type="checkbox" id="north" name="northZone" value="north" <% if(data.northZone) {%> checked <%} %>>
+                                <%
+                                    var zoneArr = [];
+                                    if(typeof data.zone == 'object') {
+                                        for(let i=0; i<data.zone.length; i++) {
+                                            zoneArr.push(data.zone[i])
+                                        }
+                                    }else {
+                                        zoneArr.push(data.zone);
+                                    }
+                                %>
+                                <input type="checkbox" id="north" name="zone" value="north" <% if(zoneArr.includes('north')) {%> checked <%} %>>
                                 <label for="north">North</label><br>
-                                <input type="checkbox" id="south" name="southZone" value="south" <% if(data.southZone) {%> checked <%} %>>
+                                <input type="checkbox" id="south" name="zone" value="south" <% if(zoneArr.includes('south')) {%> checked <%} %>>
                                 <label for="south">South</label><br>
-                                <input type="checkbox" id="east" name="eastZone" value="east" <% if(data.eastZone) {%> checked <%} %>>
+                                <input type="checkbox" id="east" name="zone" value="east" <% if(zoneArr.includes('east')) {%> checked <%} %>>
                                 <label for="east">East</label><br>
-                                <input type="checkbox" id="west" name="westZone" value="west" <% if(data.westZone) {%> checked <%} %>>
+                                <input type="checkbox" id="west" name="zone" value="west" <% if(zoneArr.includes('west')) {%> checked <%} %>>
                                 <label for="west">West</label><br>
                             </div>  
                         </div>
-        
+
+                        <!-- Filter: District -->
+                        <!-- <label for="district">District</label> -->
+                        <!-- <input type="number" name="district" min="1" max="28" class="form-control" id="district" value="<%if(data.district){%><%=data.district%><%}%>" placeholder="District"> -->
         
                         <!-- Filter: Number of rooms slider -->
                         <div class="dropdownBedroom">
@@ -131,17 +162,27 @@
                                 <i class="fas fa-caret-down"></i>    
                             </div>
                             <div class="dropdownBedroom-content hide-row-Bedroom" id="dropdownBedroom-content">
-                                <input type="checkbox" id="1" name="onerooms" value="1" <% if(data.onerooms) {%> checked <%} %>>
+                                <%
+                                    var bedroomsArr = [];
+                                    if(typeof data.bedrooms == 'object') {
+                                        for(let i=0; i<data.bedrooms.length; i++) {
+                                            bedroomsArr.push(data.bedrooms[i])
+                                        }
+                                    }else {
+                                        bedroomsArr.push(data.bedrooms);
+                                    }
+                                %>
+                                <input type="checkbox" id="1" name="bedrooms" value="1" <% if(bedroomsArr.includes('1')) {%> checked <%} %>>
                                 <label for="1">1 Bedroom</label><br>
-                                <input type="checkbox" id="2" name="tworooms" value="2" <% if(data.tworooms) {%> checked <%} %>>
+                                <input type="checkbox" id="2" name="bedrooms" value="2" <% if(bedroomsArr.includes('2')) {%> checked <%} %>>
                                 <label for="2">2 Bedrooms</label><br>
-                                <input type="checkbox" id="3" name="threerooms" value="3" <% if(data.threerooms) {%> checked <%} %>>
+                                <input type="checkbox" id="3" name="bedrooms" value="3" <% if(bedroomsArr.includes('3')) {%> checked <%} %>>
                                 <label for="3">3 Bedrooms</label><br>
-                                <input type="checkbox" id="4" name="fourrooms" value="4" <% if(data.fourrooms) {%> checked <%} %>>
+                                <input type="checkbox" id="4" name="bedrooms" value="4" <% if(bedroomsArr.includes('4')) {%> checked <%} %>>
                                 <label for="4">4 Bedrooms</label><br>
-                                <input type="checkbox" id="5" name="fiverooms" value="5" <% if(data.fiverooms) {%> checked <%} %>>
+                                <input type="checkbox" id="5" name="bedrooms" value="5" <% if(bedroomsArr.includes('5')) {%> checked <%} %>>
                                 <label for="5">5 Bedrooms</label><br>
-                                <input type="checkbox" id="6" name="sixrooms" value="6" <% if(data.sixrooms) {%> checked <%} %>>
+                                <input type="checkbox" id="6" name="bedrooms" value="6" <% if(bedroomsArr.includes('6')) {%> checked <%} %>>
                                 <label for="6">6 Bedrooms</label><br>
                             </div>  
                         </div>
@@ -156,11 +197,21 @@
                                 <i class="fas fa-caret-down"></i>    
                             </div>
                             <div class="dropdownBathroom-content hide-row-Bathroom" id="dropdownBathroom-content" >
-                                <input type="checkbox" id="1bath" name="onebathrooms" value="1" <% if(data.onebathrooms) {%> checked <%} %>>
+                                <%
+                                    var bathroomsArr = [];
+                                    if(typeof data.bathrooms == 'object') {
+                                        for(let i=0; i<data.bathrooms.length; i++) {
+                                            bathroomsArr.push(data.bathrooms[i])
+                                        }
+                                    }else {
+                                        bathroomsArr.push(data.bathrooms);
+                                    }
+                                %>
+                                <input type="checkbox" id="1bath" name="bathrooms" value="1" <% if(bathroomsArr.includes('1')) {%> checked <%} %>>
                                 <label for="1bath">1 Bathroom</label><br>
-                                <input type="checkbox" id="2bath" name="twobathrooms" value="2" <% if(data.twobathrooms) {%> checked <%} %>>
+                                <input type="checkbox" id="2bath" name="bathrooms" value="2" <% if(bathroomsArr.includes('2')) {%> checked <%} %>>
                                 <label for="2bath">2 Bathroom</label><br>
-                                <input type="checkbox" id="3bath" name="threebathrooms" value="3" <% if(data.threebathrooms) {%> checked <%} %>>
+                                <input type="checkbox" id="3bath" name="bathrooms" value="3" <% if(bathroomsArr.includes('3')) {%> checked <%} %>>
                                 <label for="3bath">3 Bathroom</label><br>
                             </div>  
                         </div>
@@ -174,17 +225,27 @@
                                 <i class="fas fa-caret-down"></i>    
                             </div>
                             <div class="dropdownTenure-content hide-row-Tenure" id="dropdownTenure-content" >
-                                <input type="checkbox" id="freehold" name="freehold" value="freehold" <% if(data.freehold) {%> checked <%} %>>
+                                <%
+                                    var tenureArr = [];
+                                    if(typeof data.tenure == 'object') {
+                                        for(let i=0; i<data.tenure.length; i++) {
+                                            tenureArr.push(data.tenure[i])
+                                        }
+                                    }else {
+                                        tenureArr.push(data.tenure);
+                                    }
+                                %>
+                                <input type="checkbox" id="freehold" name="tenure" value="freehold" <% if(tenureArr.includes('freehold')) {%> checked <%} %>>
                                 <label for="freehold">Freehold</label><br>
-                                <input type="checkbox" id="NinetyNineYL" name="NinetyNineYL" value="ninetynine"<% if(data.NinetyNineYL) {%> checked <%} %>> 
+                                <input type="checkbox" id="NinetyNineYL" name="tenure" value="ninetynine"<% if(tenureArr.includes('ninetynine')) {%> checked <%} %>> 
                                 <label for="NinetyNineYL">99-Year Leasehold</label><br>
-                                <input type="checkbox" id="HundredThreeYL" name="HundredThreeYL" value="hundredthree" <% if(data.HundredThreeYL) {%> checked <%} %>>
+                                <input type="checkbox" id="HundredThreeYL" name="tenure" value="hundredthree" <% if(tenureArr.includes('hundredthree')) {%> checked <%} %>>
                                 <label for="HundredThreeYL">103-Year Leasehold</label><br>
-                                <input type="checkbox" id="HundredTenYL" name="HundredTenYL" value="hundredten" <% if(data.HundredTenYL) {%> checked <%} %>>
+                                <input type="checkbox" id="HundredTenYL" name="tenure" value="hundredten" <% if(tenureArr.includes('hundredten')) {%> checked <%} %>>
                                 <label for="HundredTenYL">110-Year Leasehold</label><br>
-                                <input type="checkbox" id="NineHundredNineYL" name="NineHundredNineYL" value="999"<% if(data.NineHundredNineYL) {%> checked <%} %>> 
+                                <input type="checkbox" id="NineHundredNineYL" name="tenure" value="999"<% if(tenureArr.includes('999')) {%> checked <%} %>> 
                                 <label for="NineHundredNineYL">999-Year Leasehold</label><br>
-                                <input type="checkbox" id="tenure" name="tenure" value="unknown" <% if(data.tenure) {%> checked <%} %>>
+                                <input type="checkbox" id="tenure" name="tenure" value="unknown" <% if(tenureArr.includes('unknown')) {%> checked <%} %>>
                                 <label for="tenure">Unknown Tenure</label><br>
                             </div>  
                         </div>
@@ -271,7 +332,7 @@
             <div id="loadProperty"></div>
             <div class="d-flex justify-content-center" id="loadPropertyLower" style="margin-top: 10px; margin-bottom: 150px;">
                 <div id="loadMoreDiv"></div>
-                <button class="loadMoreBtn mt-2" type="button" id="loadMoreBtn">Load More</button>
+                <button class="loadMoreBtn mt-2" type="button" id="loadMoreBtn" style="width: 100%;">Load More</button>
             </div>
         </div>
     </div>
@@ -436,12 +497,18 @@ $('#maxPrice').attr('placeholder', 'Max. Price');
         //property type
         document.getElementById("hdb").checked=false;
         document.getElementById("condo").checked=false;
+        document.getElementById("executivecondo").checked=false;
         document.getElementById("landed").checked=false;
+        document.getElementById("terrace").checked=false;
+        document.getElementById("semidetached").checked=false;
+        document.getElementById("detached").checked=false;
         //Zone type
         document.getElementById("north").checked=false;
         document.getElementById("south").checked=false;
         document.getElementById("east").checked=false;
         document.getElementById("west").checked=false;
+        //District
+        // document.getElementById("district").value="";
         //bedrooms
         document.getElementById("1").checked=false;
         document.getElementById("2").checked=false;

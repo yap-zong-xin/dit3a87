@@ -3,7 +3,7 @@
   <div style="margin: 0 130px; margin-top: 35px;">
     <div class="container pt-3">
       <div class="row">
-        <div class="col-12">
+        <div class="col-12 justify-content-center align-items-center d-flex">
           <span style="font-size: 1.4em; font-weight: 600;" class="align-items-center d-flex">
             <a href="/listings/<%= listing._id %>" style="text-decoration: none; color: black">
               <ion-icon name="close-outline" style="font-size: 1.3em;" class="pr-2"></ion-icon>
@@ -15,7 +15,7 @@
     </div>
   </div>
 
-  <div class="container pt-3 mb-0">
+  <div class="container pt-0 mb-0">
     <form action="/listings/<%= listing._id %>?_method=PUT" method="POST" enctype="multipart/form-data" name="editListingForm">
       <!-- previous images -->
       <%
@@ -99,7 +99,7 @@
                 <div id="thumbnail-gallery">
                   <!-- <i class="fa-4x fas fa-images" style="position: absolute; top: 25%; left: 25%; height: 10px; width: 10px"></i> -->
                   <div class="phlistingImage">
-                    <img src="<%= listing.thumbnail %>" class="thumbnail-gallery-style" id="prevThumbnailIdImage">
+                    <img src="<%= listing.thumbnail %>" class="thumbnail-gallery-style" id="prevThumbnailIdImage" style="object-fit: cover;">
                   </div>
                 </div>
                 <div class="thumbnailSlctText">
@@ -158,7 +158,11 @@
                   <option></option>
                   <option value="hdb" <% if(typeOption == 'hdb') {%>selected<%} %>>HDB</option>
                   <option value="condo" <% if(typeOption == 'condo') {%>selected<%} %>>Condo</option>
+                  <option value="executivecondo" <% if(typeOption == 'executivecondo') {%>selected<%} %>>Executive Condominium</option>
                   <option value="landed" <% if(typeOption == 'landed') {%>selected<%} %>>Landed</option>
+                  <option value="terrace" <% if(typeOption == 'terrace') {%>selected<%} %>>Terrace</option>
+                  <option value="semidetached" <% if(typeOption == 'semidetached') {%>selected<%} %>>Semi-Detached</option>
+                  <option value="detached" <% if(typeOption == 'detached') {%>selected<%} %>>Detached</option>
                 </select>
               </div>
               <div class="form-group col-12 col-sm-6 col-md-4">
@@ -190,12 +194,16 @@
                 <select name="listing[tenure]" class="form-control" id="tenure" required>
                   <option></option>
                   <option value="unknown" <% if(tenureOption == 'unknown') {%>selected<%} %>>Unknown</option>
-                  <option value="ninetynine" <% if(tenureOption == 'ninetynine') {%>selected<%} %>>99-Year Leasehold</option>
-                  <option value="hundredthree" <% if(tenureOption == 'hundredthree') {%>selected<%} %>>103-Year Leasehold</option>
-                  <option value="hundredten" <% if(tenureOption == 'hundredten') {%>selected<%} %>>110-Year Leasehold</option>
-                  <option value="ninehundrednine" <% if(tenureOption == 'ninehundrednine') {%>selected<%} %>>999-Year Leasehold</option>
+                  <option value="ninetynine" <% if(tenureOption == 'ninetynine') {%>selected<%} %>>99-Years Leasehold</option>
+                  <option value="hundredthree" <% if(tenureOption == 'hundredthree') {%>selected<%} %>>103-Years Leasehold</option>
+                  <option value="hundredten" <% if(tenureOption == 'hundredten') {%>selected<%} %>>110-Years Leasehold</option>
+                  <option value="ninehundrednine" <% if(tenureOption == 'ninehundrednine') {%>selected<%} %>>999-Years Leasehold</option>
                   <option value="freehold" <% if(tenureOption == 'freehold') {%>selected<%} %>>Freehold</option>
                 </select>
+              </div>
+              <div class="form-group col-12 col-sm-6 col-md-4">
+                <label for="district">District</label>
+                <input type="number" name="listing[district]" min="1" max="28" class="form-control" id="district" value="<%= listing.district %>" required>
               </div>
               <div class="form-group col-12 col-sm-6 col-md-4">
                 <% var zoneOption = listing.zone %>
@@ -733,57 +741,98 @@
       var files;
       console.log('dtgetdata: ', dt.getData('text'))
       var slctEle = document.getElementById(dt.getData("text"));
-      console.log('slcele: ', slctEle.classList.value)
-      //SET THUMBNAIL FILE (EITHER PREVIOUS LINK OR NEW FILE)
-      if(slctEle.classList.value == "prev-image-gallery-style") {
-        //clear file input file => use id instead of file when using previous listing images
-        document.getElementById("thumbnailFile").value="";
-        console.log('check thumbnail: ', thumbnailGallery.children[0])
-        //set value
-        document.getElementById("prevThumbnailId").value = dt.getData("text");
-        document.getElementById("prevThumbnail").value = slctEle.src;
-      }else if(slctEle.classList.value == "image-gallery-style") {
+      console.log('slcele: ', slctEle)
+      if(slctEle) {
+        // if(slctEle.classList.value == "image-gallery-style") {
+        //   //set files
+        //   files = dataURLtoFile(slctEle.src, "thumbnailImage");
+        //   console.log('typ of fiel: ',files);
+        //   updateThumbnail(files)
+        //   console.log('peva: ', thumbnailGallery.children[0].classList.value);
+        // }
+          if(slctEle.classList.value == "prev-image-gallery-style") {
+          //clear file input file => use id instead of file when using previous listing images
+          document.getElementById("thumbnailFile").value="";
+          console.log('check thumbnail: ', thumbnailGallery.children[0])
+          //set value
+          document.getElementById("prevThumbnailId").value = dt.getData("text");
+          document.getElementById("prevThumbnail").value = slctEle.src;
+        }else if(slctEle.classList.value == "image-gallery-style") {
+          //clear previous listing images thumbnail
+          document.getElementById("prevThumbnailId").value="";
+          document.getElementById("prevThumbnail").value="";
+          //set files
+          files = dataURLtoFile(slctEle.src, "thumbnailImage");
+          console.log('typ of fiel: ',files);
+          updateThumbnail(files)
+          console.log('peva: ', thumbnailGallery.children[0].classList.value);
+        }
+
+      
+        //PREVIEW GALLERY
+        if(thumbnailGallery.children[0].classList.value=="phlistingImage" || thumbnailGallery.children[0].classList.value=="thumbnail-gallery-style") {
+          console.log('a')
+          thumbnailGallery.removeChild(thumbnailGallery.children[0])
+          slctEle.parentNode.children[1].style.display = "none"
+          completeGallery.removeChild(slctEle.parentNode.parentNode)
+          thumbnailGallery.appendChild(slctEle.parentNode)
+        }else if(thumbnailGallery.children[0].classList.value=="prevlistingImage") {
+          console.log('b')
+          //thumbnail
+          slctEle.parentNode.children[1].style.display = "none"
+          completeGallery.removeChild(slctEle.parentNode.parentNode)
+          thumbnailGallery.appendChild(slctEle.parentNode)
+          //make col-2 and append back to gallery
+          console.log('sadf: ', thumbnailGallery.children[0].children[1])
+          thumbnailGallery.children[0].children[1].style.display = "block";
+          var coltwo = document.createElement('div');
+          coltwo.classList.add('col-2');
+          coltwo.appendChild(thumbnailGallery.children[0])
+          document.getElementById("completeGallery").appendChild(coltwo);
+        }else if(thumbnailGallery.children[0].classList.value=="listingImage") {
+          console.log('c')
+          //thumbnail
+          slctEle.parentNode.children[1].style.display = "none"
+          completeGallery.removeChild(slctEle.parentNode.parentNode)
+          thumbnailGallery.appendChild(slctEle.parentNode)
+          //make col-2 and append back to gallery
+          thumbnailGallery.children[0].children[1].style.display = "block";
+          var coltwo = document.createElement('div');
+          coltwo.classList.add('col-2');
+          coltwo.appendChild(thumbnailGallery.children[0])
+          document.getElementById("completeGallery").appendChild(coltwo);
+        }
+      }else {
         //clear previous listing images thumbnail
         document.getElementById("prevThumbnailId").value="";
         document.getElementById("prevThumbnail").value="";
-        //set files
-        files = dataURLtoFile(slctEle.src, "thumbnailImage");
-        console.log('typ of fiel: ',files);
-        updateThumbnail(files)
-        console.log('peva: ', thumbnailGallery.children[0].classList.value);
-      }
-      //PREVIEW GALLERY
-      if(thumbnailGallery.children[0].classList.value=="phlistingImage") {
-        console.log('a')
-        thumbnailGallery.removeChild(thumbnailGallery.children[0])
-        slctEle.parentNode.children[1].style.display = "none"
-        completeGallery.removeChild(slctEle.parentNode.parentNode)
-        thumbnailGallery.appendChild(slctEle.parentNode)
-      }else if(thumbnailGallery.children[0].classList.value=="prevlistingImage") {
-        console.log('b')
-        //thumbnail
-        slctEle.parentNode.children[1].style.display = "none"
-        completeGallery.removeChild(slctEle.parentNode.parentNode)
-        thumbnailGallery.appendChild(slctEle.parentNode)
-        //make col-2 and append back to gallery
-        console.log('sadf: ', thumbnailGallery.children[0].children[1])
-        thumbnailGallery.children[0].children[1].style.display = "block";
-        var coltwo = document.createElement('div');
-        coltwo.classList.add('col-2');
-        coltwo.appendChild(thumbnailGallery.children[0])
-        document.getElementById("completeGallery").appendChild(coltwo);
-      }else if(thumbnailGallery.children[0].classList.value=="listingImage") {
-        console.log('c')
-        //thumbnail
-        slctEle.parentNode.children[1].style.display = "none"
-        completeGallery.removeChild(slctEle.parentNode.parentNode)
-        thumbnailGallery.appendChild(slctEle.parentNode)
-        //make col-2 and append back to gallery
-        thumbnailGallery.children[0].children[1].style.display = "block";
-        var coltwo = document.createElement('div');
-        coltwo.classList.add('col-2');
-        coltwo.appendChild(thumbnailGallery.children[0])
-        document.getElementById("completeGallery").appendChild(coltwo);
+
+        console.log('qwertyui')
+        files=dt.files;
+        updateThumbnail(files);
+        //PREVIEW GALLERY
+        if(thumbnailGallery.children[0].classList.value=="phlistingImage") {
+          console.log('a1')
+          thumbnailGallery.removeChild(thumbnailGallery.children[0])
+        }else if(thumbnailGallery.children[0].classList.value=="prevlistingImage") {
+          console.log('b1')
+          //make col-2 and append back to gallery
+          console.log('sadf: ', thumbnailGallery.children[0].children[1])
+          thumbnailGallery.children[0].children[1].style.display = "block";
+          var coltwo = document.createElement('div');
+          coltwo.classList.add('col-2');
+          coltwo.appendChild(thumbnailGallery.children[0])
+          document.getElementById("completeGallery").appendChild(coltwo);
+        }else if(thumbnailGallery.children[0].classList.value=="listingImage") {
+          console.log('c1')
+          //make col-2 and append back to gallery
+          thumbnailGallery.children[0].children[1].style.display = "block";
+          var coltwo = document.createElement('div');
+          coltwo.classList.add('col-2');
+          coltwo.appendChild(thumbnailGallery.children[0])
+          document.getElementById("completeGallery").appendChild(coltwo);
+        }
+        previewThumbnail(files)
       }
       updateMediaCount();
     }

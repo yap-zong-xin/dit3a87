@@ -878,366 +878,77 @@ router.get("/dashboard/listings", middleware.isAdmin, function(req,res){
 	var pageQuery = parseInt(req.query.page);
 	var pageNumber = pageQuery ? pageQuery : 1;
 	var noMatch = null;
-	if(req.query.search) {
+
+	if(req.query.Apply) {
+		console.log('1')
+		console.log('wqer: ', typeof req.query.search)
+		//Search 
 		const regex = new RegExp(escapeRegex(req.query.search), 'gi');
 
-		if (req.query.sort){
-			// Sort object (to be passed into .sort)
-			var sortOptions = {};
-			// Sort options
-			var sort = req.query.sort;
-			if(sort == 'LowestPrice') {
-				sortOptions.price = 1;
-			}else if(sort == 'HighestPrice') {
-				sortOptions.price = -1 ;
-			}else if(sort == 'Recent') {
-				sortOptions.createdAt = -1;
-			}else if(sort == 'Oldest') {
-				sortOptions.createdAt = 1;
-			}else if(sort == 'Sold') {
-				sortOptions.soldStatus = -1;
-			}else if(sort == 'NotSold') {
-				sortOptions.soldStatus = 1;
-			}else if(sort == 'Archive') {
-				sortOptions.archiveStatus = -1;
-			}else if(sort == 'NotArchive') {
-				sortOptions.archiveStatus = 1;
-			}else if(sort == 'MostPop') {
-				sortOptions.likes = -1;
-			}else if(sort == 'LeastPop') {
-				sortOptions.likes = 1;
-			}
-
-			//if no sort is selected
-			if(Object.keys(sortOptions).length == 0) {
-				sortOptions.createdAt = 1
-			}
-
-			if (req.query.filterPropType) {
-				var filterPropType = req.query.filterPropType;
-				var regexSold = [true, false];
-				var regexArchive = [true, false];
-				var regexType;
-				var slcType = ['hdb', 'condo', 'landed']
-				if(filterPropType == 'sold') {
-					regexSold = [true];
-				}else if(filterPropType == 'archive') {
-					regexArchive = [true];
-				}else if(filterPropType == 'hdb') {
-					slcType = ['hdb'];
-				}else if(filterPropType == 'condo') {
-					slcType = ['condo'];
-				}else if(filterPropType == 'landed') {
-					slcType = ['landed'];
-				}else if(filterPropType == 'all') {
-					slcType = ['hdb', 'condo', 'landed'];
-				}
-				regexType = slcType.map(function(e){return new RegExp(e, "gi");});
-				
-				//QUERY (for both dropdown)
-				listing
-				.find({
-					$or: [{name: regex}, {zone:regex}, {type: regex}], 
-						type: {$in: regexType}, 
-						soldStatus: {$in: regexSold}, 
-						archiveStatus: {$in: regexArchive}
-						})
-				.sort(sortOptions)
-				.skip((perPage * pageNumber) - perPage)
-				.limit(perPage)
-				.populate("comments likes")
-				.exec(function(err, foundlisting){
-					listing.count({
-						$or: [{name: regex}, {zone:regex}, {type: regex}], 
-							type: {$in: regexType}, 
-							soldStatus: {$in: regexSold}, 
-							archiveStatus: {$in: regexArchive}
-							}).exec(function (err, count) {
-					if(err){
-						console.log(err);
-						res.redirect("back");
-					} else{	
-
-						res.render("dashboards/listings/index.ejs", {
-							listings:foundlisting,
-							current: pageNumber,
-							pages: Math.ceil(count / perPage),
-							noMatch: noMatch,
-							search: req.query.search,
-							filterPropType: req.query.filterPropType,
-							sort: req.query.sort,
-							data: req.query,
-						});
-					}
-				});
-				});
-			} else {
-				//QUERY (for one dropdown)
-				// listing.find({
-				//$and: [{type: {$in: regexType}}, {soldStatus: {$in: regexSold}}, {archiveStatus: {$in: regexArchive}}]})
-				listing.find({
-					$or: [{name: regex}, {zone:regex}, {type: regex}], 
-						type: {$in: regexType}, 
-						soldStatus: {$in: regexSold}, 
-						archiveStatus: {$in: regexArchive}
-						})
-				.sort(sortOptions).skip((perPage * pageNumber) - perPage).limit(perPage).populate("comments likes").exec(function(err, foundlisting){
-					listing.count()
-					.exec(function (err, count) {
-					if(err){
-						console.log(err);
-						res.redirect("back");
-					} else{
-						res.render("dashboards/listings/index.ejs", {
-							listings:foundlisting,
-							current: pageNumber,
-							pages: Math.ceil(count / perPage),
-							noMatch: noMatch,
-							search: req.query.search,
-							filterPropType: req.query.filterPropType,
-							sort: req.query.sort,
-							data: req.query,
-						});
-					}
-					});
-				});
-			}
-		} else {
-			if (req.query.filterPropType) {
-				var filterPropType = req.query.filterPropType;
-				var regexSold = [true, false];
-				var regexArchive = [true, false];
-				var regexType;
-				var slcType = ['hdb', 'condo', 'landed']
-				if(filterPropType == 'sold') {
-					regexSold = [true];
-				}else if(filterPropType == 'archive') {
-					regexArchive = [true];
-				}else if(filterPropType == 'hdb') {
-					slcType = ['hdb'];
-				}else if(filterPropType == 'condo') {
-					slcType = ['condo'];
-				}else if(filterPropType == 'landed') {
-					slcType = ['landed'];
-				}else if(filterPropType == 'all') {
-					slcType = ['hdb', 'condo', 'landed'];
-				}
-				regexType = slcType.map(function(e){return new RegExp(e, "gi");});
-				
-				//QUERY (for both dropdown)
-				listing.find({
-					$or: [{name: regex}, {zone:regex}, {type: regex}], 
-						type: {$in: regexType}, 
-						soldStatus: {$in: regexSold}, 
-						archiveStatus: {$in: regexArchive}
-						})
-				.sort(sortOptions)
-				.skip((perPage * pageNumber) - perPage)
-				.limit(perPage)
-				.populate("comments likes")
-				.exec(function(err, foundlisting){
-					listing.count({
-						$or: [{name: regex}, {zone:regex}, {type: regex}], 
-							type: {$in: regexType}, 
-							soldStatus: {$in: regexSold}, 
-							archiveStatus: {$in: regexArchive}
-							}).exec(function (err, count) {
-					if(err){
-						console.log(err);
-						res.redirect("back");
-					} else{	
-
-						res.render("dashboards/listings/index.ejs", {
-							listings:foundlisting,
-							current: pageNumber,
-							pages: Math.ceil(count / perPage),
-							noMatch: noMatch,
-							search: req.query.search,
-							filterPropType: req.query.filterPropType,
-							sort: req.query.sort,
-							data: req.query,
-						});
-					}
-				});
-				});
-			} else {
-				listing.find({
-					$or: [{name: regex}, {zone:regex}, {type: regex}]})
-				.sort(sortOptions)
-				.skip((perPage * pageNumber) - perPage)
-				.limit(perPage)
-				.populate("comments likes")
-				.exec(function(err, foundlisting){
-					listing.count({
-						$or: [{name: regex}, {zone:regex}, {type: regex}]
-							}).exec(function (err, count) {
-					if(err){
-						console.log(err);
-						res.redirect("back");
-					} else{	
-
-						res.render("dashboards/listings/index.ejs", {
-							listings:foundlisting,
-							current: pageNumber,
-							pages: Math.ceil(count / perPage),
-							noMatch: noMatch,
-							search: req.query.search,
-							filterPropType: req.query.filterPropType,
-							sort: req.query.sort,
-							data: req.query,
-						});
-					}
-				});
-				});
-			}
+		//Sort
+		// Sort object (to be passed into .sort)
+		var sortOptions = {};
+		// Sort options
+		var sort = req.query.sort;
+		if(sort == 'LowestPrice') {
+			sortOptions.price = 1;
+		}else if(sort == 'HighestPrice') {
+			sortOptions.price = -1 ;
+		}else if(sort == 'Recent') {
+			sortOptions.createdAt = -1;
+		}else if(sort == 'Oldest') {
+			sortOptions.createdAt = 1;
+		}else if(sort == 'Sold') {
+			sortOptions.soldStatus = -1;
+		}else if(sort == 'NotSold') {
+			sortOptions.soldStatus = 1;
+		}else if(sort == 'Archive') {
+			sortOptions.archiveStatus = -1;
+		}else if(sort == 'NotArchive') {
+			sortOptions.archiveStatus = 1;
+		}else if(sort == 'MostPop') {
+			sortOptions.likes = -1;
+		}else if(sort == 'LeastPop') {
+			sortOptions.likes = 1;
+		}
+		//if no sort is selected
+		if(Object.keys(sortOptions).length == 0) {
+			sortOptions.createdAt = 1
 		}
 
-
-	}  else if (req.query.sort) {
-			// Sort object (to be passed into .sort)
-			var sortOptions = {};
-			// Sort options
-			var sort = req.query.sort;
-			if(sort == 'LowestPrice') {
-				sortOptions.price = 1;
-			}else if(sort == 'HighestPrice') {
-				sortOptions.price = -1 ;
-			}else if(sort == 'Recent') {
-				sortOptions.createdAt = -1;
-			}else if(sort == 'Oldest') {
-				sortOptions.createdAt = 1;
-			}else if(sort == 'Sold') {
-				sortOptions.soldStatus = -1;
-			}else if(sort == 'NotSold') {
-				sortOptions.soldStatus = 1;
-			}else if(sort == 'Archive') {
-				sortOptions.archiveStatus = -1;
-			}else if(sort == 'NotArchive') {
-				sortOptions.archiveStatus = 1;
-			}else if(sort == 'MostPop') {
-				sortOptions.likes = -1;
-			}else if(sort == 'LeastPop') {
-				sortOptions.likes = 1;
-			}
-
-			//if no sort is selected
-			if(Object.keys(sortOptions).length == 0) {
-				sortOptions.createdAt = 1
-			}
-
-			if (req.query.filterPropType) {
-				var filterPropType = req.query.filterPropType;
-				var regexSold = [true, false];
-				var regexArchive = [true, false];
-				var regexType;
-				var slcType = ['hdb', 'condo', 'landed']
-				if(filterPropType == 'sold') {
-					regexSold = [true];
-				}else if(filterPropType == 'archive') {
-					regexArchive = [true];
-				}else if(filterPropType == 'hdb') {
-					slcType = ['hdb'];
-				}else if(filterPropType == 'condo') {
-					slcType = ['condo'];
-				}else if(filterPropType == 'landed') {
-					slcType = ['landed'];
-				}else if(filterPropType == 'all') {
-					slcType = ['hdb', 'condo', 'landed'];
-				}
-				regexType = slcType.map(function(e){return new RegExp(e, "gi");});
-				
-				//QUERY (for both dropdown)
-				listing
-				.find({$and: [{type: {$in: regexType}}, {soldStatus: {$in: regexSold}}, {archiveStatus: {$in: regexArchive}}]})
-				.sort(sortOptions).skip((perPage * pageNumber) - perPage).limit(perPage).populate("comments likes").exec(function(err, foundlisting){
-					listing.count({$and: [{type: {$in: regexType}}, {soldStatus: {$in: regexSold}}, {archiveStatus: {$in: regexArchive}}]}).exec(function (err, count) {
-					if(err){
-						console.log(err);
-						res.redirect("back");
-					} else{	
-						res.render("dashboards/listings/index.ejs", {
-							listings:foundlisting,
-							current: pageNumber,
-							pages: Math.ceil(count / perPage),
-							noMatch: noMatch,
-							search: req.query.search,
-							filterPropType: req.query.filterPropType,
-							sort: req.query.sort,
-							data: req.query,
-						});
-					}
-					});
-				});
-			} else {
-				//QUERY (for sort only)
-				// listing.find({
-				//$and: [{type: {$in: regexType}}, {soldStatus: {$in: regexSold}}, {archiveStatus: {$in: regexArchive}}]})
-				listing.find({})
-				.sort(sortOptions).skip((perPage * pageNumber) - perPage).limit(perPage).populate("comments likes").exec(function(err, foundlisting){
-					listing.count()
-					.exec(function (err, count) {
-					if(err){
-						console.log(err);
-						res.redirect("back");
-					} else{
-						res.render("dashboards/listings/index.ejs", {
-							listings:foundlisting,
-							current: pageNumber,
-							pages: Math.ceil(count / perPage),
-							noMatch: noMatch,
-							search: req.query.search,
-							filterPropType: req.query.filterPropType,
-							sort: req.query.sort,
-							data: req.query,
-						});
-					}
-					});
-				});
-			}
-	} else if (req.query.filterPropType) {
-		var filterPropType = req.query.filterPropType;
-		var regexSold = [true, false];
-		var regexArchive = [true, false];
-		var regexType;
-		var slcType = ['hdb', 'condo', 'landed']
-		if(filterPropType == 'sold') {
-			regexSold = [true];
-		}else if(filterPropType == 'archive') {
-			regexArchive = [true];
-		}else if(filterPropType == 'hdb') {
-			slcType = ['hdb'];
-		}else if(filterPropType == 'condo') {
-			slcType = ['condo'];
-		}else if(filterPropType == 'landed') {
-			slcType = ['landed'];
-		}else if(filterPropType == 'all') {
-			slcType = ['hdb', 'condo', 'landed'];
+		//Filter 
+		var propType = req.query.filterPropType;
+		var propTypeArr = [];
+		if(propType == 'allType' || !propType) {
+			propTypeArr = ['hdb', 'condo', 'executivecondo', 'landed', 'terrace', 'semidetached', 'detached'];
+		}else {
+			propTypeArr.push(req.query.filterPropType);
 		}
-		regexType = slcType.map(function(e){return new RegExp(e, "gi");});
-		
-		//no sort
-		listing
-		.find({$and: [{type: {$in: regexType}}, {soldStatus: {$in: regexSold}}, {archiveStatus: {$in: regexArchive}}]})
-		.skip((perPage * pageNumber) - perPage).limit(perPage).populate("comments likes").exec(function(err, foundlisting){
-			listing.count({$and: [{type: {$in: regexType}}, {soldStatus: {$in: regexSold}}, {archiveStatus: {$in: regexArchive}}]}).exec(function (err, count) {
-			if(err){
-				console.log(err);
-				res.redirect("back");
-			} else{	
-				res.render("dashboards/listings/index.ejs", {
-					listings:foundlisting,
-					current: pageNumber,
-					pages: Math.ceil(count / perPage),
-					noMatch: noMatch,
-					search: req.query.search,
-					filterPropType: req.query.filterPropType,
-					sort: req.query.sort,
-					data: req.query,
-				});
-			}
+		regexType = propTypeArr;
+		// regexType = propTypeArr.map(function(e){return new RegExp(e, "gi");});
+
+		//Query
+		listing.find({$and: [ {$or: [ {name: regex}, {description: regex}, {"author.username":regex} ]}, {type: {$in: regexType}}]}).sort(sortOptions).skip((perPage * pageNumber) - perPage).limit(perPage).populate('author.id').populate("comments likes").exec(function(err, foundlisting){
+			listing.count({$and: [ {$or: [ {name: regex}, {description: regex}, {"author.username":regex} ]}, {type: {$in: regexType}}]}).exec(function (err, count) {
+				if(err){
+					console.log(err);
+				} else{
+					res.render("dashboards/listings/index.ejs", {
+						listings:foundlisting,
+						current: pageNumber,
+						pages: Math.ceil(count / perPage),
+						noMatch: noMatch,
+						search: req.query.search,
+						filterPropType: req.query.filterPropType,
+						sort: req.query.sort,
+						data: req.query,
+					});
+				}
 			});
 		});
-	} else {
+	}else {
+		console.log('2')
+		//Load All Query
 		listing.find({}).skip((perPage * pageNumber) - perPage).limit(perPage).populate("comments likes").exec(function(err, foundlisting){
 			listing.count().exec(function (err, count) {
 				if(err){
@@ -1257,6 +968,387 @@ router.get("/dashboard/listings", middleware.isAdmin, function(req,res){
 			});
 		});
 	}
+	
+	
+	// if(req.query.search) {
+	// 	const regex = new RegExp(escapeRegex(req.query.search), 'gi');
+
+	// 	if (req.query.sort){
+	// 		// Sort object (to be passed into .sort)
+	// 		var sortOptions = {};
+	// 		// Sort options
+	// 		var sort = req.query.sort;
+	// 		if(sort == 'LowestPrice') {
+	// 			sortOptions.price = 1;
+	// 		}else if(sort == 'HighestPrice') {
+	// 			sortOptions.price = -1 ;
+	// 		}else if(sort == 'Recent') {
+	// 			sortOptions.createdAt = -1;
+	// 		}else if(sort == 'Oldest') {
+	// 			sortOptions.createdAt = 1;
+	// 		}else if(sort == 'Sold') {
+	// 			sortOptions.soldStatus = -1;
+	// 		}else if(sort == 'NotSold') {
+	// 			sortOptions.soldStatus = 1;
+	// 		}else if(sort == 'Archive') {
+	// 			sortOptions.archiveStatus = -1;
+	// 		}else if(sort == 'NotArchive') {
+	// 			sortOptions.archiveStatus = 1;
+	// 		}else if(sort == 'MostPop') {
+	// 			sortOptions.likes = -1;
+	// 		}else if(sort == 'LeastPop') {
+	// 			sortOptions.likes = 1;
+	// 		}
+
+	// 		//if no sort is selected
+	// 		if(Object.keys(sortOptions).length == 0) {
+	// 			sortOptions.createdAt = 1
+	// 		}
+
+	// 		if (req.query.filterPropType) {
+	// 			var filterPropType = req.query.filterPropType;
+	// 			var regexSold = [true, false];
+	// 			var regexArchive = [true, false];
+	// 			var regexType;
+	// 			var slcType = ['hdb', 'condo', 'landed']
+	// 			if(filterPropType == 'sold') {
+	// 				regexSold = [true];
+	// 			}else if(filterPropType == 'archive') {
+	// 				regexArchive = [true];
+	// 			}else if(filterPropType == 'hdb') {
+	// 				slcType = ['hdb'];
+	// 			}else if(filterPropType == 'condo') {
+	// 				slcType = ['condo'];
+	// 			}else if(filterPropType == 'landed') {
+	// 				slcType = ['landed'];
+	// 			}else if(filterPropType == 'all') {
+	// 				slcType = ['hdb', 'condo', 'landed'];
+	// 			}
+	// 			regexType = slcType.map(function(e){return new RegExp(e, "gi");});
+				
+	// 			//QUERY (for both dropdown)
+	// 			listing
+	// 			.find({
+	// 				$or: [{name: regex}, {zone:regex}, {type: regex}], 
+	// 					type: {$in: regexType}, 
+	// 					soldStatus: {$in: regexSold}, 
+	// 					archiveStatus: {$in: regexArchive}
+	// 					})
+	// 			.sort(sortOptions)
+	// 			.skip((perPage * pageNumber) - perPage)
+	// 			.limit(perPage)
+	// 			.populate("comments likes")
+	// 			.exec(function(err, foundlisting){
+	// 				listing.count({
+	// 					$or: [{name: regex}, {zone:regex}, {type: regex}], 
+	// 						type: {$in: regexType}, 
+	// 						soldStatus: {$in: regexSold}, 
+	// 						archiveStatus: {$in: regexArchive}
+	// 						}).exec(function (err, count) {
+	// 				if(err){
+	// 					console.log(err);
+	// 					res.redirect("back");
+	// 				} else{	
+
+	// 					res.render("dashboards/listings/index.ejs", {
+	// 						listings:foundlisting,
+	// 						current: pageNumber,
+	// 						pages: Math.ceil(count / perPage),
+	// 						noMatch: noMatch,
+	// 						search: req.query.search,
+	// 						filterPropType: req.query.filterPropType,
+	// 						sort: req.query.sort,
+	// 						data: req.query,
+	// 					});
+	// 				}
+	// 			});
+	// 			});
+	// 		} else {
+	// 			//QUERY (for one dropdown)
+	// 			// listing.find({
+	// 			//$and: [{type: {$in: regexType}}, {soldStatus: {$in: regexSold}}, {archiveStatus: {$in: regexArchive}}]})
+	// 			listing.find({
+	// 				$or: [{name: regex}, {zone:regex}, {type: regex}], 
+	// 					type: {$in: regexType}, 
+	// 					soldStatus: {$in: regexSold}, 
+	// 					archiveStatus: {$in: regexArchive}
+	// 					})
+	// 			.sort(sortOptions).skip((perPage * pageNumber) - perPage).limit(perPage).populate("comments likes").exec(function(err, foundlisting){
+	// 				listing.count()
+	// 				.exec(function (err, count) {
+	// 				if(err){
+	// 					console.log(err);
+	// 					res.redirect("back");
+	// 				} else{
+	// 					res.render("dashboards/listings/index.ejs", {
+	// 						listings:foundlisting,
+	// 						current: pageNumber,
+	// 						pages: Math.ceil(count / perPage),
+	// 						noMatch: noMatch,
+	// 						search: req.query.search,
+	// 						filterPropType: req.query.filterPropType,
+	// 						sort: req.query.sort,
+	// 						data: req.query,
+	// 					});
+	// 				}
+	// 				});
+	// 			});
+	// 		}
+	// 	} else {
+	// 		if (req.query.filterPropType) {
+	// 			var filterPropType = req.query.filterPropType;
+	// 			var regexSold = [true, false];
+	// 			var regexArchive = [true, false];
+	// 			var regexType;
+	// 			var slcType = ['hdb', 'condo', 'landed']
+	// 			if(filterPropType == 'sold') {
+	// 				regexSold = [true];
+	// 			}else if(filterPropType == 'archive') {
+	// 				regexArchive = [true];
+	// 			}else if(filterPropType == 'hdb') {
+	// 				slcType = ['hdb'];
+	// 			}else if(filterPropType == 'condo') {
+	// 				slcType = ['condo'];
+	// 			}else if(filterPropType == 'landed') {
+	// 				slcType = ['landed'];
+	// 			}else if(filterPropType == 'all') {
+	// 				slcType = ['hdb', 'condo', 'landed'];
+	// 			}
+	// 			regexType = slcType.map(function(e){return new RegExp(e, "gi");});
+				
+	// 			//QUERY (for both dropdown)
+	// 			listing.find({
+	// 				$or: [{name: regex}, {zone:regex}, {type: regex}], 
+	// 					type: {$in: regexType}, 
+	// 					soldStatus: {$in: regexSold}, 
+	// 					archiveStatus: {$in: regexArchive}
+	// 					})
+	// 			.sort(sortOptions)
+	// 			.skip((perPage * pageNumber) - perPage)
+	// 			.limit(perPage)
+	// 			.populate("comments likes")
+	// 			.exec(function(err, foundlisting){
+	// 				listing.count({
+	// 					$or: [{name: regex}, {zone:regex}, {type: regex}], 
+	// 						type: {$in: regexType}, 
+	// 						soldStatus: {$in: regexSold}, 
+	// 						archiveStatus: {$in: regexArchive}
+	// 						}).exec(function (err, count) {
+	// 				if(err){
+	// 					console.log(err);
+	// 					res.redirect("back");
+	// 				} else{	
+
+	// 					res.render("dashboards/listings/index.ejs", {
+	// 						listings:foundlisting,
+	// 						current: pageNumber,
+	// 						pages: Math.ceil(count / perPage),
+	// 						noMatch: noMatch,
+	// 						search: req.query.search,
+	// 						filterPropType: req.query.filterPropType,
+	// 						sort: req.query.sort,
+	// 						data: req.query,
+	// 					});
+	// 				}
+	// 			});
+	// 			});
+	// 		} else {
+	// 			listing.find({
+	// 				$or: [{name: regex}, {zone:regex}, {type: regex}]})
+	// 			.sort(sortOptions)
+	// 			.skip((perPage * pageNumber) - perPage)
+	// 			.limit(perPage)
+	// 			.populate("comments likes")
+	// 			.exec(function(err, foundlisting){
+	// 				listing.count({
+	// 					$or: [{name: regex}, {zone:regex}, {type: regex}]
+	// 						}).exec(function (err, count) {
+	// 				if(err){
+	// 					console.log(err);
+	// 					res.redirect("back");
+	// 				} else{	
+
+	// 					res.render("dashboards/listings/index.ejs", {
+	// 						listings:foundlisting,
+	// 						current: pageNumber,
+	// 						pages: Math.ceil(count / perPage),
+	// 						noMatch: noMatch,
+	// 						search: req.query.search,
+	// 						filterPropType: req.query.filterPropType,
+	// 						sort: req.query.sort,
+	// 						data: req.query,
+	// 					});
+	// 				}
+	// 			});
+	// 			});
+	// 		}
+	// 	}
+
+
+	// }  else if (req.query.sort) {
+	// 		// Sort object (to be passed into .sort)
+	// 		var sortOptions = {};
+	// 		// Sort options
+	// 		var sort = req.query.sort;
+	// 		if(sort == 'LowestPrice') {
+	// 			sortOptions.price = 1;
+	// 		}else if(sort == 'HighestPrice') {
+	// 			sortOptions.price = -1 ;
+	// 		}else if(sort == 'Recent') {
+	// 			sortOptions.createdAt = -1;
+	// 		}else if(sort == 'Oldest') {
+	// 			sortOptions.createdAt = 1;
+	// 		}else if(sort == 'Sold') {
+	// 			sortOptions.soldStatus = -1;
+	// 		}else if(sort == 'NotSold') {
+	// 			sortOptions.soldStatus = 1;
+	// 		}else if(sort == 'Archive') {
+	// 			sortOptions.archiveStatus = -1;
+	// 		}else if(sort == 'NotArchive') {
+	// 			sortOptions.archiveStatus = 1;
+	// 		}else if(sort == 'MostPop') {
+	// 			sortOptions.likes = -1;
+	// 		}else if(sort == 'LeastPop') {
+	// 			sortOptions.likes = 1;
+	// 		}
+
+	// 		//if no sort is selected
+	// 		if(Object.keys(sortOptions).length == 0) {
+	// 			sortOptions.createdAt = 1
+	// 		}
+
+	// 		if (req.query.filterPropType) {
+	// 			var filterPropType = req.query.filterPropType;
+	// 			var regexSold = [true, false];
+	// 			var regexArchive = [true, false];
+	// 			var regexType;
+	// 			var slcType = ['hdb', 'condo', 'landed']
+	// 			if(filterPropType == 'sold') {
+	// 				regexSold = [true];
+	// 			}else if(filterPropType == 'archive') {
+	// 				regexArchive = [true];
+	// 			}else if(filterPropType == 'hdb') {
+	// 				slcType = ['hdb'];
+	// 			}else if(filterPropType == 'condo') {
+	// 				slcType = ['condo'];
+	// 			}else if(filterPropType == 'landed') {
+	// 				slcType = ['landed'];
+	// 			}else if(filterPropType == 'all') {
+	// 				slcType = ['hdb', 'condo', 'landed'];
+	// 			}
+	// 			regexType = slcType.map(function(e){return new RegExp(e, "gi");});
+				
+	// 			//QUERY (for both dropdown)
+	// 			listing
+	// 			.find({$and: [{type: {$in: regexType}}, {soldStatus: {$in: regexSold}}, {archiveStatus: {$in: regexArchive}}]})
+	// 			.sort(sortOptions).skip((perPage * pageNumber) - perPage).limit(perPage).populate("comments likes").exec(function(err, foundlisting){
+	// 				listing.count({$and: [{type: {$in: regexType}}, {soldStatus: {$in: regexSold}}, {archiveStatus: {$in: regexArchive}}]}).exec(function (err, count) {
+	// 				if(err){
+	// 					console.log(err);
+	// 					res.redirect("back");
+	// 				} else{	
+	// 					res.render("dashboards/listings/index.ejs", {
+	// 						listings:foundlisting,
+	// 						current: pageNumber,
+	// 						pages: Math.ceil(count / perPage),
+	// 						noMatch: noMatch,
+	// 						search: req.query.search,
+	// 						filterPropType: req.query.filterPropType,
+	// 						sort: req.query.sort,
+	// 						data: req.query,
+	// 					});
+	// 				}
+	// 				});
+	// 			});
+	// 		} else {
+	// 			//QUERY (for sort only)
+	// 			// listing.find({
+	// 			//$and: [{type: {$in: regexType}}, {soldStatus: {$in: regexSold}}, {archiveStatus: {$in: regexArchive}}]})
+	// 			listing.find({})
+	// 			.sort(sortOptions).skip((perPage * pageNumber) - perPage).limit(perPage).populate("comments likes").exec(function(err, foundlisting){
+	// 				listing.count()
+	// 				.exec(function (err, count) {
+	// 				if(err){
+	// 					console.log(err);
+	// 					res.redirect("back");
+	// 				} else{
+	// 					res.render("dashboards/listings/index.ejs", {
+	// 						listings:foundlisting,
+	// 						current: pageNumber,
+	// 						pages: Math.ceil(count / perPage),
+	// 						noMatch: noMatch,
+	// 						search: req.query.search,
+	// 						filterPropType: req.query.filterPropType,
+	// 						sort: req.query.sort,
+	// 						data: req.query,
+	// 					});
+	// 				}
+	// 				});
+	// 			});
+	// 		}
+	// } else if (req.query.filterPropType) {
+	// 	var filterPropType = req.query.filterPropType;
+	// 	var regexSold = [true, false];
+	// 	var regexArchive = [true, false];
+	// 	var regexType;
+	// 	var slcType = ['hdb', 'condo', 'landed']
+	// 	if(filterPropType == 'sold') {
+	// 		regexSold = [true];
+	// 	}else if(filterPropType == 'archive') {
+	// 		regexArchive = [true];
+	// 	}else if(filterPropType == 'hdb') {
+	// 		slcType = ['hdb'];
+	// 	}else if(filterPropType == 'condo') {
+	// 		slcType = ['condo'];
+	// 	}else if(filterPropType == 'landed') {
+	// 		slcType = ['landed'];
+	// 	}else if(filterPropType == 'all') {
+	// 		slcType = ['hdb', 'condo', 'landed'];
+	// 	}
+	// 	regexType = slcType.map(function(e){return new RegExp(e, "gi");});
+		
+	// 	//no sort
+	// 	listing
+	// 	.find({$and: [{type: {$in: regexType}}, {soldStatus: {$in: regexSold}}, {archiveStatus: {$in: regexArchive}}]})
+	// 	.skip((perPage * pageNumber) - perPage).limit(perPage).populate("comments likes").exec(function(err, foundlisting){
+	// 		listing.count({$and: [{type: {$in: regexType}}, {soldStatus: {$in: regexSold}}, {archiveStatus: {$in: regexArchive}}]}).exec(function (err, count) {
+	// 		if(err){
+	// 			console.log(err);
+	// 			res.redirect("back");
+	// 		} else{	
+	// 			res.render("dashboards/listings/index.ejs", {
+	// 				listings:foundlisting,
+	// 				current: pageNumber,
+	// 				pages: Math.ceil(count / perPage),
+	// 				noMatch: noMatch,
+	// 				search: req.query.search,
+	// 				filterPropType: req.query.filterPropType,
+	// 				sort: req.query.sort,
+	// 				data: req.query,
+	// 			});
+	// 		}
+	// 		});
+	// 	});
+	// } else {
+	// 	listing.find({}).skip((perPage * pageNumber) - perPage).limit(perPage).populate("comments likes").exec(function(err, foundlisting){
+	// 		listing.count().exec(function (err, count) {
+	// 			if(err){
+	// 				console.log(err);
+	// 			} else{
+	// 				res.render("dashboards/listings/index.ejs", {
+	// 					listings:foundlisting,
+	// 					current: pageNumber,
+	// 					pages: Math.ceil(count / perPage),
+	// 					noMatch: noMatch,
+	// 					search: req.query.search,
+	// 					filterPropType: req.query.filterPropType,
+	// 					sort: req.query.sort,
+	// 					data: req.query,
+	// 				});
+	// 			}
+	// 		});
+	// 	});
+	// }
 });
 
 //Profile
@@ -1940,4 +2032,29 @@ router.put("/rejectAgent/:id", middleware.isAdmin, function(req, res){
 		});
 	});
 
+//Edit email Route from edit account
+router.get("/user/:id/editEmail", middleware.checkUserOwnership, function(req, res){
+	User.findById(req.params.id, function(err, foundUser){
+		if(err){
+			res.redirect("/user");
+		} else{
+			res.render("editEmail.ejs", {user: foundUser});
+		}
+	});
+});
+//Edit email
+router.put("/user/:id/editEmail", middleware.checkUserOwnership, function(req, res){
+	if(req.body.email != req.body.confirmEmail) {
+		req.flash("error", "Email does not match. Please try again.");
+		return res.redirect('back');
+	}
+	User.findByIdAndUpdate(req.params.id, { email: req.body.email }, function(err, foundUser){
+		if(err){
+			res.redirect("/user");
+		} else{
+			req.flash("success", "Email Updated.");
+			res.redirect('/user/'+foundUser._id);
+		}
+	});
+});
 module.exports = router;

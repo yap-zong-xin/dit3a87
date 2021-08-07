@@ -115,9 +115,7 @@ const getUser = (userId) => {
 };
 
 io.on("connection", (socket) => {
-  //when ceonnect
-
-
+  //when connect
 
   //take userId and socketId from user
   socket.on("addUser", (userId) => {
@@ -145,6 +143,9 @@ io.on("connection", (socket) => {
   });
 });
 
+app.get("*", function(req, res){ 
+	res.render("notFound.ejs"); 
+});
 
 server.listen(process.env.PORT || 3000, process.env.IP, function() { 
 	console.log('Server Has Started!'); 
