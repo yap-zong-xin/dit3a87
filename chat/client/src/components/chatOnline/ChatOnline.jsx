@@ -203,21 +203,23 @@ export default function ChatOnline({ currentId, conv }) {
       {user ? (
         <>
           <div>
-            <div className="userImg">
-              <img
-                className="chatOnlineImg"
-                src={
-                  user.image
-                }
-                alt=""
-                onClick={() => window.open("https://sap-dit3a87.herokuapp.com/user/" + user._id)}
-              />
-              <div className="userInfo">
-                <h1 className="display-6">{user.firstName} {user.lastName}</h1>
-                {(user.cea) && <p>Agent</p>}
-                {(!user.cea) && <p>Seeker</p>}
-              </div>
-            </div>
+            {user &&
+              <div className="userImg">
+                <img
+                  className="chatOnlineImg"
+                  src={
+                    user.image
+                  }
+                  alt=""
+                  onClick={() => window.open("https://sap-dit3a87.herokuapp.com/user/" + user._id)}
+                />
+                <div className="userInfo">
+                  <h1 className="display-6">{user.firstName} {user.lastName}</h1>
+                  {(user.cea) && <p>Agent</p>}
+                  {(!user.cea) && <p>Seeker</p>}
+                </div>
+              </div>}
+
 
 
             <div className="offerInfo">
