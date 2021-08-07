@@ -203,7 +203,7 @@ export default function ChatOnline({ currentId, conv }) {
       {user ? (
         <>
           <div>
-            {user &&
+            {(user !==null) &&
               <div className="userImg">
                 <img
                   className="chatOnlineImg"
