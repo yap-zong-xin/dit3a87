@@ -26,6 +26,12 @@
   position: relative;
 }
 
+.home {
+  width:30px;
+  height:30px;
+  float:right;
+}
+
 .chatBoxTop {
   height: 100%;
   overflow-y: scroll;

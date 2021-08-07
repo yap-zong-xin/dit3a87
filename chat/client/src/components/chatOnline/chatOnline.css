@@ -27,6 +27,7 @@
   object-fit: cover;
   border: 1px solid white;
   margin-right: 20px;
+  float:left
 }
 .listingImg {
   width: 50px;
@@ -36,11 +37,14 @@
   border: 1px solid white;
   float:left;
 }
-
-.userInfo {
-  float:left;
-  margin-right: 200px;
+.listingInfo {
+  float:right;
 }
+
+.reviewBtn {
+  float:right;
+}
+
 
 
 .chatOnlineBadge {
@@ -54,9 +58,7 @@
 }
 
 
-/* .offerButton {
-margin-left: 10px
-} */
+
 
 .sign {
   float:left;
@@ -64,8 +66,13 @@ margin-left: 10px
 .inputBox {
   width: 25%;
 }
-.offerInput {
-  margin-top: 10px;
+
+.offerInfo {
+float:left;
+}
+.OfferForm {
+  width:auto;
+float:right;
 }
 
 .acceptBtn {
