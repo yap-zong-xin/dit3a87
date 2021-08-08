@@ -122,6 +122,7 @@
                                 propTypeArr.push(data.filterPropType);
                               %>
                               <select class="custom-select" name="filterPropType" id="filterPropType">
+                                  <option></option>
                                   <!-- <option id="placeholder" name="placeholder" value="placeholder" selected hidden>Property Type</option> -->
                                   <option id="any" name="allType" value="allType" <% if(propTypeArr.includes('allType')) {%> selected <%} %>>All</option>
                                   <option id="hdb" name="hdbType" value="hdb" <% if(propTypeArr.includes('hdb')) {%> selected <%} %>>HDB</option>
@@ -212,7 +213,37 @@
                   <span><%= listing.zone %></span>
                 </td>
                 <td class="pt-4" onclick="window.location='/listings/<%= listing._id %>';">
-                  <span><%= listing.type %></span>
+                  <span>
+                    <% if (listing.type == "hdb") { %>
+                      <span style="font-size: 1em;">
+                        HDB
+                      </span>
+                    <% } else if (listing.type == "condo") { %>
+                      <span style="font-size: 1em;">
+                        Condo
+                      </span>
+                    <% } else if (listing.type == "landed") { %>
+                      <span style="font-size: 1em;">
+                        Landed
+                      </span>
+                    <% } else if (listing.type == "executivecondo") { %>
+                      <span style="font-size: 1em;">
+                        Exe. Condo
+                      </span>
+                    <% } else if (listing.type == "terrace") { %>
+                      <span style="font-size: 1em;">
+                        Terrace
+                      </span>
+                    <% } else if (listing.type == "semidetached") { %>
+                      <span style="font-size: 1em;">
+                        Semi-Detached
+                      </span>
+                    <% } else if (listing.type == "detached") { %>
+                      <span style="font-size: 1em;">
+                        Detached
+                      </span>
+                    <% } %>
+                  </span>
                 </td>
                 <td class="pt-4" onclick="window.location='/listings/<%= listing._id %>';">
                   <% if(listing.archiveStatus==true){ %>

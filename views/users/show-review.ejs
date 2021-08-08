@@ -781,7 +781,7 @@
               <% } else { %>
                 <div class="row px-2">
                   <% user.reviews.forEach(function(review){ %>
-                      <div class="col-12">
+                      <div class="col-12 mb-2">
                         <div class="row">
                           <div class="col-3 col-md-2 text-center">
                             <a href="/user/<%= review.author.id %>">
@@ -789,7 +789,7 @@
                                 style="width: 60px; height: 60px; border-radius: 50%; border: 1px solid gray; object-fit: cover;">
                             </a>
                           </div>
-                          <div class="col-9 col-md-10" style="margin-top: 12px;">
+                          <div class="col-9 col-md-10">
                             <div class="row">
                               <div class="col-8 px-0">
                                 <p class="mb-0">
