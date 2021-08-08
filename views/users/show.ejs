@@ -326,6 +326,14 @@
           </a>
         </div>
         <div class="col-4 forth my-2 justify-content-center d-flex align-items-center">
+          <a href="" class="p-0" data-toggle="modal" data-target="#followingTarget">
+            <span>
+              <%= allFollowing.length %>
+              <br class="d-lg-none">Following
+            </span>
+          </a>
+        </div>
+        <!-- <div class="col-4 forth my-2 justify-content-center d-flex align-items-center">
           <a href="" class="p-0" data-toggle="modal" data-target="#followerTarget">
             <span>
               <%= allFollowers.length %>
@@ -337,7 +345,7 @@
                   <% } %>
             </span>
           </a>
-        </div>
+        </div> -->
       <% } else if(user.isAdmin || user.isAgent) { %>
         <div class="col-4 first my-2 justify-content-center d-flex align-items-center">
           <a href="/user/<%= user._id %>">
@@ -1213,6 +1221,49 @@
                   <div class="col-7">
                     <a href="/user/<%= followers._id %>" style="color: black">
                       <%= followers.username %>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            <% }); %>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Following Modal -->
+  <div class="modal fade" id="followingTarget" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="justify-content-between align-items-center d-flex border-bottom">
+          <div class="py-4"></div>
+          <div>
+            <p class="modal-title pl-5" id="exampleModalLongTitle">Following</p>
+          </div>
+          <div>
+            <button type="button" class="close mr-3" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        </div>
+        <div class="modal-body">
+          <% if(!allFollowing){ %>
+            <p>
+              <em>No followers found.</em>
+            </p>
+          <% } else { %>
+            <% allFollowing.reverse().forEach(function(following, index) { %>
+              <div>
+                <div class="row align-items-center d-flex mb-3">
+                  <div class="col-2">
+                    <a href="/user/<%= following._id %>">
+                      <img src="<%= following.image %>"
+                        style="width:60px; border: 1px solid gray; border-radius: 50%; object-fit: cover;">
+                    </a>
+                  </div>
+                  <div class="col-7">
+                    <a href="/user/<%= following._id %>" style="color: black">
+                      <%= following.username %>
                     </a>
                   </div>
                 </div>
