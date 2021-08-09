@@ -409,10 +409,14 @@
       function deleteItem(id) {
         var thumbnailFile = document.getElementById("thumbnailFile");
         var galleryFileArray = document.getElementById("galleryFileArray");
+        var thumbnailGallery = document.getElementById("thumbnail-gallery");
         var list = new DataTransfer();
         var newList = new DataTransfer();
+        var emptyThumbList = new DataTransfer();
+        var emptyGalleryList = new DataTransfer();
         //add thumbnail into list
         for(let i=0; i<thumbnailFile.files.length; i++) {
+          emptyThumbList.items.add(thumbnailFile.files[i])
           list.items.add(thumbnailFile.files[i])
         }
         //add gallery into list
@@ -424,8 +428,18 @@
           if(i != id) {
             newList.items.add(list.files[i]);
           }
-        }    
-        handleGalleryFiles(newList.files);
+        }   
+        if(galleryFileArray.files.length == 0) {
+          galleryFileArray.files = emptyGalleryList.files;
+          thumbnailFile.files = emptyGalleryList.files;
+          handleGalleryFiles(emptyGalleryList.files);
+        }else if(galleryFileArray.files.length < 2) {
+          console.log('emptyThumbList.files: ', emptyThumbList.files)
+          galleryFileArray.files = emptyGalleryList.files;
+          handleGalleryFiles(emptyThumbList.files);
+        }else {
+          handleGalleryFiles(newList.files);
+        }
       }
       function handleDrop(e) {
         var dt = e.dataTransfer
@@ -434,11 +448,13 @@
       }
       function handleGalleryFiles(files) {
         files = [...files];
+        console.log('file array: ', files);
         document.getElementById("drop-area").style.display = "none"
         document.getElementById("add-drop-area").style.display = "block"
         document.getElementById("thumbnail-drop-area").style.display = "block"
         document.getElementById("upldForm-form").style.display = "block"
         updateAllFiles(files);
+        updateMediaCount();
       }
 
       function updateAllFiles(files) {
@@ -447,7 +463,9 @@
         var galleryFileArray = document.getElementById("galleryFileArray");
         var completeGallery = document.getElementById('completeGallery')
         //remove the previous images
-        thumbnailGallery.removeChild(thumbnailGallery.children[0])
+        if(thumbnailGallery.children[0]) {
+          thumbnailGallery.removeChild(thumbnailGallery.children[0])
+        }
         while(completeGallery.childNodes.length > 2) {
           // completeGallery.removeChild(document.getElementsByClassName("listingImage").parentNode);
           completeGallery.removeChild(completeGallery.lastChild)
@@ -456,8 +474,11 @@
         var list = new DataTransfer();
         var thumbnailList = new DataTransfer(); 
         console.log('files.length: ', files.length)
+        var firstImage = 0;
         for(let i=0; i<files.length; i++) {
-          if(i==0) {
+          if(files[i].type.includes("image") && firstImage == 0) {
+            console.log('1')
+            firstImage++;
             //update first into thumbnail file input
             thumbnailList.items.add(files[i])
             thumbnailFile.files = thumbnailList.files;
@@ -489,6 +510,7 @@
               thumbnailGallery.appendChild(imgDiv);
             }
           }else {
+            console.log('2')
             list.items.add(files[i])
             //update other files into galleryFileArray input
             galleryFileArray.files = list.files;
@@ -561,6 +583,21 @@
         }
       }
 
+      function updateMediaCount() {
+        var thumbnailFile = document.getElementById("thumbnailFile");
+        var galleryFileArray = document.getElementById("galleryFileArray");
+        var list = new DataTransfer();
+        //add thumbnail into list
+        for(let i=0; i<thumbnailFile.files.length; i++) {
+          list.items.add(thumbnailFile.files[i])
+        }
+        //add gallery into list
+        for(let i=0; i<galleryFileArray.files.length; i++) {
+          list.items.add(galleryFileArray.files[i])
+        }   
+        console.log('count file length: ',  list.files.length)
+        document.getElementById("listGalleryCount").innerHTML = "(" + list.files.length + " Media Uploaded)"
+      }
     </script>
     <script>
       //2ND drop area: event listeners + prevent defaults + drag/drop + highlight/unhighlight 
@@ -604,14 +641,14 @@
         for(let i=0; i<thumbnailFile.files.length; i++) {
           list.items.add(thumbnailFile.files[i])
         }
-        //add gallery into list
-        for(let i=0; i<galleryFileArray.files.length; i++) {
-          list.items.add(galleryFileArray.files[i])
-        }        
         //add files into list
         for(let i=0; i<files.length; i++) {
           list.items.add(files[i])
-        }   
+        }  
+        //add gallery into list
+        for(let i=0; i<galleryFileArray.files.length; i++) {
+          list.items.add(galleryFileArray.files[i])
+        }         
         handleGalleryFiles(list.files);
       }
     </script>
@@ -813,6 +850,7 @@
           list.items.add(galleryFileArray.files[i])
         }        
         handleGalleryFiles(list.files);
+        
       }
       // function updateThumbnail(files) {
       //   var thumbnailFile = document.getElementById("thumbnailFile");
@@ -1751,13 +1789,6 @@ function deletePrevItem(i) {
 
 }
 </script> -->
-<script>
-  function updateMediaCount() {
-    var filePreviewCount = document.getElementById("completeGallery").children.length;
-    document.getElementById('listGalleryCount').innerHTML = "("+filePreviewCount+" Media Uploaded)"
-    console.log('coresadJ: ', filePreviewCount)
-  }
-</script>
 
 <footer class="container-fluid mt-5 "id="footer" style="background-color: #292b2c; color: white">
 </footer>

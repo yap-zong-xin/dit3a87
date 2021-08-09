@@ -513,6 +513,7 @@ router.post("/listings", middleware.isAdminAgent, uploadMultiple, async function
 		newlisting.security = true;
 	}
 	try {
+		try {
 			var geoData = await geocodingClient.forwardGeocode({
 				query: location,
 				autocomplete: false,
@@ -521,6 +522,11 @@ router.post("/listings", middleware.isAdminAgent, uploadMultiple, async function
 		  .send();
 			newlisting.geometry = geoData.body.features[0].geometry;
 			// console.log(newlisting.geometry);
+		}catch(err) {
+			console.log('geometry error: ',err.message);
+			req.flash("error", "Postal code not found.");
+			return res.redirect('back');
+		}
 
 			//1 thumbnailFile image upload to cloudinary
 			var thumbnailUpload = await uploadToCloudinary(listingThumbnail[0].path, { resource_type: "auto" });
