@@ -3589,3 +3589,109 @@ footer {
     width: 325%;
   }
 }
+
+/* review */
+@import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
+.reviewContainer{
+  position: relative;
+  width: 400px;
+  background: #111;
+  padding: 20px 30px;
+  border: 1px solid #444;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-top: 70px;
+}
+.reviewContainer .post{
+  display: none;
+}
+.reviewContainer .text{
+  font-size: 25px;
+  color: #666;
+  font-weight: 500;
+}
+.reviewContainer .edit{
+  position: absolute;
+  right: 10px;
+  top: 5px;
+  font-size: 16px;
+  color: #666;
+  font-weight: 500;
+  cursor: pointer;
+}
+.reviewContainer .edit:hover{
+  text-decoration: underline;
+}
+.reviewContainer .star-widget input{
+  display: none;
+}
+.reviewContainer .star-widget label{
+  font-size: 40px;
+  color: #444;
+  padding: 10px;
+  float: right;
+  transition: all 0.2s ease;
+}
+.reviewContainer input:not(:checked) ~ label:hover,
+.reviewContainer input:not(:checked) ~ label:hover ~ label{
+  color: #fd4;
+}
+.reviewContainer input:checked ~ label{
+  color: #fd4;
+}
+.reviewContainer input#rate-5:checked ~ label{
+  color: #fe7;
+  text-shadow: 0 0 20px #952;
+}
+.reviewContainer #rate-1:checked ~ .formTag header:before{
+  content: "Worst Experience";
+}
+.reviewContainer #rate-2:checked ~ .formTag header:before{
+  content: "Bad Experience";
+}
+.reviewContainer #rate-3:checked ~ .formTag header:before{
+  content: "Average Service ";
+}
+.reviewContainer #rate-4:checked ~ .formTag header:before{
+  content: "Good Service ";
+}
+.reviewContainer #rate-5:checked ~ .formTag header:before{
+  content: "Highly Recommend";
+}
+.reviewContainer .formTag{
+  display: none;
+}
+.reviewContainer input:checked ~ .formTag{
+  display: block;
+}
+.reviewContainer .formTag header{
+  width: 100%;
+  font-size: 1.3em;
+  color: #fe7;
+  font-weight: 500;
+  margin: 5px 0 20px 0;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+.reviewContainer .formTag .textarea{
+  height: 140px;
+  width: 100%;
+  overflow: hidden;
+}
+.reviewContainer .formTag .textarea textarea{
+  height: 100%;
+  width: 100%;
+  outline: none;
+  color: black;
+  border: 1px solid #333;
+  background: #F8F9FA;
+  padding: 10px;
+  font-size: 17px;
+  resize: none;
+}
+.reviewContainer .textarea textarea:focus{
+  border-color: #444;
+}

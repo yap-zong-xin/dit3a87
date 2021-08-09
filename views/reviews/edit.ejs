@@ -1,42 +1,52 @@
 <%- include("../partials/header") %>
 
-<div class="container" style="margin-top: 35px;">
-  <div class="row">
-    <div class="col-12">
-      <div class="reviewForm">
-        <form action="/user/<%= user_id %>/reviews/<%= review._id %>?_method=PUT" method="POST">
-          <div class="row">
-            <div class="col-12">
-              <div class="star-widget text-center">
-                <input type="radio"  name="review[rating]" value="5" <% if (review.rating === 5) { %> checked <% } %> id="rate-5">
-                <label for="rate-5" class="fas fa-star"></label>
-                <input type="radio"  name="review[rating]" value="4" <% if (review.rating === 4) { %> checked <% } %> id="rate-4">
-                <label for="rate-4" class="fas fa-star"></label>
-                <input type="radio"  name="review[rating]" value="3" <% if (review.rating === 3) { %> checked <% } %> id="rate-3">
-                <label for="rate-3" class="fas fa-star"></label>
-                <input type="radio"  name="review[rating]" value="2" <% if (review.rating === 2) { %> checked <% } %> id="rate-2">
-                <label for="rate-2" class="fas fa-star"></label>
-                <input type="radio"  name="review[rating]" value="1" <% if (review.rating === 1) { %> checked <% } %> id="rate-1">
-                <label for="rate-1" class="fas fa-star"></label>
-                <div action="#">
-                  <header id="reviewWord" style="margin-left:240px; padding-top:90px;"></header>
-                </div>
-              </div>
+  <div class="container reviewContainer">
+    <div class="star-widget">
+      <form action="/user/<%= user_id %>/reviews/<%= review._id %>?_method=PUT" method="POST">
+        <input type="radio" name="review[rating]" value="5" <% if (review.rating === 5) { %> checked <% } %> id="rate-5">
+        <label for="rate-5" class="fas fa-star mb-0"></label>
+        <input type="radio" name="review[rating]" value="4" <% if (review.rating === 4) { %> checked <% } %> id="rate-4">
+        <label for="rate-4" class="fas fa-star mb-0"></label>
+        <input type="radio" name="review[rating]" value="3" <% if (review.rating === 3) { %> checked <% } %> id="rate-3">
+        <label for="rate-3" class="fas fa-star mb-0"></label>
+        <input type="radio" name="review[rating]" value="2" <% if (review.rating === 2) { %> checked <% } %> id="rate-2">
+        <label for="rate-2" class="fas fa-star mb-0"></label>
+        <input type="radio" name="review[rating]" value="1" <% if (review.rating === 1) { %> checked <% } %> id="rate-1">
+        <label for="rate-1" class="fas fa-star mb-0"></label>
+        
+        <div class="formTag">
+          <header></header>
+          <div class="textarea">
+            <textarea cols="30" name="review[text]" placeholder="Describe your experience.."><%= review.text %></textarea>
+          </div>
+          <div class="row" style="margin-bottom: 40px;">
+            <div class="col-6 pr-0">
+              <button class="mt-2 btn btn-info form-control rounded-0 border-0" type="submit" style="font-weight:500;">Post</button>
+            </div>
+            <div class="col-6 pl-0">
+              <a class="mt-2 btn btn-light form-control rounded-0 border-0" href="/user/<%= user_id %>/reviews">Return</a>
             </div>
           </div>
-          <div class="form-group">
-            <textarea class="form-control" type="text" name="review[text]" placeholder="Write a review for this review..." rows="5"><%= review.text %></textarea>
-          </div>
-          <div class="form-group">
-              <button class="btn btn-primary btn-block">Submit a Review</button>
-          </div>
-        </form>
-        <a href="/user/<%= user_id %>">Go Back</a>
-      </div>
+        </div>
+      </form>
     </div>
+
   </div>
-</div>
-  
+  <script>
+    const btn = document.querySelector("button");
+    const post = document.querySelector(".post");
+    const widget = document.querySelector(".star-widget");
+    const editBtn = document.querySelector(".edit");
+    btn.onclick = ()=>{
+      widget.style.display = "none";
+      post.style.display = "block";
+      editBtn.onclick = ()=>{
+        widget.style.display = "block";
+        post.style.display = "none";
+      }
+      return false;
+    }
+  </script>
 
   <script src="https://use.fontawesome.com/releases/v5.15.3/js/all.js" data-auto-replace-svg="nest"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>

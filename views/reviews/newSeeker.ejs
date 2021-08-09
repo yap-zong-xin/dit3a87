@@ -1,59 +1,112 @@
 <%- include("../partials/header") %>
 
-  <div class="container" style="margin-top: 35px;">
-    <p>NEW EJS</p>
-    <div class="row">
-      <h1 style="text-align: center">New Review: <%= user.name %>
-      </h1>
-      <div style="width: 30%; margin: 25px auto;">
-        <form action="/user/<%= user._id %>/reviews/seeker" method="POST">
-          <div class="form-group">
-            <label for="rating">Leave a rating:</label>
-            <fieldset class="starability-basic form-group" id="rating">
-              <div>
-                <input type="radio" id="first-rate5" name="review[rating]" value="5" checked />
-                <label for="first-rate5" title="5 stars - Amazing">
-                  <%- '<span class="fa fa-star checked"></span>' .repeat(5) %>
-                </label>
-              </div>
-              <div>
-                <input type="radio" id="first-rate4" name="review[rating]" value="4" />
-                <label for="first-rate4" title="4 stars - Very good">
-                  <%- '<span class="fa fa-star checked"></span>' .repeat(4) %>
-                </label>
-              </div>
-              <div>
-                <input type="radio" id="first-rate3" name="review[rating]" value="3" />
-                <label for="first-rate3" title="3 stars - Average">
-                  <%- '<span class="fa fa-star checked"></span>' .repeat(3) %>
-                </label>
-              </div>
-              <div>
-                <input type="radio" id="first-rate2" name="review[rating]" value="2" />
-                <label for="first-rate2" title="2 stars - Not good">
-                  <%- '<span class="fa fa-star checked"></span>' .repeat(2) %>
-                </label>
-              </div>
-              <div>
-                <input type="radio" id="first-rate1" name="review[rating]" value="1" />
-                <label for="first-rate1" title="1 star - Terrible">
-                  <%- '<span class="fa fa-star checked"></span>' .repeat(1) %>
-                </label>
-              </div>
-
-            </fieldset>
+  <div class="container reviewContainer">
+    <div class="star-widget">
+      <form action="/user/<%= user._id %>/reviews/seeker" method="POST">
+        <input type="radio" name="review[rating]" value="5" id="rate-5">
+        <label for="rate-5" class="fas fa-star mb-0"></label>
+        <input type="radio" name="review[rating]" value="4" id="rate-4">
+        <label for="rate-4" class="fas fa-star mb-0"></label>
+        <input type="radio" name="review[rating]" value="3" id="rate-3">
+        <label for="rate-3" class="fas fa-star mb-0"></label>
+        <input type="radio" name="review[rating]" value="2" id="rate-2">
+        <label for="rate-2" class="fas fa-star mb-0"></label>
+        <input type="radio" name="review[rating]" value="1" id="rate-1">
+        <label for="rate-1" class="fas fa-star mb-0"></label>
+        
+        <div class="formTag">
+          <header></header>
+          <div class="textarea">
+            <textarea cols="30" name="review[text]" placeholder="Describe your experience.."></textarea>
           </div>
-          <div class="form-group">
-            <textarea class="form-control" type="text" name="review[text]" placeholder="Write a review for this user..."
-              rows="5"></textarea>
+          <div class="row" style="margin-bottom: 40px;">
+            <div class="col-6 pr-0">
+              <button class="mt-2 btn btn-info form-control rounded-0 border-0" type="submit" style="font-weight:500;">Post</button>
+            </div>
+            <div class="col-6 pl-0">
+              <a class="mt-2 btn btn-light form-control rounded-0 border-0" href="/user/<%= user._id %>">Return</a>
+            </div>
           </div>
-          <div class="form-group">
-            <button class="btn btn-primary btn-block">Submit a Review</button>
-          </div>
-        </form>
-        <a href="/user/<%= user._id %>">Go Back</a>
-      </div>
+        </div>
+      </form>
     </div>
   </div>
 
-  <%- include("../partials/footer") %>
+  <script>
+    const btn = document.querySelector("button");
+    const post = document.querySelector(".post");
+    const widget = document.querySelector(".star-widget");
+    const editBtn = document.querySelector(".edit");
+    btn.onclick = ()=>{
+      widget.style.display = "none";
+      post.style.display = "block";
+      editBtn.onclick = ()=>{
+        widget.style.display = "block";
+        post.style.display = "none";
+      }
+      return false;
+    }
+  </script>
+  <script src="https://use.fontawesome.com/releases/v5.15.3/js/all.js" data-auto-replace-svg="nest"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+    integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="/javascripts/owl.carousel.min.js"></script>
+  <script src="/javascripts/jquer.js"></script>
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script>
+  <script>
+    $(window).on('load', function(){
+      $(".loader").fadeOut(1000);
+  });
+  </script>
+  <script>
+    function sortTableByColumn(table, column, asc = true) {
+        const dirModifier = asc ? 1 : -1;
+        const tBody = table.tBodies[0];
+        const rows = Array.from(tBody.querySelectorAll("tr"));
+  
+        // Sort each row
+        const sortedRows = rows.sort((a, b) => {
+            const aColText = a.querySelector(`td:nth-child(${ column + 1 })`).textContent.trim();
+            const bColText = b.querySelector(`td:nth-child(${ column + 1 })`).textContent.trim();
+  
+            return aColText > bColText ? (1 * dirModifier) : (-1 * dirModifier);
+        });
+  
+        // Remove all existing TRs from the table
+        while (tBody.firstChild) {
+            tBody.removeChild(tBody.firstChild);
+        }
+  
+        // Re-add the newly sorted rows
+        tBody.append(...sortedRows);
+  
+        // Remember how the column is currently sorted
+        table.querySelectorAll("th").forEach(th => th.classList.remove("th-sort-asc", "th-sort-desc"));
+        table.querySelector(`th:nth-child(${ column + 1})`).classList.toggle("th-sort-asc", asc);
+        table.querySelector(`th:nth-child(${ column + 1})`).classList.toggle("th-sort-desc", !asc);
+    }
+  
+    document.querySelectorAll(".table-sortable th").forEach(headerCell => {
+        headerCell.addEventListener("click", () => {
+            const tableElement = headerCell.parentElement.parentElement.parentElement;
+            const headerIndex = Array.prototype.indexOf.call(headerCell.parentElement.children, headerCell);
+            const currentIsAscending = headerCell.classList.contains("th-sort-asc");
+  
+            sortTableByColumn(tableElement, headerIndex, !currentIsAscending);
+        });
+    });
+  </script>
+  <script>
+    AOS.init();
+  </script>
+  </body>
+  
+  </html>

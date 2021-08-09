@@ -781,7 +781,7 @@
               <% } else { %>
                 <div class="row px-2">
                   <% user.reviews.forEach(function(review){ %>
-                      <div class="col-12 mb-2">
+                      <div class="col-12 mb-3">
                         <div class="row">
                           <div class="col-3 col-md-2 text-center">
                             <a href="/user/<%= review.author.id %>">
@@ -827,7 +827,7 @@
                               </div>
                             </div>
                           </div>
-                          <div class="offset-3 col-9 offset-md-2 col-md-10 mt-2 px-0">
+                          <div class="offset-3 col-9 offset-md-2 col-md-10 px-0">
                             <p style="text-align: justify; white-space: pre-wrap;" class="mb-0"><%=review.text%></p>
                           </div>
                         </div>
