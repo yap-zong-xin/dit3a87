@@ -37,12 +37,32 @@
   border: 1px solid white;
   float:left;
 }
+
+.userI {
+padding-top:10px;
+padding-left:10px;
+width: 100%;
+border-bottom-style: solid;
+border-bottom-color: #BCBCBC;
+border-width: thin;
+border-left-style: solid;
+border-left-color: #BCBCBC;
+}
+
+
+
 .listingInfo {
-  float:right;
+  float:left;
+  width:90%;
 }
 
 .reviewBtn {
   float:right;
+  margin-bottom: 10px;
+}
+
+.acceptRejectBtn {
+  margin-bottom: 10px;
 }
 
 
@@ -68,17 +88,57 @@
 }
 
 .offerInfo {
+  padding-top:10px;
+  padding-left:10px;
 float:left;
+border-left-style: solid;
+border-left-color: #BCBCBC;
+border-width: thin;
+width:100%;
+}
+
+.offerInput {
+  padding-bottom:10px;
 }
 .OfferForm {
   width:auto;
 float:right;
+padding-right:10px
+
+}
+
+.AgentOfferStatus{
+  float:right;
 }
 
 .acceptBtn {
-  margin-left: 20px;
-  margin-right: 20px;
+  background-color:#003580!important;
+  padding-bottom:10px;
+  border-radius:50%;
+  margin-bottom:10px;
+
 }
+
+.acceptMessage {
+  color: green
+}
+.rejectBtn {
+  margin-bottom:10px;
+  background-color: #e7e7e7!important;
+  float:right;
+  color:black!important;
+}
+
+.offerStatus {
+  font-family:"Courier New", sans-serif;
+  margin-bottom: -10px;
+}
+
+.offerButton {
+  background-color: #003580!important;
+}
+
+
 
 
 

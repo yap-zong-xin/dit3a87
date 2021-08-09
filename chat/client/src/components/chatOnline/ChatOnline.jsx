@@ -63,10 +63,10 @@ export default function ChatOnline({ currentId, conv }) {
 
   function AgentOfferStatus() {
     return (
-      <div>
+      <div className="acceptRejectBtn">
 
-        <Button color="success" className="acceptBtn" onClick={() => { acceptOffer() }}>Accept</Button>
-        <Button color="danger" onClick={() => { rejectOffer() }}>Reject</Button>
+        <Button className="acceptBtn" onClick={() => { acceptOffer() }}>Accept</Button>
+        <Button className="rejectBtn" onClick={() => { rejectOffer() }}>Reject</Button>
       </div>
     )
   }
@@ -104,15 +104,21 @@ export default function ChatOnline({ currentId, conv }) {
           alt="" />
         <div className="listingInfo">
           <p>   {listing.name}</p>
-          {(offerStatus === "accepted") && <p className="text-success">You accepted this Offer</p>}
-          {(offerStatus === "rejected") && <p className="text-danger">You rejected this Offer</p>}
-          {(offerStatus !== undefined) && <OfferAmount></OfferAmount>}
-          {(offerStatus === "pending") && <AgentOfferStatus></AgentOfferStatus>}
+          <div className="offerStatus">
+          {(offerStatus === "accepted") && <p className="text-success">ACCEPTED</p>}
+          {(offerStatus === "rejected") && <p className="text-danger">REJECTED</p>}
+          </div>
+          <div className="AgentOfferStatus">
+            {(offerStatus !== undefined) && <OfferAmount></OfferAmount>}
+            {(offerStatus === "pending") && <AgentOfferStatus></AgentOfferStatus>}
+            {(offerStatus === "accepted") && <Button className="rejectBtn" onClick={() => { rejectOffer() }}>Cancel Offer</Button>}
+          {(offerStatus === "rejected") && <Button className="acceptBtn" onClick={() => { acceptOffer() }}>Accept</Button>}
+          </div>
 
-          {(offerStatus === "accepted") && <Button color="danger" onClick={() => { rejectOffer() }}>Cancel</Button>}
-          {(offerStatus === "rejected") && <Button color="success" onClick={() => { acceptOffer() }}>Accept</Button>}
+
 
         </div>
+
 
       </div>
     )
@@ -126,8 +132,10 @@ export default function ChatOnline({ currentId, conv }) {
         <div className="listingInfo">
           <p>{listing.name}</p>
 
-          {(offerStatus === "accepted") && <p className="text-success">Accepted</p>}
-          {(offerStatus === "rejected") && <p className="text-danger">Rejected</p>}
+          <div className="offerStatus">
+            {(offerStatus === "accepted") && <p className="text-success">ACCEPTED</p>}
+            {(offerStatus === "rejected") && <p className="text-danger">REJECTED</p>}
+          </div>
           {(offerStatus === "accepted") && <OfferAmount></OfferAmount>}
           {(offerStatus === "accepted") && <Button className="reviewBtn" onClick={() => window.open("https://sap-dit3a87.herokuapp.com/user/" + user._id + "/reviews/new")}>Leave Review</Button>}
         </div>
@@ -204,7 +212,7 @@ export default function ChatOnline({ currentId, conv }) {
         <>
           <div>
             {user &&
-              <div className="userImg">
+              <div className="userI">
                 <img
                   className="chatOnlineImg"
                   src={
@@ -221,14 +229,13 @@ export default function ChatOnline({ currentId, conv }) {
               </div>}
 
 
+            {
+              listing &&
+              <div className="offerInfo">
+                {(listing && !user.cea) && <AgentOfferInfo></AgentOfferInfo>}
+                {(listing && user.cea) && <ListingInfo></ListingInfo>}
 
-            <div className="offerInfo">
-              {(listing && !user.cea) && <AgentOfferInfo></AgentOfferInfo>}
-              {(listing && user.cea) && <ListingInfo></ListingInfo>}
-            </div>
-
-
-            {(listing && user.cea && offerStatus !== "accepted") &&
+                {(listing && user.cea && offerStatus !== "accepted") &&
               <div className="OfferForm">
                 {(offerStatus !== undefined) && <OfferAmount></OfferAmount>}
                 <Form>
@@ -239,11 +246,16 @@ export default function ChatOnline({ currentId, conv }) {
                       {(offerStatus === undefined) && <Button className="offerButton" onClick={submitOffer}>Make Offer</Button>}
                       {(offerStatus === "pending") && <Button className="offerButton" onClick={submitOffer}>Edit Offer</Button>}
                       {(offerStatus === "accepted") && <Button className="offerButton" onClick={submitOffer}>Edit Offer</Button>}
-                      {(offerStatus === "rejected") && <Button onClick={submitOffer}>Make New Offer</Button>}
+                      {(offerStatus === "rejected") && <Button className="offerButton" onClick={submitOffer}>Make New Offer</Button>}
                     </InputGroup>
                   </div>
                 </Form>
               </div>}
+              </div>
+            }
+
+
+
 
           </div>
         </>
