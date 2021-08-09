@@ -112,7 +112,7 @@ export default function ChatOnline({ currentId, conv }) {
             {(offerStatus !== undefined) && <OfferAmount></OfferAmount>}
             {(offerStatus === "pending") && <AgentOfferStatus></AgentOfferStatus>}
             {(offerStatus === "accepted") && <Button className="rejectBtn" onClick={() => { rejectOffer() }}>Cancel Offer</Button>}
-          {(offerStatus === "rejected") && <Button className="acceptBtn" onClick={() => { acceptOffer() }}>Accept</Button>}
+          {(offerStatus === "rejected") && <Button className="acceptBtn" onClick={() => { acceptOffer() }}>Accept Offer</Button>}
           </div>
 
 
