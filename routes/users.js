@@ -879,11 +879,14 @@ router.get("/dashboard/listings", middleware.isAdmin, function(req,res){
 	var pageNumber = pageQuery ? pageQuery : 1;
 	var noMatch = null;
 
-	if(req.query.Apply) {
+	if(req.query.Apply || req.query.page) {
 		console.log('1')
 		console.log('wqer: ', typeof req.query.search)
+		if(req.query.search) {
+			const regex = new RegExp(escapeRegex(req.query.search), 'gi');
+		}
 		//Search 
-		const regex = new RegExp(escapeRegex(req.query.search), 'gi');
+		// const regex = new RegExp(escapeRegex(req.query.search), 'gi');
 
 		//Sort
 		// Sort object (to be passed into .sort)
@@ -927,25 +930,47 @@ router.get("/dashboard/listings", middleware.isAdmin, function(req,res){
 		regexType = propTypeArr;
 		// regexType = propTypeArr.map(function(e){return new RegExp(e, "gi");});
 
-		//Query
-		listing.find({$and: [ {$or: [ {name: regex}, {description: regex}, {"author.username":regex} ]}, {type: {$in: regexType}}]}).sort(sortOptions).skip((perPage * pageNumber) - perPage).limit(perPage).populate('author.id').populate("comments likes").exec(function(err, foundlisting){
-			listing.count({$and: [ {$or: [ {name: regex}, {description: regex}, {"author.username":regex} ]}, {type: {$in: regexType}}]}).exec(function (err, count) {
-				if(err){
-					console.log(err);
-				} else{
-					res.render("dashboards/listings/index.ejs", {
-						listings:foundlisting,
-						current: pageNumber,
-						pages: Math.ceil(count / perPage),
-						noMatch: noMatch,
-						search: req.query.search,
-						filterPropType: req.query.filterPropType,
-						sort: req.query.sort,
-						data: req.query,
-					});
-				}
+		if(req.query.search) {
+			//Query
+			listing.find({$and: [ {$or: [ {name: regex}, {description: regex}, {"author.username":regex} ]}, {type: {$in: regexType}}]}).sort(sortOptions).skip((perPage * pageNumber) - perPage).limit(perPage).populate('author.id').populate("comments likes").exec(function(err, foundlisting){
+				listing.count({$and: [ {$or: [ {name: regex}, {description: regex}, {"author.username":regex} ]}, {type: {$in: regexType}}]}).exec(function (err, count) {
+					if(err){
+						console.log(err);
+					} else{
+						res.render("dashboards/listings/index.ejs", {
+							listings:foundlisting,
+							current: pageNumber,
+							pages: Math.ceil(count / perPage),
+							noMatch: noMatch,
+							search: req.query.search,
+							filterPropType: req.query.filterPropType,
+							sort: req.query.sort,
+							data: req.query,
+						});
+					}
+				});
 			});
-		});
+		}else {
+			//Query
+			listing.find({$and: [ {type: {$in: regexType}}]}).sort(sortOptions).skip((perPage * pageNumber) - perPage).limit(perPage).populate('author.id').populate("comments likes").exec(function(err, foundlisting){
+				listing.count({$and: [ {type: {$in: regexType}}]}).exec(function (err, count) {
+					if(err){
+						console.log(err);
+					} else{
+						res.render("dashboards/listings/index.ejs", {
+							listings:foundlisting,
+							current: pageNumber,
+							pages: Math.ceil(count / perPage),
+							noMatch: noMatch,
+							search: req.query.search,
+							filterPropType: req.query.filterPropType,
+							sort: req.query.sort,
+							data: req.query,
+						});
+					}
+				});
+			});
+		}
 	}else {
 		console.log('2')
 		//Load All Query
@@ -1458,10 +1483,14 @@ router.get("/user", function(req,res){
 router.get("/user/:id", function (req, res) {
 	var noMatch = null;
 	//find the user with provided ID
-	User.findById(req.params.id).populate("comments followers notifications").populate({
-			path: "reviews",
-			options: {sort: {createdAt: -1}}
-	}).exec(function (err, foundUser) {
+	User.find({followers: req.params.id}).populate("followers").exec(function(err, userFollowing) {
+		console.log('user following: ', userFollowing)
+		let allFollowing = userFollowing;
+
+		User.findById(req.params.id).populate("comments followers notifications").populate({
+				path: "reviews",
+				options: {sort: {createdAt: -1}}
+		}).exec(function (err, foundUser) {
 			if (err) {
 				req.flash("error", "Something went wrong. Please try again.");
 				console.log(err);
@@ -1481,7 +1510,7 @@ router.get("/user/:id", function (req, res) {
 									// noMatch = "result: '" + req.query.search + "' not found";
 							}
 							// foundUser.notifications.image = foundUser.image
-							res.render("users/show.ejs", {user: foundUser, listings: alllistings, allNotifications, allFollowers, noMatch: noMatch});
+							res.render("users/show.ejs", {user: foundUser, listings: alllistings, allNotifications, allFollowers, allFollowing, noMatch: noMatch});
 						}
 					});
 				} else {
@@ -1491,10 +1520,11 @@ router.get("/user/:id", function (req, res) {
 							return res.redirect("/");
 						}
 						// foundUser.notifications.image = foundUser.image
-						res.render("users/show.ejs", {user: foundUser, listings: listings, allNotifications, allFollowers, noMatch: noMatch});
+						res.render("users/show.ejs", {user: foundUser, listings: listings, allNotifications, allFollowers, allFollowing, noMatch: noMatch});
 					});
 				}
 			}
+		});
 	});
 });
 
