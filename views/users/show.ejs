@@ -6,9 +6,9 @@
       <div class="px-4 mx-1">
       </div>
       <div>
-        <% if(user.isAgent && currentUser && currentUser.isAdmin || !user.isAdmin && !user.isAgent && currentUser && currentUser.isAdmin){ %>
-          <div class="left pb-3">
+        <div class="left pb-3">
           <!-- suspend account-->
+          <% if(user.isAgent && currentUser && currentUser.isAdmin || !user.isAdmin && !user.isAgent && currentUser && currentUser.isAdmin){ %>
             <form action="/suspend/<%= user.id %>?_method=PUT" method="POST" class="text-center" style="position:relative; top: 10px;">
               <% if(user.suspend==false){ %>
                 <button type="submit" name="user[suspend]" value="true" class="btn btn-danger approveBtn"
@@ -18,10 +18,11 @@
                   style="font-weight: 600; font-size: 0.9em;">Unsuspend</button>
               <% } %>
             </form>
-          </div>
-        <% } %>
-        <% if(user.isAgent && currentUser && currentUser.isAdmin){ %>
-          <div class="left right pb-3">
+          <% } %>
+        </div>
+        <div class="left right pb-3">
+          <!-- approve/remove agent -->
+          <% if(user.isAgent && currentUser && currentUser.isAdmin){ %>
             <form action="/agentStatus/<%= user._id %>?_method=PUT" method="POST" class="text-center" style="position:relative; top: 10px;">
               <% if(user.agentStatus==false){ %>
                 <button type="submit" name="user[agentStatus]" value="true" class="btn btn-info approveBtn"
@@ -31,8 +32,8 @@
                   style="font-weight: 600; font-size: 0.9em;">Remove</button>
               <% } %>
             </form>
-          </div>
-        <% } %>
+          <% } %>
+        </div>
         <div class="right pb-3">
           <!-- reject agent -->
           <% if(user.isAgent && currentUser && currentUser.isAdmin){ %>
@@ -88,31 +89,17 @@
       <% } else { %>
         <div class="justify-content-center d-flex">
           <div class="mb-3 text-center" style="width: 400px;">
-            <% if(user.isAdmin || user.isAgent) { %>
-              <a href="/user/<%= user._id %>/reviews" id="mainReview">
-                <p class="m-0">
-                  <%= user.rating.toFixed(2) %>
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star <% if (user.rating > 1.5) { %> checked <% } %>"></span>
-                    <span class="fa fa-star <% if (user.rating > 2.5) { %> checked <% } %>"></span>
-                    <span class="fa fa-star <% if (user.rating > 3.5) { %> checked <% } %>"></span>
-                    <span class="fa fa-star <% if (user.rating > 4.5) { %> checked <% } %>"></span>
-                    (<%= user.reviews.length %>)
-                </p>
-              </a>
-            <% } else { %>
-              <a href="/user/<%= user._id %>" id="mainReview">
-                <p class="m-0">
-                  <%= user.rating.toFixed(2) %>
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star <% if (user.rating > 1.5) { %> checked <% } %>"></span>
-                    <span class="fa fa-star <% if (user.rating > 2.5) { %> checked <% } %>"></span>
-                    <span class="fa fa-star <% if (user.rating > 3.5) { %> checked <% } %>"></span>
-                    <span class="fa fa-star <% if (user.rating > 4.5) { %> checked <% } %>"></span>
-                    (<%= user.reviews.length %>)
-                </p>
-              </a>
-            <% } %>
+            <a href="/user/<%= user._id %>/reviews" id="mainReview">
+              <p class="m-0">
+                <%= user.rating.toFixed(2) %>
+                  <span class="fa fa-star checked"></span>
+                  <span class="fa fa-star <% if (user.rating > 1.5) { %> checked <% } %>"></span>
+                  <span class="fa fa-star <% if (user.rating > 2.5) { %> checked <% } %>"></span>
+                  <span class="fa fa-star <% if (user.rating > 3.5) { %> checked <% } %>"></span>
+                  <span class="fa fa-star <% if (user.rating > 4.5) { %> checked <% } %>"></span>
+                  (<%= user.reviews.length %>)
+              </p>
+            </a>
           </div>
         </div>
         <% } %>
@@ -122,7 +109,7 @@
     <div class="row mt-2 mt-lg-0">
       <div class="col-12 col-lg-6 justify-content-center justify-content-lg-start align-items-center d-flex">
         <div class="left m-0">
-          <span id="userRole" class="m-0">
+          <span id="userRole">
             <i class="fas fa-user pr-1"></i>
             <% if(user.isAgent==true){ %>
               Agent
@@ -133,18 +120,18 @@
             <% } %>
           </span>
         </div>
-        <% if(user.agentStatus==true || user.isAdmin==true){ %>
-          <div class="left right m-0">
-            <span id="userStatus" class="m-0"><i class="fas fa-check pr-1"></i>Verified</span>
-          </div>
-        <% } else { %>
-          <% if(user.isAgent==true){ %>
-            <div class="left right m-0">
-              <span id="userStatus" class="m-0"><i class="fas fa-clock pr-1"></i>Pending</span>
-            </div>
-          <% } else { %>
-          <% } %>
-        <% } %>
+        <div class="left right m-0">
+          <span>
+            <% if(user.agentStatus==true || user.isAdmin==true){ %>
+              <span id="userStatus" class="m-0"><i class="fas fa-check pr-1"></i>Verified</span>
+            <% } else { %>
+              <% if(user.isAgent==true){ %>
+                <span id="userStatus" class="m-0"><i class="fas fa-clock pr-1"></i>Pending</span>
+              <% } else { %>
+              <% } %>
+            <% } %>
+          </span>
+        </div>
         <% if(user.isAgent==true){ %>
           <div class="right m-0">
             <span id="userActive">
@@ -161,16 +148,14 @@
       <div class="col-12 col-lg-6 d-none d-lg-block pt-3 pt-lg-0">
         <div class="justify-content-lg-end align-items-center d-flex">
           <% if(!currentUser){ %>
-            <% if(user.isAdmin || user.isAgent) { %>
-              <form action="/followSingle/<%= user.id %>" method="POST">
-                <button class="btn btn-outline-dark followBtn">
-                  <img src="/img/follow.svg" style="width:21px;" alt=""> Follow
-                </button>
-              </form>
-              <a class="ml-2 btn btn-outline-dark emailBtn" href="mailto:<%= user.email %>">
-                <img src="/img/email.svg" style="width:19px;" alt=""> Email
-              </a>
-            <% } %>
+            <form action="/followSingle/<%= user.id %>" method="POST">
+              <button class="btn btn-outline-dark followBtn">
+                <img src="/img/follow.svg" style="width:21px;" alt=""> Follow
+              </button>
+            </form>
+            <a class="ml-2 btn btn-outline-dark emailBtn" href="mailto:<%= user.email %>">
+              <img src="/img/email.svg" style="width:19px;" alt=""> Email
+            </a>
           <% } else { %>
             <% if(user._id.equals(currentUser._id)){ %>
               <a class="btn btn-outline-dark profileOverviewBtn align-items-center d-flex" href="/user/<%= user._id %>/edit">
@@ -192,15 +177,13 @@
                   </form>
                 </div>
               <% } else { %>
-                <% if(user.isAdmin || user.isAgent) { %>
-                  <div class="left">
-                    <form action="/followSingle/<%= user.id %>" method="POST">
-                      <button class="btn btn-outline-dark followBtn">
-                        <img src="/img/unfollow.svg" style="width:21px;" alt=""> Unfollow
-                      </button>
-                    </form>
-                  </div>
-                <% } %>
+                <div class="left">
+                  <form action="/followSingle/<%= user.id %>" method="POST">
+                    <button class="btn btn-outline-dark followBtn">
+                      <img src="/img/unfollow.svg" style="width:21px;" alt=""> Unfollow
+                    </button>
+                  </form>
+                </div>
               <% } %>
               <div class="left right">
                 <form action="/conversation/<%= currentUser._id %>/<%= user.id %>"
@@ -244,18 +227,17 @@
                     (<%= user.reviews.length %>)
                 </p>
               </a>
-            <% } else { %>
-              <a href="/user/<%= user._id %>" id="mainReview">
-                <p class="m-0">
-                  <%= user.rating.toFixed(2) %>
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star <% if (user.rating > 1.5) { %> checked <% } %>"></span>
-                    <span class="fa fa-star <% if (user.rating > 2.5) { %> checked <% } %>"></span>
-                    <span class="fa fa-star <% if (user.rating > 3.5) { %> checked <% } %>"></span>
-                    <span class="fa fa-star <% if (user.rating > 4.5) { %> checked <% } %>"></span>
-                    (<%= user.reviews.length %>)
-                </p>
-              </a>
+            <% } %>
+            <% if(!user.isAdmin && !user.isAgent){ %>
+              <p class="m-0">
+                <%= user.rating.toFixed(2) %>
+                  <span class="fa fa-star checked"></span>
+                  <span class="fa fa-star <% if (user.rating > 1.5) { %> checked <% } %>"></span>
+                  <span class="fa fa-star <% if (user.rating > 2.5) { %> checked <% } %>"></span>
+                  <span class="fa fa-star <% if (user.rating > 3.5) { %> checked <% } %>"></span>
+                  <span class="fa fa-star <% if (user.rating > 4.5) { %> checked <% } %>"></span>
+                  (<%= user.reviews.length %>)
+              </p>
             <% } %>
           </div>
         </div>
@@ -344,14 +326,6 @@
           </a>
         </div>
         <div class="col-4 forth my-2 justify-content-center d-flex align-items-center">
-          <a href="" class="p-0" data-toggle="modal" data-target="#followingTarget">
-            <span>
-              <%= allFollowing.length %>
-              <br class="d-lg-none">Following
-            </span>
-          </a>
-        </div>
-        <!-- <div class="col-4 forth my-2 justify-content-center d-flex align-items-center">
           <a href="" class="p-0" data-toggle="modal" data-target="#followerTarget">
             <span>
               <%= allFollowers.length %>
@@ -363,7 +337,7 @@
                   <% } %>
             </span>
           </a>
-        </div> -->
+        </div>
       <% } else if(user.isAdmin || user.isAgent) { %>
         <div class="col-4 first my-2 justify-content-center d-flex align-items-center">
           <a href="/user/<%= user._id %>">
@@ -406,7 +380,7 @@
         </div>
       <% } else if(!user.isAdmin && !user.isAgent) { %>
         <div class="col-6 my-2 justify-content-center d-flex align-items-center">
-          <a href="/user/<%= user._id %>">
+          <a href="/user/<%= user._id %>/reviews">
             <span>
               <%= user.reviews.length %>
               <br class="d-lg-none">
@@ -419,11 +393,15 @@
           </a>
         </div>
         <div class="col-6 forth my-2 justify-content-center d-flex align-items-center">
-          <a href="" class="p-0" data-toggle="modal" data-target="#followingTarget">
+          <a href="" data-toggle="modal" data-target="#followerTarget">
             <span>
-              <%= allFollowing.length %>
+              <%= allFollowers.length %>
               <br class="d-lg-none">
-              Following
+              <% if(allFollowers.length<2){ %>
+                Follower
+                <% } else { %>
+                  Followers
+                  <% } %>
             </span>
           </a>
         </div>
@@ -433,16 +411,14 @@
 
   <div class="align-items-center justify-content-center d-flex d-lg-none mt-3">
     <% if(!currentUser){ %>
-      <% if(user.isAdmin || user.isAgent) { %>
-        <form action="/followSingle/<%= user.id %>" method="POST">
-          <button class="btn btn-outline-dark followBtn">
-            <img src="/img/follow.svg" style="width:21px;" alt=""> Follow
-          </button>
-        </form>
-        <a class="btn btn-outline-dark emailBtn" href="mailto:<%= user.email %>">
-          <img src="/img/email.svg" style="width:19px;" alt=""> Email
-        </a>
-      <% } %>
+      <form action="/followSingle/<%= user.id %>" method="POST">
+        <button class="btn btn-outline-dark followBtn">
+          <img src="/img/follow.svg" style="width:21px;" alt=""> Follow
+        </button>
+      </form>
+      <a class="ml-2 btn btn-outline-dark emailBtn" href="mailto:<%= user.email %>">
+        <img src="/img/email.svg" style="width:19px;" alt=""> Email
+      </a>
     <% } else { %>
       <% if(user._id.equals(currentUser._id)){ %>
         <a class="btn btn-outline-dark profileOverviewBtn align-items-center d-flex" href="/user/<%= user._id %>/edit">
@@ -457,23 +433,19 @@
         <% var currentFollow = false; for(let i=0; i<user.followers.length; i++) { if(user.followers[i]._id.equals(currentUser._id)) { currentFollow = true; } } %>
         <% if(currentFollow == false) { %>
           <div class="left">
-            <% if(user.isAdmin || user.isAgent) { %>
-              <form action="/followSingle/<%= user.id %>" method="POST">
-                <button class="btn btn-outline-dark followBtn">
-                  <img src="/img/follow.svg" style="width:21px;" alt=""> Follow
-                </button>
-              </form>
-            <% } %>
+            <form action="/followSingle/<%= user.id %>" method="POST">
+              <button class="btn btn-outline-dark followBtn">
+                <img src="/img/follow.svg" style="width:21px;" alt=""> Follow
+              </button>
+            </form>
           </div>
         <% } else { %>
           <div class="left">
-            <% if(user.isAdmin || user.isAgent) { %>
-              <form action="/followSingle/<%= user.id %>" method="POST">
-                <button class="btn btn-outline-dark followBtn">
-                  <img src="/img/unfollow.svg" style="width:21px;" alt=""> Unfollow
-                </button>
-              </form>
-            <% } %>
+            <form action="/followSingle/<%= user.id %>" method="POST">
+              <button class="btn btn-outline-dark followBtn">
+                <img src="/img/unfollow.svg" style="width:21px;" alt=""> Unfollow
+              </button>
+            </form>
           </div>
         <% } %>
         <div class="left right">
@@ -646,11 +618,15 @@
               </a>
             </div>
             <div class="col-6 my-2 justify-content-center d-flex align-items-center" style="background: rgb(238, 238, 238);">
-              <a href="" class="p-0" data-toggle="modal" data-target="#followingTarget">
+              <a href="" data-toggle="modal" data-target="#followerTarget">
                 <span>
-                  <%= allFollowing.length %>
+                  <%= allFollowers.length %>
                   <br class="d-lg-none">
-                  Following
+                  <% if(allFollowers.length<2){ %>
+                    Follower
+                    <% } else { %>
+                      Followers
+                      <% } %>
                 </span>
               </a>
             </div>
@@ -686,17 +662,9 @@
                 </div>
                 <div class="col-9">
                   <p>
-                    <%= moment(user.createdAt).format('DD MMMM YYYY, h:mm:ss a'); %>
+                    <%= moment(user.createdAt).tz("Asia/Taipei").format('DD MMMM YYYY, h:mm:ss a'); %>
                   </p>
                 </div>
-                <!-- <div class="col-3">
-                  <span>Last Login:</span>
-                </div>
-                <div class="col-9">
-                  <p>
-                    <%= moment(user.lastLogin).format('DD MMMM YYYY, h:mm:ss a'); %>
-                  </p>
-                </div> -->
                 <div class="col-3">
                   <span>Name:</span>
                 </div>
