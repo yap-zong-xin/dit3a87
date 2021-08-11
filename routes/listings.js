@@ -451,9 +451,7 @@ function escapeRegex(text) {
 //Post Route
 router.post("/listings", middleware.isAdminAgent, uploadMultiple, async function(req,res){
 	var listingThumbnail = req.files.listingThumbnail;
-	console.log('listingThumbnail sdkadnfj: '+listingThumbnail[0].path);
 	var listingGallery = req.files.listingGallery;
-	console.log('files got what: ',listingGallery);
 	
 	var imageSecureUrlArray = [];
 	var imagePublicIdArray = [];
@@ -528,31 +526,37 @@ router.post("/listings", middleware.isAdminAgent, uploadMultiple, async function
 			return res.redirect('back');
 		}
 
-			//1 thumbnailFile image upload to cloudinary
-			var thumbnailUpload = await uploadToCloudinary(listingThumbnail[0].path, { resource_type: "auto" });
-			console.log('listingThumbnail upload await: ',thumbnailUpload);
-			newlisting.thumbnail = thumbnailUpload.secure_url;
-			newlisting.thumbnailId = thumbnailUpload.public_id;
+			try { 
+				//1 thumbnailFile image upload to cloudinary
+				var thumbnailUpload = await uploadToCloudinary(listingThumbnail[0].path, { resource_type: "auto" });
+				console.log('listingThumbnail upload await: ',thumbnailUpload);
+				newlisting.thumbnail = thumbnailUpload.secure_url;
+				newlisting.thumbnailId = thumbnailUpload.public_id;	
 
-		  	//image/videos upload to cloudinary
-			for(let i=0; i<listingGallery.length; i++) {
-				if(listingGallery[i].mimetype.includes('image')) {
-					console.log('image uploading');
-					var imageUpload = await uploadToCloudinary(listingGallery[i].path); 
-					imageSecureUrlArray.push(imageUpload.secure_url);
-					imagePublicIdArray.push(imageUpload.public_id);
-					newlisting.image = imageSecureUrlArray;
-					newlisting.imageId = imagePublicIdArray;
-					console.log('image info: ',newlisting.image,'imageid info:',newlisting.imageId)
-				}else if(listingGallery[i].mimetype.includes('video')) {
-					console.log('video uploading');
-					var videoUpload = await uploadToCloudinary(listingGallery[i].path); 
-					videoSecureUrlArray.push(videoUpload.secure_url);
-					videoPublicIdArray.push(videoUpload.public_id);
-					newlisting.video = videoSecureUrlArray;
-					newlisting.videoId = videoPublicIdArray;
-					console.log('video info: ',newlisting.video,'videoid info:',newlisting.videoId)
+				//image/videos upload to cloudinary
+				for(let i=0; i<listingGallery.length; i++) {
+					if(listingGallery[i].mimetype.includes('image')) {
+						console.log('image uploading');
+						var imageUpload = await uploadToCloudinary(listingGallery[i].path); 
+						imageSecureUrlArray.push(imageUpload.secure_url);
+						imagePublicIdArray.push(imageUpload.public_id);
+						newlisting.image = imageSecureUrlArray;
+						newlisting.imageId = imagePublicIdArray;
+						console.log('image info: ',newlisting.image,'imageid info:',newlisting.imageId)
+					}else if(listingGallery[i].mimetype.includes('video')) {
+						console.log('video uploading');
+						var videoUpload = await uploadToCloudinary(listingGallery[i].path); 
+						videoSecureUrlArray.push(videoUpload.secure_url);
+						videoPublicIdArray.push(videoUpload.public_id);
+						newlisting.video = videoSecureUrlArray;
+						newlisting.videoId = videoPublicIdArray;
+						console.log('video info: ',newlisting.video,'videoid info:',newlisting.videoId)
+					}
 				}
+			}catch(err) {
+				console.log('gallery error: ',err.message);
+				req.flash("error", "Image(s) not provided.");
+				return res.redirect('back');	
 			}
 
 			//create the listing
