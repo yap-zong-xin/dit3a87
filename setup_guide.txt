@@ -1,0 +1,40 @@
+================================
+GitHub Setup Guide
+================================
+1. Clone GitHub
+2. Run "npm install"
+3. Create new folder ".env"
+4. Add in .env codes:
+--------------------------------
+MAPBOX_TOKEN=xxx
+CLOUDINARY_API_KEY=xxx
+CLOUDINARY_API_SECRET=xxx
+DB_URL=xxx
+SECRET=xxx
+REDIRECT_URI=xxx
+REFRESH_TOKEN=xxx
+CLIENT_ID=xxx
+CLIENT_SECRET=xxx
+--------------------------------
+5. Run "mongod" in powershell and "nodemon" in VSC terminal
+
+================================
+Chat Feature Setup
+================================
+1. In the chat/api folder, create a .env file, and paste this in :
+MONGO_URL = mongodb://localhost/SAP
+2. Make 3 new terminal windows in this folder.
+3. In the 3 terminal windows, cd into chat/api, chat/client, and chat/socket respectively.
+4. Run "npm install" in all 3 folders to install all the node modules.
+5. Run "npm start" in all 3 terminals to start up the chat feature.
+
+================================
+Register URL
+================================
+- Seeker or Agent (/register)
+- Admin (/register-admin)
+
+================================
+Errors
+================================
+- If there's any error, you probably need to clear your local mongodb data by running "mongo" in another powershell and clear all the data under SAP database

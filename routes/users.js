@@ -1711,7 +1711,7 @@ router.delete("/user/:id", middleware.checkUserOwnership, function(req, res){
 						from: '3D Property Website <jptestingsku@gmail.com>',
 						to: dltUser.email,
 						subject: 'Account deletion',
-						html : "Hello <strong>" + dltUser.username + "</strong>,<br><br>Your account has been "+dltOption+".<br><br>"
+						html : "Hello <strong>" + dltUser.username + "</strong>,<br><br>Your account has been "+dltOption+"<br><br>"
 					};
 
 					const result = await transport.sendMail(mailOptions);
@@ -1784,7 +1784,7 @@ router.delete("/user/:id/dashboard", middleware.isAdmin, function(req, res){
 						from: '3D Property Website <jptestingsku@gmail.com>',
 						to: dltUser.email,
 						subject: 'Account deletion',
-						html : "Hello <strong>" + dltUser.username + "</strong>,<br><br>Your account has been "+dltOption+".<br><br>"
+						html : "Hello <strong>" + dltUser.username + "</strong>,<br><br>Your account has been "+dltOption+"<br><br>"
 					};
 
 					const result = await transport.sendMail(mailOptions);
