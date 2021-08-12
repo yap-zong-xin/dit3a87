@@ -94,7 +94,7 @@
         <div class="offset-1 col-10 mt-4">
           <div class="row" id="completeGallery">
 
-            <div class="col-2">
+            <div class="col-sm-2">
               <div id="thumbnail-drop-area" style="display: block;">
                 <div id="thumbnail-gallery">
                   <!-- <i class="fa-4x fas fa-images" style="position: absolute; top: 25%; left: 25%; height: 10px; width: 10px"></i> -->
@@ -111,27 +111,28 @@
 
             <% for(let i=0; i<listingGallery.length; i++) {%>
               <%if(listingGallery[i].includes("image")) { %>
-                <div class="col-2">
+                <div class="col-sm-2">
                   <div class="prevlistingImage" id="prevgalleryItem<%=i%>">
                     <img src="<%= listingGallery[i] %>" id="<%= listingGalleryId[i] %>" class="prev-image-gallery-style" draggable="true" ondragstart="drag(event)">
                     <span class="deleteItemFromGallery" onclick="deletePrevItem(<%= listingGalleryId[i] %>)">&times;</span>
                   </div>
                 </div>
+              <%}else if(listingGallery[i].includes("video")) {%>
+                <div class="col-sm-2">
+                  <div class="prevlistingVideo" id="prevgalleryItem<%=i%>">
+                    <video controls controlslist="nodownload" src="<%= listingGallery[i] %>" id="<%= listingGalleryId[i] %>" class="prev-video-gallery-style"></video>
+                    <span class="deleteItemFromGallery" onclick="deletePrevItem(<%= listingGalleryId[i] %>)">&times;</span>
+                  </div>
+                </div>  
+              </div>
+                </div>  
+              </div>
+                </div>  
+              </div>
+                </div>  
               <%}%>
             <%}%>
             
-
-            <% for(let i=0; i<listingGallery.length; i++) {%>
-              <%if(listingGallery[i].includes("video")) { %>
-                <div class="col-2">
-                <div class="prevlistingVideo" id="prevgalleryItem<%=i%>">
-                  <video controls controlslist="nodownload" src="<%= listingGallery[i] %>" id="<%= listingGalleryId[i] %>" class="prev-video-gallery-style"></video>
-                  <span class="deleteItemFromGallery" onclick="deletePrevItem(<%= listingGalleryId[i] %>)">&times;</span>
-                </div>
-              </div>
-              <%}%>
-            <%}%>
-
           </div>
         </div>
 

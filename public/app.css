@@ -2092,6 +2092,10 @@ input[type=range]::-ms-thumb {
   display: flex;
   float: left;
 }
+.phlistingImage{
+  display: flex;
+  float: left;
+}
 .listingImage{
   display: flex;
   float: left;
