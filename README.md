@@ -23,9 +23,9 @@ CLIENT_SECRET=xxx
 ## Chat Feature Setup
 ### 1. Navigate to chat/client/package.json, and change the proxy variable to "http://localhost:3000"
 ### 2. Make 2 new terminal windows in VSC.
-3. In the 2 terminal windows, chat/client, and chat/socket respectively.
-4. Run "npm install" in both terminal windows to install all the node modules.
-5. Run "npm start" in both terminal windows to start up the chat feature.
+### 3. In the 2 terminal windows, chat/client, and chat/socket respectively.
+### 4. Run "npm install" in both terminal windows to install all the node modules.
+### 5. Run "npm start" in both terminal windows to start up the chat feature.
 
 ## Register URL
 
