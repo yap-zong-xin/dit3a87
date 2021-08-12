@@ -5,7 +5,7 @@
 Follow these instructions step by step to successfully setup the project in your local machine.
 ### 1. Clone GitHub
 ### 2. Run "npm install"
-### 3. Create new folder ".env"
+### 3. Create new file ".env" in the root of the project folder
 ### 4. Add in .env codes:
 ```
 MAPBOX_TOKEN=xxx
