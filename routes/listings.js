@@ -122,6 +122,8 @@ router.get("/listings", function(req,res){
 			console.log('jfkd: ', req.query)
 			//listing index page - Main page
 			if(req.query.searchindexBtn) {
+					//listing category residential or commercial
+					var listType = req.query.listType;
 					//search box	
 					const regex = new RegExp(escapeRegex(req.query.searchindex), 'gi');
 
@@ -192,7 +194,7 @@ router.get("/listings", function(req,res){
 					}
 
 					//QUERY
-					listing.find({ $and: [{type: {$in: regexType}}, {bedrooms: {$in: regexRooms}}, {price: {$gte: minPrice, $lte: maxPrice}}, {size: {$gte: minSize, $lte: maxSize}}, {soldStatus: false}, {archiveStatus: false}, {$or: [{name: regex}, {description: regex}, {"author.username":regex}]} ] }).populate('author.id').sort(sortOptions).exec(function (err, alllistings) {
+					listing.find({ $and: [{listingCategory: listType}, {type: {$in: regexType}}, {bedrooms: {$in: regexRooms}}, {price: {$gte: minPrice, $lte: maxPrice}}, {size: {$gte: minSize, $lte: maxSize}}, {soldStatus: false}, {archiveStatus: false}, {$or: [{name: regex}, {description: regex}, {"author.username":regex}]} ] }).populate('author.id').sort(sortOptions).exec(function (err, alllistings) {
 						listing.count({name: regex}).exec(function (err, count) {
 								if (err) {
 										console.log(err);
