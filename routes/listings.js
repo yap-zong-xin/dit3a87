@@ -21,8 +21,8 @@ var fileFilter = function (req, file, cb) {
     // accept image files only
 	console.log('files type:'+file.mimetype);
 	if(file.mimetype.match(/^image/i)) {
-		if (!file.mimetype.match(/\/(jpg|jpeg|png|gif)$/i)) {
-			return cb(new Error('Only [jpg/jpeg/png/gif] image files are allowed!'), false);
+		if (!file.mimetype.match(/\/(jpg|jpeg|png|gif|webp|jfif)$/i)) {
+			return cb(new Error('Only [jpg/jpeg/png/gif/webp/jfif] image files are allowed!'), false);
 		}
 		cb(null, true);
 	} else if(file.mimetype.match(/^video/i)) {
@@ -123,7 +123,11 @@ router.get("/listings", function(req,res){
 			//listing index page - Main page
 			if(req.query.searchindexBtn) {
 					//listing category residential or commercial
-					var listType = req.query.listType;
+					if(req.query.listType) {
+						var listType = req.query.listType;
+					}else {
+						var listType = ['residential', 'commercial'];
+					}
 					//search box	
 					const regex = new RegExp(escapeRegex(req.query.searchindex), 'gi');
 
@@ -194,7 +198,7 @@ router.get("/listings", function(req,res){
 					}
 
 					//QUERY
-					listing.find({ $and: [{listingCategory: listType}, {type: {$in: regexType}}, {bedrooms: {$in: regexRooms}}, {price: {$gte: minPrice, $lte: maxPrice}}, {size: {$gte: minSize, $lte: maxSize}}, {soldStatus: false}, {archiveStatus: false}, {$or: [{name: regex}, {description: regex}, {"author.username":regex}]} ] }).populate('author.id').sort(sortOptions).exec(function (err, alllistings) {
+					listing.find({ $and: [{listingCategory: {$in: listType}}, {type: {$in: regexType}}, {bedrooms: {$in: regexRooms}}, {price: {$gte: minPrice, $lte: maxPrice}}, {size: {$gte: minSize, $lte: maxSize}}, {soldStatus: false}, {archiveStatus: false}, {$or: [{name: regex}, {description: regex}, {"author.username":regex}]} ] }).populate('author.id').sort(sortOptions).exec(function (err, alllistings) {
 						listing.count({name: regex}).exec(function (err, count) {
 								if (err) {
 										console.log(err);
@@ -214,7 +218,7 @@ router.get("/listings", function(req,res){
 										});
 								}
 						});
-				});
+					});
 
 			//search listing page - 2nd page 
 			}else if(req.query.searchListing) {
