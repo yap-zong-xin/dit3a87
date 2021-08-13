@@ -800,7 +800,7 @@
             <% if(currentUser){ %>
               <div class="row">
                 <div class="col-6 px-1">
-                  <form target="_blank" action="/conversation/<%= currentUser._id %>/<%= listing.author.id %>/<%=listing._id %>" method="POST">
+                  <form action="/conversation/<%= currentUser._id %>/<%= listing.author.id %>/<%=listing._id %>" method="POST" target="_blank">
                     <button type="submit" class="btn btn-dark" style="width: 100%; font-size: 0.95em;">
                       Chat
                     </button>
