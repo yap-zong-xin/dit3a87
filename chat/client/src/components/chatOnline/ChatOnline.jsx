@@ -159,6 +159,22 @@ export default function ChatOnline({ currentId, conv }) {
       console.log(err);
     }
   }
+             
+  function submitOffer1() {
+    const conversation = {
+      id: conv._id,
+      offerAmt: newOfferAmt,
+      offerStatus: "pending"
+    }
+    try {
+      axios.post("/conversations/offer/", conversation)
+      setOfferAmt1(newOfferAmt)
+      refreshPage()
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
 
   function OfferAmount() {
     if (user.cea) {
@@ -243,7 +259,7 @@ export default function ChatOnline({ currentId, conv }) {
                     <InputGroup>
                       <InputGroupAddon className="sign" addonType="prepend">$</InputGroupAddon>
                       <Input type="number" className="w-25" name="offer" id="offerInput" placeholder="" value={newOfferAmt} onChange={(e) => setNewOfferAmt(e.target.value)} />
-                      {(offerStatus === undefined) && <Button className="offerButton" onClick={submitOffer}>Make Offer</Button>}
+                      {(offerStatus === undefined) && <Button className="offerButton" onClick={submitOffer1}>Make Offer</Button>}
                       {(offerStatus === "pending") && <Button className="offerButton" onClick={submitOffer}>Edit Offer</Button>}
                       {(offerStatus === "accepted") && <Button className="offerButton" onClick={submitOffer}>Edit Offer</Button>}
                       {(offerStatus === "rejected") && <Button className="offerButton" onClick={submitOffer}>Make New Offer</Button>}
