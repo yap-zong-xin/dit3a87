@@ -561,7 +561,7 @@ router.post("/listings", middleware.isAdminAgent, uploadMultiple, async function
 				}
 			}catch(err) {
 				console.log('gallery error: ',err.message);
-				req.flash("error", "Image(s) not provided.");
+				req.flash("error", "Please provide 2 or more media files.");
 				return res.redirect('back');	
 			}
 
