@@ -11,9 +11,9 @@ export default function ChatOnline({ currentId, conv }) {
   const [offerAmt1, setOfferAmt1] = useState(null)
   const [offerStatus, setOfferStatus] = useState("")
 
-  // function refreshPage() {
-  //   window.location.reload();
-  // }
+   function refreshPage() {
+     window.location.reload();
+   }
 
 
 
