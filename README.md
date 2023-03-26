@@ -10,9 +10,9 @@ Open the file location in command prompt and type in “npm install” assuming 
 After saving the codes in your local machine, you must save environment variables in a .env file as this specific file will not be in the repository for security reasons.
 ### 4. Add in .env codes:
 ```
-MAPBOX_TOKEN=pk.eyJ1IjoieWFwem9uZ3hpbiIsImEiOiJja29ib2J6eXIwMDZ3MnVuMWRyMDRjdTdvIn0.c5c0GkQPnNfqRpNmo-0BsA
-CLOUDINARY_API_KEY=916173537683811
-CLOUDINARY_API_SECRET=DKJJsRIqWQQ-CFlz68p8s5PfEqk
+MAPBOX_TOKEN=xxx
+CLOUDINARY_API_KEY=xxx
+CLOUDINARY_API_SECRET=xxx
 DB_URL=xxx
 SECRET=xxx
 REDIRECT_URI=xxx
