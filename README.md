@@ -23,7 +23,7 @@ CLIENT_SECRET=xxx
 Do note that these variables are linked to the project team’s accounts. When setting up, please use your own keys and tokens by creating an account under the respective platforms.
 ### 5. Run "mongod" in powershell and "nodemon" in VSC terminal
 Assuming you have mongodb installed into your machine, you need to open a Microsoft Powershell window and run the command "mongod" to start the MongoDB database server in your machine.
-The application requires you to run “nodemon” in the terminal for changes to be easily reflected in the loaded web page upon saving. To successfully run the command, install nodemon by typing “npm i nodemon”.
+The application requires you to run “nodemon” in the terminal for changes to be easily reflected in the loaded web page upon saving. To successfully run the command, install nodemon by typing “npm i -g nodemon”.
 After installing nodemon, start the application by typing “nodemon” in the terminal to start the web application.
 
 ## Chat Feature Setup
@@ -38,4 +38,4 @@ After installing nodemon, start the application by typing “nodemon” in the t
 * Admin (/register-admin)
 
 ## Errors
-* If there's any error, you probably need to clear your local mongodb data by running "mongo" in another powershell and clear all the data under SAP database
+* If there's any error, you probably need to clear your local mongodb data by running "mongosh" in another powershell and clear all the data under SAP database
